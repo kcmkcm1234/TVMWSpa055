@@ -115,6 +115,12 @@
     <Folder Include="Contracts\" />
     <Folder Include="Services\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SPAccounts.DataAccessObject\SPAccounts.DataAccessObject.csproj">
+      <Project>{2c9f7e5f-ad79-41d0-b6ec-c1b0efb848c8}</Project>
+      <Name>SPAccounts.DataAccessObject</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

@@ -139,3 +139,7 @@ body, html {
 .forgot-password:focus{
     color: rgb(12, 97, 33);
 }
+
+.customLogin {
+    background-color:#954c84!important;background-image: linear-gradient(to bottom, #d88cc6 0%, #954c84 100%)!important;border-color:#954c84!important;
+}
