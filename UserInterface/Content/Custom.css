@@ -1,0 +1,512 @@
+﻿body    {overflow-y:scroll!important;}
+
+.SCHeader {
+   font-size: 20px!important;
+    color:  #545454;
+    margin-bottom:2%;
+    margin-left:-1%;
+    margin-top:0%;
+    
+    
+    
+}
+
+.ReportTitle {
+     color:  #545454;
+}
+
+.Subhead {
+     font-size: 17px!important;
+}
+
+.filterHead {
+     font-size: 13px!important;
+     color:grey;
+}
+
+.ReportHead {
+    font-size: 19px!important;
+    text-align:center;
+    border-bottom:solid;
+    border-width:medium;
+    border-bottom-color:lightblue;
+    font-family:'Segoe UI';
+    padding-bottom:5px;
+    margin-bottom:5px;
+
+}
+
+.rptGrp {
+   font-size: 13px!important;
+    text-align:left;
+    background-color:#f6f6f6;
+    padding-left:5px;
+    
+}
+
+.DashboardSummary {
+    
+    background-color:rgba(253, 253, 253, 0.2);
+    min-height:250px;
+   /*max-height:300px;
+   overflow-y:scroll;*/
+}
+
+.DashList {
+     max-height:500px;
+   overflow-y:scroll;
+   margin-bottom:0px;
+   
+}
+
+.TechList {
+     
+   overflow-y:scroll;
+   
+}
+
+.DashboardTech {
+    min-height:545px;
+      background-color:rgba(253, 253, 253, 0.42);
+}
+
+ .SCtabContainer {
+
+     margin-right: 2px!important; 
+     margin-left: 2px!important; 
+     width:100%;
+     
+   
+}
+
+ .myfooter {
+
+      background-image: url('images/73a6f1c8.png');
+    background-repeat: repeat;
+    width:100%;
+    bottom:0px;
+    position:relative;
+}
+
+.graphledger {
+    width:100%;
+    text-align:right;
+    font-size:12px;
+    color:gray;
+    padding-right:15px;
+}
+
+.rlist {
+    display:none;
+}
+.techitem {
+    /*display:none;*/
+}
+
+.dashpanelbody {
+    padding:7px;
+}
+
+
+.btnText {
+    color: #242424;
+    font-weight: 600;
+    text-align: center;
+    font-size: 12px;
+    text-decoration: none !important;
+     vertical-align:middle;
+     padding:2px;
+}
+.btnImg {
+    width:25px;height:25px;text-align:center;
+    padding:2px;
+   
+       
+}
+.btnContainer {
+   text-align:center;
+      
+         text-decoration:none!important;
+         vertical-align:middle;
+         
+         
+}
+.btnAnchor {
+       cursor:pointer;
+}
+
+
+
+/*--------------button patch----------------------*/
+
+   .buttonpatch a {
+	margin-right: 2px;
+	width: 50px;
+	height: 50px;
+	display: inline-block;
+	position: relative;
+    cursor:not-allowed;
+    opacity:0.6;
+	/*line-height: 40px;*/
+	background-color: #eaeaea;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#f6f6f6), to(#eaeaea));
+	background-image: -webkit-linear-gradient(top, #f6f6f6, #eaeaea);
+	background-image: -moz-linear-gradient(top, #f6f6f6, #eaeaea); 
+	background-image: -ms-linear-gradient(top, #f6f6f6, #eaeaea); 
+	background-image: -o-linear-gradient(top, #f6f6f6, #eaeaea);
+	background-image: linear-gradient(top, #f6f6f6, #eaeaea);
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	-moz-box-shadow: 0 1px 1px rgba(0, 0, 0, .25), 0 2px 3px rgba(0, 0, 0, .1);
+	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .25), 0 2px 3px rgba(0, 0, 0, .1);
+	box-shadow: 0 1px 1px rgba(0, 0, 0, .25), 0 2px 3px rgba(0, 0, 0, .1);
+    text-align:center;
+     text-decoration:none!important;		
+     padding-top:6px;
+}
+
+    .buttonpatch a:hover {
+      background-color: #d7d2d2;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#f6f6f6), to(#d7d2d2));
+	background-image: -webkit-linear-gradient(top, #f6f6f6, #d7d2d2);
+	background-image: -moz-linear-gradient(top, #f6f6f6, #d7d2d2); 
+	background-image: -ms-linear-gradient(top, #f6f6f6, #d7d2d2); 
+	background-image: -o-linear-gradient(top, #f6f6f6, #d7d2d2);
+	background-image: linear-gradient(top, #f6f6f6, #d7d2d2);
+    }
+
+.buttonpatch a:active {
+	top: 1px;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#eaeaea), to(#f6f6f6));
+	background-image: -webkit-linear-gradient(top, #eaeaea, #f6f6f6);
+	background-image: -moz-linear-gradient(top, #eaeaea, #f6f6f6); 
+	background-image: -ms-linear-gradient(top, #eaeaea, #f6f6f6); 
+	background-image: -o-linear-gradient(top, #eaeaea, #f6f6f6);
+	background-image: linear-gradient(top, #eaeaea, #f6f6f6);
+}
+
+.buttonpatch a::before{
+		content: '';
+		position: absolute;
+		z-index: -1;
+		 
+		right: -4px;
+		bottom: -4px;
+		left: -4px;
+		background-color: #eaeaea;
+		-moz-border-radius: 140px;
+		-webkit-border-radius: 140px;
+		border-radius: 140px;
+	    opacity: 0.5;
+       
+}
+
+.buttonpatch a:active::before {
+	top: -7px;
+}
+
+.buttonpatch a:hover::before { opacity: 1; }
+
+/*.buttonpatch a.twitter:hover::before {
+	background-color: #c6f0f8;
+}*/
+
+.buttonpatch a.facebook:hover::before {
+	background-color: #56ea87;
+}
+
+/*.buttonpatch a.dribble:hover::before {
+	background-color: #f8ebb6;
+}
+
+.buttonpatch a.rss:hover::before {
+	background-color:#fadae6 ;
+}*/
+
+.twitter img { vertical-align: -8px;position:relative;left:6px }
+.dribble img { vertical-align: -8px;position:relative;left:6px }
+.thr_btn img {vertical-align: middle;position:relative;}
+.thr_disbtn img { vertical-align: middle;position:relative;}
+.thr_btn{cursor:pointer!important;opacity:1!important;}
+.buttonpatch a img { border: 0; }
+
+
+
+
+.buttonpatch a[title]:hover:after{
+/*content: attr(title);
+padding: 4px 6px;
+color: #85003a;
+position: absolute;
+left: 0;
+top: 100%;
+white-space: nowrap;
+z-index: 20;
+-moz-border-radius: 3px;
+-webkit-border-radius: 3px;
+border-radius: 3px;
+-moz-box-shadow: 0px 0px 2px #c0c1c2;
+-webkit-box-shadow: 0px 0px 2px #c0c1c2;
+box-shadow: 0px 0px 2px #c0c1c2;
+background-image: -moz-linear-gradient(top, #ffffff, #eeeeee);
+background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #ffffff),color-stop(1, #eeeeee));
+background-image: -webkit-linear-gradient(top, #ffffff, #eeeeee);
+background-image: -moz-linear-gradient(top, #ffffff, #eeeeee);
+background-image: -ms-linear-gradient(top, #ffffff, #eeeeee);
+background-image: -o-linear-gradient(top, #ffffff, #eeeeee);*/
+}
+/*-------------------------------------------------------------------------------------------------------------------*/
+
+
+
+
+.nav-pills > li > a {
+  border-radius: 4px 4px 0 0 ;
+      font-size: medium!important;
+       color : #313131!important;
+       min-width:150px;
+       text-align:center
+}
+
+.nav-pills > li.active > a:focus {
+   color : black!important;
+  background-color: rgb(253, 253, 253)!important;
+  
+   font-size: medium!important;
+    
+}
+
+.nav-pills > li > a:hover {
+   color : black!important;
+  background-color: rgba(253, 253, 253,.7)!important;
+  
+   font-size: medium!important;
+    
+}
+
+ 
+
+.tab-content {
+  color : black;
+  font-size:medium;
+  background-color: rgb(253, 253, 253);
+  padding : 5px 5px;
+   min-height:500px!important;
+     margin-bottom:15px;
+    font-size:12px;
+     
+}
+
+.inputForm.row {
+    margin:1px;
+}
+
+.control-label {
+    font-weight:400!important;
+    font-size:13px;
+}
+
+
+.mandatory:after {
+content:"★"; 
+color: #e32; 
+ margin-top:5px;
+ margin-left:-45px;
+ 
+}
+
+.underConstruction {
+    font-size:55px;
+    position:fixed;
+    top:55%;
+     text-align:center;
+     width:100%;
+    min-height:400px;
+    font-family:'Segoe UI';
+    font-weight:400;
+}
+
+.underConstructionImg {
+    background-image: url('images/wrench.png');
+    background-repeat:no-repeat;
+    height:400px;
+    width:100%;
+    top:30%;
+      position:fixed;
+      background-position-x:center
+}
+
+
+.gridTextbox {
+    width:100%;border:none;background-color:rgba(0, 0, 0, 0.00);
+}
+
+.EGDanger {
+    border:1px solid;border-color:rgba(255, 22, 22, 0.26);border-radius:3px;
+}
+
+.Amount {
+    text-align:right;  
+    
+}
+.Amount::before(2) {
+    content:"₹"; 
+    
+}
+    .Amount.GrandTotal {
+        color:green;
+        font-weight:bold;
+        font-size:small;
+    }
+
+ 
+
+.confirmbox {
+    height:100px;
+    width:300px!important;
+    text-align:center!important;
+}
+
+.confirmboxHead {
+     color:rgba(0, 0, 0, .25);
+    font-size:medium!important;
+
+}
+
+.confirmboxMsg {
+    color:black!important;
+    font-size:26px!important;
+}
+
+.confirmboxFooter {
+    color:#d7d2d2;
+    font-size:13px!important;
+}
+
+.selectItemList {
+
+    max-height:350px;
+    overflow-y:scroll;
+}
+
+.actionLink {
+    text-decoration:none!important;
+}
+.mandatory:after
+{
+    margin-left:-30px !important;
+}
+
+.DeleteLink {
+      text-decoration:none!important;
+      color:darkred;
+}
+
+.preloader {
+   position:fixed;
+    top: 50%;
+    left: 50%;
+    width:30em;
+    height:18em;
+    margin-top: -9em; /*set to a negative number 1/2 of your height*/
+    margin-left: -15em; /*set to a negative number 1/2 of your width*/
+    border: 1px solid #ccc;
+     
+     background:rgba(243, 243, 243,0.9);  
+     border-radius:10px;
+     box-shadow:inset;
+   display:none;
+}
+
+.preloaderImg {
+     margin-left: -2em;
+}
+
+.disabled {
+    background-color:rgba(1, 1, 1, 0.04)
+}
+
+.mastersep {
+    top:40%;
+    min-height:400px;
+    border-left:solid;
+    border-width:thin;
+    border-color:lightgrey;
+    font-family:'Segoe UI';
+    font-weight:100;
+     margin-top:15px;
+     margin-bottom:25px;
+}
+
+.masterinfo {
+  
+    font-size:15px;
+     width:100%;
+    text-align:center;
+    margin:25px;
+    color:grey;
+
+}
+
+.masterinfoHead {
+       font-size:23px;
+        width:100%;
+    text-align:center
+}
+
+.masterinfoImg {
+    width:100%;
+    text-align:center
+}
+
+
+.chart-legend li span{
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius:5px;
+    margin-right:5px;
+     
+}
+.chart-legend ul{
+    list-style: none;
+    font-size:10px;
+    margin-left:20px;
+    margin-right:-20px;
+}
+
+
+.ULthin {
+    border-bottom:solid;
+    border-width:thin;
+    border-color:lightgray;
+}
+
+
+.DTFC_LeftBodyLiner {
+     
+ background-color:rgb(245, 245, 245);
+}
+
+.DTFC_LeftHeadWrapper {
+    margin-bottom:-4.3%;
+}
+
+.salarysummarylbl {
+    text-align:right;
+     font-weight:300;
+}
+
+
+.salarysummary {
+    text-align:left;
+    font-size:16px;
+    font-weight:400;
+}
+ input.datepicker {
+        background-image: url('../Content/images/calendar.png');
+        background-Position: 97% center;
+        background-Repeat: no-repeat;
+        cursor: pointer;
+    }
