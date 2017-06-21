@@ -14,9 +14,9 @@ namespace UserInterface.App_Start
                 //ReverseMap() makes it possible to map both ways.
  
                 config.CreateMap<LoginViewModel, User>().ReverseMap();
+                config.CreateMap<MenuViewModel, Menu>().ReverseMap();
 
 
-              
 
 
             });
