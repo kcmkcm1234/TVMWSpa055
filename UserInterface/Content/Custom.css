@@ -1,4 +1,16 @@
-﻿body    {overflow-y:scroll!important;}
+﻿body    {
+    
+     
+    font-family:'Segoe UI'!important;
+     background-color:#FEFFFE!important;
+
+}
+
+.main-footer {
+    padding:5px!important;
+    color:grey!important;
+    font-size:10px;
+}
 
 .SCHeader {
    font-size: 20px!important;
@@ -48,8 +60,7 @@
     
     background-color:rgba(253, 253, 253, 0.2);
     min-height:250px;
-   /*max-height:300px;
-   overflow-y:scroll;*/
+ 
 }
 
 .DashList {
@@ -510,3 +521,7 @@ color: #e32;
         background-Repeat: no-repeat;
         cursor: pointer;
     }
+
+.skin-green-light .main-sidebar {
+    background-color:rgba(255, 255, 255, 0.43)
+}

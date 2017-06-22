@@ -1406,6 +1406,7 @@
     <Content Include="Views\Shared\_LayoutPage.cshtml" />
     <Content Include="Views\Dashboard\Index.cshtml" />
     <Content Include="Views\DynamicUI\_MenuNavBar.cshtml" />
+    <Content Include="Views\Invoices\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -1419,6 +1420,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DynamicUIController.cs" />
+    <Compile Include="Controllers\InvoicesController.cs" />
     <Compile Include="CustomAttributes\CustomAttributes.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
