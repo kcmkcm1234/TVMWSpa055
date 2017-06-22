@@ -109,12 +109,11 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\IDynamicUIBusiness.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\DynamicUIBusiness.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Contracts\" />
-    <Folder Include="Services\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\SPAccounts.DataAccessObject\SPAccounts.DataAccessObject.csproj">
       <Project>{2c9f7e5f-ad79-41d0-b6ec-c1b0efb848c8}</Project>

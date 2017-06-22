@@ -110,8 +110,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\IDatabaseFactory.cs" />
+    <Compile Include="Contracts\IDynamicUIRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DatabaseFactory.cs" />
+    <Compile Include="Services\DynamicUIRepository.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
