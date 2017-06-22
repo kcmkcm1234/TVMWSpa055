@@ -1,0 +1,153 @@
+﻿@model UserInterface.Models.ToolboxViewModel
+
+<div class="buttonpatch" style="width:auto;float:right;">
+
+    @if (Model.backbtn.Visible)
+    {
+        if (Model.backbtn.Disable)
+        {
+
+            <a class="thr_disbtn" title="@Model.backbtn.Title-@Model.backbtn.DisableReason">
+
+                <img class="btnImg" src="@Url.Content("~/Content/images/back.PNG")">
+                <span class="btnText">@Model.backbtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.backbtn.Title" class="thr_btn" onclick=@Model.backbtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/back.PNG")">
+                <span class="btnText">@Model.backbtn.Text</span>
+            </a>
+        }
+
+    }
+    @if (Model.addbtn.Visible)
+    {
+        if (Model.addbtn.Disable)
+        {
+
+            <a class="thr_disbtn" title="@Model.addbtn.Title-@Model.addbtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/add.PNG")">
+                <span class="btnText">@Model.addbtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.addbtn.Title" class="thr_btn" onclick=@Model.addbtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/add.PNG")">
+                <span class="btnText">@Model.addbtn.Text</span>
+            </a>
+        }
+
+    }
+    @if (Model.savebtn.Visible)
+    {
+        if (Model.savebtn.Disable)
+        {
+
+            <a class="thr_disbtn" title="@Model.savebtn.Title-@Model.savebtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/save.PNG")">
+                <span class="btnText">@Model.savebtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.savebtn.Title" class="thr_btn" onclick=@Model.savebtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/save.PNG")">
+                <span class="btnText">@Model.savebtn.Text</span>
+            </a>
+        }
+
+    }
+
+    @if (Model.deletebtn.Visible)
+    {
+        if (Model.deletebtn.Disable)
+        {
+
+            <a class="thr_disbtn" title="@Model.deletebtn.Title-@Model.deletebtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/delete.PNG")">
+                <span class="btnText">@Model.deletebtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.deletebtn.Title" class="thr_btn" onclick=@Model.deletebtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/delete.PNG")">
+                <span class="btnText">@Model.deletebtn.Text</span>
+            </a>
+        }
+
+    }
+
+    @if (Model.resetbtn.Visible)
+    {
+        if (Model.resetbtn.Disable)
+        {
+
+            <a class="thr_disbtn" title="@Model.resetbtn.Title-@Model.resetbtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/reset.PNG")">
+                <span class="btnText">@Model.resetbtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.resetbtn.Title" class="thr_btn" onclick=@Model.resetbtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/reset.PNG")">
+                <span class="btnText">@Model.resetbtn.Text</span>
+            </a>
+        }
+
+    }
+
+    
+
+    @if (Model.PrintBtn.Visible)
+    {
+        if (Model.PrintBtn.Disable)
+        {
+
+            <a class="thr_disbtn" title="@Model.PrintBtn.Title-@Model.PrintBtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/printer.png")">
+                <span class="btnText">@Model.PrintBtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.PrintBtn.Title" class="thr_btn" onclick=@Model.PrintBtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/printer.png")">
+                <span class="btnText">@Model.PrintBtn.Text</span>
+            </a>
+        }
+
+    }
+
+    @if (Model.CloseBtn.Visible)
+    {
+        if (Model.CloseBtn.Disable)
+        {
+
+            <a class="thr_disbtn" title="@Model.CloseBtn.Title-@Model.CloseBtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/reset.PNG")">
+                <span class="btnText">@Model.CloseBtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.CloseBtn.Title" class="thr_btn" onclick=@Model.CloseBtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/reset.PNG")">
+                <span class="btnText">@Model.CloseBtn.Text</span>
+            </a>
+        }
+
+    }
+
+</div>

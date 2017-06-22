@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using UserInterface.Models;
 
 namespace UserInterface.Controllers
 {
@@ -13,5 +14,49 @@ namespace UserInterface.Controllers
         {
             return View();
         }
+
+        #region ButtonStyling
+        [HttpGet]      
+        public ActionResult ChangeButtonStyle(string ActionType)
+        {
+            ToolboxViewModel ToolboxViewModelObj = new ToolboxViewModel();
+            switch (ActionType)
+            {
+                case "List":
+                    ToolboxViewModelObj.addbtn.Visible = true;
+                    ToolboxViewModelObj.addbtn.Text = "Add";
+                    ToolboxViewModelObj.addbtn.Title = "Add New";
+                    ToolboxViewModelObj.addbtn.Event = "openNew();";
+
+                    ToolboxViewModelObj.savebtn.Visible = true;
+                    ToolboxViewModelObj.savebtn.Text = "Save";
+                    ToolboxViewModelObj.savebtn.Title = "Save";
+                    ToolboxViewModelObj.savebtn.Event = "saveNow();";
+
+                    break;
+                case "Edit":
+                   
+
+                    break;
+                case "Add":
+                    
+
+                    break;
+                case "AddSub":
+
+                    break;
+                case "tab1":
+
+                    break;
+                case "tab2":
+
+                    break;
+                default:
+                    return Content("Nochange");
+            }
+            return PartialView("ToolboxView", ToolboxViewModelObj);
+        }
+
+        #endregion
     }
 }

@@ -1428,6 +1428,7 @@
     <Compile Include="Models\DynamicUIViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\MenuViewModel.cs" />
+    <Compile Include="Models\ToolboxViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1437,6 +1438,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\jquery-1.9.1.min.map" />
+    <Content Include="Views\Shared\ToolBoxView.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
