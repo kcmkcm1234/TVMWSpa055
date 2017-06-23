@@ -33,6 +33,11 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.savebtn.Title = "Save";
                     ToolboxViewModelObj.savebtn.Event = "saveNow();";
 
+                    ToolboxViewModelObj.backbtn.Visible = true;
+                    ToolboxViewModelObj.backbtn.Text = "Back";
+                    ToolboxViewModelObj.backbtn.Title = "Back";
+                    ToolboxViewModelObj.backbtn.Event = "Back();";
+
                     break;
                 case "Edit":
                    
