@@ -31,8 +31,9 @@ namespace UserInterface.Controllers
                   
 
                     ToolboxViewModelObj.backbtn.Visible = true;
+                    ToolboxViewModelObj.backbtn.Disable = true;
                     ToolboxViewModelObj.backbtn.Text = "Back";
-                    ToolboxViewModelObj.backbtn.Title = "Back";
+                    ToolboxViewModelObj.backbtn.DisableReason = "Not applicable";
                     ToolboxViewModelObj.backbtn.Event = "Back();";
 
                     break;
