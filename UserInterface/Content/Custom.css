@@ -527,7 +527,7 @@ color: #e32;
     z-index: 1;
     top: 0;
     left: 100%;
-    background-color:#eceeec;
+    background-color:#f4f4f4;
   
     overflow-y: hidden;
     transition: 0.5s;
@@ -565,4 +565,31 @@ color: #e32;
     top: 100px;
    
 }
+}
+
+
+.breadcrumb {
+    font-size:11px!important;
+    padding:1px 10px;
+    margin:0!important;
+    background-color:transparent!important;
+}
+
+.info-box {
+    min-height:60px!important;
+    background-color:rgba(255,255,255,.3)
+}
+
+.info-box-icon {
+    width:20px!important;
+     height:60px!important;
+}
+
+.info-box-content {
+    margin-left:25px!important;
+}
+
+.summaryboxes {
+    margin-top:-4%;
+    z-index:-1;
 }
