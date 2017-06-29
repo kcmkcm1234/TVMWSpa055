@@ -349,12 +349,6 @@ function openNav() {
     }
 
     
-
-
-    
-
-
-    
 }
 
 function closeNav() {

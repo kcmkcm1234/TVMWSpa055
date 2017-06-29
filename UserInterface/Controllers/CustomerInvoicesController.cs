@@ -7,7 +7,7 @@ using UserInterface.Models;
 
 namespace UserInterface.Controllers
 {
-    public class InvoicesController : Controller
+    public class CustomerInvoicesController : Controller
     {
         // GET: Invoices
         public ActionResult Index()

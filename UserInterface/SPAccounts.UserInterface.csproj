@@ -1400,13 +1400,13 @@
     <Content Include="Scripts\jszip.min.js" />
     <Content Include="Scripts\lightbox.min.js" />
     <Content Include="Scripts\sweetalert.min.js" />
+    <Content Include="Scripts\UserJS\Invoices.js" />
     <Content Include="Scripts\UserJS\Login.js" />
     <Content Include="Web.config" />
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutPage.cshtml" />
     <Content Include="Views\Dashboard\Index.cshtml" />
     <Content Include="Views\DynamicUI\_MenuNavBar.cshtml" />
-    <Content Include="Views\Invoices\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -1420,11 +1420,12 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DynamicUIController.cs" />
-    <Compile Include="Controllers\InvoicesController.cs" />
+    <Compile Include="Controllers\CustomerInvoicesController.cs" />
     <Compile Include="CustomAttributes\CustomAttributes.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CustomerInvoicesViewModel.cs" />
     <Compile Include="Models\DynamicUIViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\MenuViewModel.cs" />
@@ -1439,6 +1440,7 @@
     </Content>
     <Content Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="Views\Shared\ToolBoxView.cshtml" />
+    <Content Include="Views\CustomerInvoices\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
