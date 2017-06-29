@@ -3,15 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace UserInterface.Models
+namespace SPAccounts.DataAccessObject.DTO
 {
-    public class CustomerInvoiceBundleViewModel {
-        public List<CustomerInvoicesViewModel> CustomerInvoices { get; set; }
-        public CustomerInvoiceSummaryViewModel CustomerInvoiceSummary { get; set; }
 
-    }
 
-    public class CustomerInvoicesViewModel
+    public class CustomerInvoice
     {
         public Guid ID { get; set; }
         public DateTime InvoiceDate { get; set; }
@@ -25,9 +21,10 @@ namespace UserInterface.Models
         public DateTime LastPaymentDate { get; set; }
         public String LastPaymentDateFormatted { get; set; }
         public String Status { get; set; }
+
     }
-    public class CustomerInvoiceSummaryViewModel
-    {
+
+    public class CustomerInvoiceSummary {
         public decimal OverdueAmount { get; set; }
         public string OverdueAmountFormatted { get; set; }
         public int OverdueInvoices { get; set; }

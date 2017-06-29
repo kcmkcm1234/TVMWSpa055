@@ -1,19 +1,60 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using SPAccounts.DataAccessObject.DTO;
+using SPAccounts.BusinessService.Contracts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using UserInterface.Models;
+using AutoMapper;
 
 namespace UserInterface.Controllers
 {
     public class CustomerInvoicesController : Controller
     {
+        #region Constructor_Injection
+
+        ICustomerInvoicesBusiness _customerInvoicesBusiness;
+        Const c = new Const();
+
+        public CustomerInvoicesController(ICustomerInvoicesBusiness customerInvoicesBusiness)
+        {
+            _customerInvoicesBusiness = customerInvoicesBusiness;
+
+        }
+        #endregion Constructor_Injection
+
         // GET: Invoices
         public ActionResult Index()
         {
             return View();
         }
+
+
+        #region GetAllInvoices
+        [HttpGet]    
+        public string GetInvoicesAndSummary()
+        {
+            try
+            {
+
+                CustomerInvoiceBundleViewModel Result = new CustomerInvoiceBundleViewModel();
+
+                Result.CustomerInvoiceSummary= Mapper.Map<CustomerInvoiceSummary,CustomerInvoiceSummaryViewModel>(_customerInvoicesBusiness.GetCustomerInvoicesSummary());
+                Result.CustomerInvoices = Mapper.Map<List<CustomerInvoice>, List<CustomerInvoicesViewModel>>(_customerInvoicesBusiness.GetAllCustomerInvoices());
+
+
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = Result });
+            }
+            catch (Exception ex)
+            {
+                ConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion  GetAllForm8
+
 
         #region ButtonStyling
         [HttpGet]      
