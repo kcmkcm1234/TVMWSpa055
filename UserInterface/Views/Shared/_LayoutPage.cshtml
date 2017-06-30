@@ -9,7 +9,7 @@
     <link rel="icon" type="image/png" href=@Url.Content("~/Content/images/logo.png") />
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/AdminLTE/bootstrap/css/bootstrap")     
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css")    
-     
+     @RenderSection("styles", required: false)
      
 </head>
 <body class="hold-transition skin-green-light sidebar-mini">

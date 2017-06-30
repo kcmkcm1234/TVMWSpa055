@@ -53,7 +53,7 @@ namespace UserInterface.Controllers
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
             }
         }
-        #endregion  GetAllForm8
+        #endregion  GetAllInvoices
 
 
         #region ButtonStyling

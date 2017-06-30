@@ -338,7 +338,7 @@ function openNav() {
    
     var left = $(".main-sidebar").width();
     var total = $(document).width(); 
-    document.getElementById("myNav").style.left = "3.5%";
+    document.getElementById("myNav").style.left = "3%";
     $('#main').fadeOut();
 
     if ($("body").hasClass("sidebar-collapse")) {

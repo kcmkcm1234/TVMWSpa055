@@ -35,9 +35,10 @@ namespace UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/bootstrapdatepicker").Include("~/Scripts/bootstrap-datepicker.min.js"));
             bundles.Add(new ScriptBundle("~/bundles/userpluginjs").Include("~/Scripts/jquery.noty.packaged.min.js", "~/Scripts/custom.js", "~/Scripts/Chart.js", "~/Scripts/sweetalert.min.js"));
 
-            bundles.Add(new ScriptBundle("~/AdminLTE/plugins").Include("~/AdminLTE/plugins/jQuery/jquery-3.1.1.min.js", "~/AdminLTE/bootstrap/js/bootstrap.min.js", "~/AdminLTE/plugins/fastclick/fastclick.js", "~/AdminLTE/dist/js/adminlte.js", "~/AdminLTE/plugins/sparkline/jquery.sparkline.min.js", "~/AdminLTE/plugins/slimScroll/jquery.slimscroll.min.js", "~/AdminLTE/plugins/chartjs/Chart.min.js", "~/AdminLTE/dist/js/pages/dashboard2.js"));
+            bundles.Add(new ScriptBundle("~/AdminLTE/plugins").Include("~/AdminLTE/bootstrap/js/bootstrap.min.js", "~/AdminLTE/plugins/fastclick/fastclick.js", "~/AdminLTE/dist/js/adminlte.js", "~/AdminLTE/plugins/sparkline/jquery.sparkline.min.js", "~/AdminLTE/plugins/slimScroll/jquery.slimscroll.min.js", "~/AdminLTE/plugins/chartjs/Chart.min.js", "~/AdminLTE/dist/js/pages/dashboard2.js"));
             //----------------------
             bundles.Add(new ScriptBundle("~/bundles/Login").Include("~/Scripts/UserJS/Login.js"));
+            bundles.Add(new ScriptBundle("~/bundles/CustomerInvoices").Include("~/Scripts/UserJS/CustomerInvoices.js"));
 
 
         }

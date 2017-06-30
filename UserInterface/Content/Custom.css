@@ -3,6 +3,7 @@
      
     font-family:'Segoe UI'!important;
      background-color:#FEFFFE!important;
+     font-size:12px!important;
 
 }
 
@@ -577,7 +578,7 @@ color: #e32;
 
 .info-box {
     min-height:60px!important;
-    background-color:rgba(255,255,255,.3)
+    background-color:rgba(255,255,255,.6)
 }
 
 .info-box-icon {
@@ -590,6 +591,36 @@ color: #e32;
 }
 
 .summaryboxes {
-    margin-top:-4%;
+    margin-top:-3%;
     z-index:-1;
+}
+
+.customgrd {
+    background-color:#f7f4f4;
+}
+
+.sidebar {
+    font-size:15px;
+}
+
+.tableContainer {
+      /*background-color:white;
+      padding:15px;
+      border-radius:5px;*/
+}
+
+.TableHead {
+    font-size:14px;
+   
+      background-color: rgb(252, 253, 253);
+    
+}
+
+    .TableHead th {
+          font-weight:500!important;
+          min-height:25px!important;
+    }
+
+.table {
+    
 }

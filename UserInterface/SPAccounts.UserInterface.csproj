@@ -1400,7 +1400,7 @@
     <Content Include="Scripts\jszip.min.js" />
     <Content Include="Scripts\lightbox.min.js" />
     <Content Include="Scripts\sweetalert.min.js" />
-    <Content Include="Scripts\UserJS\Invoices.js" />
+    <Content Include="Scripts\UserJS\CustomerInvoices.js" />
     <Content Include="Scripts\UserJS\Login.js" />
     <Content Include="Web.config" />
     <Content Include="Views\Account\Index.cshtml" />
