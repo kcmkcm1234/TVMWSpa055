@@ -39,7 +39,7 @@ $(document).ready(function () {
             Edit(this);
         });
 
-        
+        showLoader();
         List();
        
 
