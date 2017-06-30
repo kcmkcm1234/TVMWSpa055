@@ -28,7 +28,11 @@ namespace UserInterface.Controllers
         // GET: Invoices
         public ActionResult Index()
         {
-            return View();
+            CustomerInvoicesViewModel CI = new CustomerInvoicesViewModel();
+            CI.CustomerList = new List<SelectListItem>();
+            CI.PaymentTermList=new List<SelectListItem>();
+            CI.CompanyList = new List<SelectListItem>();
+            return View(CI);
         }
 
 

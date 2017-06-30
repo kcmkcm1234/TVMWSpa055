@@ -14,12 +14,11 @@
 }
 
 .SCHeader {
-   font-size: 20px!important;
-    color:  #545454;
-    margin-bottom:2%;
-    margin-left:-1%;
+   font-size: 25px!important;
+    color:  #545454;    
+    margin-left:4%;
     margin-top:0%;
-    
+    text-align:left;
     
     
 }
@@ -173,7 +172,7 @@
     -webkit-transition: all 200ms ease-in;
     -webkit-transform: scale(1.1);
     -ms-transition: all 200ms ease-in;
-    -ms-transform: scale(1.2);   
+    -ms-transform: scale(1.1);   
     -moz-transition: all 200ms ease-in;
     -moz-transform: scale(1.1);
     transition: all 200ms ease-in;
@@ -535,7 +534,7 @@ color: #e32;
     left: 100%;
     background-color:#f4f4f4;
   
-    overflow-y: hidden;
+    overflow-y: scroll;
     transition: 0.5s;
     border-left:3px solid #d1d7d1;
 }
@@ -628,4 +627,57 @@ color: #e32;
 
 .table {
     
+}
+
+.EntryForms {
+    width:98%;
+    margin-top:1%;
+     margin-right:4%;
+     
+}
+
+.form-group {
+    text-align:left!important;
+    margin-bottom:6px!important;
+    
+}
+.control-label {
+    padding-left:15px;
+    font-size:13px;
+}
+
+.form-control {
+    font-size:12px;
+    height:28px;
+}
+
+.multiline4 {
+     
+     height: 86px;
+}
+
+.rightAmtCaption {
+   
+    font-size:14px;
+    margin-right:45%
+
+}
+
+.rightAmt {
+    font-family:'Times New Roman';
+    font-size:28px;
+   margin-right:45%
+
+}
+
+.headSeperator {
+    font-size:13px;
+   color:#545454;
+   border-bottom:1px solid #ddd5d5;
+   text-align:left;
+   margin-left:5%;
+   margin-top:5px;
+   
+   margin-bottom:10px;
+   width:80%;
 }
