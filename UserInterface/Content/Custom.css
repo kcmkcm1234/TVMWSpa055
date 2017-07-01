@@ -526,22 +526,22 @@ color: #e32;
 
 /*----------------overlay-----------------*/
 .overlay {
-    /*min-height: 100%;*/
+    min-height: 100%;
     width: 96%;
     position: fixed;
     z-index: 2;
     top: 0;
     left: 100%;
-    background-color:#f4f4f4;
+    background-color:rgb(255, 255, 255);
   overflow-x:hidden;
     overflow-y:hidden;
-    transition: 0.5s;
+    transition: .6s;
     border-left:3px solid #d1d7d1;
 }
 
 .overlay-content {
     position: relative;
-    top: 50px;
+    top: 45px;
     width: 100%;
     text-align: center;
     margin-top: 15px;
@@ -600,7 +600,7 @@ color: #e32;
 }
 
 .customgrd {
-    background-color:#f7f4f4;
+    background-color:white;
 }
 
 .sidebar {
@@ -617,6 +617,7 @@ color: #e32;
     font-size:14px;
    
       background-color: rgb(252, 253, 253);
+      border-bottom-color:red;
     
 }
 
@@ -674,18 +675,36 @@ color: #e32;
 }
 
 .headSeperator {
-    font-size:13px;
+    font-size:15px;
    color:#9ec2c4;
    border-bottom:1px solid #c2dee0;
    text-align:left;
    margin-left:5%;
-   margin-top:5px;
+   margin-top:15px;
    
-   margin-bottom:10px;
+   margin-bottom:25px;
    width:80%;
 }
 
 .OverlayHeader {
      border-bottom:1px solid #e2dfdf;
      padding-bottom:10px;
+       background-color: rgba(249, 250, 252,.4);
+}
+
+.headSeperator i {
+     font-size:18px;
+    
+}
+
+.ig-green {
+    color:#4bc58d;
+}
+
+.ig-aqua {
+     color:#399db5;
+}
+
+.ig-yellow {
+     color:#db8b0b;
 }
