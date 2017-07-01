@@ -337,7 +337,14 @@ function IsVaildDateFormat(date) {
 function openNav() {
    
     var left = $(".main-sidebar").width();
-    var total = $(document).width(); 
+    var total = $(document).width();
+    //var windowheight = $(document).height();
+    //var topheight = $("#myNav").height();
+    //var headerheight = $("#OverlayHeader").height();
+    //var resultHeight = (windowheight - topheight +50) + 'px!important'
+    //$('.EntryForms').attr('style', 'height: ' + resultHeight + '');
+  
+    $('.main').fadeOut();
     document.getElementById("myNav").style.left = "3%";
     $('#main').fadeOut();
 
