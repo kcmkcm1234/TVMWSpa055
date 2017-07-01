@@ -341,7 +341,7 @@ function openNav() {
     //var windowheight = $(document).height();
     //var topheight = $("#myNav").height();
     //var headerheight = $("#OverlayHeader").height();
-    //var resultHeight = (windowheight - topheight +50) + 'px!important'
+    //var resultHeight = (topheight - headerheight-200) + 'px!important'
     //$('.EntryForms').attr('style', 'height: ' + resultHeight + '');
   
     $('.main').fadeOut();
@@ -362,3 +362,17 @@ function closeNav() {
     document.getElementById("myNav").style.left = "100%";
     $('#main').fadeIn();
 }
+
+
+$('.EntryForms').scroll(function () {
+    var scroll = $('.EntryForms').scrollTop();
+
+    
+    if (scroll >= 50) {
+        //clearHeader, not clearheader - caps H
+        $("#OverlayHeader").addClass("OverlayHeader");
+    }
+    else {
+        $("#OverlayHeader").removeClass("OverlayHeader");
+    }
+});

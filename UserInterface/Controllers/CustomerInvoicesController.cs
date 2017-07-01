@@ -32,6 +32,7 @@ namespace UserInterface.Controllers
             CI.CustomerList = new List<SelectListItem>();
             CI.PaymentTermList=new List<SelectListItem>();
             CI.CompanyList = new List<SelectListItem>();
+            CI.TaxList = new List<SelectListItem>();
             return View(CI);
         }
 

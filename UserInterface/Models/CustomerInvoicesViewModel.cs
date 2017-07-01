@@ -48,13 +48,37 @@ namespace UserInterface.Models
         [Display(Name = "Payment Due Date")]
         public String PaymentDueDateFormatted { get; set; }
 
+        [Required(ErrorMessage = "Gross Amount is missing")]
+        [Display(Name = "Gross Amount")]
         public decimal InvoiceAmount { get; set; }
+
+        [Required(ErrorMessage = "Discount Amount is missing")]
+        [Display(Name = "Discount Amount")]
+        public decimal Discount { get; set; }
+
+        
+        [Display(Name = "Tax Type")]
+        public String TaxType { get; set; }
+
+        
+        [Display(Name = "Tax Amount")]
+        public decimal TaxAmount { get; set; }
+
+        [Display(Name = "Net Taxable Amount")]
+        public decimal NetTaxableAmount { get; set; }
+
+        [Display(Name = "Total Invoice Amount")]
+        public decimal TotalInvoiceAmount { get; set; }
+
+        [Display(Name = "General Notes")]
+        public String Notes { get; set; }
+
         public decimal BalanceDue { get; set; }
         public DateTime LastPaymentDate { get; set; }
         public String LastPaymentDateFormatted { get; set; }
         public String Status { get; set; }
 
-
+        public List<SelectListItem> TaxList { get; set; }
         public List<SelectListItem> CustomerList { get; set; }
         public List<SelectListItem> PaymentTermList { get; set; }
         public List<SelectListItem> CompanyList { get; set; }
