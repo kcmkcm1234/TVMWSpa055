@@ -40,6 +40,7 @@ namespace UserInterface.Models
 
         [Required(ErrorMessage = "Billing Address is missing")]
         [Display(Name = "Billing Address")]
+        [DataType(DataType.MultilineText)]
         public String BillingAddress { get; set; }
 
         public DateTime PaymentDueDate { get; set; }

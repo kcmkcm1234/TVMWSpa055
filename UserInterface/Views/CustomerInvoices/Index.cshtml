@@ -8,7 +8,7 @@
 
 @section styles {
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
-    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/bootstrapdatepicker")
+    
 
 }
 <div style="width:100%;">
@@ -226,7 +226,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="col-md-10">
-                                        @Html.EditorFor(model => model.BillingAddress, new { htmlAttributes = new { @class = "form-control multiline4", rows = 4, @id = "BillingAddress" } })
+                                        @Html.EditorFor(model => model.BillingAddress, new { htmlAttributes = new { @class = "form-control", @id = "BillingAddress" } })
 
                                     </div>
                                     <div class="col-md-1"></div>
@@ -480,4 +480,3 @@
 @*@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/bootstrap")*@
 @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
 @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/CustomerInvoices")
-@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/bootstrapdatepicker")
