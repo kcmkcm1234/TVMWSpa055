@@ -111,6 +111,7 @@
   <ItemGroup>
     <Compile Include="DTO\Common.cs" />
     <Compile Include="DTO\CustomerInvoices.cs" />
+    <Compile Include="DTO\CustomerPayments.cs" />
     <Compile Include="DTO\Menu.cs" />
     <Compile Include="DTO\UA.cs" />
     <Compile Include="DTO\UserAndRoles.cs" />
