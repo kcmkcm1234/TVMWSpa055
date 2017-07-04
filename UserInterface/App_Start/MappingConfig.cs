@@ -32,6 +32,9 @@ namespace UserInterface.App_Start
                 config.CreateMap<MenuViewModel, Menu>().ReverseMap();
                 config.CreateMap<CustomerInvoiceSummaryViewModel, CustomerInvoiceSummary>().ReverseMap();
                 config.CreateMap<CustomerInvoicesViewModel, CustomerInvoice>().ReverseMap();
+                config.CreateMap<CustomerViewModel, Customer>().ReverseMap();
+
+
 
             });
         }
