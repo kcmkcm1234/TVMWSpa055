@@ -60,7 +60,31 @@ namespace UserInterface.Controllers
         }
         #endregion  GetAllInvoices
 
+        [HttpPost]
+        public string InsertUpdateInvoice(CustomerInvoicesViewModel _customerInvoicesObj)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    UA ua = new UA();
+                    ua.UserName = "Thomson";
+                    ua.UserID = Guid.Empty;
+                    CustomerInvoicesViewModel CIVM = Mapper.Map<CustomerInvoice, CustomerInvoicesViewModel>(_customerInvoicesBusiness.InsertUpdateInvoice(Mapper.Map<CustomerInvoicesViewModel, CustomerInvoice>(_customerInvoicesObj), ua));
+                    return JsonConvert.SerializeObject(new { Result = "OK", Message = c.InsertSuccess, Records = CIVM });
+                }
+                else
+                {
+                    return JsonConvert.SerializeObject(new { Result = "Error", Message = c.InsertFailure});
+                }
+            }
+            catch (Exception ex)
+            {
 
+                ConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
         #region ButtonStyling
         [HttpGet]      
         public ActionResult ChangeButtonStyle(string ActionType)

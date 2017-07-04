@@ -11,5 +11,6 @@ namespace SPAccounts.BusinessService.Contracts
     {
         List<CustomerInvoice> GetAllCustomerInvoices();
         CustomerInvoiceSummary GetCustomerInvoicesSummary();
+        CustomerInvoice InsertUpdateInvoice(CustomerInvoice _customerInvoicesObj,UA ua);
     }
 }

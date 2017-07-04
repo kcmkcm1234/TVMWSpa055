@@ -134,6 +134,65 @@ namespace SPAccounts.RepositoryServices.Services
 
             return CustomerInvoiceSummary;
         }
+        public CustomerInvoice InsertUpdateInvoice(CustomerInvoice _customerInvoicesObj, UA ua)
+        {
+            try
+            {
+                SqlParameter outputStatus, outputID = null;
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[InsertCustomerInvoice]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@OriginCompanyCode", SqlDbType.NVarChar, 5).Value =_customerInvoicesObj.OriginCompanyCode;
+                        cmd.Parameters.Add("@InvoiceNo", SqlDbType.NVarChar, 20).Value = _customerInvoicesObj.InvoiceNo;
+                        cmd.Parameters.Add("@CustomerID", SqlDbType.SmallDateTime).Value = _customerInvoicesObj.customerObj.ID;
+                        cmd.Parameters.Add("@FromSCName", SqlDbType.NVarChar, 250).Value = _customerInvoicesObj.;
+                        cmd.Parameters.Add("@Remarks", SqlDbType.NVarChar, -1).Value = receiveFromOtherSC.Remarks;
+                        cmd.Parameters.Add("@VATAmount", SqlDbType.Decimal).Value = receiveFromOtherSC.VATAmount;
+                        cmd.Parameters.Add("@DetailXML", SqlDbType.Xml).Value = receiveFromOtherSC.DetailXML;
+
+                        cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = UA.UserName;
+                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = UA.CurrentDatetime();
+
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        outputID = cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier);
+                        outputID.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+
+
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        Const Cobj = new Const();
+                        throw new Exception(Cobj.InsertFailure);
+                    case "1":
+                        receiveFromOtherSC.ID = new Guid(outputID.Value.ToString());
+                        receiveFromOtherSC.ReceiveFromOtherScDetail = GetOtherScReceiptDetail(receiveFromOtherSC.ID, UA);
+
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return receiveFromOtherSC;
+        }
 
     }
 }

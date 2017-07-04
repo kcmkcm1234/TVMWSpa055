@@ -57,5 +57,9 @@ namespace SPAccounts.BusinessService.Services
             }
 
         }
+        public CustomerInvoice InsertUpdateInvoice(CustomerInvoice _customerInvoicesObj, UA ua)
+        {
+            return _customerInvoicesRepository.InsertUpdateInvoice(_customerInvoicesObj, ua);
+        }
     }
 }
