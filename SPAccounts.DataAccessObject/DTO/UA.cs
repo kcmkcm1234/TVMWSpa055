@@ -11,7 +11,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string SCCode { get; set; }
         public DateTime DateTime { get; set; }
         public Guid? UserID { get; set; }
-
+        
 
         public UA()
         {

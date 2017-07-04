@@ -1067,6 +1067,7 @@
     <Content Include="AdminLTE\plugins\timepicker\bootstrap-timepicker.js" />
     <Content Include="AdminLTE\plugins\timepicker\bootstrap-timepicker.min.css" />
     <Content Include="AdminLTE\plugins\timepicker\bootstrap-timepicker.min.js" />
+    <Content Include="Content\bootstrap-datepicker3.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -1401,6 +1402,7 @@
     <Content Include="Scripts\lightbox.min.js" />
     <Content Include="Scripts\sweetalert.min.js" />
     <Content Include="Scripts\UserJS\CustomerInvoices.js" />
+    <Content Include="Scripts\UserJS\CustomerPayments.js" />
     <Content Include="Scripts\UserJS\Customers.js" />
     <Content Include="Scripts\UserJS\Login.js" />
     <Content Include="Web.config" />
@@ -1420,6 +1422,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
+    <Compile Include="Controllers\CustomerPaymentsController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DynamicUIController.cs" />
     <Compile Include="Controllers\CustomerInvoicesController.cs" />
@@ -1427,9 +1430,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CommonViewModel.cs" />
     <Compile Include="Models\CustomerInvoicesViewModel.cs" />
+    <Compile Include="Models\CustomerViewModel.cs" />
+    <Compile Include="Models\CustomerPaymentsViewModel.cs" />
     <Compile Include="Models\DynamicUIViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
+    <Compile Include="Models\MasterViewModel.cs" />
     <Compile Include="Models\MenuViewModel.cs" />
     <Compile Include="Models\ToolboxViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1444,6 +1451,8 @@
     <Content Include="Views\Shared\ToolBoxView.cshtml" />
     <Content Include="Views\CustomerInvoices\Index.cshtml" />
     <Content Include="Views\Customers\Index.cshtml" />
+    <Content Include="Views\DynamicUI\UnderConstruction.cshtml" />
+    <Content Include="Views\CustomerPayments\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

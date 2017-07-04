@@ -318,19 +318,19 @@ color: #e32;
 .underConstruction {
     font-size:55px;
     position:fixed;
-    top:55%;
+    top:50%;
      text-align:center;
-     width:100%;
+     width:80%;
     min-height:400px;
     font-family:'Segoe UI';
     font-weight:400;
 }
 
 .underConstructionImg {
-    background-image: url('images/wrench.png');
+    background-image: url('images/helmet.png');
     background-repeat:no-repeat;
     height:400px;
-    width:100%;
+    width:80%;
     top:30%;
       position:fixed;
       background-position-x:center

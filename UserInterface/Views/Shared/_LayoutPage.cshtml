@@ -8,7 +8,8 @@
     <title>@ViewBag.Title</title>
     <link rel="icon" type="image/png" href=@Url.Content("~/Content/images/logo.png") />
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/AdminLTE/bootstrap/css/bootstrap")     
-    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css")    
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css") 
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/bootstrapdatepicker")   
      @RenderSection("styles", required: false)
      
 </head>
@@ -130,6 +131,7 @@
         <div class="control-sidebar-bg"></div>
     </div>
    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/AdminLTE/plugins")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/userpluginjs")
+   @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/bootstrapdatepicker")
+   @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/userpluginjs")
 </body>
 </html>

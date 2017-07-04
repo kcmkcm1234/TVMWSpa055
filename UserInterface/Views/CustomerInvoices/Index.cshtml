@@ -8,7 +8,7 @@
 
 @section styles {
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
-    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/bootstrapdatepicker")
+    
 
 }
 <div style="width:100%;">
@@ -124,6 +124,9 @@
             </div>
 
             <div class="EntryForms" style="height:550px">
+                    @using (Ajax.BeginForm("InsertUpdateInvoice", "CustomerInvoices", new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccess", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", @id = "CustomerInvoiceForm" }))
+                    {
+                        @Html.AntiForgeryToken()
                  <div class="col-md-12 headSeperator"><i  class="fa fa-th ig-yellow" aria-hidden="true"></i> Basic Details</div> 
                     <div class="col-md-12">
                         <div class="col-md-4">
@@ -209,7 +212,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="col-md-10">
-                                        @Html.DropDownListFor(model => model.Company, Model.CompanyList, "-- Select Company --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;" , @id = "Company" })
+                                        @Html.DropDownListFor(model => model.Company, Model.CompanyList, "-- Select Company --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "Company" })
                                         @Html.ValidationMessageFor(model => model.Company, "", new { @class = "text-danger" })
                                     </div>
                                     <div class="col-md-1"></div>
@@ -226,7 +229,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="col-md-10">
-                                        @Html.EditorFor(model => model.BillingAddress, new { htmlAttributes = new { @class = "form-control multiline4", rows = 4, @id = "BillingAddress" } })
+                                        @Html.EditorFor(model => model.BillingAddress, new { htmlAttributes = new { @class = "form-control", @id = "BillingAddress" } })
 
                                     </div>
                                     <div class="col-md-1"></div>
@@ -314,7 +317,7 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.NetTaxableAmount, new { htmlAttributes = new { @class = "form-control HeaderBox", @id = "NetTaxableAmt",@readonly="true" } })
+                                    @Html.EditorFor(model => model.NetTaxableAmount, new { htmlAttributes = new { @class = "form-control HeaderBox", @id = "NetTaxableAmt", @readonly = "true" } })
                                     @Html.ValidationMessageFor(model => model.NetTaxableAmount, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-1"></div>
@@ -422,7 +425,7 @@
                             <div class="col-md-12">
                                 <div class="col-md-10">
                                     @Html.EditorFor(model => model.Notes, new { htmlAttributes = new { @class = "form-control HeaderBox multiline4", @id = "Notes", @rows = 4 } })
-                                    @Html.ValidationMessageFor(model => model.InvoiceAmount, "", new { @class = "text-danger" })
+                                    @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-1"></div>
                                 <div class="col-md-1"></div>
@@ -462,8 +465,10 @@
                 <div class="col-md-12  ">&nbsp;</div> 
                 <div class="col-md-12  ">&nbsp;</div>
                 <div class="col-md-12  ">&nbsp;</div> 
+                    }
                 </div>
         </div>
+                    
     </div>
     <div class="preloader" id="prelaoder">
        <div class="col-md-12">
@@ -480,4 +485,3 @@
 @*@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/bootstrap")*@
 @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
 @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/CustomerInvoices")
-@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/bootstrapdatepicker")
