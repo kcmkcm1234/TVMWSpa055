@@ -1494,7 +1494,7 @@
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DynamicUIController.cs" />
     <Compile Include="Controllers\CustomerInvoicesController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SAMPanelController.cs" />
     <Compile Include="Controllers\ManageAccessController.cs" />
     <Compile Include="Controllers\PrivilegesController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
@@ -1533,7 +1533,7 @@
     <Content Include="Views\Shared\ToolBoxView.cshtml" />
     <Content Include="Views\CustomerInvoices\Index.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\SAMPanel\Index.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\Privileges\Index.cshtml" />
     <Content Include="Views\Privileges\PrivilegesView.cshtml" />
@@ -1546,6 +1546,8 @@
     <Content Include="Views\CustomerPayments\Index.cshtml" />
     <Content Include="Views\Suppliers\Index.cshtml" />
     <Content Include="Views\CustomerCreditNote\Index.cshtml" />
+    <Content Include="Views\ManageAccess\Index.cshtml" />
+    <Content Include="Views\ManageAccess\SubobjectIndex.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1555,7 +1557,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\ManageAccess\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SPAccounts.BusinessService\SPAccounts.BusinessService.csproj">

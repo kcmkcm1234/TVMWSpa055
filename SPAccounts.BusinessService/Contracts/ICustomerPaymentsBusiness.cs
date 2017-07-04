@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace SPAccounts.BusinessService.Contracts
 {
-    public interface ICustomerPaymentsRepository
+    public interface ICustomerPaymentsBusiness
     {
+
     }
 }
