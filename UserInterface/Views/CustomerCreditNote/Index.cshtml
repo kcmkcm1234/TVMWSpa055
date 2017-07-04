@@ -1,0 +1,283 @@
+﻿@model UserInterface.Models.CustomerCreditNoteViewModel
+@using UserInterface.App_Start
+@{
+    ViewBag.Title = "Credit Notes";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+@section styles {
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
+
+
+}
+<div style="width:100%;">
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-truck"></i> Sales</a></li>
+        <li class="active">@ViewBag.Title</li>
+    </ol>
+</div>
+
+<section class="content" id="main">
+    <div class="row">
+        <div class="" id="btnPatchAttributeSettab" style="min-height:25px">
+
+            @{
+                var data = new { ActionType = "List" };
+                @Html.Action("ChangeButtonStyle", "CustomerCreditNote", data);
+            }
+        </div>
+    </div>
+    <div class="row summaryboxes">
+
+        <div class="clearfix visible-sm-block"></div>
+
+    </div>
+    <div class="row">
+        &nbsp;
+    </div>
+    <div class="row tableContainer">
+        <div class="col-md-12">
+            <table id="CustomerCreditNoteTable" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
+                <thead>
+                    <tr class="text-center TableHead">
+                        <th>ID</th>
+                        <th>Credit Note No</th>
+                        <th>Customer</th>
+                        <th>Credit Note Date</th>
+                        <th>Credit Amount</th>                  
+                        <th>...</th>
+
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+
+</section>
+
+<section class="content">
+
+
+    <div id="myNav" class="overlay">
+
+
+
+        <div class="overlay-content">
+
+            <div class="row" id="OverlayHeader">
+                <div class="col-md-6" style="text-align:left">
+                    <span id="lblInvoiceNo" class="SCHeader">Credit Note</span>
+                </div>
+                <div class="col-md-6" id="btnPatchAdd" style="min-height:25px; padding-right:25px;">
+
+                    @{
+                        var data1 = new { ActionType = "Add" };
+                        @Html.Action("ChangeButtonStyle", "CustomerCreditNote", data1);
+                    }
+                </div>
+            </div>
+
+            <div class="EntryForms" style="height:550px">
+                @using (Ajax.BeginForm("InsertUpdateCreditNote", "CustomerCreditNote", new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccess", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", @id = "CustomerCreditNoteForm" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @*<div class="col-md-12 headSeperator"><i class="fa fa-th ig-yellow" aria-hidden="true"></i> Basic Details</div>*@
+                    <div class="col-md-12">
+                        <div class="col-md-4">
+
+                            <div class="form-group col-md-12">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => model.CreditNoteNo, htmlAttributes: new { @class = "control-label" })
+
+
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.CreditNoteNo, new { htmlAttributes = new { @class = "form-control HeaderBox", @id = "CreditNoteNo", @autofocus = true } })
+                                        @Html.ValidationMessageFor(model => model.CreditNoteNo, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-1"></div>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group col-md-12">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => model.CustomerID, htmlAttributes: new { @class = "control-label " })
+
+
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-10">
+                                        @Html.DropDownListFor(model => model.CustomerID, Model.CustomerList, "-- Select a Customer --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "Customer" })
+                                        @Html.ValidationMessageFor(model => model.CustomerID, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-1"></div>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group col-md-12">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => model.CreditNoteDateFormatted, htmlAttributes: new { @class = "control-label" })
+
+
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.CreditNoteDateFormatted, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter datepicker", @id = "CreditNoteDate" } })
+                                        @Html.ValidationMessageFor(model => model.CreditNoteDateFormatted, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-1"></div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group col-md-12">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => model.BillingAddress, htmlAttributes: new { @class = "control-label" })
+
+
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.BillingAddress, 7, 60, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter", @id = "BillingAddress" } })
+                                        @Html.ValidationMessageFor(model => model.BillingAddress, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-1"></div>
+                                </div>
+
+                            </div>                  
+
+                        </div>
+                        <div class="col-md-4" style="padding-top:2%">
+                            <div class="form-group col-md-12">
+                                <div class="col-md-12 text-right">
+                                    <div class="rightAmtCaption">Credit Amount</div>
+                                </div>
+                                <div class="col-md-12 text-right">
+                                    <div class="rightAmt" id="creditdAmt">₹ 0.00</div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <div class="col-md-12 text-right">
+                                    <div class="rightAmtCaption">Adjusted Amount</div>
+                                </div>
+                                <div class="col-md-12 text-right">
+                                    <div class="rightAmt" id="adjusteddAmt">₹ 0.00</div>
+                                </div>
+                            </div>
+                          
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-12  ">&nbsp;</div>
+                    <div class="col-md-12  ">&nbsp;</div>
+                    <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Commercial Details</div>
+
+                    <div class="col-md-12">
+                        <div class="col-md-4">
+                            <div class="form-group col-md-12">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => model.CreditAmount, htmlAttributes: new { @class = "control-label" })
+
+
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.CreditAmount, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter", @id = "CreditAmount" } })
+                                        @Html.ValidationMessageFor(model => model.CreditAmount, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-1"></div>
+                                </div>
+
+                            </div>        
+                       
+                        </div>                    
+
+
+                    </div>
+                    <div class="col-md-12  ">
+                        <div class="col-md-10">
+                            <div class="form-group col-md-12">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => model.GeneralNotes, htmlAttributes: new { @class = "control-label" })
+
+
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.GeneralNotes, 5, 145, new { htmlAttributes = new { @class = "form-control BlockEnter multiline4", @id = "ShippingAddress" } })
+                                        @Html.ValidationMessageFor(model => model.GeneralNotes, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-1"></div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-1"></div>
+                    </div>
+                    <div class="col-md-12  ">&nbsp;</div>
+                    <div class="col-md-12  ">&nbsp;</div>
+                    <div class="col-md-12 headSeperator"><i class="fa fa-th ig-green" aria-hidden="true"></i> Other Details</div>
+
+                  
+
+                    <div class="col-md-12  ">
+                        <div class="col-md-10">
+                            <div class="form-group col-md-12">
+                               
+
+                                    <div class="col-md-12">
+                                        <div class="col-md-10">
+                                            attachment controll here
+                                        </div>
+                                        <div class="col-md-1"></div>
+                                        <div class="col-md-1"></div>
+                                    </div>
+
+                                
+                              
+
+                            </div>
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-1"></div>
+                    </div>
+
+                    <div class="col-md-12  ">&nbsp;</div>
+                    <div class="col-md-12  ">&nbsp;</div>
+                    <div class="col-md-12  ">&nbsp;</div>
+                    <div class="col-md-12  ">&nbsp;</div>
+                    <div class="col-md-12  ">&nbsp;</div>
+                    <div class="col-md-12  ">&nbsp;</div>
+                }
+            </div>
+        </div>
+
+    </div>
+    <div class="preloader" id="prelaoder">
+        <div class="col-md-12">
+            <div class="col-md-12">Loading </div>
+            <div class="col-md-12" style="margin-left:5%;margin-top:-3%;"><img src="~/Content/images/loading.gif" class="preloaderImg" /></div>
+        </div>
+
+    </div>
+</section>
+
+@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jquery")
+@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
+@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
+@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/CustomerCreditNote")
+@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/bootstrapdatepicker")

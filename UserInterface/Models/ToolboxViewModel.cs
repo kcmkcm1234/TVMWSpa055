@@ -12,6 +12,8 @@ namespace UserInterface.Models
         public ToolBoxStructure savebtn;
         public ToolBoxStructure deletebtn;
         public ToolBoxStructure resetbtn;
+        public ToolBoxStructure returnBtn;
+        public ToolBoxStructure calculateBtn;
         public ToolBoxStructure CloseBtn;
         public ToolBoxStructure PrintBtn;
     }

@@ -15,6 +15,14 @@ namespace SPAccounts.DataAccessObject.DTO
         public string UpdatedDateString { get; set; }
     }
 
+    public class AppUA
+    {
+        public string UserName { get; set; }
+        public DateTime DateTime { get; set; }
+        public Guid UserID { get; set; }
+        public Guid AppID { get; set; }
+    }
+
     public class Settings
     {
 
@@ -22,15 +30,15 @@ namespace SPAccounts.DataAccessObject.DTO
     }
 
 
-    public class Const
+    public class AppConst
     {
         #region Messages
 
-        private List<ConstMessage> ConstMessage = new List<ConstMessage>();
+        private List<AppConstMessage> ConstMessage = new List<AppConstMessage>();
 
-        public Const()
+        public AppConst()
         {
-            ConstMessage.Add(new ConstMessage("Test message", "DF8D1", "ERROR"));
+            ConstMessage.Add(new AppConstMessage("Test message", "DF8D1", "ERROR"));
              
             //
         }
@@ -85,13 +93,13 @@ namespace SPAccounts.DataAccessObject.DTO
         {
             get { return "Password is wrong"; }
         }
-        public ConstMessage GetMessage(string MsgCode)
+        public AppConstMessage GetMessage(string MsgCode)
         {
-            ConstMessage result = new ConstMessage(MsgCode, "", "ERROR");
+            AppConstMessage result = new AppConstMessage(MsgCode, "", "ERROR");
 
             try
             {
-                foreach (ConstMessage c in ConstMessage)
+                foreach (AppConstMessage c in ConstMessage)
                 {
                     if (c.Code == MsgCode)
                     {
@@ -124,12 +132,12 @@ namespace SPAccounts.DataAccessObject.DTO
         #endregion
     }
 
-    public class ConstMessage
+    public class AppConstMessage
     {
         public string Message;
         public string Code;
         public string type;
-        public ConstMessage(string msg, string cd, string typ)
+        public AppConstMessage(string msg, string cd, string typ)
         {
             Message = (cd == "" ? "" : cd + "-") + msg;
             Code = cd;

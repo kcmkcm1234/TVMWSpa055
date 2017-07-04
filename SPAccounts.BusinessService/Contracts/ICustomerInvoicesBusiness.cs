@@ -1,9 +1,5 @@
 ﻿using SPAccounts.DataAccessObject.DTO;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SPAccounts.BusinessService.Contracts
 {
@@ -11,6 +7,6 @@ namespace SPAccounts.BusinessService.Contracts
     {
         List<CustomerInvoice> GetAllCustomerInvoices();
         CustomerInvoiceSummary GetCustomerInvoicesSummary();
-        CustomerInvoice InsertUpdateInvoice(CustomerInvoice _customerInvoicesObj,UA ua);
+        CustomerInvoice InsertUpdateInvoice(CustomerInvoice _customerInvoicesObj, AppUA ua);
     }
 }

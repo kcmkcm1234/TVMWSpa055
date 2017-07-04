@@ -1,11 +1,12 @@
 ﻿@model UserInterface.Models.LoginViewModel
 @using UserInterface.App_Start
- 
+
 @{
     Layout = null;
 }
 
 @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css")
+@Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/AdminLTE/css/plugins")
 @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/UserCSS/Login")
 <!DOCTYPE html>
 
@@ -17,11 +18,11 @@
 <body>
     <div class="container">
         <div class="card card-container">
-          <div style="text-align:center;width:100%;font-size:120px;color: #954c84;" >
-              <i class="fa fa-user-circle" aria-hidden="true">
+            <div style="text-align:center;width:100%;font-size:120px;color: #954c84;">
+                <i class="fa fa-user-circle" aria-hidden="true">
 
-              </i>
-          </div> 
+                </i>
+            </div>
             <p id="profile-name" class="profile-name-card"></p>
 
             @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal form-signin", role = "form" }))
@@ -37,19 +38,20 @@
 
                 @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
 
-                <button class="btn btn-lg btn-info btn-block btn-signin customLogin" type="submit" >LOGIN</button>
+                <button class="btn btn-lg btn-info btn-block btn-signin customLogin" type="submit">LOGIN</button>
 
             }
 
             <a href="#" class="forgot-password">
                 Forgot the password?
             </a>
+            <br />
             @{
                 if (Model != null)
                 {
                     if (Model.IsFailure)
                     {
-                        <span class="text-danger logfailed">Login Failed</span>
+                        <span class="text-danger logfailed">@Model.Message</span>
                     }
                 }
             }
@@ -61,3 +63,4 @@
 @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/bootstrap")
 @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
 @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/Login")
+
