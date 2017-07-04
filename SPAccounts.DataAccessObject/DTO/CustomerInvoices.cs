@@ -15,10 +15,16 @@ namespace SPAccounts.DataAccessObject.DTO
         public String InvoiceNo { get; set; }
         public string OriginCompanyCode { get; set; }
         public Customer customerObj { get; set; }
+        public PaymentTerms paymentTermsObj { get; set; }
+        public TaxTypes taxTypesObj { get; set; }
         public DateTime PaymentDueDate { get; set; }
         public String PaymentDueDateFormatted { get; set; }
         public decimal InvoiceAmount { get; set; }
+        public decimal Discount { get; set; }
         public decimal BalanceDue { get; set; }
+        public decimal TaxAmount { get; set; }
+        public decimal TotalInvoiceAmount { get; set; }
+        public String Notes { get; set; }
         public DateTime LastPaymentDate { get; set; }
         public String LastPaymentDateFormatted { get; set; }
         public String Status { get; set; }

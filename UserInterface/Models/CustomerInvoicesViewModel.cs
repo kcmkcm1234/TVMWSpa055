@@ -31,11 +31,14 @@ namespace UserInterface.Models
         [Required(ErrorMessage = "Customer is missing")]
         [Display(Name = "Customer")]
         public String Customer { get; set; }
+
         public CustomerViewModel customerObj { get; set; }
+        
 
         [Required(ErrorMessage = "Payment Term is missing")]
         [Display(Name = "Payment Term")]      
         public int PaymentTerm { get; set; }
+        public PaymentTermsVieModel paymentTermsObj { get; set; }
 
         [Required(ErrorMessage = "Company is missing")]
         [Display(Name = "Originated Company")]
@@ -63,7 +66,7 @@ namespace UserInterface.Models
         
         [Display(Name = "Tax Type")]
         public String TaxType { get; set; }
-
+        public TaxTypesViewModel taxTypesObj { get; set; }
         
         [Display(Name = "Tax Amount")]
         public decimal TaxAmount { get; set; }

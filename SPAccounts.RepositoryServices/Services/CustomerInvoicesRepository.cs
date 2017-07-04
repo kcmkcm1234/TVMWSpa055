@@ -53,7 +53,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         CIList.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : CIList.ID);
                                         CIList.InvoiceDate = (sdr["InvoiceDate"].ToString() != "" ? DateTime.Parse(sdr["InvoiceDate"].ToString()) : CIList.InvoiceDate);
                                         CIList.InvoiceNo = sdr["InvoiceNo"].ToString();
-                                        CIList.Customer = sdr["Customer"].ToString();
+                                        //CIList.Customer = sdr["Customer"].ToString();
                                         CIList.PaymentDueDate = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()) : CIList.PaymentDueDate);
                                         CIList.InvoiceAmount = (sdr["InvoiceAmount"].ToString() != "" ? Decimal.Parse(sdr["InvoiceAmount"].ToString()) : CIList.InvoiceAmount);
                                         CIList.BalanceDue = (sdr["BalanceDue"].ToString() != "" ? Decimal.Parse(sdr["BalanceDue"].ToString()) : CIList.BalanceDue);
@@ -153,13 +153,19 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@OriginCompanyCode", SqlDbType.NVarChar, 5).Value =_customerInvoicesObj.OriginCompanyCode;
                         cmd.Parameters.Add("@InvoiceNo", SqlDbType.NVarChar, 20).Value = _customerInvoicesObj.InvoiceNo;
                         cmd.Parameters.Add("@CustomerID", SqlDbType.SmallDateTime).Value = _customerInvoicesObj.customerObj.ID;
-                        cmd.Parameters.Add("@FromSCName", SqlDbType.NVarChar, 250).Value = _customerInvoicesObj.;
-                        cmd.Parameters.Add("@Remarks", SqlDbType.NVarChar, -1).Value = receiveFromOtherSC.Remarks;
-                        cmd.Parameters.Add("@VATAmount", SqlDbType.Decimal).Value = receiveFromOtherSC.VATAmount;
-                        cmd.Parameters.Add("@DetailXML", SqlDbType.Xml).Value = receiveFromOtherSC.DetailXML;
-
-                        cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = UA.UserName;
-                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = UA.CurrentDatetime();
+                        cmd.Parameters.Add("@FromSCName", SqlDbType.NVarChar, 250).Value = _customerInvoicesObj.paymentTermsObj.Code;
+                        cmd.Parameters.Add("@Remarks", SqlDbType.NVarChar, -1).Value =_customerInvoicesObj.InvoiceDateFormatted;
+                        cmd.Parameters.Add("@VATAmount", SqlDbType.Decimal).Value =_customerInvoicesObj.PaymentDueDateFormatted;
+                        cmd.Parameters.Add("@DetailXML", SqlDbType.Xml).Value = _customerInvoicesObj.customerObj.BillingAddress;
+                        cmd.Parameters.Add("@GrossAmount", SqlDbType.Decimal).Value = _customerInvoicesObj.InvoiceAmount;
+                        cmd.Parameters.Add("@Discount", SqlDbType.Decimal).Value = _customerInvoicesObj.Discount;
+                        cmd.Parameters.Add("@TaxTypeCode", SqlDbType.NVarChar, 10).Value = _customerInvoicesObj.taxTypesObj.Code;
+                        cmd.Parameters.Add("@TaxPreApplied", SqlDbType.Decimal).Value = _customerInvoicesObj.taxTypesObj.Rate;
+                        cmd.Parameters.Add("@TaxAmount", SqlDbType.Decimal).Value = _customerInvoicesObj.TaxAmount;
+                        cmd.Parameters.Add("@TotalInvoiceAmount", SqlDbType.Decimal).Value = _customerInvoicesObj.TotalInvoiceAmount;
+                        cmd.Parameters.Add("@GeneralNotes", SqlDbType.NVarChar, -1).Value = _customerInvoicesObj.Notes;
+                        cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = ua.UserName;
+                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = _customerInvoicesObj.commonObj.CreatedDate;
 
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
@@ -177,9 +183,7 @@ namespace SPAccounts.RepositoryServices.Services
                         Const Cobj = new Const();
                         throw new Exception(Cobj.InsertFailure);
                     case "1":
-                        receiveFromOtherSC.ID = new Guid(outputID.Value.ToString());
-                        receiveFromOtherSC.ReceiveFromOtherScDetail = GetOtherScReceiptDetail(receiveFromOtherSC.ID, UA);
-
+                        _customerInvoicesObj.ID = new Guid(outputID.Value.ToString());
                         break;
                     default:
                         break;
@@ -191,7 +195,7 @@ namespace SPAccounts.RepositoryServices.Services
 
                 throw ex;
             }
-            return receiveFromOtherSC;
+            return _customerInvoicesObj;
         }
 
     }
