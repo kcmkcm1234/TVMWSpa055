@@ -113,11 +113,13 @@
     <Compile Include="Contracts\ICustomerInvoicesBusiness.cs" />
     <Compile Include="Contracts\ICustomerPaymentsRepository.cs" />
     <Compile Include="Contracts\IDynamicUIBusiness.cs" />
+    <Compile Include="Contracts\IMasterBusiness.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CommonBusiness.cs" />
     <Compile Include="Services\CustomerInvoicesBusiness.cs" />
     <Compile Include="Services\CustomerPaymentsBusiness.cs" />
     <Compile Include="Services\DynamicUIBusiness.cs" />
+    <Compile Include="Services\MasterBusiness.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
