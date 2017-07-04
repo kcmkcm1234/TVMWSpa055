@@ -3,11 +3,10 @@ using SPAccounts.DataAccessObject.DTO;
 using SPAccounts.BusinessService.Contracts;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using UserInterface.Models;
 using AutoMapper;
+using SAMTool.DataAccessObject.DTO;
 
 namespace UserInterface.Controllers
 {
@@ -16,7 +15,7 @@ namespace UserInterface.Controllers
         #region Constructor_Injection
 
         ICustomerInvoicesBusiness _customerInvoicesBusiness;
-        Const c = new Const();
+        AppConst c = new AppConst();
 
         public CustomerInvoicesController(ICustomerInvoicesBusiness customerInvoicesBusiness)
         {
@@ -54,7 +53,7 @@ namespace UserInterface.Controllers
             }
             catch (Exception ex)
             {
-                ConstMessage cm = c.GetMessage(ex.Message);
+                AppConstMessage cm = c.GetMessage(ex.Message);
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
             }
         }
@@ -67,7 +66,7 @@ namespace UserInterface.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    UA ua = new UA();
+                    AppUA ua = new AppUA();
                     ua.UserName = "Thomson";
                     ua.UserID = Guid.Empty;
                     CustomerInvoicesViewModel CIVM = Mapper.Map<CustomerInvoice, CustomerInvoicesViewModel>(_customerInvoicesBusiness.InsertUpdateInvoice(Mapper.Map<CustomerInvoicesViewModel, CustomerInvoice>(_customerInvoicesObj), ua));
@@ -81,7 +80,7 @@ namespace UserInterface.Controllers
             catch (Exception ex)
             {
 
-                ConstMessage cm = c.GetMessage(ex.Message);
+                AppConstMessage cm = c.GetMessage(ex.Message);
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
             }
         }

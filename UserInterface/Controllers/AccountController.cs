@@ -100,7 +100,7 @@ namespace UserInterface.Controllers
         #endregion Logout
         private ActionResult RedirectToLocal()
         {
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "DashBoard");
         }
         private ActionResult RedirectToLogin()
         {
