@@ -7,8 +7,8 @@
 }
 
 @section styles {
-    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
-    
+  
+   @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
 
 }
 <div style="width:100%;">
@@ -480,8 +480,8 @@
 </section>
 
     
-@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jquery")
+@section Scripts {
 @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
-@*@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/bootstrap")*@
 @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
 @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/CustomerInvoices")
+}
