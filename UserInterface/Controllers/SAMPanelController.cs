@@ -10,10 +10,10 @@ using UserInterface.Models;
 
 namespace UserInterface.Controllers
 {
-    public class HomeController : Controller
+    public class SAMPanelController : Controller
     {
         IHomeBusiness _homeBusiness;
-        public HomeController(IHomeBusiness home)
+        public SAMPanelController(IHomeBusiness home)
         {
             _homeBusiness = home;
         }
