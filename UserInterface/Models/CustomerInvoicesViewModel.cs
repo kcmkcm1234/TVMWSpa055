@@ -26,9 +26,12 @@ namespace UserInterface.Models
         [MaxLength(20)]
         public String InvoiceNo { get; set; }
 
+        public string OriginCompanyCode { get; set; }
+
         [Required(ErrorMessage = "Customer is missing")]
         [Display(Name = "Customer")]
         public String Customer { get; set; }
+        public CustomerViewModel customerObj { get; set; }
 
         [Required(ErrorMessage = "Payment Term is missing")]
         [Display(Name = "Payment Term")]      
@@ -72,6 +75,7 @@ namespace UserInterface.Models
         public decimal TotalInvoiceAmount { get; set; }
 
         [Display(Name = "General Notes")]
+        [DataType(DataType.MultilineText)]
         public String Notes { get; set; }
 
         public decimal BalanceDue { get; set; }

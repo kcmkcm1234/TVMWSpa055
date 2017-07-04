@@ -13,7 +13,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public DateTime InvoiceDate { get; set; }
         public String InvoiceDateFormatted { get; set; }
         public String InvoiceNo { get; set; }
-        public String Customer { get; set; }
+        public string OriginCompanyCode { get; set; }
+        public Customer customerObj { get; set; }
         public DateTime PaymentDueDate { get; set; }
         public String PaymentDueDateFormatted { get; set; }
         public decimal InvoiceAmount { get; set; }
@@ -21,6 +22,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public DateTime LastPaymentDate { get; set; }
         public String LastPaymentDateFormatted { get; set; }
         public String Status { get; set; }
+        public Common commonObj { get; set; }
 
     }
 
