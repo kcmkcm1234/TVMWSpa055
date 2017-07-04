@@ -8,5 +8,6 @@ namespace SPAccounts.RepositoryServices.Contracts
 {
     public interface ICustomerPaymentsRepository
     {
+
     }
 }

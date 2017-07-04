@@ -16,11 +16,13 @@ namespace UserInterface.Controllers
 
         ICustomerInvoicesBusiness _customerInvoicesBusiness;
         AppConst c = new AppConst();
+        IMasterBusiness _masterBusiness;
+       
 
-        public CustomerInvoicesController(ICustomerInvoicesBusiness customerInvoicesBusiness)
+        public CustomerInvoicesController(ICustomerInvoicesBusiness customerInvoicesBusiness,IMasterBusiness masterBusiness)
         {
             _customerInvoicesBusiness = customerInvoicesBusiness;
-
+            _masterBusiness = masterBusiness;
         }
         #endregion Constructor_Injection
 
@@ -32,6 +34,21 @@ namespace UserInterface.Controllers
             CI.PaymentTermList=new List<SelectListItem>();
             CI.CompanyList = new List<SelectListItem>();
             CI.TaxList = new List<SelectListItem>();
+            CI.customerObj = new CustomerViewModel();
+            CI.customerObj.CustomerList= new List<SelectListItem>();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            selectListItem = new List<SelectListItem>();
+            List<CustomerViewModel> CustList= Mapper.Map < List<Customer>, List< CustomerViewModel >> (_masterBusiness.GetAllCustomers());
+            foreach (CustomerViewModel Cust in CustList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = Cust.CompanyName,
+                    Value = Cust.ID.ToString(),
+                    Selected = false
+                });
+            }
+            CI.customerObj.CustomerList = selectListItem;
             return View(CI);
         }
 
@@ -115,7 +132,7 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.savebtn.Visible = true;
                     ToolboxViewModelObj.savebtn.Text = "Save";
                     ToolboxViewModelObj.savebtn.Title = "Save";
-                    ToolboxViewModelObj.savebtn.Event = "saveNow();";
+                    ToolboxViewModelObj.savebtn.Event = "$('#btnSave').click();";
 
                     ToolboxViewModelObj.CloseBtn.Visible = true;
                     ToolboxViewModelObj.CloseBtn.Text = "Close";

@@ -43,5 +43,6 @@ namespace UserInterface.Models
         [Display(Name = "General Notes")]
         public string GeneralNotes { get; set; }
         public CommonViewModel commonObj { get; set; }
+        public List<SelectListItem> CustomerList { get; set; }
     }
 }

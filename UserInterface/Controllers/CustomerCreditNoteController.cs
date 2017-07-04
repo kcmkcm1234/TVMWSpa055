@@ -1,5 +1,4 @@
-﻿using SPAccounts.BusinessService.Contracts;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,23 +7,15 @@ using UserInterface.Models;
 
 namespace UserInterface.Controllers
 {
-    public class CustomerPaymentsController : Controller
+    public class CustomerCreditNoteController : Controller
     {
-        #region Constructor_Injection 
-
-        ICustomerPaymentsBusiness _CustPaymentBusiness; 
-
-        public CustomerPaymentsController(ICustomerPaymentsBusiness custPaymentBusiness) 
-        {
-            _CustPaymentBusiness = custPaymentBusiness;
-        }
-        #endregion Constructor_Injection 
-        // GET: CustomerPayments
+        // GET: CustomerCreditNote
         public ActionResult Index()
         {
-            return View();
+            CustomerCreditNoteViewModel ccn = new CustomerCreditNoteViewModel();
+            ccn.CustomerList = new List<SelectListItem>();
+            return View(ccn);
         }
-
 
         #region ButtonStyling
         [HttpGet]
