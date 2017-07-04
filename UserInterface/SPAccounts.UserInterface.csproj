@@ -1405,6 +1405,7 @@
     <Content Include="Scripts\UserJS\CustomerPayments.js" />
     <Content Include="Scripts\UserJS\Customers.js" />
     <Content Include="Scripts\UserJS\Login.js" />
+    <Content Include="Scripts\UserJS\Suppliers.js" />
     <Content Include="Web.config" />
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutPage.cshtml" />
@@ -1426,6 +1427,7 @@
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DynamicUIController.cs" />
     <Compile Include="Controllers\CustomerInvoicesController.cs" />
+    <Compile Include="Controllers\SuppliersController.cs" />
     <Compile Include="CustomAttributes\CustomAttributes.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -1438,6 +1440,7 @@
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\MasterViewModel.cs" />
     <Compile Include="Models\MenuViewModel.cs" />
+    <Compile Include="Models\SuppliersViewModel.cs" />
     <Compile Include="Models\ToolboxViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -1453,6 +1456,7 @@
     <Content Include="Views\Customers\Index.cshtml" />
     <Content Include="Views\DynamicUI\UnderConstruction.cshtml" />
     <Content Include="Views\CustomerPayments\Index.cshtml" />
+    <Content Include="Views\Suppliers\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
