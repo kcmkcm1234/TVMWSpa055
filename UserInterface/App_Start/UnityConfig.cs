@@ -41,6 +41,10 @@ namespace UserInterface.App_Start
             container.RegisterTypes(AllClasses.FromLoadedAssemblies().Where(t => t.Namespace == "SPAccounts.BusinessService.Services"), WithMappings.FromMatchingInterface, WithName.Default, WithLifetime.Transient);
             container.RegisterTypes(AllClasses.FromLoadedAssemblies().Where(t => t.Namespace == "SPAccounts.RepositoryServices.Services"), WithMappings.FromMatchingInterface, WithName.Default, WithLifetime.Transient);
 
+            //SAMTOOL DEPENDENCIES
+            container.RegisterTypes(AllClasses.FromLoadedAssemblies().Where(t => t.Namespace == "SAMTool.BusinessServices.Services"), WithMappings.FromMatchingInterface, WithName.Default, WithLifetime.Transient);
+            container.RegisterTypes(AllClasses.FromLoadedAssemblies().Where(t => t.Namespace == "SAMTool.RepositoryServices.Services"), WithMappings.FromMatchingInterface, WithName.Default, WithLifetime.Transient);
+
         }
     }
 }

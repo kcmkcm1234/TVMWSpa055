@@ -7,9 +7,10 @@
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
     <link rel="icon" type="image/png" href=@Url.Content("~/Content/images/logo.png") />
-    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/AdminLTE/bootstrap/css/bootstrap")     
-    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css")    
-     @RenderSection("styles", required: false)
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/AdminLTE/css/plugins")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/bootstrapdatepicker")
+    @RenderSection("styles", required: false)
      
 </head>
 <body class="hold-transition skin-green-light sidebar-mini">
@@ -129,7 +130,12 @@
              immediately after the control sidebar -->
         <div class="control-sidebar-bg"></div>
     </div>
-   @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/AdminLTE/plugins")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jquery")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/bootstrap")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/bootstrapdatepicker")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/AdminLTE")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/userpluginjs")
+   
+    @RenderSection("scripts", required: false)
 </body>
 </html>

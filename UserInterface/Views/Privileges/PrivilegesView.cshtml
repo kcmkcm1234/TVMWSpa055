@@ -1,0 +1,30 @@
+﻿@model UserInterface.Models.PrivilegesViewModel
+@using UserInterface.App_Start
+@{
+    ViewBag.Title = "View Privileges";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<h2>View Privileges</h2>
+
+<div id="ManagePrivilegesTableDiv" class="col-md-12">
+    <table id="tblPrivilegesList" class="table table-striped table-bordered table-hover" cellspacing="0">
+        <thead>
+            <tr class="text-center">
+                <th>ID</th>
+                <th>Application Name</th>
+                <th>Role Name</th>
+                <th>Module Name</th>
+                <th>Access Description</th>
+                <th>Created Date</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+@section Scripts {
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/PrivilegesView")
+}
+
