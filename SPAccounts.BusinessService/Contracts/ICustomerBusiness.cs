@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace SPAccounts.RepositoryServices.Contracts
+namespace SPAccounts.BusinessService.Contracts
 {
-    public interface IMasterRepository
+    public interface ICustomerBusiness
     {
-        
+        List<Customer> GetAllCustomers();
     }
 }

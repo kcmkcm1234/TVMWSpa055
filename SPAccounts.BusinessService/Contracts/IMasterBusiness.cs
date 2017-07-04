@@ -8,6 +8,6 @@ namespace SPAccounts.BusinessService.Contracts
 {
     public interface IMasterBusiness
     {
-        List<Customer> GetAllCustomers();
+        
     }
 }

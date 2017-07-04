@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using UserInterface.Models;
 using AutoMapper;
-using SAMTool.DataAccessObject.DTO;
 
 namespace UserInterface.Controllers
 {
@@ -17,18 +16,20 @@ namespace UserInterface.Controllers
         ICustomerInvoicesBusiness _customerInvoicesBusiness;
         AppConst c = new AppConst();
         IMasterBusiness _masterBusiness;
-       
+        ICustomerBusiness _customerBusiness;
 
-        public CustomerInvoicesController(ICustomerInvoicesBusiness customerInvoicesBusiness,IMasterBusiness masterBusiness)
+        public CustomerInvoicesController(ICustomerInvoicesBusiness customerInvoicesBusiness,IMasterBusiness masterBusiness,ICustomerBusiness customerBusiness)
         {
             _customerInvoicesBusiness = customerInvoicesBusiness;
             _masterBusiness = masterBusiness;
+            _customerBusiness = customerBusiness;
         }
         #endregion Constructor_Injection
 
         // GET: Invoices
         public ActionResult Index()
         {
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
             CustomerInvoicesViewModel CI = new CustomerInvoicesViewModel();
             CI.CustomerList = new List<SelectListItem>();
             CI.PaymentTermList=new List<SelectListItem>();
@@ -36,9 +37,9 @@ namespace UserInterface.Controllers
             CI.TaxList = new List<SelectListItem>();
             CI.customerObj = new CustomerViewModel();
             CI.customerObj.CustomerList= new List<SelectListItem>();
-            List<SelectListItem> selectListItem = new List<SelectListItem>();
+           
             selectListItem = new List<SelectListItem>();
-            List<CustomerViewModel> CustList= Mapper.Map < List<Customer>, List< CustomerViewModel >> (_masterBusiness.GetAllCustomers());
+            List<CustomerViewModel> CustList= Mapper.Map<List<Customer>, List< CustomerViewModel >>(_customerBusiness.GetAllCustomers());
             foreach (CustomerViewModel Cust in CustList)
             {
                 selectListItem.Add(new SelectListItem
