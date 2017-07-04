@@ -12,7 +12,7 @@ namespace UserInterface.Controllers
         // GET: Customers
         public ActionResult Index()
         {
-            CustomersViewModel cv = new CustomersViewModel();
+            CustomerViewModel cv = new CustomerViewModel();
             cv.DefaultPaymentTermList = new List<SelectListItem>();
             return View(cv);
         }
