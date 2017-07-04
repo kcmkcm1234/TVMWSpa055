@@ -1401,6 +1401,7 @@
     <Content Include="Scripts\jszip.min.js" />
     <Content Include="Scripts\lightbox.min.js" />
     <Content Include="Scripts\sweetalert.min.js" />
+    <Content Include="Scripts\UserJS\CustomerCreditNote.js" />
     <Content Include="Scripts\UserJS\CustomerInvoices.js" />
     <Content Include="Scripts\UserJS\CustomerPayments.js" />
     <Content Include="Scripts\UserJS\Customers.js" />
@@ -1422,6 +1423,7 @@
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CustomerCreditNoteController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\CustomerPaymentsController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
@@ -1433,6 +1435,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CommonViewModel.cs" />
+    <Compile Include="Models\CustomerCreditNoteViewModel.cs" />
     <Compile Include="Models\CustomerInvoicesViewModel.cs" />
     <Compile Include="Models\CustomerViewModel.cs" />
     <Compile Include="Models\CustomerPaymentsViewModel.cs" />
@@ -1457,6 +1460,7 @@
     <Content Include="Views\DynamicUI\UnderConstruction.cshtml" />
     <Content Include="Views\CustomerPayments\Index.cshtml" />
     <Content Include="Views\Suppliers\Index.cshtml" />
+    <Content Include="Views\CustomerCreditNote\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
