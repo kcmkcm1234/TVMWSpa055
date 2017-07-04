@@ -1401,6 +1401,7 @@
     <Content Include="Scripts\lightbox.min.js" />
     <Content Include="Scripts\sweetalert.min.js" />
     <Content Include="Scripts\UserJS\CustomerInvoices.js" />
+    <Content Include="Scripts\UserJS\CustomerPayments.js" />
     <Content Include="Scripts\UserJS\Login.js" />
     <Content Include="Web.config" />
     <Content Include="Views\Account\Index.cshtml" />
@@ -1418,6 +1419,7 @@
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CustomerPaymentsController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DynamicUIController.cs" />
     <Compile Include="Controllers\CustomerInvoicesController.cs" />
@@ -1426,6 +1428,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CustomerInvoicesViewModel.cs" />
+    <Compile Include="Models\CustomerPaymentsViewModel.cs" />
     <Compile Include="Models\DynamicUIViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\MenuViewModel.cs" />
@@ -1442,6 +1445,7 @@
     <Content Include="Views\Shared\ToolBoxView.cshtml" />
     <Content Include="Views\CustomerInvoices\Index.cshtml" />
     <Content Include="Views\DynamicUI\UnderConstruction.cshtml" />
+    <Content Include="Views\CustomerPayments\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
