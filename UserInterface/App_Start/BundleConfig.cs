@@ -39,6 +39,7 @@ namespace UserInterface.App_Start
             //----------------------
             bundles.Add(new ScriptBundle("~/bundles/Login").Include("~/Scripts/UserJS/Login.js"));
             bundles.Add(new ScriptBundle("~/bundles/CustomerInvoices").Include("~/Scripts/UserJS/CustomerInvoices.js"));
+            bundles.Add(new ScriptBundle("~/bundles/Customers").Include("~/Scripts/UserJS/Customers.js"));
 
 
         }

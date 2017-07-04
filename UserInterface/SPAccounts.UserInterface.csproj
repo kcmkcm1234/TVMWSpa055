@@ -1401,6 +1401,7 @@
     <Content Include="Scripts\lightbox.min.js" />
     <Content Include="Scripts\sweetalert.min.js" />
     <Content Include="Scripts\UserJS\CustomerInvoices.js" />
+    <Content Include="Scripts\UserJS\Customers.js" />
     <Content Include="Scripts\UserJS\Login.js" />
     <Content Include="Web.config" />
     <Content Include="Views\Account\Index.cshtml" />
@@ -1418,6 +1419,7 @@
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DynamicUIController.cs" />
     <Compile Include="Controllers\CustomerInvoicesController.cs" />
@@ -1441,6 +1443,7 @@
     <Content Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="Views\Shared\ToolBoxView.cshtml" />
     <Content Include="Views\CustomerInvoices\Index.cshtml" />
+    <Content Include="Views\Customers\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
