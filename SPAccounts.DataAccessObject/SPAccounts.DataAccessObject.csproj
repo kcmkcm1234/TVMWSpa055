@@ -110,7 +110,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DTO\Common.cs" />
+    <Compile Include="DTO\Customer.cs" />
     <Compile Include="DTO\CustomerInvoices.cs" />
+    <Compile Include="DTO\CustomerPayments.cs" />
+    <Compile Include="DTO\Master.cs" />
     <Compile Include="DTO\Menu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

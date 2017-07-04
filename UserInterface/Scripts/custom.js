@@ -42,7 +42,7 @@ var appAddress = window.location.protocol + "//" + window.location.host + "/";  
 
 
 $(document).ready(function () {
-    
+    debugger;
     $('input.datepicker').datepicker({
         format: "dd-M-yyyy",//",
         maxViewMode: 0,
