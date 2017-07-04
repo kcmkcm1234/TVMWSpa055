@@ -7,6 +7,6 @@ namespace SPAccounts.RepositoryServices.Contracts
     {
          List<CustomerInvoice> GetAllCustomerInvoices();
         CustomerInvoiceSummary GetCustomerInvoicesSummary();
-        CustomerInvoice InsertUpdateInvoice(CustomerInvoice _customerInvoicesObj, UA ua);
+        CustomerInvoice InsertUpdateInvoice(CustomerInvoice _customerInvoicesObj, AppUA ua);
     }
 }

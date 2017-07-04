@@ -134,7 +134,7 @@ namespace SPAccounts.RepositoryServices.Services
 
             return CustomerInvoiceSummary;
         }
-        public CustomerInvoice InsertUpdateInvoice(CustomerInvoice _customerInvoicesObj, UA ua)
+        public CustomerInvoice InsertUpdateInvoice(CustomerInvoice _customerInvoicesObj, AppUA ua)
         {
             try
             {
@@ -180,7 +180,7 @@ namespace SPAccounts.RepositoryServices.Services
                 switch (outputStatus.Value.ToString())
                 {
                     case "0":
-                        Const Cobj = new Const();
+                        AppConst Cobj = new AppConst();
                         throw new Exception(Cobj.InsertFailure);
                     case "1":
                         _customerInvoicesObj.ID = new Guid(outputID.Value.ToString());

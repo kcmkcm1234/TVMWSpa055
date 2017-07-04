@@ -1500,7 +1500,6 @@
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\SuppliersController.cs" />
-    <Compile Include="CustomAttributes\CustomAttributes.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1514,7 +1513,6 @@
     <Compile Include="Models\DynamicUIViewModel.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Models\ManageAccessViewModel.cs" />
-    <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\MasterViewModel.cs" />
     <Compile Include="Models\MenuViewModel.cs" />
     <Compile Include="Models\PrivilegesViewModel.cs" />
