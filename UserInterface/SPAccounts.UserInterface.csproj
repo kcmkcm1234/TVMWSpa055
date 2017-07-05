@@ -1520,6 +1520,7 @@
     <Compile Include="Models\ManageAccessViewModel.cs" />
     <Compile Include="Models\MasterViewModel.cs" />
     <Compile Include="Models\MenuViewModel.cs" />
+    <Compile Include="Models\PaymentModesViewModel.cs" />
     <Compile Include="Models\PrivilegesViewModel.cs" />
     <Compile Include="Models\RolesViewModel.cs" />
     <Compile Include="Models\SuppliersViewModel.cs" />

@@ -23,7 +23,7 @@ namespace SPAccounts.DataAccessObject.DTO
 
         public Customer customerObj { get; set; }
         public Common CommonObj { get; set; }
-       
+        public PaymentModes PaymentModesObj { get; set; }
 
     }
     public class CustomerPaymentsDetail

@@ -115,6 +115,7 @@
     <Compile Include="DTO\CustomerPayments.cs" />
     <Compile Include="DTO\Master.cs" />
     <Compile Include="DTO\Menu.cs" />
+    <Compile Include="DTO\PaymentModes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
