@@ -1,10 +1,9 @@
 ﻿using Microsoft.Practices.Unity;
 using SAMTool.BusinessServices.Contracts;
 using SAMTool.DataAccessObject.DTO;
+using SPAccounts.DataAccessObject.DTO;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Filters;
 using System.Web.Script.Serialization;
@@ -51,8 +50,12 @@ namespace SPAccounts.UserInterface.SecurityFilter
                     filterContext.HttpContext.User = new System.Security.Principal.GenericPrincipal(
                     new System.Security.Principal.GenericIdentity(authTicket.Name, "Forms"), authTicket.UserData.Split(',').Select(t => t.Trim()).ToArray());
                     LoggedUserName = authTicket.UserData;
-                    
-                }
+                    UA _ua = (UA)filterContext.HttpContext.Session["TvmValid"];
+                    AppUA appUA = new AppUA();
+                    appUA.UserName = _ua.UserName;
+                    appUA.AppID = _ua.AppID;
+                    filterContext.HttpContext.Session.Add("AppUA", appUA);
+            }
             //}
             //NON AJAX CALL
             //else
@@ -110,9 +113,7 @@ namespace SPAccounts.UserInterface.SecurityFilter
 
         public void OnAuthorization(AuthorizationContext filterContext)
         {
-            Permission _permission =null;
-            //string UserName = "";
-            //UserName=filterContext.RequestContext.HttpContext.User.Identity.Name;
+             Permission _permission =null;
             _permission = _userBusiness.GetSecurityCode(LoggedUserName, ProjectObject);
             if (_permission.AccessCode.Contains(Mode))
             {

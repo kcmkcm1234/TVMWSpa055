@@ -2,6 +2,8 @@
 using Newtonsoft.Json;
 using SAMTool.BusinessServices.Contracts;
 using SAMTool.DataAccessObject.DTO;
+using SPAccounts.DataAccessObject.DTO;
+using SPAccounts.UserInterface.SecurityFilter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,11 +25,11 @@ namespace UserInterface.Controllers
             _rolesBusiness = rolesBusiness;
         }
 
-        // [AuthSecurityFilter(ProjectObject = "User", Mode = "R")]
+        //[AuthSecurityFilter(ProjectObject = "User", Mode = "")]
         [HttpGet]
         public ActionResult Index()
         {
-
+          //  AppUA _appUA = (AppUA)Session["AppUA"];
             UserViewModel userobj = new UserViewModel();
             userobj.RoleList = Mapper.Map<List<Roles>, List<RolesViewModel>>(_rolesBusiness.GetAllAppRoles(null));
             return View(userobj);
