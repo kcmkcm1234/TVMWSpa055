@@ -1,4 +1,8 @@
-﻿using System;
+﻿using AutoMapper;
+using Newtonsoft.Json;
+using SPAccounts.BusinessService.Contracts;
+using SPAccounts.DataAccessObject.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,11 +13,41 @@ namespace UserInterface.Controllers
 {
     public class BankController : Controller
     {
+
+        #region Constructor_Injection 
+
+        AppConst c = new AppConst();
+        IBankBusiness _bankBusiness;
+       
+        public BankController(IBankBusiness bankBusiness)
+        {
+            _bankBusiness = bankBusiness;
+        }
+        #endregion Constructor_Injection 
+
         // GET: Bank
         public ActionResult Index()
         {
             return View();
         }
+
+        #region GetAllBanks
+        [HttpGet]
+        public string GetAllBanks()
+        {
+            try
+            {
+
+                List<BankViewModel> BankList = Mapper.Map<List<Bank>, List<BankViewModel>>(_bankBusiness.GetAllBanks());
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = BankList });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion  GetAllBanks
 
         #region ButtonStyling
         [HttpGet]

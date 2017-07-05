@@ -109,6 +109,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTO\Bank.cs" />
     <Compile Include="DTO\Common.cs" />
     <Compile Include="DTO\Customer.cs" />
     <Compile Include="DTO\CustomerCreditNotes.cs" />
