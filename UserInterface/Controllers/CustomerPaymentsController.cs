@@ -18,7 +18,7 @@ namespace UserInterface.Controllers
         ICustomerPaymentsBusiness _CustPaymentBusiness;
         ICustomerBusiness _customerBusiness;
         IBankBusiness _bankBusiness;
-
+        IPaymentModesBusiness _pmBusiness;
         public CustomerPaymentsController(ICustomerPaymentsBusiness custPaymentBusiness, IPaymentModesBusiness pmBusiness,ICustomerBusiness customerBusiness)
         {
             _CustPaymentBusiness = custPaymentBusiness;

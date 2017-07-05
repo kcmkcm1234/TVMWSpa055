@@ -1523,6 +1523,7 @@
     <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Models\ManageAccessViewModel.cs" />
     <Compile Include="Models\MenuViewModel.cs" />
+    <Compile Include="Models\PaymentModesViewModel.cs" />
     <Compile Include="Models\PaymentTermsViewModel.cs" />
     <Compile Include="Models\PrivilegesViewModel.cs" />
     <Compile Include="Models\RolesViewModel.cs" />
