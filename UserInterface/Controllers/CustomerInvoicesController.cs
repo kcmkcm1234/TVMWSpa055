@@ -32,11 +32,10 @@ namespace UserInterface.Controllers
             List<SelectListItem> selectListItem = new List<SelectListItem>();
             CustomerInvoicesViewModel CI = new CustomerInvoicesViewModel();
 
-            CI.CompanyList = new List<SelectListItem>();
-            CI.TaxList = new List<SelectListItem>();
             CI.customerObj = new CustomerViewModel();
             CI.paymentTermsObj = new PaymentTermsVieModel();
-
+            CI.companiesObj = new CompaniesViewModel();
+            CI.TaxTypeObj = new TaxTypesViewModel();
 
             CI.customerObj.CustomerList= new List<SelectListItem>();            
             selectListItem = new List<SelectListItem>();
@@ -65,6 +64,34 @@ namespace UserInterface.Controllers
                 });
             }
             CI.paymentTermsObj.PaymentTermsList = selectListItem;
+
+            CI.companiesObj.CompanyList = new List<SelectListItem>();
+            selectListItem = new List<SelectListItem>();
+            List<CompaniesViewModel> CompaniesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_masterBusiness.GetAllCompanies());
+            foreach (CompaniesViewModel Cmp in CompaniesList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = Cmp.Name,
+                    Value = Cmp.Code,
+                    Selected = false
+                });
+            }
+            CI.companiesObj.CompanyList = selectListItem;
+
+            CI.TaxTypeObj.TaxTypesList = new List<SelectListItem>();
+            selectListItem = new List<SelectListItem>();
+            List<TaxTypesViewModel> TaxTypeList = Mapper.Map<List<TaxTypes>, List<TaxTypesViewModel>>(_masterBusiness.GetAllTaxTypes());
+            foreach (TaxTypesViewModel TaTy in TaxTypeList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = TaTy.Description,
+                    Value = TaTy.Code,
+                    Selected = false
+                });
+            }
+            CI.TaxTypeObj.TaxTypesList = selectListItem;
             return View(CI);
         }
 

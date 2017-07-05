@@ -206,14 +206,14 @@
 
                             <div class="form-group col-md-12">
                                 <div class="col-md-12">
-                                    @Html.LabelFor(model => model.Company, htmlAttributes: new { @class = "control-label " })
+                                    @Html.LabelFor(model => model.companiesObj.Code, htmlAttributes: new { @class = "control-label " })
 
 
                                 </div>
                                 <div class="col-md-12">
                                     <div class="col-md-10">
-                                        @Html.DropDownListFor(model => model.Company, Model.CompanyList, "-- Select Company --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "Company" })
-                                        @Html.ValidationMessageFor(model => model.Company, "", new { @class = "text-danger" })
+                                        @Html.DropDownListFor(model => model.companiesObj.Code, Model.companiesObj.CompanyList, "-- Select Company --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "Company" })
+                                        @Html.ValidationMessageFor(model => model.companiesObj.Code, "", new { @class = "text-danger" })
                                     </div>
                                     <div class="col-md-1"></div>
                                     <div class="col-md-1"></div>
@@ -370,14 +370,14 @@
 
                         <div class="form-group col-md-12">
                             <div class="col-md-12">
-                                @Html.LabelFor(model => model.TaxType, htmlAttributes: new { @class = "control-label " })
+                                @Html.LabelFor(model => model.TaxTypeObj.Code, htmlAttributes: new { @class = "control-label " })
 
 
                             </div>
                             <div class="col-md-12">
                                 <div class="col-md-10">
-                                    @Html.DropDownListFor(model => model.TaxType, Model.TaxList, "-- Select Tax Type --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "TaxType" })
-                                    @Html.ValidationMessageFor(model => model.TaxType, "", new { @class = "text-danger" })
+                                    @Html.DropDownListFor(model => model.TaxTypeObj.Code, Model.TaxTypeObj.TaxTypesList, "-- Select Tax Type --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "TaxType" })
+                                    @Html.ValidationMessageFor(model => model.TaxTypeObj.Code, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-1"></div>
                                 <div class="col-md-1"></div>
