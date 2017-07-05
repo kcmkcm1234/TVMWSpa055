@@ -33,7 +33,6 @@ namespace UserInterface.Models
         [Display(Name = "Originated Company")]
         public string Code { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
         public string BillingAddress { get; set; }
         public string ShippingAddress { get; set; }
         public CommonViewModel commonObj { get; set; }
