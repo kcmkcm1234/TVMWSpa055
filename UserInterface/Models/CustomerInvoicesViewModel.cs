@@ -28,10 +28,6 @@ namespace UserInterface.Models
 
         public string OriginCompanyCode { get; set; }
 
-        [Required(ErrorMessage = "Customer is missing")]
-        [Display(Name = "Customer")]
-        public String Customer { get; set; }
-
         public CustomerViewModel customerObj { get; set; }
         
 
@@ -57,7 +53,7 @@ namespace UserInterface.Models
 
         [Required(ErrorMessage = "Gross Amount is missing")]
         [Display(Name = "Gross Amount")]
-        public decimal InvoiceAmount { get; set; }
+        public decimal GrossAmount { get; set; }
 
         [Required(ErrorMessage = "Discount Amount is missing")]
         [Display(Name = "Discount Amount")]
@@ -73,6 +69,9 @@ namespace UserInterface.Models
 
         [Display(Name = "Net Taxable Amount")]
         public decimal NetTaxableAmount { get; set; }
+
+        [Display(Name ="Tax Percentage Applied")]
+        public decimal TaxPercApplied { get; set; }
 
         [Display(Name = "Total Invoice Amount")]
         public decimal TotalInvoiceAmount { get; set; }

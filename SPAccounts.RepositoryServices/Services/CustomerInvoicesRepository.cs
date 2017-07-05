@@ -55,7 +55,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         CIList.InvoiceNo = sdr["InvoiceNo"].ToString();
                                         //CIList.Customer = sdr["Customer"].ToString();
                                         CIList.PaymentDueDate = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()) : CIList.PaymentDueDate);
-                                        CIList.InvoiceAmount = (sdr["InvoiceAmount"].ToString() != "" ? Decimal.Parse(sdr["InvoiceAmount"].ToString()) : CIList.InvoiceAmount);
+                                        CIList.GrossAmount = (sdr["GrossAmount"].ToString() != "" ? Decimal.Parse(sdr["GrossAmount"].ToString()) : CIList.GrossAmount);
                                         CIList.BalanceDue = (sdr["BalanceDue"].ToString() != "" ? Decimal.Parse(sdr["BalanceDue"].ToString()) : CIList.BalanceDue);
                                         CIList.LastPaymentDate = (sdr["LastPaymentDate"].ToString() != "" ? DateTime.Parse(sdr["LastPaymentDate"].ToString()) : CIList.LastPaymentDate);
                                         CIList.Status = sdr["Status"].ToString();
@@ -153,20 +153,19 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@OriginCompanyCode", SqlDbType.NVarChar, 5).Value =_customerInvoicesObj.OriginCompanyCode;
                         cmd.Parameters.Add("@InvoiceNo", SqlDbType.NVarChar, 20).Value = _customerInvoicesObj.InvoiceNo;
                         cmd.Parameters.Add("@CustomerID", SqlDbType.SmallDateTime).Value = _customerInvoicesObj.customerObj.ID;
-                        cmd.Parameters.Add("@FromSCName", SqlDbType.NVarChar, 250).Value = _customerInvoicesObj.paymentTermsObj.Code;
-                        cmd.Parameters.Add("@Remarks", SqlDbType.NVarChar, -1).Value =_customerInvoicesObj.InvoiceDateFormatted;
-                        cmd.Parameters.Add("@VATAmount", SqlDbType.Decimal).Value =_customerInvoicesObj.PaymentDueDateFormatted;
-                        cmd.Parameters.Add("@DetailXML", SqlDbType.Xml).Value = _customerInvoicesObj.customerObj.BillingAddress;
-                        cmd.Parameters.Add("@GrossAmount", SqlDbType.Decimal).Value = _customerInvoicesObj.InvoiceAmount;
+                        cmd.Parameters.Add("@PaymentTerm", SqlDbType.NVarChar, 250).Value = _customerInvoicesObj.paymentTermsObj.Code;
+                        cmd.Parameters.Add("@InvoiceDate", SqlDbType.NVarChar, -1).Value =_customerInvoicesObj.InvoiceDateFormatted;
+                        cmd.Parameters.Add("@PaymentDueDate", SqlDbType.Decimal).Value =_customerInvoicesObj.PaymentDueDateFormatted;
+                        cmd.Parameters.Add("@BillingAddress", SqlDbType.Xml).Value = _customerInvoicesObj.customerObj.BillingAddress;
+                        cmd.Parameters.Add("@GrossAmount", SqlDbType.Decimal).Value = _customerInvoicesObj.GrossAmount;
                         cmd.Parameters.Add("@Discount", SqlDbType.Decimal).Value = _customerInvoicesObj.Discount;
                         cmd.Parameters.Add("@TaxTypeCode", SqlDbType.NVarChar, 10).Value = _customerInvoicesObj.taxTypesObj.Code;
-                        cmd.Parameters.Add("@TaxPreApplied", SqlDbType.Decimal).Value = _customerInvoicesObj.taxTypesObj.Rate;
+                        cmd.Parameters.Add("@TaxPreApplied", SqlDbType.Decimal).Value = _customerInvoicesObj.TaxPercApplied;
                         cmd.Parameters.Add("@TaxAmount", SqlDbType.Decimal).Value = _customerInvoicesObj.TaxAmount;
                         cmd.Parameters.Add("@TotalInvoiceAmount", SqlDbType.Decimal).Value = _customerInvoicesObj.TotalInvoiceAmount;
                         cmd.Parameters.Add("@GeneralNotes", SqlDbType.NVarChar, -1).Value = _customerInvoicesObj.Notes;
                         cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = ua.UserName;
                         cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = _customerInvoicesObj.commonObj.CreatedDate;
-
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         outputID = cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier);

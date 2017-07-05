@@ -9,6 +9,8 @@ namespace UserInterface.Models
 {
     public class CustomerViewModel
     {
+        [Required(ErrorMessage = "Customer is missing")]
+        [Display(Name = "Customer")]
         public Guid ID { get; set; }
         [Display(Name = "Company Name")]
         [Required(ErrorMessage = "Company Name is missing")]
@@ -43,5 +45,6 @@ namespace UserInterface.Models
         [Display(Name = "General Notes")]
         public string GeneralNotes { get; set; }
         public CommonViewModel commonObj { get; set; }
+        public List<SelectListItem> CustomerList { get; set; }
     }
 }
