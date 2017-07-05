@@ -7,9 +7,7 @@
 }
 
 @section styles {
-    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
-    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/bootstrapdatepicker")
-
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable") 
 } 
 
 
@@ -143,8 +141,7 @@
                                 </div>
                                 <div class="col-md-1"></div>
                                 <div class="col-md-1"></div>
-                            </div>
-
+                            </div> 
                         </div>
 
                         <div class="form-group col-md-12">
@@ -306,7 +303,7 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="col-md-10">
-                                    attachment controll here
+                                    Attachment controll here
                                 </div>
                                 <div class="col-md-1"></div>
                                 <div class="col-md-1"></div>
@@ -336,11 +333,8 @@
     </div>
 </section>
 
-
-@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jquery")
+@section Scripts {
 @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
-@*@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/bootstrap")*@
 @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
 @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/CustomerPayments")
-@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/bootstrapdatepicker")
-
+}
