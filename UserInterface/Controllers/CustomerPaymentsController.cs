@@ -1,4 +1,6 @@
-﻿using SPAccounts.BusinessService.Contracts;
+﻿using AutoMapper;
+using SPAccounts.BusinessService.Contracts;
+using SPAccounts.DataAccessObject.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,16 +14,34 @@ namespace UserInterface.Controllers
     {
         #region Constructor_Injection 
 
+        AppConst c = new AppConst();
+        IMasterBusiness _masterBusiness;
         ICustomerPaymentsBusiness _CustPaymentBusiness; 
 
-        public CustomerPaymentsController(ICustomerPaymentsBusiness custPaymentBusiness) 
+        public CustomerPaymentsController(ICustomerPaymentsBusiness custPaymentBusiness, IMasterBusiness masterBusiness)
         {
             _CustPaymentBusiness = custPaymentBusiness;
+            _masterBusiness = masterBusiness;
         }
         #endregion Constructor_Injection 
         // GET: CustomerPayments
         public ActionResult Index()
         {
+            CustomerPaymentsViewModel CP = new CustomerPaymentsViewModel(); 
+
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            selectListItem = new List<SelectListItem>();
+            List<CustomerViewModel> CustList = Mapper.Map<List<Customer>, List<CustomerViewModel>>(_masterBusiness.GetAllCustomers());
+            foreach (CustomerViewModel Cust in CustList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = Cust.CompanyName,
+                    Value = Cust.ID.ToString(),
+                    Selected = false
+                });
+            }
+            CP.customerObj.CustomerList = selectListItem;
             return View();
         }
 
