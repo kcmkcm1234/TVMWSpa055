@@ -19,7 +19,6 @@ namespace SPAccounts.DataAccessObject.DTO
     {
         public string UserName { get; set; }
         public DateTime DateTime { get; set; }
-        public Guid UserID { get; set; }
         public Guid AppID { get; set; }
     }
 

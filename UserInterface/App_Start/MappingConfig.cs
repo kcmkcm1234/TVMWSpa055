@@ -37,12 +37,10 @@ namespace UserInterface.App_Start
                 config.CreateMap<PaymentTermsViewModel, PaymentTerms>().ReverseMap();
                 config.CreateMap<CompaniesViewModel, Companies>().ReverseMap();
                 config.CreateMap<TaxTypesViewModel, TaxTypes>().ReverseMap();
-                config.CreateMap<TransactionTypesViewModel, TransactionTypes>().ReverseMap();
                 config.CreateMap<SuppliersViewModel, Supplier>().ReverseMap();
                 config.CreateMap<CustomerCreditNoteViewModel, CustomerCreditNotes>().ReverseMap();
                 config.CreateMap<BankViewModel, Bank>().ReverseMap();
                 config.CreateMap<TaxTypesViewModel, TaxTypes>().ReverseMap();
-                config.CreateMap<PaymentModesViewModel, PaymentModes>().ReverseMap();
             });
         }
     }

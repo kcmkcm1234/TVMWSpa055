@@ -104,13 +104,16 @@
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SAMTool.BusinessServices">
+    <Reference Include="SAMTool.BusinessServices, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Users\Albert Thomson\Desktop\SP Accounts\SAM DLL\SAMTool.BusinessServices.dll</HintPath>
     </Reference>
-    <Reference Include="SAMTool.DataAccessObject">
+    <Reference Include="SAMTool.DataAccessObject, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Users\Albert Thomson\Desktop\SP Accounts\SAM DLL\SAMTool.DataAccessObject.dll</HintPath>
     </Reference>
-    <Reference Include="SAMTool.RepositoryServices">
+    <Reference Include="SAMTool.RepositoryServices, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Users\Albert Thomson\Desktop\SP Accounts\SAM DLL\SAMTool.RepositoryServices.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http" />

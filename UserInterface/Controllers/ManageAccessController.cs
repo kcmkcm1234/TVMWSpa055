@@ -155,7 +155,7 @@ namespace UserInterface.Controllers
         [HttpPost]
         public string AddAccessChanges(ManageAccessViewModel manageAccessViewModelObj)
         {
-            string result = "";
+            
             try
             {
                 // if (ModelState.IsValid)
@@ -179,7 +179,7 @@ namespace UserInterface.Controllers
                 ConstMessage cm = c.GetMessage(ex.Message);
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
             }
-            return result;
+           
         }
         [HttpGet]
         public string GetAllSubObjectAccess(string ObjectID, string RoleID)
@@ -192,7 +192,7 @@ namespace UserInterface.Controllers
         [HttpPost]
         public string AddSubObjectAccessChanges(ManageSubObjectAccessViewModel manageSubObjectAccessViewModelObj)
         {
-            string result = "";
+            
             try
             {
                 //if (ModelState.IsValid)
@@ -216,7 +216,7 @@ namespace UserInterface.Controllers
                 ConstMessage cm = c.GetMessage(ex.Message);
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
             }
-            return result;
+        
         }
         #region ButtonStyling
         [HttpGet]

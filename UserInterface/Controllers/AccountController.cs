@@ -3,6 +3,7 @@ using SAMTool.BusinessServices.Contracts;
 using SAMTool.DataAccessObject.DTO;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -15,6 +16,7 @@ namespace UserInterface.Controllers
     {
         Const _const = new Const();
         IUserBusiness _userBusiness;
+        Guid AppID = Guid.Parse(ConfigurationManager.AppSettings["ApplicationID"]);
         public AccountController(IUserBusiness userBusiness)
         {
             _userBusiness = userBusiness;
@@ -57,6 +59,7 @@ namespace UserInterface.Controllers
                     //session setting
                     UA ua = new UA();
                     ua.UserName = uservm.UserName;
+                    ua.AppID = AppID;
                     Session.Add("TvmValid", ua);
                     return RedirectToLocal();
                 }

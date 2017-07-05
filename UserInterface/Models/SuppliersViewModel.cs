@@ -9,7 +9,7 @@ namespace UserInterface.Models
 {
     public class SuppliersViewModel
     {
-        public Guid? ID { get; set; }
+        public Guid ID { get; set; }
         [Display(Name = "Company Name")]
         [Required(ErrorMessage = "Company Name is missing")]
         public string CompanyName { get; set; }
