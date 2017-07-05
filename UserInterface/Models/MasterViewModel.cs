@@ -29,12 +29,15 @@ namespace UserInterface.Models
     }
     public class CompaniesViewModel
     {
+        [Required(ErrorMessage = "Company is missing")]
+        [Display(Name = "Originated Company")]
         public string Code { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string BillingAddress { get; set; }
         public string ShippingAddress { get; set; }
         public CommonViewModel commonObj { get; set; }
+        public List<SelectListItem> CompanyList { get; set; }
     }
 
     public class TransactionTypesViewModel

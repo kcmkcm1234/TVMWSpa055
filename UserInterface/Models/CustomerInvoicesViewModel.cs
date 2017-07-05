@@ -26,19 +26,10 @@ namespace UserInterface.Models
         [MaxLength(20)]
         public String InvoiceNo { get; set; }
 
-        public string OriginCompanyCode { get; set; }
-
-        public CustomerViewModel customerObj { get; set; }
-        
-
-        [Required(ErrorMessage = "Payment Term is missing")]
-        [Display(Name = "Payment Term")]      
-        public int PaymentTerm { get; set; }
+        public CompaniesViewModel companiesObj { get; set; }
+        public CustomerViewModel customerObj { get; set; }        
+        public TaxTypesViewModel TaxTypeObj { get; set; }
         public PaymentTermsVieModel paymentTermsObj { get; set; }
-
-        [Required(ErrorMessage = "Company is missing")]
-        [Display(Name = "Originated Company")]
-        public String Company { get; set; }
 
         [Required(ErrorMessage = "Billing Address is missing")]
         [Display(Name = "Billing Address")]
@@ -58,11 +49,6 @@ namespace UserInterface.Models
         [Required(ErrorMessage = "Discount Amount is missing")]
         [Display(Name = "Discount Amount")]
         public decimal Discount { get; set; }
-
-        
-        [Display(Name = "Tax Type")]
-        public String TaxType { get; set; }
-        public TaxTypesViewModel taxTypesObj { get; set; }
         
         [Display(Name = "Tax Amount")]
         public decimal TaxAmount { get; set; }
