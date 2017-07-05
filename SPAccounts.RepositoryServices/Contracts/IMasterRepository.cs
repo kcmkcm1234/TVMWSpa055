@@ -11,5 +11,6 @@ namespace SPAccounts.RepositoryServices.Contracts
         List<PaymentTerms> GetAllPayTerms();
         List<Companies> GetAllCompanies();
         List<TaxTypes> GetAllTaxTypes();
+        List<TransactionTypes> GetAllTransactionTypes();
     }
 }

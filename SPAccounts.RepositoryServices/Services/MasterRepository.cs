@@ -76,7 +76,7 @@ namespace SPAccounts.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[Accounts].[GetPayTerms]";
+                        cmd.CommandText = "[Accounts].[GetCompanies]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
@@ -88,7 +88,6 @@ namespace SPAccounts.RepositoryServices.Services
                                     Companies _companyObj = new Companies();
                                     {
                                         _companyObj.Code = (sdr["Code"].ToString() != "" ? (sdr["Code"].ToString()) : _companyObj.Code);
-                                        _companyObj.Description = (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : _companyObj.Description);
                                         _companyObj.Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : _companyObj.Name);
                                         _companyObj.ShippingAddress= (sdr["ShippingAddress"].ToString() != "" ? sdr["ShippingAddress"].ToString() : _companyObj.ShippingAddress);
                                         _companyObj.BillingAddress= (sdr["BillingAddress"].ToString() != "" ? sdr["BillingAddress"].ToString() : _companyObj.BillingAddress);
@@ -122,7 +121,7 @@ namespace SPAccounts.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[Accounts].[GetPayTerms]";
+                        cmd.CommandText = "[Accounts].[GetTaxTypes]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
@@ -151,6 +150,52 @@ namespace SPAccounts.RepositoryServices.Services
             }
 
             return taxTypesList;
+        }
+
+        public List<TransactionTypes> GetAllTransactionTypes()
+        {
+            List<TransactionTypes> transactionTypeList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetAllTransactionTypes]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                transactionTypeList = new List<TransactionTypes>();
+                                while (sdr.Read())
+                                {
+                                    TransactionTypes _taxTypesObj = new TransactionTypes();
+                                    {
+                                        _taxTypesObj.Code = (sdr["Code"].ToString() != "" ? (sdr["Code"].ToString()) : _taxTypesObj.Code);
+                                        _taxTypesObj.Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : _taxTypesObj.Name);
+                                       // _taxTypesObj.Description = (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : _taxTypesObj.Description);
+
+                                    }
+                                    transactionTypeList.Add(_taxTypesObj);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return transactionTypeList;
         }
     }
 }

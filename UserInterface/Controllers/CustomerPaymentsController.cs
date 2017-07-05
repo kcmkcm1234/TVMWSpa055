@@ -29,9 +29,12 @@ namespace UserInterface.Controllers
         // GET: CustomerPayments
         public ActionResult Index()
         {
-            CustomerPaymentsViewModel CP = new CustomerPaymentsViewModel(); 
-
             List<SelectListItem> selectListItem = new List<SelectListItem>();
+            CustomerPaymentsViewModel CP = new CustomerPaymentsViewModel();
+
+            CP.customerObj = new CustomerViewModel();
+            
+            CP.customerObj.CustomerList = new List<SelectListItem>();
             selectListItem = new List<SelectListItem>();
             List<CustomerViewModel> CustList = Mapper.Map<List<Customer>, List<CustomerViewModel>>(_customerBusiness.GetAllCustomers());
             foreach (CustomerViewModel Cust in CustList)
@@ -44,7 +47,22 @@ namespace UserInterface.Controllers
                 });
             }
             CP.customerObj.CustomerList = selectListItem;
-            return View();
+
+            CP.TransObj = new TransactionTypesViewModel();
+            CP.TransObj.TransactionTypesList = new List<SelectListItem>();
+            selectListItem = new List<SelectListItem>();
+            List<TransactionTypesViewModel> TransTypList = Mapper.Map<List<TransactionTypes>, List<TransactionTypesViewModel>>(_masterBusiness.GetAllTransactionTypes());
+            foreach (TransactionTypesViewModel Trans in TransTypList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = Trans.Name,
+                    Value = Trans.Code,
+                    Selected = false
+                });
+            }
+            CP.TransObj.TransactionTypesList = selectListItem;
+            return View(CP);
         }
 
 
