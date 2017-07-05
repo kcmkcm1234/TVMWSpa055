@@ -1,4 +1,8 @@
-﻿using System;
+﻿using AutoMapper;
+using Newtonsoft.Json;
+using SPAccounts.BusinessService.Contracts;
+using SPAccounts.DataAccessObject.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,6 +13,18 @@ namespace UserInterface.Controllers
 {
     public class SuppliersController : Controller
     {
+        #region Constructor_Injection 
+
+        AppConst c = new AppConst();
+        ICustomerBusiness _customerBusiness;
+        ISupplierBusiness _SupplierBusiness;
+
+        public SuppliersController(ISupplierBusiness supplierBusiness, ICustomerBusiness customerBusiness)
+        {
+            _SupplierBusiness = supplierBusiness;
+            _customerBusiness = customerBusiness;
+        }
+        #endregion Constructor_Injection 
         // GET: Suppliers
         public ActionResult Index()
         {
@@ -16,6 +32,24 @@ namespace UserInterface.Controllers
             sv.DefaultPaymentTermList = new List<SelectListItem>();
             return View(sv);
         }
+
+        #region GetAllSuppliers
+        [HttpGet]
+        public string GetAllSuppliers()
+        {
+            try
+            {
+
+                List<SuppliersViewModel> suppliersList = Mapper.Map<List<Supplier>, List<SuppliersViewModel>>(_SupplierBusiness.GetAllSuppliers());
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = suppliersList });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion  GetAllSuppliers
 
         #region ButtonStyling
         [HttpGet]
