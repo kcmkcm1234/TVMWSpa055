@@ -15,14 +15,14 @@ namespace UserInterface.Controllers
         #region Constructor_Injection 
 
         AppConst c = new AppConst();
-        IMasterBusiness _masterBusiness;
+        IPaymentModesBusiness _pmBusiness;
         ICustomerPaymentsBusiness _CustPaymentBusiness;
         ICustomerBusiness _customerBusiness;
 
-        public CustomerPaymentsController(ICustomerPaymentsBusiness custPaymentBusiness, IMasterBusiness masterBusiness,ICustomerBusiness customerBusiness)
+        public CustomerPaymentsController(ICustomerPaymentsBusiness custPaymentBusiness, IPaymentModesBusiness pmBusiness,ICustomerBusiness customerBusiness)
         {
             _CustPaymentBusiness = custPaymentBusiness;
-            _masterBusiness = masterBusiness;
+            _pmBusiness = pmBusiness;
             _customerBusiness = customerBusiness;
         }
         #endregion Constructor_Injection 
@@ -48,20 +48,20 @@ namespace UserInterface.Controllers
             }
             CP.customerObj.CustomerList = selectListItem;
 
-            CP.TransObj = new TransactionTypesViewModel();
-            CP.TransObj.TransactionTypesList = new List<SelectListItem>();
+            CP.PaymentModesObj = new PaymentModesViewModel();
+            CP.PaymentModesObj.PaymentModesList = new List<SelectListItem>();
             selectListItem = new List<SelectListItem>();
-            List<TransactionTypesViewModel> TransTypList = Mapper.Map<List<TransactionTypes>, List<TransactionTypesViewModel>>(_masterBusiness.GetAllTransactionTypes());
-            foreach (TransactionTypesViewModel Trans in TransTypList)
+            List<PaymentModesViewModel> PaymentModeList = Mapper.Map<List<PaymentModes>, List<PaymentModesViewModel>>(_pmBusiness.GetAllPaymentModes());
+            foreach (PaymentModesViewModel PMVM in PaymentModeList)
             {
                 selectListItem.Add(new SelectListItem
                 {
-                    Text = Trans.Name,
-                    Value = Trans.Code,
+                    Text = PMVM.Description,
+                    Value = PMVM.Code,
                     Selected = false
                 });
             }
-            CP.TransObj.TransactionTypesList = selectListItem;
+            CP.PaymentModesObj.PaymentModesList = selectListItem;
             return View(CP);
         }
 

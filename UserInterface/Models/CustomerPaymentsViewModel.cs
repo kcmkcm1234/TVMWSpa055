@@ -40,7 +40,7 @@ namespace UserInterface.Models
 
         public CustomerViewModel customerObj { get; set; }
         public CommonViewModel commonObj { get; set; }
-        public TransactionTypesViewModel TransObj { get; set; }
+        public PaymentModesViewModel PaymentModesObj { get; set; }
 
     }
     public class CustomerPaymentsDetailViewModel
