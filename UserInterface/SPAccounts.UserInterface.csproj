@@ -1470,6 +1470,7 @@
     <Content Include="Scripts\UserJS\Privileges.js" />
     <Content Include="Scripts\UserJS\PrivilegesView.js" />
     <Content Include="Scripts\UserJS\Roles.js" />
+    <Content Include="Scripts\UserJS\TaxTypes.js" />
     <Content Include="Scripts\UserJS\User.js" />
     <Content Include="Scripts\UserJS\Suppliers.js" />
     <Content Include="Web.config" />
@@ -1500,6 +1501,7 @@
     <Compile Include="Controllers\ManageAccessController.cs" />
     <Compile Include="Controllers\PrivilegesController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
+    <Compile Include="Controllers\TaxTypeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\SuppliersController.cs" />
     <Compile Include="Global.asax.cs">
@@ -1521,6 +1523,7 @@
     <Compile Include="Models\PrivilegesViewModel.cs" />
     <Compile Include="Models\RolesViewModel.cs" />
     <Compile Include="Models\SuppliersViewModel.cs" />
+    <Compile Include="Models\TaxTypeViewModel.cs" />
     <Compile Include="Models\ToolboxViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1552,6 +1555,7 @@
     <Content Include="Views\Bank\Index.cshtml" />
     <Content Include="Views\ManageAccess\Index.cshtml" />
     <Content Include="Views\ManageAccess\SubobjectIndex.cshtml" />
+    <Content Include="Views\TaxType\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
