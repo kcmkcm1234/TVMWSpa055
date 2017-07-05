@@ -1,4 +1,8 @@
-﻿using System;
+﻿using AutoMapper;
+using Newtonsoft.Json;
+using SPAccounts.BusinessService.Contracts;
+using SPAccounts.DataAccessObject.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,11 +13,40 @@ namespace UserInterface.Controllers
 {
     public class TaxTypeController : Controller
     {
+
+        #region Constructor_Injection 
+
+        AppConst c = new AppConst();
+        ITaxTypesBusiness _taxTypeBusiness;
+
+        public TaxTypeController(ITaxTypesBusiness taxTypesBusiness)
+        {
+            _taxTypeBusiness = taxTypesBusiness;
+        }
+        #endregion Constructor_Injection 
         // GET: TaxType
         public ActionResult Index()
         {
             return View();
         }
+
+        #region GetAllTaxTypes
+        [HttpGet]
+        public string GetAllTaxTypes()
+        {
+            try
+            {
+
+                List<TaxTypesViewModel> TaxTypesList = Mapper.Map<List<TaxTypes>, List<TaxTypesViewModel>>(_taxTypeBusiness.GetAllTaxTypes());
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = TaxTypesList });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion  GetAllTaxTypes
 
         #region ButtonStyling
         [HttpGet]
