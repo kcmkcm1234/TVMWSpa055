@@ -131,7 +131,7 @@ namespace UserInterface.Controllers
                 {
                     AppUA ua = new AppUA();
                     ua.UserName = "Thomson";
-                    ua.UserID = Guid.Empty;
+                    //ua.UserID = Guid.Empty;
                     CustomerInvoicesViewModel CIVM = Mapper.Map<CustomerInvoice, CustomerInvoicesViewModel>(_customerInvoicesBusiness.InsertUpdateInvoice(Mapper.Map<CustomerInvoicesViewModel, CustomerInvoice>(_customerInvoicesObj), ua));
                     return JsonConvert.SerializeObject(new { Result = "OK", Message = c.InsertSuccess, Records = CIVM });
                 }
