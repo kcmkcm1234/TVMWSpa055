@@ -15,13 +15,13 @@ namespace UserInterface.Controllers
         #region Constructor_Injection 
 
         AppConst c = new AppConst();
-        IMasterBusiness _masterBusiness;
+        ICustomerBusiness _customerBusiness;
         ICustomerPaymentsBusiness _CustPaymentBusiness; 
 
-        public CustomerPaymentsController(ICustomerPaymentsBusiness custPaymentBusiness, IMasterBusiness masterBusiness)
+        public CustomerPaymentsController(ICustomerPaymentsBusiness custPaymentBusiness, ICustomerBusiness customerBusiness)
         {
             _CustPaymentBusiness = custPaymentBusiness;
-            _masterBusiness = masterBusiness;
+            _customerBusiness = customerBusiness;
         }
         #endregion Constructor_Injection 
         // GET: CustomerPayments
@@ -31,7 +31,7 @@ namespace UserInterface.Controllers
 
             List<SelectListItem> selectListItem = new List<SelectListItem>();
             selectListItem = new List<SelectListItem>();
-            List<CustomerViewModel> CustList = Mapper.Map<List<Customer>, List<CustomerViewModel>>(_masterBusiness.GetAllCustomers());
+            List<CustomerViewModel> CustList = Mapper.Map<List<Customer>, List<CustomerViewModel>>(_customerBusiness.GetAllCustomers());
             foreach (CustomerViewModel Cust in CustList)
             {
                 selectListItem.Add(new SelectListItem
