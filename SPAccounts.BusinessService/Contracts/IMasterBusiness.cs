@@ -8,6 +8,8 @@ namespace SPAccounts.BusinessService.Contracts
 {
     public interface IMasterBusiness
     {
-        
+        List<PaymentTerms> GetAllPayTerms();
+        List<Companies> GetAllCompanies();
+        List<TaxTypes> GetAllTaxTypes();
     }
 }

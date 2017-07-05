@@ -190,8 +190,8 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="col-md-10">
-                                        @Html.DropDownListFor(model => model.PaymentTerm, Model.PaymentTermList, "-- Select Payment Term --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "PaymentTerm" })
-                                        @Html.ValidationMessageFor(model => model.PaymentTerm, "", new { @class = "text-danger" })
+                                        @Html.DropDownListFor(model => model.paymentTermsObj.Code, Model.paymentTermsObj.PaymentTermsList, "-- Select Payment Term --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "PaymentTerm" })
+                                        @Html.ValidationMessageFor(model => model.paymentTermsObj.Code, "", new { @class = "text-danger" })
                                     </div>
                                     <div class="col-md-1"></div>
                                     <div class="col-md-1"></div>

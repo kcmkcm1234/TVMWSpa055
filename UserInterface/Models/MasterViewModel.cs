@@ -27,5 +27,14 @@ namespace UserInterface.Models
         public CommonViewModel commonObj { get; set; }
         public List<SelectListItem> TaxTypesList { get; set; }
     }
+    public class CompaniesViewModel
+    {
+        public string Code { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string BillingAddress { get; set; }
+        public string ShippingAddress { get; set; }
+        public CommonViewModel commonObj { get; set; }
+    }
 
 }

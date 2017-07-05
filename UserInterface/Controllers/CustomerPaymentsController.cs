@@ -15,12 +15,14 @@ namespace UserInterface.Controllers
         #region Constructor_Injection 
 
         AppConst c = new AppConst();
+        IMasterBusiness _masterBusiness;
+        ICustomerPaymentsBusiness _CustPaymentBusiness;
         ICustomerBusiness _customerBusiness;
-        ICustomerPaymentsBusiness _CustPaymentBusiness; 
 
-        public CustomerPaymentsController(ICustomerPaymentsBusiness custPaymentBusiness, ICustomerBusiness customerBusiness)
+        public CustomerPaymentsController(ICustomerPaymentsBusiness custPaymentBusiness, IMasterBusiness masterBusiness,ICustomerBusiness customerBusiness)
         {
             _CustPaymentBusiness = custPaymentBusiness;
+            _masterBusiness = masterBusiness;
             _customerBusiness = customerBusiness;
         }
         #endregion Constructor_Injection 
