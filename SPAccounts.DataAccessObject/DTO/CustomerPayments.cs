@@ -10,7 +10,6 @@ namespace SPAccounts.DataAccessObject.DTO
         public Guid ID { get; set; }
         public string EntryNo { get; set; }
         public string RecdToComanyCode { get; set; }
-        public Guid CustomerID  { get; set; }
         public string PaymentMode { get; set; }
         public Guid DepWithdID { get; set; }
         public string BankCode { get; set; }
@@ -21,6 +20,10 @@ namespace SPAccounts.DataAccessObject.DTO
 
         public string PaymentDateFormatted { get; set; }
         public List<CustomerPaymentsDetail> CustomerPaymentsDetail { get; set; }
+
+        public Customer customerObj { get; set; }
+        public Common CommonObj { get; set; }
+       
 
     }
     public class CustomerPaymentsDetail

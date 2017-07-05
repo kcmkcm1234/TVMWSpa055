@@ -15,9 +15,6 @@ namespace UserInterface.Models
         [Display(Name = "Received To Company")]
         public string RecdToComanyCode { get; set; }
 
-        [Display(Name = "Customer Name")]
-        public Guid CustomerID { get; set; }
-
         [Display(Name = "Payment Mode")]
         public string PaymentMode { get; set; }
 
@@ -39,6 +36,10 @@ namespace UserInterface.Models
 
         public string PaymentDateFormatted { get; set; }
         public List<CustomerPaymentsDetailViewModel> CustomerPaymentsDetail { get; set; }
+        
+
+        public CustomerViewModel customerObj { get; set; }
+        public CommonViewModel commonObj { get; set; }
 
     }
     public class CustomerPaymentsDetailViewModel
