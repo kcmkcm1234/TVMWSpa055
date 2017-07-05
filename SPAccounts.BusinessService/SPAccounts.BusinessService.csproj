@@ -118,6 +118,7 @@
     <Compile Include="Contracts\IDynamicUIBusiness.cs" />
     <Compile Include="Contracts\IMasterBusiness.cs" />
     <Compile Include="Contracts\ISupplierBusiness.cs" />
+    <Compile Include="Contracts\ITaxTypesBusiness.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BankBusiness.cs" />
     <Compile Include="Services\CommonBusiness.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="Services\DynamicUIBusiness.cs" />
     <Compile Include="Services\MasterBusiness.cs" />
     <Compile Include="Services\SupplierBusiness.cs" />
+    <Compile Include="Services\TaxTypesBusiness.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

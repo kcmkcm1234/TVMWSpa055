@@ -12,13 +12,6 @@ namespace SPAccounts.DataAccessObject.DTO
         public int NoOfDays { get; set; }
         public Common commonObj { get; set; }
     }
-    public class TaxTypes
-    {
-        public string Code { get; set; }
-        public string Description { get; set; }
-        public decimal Rate { get; set; }
-        public Common commonObj { get; set; }
-    }
     public class Companies
     {
         public string Code { get; set; }

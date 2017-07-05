@@ -118,6 +118,7 @@
     <Compile Include="DTO\Master.cs" />
     <Compile Include="DTO\Menu.cs" />
     <Compile Include="DTO\Supplier.cs" />
+    <Compile Include="DTO\TaxTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
