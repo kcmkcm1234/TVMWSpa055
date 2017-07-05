@@ -130,7 +130,7 @@
 
                         <div class="form-group col-md-12">
                             <div class="col-md-12">
-                                @Html.LabelFor(model => model.customerObj.CompanyName, htmlAttributes: new { @class = "control-label " })
+                                @Html.LabelFor(model => model.customerObj.ID, htmlAttributes: new { @class = "control-label " })
 
 
                             </div>
@@ -219,8 +219,7 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.BankCode, new { htmlAttributes = new { @class = "form-control HeaderBox", @id = "CustID", @autofocus = true } })
-                                    @* @Html.DropDownListFor(model => model.BankCode, Model.Banklist, "-- Select Customer --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "Customer" })*@
+                                     @Html.DropDownListFor(model => model.BankCode, Model.bankObj.BanksList, "-- Select Bank --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "Customer" })
                                     @Html.ValidationMessageFor(model => model.BankCode, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-1"></div>

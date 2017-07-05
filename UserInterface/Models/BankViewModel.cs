@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace UserInterface.Models
 {
@@ -15,5 +16,6 @@ namespace UserInterface.Models
         [Display(Name = "Company Code")]
         public string CompanyCode { get; set; }
         public CommonViewModel commonObj { get; set; }
+        public List<SelectListItem> BanksList { get; set; }
     }
 }

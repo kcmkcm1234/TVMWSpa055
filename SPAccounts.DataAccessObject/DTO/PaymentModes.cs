@@ -10,5 +10,6 @@ namespace SPAccounts.DataAccessObject.DTO
         public string Code { get; set; }
         public string Description { get; set; }
         public Common commonObj { get; set; }
+        
     }
 }

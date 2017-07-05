@@ -18,10 +18,12 @@ namespace UserInterface.Controllers
         IPaymentModesBusiness _pmBusiness;
         ICustomerPaymentsBusiness _CustPaymentBusiness;
         ICustomerBusiness _customerBusiness;
+        IBankBusiness _bankBusiness;
 
-        public CustomerPaymentsController(ICustomerPaymentsBusiness custPaymentBusiness, IPaymentModesBusiness pmBusiness,ICustomerBusiness customerBusiness)
+        public CustomerPaymentsController(ICustomerPaymentsBusiness custPaymentBusiness, IPaymentModesBusiness pmBusiness,ICustomerBusiness customerBusiness, IBankBusiness bankBusiness)
         {
             _CustPaymentBusiness = custPaymentBusiness;
+            _bankBusiness = bankBusiness;
             _pmBusiness = pmBusiness;
             _customerBusiness = customerBusiness;
         }
@@ -62,6 +64,21 @@ namespace UserInterface.Controllers
                 });
             }
             CP.PaymentModesObj.PaymentModesList = selectListItem;
+
+            CP.bankObj = new BankViewModel();
+            CP.bankObj.BanksList = new List<SelectListItem>();
+            selectListItem = new List<SelectListItem>();
+            List<BankViewModel> BankList = Mapper.Map<List<Bank>, List<BankViewModel>>(_bankBusiness.GetAllBanks());
+            foreach (BankViewModel PMVM in BankList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = PMVM.Name,
+                    Value = PMVM.Code,
+                    Selected = false
+                });
+            }
+            CP.bankObj.BanksList = selectListItem;
             return View(CP);
         }
 
