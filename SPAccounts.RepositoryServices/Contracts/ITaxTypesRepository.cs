@@ -6,11 +6,8 @@ using System.Web;
 
 namespace SPAccounts.RepositoryServices.Contracts
 {
-    public interface IMasterRepository
+    public interface ITaxTypesRepository
     {
-        List<PaymentTerms> GetAllPayTerms();
-        List<Companies> GetAllCompanies();
         List<TaxTypes> GetAllTaxTypes();
-        List<TransactionTypes> GetAllTransactionTypes();
     }
 }

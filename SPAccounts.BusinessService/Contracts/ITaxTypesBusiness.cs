@@ -6,11 +6,8 @@ using System.Web;
 
 namespace SPAccounts.BusinessService.Contracts
 {
-    public interface IMasterBusiness
+    public interface ITaxTypesBusiness
     {
-        List<PaymentTerms> GetAllPayTerms();
-        List<Companies> GetAllCompanies();
         List<TaxTypes> GetAllTaxTypes();
-        List<TransactionTypes> GetAllTransactionTypes();
     }
 }

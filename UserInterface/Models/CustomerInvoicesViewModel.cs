@@ -29,7 +29,7 @@ namespace UserInterface.Models
         public CompaniesViewModel companiesObj { get; set; }
         public CustomerViewModel customerObj { get; set; }        
         public TaxTypesViewModel TaxTypeObj { get; set; }
-        public PaymentTermsVieModel paymentTermsObj { get; set; }
+        public PaymentTermsViewModel paymentTermsObj { get; set; }
 
         [Required(ErrorMessage = "Billing Address is missing")]
         [Display(Name = "Billing Address")]
@@ -70,11 +70,6 @@ namespace UserInterface.Models
         public DateTime LastPaymentDate { get; set; }
         public String LastPaymentDateFormatted { get; set; }
         public String Status { get; set; }
-
-        public List<SelectListItem> TaxList { get; set; }
-        public List<SelectListItem> CustomerList { get; set; }
-        public List<SelectListItem> PaymentTermList { get; set; }
-        public List<SelectListItem> CompanyList { get; set; }
     }
     public class CustomerInvoiceSummaryViewModel
     {
