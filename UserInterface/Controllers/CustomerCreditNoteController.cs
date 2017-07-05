@@ -1,4 +1,8 @@
-﻿using System;
+﻿using AutoMapper;
+using Newtonsoft.Json;
+using SPAccounts.BusinessService.Contracts;
+using SPAccounts.DataAccessObject.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,6 +13,20 @@ namespace UserInterface.Controllers
 {
     public class CustomerCreditNoteController : Controller
     {
+
+        #region Constructor_Injection 
+
+        AppConst c = new AppConst();
+        ICustomerBusiness _customerBusiness;
+        ICustomerCreditNotesBusiness _CustomerCreditNotesBusiness;
+
+        public CustomerCreditNoteController(ICustomerCreditNotesBusiness customerCreditNotesBusiness, ICustomerBusiness customerBusiness)
+        {
+            _CustomerCreditNotesBusiness = customerCreditNotesBusiness;
+            _customerBusiness = customerBusiness;
+        }
+        #endregion Constructor_Injection 
+
         // GET: CustomerCreditNote
         public ActionResult Index()
         {
@@ -16,6 +34,24 @@ namespace UserInterface.Controllers
             ccn.CustomerList = new List<SelectListItem>();
             return View(ccn);
         }
+
+        #region GetAllCustomerCreditNotes
+        [HttpGet]
+        public string GetAllCustomerCreditNotes()
+        {
+            try
+            {
+
+                List<CustomerCreditNoteViewModel> CustomerCreditNotesList = Mapper.Map<List<CustomerCreditNotes>, List<CustomerCreditNoteViewModel>>(_CustomerCreditNotesBusiness.GetAllCustomerCreditNotes());
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = CustomerCreditNotesList });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion  GetAllCustomerCreditNotes
 
         #region ButtonStyling
         [HttpGet]
