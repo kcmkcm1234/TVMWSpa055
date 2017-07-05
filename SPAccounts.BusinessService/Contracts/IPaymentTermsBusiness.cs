@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace SPAccounts.RepositoryServices.Contracts
+namespace SPAccounts.BusinessService.Contracts
 {
-    public interface ITaxTypesRepository
+    public interface IPaymentTermsBusiness
     {
-        List<TaxTypes> GetAllTaxTypes();
+        List<PaymentTerms> GetAllPayTerms();
     }
 }

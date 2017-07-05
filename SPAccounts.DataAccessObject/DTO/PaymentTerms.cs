@@ -5,11 +5,11 @@ using System.Web;
 
 namespace SPAccounts.DataAccessObject.DTO
 {
-    public class TaxTypes
+    public class PaymentTerms
     {
         public string Code { get; set; }
         public string Description { get; set; }
-        public decimal Rate { get; set; }
+        public int NoOfDays { get; set; }
         public Common commonObj { get; set; }
     }
 }

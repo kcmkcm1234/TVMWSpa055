@@ -1511,6 +1511,7 @@
     <Compile Include="Models\AppObjectViewModel.cs" />
     <Compile Include="Models\BankViewModel.cs" />
     <Compile Include="Models\CommonViewModel.cs" />
+    <Compile Include="Models\CompaniesViewModel.cs" />
     <Compile Include="Models\CustomerCreditNoteViewModel.cs" />
     <Compile Include="Models\CustomerInvoicesViewModel.cs" />
     <Compile Include="Models\CustomerViewModel.cs" />
@@ -1518,13 +1519,12 @@
     <Compile Include="Models\DynamicUIViewModel.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Models\ManageAccessViewModel.cs" />
-    <Compile Include="Models\MasterViewModel.cs" />
     <Compile Include="Models\MenuViewModel.cs" />
-    <Compile Include="Models\PaymentModesViewModel.cs" />
+    <Compile Include="Models\PaymentTermsViewModel.cs" />
     <Compile Include="Models\PrivilegesViewModel.cs" />
     <Compile Include="Models\RolesViewModel.cs" />
     <Compile Include="Models\SuppliersViewModel.cs" />
-    <Compile Include="Models\TaxTypeViewModel.cs" />
+    <Compile Include="Models\TaxTypesViewModel.cs" />
     <Compile Include="Models\ToolboxViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

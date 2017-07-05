@@ -15,11 +15,11 @@ namespace UserInterface.Controllers
         #region Constructor_Injection 
 
         AppConst c = new AppConst();
-        IPaymentModesBusiness _pmBusiness;
         ICustomerPaymentsBusiness _CustPaymentBusiness;
         ICustomerBusiness _customerBusiness;
         IBankBusiness _bankBusiness;
 
+        public CustomerPaymentsController(ICustomerPaymentsBusiness custPaymentBusiness,ICustomerBusiness customerBusiness)
         public CustomerPaymentsController(ICustomerPaymentsBusiness custPaymentBusiness, IPaymentModesBusiness pmBusiness,ICustomerBusiness customerBusiness, IBankBusiness bankBusiness)
         {
             _CustPaymentBusiness = custPaymentBusiness;
@@ -48,7 +48,6 @@ namespace UserInterface.Controllers
                     Selected = false
                 });
             }
-            CP.customerObj.CustomerList = selectListItem;
 
             CP.PaymentModesObj = new PaymentModesViewModel();
             CP.PaymentModesObj.PaymentModesList = new List<SelectListItem>();

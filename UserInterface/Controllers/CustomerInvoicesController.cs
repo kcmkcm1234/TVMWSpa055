@@ -15,14 +15,17 @@ namespace UserInterface.Controllers
 
         ICustomerInvoicesBusiness _customerInvoicesBusiness;
         AppConst c = new AppConst();
-        IMasterBusiness _masterBusiness;
         ICustomerBusiness _customerBusiness;
-
-        public CustomerInvoicesController(ICustomerInvoicesBusiness customerInvoicesBusiness,IMasterBusiness masterBusiness,ICustomerBusiness customerBusiness)
+        ITaxTypesBusiness _taxTypesBusiness;
+        ICompaniesBusiness _companiesBusiness;
+        IPaymentTermsBusiness _paymentTermsBusiness;
+        public CustomerInvoicesController(IPaymentTermsBusiness paymentTermsBusiness,ICompaniesBusiness companiesBusiness, ICustomerInvoicesBusiness customerInvoicesBusiness,ICustomerBusiness customerBusiness,ITaxTypesBusiness taxTypesBusiness)
         {
             _customerInvoicesBusiness = customerInvoicesBusiness;
-            _masterBusiness = masterBusiness;
             _customerBusiness = customerBusiness;
+            _taxTypesBusiness = taxTypesBusiness;
+            _companiesBusiness = companiesBusiness;
+            _paymentTermsBusiness = paymentTermsBusiness;
         }
         #endregion Constructor_Injection
 
@@ -33,7 +36,7 @@ namespace UserInterface.Controllers
             CustomerInvoicesViewModel CI = new CustomerInvoicesViewModel();
 
             CI.customerObj = new CustomerViewModel();
-            CI.paymentTermsObj = new PaymentTermsVieModel();
+            CI.paymentTermsObj = new PaymentTermsViewModel();
             CI.companiesObj = new CompaniesViewModel();
             CI.TaxTypeObj = new TaxTypesViewModel();
 
@@ -53,8 +56,8 @@ namespace UserInterface.Controllers
 
             CI.paymentTermsObj.PaymentTermsList = new List<SelectListItem>();
             selectListItem = new List<SelectListItem>();
-            List<PaymentTermsVieModel> PayTermList = Mapper.Map<List<PaymentTerms>, List<PaymentTermsVieModel>>(_masterBusiness.GetAllPayTerms());
-            foreach (PaymentTermsVieModel PayT in PayTermList)
+            List<PaymentTermsViewModel> PayTermList = Mapper.Map<List<PaymentTerms>, List<PaymentTermsViewModel>>(_paymentTermsBusiness.GetAllPayTerms());
+            foreach (PaymentTermsViewModel PayT in PayTermList)
             {
                 selectListItem.Add(new SelectListItem
                 {
@@ -67,7 +70,7 @@ namespace UserInterface.Controllers
 
             CI.companiesObj.CompanyList = new List<SelectListItem>();
             selectListItem = new List<SelectListItem>();
-            List<CompaniesViewModel> CompaniesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_masterBusiness.GetAllCompanies());
+            List<CompaniesViewModel> CompaniesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_companiesBusiness.GetAllCompanies());
             foreach (CompaniesViewModel Cmp in CompaniesList)
             {
                 selectListItem.Add(new SelectListItem
@@ -81,7 +84,7 @@ namespace UserInterface.Controllers
 
             CI.TaxTypeObj.TaxTypesList = new List<SelectListItem>();
             selectListItem = new List<SelectListItem>();
-            List<TaxTypesViewModel> TaxTypeList = Mapper.Map<List<TaxTypes>, List<TaxTypesViewModel>>(_masterBusiness.GetAllTaxTypes());
+            List<TaxTypesViewModel> TaxTypeList = Mapper.Map<List<TaxTypes>, List<TaxTypesViewModel>>(_taxTypesBusiness.GetAllTaxTypes());
             foreach (TaxTypesViewModel TaTy in TaxTypeList)
             {
                 selectListItem.Add(new SelectListItem

@@ -8,7 +8,7 @@ using System.Web;
 
 namespace SPAccounts.BusinessService.Services
 {
-    public class TaxTypesBusiness : ITaxTypesBusiness
+    public class TaxTypesBusiness:ITaxTypesBusiness
     {
         private ITaxTypesRepository _taxTypesRepository;
 

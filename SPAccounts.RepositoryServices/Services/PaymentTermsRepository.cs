@@ -9,17 +9,17 @@ using System.Web;
 
 namespace SPAccounts.RepositoryServices.Services
 {
-    public class TaxTypesRepository:ITaxTypesRepository
+    public class PaymentTermsRepository:IPaymentTermsRepository
     {
         Settings s = new Settings();
         private IDatabaseFactory _databaseFactory;
-        public TaxTypesRepository(IDatabaseFactory databaseFactory)
+        public PaymentTermsRepository(IDatabaseFactory databaseFactory)
         {
             _databaseFactory = databaseFactory;
         }
-        public List<TaxTypes> GetAllTaxTypes()
+        public List<PaymentTerms> GetAllPayTerms()
         {
-            List<TaxTypes> taxTypesList = null;
+            List<PaymentTerms> payTermList = null;
             try
             {
                 using (SqlConnection con = _databaseFactory.GetDBConnection())
@@ -31,22 +31,23 @@ namespace SPAccounts.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[Accounts].[GetTaxTypes]";
+                        cmd.CommandText = "[Accounts].[GetPayTerms]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
                             if ((sdr != null) && (sdr.HasRows))
                             {
-                                taxTypesList = new List<TaxTypes>();
+                                payTermList = new List<PaymentTerms>();
                                 while (sdr.Read())
                                 {
-                                    TaxTypes _taxTypesObj = new TaxTypes();
+                                    PaymentTerms _payTermObj = new PaymentTerms();
                                     {
-                                        _taxTypesObj.Code = (sdr["Code"].ToString() != "" ? (sdr["Code"].ToString()) : _taxTypesObj.Code);
-                                        _taxTypesObj.Description = (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : _taxTypesObj.Description);
-                                        _taxTypesObj.Rate = (sdr["Rate"].ToString() != "" ? decimal.Parse(sdr["Rate"].ToString()) : _taxTypesObj.Rate);
+                                        _payTermObj.Code = (sdr["Code"].ToString() != "" ? (sdr["Code"].ToString()) : _payTermObj.Code);
+                                        _payTermObj.Description = (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : _payTermObj.Description);
+                                        _payTermObj.NoOfDays = (sdr["NoOfDays"].ToString() != "" ? int.Parse(sdr["NoOfDays"].ToString()) : _payTermObj.NoOfDays);
+
                                     }
-                                    taxTypesList.Add(_taxTypesObj);
+                                    payTermList.Add(_payTermObj);
                                 }
                             }
                         }
@@ -59,7 +60,7 @@ namespace SPAccounts.RepositoryServices.Services
                 throw ex;
             }
 
-            return taxTypesList;
+            return payTermList;
         }
     }
 }

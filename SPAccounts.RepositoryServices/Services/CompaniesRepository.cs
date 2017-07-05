@@ -9,17 +9,17 @@ using System.Web;
 
 namespace SPAccounts.RepositoryServices.Services
 {
-    public class TaxTypesRepository:ITaxTypesRepository
+    public class CompaniesRepository:ICompaniesRepository
     {
         Settings s = new Settings();
         private IDatabaseFactory _databaseFactory;
-        public TaxTypesRepository(IDatabaseFactory databaseFactory)
+        public CompaniesRepository(IDatabaseFactory databaseFactory)
         {
             _databaseFactory = databaseFactory;
         }
-        public List<TaxTypes> GetAllTaxTypes()
+        public List<Companies> GetAllCompanies()
         {
-            List<TaxTypes> taxTypesList = null;
+            List<Companies> companyList = null;
             try
             {
                 using (SqlConnection con = _databaseFactory.GetDBConnection())
@@ -31,22 +31,23 @@ namespace SPAccounts.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[Accounts].[GetTaxTypes]";
+                        cmd.CommandText = "[Accounts].[GetCompanies]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
                             if ((sdr != null) && (sdr.HasRows))
                             {
-                                taxTypesList = new List<TaxTypes>();
+                                companyList = new List<Companies>();
                                 while (sdr.Read())
                                 {
-                                    TaxTypes _taxTypesObj = new TaxTypes();
+                                    Companies _companyObj = new Companies();
                                     {
-                                        _taxTypesObj.Code = (sdr["Code"].ToString() != "" ? (sdr["Code"].ToString()) : _taxTypesObj.Code);
-                                        _taxTypesObj.Description = (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : _taxTypesObj.Description);
-                                        _taxTypesObj.Rate = (sdr["Rate"].ToString() != "" ? decimal.Parse(sdr["Rate"].ToString()) : _taxTypesObj.Rate);
+                                        _companyObj.Code = (sdr["Code"].ToString() != "" ? (sdr["Code"].ToString()) : _companyObj.Code);
+                                        _companyObj.Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : _companyObj.Name);
+                                        _companyObj.ShippingAddress = (sdr["ShippingAddress"].ToString() != "" ? sdr["ShippingAddress"].ToString() : _companyObj.ShippingAddress);
+                                        _companyObj.BillingAddress = (sdr["BillingAddress"].ToString() != "" ? sdr["BillingAddress"].ToString() : _companyObj.BillingAddress);
                                     }
-                                    taxTypesList.Add(_taxTypesObj);
+                                    companyList.Add(_companyObj);
                                 }
                             }
                         }
@@ -59,7 +60,7 @@ namespace SPAccounts.RepositoryServices.Services
                 throw ex;
             }
 
-            return taxTypesList;
+            return companyList;
         }
     }
 }
