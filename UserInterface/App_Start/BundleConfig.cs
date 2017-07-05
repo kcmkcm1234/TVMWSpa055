@@ -54,7 +54,7 @@ namespace UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/Suppliers").Include("~/Scripts/UserJS/Suppliers.js"));
             bundles.Add(new ScriptBundle("~/bundles/CustomerCreditNote").Include("~/Scripts/UserJS/CustomerCreditNote.js"));
             bundles.Add(new ScriptBundle("~/bundles/Bank").Include("~/Scripts/UserJS/Bank.js"));
-
+            bundles.Add(new ScriptBundle("~/bundles/TaxTypes").Include("~/Scripts/UserJS/TaxTypes.js"));
             bundles.Add(new ScriptBundle("~/bundles/ManageAccess").Include("~/Scripts/UserJS/ManageAccess.js"));
             bundles.Add(new ScriptBundle("~/bundles/ManageSubObjectAccess").Include("~/Scripts/UserJS/ManageSubObjectAccess.js"));
             

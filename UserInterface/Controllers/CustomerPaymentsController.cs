@@ -15,23 +15,24 @@ namespace UserInterface.Controllers
         #region Constructor_Injection 
 
         AppConst c = new AppConst();
-        IMasterBusiness _masterBusiness;
         ICustomerPaymentsBusiness _CustPaymentBusiness;
         ICustomerBusiness _customerBusiness;
 
-        public CustomerPaymentsController(ICustomerPaymentsBusiness custPaymentBusiness, IMasterBusiness masterBusiness,ICustomerBusiness customerBusiness)
+        public CustomerPaymentsController(ICustomerPaymentsBusiness custPaymentBusiness,ICustomerBusiness customerBusiness)
         {
             _CustPaymentBusiness = custPaymentBusiness;
-            _masterBusiness = masterBusiness;
             _customerBusiness = customerBusiness;
         }
         #endregion Constructor_Injection 
         // GET: CustomerPayments
         public ActionResult Index()
         {
-            CustomerPaymentsViewModel CP = new CustomerPaymentsViewModel(); 
-
             List<SelectListItem> selectListItem = new List<SelectListItem>();
+            CustomerPaymentsViewModel CP = new CustomerPaymentsViewModel();
+
+            CP.customerObj = new CustomerViewModel();
+            
+            CP.customerObj.CustomerList = new List<SelectListItem>();
             selectListItem = new List<SelectListItem>();
             List<CustomerViewModel> CustList = Mapper.Map<List<Customer>, List<CustomerViewModel>>(_customerBusiness.GetAllCustomers());
             foreach (CustomerViewModel Cust in CustList)
@@ -43,8 +44,9 @@ namespace UserInterface.Controllers
                     Selected = false
                 });
             }
+
             CP.customerObj.CustomerList = selectListItem;
-            return View();
+            return View(CP);
         }
 
 

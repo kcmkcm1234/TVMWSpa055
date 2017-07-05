@@ -42,7 +42,7 @@
                     <tr class="text-center TableHead">
                         <th>ID</th>
                         <th>Credit Note No</th>
-                        <th>Customer</th>
+                        <th>Company Code</th>
                         <th>Credit Note Date</th>
                         <th>Credit Amount</th>                  
                         <th>...</th>
@@ -276,8 +276,8 @@
     </div>
 </section>
 
-@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jquery")
-@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
-@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
-@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/CustomerCreditNote")
-@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/bootstrapdatepicker")
+@section Scripts {
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/CustomerCreditNote")
+}

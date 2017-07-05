@@ -109,19 +109,30 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\IBankRepository.cs" />
+    <Compile Include="Contracts\ICompaniesRepository.cs" />
+    <Compile Include="Contracts\ICustomerCreditNotesRepository.cs" />
     <Compile Include="Contracts\ICustomerInvoicesRepository.cs" />
     <Compile Include="Contracts\ICustomerPaymentsRepository.cs" />
     <Compile Include="Contracts\ICustomerRepository.cs" />
     <Compile Include="Contracts\IDatabaseFactory.cs" />
     <Compile Include="Contracts\IDynamicUIRepository.cs" />
-    <Compile Include="Contracts\IMasterRepository.cs" />
+    <Compile Include="Contracts\IPaymentTermsRepository.cs" />
+    <Compile Include="Contracts\ISupplierRepository.cs" />
+    <Compile Include="Contracts\ITaxTypesRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\BankRepository.cs" />
+    <Compile Include="Services\CompaniesRepository.cs" />
+    <Compile Include="Services\CustomerCreditNotesRepository.cs" />
     <Compile Include="Services\CustomerInvoicesRepository.cs" />
     <Compile Include="Services\CustomerPaymentsRepository.cs" />
     <Compile Include="Services\CustomerRepository.cs" />
     <Compile Include="Services\DatabaseFactory.cs" />
     <Compile Include="Services\DynamicUIRepository.cs" />
     <Compile Include="Services\MasterRepository.cs" />
+    <Compile Include="Services\PaymentTermsRepository.cs" />
+    <Compile Include="Services\SupplierRepository.cs" />
+    <Compile Include="Services\TaxTypesRepository.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

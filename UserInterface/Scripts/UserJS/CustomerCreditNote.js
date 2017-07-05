@@ -9,7 +9,7 @@ $(document).ready(function () {
              order: [],
              searching: true,
              paging: true,
-             data: null,
+             data: GetAllCustomerCreditNotes(),
              pageLength: 15,
              language: {
                  search: "_INPUT_",
@@ -18,7 +18,7 @@ $(document).ready(function () {
              columns: [
                { "data": "ID" },
                { "data": "CreditNoteNo" },
-               { "data": "CustomerName" },
+               { "data": "OriginComanyCode" },
                { "data": "CreditNoteDate", "defaultContent": "<i>-</i>" },
                { "data": "CreditAmount", "defaultContent": "<i>-</i>" },               
                { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
@@ -42,8 +42,30 @@ $(document).ready(function () {
 
     } catch (x) {
 
-        notyAlert('error', e.message);
+        notyAlert('error', x.message);
 
     }
 
 });
+
+function GetAllCustomerCreditNotes() {
+    try {
+
+        var data = {};
+        var ds = {};
+        ds = GetDataFromServer("CustomerCreditNote/GetAllCustomerCreditNotes/", data);
+        debugger;
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            alert(ds.Message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}

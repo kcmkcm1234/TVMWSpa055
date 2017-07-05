@@ -34,8 +34,12 @@ namespace UserInterface.App_Start
                 config.CreateMap<CustomerInvoicesViewModel, CustomerInvoice>().ReverseMap();
                 config.CreateMap<CustomerViewModel, Customer>().ReverseMap();
                 config.CreateMap<CommonViewModel, SPAccounts.DataAccessObject.DTO.Common>().ReverseMap();
-                config.CreateMap<PaymentTermsVieModel, PaymentTerms>().ReverseMap();
+                config.CreateMap<PaymentTermsViewModel, PaymentTerms>().ReverseMap();
                 config.CreateMap<CompaniesViewModel, Companies>().ReverseMap();
+                config.CreateMap<TaxTypesViewModel, TaxTypes>().ReverseMap();
+                config.CreateMap<SuppliersViewModel, Supplier>().ReverseMap();
+                config.CreateMap<CustomerCreditNoteViewModel, CustomerCreditNotes>().ReverseMap();
+                config.CreateMap<BankViewModel, Bank>().ReverseMap();
                 config.CreateMap<TaxTypesViewModel, TaxTypes>().ReverseMap();
             });
         }

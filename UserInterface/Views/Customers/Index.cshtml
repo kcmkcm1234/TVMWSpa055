@@ -409,9 +409,8 @@
     </div>
 
 </section>
-
-   @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jquery")
+@section Scripts {
 @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
 @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
 @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/Customers")
-@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/bootstrapdatepicker")
+}

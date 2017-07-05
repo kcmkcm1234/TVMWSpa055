@@ -163,8 +163,9 @@
     </div>
 </section>
 
-@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jquery")
-@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
-@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
-@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/TaxTypes")
-@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/bootstrapdatepicker")
+
+@section Scripts {
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/TaxTypes")
+}
