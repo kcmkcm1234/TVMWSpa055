@@ -28,4 +28,12 @@ namespace SPAccounts.DataAccessObject.DTO
         public string ShippingAddress { get; set; }
         public Common commonObj { get; set; }
     }
+
+    public class TransactionTypes
+    {
+        public string Code { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+
+    }
 }

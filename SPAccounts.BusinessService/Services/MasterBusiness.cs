@@ -28,5 +28,9 @@ namespace SPAccounts.BusinessService.Services
         {
             return _masterRepository.GetAllTaxTypes();
         }
+        public List<TransactionTypes> GetAllTransactionTypes()
+        {
+            return _masterRepository.GetAllTransactionTypes();
+        }
     }
 }

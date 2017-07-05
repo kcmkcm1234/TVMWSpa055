@@ -29,9 +29,12 @@ namespace UserInterface.Controllers
         // GET: CustomerPayments
         public ActionResult Index()
         {
-            CustomerPaymentsViewModel CP = new CustomerPaymentsViewModel(); 
-
             List<SelectListItem> selectListItem = new List<SelectListItem>();
+            CustomerPaymentsViewModel CP = new CustomerPaymentsViewModel();
+
+            CP.customerObj = new CustomerViewModel();
+            
+            CP.customerObj.CustomerList = new List<SelectListItem>();
             selectListItem = new List<SelectListItem>();
             List<CustomerViewModel> CustList = Mapper.Map<List<Customer>, List<CustomerViewModel>>(_customerBusiness.GetAllCustomers());
             foreach (CustomerViewModel Cust in CustList)
@@ -43,8 +46,9 @@ namespace UserInterface.Controllers
                     Selected = false
                 });
             }
+
             CP.customerObj.CustomerList = selectListItem;
-            return View();
+            return View(CP);
         }
 
 
