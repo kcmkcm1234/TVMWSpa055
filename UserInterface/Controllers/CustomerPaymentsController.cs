@@ -46,8 +46,22 @@ namespace UserInterface.Controllers
                     Selected = false
                 });
             }
-
             CP.customerObj.CustomerList = selectListItem;
+
+            CP.TransObj = new TransactionTypesViewModel();
+            CP.TransObj.TransactionTypesList = new List<SelectListItem>();
+            selectListItem = new List<SelectListItem>();
+            List<TransactionTypesViewModel> TransTypList = Mapper.Map<List<TransactionTypes>, List<TransactionTypesViewModel>>(_masterBusiness.GetAllTransactionTypes());
+            foreach (TransactionTypesViewModel Trans in TransTypList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = Trans.Name,
+                    Value = Trans.Code,
+                    Selected = false
+                });
+            }
+            CP.TransObj.TransactionTypesList = selectListItem;
             return View(CP);
         }
 
