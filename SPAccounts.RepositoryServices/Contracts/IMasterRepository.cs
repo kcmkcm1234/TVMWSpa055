@@ -8,6 +8,8 @@ namespace SPAccounts.RepositoryServices.Contracts
 {
     public interface IMasterRepository
     {
-        
+        List<PaymentTerms> GetAllPayTerms();
+        List<Companies> GetAllCompanies();
+        List<TaxTypes> GetAllTaxTypes();
     }
 }

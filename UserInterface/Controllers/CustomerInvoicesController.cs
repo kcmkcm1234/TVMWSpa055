@@ -31,13 +31,14 @@ namespace UserInterface.Controllers
         {
             List<SelectListItem> selectListItem = new List<SelectListItem>();
             CustomerInvoicesViewModel CI = new CustomerInvoicesViewModel();
-            CI.CustomerList = new List<SelectListItem>();
-            CI.PaymentTermList=new List<SelectListItem>();
+
             CI.CompanyList = new List<SelectListItem>();
             CI.TaxList = new List<SelectListItem>();
             CI.customerObj = new CustomerViewModel();
-            CI.customerObj.CustomerList= new List<SelectListItem>();
-           
+            CI.paymentTermsObj = new PaymentTermsVieModel();
+
+
+            CI.customerObj.CustomerList= new List<SelectListItem>();            
             selectListItem = new List<SelectListItem>();
             List<CustomerViewModel> CustList= Mapper.Map<List<Customer>, List< CustomerViewModel >>(_customerBusiness.GetAllCustomers());
             foreach (CustomerViewModel Cust in CustList)
@@ -50,6 +51,20 @@ namespace UserInterface.Controllers
                 });
             }
             CI.customerObj.CustomerList = selectListItem;
+
+            CI.paymentTermsObj.PaymentTermsList = new List<SelectListItem>();
+            selectListItem = new List<SelectListItem>();
+            List<PaymentTermsVieModel> PayTermList = Mapper.Map<List<PaymentTerms>, List<PaymentTermsVieModel>>(_masterBusiness.GetAllPayTerms());
+            foreach (PaymentTermsVieModel PayT in PayTermList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = PayT.NoOfDays.ToString(),
+                    Value = PayT.Code,
+                    Selected = false
+                });
+            }
+            CI.paymentTermsObj.PaymentTermsList = selectListItem;
             return View(CI);
         }
 

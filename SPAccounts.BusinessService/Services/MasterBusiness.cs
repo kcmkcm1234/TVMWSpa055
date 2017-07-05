@@ -16,6 +16,17 @@ namespace SPAccounts.BusinessService.Services
         {
             _masterRepository = masterRepository;
         }
-        
+        public List<PaymentTerms> GetAllPayTerms()
+        {
+            return _masterRepository.GetAllPayTerms();
+        }
+        public List<Companies> GetAllCompanies()
+        {
+            return _masterRepository.GetAllCompanies();
+        }
+        public List<TaxTypes> GetAllTaxTypes()
+        {
+            return _masterRepository.GetAllTaxTypes();
+        }
     }
 }
