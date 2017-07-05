@@ -28,10 +28,6 @@ namespace UserInterface.Models
 
         public string OriginCompanyCode { get; set; }
 
-        [Required(ErrorMessage = "Customer is missing")]
-        [Display(Name = "Customer")]
-        public String Customer { get; set; }
-
         public CustomerViewModel customerObj { get; set; }
         
 

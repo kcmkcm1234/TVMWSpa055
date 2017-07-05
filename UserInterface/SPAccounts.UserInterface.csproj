@@ -1456,6 +1456,7 @@
     <Content Include="Scripts\jszip.min.js" />
     <Content Include="Scripts\lightbox.min.js" />
     <Content Include="Scripts\sweetalert.min.js" />
+    <Content Include="Scripts\UserJS\Bank.js" />
     <Content Include="Scripts\UserJS\CustomerCreditNote.js" />
     <Content Include="Scripts\UserJS\Application.js" />
     <Content Include="Scripts\UserJS\AppObject.js" />
@@ -1486,6 +1487,7 @@
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BankController.cs" />
     <Compile Include="Controllers\CustomerCreditNoteController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\CustomerPaymentsController.cs" />
@@ -1494,7 +1496,7 @@
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DynamicUIController.cs" />
     <Compile Include="Controllers\CustomerInvoicesController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SAMPanelController.cs" />
     <Compile Include="Controllers\ManageAccessController.cs" />
     <Compile Include="Controllers\PrivilegesController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
@@ -1505,6 +1507,7 @@
     </Compile>
     <Compile Include="Models\ApplicationViewModel.cs" />
     <Compile Include="Models\AppObjectViewModel.cs" />
+    <Compile Include="Models\BankViewModel.cs" />
     <Compile Include="Models\CommonViewModel.cs" />
     <Compile Include="Models\CustomerCreditNoteViewModel.cs" />
     <Compile Include="Models\CustomerInvoicesViewModel.cs" />
@@ -1533,7 +1536,7 @@
     <Content Include="Views\Shared\ToolBoxView.cshtml" />
     <Content Include="Views\CustomerInvoices\Index.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\SAMPanel\Index.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\Privileges\Index.cshtml" />
     <Content Include="Views\Privileges\PrivilegesView.cshtml" />
@@ -1546,6 +1549,9 @@
     <Content Include="Views\CustomerPayments\Index.cshtml" />
     <Content Include="Views\Suppliers\Index.cshtml" />
     <Content Include="Views\CustomerCreditNote\Index.cshtml" />
+    <Content Include="Views\Bank\Index.cshtml" />
+    <Content Include="Views\ManageAccess\Index.cshtml" />
+    <Content Include="Views\ManageAccess\SubobjectIndex.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1555,7 +1561,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\ManageAccess\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SPAccounts.BusinessService\SPAccounts.BusinessService.csproj">

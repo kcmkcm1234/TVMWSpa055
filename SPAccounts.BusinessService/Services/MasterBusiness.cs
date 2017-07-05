@@ -16,9 +16,6 @@ namespace SPAccounts.BusinessService.Services
         {
             _masterRepository = masterRepository;
         }
-        public List<Customer> GetAllCustomers()
-        {
-            return _masterRepository.GetAllCustomers();
-        }
+        
     }
 }
