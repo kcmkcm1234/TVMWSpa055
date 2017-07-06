@@ -21,8 +21,10 @@ namespace UserInterface.App_Start
                 config.CreateMap<HomeViewModel, Home>().ReverseMap();
                 config.CreateMap<RolesViewModel, Roles>().ReverseMap();
                 config.CreateMap<ApplicationViewModel, Application>().ReverseMap();
+                config.CreateMap<AppObjectViewModel, AppObject>().ReverseMap();
                 config.CreateMap<AppSubobjectViewmodel, AppSubobject>().ReverseMap();
-                
+                config.CreateMap<CommonViewModel, SAMTool.DataAccessObject.DTO.Common>().ReverseMap();
+
                 //****SAMTOOL MODELS 
 
 
