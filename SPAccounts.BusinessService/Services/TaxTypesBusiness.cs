@@ -20,5 +20,9 @@ namespace SPAccounts.BusinessService.Services
         {
             return _taxTypesRepository.GetAllTaxTypes();
         }
+        public TaxTypes GetTaxTypeDetails(string Code)
+        {
+            return _taxTypesRepository.GetTaxTypeDetails(Code);
+        }
     }
 }

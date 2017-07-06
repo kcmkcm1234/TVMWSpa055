@@ -10,12 +10,12 @@ namespace SPAccounts.DataAccessObject.DTO
     public class CustomerInvoice
     {
         public Guid ID { get; set; }
-        public string OriginCompanyCode { get; set; }
         public String InvoiceNo { get; set; }
         public DateTime InvoiceDate { get; set; }
         public String InvoiceDateFormatted { get; set; }
         public DateTime PaymentDueDate { get; set; }
         public String PaymentDueDateFormatted { get; set; }
+        public String BillingAddress { get; set; }
         public decimal GrossAmount { get; set; }
         public decimal Discount { get; set; }
         public decimal TaxPercApplied { get; set; }
@@ -23,9 +23,10 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal TotalInvoiceAmount { get; set; }
         public String Notes { get; set; }
 
+        public Companies companiesObj { get; set; }
         public Customer customerObj { get; set; }
         public PaymentTerms paymentTermsObj { get; set; }
-        public TaxTypes taxTypesObj { get; set; }
+        public TaxTypes TaxTypeObj { get; set; }
         
         public decimal BalanceDue { get; set; }        
         public DateTime LastPaymentDate { get; set; }

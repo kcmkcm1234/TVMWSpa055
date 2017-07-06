@@ -13,6 +13,12 @@ namespace SPAccounts.DataAccessObject.DTO
         public string UpdatedBy { get; set; }
         public DateTime UpdatedDate { get; set; }
         public string UpdatedDateString { get; set; }
+        public DateTime GetCurrentDateTime()
+        {
+            string tz = System.Web.Configuration.WebConfigurationManager.AppSettings["TimeZone"];
+            DateTime DateNow = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Local);
+            return (TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateNow, tz));
+        }
     }
 
     public class AppUA
@@ -129,6 +135,7 @@ namespace SPAccounts.DataAccessObject.DTO
             get { return "App User"; }
         }
         #endregion
+        
     }
 
     public class AppConstMessage

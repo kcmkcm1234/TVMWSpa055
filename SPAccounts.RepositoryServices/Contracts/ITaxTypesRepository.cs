@@ -9,5 +9,6 @@ namespace SPAccounts.RepositoryServices.Contracts
     public interface ITaxTypesRepository
     {
         List<TaxTypes> GetAllTaxTypes();
+        TaxTypes GetTaxTypeDetails(string Code);
     }
 }

@@ -20,5 +20,9 @@ namespace SPAccounts.BusinessService.Services
         {
             return _customerRepository.GetAllCustomers();
         }
+        public Customer GetCustomerDetails(Guid ID)
+        {
+            return _customerRepository.GetCustomerDetails(ID);
+        }
     }
 }

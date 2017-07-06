@@ -9,5 +9,6 @@ namespace SPAccounts.BusinessService.Contracts
     public interface ITaxTypesBusiness
     {
         List<TaxTypes> GetAllTaxTypes();
+        TaxTypes GetTaxTypeDetails(string Code);
     }
 }

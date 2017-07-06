@@ -30,7 +30,7 @@ namespace UserInterface.Models
         public CustomerViewModel customerObj { get; set; }        
         public TaxTypesViewModel TaxTypeObj { get; set; }
         public PaymentTermsViewModel paymentTermsObj { get; set; }
-
+        public CommonViewModel commonObj { get; set; }
         [Required(ErrorMessage = "Billing Address is missing")]
         [Display(Name = "Billing Address")]
         [DataType(DataType.MultilineText)]

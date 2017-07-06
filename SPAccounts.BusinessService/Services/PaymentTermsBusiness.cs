@@ -20,5 +20,9 @@ namespace SPAccounts.BusinessService.Services
         {
             return _paymentTermsRepository.GetAllPayTerms();
         }
+        public PaymentTerms GetPayTermDetails(string Code)
+        {
+            return _paymentTermsRepository.GetPayTermDetails(Code);
+        }
     }
 }

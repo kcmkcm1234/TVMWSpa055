@@ -9,5 +9,6 @@ namespace SPAccounts.RepositoryServices.Contracts
     public interface IPaymentTermsRepository
     {
         List<PaymentTerms> GetAllPayTerms();
+        PaymentTerms GetPayTermDetails(string Code);
     }
 }

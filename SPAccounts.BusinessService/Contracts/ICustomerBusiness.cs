@@ -9,5 +9,6 @@ namespace SPAccounts.BusinessService.Contracts
     public interface ICustomerBusiness
     {
         List<Customer> GetAllCustomers();
+        Customer GetCustomerDetails(Guid ID);
     }
 }
