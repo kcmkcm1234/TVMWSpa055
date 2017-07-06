@@ -116,5 +116,11 @@ namespace UserInterface.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public ActionResult Down()
+        {
+            return View();
+        }
     }
 }

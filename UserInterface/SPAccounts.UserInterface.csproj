@@ -1564,6 +1564,8 @@
     <Content Include="Views\ManageAccess\Index.cshtml" />
     <Content Include="Views\ManageAccess\SubobjectIndex.cshtml" />
     <Content Include="Views\TaxType\Index.cshtml" />
+    <Content Include="Views\Account\NotAuthorized.cshtml" />
+    <Content Include="Views\Account\Down.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
