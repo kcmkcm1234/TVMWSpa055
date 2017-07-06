@@ -42,6 +42,7 @@ namespace UserInterface.Models
         public CommonViewModel commonObj { get; set; }
         public PaymentModesViewModel PaymentModesObj { get; set; }
         public BankViewModel bankObj { get; set; }
+        public CompaniesViewModel CompanyObj { get; set; }
 
     }
     public class CustomerPaymentsDetailViewModel

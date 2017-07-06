@@ -37,27 +37,32 @@ namespace UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/jsZip").Include("~/Scripts/jszip.min.js"));
             bundles.Add(new ScriptBundle("~/bundles/userpluginjs").Include("~/Scripts/jquery.noty.packaged.min.js", "~/Scripts/custom.js", "~/Scripts/Chart.js", "~/Scripts/sweetalert.min.js"));
             bundles.Add(new ScriptBundle("~/bundles/bootstrapdatepicker").Include("~/Scripts/bootstrap-datepicker.min.js"));
-           
 
-          
             //----------------------
+            bundles.Add(new ScriptBundle("~/bundles/ManageAccess").Include("~/Scripts/UserJS/ManageAccess.js"));
+            bundles.Add(new ScriptBundle("~/bundles/ManageSubObjectAccess").Include("~/Scripts/UserJS/ManageSubObjectAccess.js"));
             bundles.Add(new ScriptBundle("~/bundles/Login").Include("~/Scripts/UserJS/Login.js"));
-            bundles.Add(new ScriptBundle("~/bundles/CustomerInvoices").Include("~/Scripts/UserJS/CustomerInvoices.js"));
             bundles.Add(new ScriptBundle("~/bundles/User").Include("~/Scripts/UserJS/User.js"));
             bundles.Add(new ScriptBundle("~/bundles/Privileges").Include("~/Scripts/UserJS/Privileges.js"));
             bundles.Add(new ScriptBundle("~/bundles/PrivilegesView").Include("~/Scripts/UserJS/PrivilegesView.js"));
             bundles.Add(new ScriptBundle("~/bundles/Application").Include("~/Scripts/UserJS/Application.js"));
             bundles.Add(new ScriptBundle("~/bundles/AppObject").Include("~/Scripts/UserJS/AppObject.js"));
             bundles.Add(new ScriptBundle("~/bundles/AppSubobject").Include("~/Scripts/UserJS/AppSubobject.js"));
-            bundles.Add(new ScriptBundle("~/bundles/Roles").Include("~/Scripts/UserJS/Roles.js")); 
+            bundles.Add(new ScriptBundle("~/bundles/Roles").Include("~/Scripts/UserJS/Roles.js"));
+
+            //----------------------
+            bundles.Add(new ScriptBundle("~/bundles/CustomerInvoices").Include("~/Scripts/UserJS/CustomerInvoices.js"));
             bundles.Add(new ScriptBundle("~/bundles/Customers").Include("~/Scripts/UserJS/Customers.js"));
             bundles.Add(new ScriptBundle("~/bundles/Suppliers").Include("~/Scripts/UserJS/Suppliers.js"));
             bundles.Add(new ScriptBundle("~/bundles/CustomerCreditNote").Include("~/Scripts/UserJS/CustomerCreditNote.js"));
             bundles.Add(new ScriptBundle("~/bundles/Bank").Include("~/Scripts/UserJS/Bank.js"));
             bundles.Add(new ScriptBundle("~/bundles/TaxTypes").Include("~/Scripts/UserJS/TaxTypes.js"));
-            bundles.Add(new ScriptBundle("~/bundles/ManageAccess").Include("~/Scripts/UserJS/ManageAccess.js"));
-            bundles.Add(new ScriptBundle("~/bundles/ManageSubObjectAccess").Include("~/Scripts/UserJS/ManageSubObjectAccess.js"));
-            
+            bundles.Add(new ScriptBundle("~/bundles/CustomerPayments").Include("~/Scripts/UserJS/CustomerPayments.js"));
+
+
+
+
+
         }
 
     }

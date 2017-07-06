@@ -18,12 +18,15 @@ namespace UserInterface.Controllers
         ICustomerPaymentsBusiness _CustPaymentBusiness;
         ICustomerBusiness _customerBusiness;
         IBankBusiness _bankBusiness;
+        ICompaniesBusiness _companiesBusiness;
         IPaymentModesBusiness _pmBusiness;
-        public CustomerPaymentsController(ICustomerPaymentsBusiness custPaymentBusiness, IPaymentModesBusiness pmBusiness,ICustomerBusiness customerBusiness)
+        public CustomerPaymentsController(ICustomerPaymentsBusiness custPaymentBusiness, IPaymentModesBusiness pmBusiness,ICustomerBusiness customerBusiness, IBankBusiness bankBusiness,ICompaniesBusiness companiesBusiness)
         {
             _CustPaymentBusiness = custPaymentBusiness;
             _pmBusiness = pmBusiness;
             _customerBusiness = customerBusiness;
+            _bankBusiness = bankBusiness;
+            _companiesBusiness = companiesBusiness;
         }
         #endregion Constructor_Injection 
         // GET: CustomerPayments
@@ -46,6 +49,7 @@ namespace UserInterface.Controllers
                     Selected = false
                 });
             }
+            CP.customerObj.CustomerList = selectListItem;
 
             CP.PaymentModesObj = new PaymentModesViewModel();
             CP.PaymentModesObj.PaymentModesList = new List<SelectListItem>();
@@ -61,6 +65,37 @@ namespace UserInterface.Controllers
                 });
             }
             CP.PaymentModesObj.PaymentModesList = selectListItem;
+
+
+            CP.bankObj = new BankViewModel();
+            CP.bankObj.BanksList = new List<SelectListItem>();
+            selectListItem = new List<SelectListItem>();
+            List<BankViewModel> BankList = Mapper.Map<List<Bank>, List<BankViewModel>>(_bankBusiness.GetAllBanks());
+            foreach (BankViewModel BL in BankList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = BL.Name,
+                    Value = BL.Code,
+                    Selected = false
+                });
+            }
+            CP.bankObj.BanksList = selectListItem;
+
+            CP.CompanyObj = new CompaniesViewModel();
+            CP.CompanyObj.CompanyList  = new List<SelectListItem>();
+            selectListItem = new List<SelectListItem>();
+            List<CompaniesViewModel> CompaniesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_companiesBusiness.GetAllCompanies());
+            foreach (CompaniesViewModel BL in CompaniesList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = BL.Name,
+                    Value = BL.Code,
+                    Selected = false
+                });
+            }
+            CP.CompanyObj.CompanyList= selectListItem;   
             return View(CP);
         }
 
