@@ -283,7 +283,9 @@ function () {
 
 }
 
-
+function goHome() {
+    window.location = appAddress + '/SAMPanel';
+}
 function Logout() {
     window.location = appAddress;
 }

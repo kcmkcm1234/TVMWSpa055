@@ -26,7 +26,7 @@ $(document).ready(function () {
                      "visible": true,
                      "searchable": false,
                      "render": function (data, type, full, meta) {
-                         debugger;
+                         
                          var AccessSpec = "";
                          if (meta.col == 3) {
                              AccessSpec = "Read";
@@ -82,7 +82,7 @@ $(document).ready(function () {
 });
 function GetAllAppRoles() {
     try {
-        debugger;
+      
         var data = { "AppID": $('#ddlApplication').val() };
         var ds = {};
         ds = GetDataFromServer("ManageAccess/GetAllAppRoles/", data);
@@ -91,7 +91,7 @@ function GetAllAppRoles() {
         }
         if (ds.Result == "OK") {
             //return ds.Records;
-            debugger;
+          
             $("select#ddlRole").empty();
             $("select#ddlRole").append($("<option>")
              .val('')
@@ -99,7 +99,7 @@ function GetAllAppRoles() {
              );
             for (var i = 0; i < ds.Records.length; i++)
             {
-                debugger;
+            
              $("select#ddlRole").append($("<option>")
             .val(ds.Records[i].Value)
             .html(ds.Records[i].Text)
@@ -117,7 +117,7 @@ function GetAllAppRoles() {
 }
 function GobackMangeAccess()
 {
-    debugger;
+  
     window.location = $('#aLinkBack').attr('href');
 }
 function TableBind(ManageAccessViewModel)
@@ -126,7 +126,7 @@ function TableBind(ManageAccessViewModel)
 }
 function GetAllAppObjects(ManageAccessViewModel) {
     try {
-        debugger;
+    
         var data = { "AppID": ManageAccessViewModel.AppID, "RoleID": ManageAccessViewModel.RoleID };
         var ds = {};
         ds = GetDataFromServer("ManageAccess/GetAllObjectAccess/", data);
@@ -146,7 +146,7 @@ function GetAllAppObjects(ManageAccessViewModel) {
 }
 function ChangeAccess(this_Obj)
 {
-    debugger;
+  
     ChangeButtonPatchView("ManageAccess", "sectionManageAccessbtnPatch", "Checked");
     var tabledatarow = DataTables.ObjectTable.row($(this_Obj).parents('tr')).data();
     var tabledata = DataTables.ObjectTable.rows().data();
@@ -172,7 +172,7 @@ function ChangeAccess(this_Obj)
 }
 function SaveChanges()
 {
-    debugger;
+  
     var ManageAccessList = [];
     var tabledata = DataTables.ObjectTable.rows().data();
     for (var i = 0; i < tabledata.length; i++)
@@ -191,7 +191,7 @@ function SaveChanges()
     var ManageAccessViewModel = new Object();
     ManageAccessViewModel.ManageAccessList = ManageAccessList;
     var data = "{'manageAccessViewModelObj':" + JSON.stringify(ManageAccessViewModel) + "}";
-    PostDataObjectToServer('ManageAccess/AddAccessChanges/', data, function (JsonResult) {
+    PostDataToServer('ManageAccess/AddAccessChanges/', data, function (JsonResult) {
  
         var i = JsonResult
         switch (i.Result) {

@@ -16,15 +16,15 @@ namespace UserInterface.App_Start
 
 
                 //*****SAMTOOL MODELS 
-                config.CreateMap<LoginViewModel, User>().ReverseMap();
-                config.CreateMap<UserViewModel, User>().ReverseMap();
-                config.CreateMap<HomeViewModel, Home>().ReverseMap();
-                config.CreateMap<RolesViewModel, Roles>().ReverseMap();
-                config.CreateMap<ApplicationViewModel, Application>().ReverseMap();
-                config.CreateMap<AppObjectViewModel, AppObject>().ReverseMap();
-                config.CreateMap<AppSubobjectViewmodel, AppSubobject>().ReverseMap();
+                config.CreateMap<LoginViewModel, SAMTool.DataAccessObject.DTO.User>().ReverseMap();
+                config.CreateMap<UserViewModel, SAMTool.DataAccessObject.DTO.User>().ReverseMap();
+                config.CreateMap<HomeViewModel, SAMTool.DataAccessObject.DTO.Home>().ReverseMap();
+                config.CreateMap<RolesViewModel, SAMTool.DataAccessObject.DTO.Roles>().ReverseMap();
+                config.CreateMap<ApplicationViewModel, SAMTool.DataAccessObject.DTO.Application>().ReverseMap();
+                config.CreateMap<AppObjectViewModel, SAMTool.DataAccessObject.DTO.AppObject>().ReverseMap();
+                config.CreateMap<AppSubobjectViewmodel, SAMTool.DataAccessObject.DTO.AppSubobject>().ReverseMap();
                 config.CreateMap<CommonViewModel, SAMTool.DataAccessObject.DTO.Common>().ReverseMap();
-
+                config.CreateMap<ManageAccessViewModel, SAMTool.DataAccessObject.DTO.ManageAccess>().ReverseMap();
                 //****SAMTOOL MODELS 
 
 
