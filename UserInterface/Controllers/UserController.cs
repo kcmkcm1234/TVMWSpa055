@@ -25,7 +25,7 @@ namespace UserInterface.Controllers
             _rolesBusiness = rolesBusiness;
         }
 
-        //[AuthSecurityFilter(ProjectObject = "User", Mode = "")]
+       // [AuthSecurityFilter(ProjectObject = "User", Mode = "R")]
         [HttpGet]
         public ActionResult Index()
         {
@@ -37,7 +37,7 @@ namespace UserInterface.Controllers
 
 
         #region InsertUpdateUser
-
+     //   [AuthSecurityFilter(ProjectObject = "User", Mode = "W")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public string InsertUpdateUser(UserViewModel UserObj)
@@ -80,7 +80,7 @@ namespace UserInterface.Controllers
         #endregion InsertUpdateEvent
 
         #region GetAllUsers
-        //[AuthSecurityFilter(ProjectObject = "User", Mode = "R")]
+   //     [AuthSecurityFilter(ProjectObject = "User", Mode = "R")]
         [HttpGet]
         public string GetAllUsers()
         {
@@ -98,6 +98,7 @@ namespace UserInterface.Controllers
         #endregion GetAllUsers
 
         #region GetUserDetailsByID
+      //  [AuthSecurityFilter(ProjectObject = "User", Mode = "R")]
         [HttpGet]
         public string GetUserDetailsByID(string Id)
         {
@@ -117,7 +118,7 @@ namespace UserInterface.Controllers
         //DeleteUser
 
         #region DeleteUser
-
+   //     [AuthSecurityFilter(ProjectObject = "User", Mode = "D")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public string DeleteUser(UserViewModel UserObj)
