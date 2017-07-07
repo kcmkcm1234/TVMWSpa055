@@ -338,7 +338,7 @@
                             <div class="col-md-12">
                                 <div class="col-md-10">
                                     @Html.DropDownListFor(model => model.TaxTypeObj.Code, Model.TaxTypeObj.TaxTypesList, "-- Select Tax Type --", new { @class = "form-control BlockEnter Roundoff", value = 0, style = "padding:4px 12px;", @id = "ddlTaxType" })
-                                    @Html.ValidationMessageFor(model => model.TaxTypeObj.Code, "", new { @class = "text-danger" })
+                                    @*@Html.ValidationMessageFor(model => model.TaxTypeObj.Code, "", new { @class = "text-danger" })*@
                                 </div>
                                 <div class="col-md-1"></div>
                                 <div class="col-md-1"></div>
@@ -406,7 +406,7 @@
                                     @Html.LabelFor(model => model.Notes, htmlAttributes: new { @class = "control-label" })
                                 </div>
                                 <div class="col-md-12">
-                                    <div class="col-md-10">
+                                    <div class="col-md-12">
                                         @Html.EditorFor(model => model.Notes, new { htmlAttributes = new { @class = "form-control HeaderBox multiline4", @id = "txtNotes", @rows = 4 } })
                                         @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
                                     </div>
