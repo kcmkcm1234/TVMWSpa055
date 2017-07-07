@@ -19,7 +19,7 @@ namespace UserInterface.Controllers
             _homeBusiness = home;
         }
     
-        //[AuthSecurityFilter(ProjectObject = "SAMPanel", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "SAMPanel", Mode = "R")]
         public ActionResult Index()
         {
             List<HomeViewModel> SysLinks = Mapper.Map<List<Home>, List<HomeViewModel>>(_homeBusiness.GetAllSysLinks());
