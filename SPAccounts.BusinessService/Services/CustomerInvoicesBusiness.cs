@@ -70,5 +70,10 @@ namespace SPAccounts.BusinessService.Services
             }
             
         }
+
+        public List<CustomerInvoice> GetOutStandingInvoices(Guid ID)
+        {
+            return _customerInvoicesRepository.GetOutStandingInvoices(ID);
+        }
     }
 }
