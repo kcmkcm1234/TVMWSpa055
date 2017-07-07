@@ -9,5 +9,6 @@ namespace SPAccounts.BusinessService.Contracts
     public interface IPaymentTermsBusiness
     {
         List<PaymentTerms> GetAllPayTerms();
+        PaymentTerms GetPayTermDetails(string Code);
     }
 }

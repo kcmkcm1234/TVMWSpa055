@@ -9,5 +9,6 @@ namespace SPAccounts.RepositoryServices.Contracts
     public interface ICustomerRepository
     {
         List<Customer> GetAllCustomers();
+        Customer GetCustomerDetails(Guid ID);
     }
 }

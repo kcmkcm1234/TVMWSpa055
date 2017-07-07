@@ -62,5 +62,47 @@ namespace SPAccounts.RepositoryServices.Services
 
             return payTermList;
         }
+
+        public PaymentTerms GetPayTermDetails(string Code)
+        {
+            PaymentTerms _payTermObj = new PaymentTerms();
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetPayTermDetails]";
+                        cmd.Parameters.Add("@Code", SqlDbType.NVarChar, 10).Value = Code;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                if (sdr.Read())
+                                {
+                                        _payTermObj.Code = (sdr["Code"].ToString() != "" ? (sdr["Code"].ToString()) : _payTermObj.Code);
+                                        _payTermObj.Description = (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : _payTermObj.Description);
+                                        _payTermObj.NoOfDays = (sdr["NoOfDays"].ToString() != "" ? int.Parse(sdr["NoOfDays"].ToString()) : _payTermObj.NoOfDays);
+                                        
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return _payTermObj;
+        }
     }
 }

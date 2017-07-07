@@ -21,9 +21,8 @@ namespace SPAccounts.UserInterface.SecurityFilter
       
         public void OnAuthentication(AuthenticationContext filterContext)
         {
-            //var controllerName = filterContext.RouteData.Values["controller"];
-            //var actionName = filterContext.RouteData.Values["action"];
-            
+           //var controllerName = filterContext.RouteData.Values["controller"];
+           //var actionName = filterContext.RouteData.Values["action"];
            // if (filterContext.HttpContext.Request.IsAjaxRequest())
            // {
                 if ((filterContext.HttpContext.Session == null) || (filterContext.HttpContext.Session["TvmValid"] == null))
@@ -133,5 +132,7 @@ namespace SPAccounts.UserInterface.SecurityFilter
                     
             }
         }
+
+        //
     }
 }

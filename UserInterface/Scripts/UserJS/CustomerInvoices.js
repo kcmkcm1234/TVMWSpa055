@@ -19,9 +19,9 @@ $(document).ready(function () {
                { "data": "ID" },
                { "data": "InvoiceNo" },
                { "data": "InvoiceDateFormatted" },
-               { "data": "Customer", "defaultContent": "<i>-</i>" },
+               { "data": "customerObj.CompanyName", "defaultContent": "<i>-</i>" },
                { "data": "PaymentDueDateFormatted", "defaultContent": "<i>-</i>" },
-               { "data": "InvoiceAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+               { "data": "TotalInvoiceAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                { "data": "BalanceDue", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },          
                { "data": "LastPaymentDateFormatted", "defaultContent": "<i>-</i>" },
                { "data": "Status", "defaultContent": "<i>-</i>" },
@@ -42,7 +42,25 @@ $(document).ready(function () {
         showLoader();
         List();
        
-
+        $('.Roundoff').on('change', function () {
+            var CustomerInvoiceViewModel = new Object();
+            CustomerInvoiceViewModel.GrossAmount = $('#txtGrossAmt').val();
+            CustomerInvoiceViewModel.Discount = $('#txtDiscount').val();
+            CustomerInvoiceViewModel.NetTaxableAmount = (CustomerInvoiceViewModel.GrossAmount - CustomerInvoiceViewModel.Discount)
+            CustomerInvoiceViewModel.TaxType = $('#ddlTaxType').val() != "" ? GetTaxRate($('#ddlTaxType').val()) : $('#txtTaxPercApp').val();
+            CustomerInvoiceViewModel.TaxPercentage = CustomerInvoiceViewModel.TaxType
+            CustomerInvoiceViewModel.TaxAmount =(CustomerInvoiceViewModel.NetTaxableAmount*CustomerInvoiceViewModel.TaxPercentage)/100
+            CustomerInvoiceViewModel.TotalInvoiceAmount = (CustomerInvoiceViewModel.NetTaxableAmount + CustomerInvoiceViewModel.TaxAmount) 
+            $('#txtNetTaxableAmt').val(CustomerInvoiceViewModel.NetTaxableAmount);
+            $('#txtTaxPercApp').val(CustomerInvoiceViewModel.TaxPercentage);
+            $('#txtTaxAmt').val(CustomerInvoiceViewModel.TaxAmount);
+            $('#txtTotalInvAmt').val(CustomerInvoiceViewModel.TotalInvoiceAmount);
+        });
+        $('#txtTaxPercApp').on('keypress', function () {
+            debugger;
+            if($('#ddlTaxType').val()!="")
+                $('#ddlTaxType').val('')
+        });
 
     } catch (x) {
 
@@ -51,8 +69,50 @@ $(document).ready(function () {
     }
 
 });
+function SaveSuccess(data, status) {
 
-
+    var JsonResult = JSON.parse(data)
+    switch (JsonResult.Result) {
+        case "OK":
+            //if ($("#HeaderID").val() == emptyGUID || $("#HeaderID").val() == "") {
+            //    BindICRBillEntry(JsonResult.Records.ID);
+            //    BillBookNumberValidation();
+            //}
+            //else {
+            //    BindICRBillEntry($("#HeaderID").val());
+            //}
+            //BindAllCustomerBill();
+            notyAlert('success', JsonResult.Message);
+            break;
+        case "ERROR":
+            notyAlert('error', JsonResult.Message);
+            break;
+        default:
+            notyAlert('error', JsonResult.Message);
+            break;
+    }
+}
+function GetTaxRate(Code)
+{
+    debugger;
+    try {
+        var data = { "Code": Code };
+        var ds = {};
+        ds = GetDataFromServer("CustomerInvoices/GetTaxRate/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            return 0;
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
 function List() {
     var result = GetAllInvoicesAndSummary();
     if (result != null) {
@@ -89,6 +149,77 @@ function GetAllInvoicesAndSummary() {
         var data = {};
         var ds = {};
         ds = GetDataFromServer("CustomerInvoices/GetInvoicesAndSummary/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            alert(ds.Message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+//onchange function for the customer dropdown to fill:- due date and Address 
+function FillCustomerDefault(this_Obj)
+{
+    try
+    {
+        var ID = this_Obj.value;
+        var CustomerViewModel = GetCustomerDetails(ID);
+        $('#BillingAddress').val(CustomerViewModel.BillingAddress);
+        $('#ddlPaymentTerm').val(CustomerViewModel.PaymentTermCode);
+        $('#ddlPaymentTerm').trigger('change');
+    }
+    catch(e)
+    {
+
+    }
+}
+function GetCustomerDetails(ID)
+{
+    try {
+        var data = {"ID":ID};
+        var ds = {};
+        ds = GetDataFromServer("CustomerInvoices/GetCustomerDetails/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            alert(ds.Message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+function GetDueDate(this_Obj)
+{
+    try
+    {
+        debugger;
+        var Code = this_Obj.value;
+        var PaymentTermViewModel = GetPaymentTermDetails(Code);
+         $('#txtPayDueDate').val(PaymentTermViewModel);
+    }
+    catch(e)
+    {
+
+    }
+}
+function GetPaymentTermDetails(Code)
+{
+    debugger;
+    try {
+        var data = { "Code":Code };
+        var ds = {};
+        ds = GetDataFromServer("CustomerInvoices/GetDueDate/", data);
         if (ds != '') {
             ds = JSON.parse(ds);
         }

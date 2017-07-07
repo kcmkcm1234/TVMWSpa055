@@ -61,7 +61,7 @@ namespace UserInterface.Controllers
             {
                 selectListItem.Add(new SelectListItem
                 {
-                    Text = PayT.NoOfDays.ToString(),
+                    Text = PayT.Description,
                     Value = PayT.Code,
                     Selected = false
                 });
@@ -76,7 +76,7 @@ namespace UserInterface.Controllers
                 selectListItem.Add(new SelectListItem
                 {
                     Text = Cmp.Name,
-                    Value = Cmp.Code,
+                    Value = Cmp.Code,                    
                     Selected = false
                 });
             }
@@ -121,24 +121,80 @@ namespace UserInterface.Controllers
             }
         }
         #endregion  GetAllInvoices
-
+        [HttpGet]
+        public string GetCustomerDetails(string ID)
+        {
+            try
+            {
+                CustomerViewModel CustomerObj = Mapper.Map<Customer, CustomerViewModel>(_customerBusiness.GetCustomerDetails(ID!=null&&ID!=""?Guid.Parse(ID):Guid.Empty));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = CustomerObj });
+            }
+            catch(Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        [HttpGet]
+        public string GetDueDate(string Code)
+        {
+            try
+            {
+                Common com = new Common();
+                DateTime Datenow = com.GetCurrentDateTime();
+                PaymentTermsViewModel payTermsObj= Mapper.Map<PaymentTerms, PaymentTermsViewModel>(_paymentTermsBusiness.GetPayTermDetails(Code));
+                string DuePaymentDueDateFormatted= Datenow.AddDays(payTermsObj.NoOfDays).ToString("dd-MMM-yyyy");
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = DuePaymentDueDateFormatted });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        [HttpGet]
+        public string GetTaxRate(string Code)
+        {
+            try
+            {
+                TaxTypesViewModel taxTypesObj = Mapper.Map<TaxTypes, TaxTypesViewModel>(_taxTypesBusiness.GetTaxTypeDetails(Code));
+                decimal Rate = taxTypesObj.Rate;
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = Rate });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
         [HttpPost]
         public string InsertUpdateInvoice(CustomerInvoicesViewModel _customerInvoicesObj)
         {
             try
             {
-                if (ModelState.IsValid)
-                {
+                //if (ModelState.c.IsValid)
+                //{
                     AppUA ua = new AppUA();
                     ua.UserName = "Thomson";
-                    //ua.UserID = Guid.Empty;
+                    _customerInvoicesObj.commonObj = new CommonViewModel();
+                    _customerInvoicesObj.commonObj.CreatedBy = ua.UserName;
+                    _customerInvoicesObj.commonObj.CreatedDate = DateTime.Now;
                     CustomerInvoicesViewModel CIVM = Mapper.Map<CustomerInvoice, CustomerInvoicesViewModel>(_customerInvoicesBusiness.InsertUpdateInvoice(Mapper.Map<CustomerInvoicesViewModel, CustomerInvoice>(_customerInvoicesObj), ua));
                     return JsonConvert.SerializeObject(new { Result = "OK", Message = c.InsertSuccess, Records = CIVM });
-                }
-                else
-                {
-                    return JsonConvert.SerializeObject(new { Result = "Error", Message = c.InsertFailure});
-                }
+                //}
+                //else
+                //{
+                //    List<string> modelErrors = new List<string>();
+                //    foreach (var modelState in ModelState.Values)
+                //    {
+                //        foreach (var modelError in modelState.Errors)
+                //        {
+                //            modelErrors.Add(modelError.ErrorMessage);
+                //        }
+                //    }
+                    //return JsonConvert.SerializeObject(new { Result = "VALIDATION", Message = string.Join(",", modelErrors) });
+                    //return JsonConvert.SerializeObject(new { Result = "Error", Message = c.InsertFailure});
+                //}
             }
             catch (Exception ex)
             {
