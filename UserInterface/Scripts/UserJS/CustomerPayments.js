@@ -42,22 +42,22 @@ $(document).ready(function () {
              { "data": "Description", 'render': function (data, type, row)
              { 
                  return ' Invoice # ' + row.InvoiceNo + '(Date:' + row.InvoiceDateFormatted + ')'
-                 }
+             }, "width": "40%"
              },
-             { "data": "PaymentDueDateFormatted", "defaultContent": "<i>-</i>" },
-             { "data": "TotalInvoiceAmount", "defaultContent": "<i>-</i>" },
-             { "data": "BalanceDue", "defaultContent": "<i>-</i>" },
+             { "data": "PaymentDueDateFormatted", "defaultContent": "<i>-</i>", "width": "25%" },
+             { "data": "TotalInvoiceAmount", "defaultContent": "<i>-</i>", "width": "20%" },
+             { "data": "BalanceDue", "defaultContent": "<i>-</i>", "width": "20%" },
              {
                  "data": "Payment", 'render': function (data, type, row) {
                      return '<input class="form-control" id="Markup" name="Markup" type="text">';
-                 }
+                 }, "width": "20%"
              }
         ],
         columnDefs: [{
             'targets': 1,
             'searchable': false,
             'orderable': false,
-            'width': '1%',
+            'width': '5%',
             'className': 'dt-body-center',
             'render': function (data, type,row) {
                 return '<input type="checkbox">';
