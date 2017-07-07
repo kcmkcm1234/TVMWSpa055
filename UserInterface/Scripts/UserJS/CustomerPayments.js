@@ -1,33 +1,32 @@
-﻿
+﻿var DataTables = {};
+var emptyGUID = '00000000-0000-0000-0000-000000000000'
 
 $(document).ready(function () {
     debugger;
 
-    //DataTables.CustomerPaymentTable = $('#CustPayTable').DataTable(
-    //{
-    //    dom: '<"pull-left"f>rt<"bottom"ip><"clear">',
-    //    order: [],
-    //    searching: true,    
-    //    paging: true,
-    //    data: GetAllCustomerPayments(),
-    //    columns: [
-    //         { "data": "ID", "defaultContent": "<i>-</i>" },
-    //         { "data": "PaymentDateFormatted", "defaultContent": "<i>-</i>" },
-    //         { "data": "PaymentRef", "defaultContent": "<i>-</i>" },
-    //         { "data": "Customer", "defaultContent": "<i>-</i>" },
-    //         { "data": "PaymentMode ", "defaultContent": "<i>-</i>" },
-    //         { "data": "AmountReceived ", "defaultContent": "<i>-</i>" },
-    //         { "data": "AdvanceReceived ", "defaultContent": "<i>-</i>" },
-    //         { "data": "LastPaymentDate ", "defaultContent": "<i>-</i>" },
-    //         { "data": "Status", "defaultContent": "<i>-</i>" },
-    //         { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink" onclick="Edit(this)"><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
-    //    ],
-    //    columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-    //        { className: "text-right", "targets": [8] },
-    //        { className: "text-center", "targets": [1, 2, 3, 5, 6, 9] },
-    //        { className: "text-left", "targets": [7] },
-    //    ]
-    //});  
+    DataTables.CustomerPaymentTable = $('#CustPayTable').DataTable(
+    {
+        dom: '<"pull-left"f>rt<"bottom"ip><"clear">',
+        order: [],
+        searching: true,    
+        paging: true,
+        data: GetAllCustomerPayments(),
+        columns: [
+             { "data": "ID", "defaultContent": "<i>-</i>" },
+             { "data": "EntryNo", "defaultContent": "<i>-</i>" },
+             { "data": "PaymentDateFormatted", "defaultContent": "<i>-</i>" },
+             { "data": "PaymentRef", "defaultContent": "<i>-</i>" },
+             { "data": "customerObj.CompanyName", "defaultContent": "<i>-</i>" },//render customerObj.ContactPerson
+             { "data": "PaymentMode", "defaultContent": "<i>-</i>" },
+             { "data": "TotalRecdAmt", "defaultContent": "<i>-</i>" },
+             { "data": "AdvanceAmount", "defaultContent": "<i>-</i>" }, 
+             { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink" onclick="Edit(this)"><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
+        ],
+        columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
+            { className: "text-right", "targets": [6,7] },
+            { className: "text-center", "targets": [1, 2, 3,4,5,8] } 
+        ]
+    });  
 
 
 
@@ -39,9 +38,14 @@ $(document).ready(function () {
         searching: true,
         paging: false,
         columnDefs: [{
-            orderable: false,
-            className: 'select-checkbox',
-            targets: 1
+            'targets': 1,
+            'searchable': false,
+            'orderable': false,
+            'width': '1%',
+            'className': 'dt-body-center',
+            'render': function (data, type, full, meta) {
+                return '<input type="checkbox">';
+            }
         }],
         select: {
             style: 'os',
@@ -50,3 +54,77 @@ $(document).ready(function () {
         order: [[2, 'asc']]
     });
 });
+
+
+
+function GetAllCustomerPayments() {
+    try {
+        debugger;
+        var data = {};
+        var ds = {};
+        ds = GetDataFromServer("CustomerPayments/GetAllCustomerPayments/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            notyAlert('error', ds.Message);
+            var emptyarr = [];
+            return emptyarr;
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
+
+function Edit(currentObj)
+{
+    debugger;
+    openNav();
+    var rowData = DataTables.CustomerPaymentTable.row($(currentObj).parents('tr')).data();
+    if ((rowData != null) && (rowData.ID != null))
+    {
+        var thisitem = GetCustomerPayments(rowData.ID)
+        //ID NOT SET THIS IN PAGE
+        $('#Customer').val(thisitem.customerObj.ID);
+        $('#PaymentDate').val(thisitem.PaymentDateFormatted);
+        $('#PaymentRef').val(thisitem.PaymentRef);
+        $('#RecdToComanyCode').val(thisitem.RecdToComanyCode);
+        $('#PaymentMode').val(thisitem.PaymentMode);
+        $('#BankCode').val(thisitem.BankCode);
+        $('#Notes').val(thisitem.GeneralNotes);
+
+        //BIND OUTSTANDING INVOICE TABLE USING CUSTOMER ID AND PAYMENT HEADER
+
+
+    }
+
+}
+
+
+function GetCustomerPayments(ID) {
+    try {
+        debugger;
+        var data = {"ID":ID};
+        var ds = {};
+        ds = GetDataFromServer("CustomerPayments/GetCustomerPaymentsByID/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            notyAlert('error', ds.Message);
+            var emptyarr = [];
+            return emptyarr;
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}

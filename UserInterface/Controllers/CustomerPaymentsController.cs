@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Newtonsoft.Json;
+using SAMTool.DataAccessObject.DTO;
 using SPAccounts.BusinessService.Contracts;
 using SPAccounts.DataAccessObject.DTO;
 using System;
@@ -19,16 +21,18 @@ namespace UserInterface.Controllers
         ICustomerBusiness _customerBusiness;
         IBankBusiness _bankBusiness;
         ICompaniesBusiness _companiesBusiness;
-        IPaymentModesBusiness _pmBusiness;
-        public CustomerPaymentsController(ICustomerPaymentsBusiness custPaymentBusiness, IPaymentModesBusiness pmBusiness,ICustomerBusiness customerBusiness, IBankBusiness bankBusiness,ICompaniesBusiness companiesBusiness)
+        IPaymentModesBusiness _paymentmodesBusiness;
+        public CustomerPaymentsController(ICustomerPaymentsBusiness custPaymentBusiness, IPaymentModesBusiness paymentmodeBusiness,ICustomerBusiness customerBusiness, IBankBusiness bankBusiness,ICompaniesBusiness companiesBusiness)
         {
             _CustPaymentBusiness = custPaymentBusiness;
-            _pmBusiness = pmBusiness;
+            _paymentmodesBusiness = paymentmodeBusiness;
             _customerBusiness = customerBusiness;
             _bankBusiness = bankBusiness;
             _companiesBusiness = companiesBusiness;
         }
         #endregion Constructor_Injection 
+
+        #region Index
         // GET: CustomerPayments
         public ActionResult Index()
         {
@@ -54,7 +58,7 @@ namespace UserInterface.Controllers
             CP.PaymentModesObj = new PaymentModesViewModel();
             CP.PaymentModesObj.PaymentModesList = new List<SelectListItem>();
             selectListItem = new List<SelectListItem>();
-            List<PaymentModesViewModel> PaymentModeList = Mapper.Map<List<PaymentModes>, List<PaymentModesViewModel>>(_pmBusiness.GetAllPaymentModes());
+            List<PaymentModesViewModel> PaymentModeList = Mapper.Map<List<PaymentModes>, List<PaymentModesViewModel>>(_paymentmodesBusiness.GetAllPaymentModes());
             foreach (PaymentModesViewModel PMVM in PaymentModeList)
             {
                 selectListItem.Add(new SelectListItem
@@ -98,6 +102,31 @@ namespace UserInterface.Controllers
             CP.CompanyObj.CompanyList= selectListItem;   
             return View(CP);
         }
+        #endregion Index
+
+        #region GetAllCustomerPayments
+        [HttpGet]
+       
+        public string GetAllCustomerPayments(string FromDate, string ToDate)
+        { 
+            List<CustomerPaymentsViewModel> CustPayList = Mapper.Map<List<CustomerPayments>, List<CustomerPaymentsViewModel>>(_CustPaymentBusiness.GetAllCustomerPayments());
+            return JsonConvert.SerializeObject(new { Result = "OK", Records = CustPayList });
+        }
+        #endregion GetAllCustomerPayments
+
+        #region GetAllCustomerPaymentsByID
+
+        [HttpGet]
+        public string GetCustomerPaymentsByID(string ID)
+        {
+            CustomerPaymentsViewModel custpaylist = Mapper.Map<CustomerPayments, CustomerPaymentsViewModel>(_CustPaymentBusiness.GetCustomerPaymentsByID(ID));
+            return JsonConvert.SerializeObject(new { Result = "OK", Records = custpaylist });
+
+        }
+        #endregion GetAllCustomerPayments
+
+
+
 
 
         #region ButtonStyling
