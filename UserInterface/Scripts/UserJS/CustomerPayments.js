@@ -47,7 +47,11 @@ $(document).ready(function () {
              { "data": "PaymentDueDateFormatted", "defaultContent": "<i>-</i>" },
              { "data": "TotalInvoiceAmount", "defaultContent": "<i>-</i>" },
              { "data": "BalanceDue", "defaultContent": "<i>-</i>" },
-             { "data": "Payment","defaultContent": "<i>-</i>" },
+             {
+                 "data": "Payment", 'render': function (data, type, row) {
+                     return '<input class="form-control" id="Markup" name="Markup" type="text">';
+                 }
+             }
         ],
         columnDefs: [{
             'targets': 1,
