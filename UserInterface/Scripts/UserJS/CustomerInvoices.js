@@ -147,7 +147,7 @@ function AddNew()
     $('#lblpaidAmt').text("₹ 0.00");
     $('#lblbalalnceAmt').text("₹ 0.00");
     $('#ID').val('');
-    $('#SCHeader').text("New Invoice");
+    $('#lblInvoiceNo').text("New Invoice");
     openNav();
 }
 function PaintInvoiceDetails()
@@ -155,7 +155,7 @@ function PaintInvoiceDetails()
     debugger;
     var InvoiceID = $('#ID').val();
     var CustomerInvoicesViewModel = GetCustomerInvoiceDetails(InvoiceID);
-    $('#SCHeader').text(CustomerInvoicesViewModel.InvoiceNo);
+    $('#lblInvoiceNo').text(CustomerInvoicesViewModel.InvoiceNo);
     $('#txtInvNo').val(CustomerInvoicesViewModel.InvoiceNo);
     $('#txtInvDate').val(CustomerInvoicesViewModel.InvoiceDateFormatted);
     $('#ddlCompany').val(CustomerInvoicesViewModel.companiesObj.Code);

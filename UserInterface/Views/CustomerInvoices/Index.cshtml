@@ -129,9 +129,8 @@
                         @Html.AntiForgeryToken()
                  <div class="col-md-12 headSeperator"><i  class="fa fa-th ig-yellow" aria-hidden="true"></i> Basic Details</div> 
                     <div class="col-md-12">
-                        <div class="col-md-4">
-
-                            <div class="form-group col-md-12">
+                        <div class="col-md-8">
+                            <div class="form-group col-md-6">
                                 <div class="col-md-12">
                                     @Html.LabelFor(model => model.InvoiceNo, htmlAttributes: new { @class = "control-label" })
                                     @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "" })
@@ -147,8 +146,7 @@
                                 </div>
 
                             </div>
-
-                            <div class="form-group col-md-12">
+                            <div class="form-group col-md-6">
                                 <div class="col-md-12">
                                     @Html.LabelFor(model => model.InvoiceDateFormatted, htmlAttributes: new { @class = "control-label" })
 
@@ -164,24 +162,7 @@
                                 </div>
 
                             </div>
-
-                            <div class="form-group col-md-12">
-                                <div class="col-md-12">
-                                    @Html.LabelFor(model => model.companiesObj.Code, htmlAttributes: new { @class = "control-label " })
-
-
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="col-md-10">
-                                        @Html.DropDownListFor(model => model.companiesObj.Code, Model.companiesObj.CompanyList, "-- Select Company --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "ddlCompany" })
-                                        @Html.ValidationMessageFor(model => model.companiesObj.Code, "", new { @class = "text-danger" })
-                                    </div>
-                                    <div class="col-md-1"></div>
-                                    <div class="col-md-1"></div>
-                                </div>
-
-                            </div>
-                            <div class="form-group col-md-12">
+                            <div class="form-group col-md-6">
                                 <div class="col-md-12">
                                     @Html.LabelFor(model => model.customerObj.ID, htmlAttributes: new { @class = "control-label " })
 
@@ -189,7 +170,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="col-md-10">
-                                        @Html.DropDownListFor(model => model.customerObj.ID, Model.customerObj.CustomerList, "-- Select Customer --", new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "ddlCustomer",@onchange="FillCustomerDefault(this);" })
+                                        @Html.DropDownListFor(model => model.customerObj.ID, Model.customerObj.CustomerList, "-- Select Customer --", new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "ddlCustomer", @onchange = "FillCustomerDefault(this);" })
                                         @Html.ValidationMessageFor(model => model.customerObj.ID, "", new { @class = "text-danger" })
                                     </div>
                                     <div class="col-md-1"></div>
@@ -197,18 +178,7 @@
                                 </div>
 
                             </div>
-
-                            
-
-
-                        </div>
-                        <div class="col-md-4">
-
-
-                            
-
-
-                            <div class="form-group col-md-12">
+                            <div class="form-group col-md-6">
                                 <div class="col-md-12">
                                     @Html.LabelFor(model => model.BillingAddress, htmlAttributes: new { @class = "control-label " })
 
@@ -223,8 +193,7 @@
                                 </div>
 
                             </div>
-
-                            <div class="form-group col-md-12">
+                            <div class="form-group col-md-6">
                                 <div class="col-md-12">
                                     @Html.LabelFor(model => model.paymentTermsObj.Code, htmlAttributes: new { @class = "control-label " })
 
@@ -232,7 +201,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="col-md-10">
-                                        @Html.DropDownListFor(model => model.paymentTermsObj.Code, Model.paymentTermsObj.PaymentTermsList, "-- Select Payment Term --", new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "ddlPaymentTerm",@onchange="GetDueDate(this);" })
+                                        @Html.DropDownListFor(model => model.paymentTermsObj.Code, Model.paymentTermsObj.PaymentTermsList, "-- Select Payment Term --", new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "ddlPaymentTerm", @onchange = "GetDueDate(this);" })
                                         @Html.ValidationMessageFor(model => model.paymentTermsObj.Code, "", new { @class = "text-danger" })
                                     </div>
                                     <div class="col-md-1"></div>
@@ -240,8 +209,7 @@
                                 </div>
 
                             </div>
-
-                            <div class="form-group col-md-12">
+                            <div class="form-group col-md-6">
                                 <div class="col-md-12">
                                     @Html.LabelFor(model => model.PaymentDueDateFormatted, htmlAttributes: new { @class = "control-label" })
 
@@ -257,9 +225,25 @@
                                 </div>
 
                             </div>
+                            <div class="form-group col-md-6">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => model.companiesObj.Code, htmlAttributes: new { @class = "control-label " })
+
+
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-10">
+                                        @Html.DropDownListFor(model => model.companiesObj.Code, Model.companiesObj.CompanyList, "-- Select Company --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "ddlCompany" })
+                                        @Html.ValidationMessageFor(model => model.companiesObj.Code, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-1"></div>
+                                </div>
+
+                            </div>
 
                         </div>
-                        <div class="col-md-4" style="padding-top:2%;border-left:4px solid green">
+                        <div class="col-md-4" style="padding-top:2%;border-left:1px solid #64e564">
                             <div class="form-group col-md-12">
                                 <div class="col-md-12 text-right">
                                     <div class="rightAmtCaption">Invoiced Amount</div>
@@ -291,11 +275,10 @@
                     </div>
                 <div class="col-md-12  ">&nbsp;</div> 
                 <div class="col-md-12  ">&nbsp;</div> 
-                <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Commercials</div> 
-
+                <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Commercials</div>
                 <div class="col-md-12">
-                    <div class="col-md-4">
-                        <div class="form-group col-md-12">
+                    <div class="col-md-12">
+                        <div class="form-group col-md-4">
                             <div class="col-md-12">
                                 @Html.LabelFor(model => model.GrossAmount, htmlAttributes: new { @class = "control-label" })
 
@@ -311,9 +294,7 @@
                             </div>
 
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-4">
                             <div class="col-md-12">
                                 @Html.LabelFor(model => model.Discount, htmlAttributes: new { @class = "control-label" })
 
@@ -328,15 +309,11 @@
                                 <div class="col-md-1"></div>
                             </div>
 
-                        </div>   
-                    </div>
-                    <div class="col-md-4">                      
-                       
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="col-md-4">
-                        <div class="form-group col-md-12">
+                        </div>
+                        <div class="form-group col-md-4" style="margin-top:4.3%">
+
+                        </div>
+                        <div class="form-group col-md-4">
                             <div class="col-md-12">
                                 @Html.LabelFor(model => model.NetTaxableAmount, htmlAttributes: new { @class = "control-label" })
 
@@ -352,9 +329,7 @@
                             </div>
 
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-4">
                             <div class="col-md-12">
                                 @Html.LabelFor(model => model.TaxTypeObj.Code, htmlAttributes: new { @class = "control-label " })
 
@@ -362,7 +337,7 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="col-md-10">
-                                    @Html.DropDownListFor(model => model.TaxTypeObj.Code, Model.TaxTypeObj.TaxTypesList, "-- Select Tax Type --", new { @class = "form-control BlockEnter Roundoff",value=0, style = "padding:4px 12px;", @id = "ddlTaxType" })
+                                    @Html.DropDownListFor(model => model.TaxTypeObj.Code, Model.TaxTypeObj.TaxTypesList, "-- Select Tax Type --", new { @class = "form-control BlockEnter Roundoff", value = 0, style = "padding:4px 12px;", @id = "ddlTaxType" })
                                     @Html.ValidationMessageFor(model => model.TaxTypeObj.Code, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-1"></div>
@@ -370,9 +345,7 @@
                             </div>
 
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group col-md-12" @*style="margin-top:15%"*@>
+                        <div class="form-group col-md-4" @*style="margin-top:15%"*@>
                             <div class="col-md-12">
                                 @Html.LabelFor(model => model.TaxPercApplied, htmlAttributes: new { @class = "control-label" })
 
@@ -388,11 +361,7 @@
                             </div>
 
                         </div>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="col-md-4">
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-4">
                             <div class="col-md-12">
                                 @Html.LabelFor(model => model.TaxAmount, htmlAttributes: new { @class = "control-label" })
 
@@ -408,9 +377,7 @@
                             </div>
 
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-4">
                             <div class="col-md-12">
                                 @Html.LabelFor(model => model.TotalInvoiceAmount, htmlAttributes: new { @class = "control-label" })
 
@@ -427,70 +394,65 @@
 
                         </div>
                     </div>
-                    <div class="col-md-4">
-
                     </div>
-                </div>
-                <div class="col-md-12  ">&nbsp;</div>
-                <div class="col-md-12  ">&nbsp;</div>
-                <div class="col-md-12 headSeperator"><i class="fa fa-th ig-green" aria-hidden="true"></i> Other Details</div> 
+                    <div class="col-md-12  ">&nbsp;</div>
+                    <div class="col-md-12  ">&nbsp;</div>
+                    <div class="col-md-12 headSeperator"><i class="fa fa-th ig-green" aria-hidden="true"></i> Other Details</div>
 
-                <div class="col-md-12  ">
-                    <div class="col-md-10">
-                        <div class="form-group col-md-12">
-                            <div class="col-md-12">
-                                @Html.LabelFor(model => model.Notes, htmlAttributes: new { @class = "control-label" })
-
-
-                            </div>
-                            <div class="col-md-12">
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Notes, new { htmlAttributes = new { @class = "form-control HeaderBox multiline4", @id = "txtNotes", @rows = 4 } })
-                                    @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
+                    <div class="col-md-12  ">
+                        <div class="col-md-10">
+                            <div class="form-group col-md-12">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => model.Notes, htmlAttributes: new { @class = "control-label" })
                                 </div>
-                                <div class="col-md-1"></div>
-                                <div class="col-md-1"></div>
-                            </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Notes, new { htmlAttributes = new { @class = "form-control HeaderBox multiline4", @id = "txtNotes", @rows = 4 } })
+                                        @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-1"></div>
+                                </div>
 
+                            </div>
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-1"></div>
+                    </div>
+
+                    <div class="col-md-12  ">
+                        <div class="col-md-10">
+                            <div class="form-group col-md-12">
+                                <div class="col-md-12">
+
+
+
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-10">
+                                        attachment controll here
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-1"></div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-1"></div>
+                    </div>
+
+                    <div class="col-md-12  ">&nbsp;</div>
+                    <div class="col-md-12  ">&nbsp;</div>
+                    <div class="col-md-12  ">&nbsp;</div>
+                    <div class="col-md-12  ">&nbsp;</div>
+                    <div class="col-md-12  ">&nbsp;</div>
+                    <div class="col-md-12  ">&nbsp;</div>
+                    <div class="form-group" hidden="hidden">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input id="btnSave" type="submit" value="Create" class="btn btn-default" />
                         </div>
                     </div>
-                    <div class="col-md-1"></div>
-                    <div class="col-md-1"></div>
-                    </div>
-
-                <div class="col-md-12  ">
-                    <div class="col-md-10">
-                        <div class="form-group col-md-12">
-                            <div class="col-md-12">
-                              
-
-
-                            </div>
-                            <div class="col-md-12">
-                                <div class="col-md-10">
-                                    attachment controll here
-                                </div>
-                                <div class="col-md-1"></div>
-                                <div class="col-md-1"></div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="col-md-1"></div>
-                    <div class="col-md-1"></div>
-                </div>
-
-                <div class="col-md-12  ">&nbsp;</div>
-                <div class="col-md-12  ">&nbsp;</div> 
-                <div class="col-md-12  ">&nbsp;</div>
-                <div class="col-md-12  ">&nbsp;</div> 
-                <div class="col-md-12  ">&nbsp;</div>
-                <div class="col-md-12  ">&nbsp;</div>
-                <div class="form-group" hidden="hidden">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input id="btnSave" type="submit" value="Create" class="btn btn-default" />
-                    </div>
-                </div>
                     }
                 </div>
         </div>
