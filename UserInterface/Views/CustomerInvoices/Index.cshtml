@@ -134,12 +134,12 @@
                             <div class="form-group col-md-12">
                                 <div class="col-md-12">
                                     @Html.LabelFor(model => model.InvoiceNo, htmlAttributes: new { @class = "control-label" })
-
+                                    @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "" })
 
                                 </div>
                                 <div class="col-md-12">
                                     <div class="col-md-10">
-                                        @Html.EditorFor(model => model.InvoiceNo, new { htmlAttributes = new { @class = "form-control HeaderBox", @id = "InvNo", @autofocus = true } })
+                                        @Html.EditorFor(model => model.InvoiceNo, new { htmlAttributes = new { @class = "form-control HeaderBox", @id = "txtInvNo", @autofocus = true } })
                                         @Html.ValidationMessageFor(model => model.InvoiceNo, "", new { @class = "text-danger" })
                                     </div>
                                     <div class="col-md-1"></div>
@@ -156,7 +156,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="col-md-10">
-                                        @Html.EditorFor(model => model.InvoiceDateFormatted, new { htmlAttributes = new { @class = "form-control HeaderBox datepicker", @id = "InvDate" } })
+                                        @Html.EditorFor(model => model.InvoiceDateFormatted, new { htmlAttributes = new { @class = "form-control HeaderBox datepicker", @id = "txtInvDate" } })
                                         @Html.ValidationMessageFor(model => model.InvoiceDateFormatted, "", new { @class = "text-danger" })
                                     </div>
                                     <div class="col-md-1"></div>
@@ -173,7 +173,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="col-md-10">
-                                        @Html.DropDownListFor(model => model.companiesObj.Code, Model.companiesObj.CompanyList, "-- Select Company --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "Company" })
+                                        @Html.DropDownListFor(model => model.companiesObj.Code, Model.companiesObj.CompanyList, "-- Select Company --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "ddlCompany" })
                                         @Html.ValidationMessageFor(model => model.companiesObj.Code, "", new { @class = "text-danger" })
                                     </div>
                                     <div class="col-md-1"></div>
@@ -189,7 +189,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="col-md-10">
-                                        @Html.DropDownListFor(model => model.customerObj.ID, Model.customerObj.CustomerList, "-- Select Customer --", new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "Customer",@onchange="FillCustomerDefault(this);" })
+                                        @Html.DropDownListFor(model => model.customerObj.ID, Model.customerObj.CustomerList, "-- Select Customer --", new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "ddlCustomer",@onchange="FillCustomerDefault(this);" })
                                         @Html.ValidationMessageFor(model => model.customerObj.ID, "", new { @class = "text-danger" })
                                     </div>
                                     <div class="col-md-1"></div>
@@ -215,7 +215,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="col-md-10">
-                                        @Html.EditorFor(model => model.BillingAddress, new { htmlAttributes = new { @class = "form-control", @id = "BillingAddress" } })
+                                        @Html.EditorFor(model => model.BillingAddress, new { htmlAttributes = new { @class = "form-control", @id = "txtBillingAddress" } })
 
                                     </div>
                                     <div class="col-md-1"></div>
@@ -259,13 +259,13 @@
                             </div>
 
                         </div>
-                        <div class="col-md-4" style="padding-top:2%">
+                        <div class="col-md-4" style="padding-top:2%;border-left:4px solid green">
                             <div class="form-group col-md-12">
                                 <div class="col-md-12 text-right">
                                     <div class="rightAmtCaption">Invoiced Amount</div>
                                 </div>
                                 <div class="col-md-12 text-right">
-                                    <div class="rightAmt" id="invoicedAmt">₹ 0.00</div>
+                                    <div class="rightAmt" id="lblinvoicedAmt">₹ 0.00</div>
                                 </div>
                             </div>
                             <div class="form-group col-md-12">
@@ -273,7 +273,7 @@
                                     <div class="rightAmtCaption">Paid Amount</div>
                                 </div>
                                 <div class="col-md-12 text-right">
-                                    <div class="rightAmt" id="paidAmt">₹ 0.00</div>
+                                    <div class="rightAmt" id="lblpaidAmt">₹ 0.00</div>
                                 </div>
                             </div>
                             <div class="form-group col-md-12">
@@ -281,7 +281,7 @@
                                     <div class="rightAmtCaption">Balance Due</div>
                                 </div>
                                 <div class="col-md-12 text-right">
-                                    <div class="rightAmt" id="balalnceAmt">₹ 0.00</div>
+                                    <div class="rightAmt" id="lblbalalnceAmt">₹ 0.00</div>
                                 </div>
                             </div>
 
@@ -445,7 +445,7 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Notes, new { htmlAttributes = new { @class = "form-control HeaderBox multiline4", @id = "Notes", @rows = 4 } })
+                                    @Html.EditorFor(model => model.Notes, new { htmlAttributes = new { @class = "form-control HeaderBox multiline4", @id = "txtNotes", @rows = 4 } })
                                     @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-1"></div>

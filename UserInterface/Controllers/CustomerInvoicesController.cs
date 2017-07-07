@@ -98,7 +98,20 @@ namespace UserInterface.Controllers
             return View(CI);
         }
 
-
+        [HttpGet]
+        public string GetCustomerInvoiceDetails(string ID)
+        {
+            try
+            {
+                CustomerInvoicesViewModel CustomerInvoiceObj = Mapper.Map<CustomerInvoice, CustomerInvoicesViewModel>(_customerInvoicesBusiness.GetCustomerInvoiceDetails(Guid.Parse(ID)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = CustomerInvoiceObj });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
         #region GetAllInvoices
         [HttpGet]    
         public string GetInvoicesAndSummary()
@@ -110,8 +123,6 @@ namespace UserInterface.Controllers
 
                 Result.CustomerInvoiceSummary= Mapper.Map<CustomerInvoiceSummary,CustomerInvoiceSummaryViewModel>(_customerInvoicesBusiness.GetCustomerInvoicesSummary());
                 Result.CustomerInvoices = Mapper.Map<List<CustomerInvoice>, List<CustomerInvoicesViewModel>>(_customerInvoicesBusiness.GetAllCustomerInvoices());
-
-
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = Result });
             }
             catch (Exception ex)
@@ -172,29 +183,15 @@ namespace UserInterface.Controllers
         {
             try
             {
-                //if (ModelState.c.IsValid)
-                //{
-                    AppUA ua = new AppUA();
-                    ua.UserName = "Thomson";
-                    _customerInvoicesObj.commonObj = new CommonViewModel();
-                    _customerInvoicesObj.commonObj.CreatedBy = ua.UserName;
-                    _customerInvoicesObj.commonObj.CreatedDate = DateTime.Now;
-                    CustomerInvoicesViewModel CIVM = Mapper.Map<CustomerInvoice, CustomerInvoicesViewModel>(_customerInvoicesBusiness.InsertUpdateInvoice(Mapper.Map<CustomerInvoicesViewModel, CustomerInvoice>(_customerInvoicesObj), ua));
+                AppUA ua = new AppUA();
+                ua.UserName = "Thomson";
+                _customerInvoicesObj.commonObj = new CommonViewModel();
+                _customerInvoicesObj.commonObj.CreatedBy = ua.UserName;
+                _customerInvoicesObj.commonObj.CreatedDate = DateTime.Now;
+                _customerInvoicesObj.commonObj.UpdatedBy= ua.UserName;
+                _customerInvoicesObj.commonObj.UpdatedDate= DateTime.Now;
+                CustomerInvoicesViewModel CIVM = Mapper.Map<CustomerInvoice, CustomerInvoicesViewModel>(_customerInvoicesBusiness.InsertUpdateInvoice(Mapper.Map<CustomerInvoicesViewModel, CustomerInvoice>(_customerInvoicesObj), ua));
                     return JsonConvert.SerializeObject(new { Result = "OK", Message = c.InsertSuccess, Records = CIVM });
-                //}
-                //else
-                //{
-                //    List<string> modelErrors = new List<string>();
-                //    foreach (var modelState in ModelState.Values)
-                //    {
-                //        foreach (var modelError in modelState.Errors)
-                //        {
-                //            modelErrors.Add(modelError.ErrorMessage);
-                //        }
-                //    }
-                    //return JsonConvert.SerializeObject(new { Result = "VALIDATION", Message = string.Join(",", modelErrors) });
-                    //return JsonConvert.SerializeObject(new { Result = "Error", Message = c.InsertFailure});
-                //}
             }
             catch (Exception ex)
             {
@@ -214,7 +211,7 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.addbtn.Visible = true;
                     ToolboxViewModelObj.addbtn.Text = "Add";
                     ToolboxViewModelObj.addbtn.Title = "Add New";
-                    ToolboxViewModelObj.addbtn.Event = "openNav();";
+                    ToolboxViewModelObj.addbtn.Event = "AddNew();";
 
                   
 
@@ -230,6 +227,11 @@ namespace UserInterface.Controllers
 
                     break;
                 case "Add":
+
+                    ToolboxViewModelObj.addbtn.Visible = true;
+                    ToolboxViewModelObj.addbtn.Text = "Add";
+                    ToolboxViewModelObj.addbtn.Title = "Add New";
+                    ToolboxViewModelObj.addbtn.Event = "AddNew();";
 
                     ToolboxViewModelObj.savebtn.Visible = true;
                     ToolboxViewModelObj.savebtn.Text = "Save";
