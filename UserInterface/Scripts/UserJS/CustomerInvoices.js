@@ -37,14 +37,16 @@ $(document).ready(function () {
         $('#CustInvTable tbody').on('dblclick', 'td', function () {
             Edit(this);
         });
-
+        $('input[type="text"].Roundoff').on('focus', function () {
+            $(this).select();
+        });
         showLoader();
         List();
        
         $('.Roundoff').on('change', function () {
             var CustomerInvoiceViewModel = new Object();
             CustomerInvoiceViewModel.GrossAmount = $('#txtGrossAmt').val();
-            CustomerInvoiceViewModel.Discount = $('#txtDiscount').val() > $('#txtGrossAmt').val() ? "0.00" : $('#txtDiscount').val();
+            CustomerInvoiceViewModel.Discount = ((parseInt($('#txtDiscount').val())) > (parseInt($('#txtGrossAmt').val()))) ? "0.00" : $('#txtDiscount').val();
             CustomerInvoiceViewModel.NetTaxableAmount = (CustomerInvoiceViewModel.GrossAmount - CustomerInvoiceViewModel.Discount)
             CustomerInvoiceViewModel.TaxType = $('#ddlTaxType').val() != "" ? GetTaxRate($('#ddlTaxType').val()) : $('#txtTaxPercApp').val();
             CustomerInvoiceViewModel.TaxPercentage = CustomerInvoiceViewModel.TaxType
@@ -54,7 +56,7 @@ $(document).ready(function () {
             $('#txtTaxPercApp').val(CustomerInvoiceViewModel.TaxPercentage);
             $('#txtTaxAmt').val(CustomerInvoiceViewModel.TaxAmount);
             $('#txtTotalInvAmt').val(CustomerInvoiceViewModel.TotalInvoiceAmount);
-            if($('#txtDiscount').val() > $('#txtGrossAmt').val())
+            if((parseInt($('#txtDiscount').val())) > (parseInt($('#txtGrossAmt').val())))
             {
                 $('#txtDiscount').val("0.00");
             }
