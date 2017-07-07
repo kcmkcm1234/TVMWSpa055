@@ -250,19 +250,21 @@
                 
                 <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Outstanding Invoices</div>
                 <div class="col-md-12  "> 
-                    <div class="col-md-8"></div>
-                    <div class="col-md-4">
-                        <div class="form-group col-md-12">
+                    <div class="col-md-9"></div>
+                    <div class="col-md-3">
+                       
+                        <div class="form-group col-md-8">
                             <div class="col-md-12">
                                 @Html.LabelFor(model => model.TotalRecdAmt, htmlAttributes: new { @class = "control-label " })
                             </div>
                             <div class="col-md-12">
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.TotalRecdAmt, new { htmlAttributes = new { @class = "form-control HeaderBox ", @id = "TotalRecdAmt", style = "text-align: right" } })
+                                <div class="col-md-12">
+                                    @Html.EditorFor(model => model.TotalRecdAmt, new { htmlAttributes = new { @class = "form-control HeaderBox", @id = "TotalRecdAmt", style = "text-align: right" } })
                                     @Html.ValidationMessageFor(model => model.TotalRecdAmt, "", new { @class = "text-danger" })
-                                </div> 
-                            </div> 
+                                </div>
+                            </div>
                         </div>
+                        <div class="form-group col-md-4"></div>
                     </div> 
                 </div>
          
