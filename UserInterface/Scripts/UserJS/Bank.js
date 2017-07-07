@@ -30,7 +30,7 @@ $(document).ready(function () {
 
         $('#BankTable tbody').on('dblclick', 'td', function () {
 
-            //Edit(this);
+            Edit(this);
         });
 
 
@@ -52,6 +52,7 @@ function Edit(currentObj) {
     //Tab Change on edit click
     debugger;
     openNav("0");
+    ResetForm();
 
     
     var rowData = DataTables.BankTable.row($(currentObj).parents('tr')).data();
@@ -95,12 +96,12 @@ function FillBankDetails(Code) {
     var thisItem = GetBankDetailsByCode(Code); //Binding Data
     //Hidden
     debugger;
-    $("#Code").val(thisItem[0].Code);
-    $("#Name").val(thisItem[0].Name);
-    $("#CompanyCode").val(thisItem[0].CompanyCode)    
+    $("#Code").val(thisItem.Code);
+    $("#Name").val(thisItem.Name);
+    $("#CompanyCode").val(thisItem.CompanyCode)    
    // $("#deleteId").val(thisItem[0].Code);
     $("#isUpdate").val("1");
-    $("#hdnCode").val(thisItem[0].Code);
+    $("#hdnCode").val(thisItem.Code);
     $("#Code").prop('disabled', true);
 }
 

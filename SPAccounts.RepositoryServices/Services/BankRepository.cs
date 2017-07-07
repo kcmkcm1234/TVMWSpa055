@@ -68,10 +68,54 @@ namespace SPAccounts.RepositoryServices.Services
         }
         #endregion GetAllBank
 
+        //#region GetBankDetailsByCode
+        //public Bank GetBankDetailsByCode(string Code)
+        //{
+        //    Bank bankObj = null;
+        //    try
+        //    {
+        //        using (SqlConnection con = _databaseFactory.GetDBConnection())
+        //        {
+        //            using (SqlCommand cmd = new SqlCommand())
+        //            {
+        //                if (con.State == ConnectionState.Closed)
+        //                {
+        //                    con.Open();
+        //                }
+        //                cmd.Connection = con;
+        //                cmd.CommandText = "[Accounts].[GetBankDetailsByCode]";
+        //                cmd.Parameters.Add("@Code", SqlDbType.VarChar, 5).Value =Code;
+        //                cmd.CommandType = CommandType.StoredProcedure;                     
+
+        //                using (SqlDataReader sdr = cmd.ExecuteReader())
+        //                {
+        //                    if ((sdr != null) && (sdr.HasRows))
+        //                        if (sdr.Read())
+        //                        {
+        //                            bankObj.Code = (sdr["Code"].ToString() != "" ? sdr["Code"].ToString() : bankObj.Code);
+        //                            bankObj.Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : bankObj.Name);
+        //                            bankObj.CompanyCode = (sdr["CompanyCode"].ToString() != "" ? sdr["CompanyCode"].ToString() : bankObj.CompanyCode);
+
+        //                        }
+        //                }
+
+        //            }
+        //        }
+        //    }
+
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+
+        //    return bankObj;
+        //}
+        //#endregion GetBankDetailsByCode
+
         #region GetBankDetailsByCode
-        public List<Bank> GetBankDetailsByCode(string Code)
+        public Bank GetBankDetailsByCode(string Code)
         {
-            List<Bank> bankList = null;
+            Bank _bankObj = null;
             try
             {
                 using (SqlConnection con = _databaseFactory.GetDBConnection())
@@ -84,25 +128,19 @@ namespace SPAccounts.RepositoryServices.Services
                         }
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[GetBankDetailsByCode]";
-                        cmd.Parameters.Add("@Code", SqlDbType.VarChar, 5).Value =Code;
+                        cmd.Parameters.Add("@Code", SqlDbType.NVarChar, 10).Value = Code;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
                             if ((sdr != null) && (sdr.HasRows))
-                            {
-                                bankList = new List<Bank>();
-                                while (sdr.Read())
+                                if (sdr.Read())
                                 {
-                                    Bank _bankObj = new Bank();
-                                    {
-                                        _bankObj.Code = (sdr["Code"].ToString() != "" ? sdr["Code"].ToString() : _bankObj.Code);
-                                        _bankObj.Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : _bankObj.Name);
-                                        _bankObj.CompanyCode = (sdr["CompanyCode"].ToString() != "" ? sdr["CompanyCode"].ToString() : _bankObj.CompanyCode);
+                                    _bankObj = new Bank();
+                                    _bankObj.Code = (sdr["Code"].ToString() != "" ? (sdr["Code"].ToString()) : _bankObj.Code);
+                                    _bankObj.Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : _bankObj.Name);
+                                    _bankObj.CompanyCode = (sdr["CompanyCode"].ToString() != "" ? sdr["CompanyCode"].ToString() : _bankObj.CompanyCode);
 
-                                    }
-                                    bankList.Add(_bankObj);
                                 }
-                            }
                         }
                     }
                 }
@@ -113,7 +151,7 @@ namespace SPAccounts.RepositoryServices.Services
                 throw ex;
             }
 
-            return bankList;
+            return _bankObj;
         }
         #endregion GetBankDetailsByCode
 

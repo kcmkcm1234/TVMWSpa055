@@ -81,7 +81,7 @@ namespace UserInterface.Controllers
             try
             {
 
-                List<BankViewModel> BankList = Mapper.Map<List<Bank>, List<BankViewModel>>(_bankBusiness.GetBankDetailsByCode(Code));
+                BankViewModel BankList = Mapper.Map<Bank, BankViewModel>(_bankBusiness.GetBankDetailsByCode(Code));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = BankList });
             }
             catch (Exception ex)

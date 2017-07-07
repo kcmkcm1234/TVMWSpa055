@@ -168,7 +168,7 @@ namespace UserInterface.Controllers
         {
             try
             {
-                TaxTypesViewModel taxTypesObj = Mapper.Map<TaxTypes, TaxTypesViewModel>(_taxTypesBusiness.GetTaxTypeDetails(Code));
+                TaxTypesViewModel taxTypesObj = Mapper.Map<TaxTypes, TaxTypesViewModel>(_taxTypesBusiness.GetTaxTypeDetailsByCode(Code));
                 decimal Rate = taxTypesObj.Rate;
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = Rate });
             }

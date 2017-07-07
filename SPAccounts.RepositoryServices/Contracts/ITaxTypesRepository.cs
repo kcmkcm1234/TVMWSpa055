@@ -9,6 +9,9 @@ namespace SPAccounts.RepositoryServices.Contracts
     public interface ITaxTypesRepository
     {
         List<TaxTypes> GetAllTaxTypes();
-        TaxTypes GetTaxTypeDetails(string Code);
+        TaxTypes GetTaxTypeDetailsByCode(string Code);
+        TaxTypes InsertTaxType(TaxTypes _taxTypesObj, AppUA ua);
+        object UpdateTaxType(TaxTypes _taxTypesObj, AppUA ua);
+        object DeleteTaxType(string code);
     }
 }

@@ -11,7 +11,7 @@ namespace SPAccounts.BusinessService.Contracts
     {
         List<Bank> GetAllBanks();
         object InsertUpdateBank(Bank bankObj, AppUA ua);
-        List<Bank> GetBankDetailsByCode(string Code);
+        Bank GetBankDetailsByCode(string Code);
         object DeleteBank(string Code);
     }
 }

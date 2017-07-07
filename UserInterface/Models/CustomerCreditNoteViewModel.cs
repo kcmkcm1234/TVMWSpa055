@@ -12,7 +12,7 @@ namespace UserInterface.Models
         public Guid? ID { get; set; }
         [Display(Name="Credit Note No")]
         public string CreditNoteNo { get; set; }
-        [Display(Name = "Credit Name")]
+        [Display(Name = "Customer Name")]
         public string CustomerID { get; set; }
         public string OriginComanyCode { get; set; }
         public string CustomerName { get; set; }

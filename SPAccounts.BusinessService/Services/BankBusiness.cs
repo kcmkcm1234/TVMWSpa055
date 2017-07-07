@@ -21,7 +21,7 @@ namespace SPAccounts.BusinessService.Services
             return _bankRepository.GetAllBank();
         }
 
-        public List<Bank> GetBankDetailsByCode(string Code)
+        public Bank GetBankDetailsByCode(string Code)
         {
             return _bankRepository.GetBankDetailsByCode(Code);
         }
