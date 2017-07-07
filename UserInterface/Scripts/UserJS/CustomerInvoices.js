@@ -35,17 +35,18 @@ $(document).ready(function () {
          });
 
         $('#CustInvTable tbody').on('dblclick', 'td', function () {
-
             Edit(this);
         });
-
+        $('input[type="text"].Roundoff').on('focus', function () {
+            $(this).select();
+        });
         showLoader();
         List();
        
         $('.Roundoff').on('change', function () {
             var CustomerInvoiceViewModel = new Object();
             CustomerInvoiceViewModel.GrossAmount = $('#txtGrossAmt').val();
-            CustomerInvoiceViewModel.Discount = $('#txtDiscount').val();
+            CustomerInvoiceViewModel.Discount = ((parseInt($('#txtDiscount').val())) > (parseInt($('#txtGrossAmt').val()))) ? "0.00" : $('#txtDiscount').val();
             CustomerInvoiceViewModel.NetTaxableAmount = (CustomerInvoiceViewModel.GrossAmount - CustomerInvoiceViewModel.Discount)
             CustomerInvoiceViewModel.TaxType = $('#ddlTaxType').val() != "" ? GetTaxRate($('#ddlTaxType').val()) : $('#txtTaxPercApp').val();
             CustomerInvoiceViewModel.TaxPercentage = CustomerInvoiceViewModel.TaxType
@@ -55,6 +56,11 @@ $(document).ready(function () {
             $('#txtTaxPercApp').val(CustomerInvoiceViewModel.TaxPercentage);
             $('#txtTaxAmt').val(CustomerInvoiceViewModel.TaxAmount);
             $('#txtTotalInvAmt').val(CustomerInvoiceViewModel.TotalInvoiceAmount);
+            if((parseInt($('#txtDiscount').val())) > (parseInt($('#txtGrossAmt').val())))
+            {
+                $('#txtDiscount').val("0.00");
+            }
+            
         });
         $('#txtTaxPercApp').on('keypress', function () {
             debugger;
@@ -70,18 +76,12 @@ $(document).ready(function () {
 
 });
 function SaveSuccess(data, status) {
-
     var JsonResult = JSON.parse(data)
     switch (JsonResult.Result) {
         case "OK":
-            //if ($("#HeaderID").val() == emptyGUID || $("#HeaderID").val() == "") {
-            //    BindICRBillEntry(JsonResult.Records.ID);
-            //    BillBookNumberValidation();
-            //}
-            //else {
-            //    BindICRBillEntry($("#HeaderID").val());
-            //}
-            //BindAllCustomerBill();
+            $('#ID').val(JsonResult.Records.ID);
+            PaintInvoiceDetails()
+            List();
             notyAlert('success', JsonResult.Message);
             break;
         case "ERROR":
@@ -135,13 +135,51 @@ function Summary(Records) {
 
 
 function Edit(Obj) {
-    alert("edit clicked")
+    debugger;
+    $('#CustomerInvoiceForm')[0].reset();
+    var rowData = DataTables.CustInvTable.row($(Obj).parents('tr')).data();
+    $('#ID').val(rowData.ID);
+    PaintInvoiceDetails();
+    openNav();
 }
+function AddNew()
+{
+    $('#CustomerInvoiceForm')[0].reset();
+    $('#lblinvoicedAmt').text("₹ 0.00");
+    $('#lblpaidAmt').text("₹ 0.00");
+    $('#lblbalalnceAmt').text("₹ 0.00");
+    $('#ID').val('');
+    $('#lblInvoiceNo').text("New Invoice");
+    openNav();
+}
+function PaintInvoiceDetails()
+{
+    debugger;
+    var InvoiceID = $('#ID').val();
+    var CustomerInvoicesViewModel = GetCustomerInvoiceDetails(InvoiceID);
+    $('#lblInvoiceNo').text(CustomerInvoicesViewModel.InvoiceNo);
+    $('#txtInvNo').val(CustomerInvoicesViewModel.InvoiceNo);
+    $('#txtInvDate').val(CustomerInvoicesViewModel.InvoiceDateFormatted);
+    $('#ddlCompany').val(CustomerInvoicesViewModel.companiesObj.Code);
+    $('#ddlCustomer').val(CustomerInvoicesViewModel.customerObj.ID);
+    $('#txtBillingAddress').val(CustomerInvoicesViewModel.BillingAddress);
+    $('#ddlPaymentTerm').val(CustomerInvoicesViewModel.paymentTermsObj.Code);
+    $('#txtPayDueDate').val(CustomerInvoicesViewModel.PaymentDueDateFormatted);
+    $('#txtGrossAmt').val(CustomerInvoicesViewModel.GrossAmount);
+    $('#txtDiscount').val(CustomerInvoicesViewModel.Discount);
+    $('#txtNetTaxableAmt').val(CustomerInvoicesViewModel.GrossAmount - CustomerInvoicesViewModel.Discount);
+    $('#ddlTaxType').val(CustomerInvoicesViewModel.TaxTypeObj.Code);
+    $('#txtTaxPercApp').val(CustomerInvoicesViewModel.TaxPercApplied);
+    $('#txtTaxAmt').val(CustomerInvoicesViewModel.TaxAmount);
+    $('#txtTotalInvAmt').val(CustomerInvoicesViewModel.TotalInvoiceAmount);
+    $('#txtNotes').val(CustomerInvoicesViewModel.Notes);
+    $('#ID').val(CustomerInvoicesViewModel.ID);
+    $('#lblinvoicedAmt').text("₹ " + CustomerInvoicesViewModel.TotalInvoiceAmount);
+    $('#lblpaidAmt').text("₹ " + (CustomerInvoicesViewModel.TotalInvoiceAmount - CustomerInvoicesViewModel.BalanceDue));
+    $('#lblbalalnceAmt').text("₹ " + CustomerInvoicesViewModel.BalanceDue);
 
 
-
-
-
+}
 //---------------Bind logics-------------------
 function GetAllInvoicesAndSummary() {
     try {
@@ -170,7 +208,7 @@ function FillCustomerDefault(this_Obj)
     {
         var ID = this_Obj.value;
         var CustomerViewModel = GetCustomerDetails(ID);
-        $('#BillingAddress').val(CustomerViewModel.BillingAddress);
+        $('#txtBillingAddress').val(CustomerViewModel.BillingAddress);
         $('#ddlPaymentTerm').val(CustomerViewModel.PaymentTermCode);
         $('#ddlPaymentTerm').trigger('change');
     }
@@ -220,6 +258,27 @@ function GetPaymentTermDetails(Code)
         var data = { "Code":Code };
         var ds = {};
         ds = GetDataFromServer("CustomerInvoices/GetDueDate/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            alert(ds.Message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+function GetCustomerInvoiceDetails()
+{
+    try {
+        var InvoiceID = $('#ID').val();
+        var data = {"ID":InvoiceID};
+        var ds = {};
+        ds = GetDataFromServer("CustomerInvoices/GetCustomerInvoiceDetails/", data);
         if (ds != '') {
             ds = JSON.parse(ds);
         }

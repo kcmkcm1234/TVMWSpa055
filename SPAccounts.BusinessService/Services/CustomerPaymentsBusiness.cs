@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using SPAccounts.DataAccessObject.DTO;
 
 namespace SPAccounts.BusinessService.Services
 {
@@ -13,6 +14,21 @@ namespace SPAccounts.BusinessService.Services
         public CustomerPaymentsBusiness(ICustomerPaymentsRepository custPaymentRepository)
         {
             _customerPaymentsRepository = custPaymentRepository;
-        } 
+        }
+
+        public List<CustomerPayments> GetAllCustomerPayments()
+        {
+            List<CustomerPayments> custPayObj = null;
+            custPayObj = _customerPaymentsRepository.GetAllCustomerPayments();
+            return custPayObj;
+        }
+
+        public CustomerPayments GetCustomerPaymentsByID(string ID)
+        {
+            CustomerPayments custPayObj = null;
+            custPayObj = _customerPaymentsRepository.GetCustomerPaymentsByID(ID);
+            return custPayObj;
+
+        }
     }
 }

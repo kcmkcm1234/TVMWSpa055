@@ -1,4 +1,5 @@
 ﻿using SPAccounts.DataAccessObject.DTO;
+using System;
 using System.Collections.Generic;
 
 namespace SPAccounts.RepositoryServices.Contracts
@@ -7,6 +8,8 @@ namespace SPAccounts.RepositoryServices.Contracts
     {
          List<CustomerInvoice> GetAllCustomerInvoices();
         CustomerInvoiceSummary GetCustomerInvoicesSummary();
-        CustomerInvoice InsertUpdateInvoice(CustomerInvoice _customerInvoicesObj, AppUA ua);
+        CustomerInvoice GetCustomerInvoiceDetails(Guid ID);
+        CustomerInvoice InsertInvoice(CustomerInvoice _customerInvoicesObj, AppUA ua);
+        CustomerInvoice UpdateInvoice(CustomerInvoice _customerInvoicesObj, AppUA ua);
     }
 }

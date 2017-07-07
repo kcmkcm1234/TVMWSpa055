@@ -45,7 +45,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public AppConst()
         {
             ConstMessage.Add(new AppConstMessage("Test message", "DF8D1", "ERROR"));
-             
+            ConstMessage.Add(new AppConstMessage(FKviolation, "FK_Exec", "ERROR"));
             //
         }
 

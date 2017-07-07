@@ -47,6 +47,8 @@ namespace UserInterface.App_Start
                 config.CreateMap<BankViewModel, Bank>().ReverseMap();
                 config.CreateMap<TaxTypesViewModel, TaxTypes>().ReverseMap();
                 config.CreateMap<PaymentModesViewModel, PaymentModes>().ReverseMap();
+                config.CreateMap<CustomerPaymentsViewModel, CustomerPayments>().ReverseMap();
+                
             });
         }
     }

@@ -10,5 +10,8 @@ namespace SPAccounts.BusinessService.Contracts
    public interface IBankBusiness
     {
         List<Bank> GetAllBanks();
+        object InsertUpdateBank(Bank bankObj, AppUA ua);
+        Bank GetBankDetailsByCode(string Code);
+        object DeleteBank(string Code);
     }
 }

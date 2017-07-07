@@ -31,7 +31,10 @@ namespace SPAccounts.BusinessService.Services
 
         }
 
-
+        public CustomerInvoice GetCustomerInvoiceDetails(Guid ID)
+        {
+            return _customerInvoicesRepository.GetCustomerInvoiceDetails(ID);
+        }
         public CustomerInvoiceSummary GetCustomerInvoicesSummary() {
             try
             {
@@ -57,7 +60,15 @@ namespace SPAccounts.BusinessService.Services
         }
         public CustomerInvoice InsertUpdateInvoice(CustomerInvoice _customerInvoicesObj, AppUA ua)
         {
-            return _customerInvoicesRepository.InsertUpdateInvoice(_customerInvoicesObj, ua);
+            if(_customerInvoicesObj.ID!=null&& _customerInvoicesObj.ID!=Guid.Empty)
+            {
+                return _customerInvoicesRepository.UpdateInvoice(_customerInvoicesObj, ua);
+            }
+            else
+            {
+                return _customerInvoicesRepository.InsertInvoice(_customerInvoicesObj, ua);
+            }
+            
         }
     }
 }

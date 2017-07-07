@@ -19,11 +19,6 @@ namespace SPAccounts.RepositoryServices.Services
         {
             _databaseFactory = databaseFactory;
         }
-
-
-
-
-
         public List<CustomerInvoice> GetAllCustomerInvoices()
         {
             List<CustomerInvoice> CustomerInvoicesList = null;
@@ -84,7 +79,73 @@ namespace SPAccounts.RepositoryServices.Services
 
             return CustomerInvoicesList;
         }
+        public CustomerInvoice GetCustomerInvoiceDetails(Guid ID)
+        {
+            CustomerInvoice CIList = null;
+            Settings settings = new Settings();
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetCustomerInvoiceDetails]";
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = ID;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                if (sdr.Read())
+                                {
+                                    CIList = new CustomerInvoice();
+                                    CIList.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : CIList.ID);
+                                    CIList.InvoiceDate = (sdr["InvoiceDate"].ToString() != "" ? DateTime.Parse(sdr["InvoiceDate"].ToString()) : CIList.InvoiceDate);
+                                    CIList.InvoiceNo = sdr["InvoiceNo"].ToString();
+                                    CIList.companiesObj = new Companies();
+                                    CIList.companiesObj.Code = (sdr["OriginComanyCode"].ToString());
+                                    CIList.paymentTermsObj = new PaymentTerms();
+                                    CIList.paymentTermsObj.Code = (sdr["PaymentTerm"].ToString());
+                                    CIList.customerObj = new Customer();
+                                    CIList.customerObj.ID = Guid.Parse(sdr["CustomerID"].ToString());
+                                    CIList.customerObj.CompanyName = sdr["CompanyName"].ToString();
+                                    CIList.BillingAddress = (sdr["BillingAddress"].ToString());
+                                    CIList.GrossAmount = (sdr["GrossAmount"].ToString() != "" ? Decimal.Parse(sdr["GrossAmount"].ToString()) : CIList.GrossAmount);
+                                    CIList.Discount = (sdr["Discount"].ToString() != "" ? Decimal.Parse(sdr["Discount"].ToString()) : CIList.Discount);
+                                    CIList.TaxAmount = (sdr["TaxAmount"].ToString() != "" ? Decimal.Parse(sdr["TaxAmount"].ToString()) : CIList.TaxAmount);
+                                    CIList.TaxPercApplied = (sdr["TaxPercApplied"].ToString() != "" ? Decimal.Parse(sdr["TaxPercApplied"].ToString()) : CIList.TaxPercApplied);
+                                    CIList.Notes = (sdr["GeneralNotes"].ToString() != "" ?(sdr["GeneralNotes"].ToString()) : CIList.Notes);
+                                    CIList.TaxTypeObj = new TaxTypes();
+                                    CIList.TaxTypeObj.Code = sdr["TaxTypeCode"].ToString();
+                                    CIList.PaymentDueDate = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()) : CIList.PaymentDueDate);
+                                    CIList.TotalInvoiceAmount = (sdr["TotalInvoiceAmount"].ToString() != "" ? Decimal.Parse(sdr["TotalInvoiceAmount"].ToString()) : CIList.TotalInvoiceAmount);
+                                    CIList.BalanceDue = (sdr["BalanceDue"].ToString() != "" ? Decimal.Parse(sdr["BalanceDue"].ToString()) : CIList.BalanceDue);
+                                    CIList.LastPaymentDate = (sdr["LastPaymentDate"].ToString() != "" ? DateTime.Parse(sdr["LastPaymentDate"].ToString()) : CIList.LastPaymentDate);
+                                    
+                                    //------------date formatting-----------------//
+                                    CIList.InvoiceDateFormatted = (sdr["InvoiceDate"].ToString() != "" ? DateTime.Parse(sdr["InvoiceDate"].ToString()).ToString(settings.dateformat) : CIList.InvoiceDateFormatted);
+                                    CIList.PaymentDueDateFormatted = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString(settings.dateformat) : CIList.PaymentDueDateFormatted);
+                                    CIList.LastPaymentDateFormatted = (sdr["LastPaymentDate"].ToString() != "" ? DateTime.Parse(sdr["LastPaymentDate"].ToString()).ToString(settings.dateformat) : CIList.LastPaymentDateFormatted);
 
+                                }
+                            }
+                        }
+                    }
+                }
+                }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return CIList;
+        }
         public CustomerInvoiceSummary GetCustomerInvoicesSummary()
         {
             CustomerInvoiceSummary CustomerInvoiceSummary = null;
@@ -136,7 +197,7 @@ namespace SPAccounts.RepositoryServices.Services
 
             return CustomerInvoiceSummary;
         }
-        public CustomerInvoice InsertUpdateInvoice(CustomerInvoice _customerInvoicesObj, AppUA ua)
+        public CustomerInvoice InsertInvoice(CustomerInvoice _customerInvoicesObj, AppUA ua)
         {
             try
             {
@@ -185,6 +246,69 @@ namespace SPAccounts.RepositoryServices.Services
                         throw new Exception(Cobj.InsertFailure);
                     case "1":
                         _customerInvoicesObj.ID = new Guid(outputID.Value.ToString());
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return _customerInvoicesObj;
+        }
+        public CustomerInvoice UpdateInvoice(CustomerInvoice _customerInvoicesObj, AppUA ua)
+        {
+            try
+            {
+                SqlParameter outputStatus = null;
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[UpdateCustomerInvoice]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = _customerInvoicesObj.ID;
+                        cmd.Parameters.Add("@OriginCompanyCode", SqlDbType.VarChar, 10).Value = _customerInvoicesObj.companiesObj.Code;
+                        cmd.Parameters.Add("@InvoiceNo", SqlDbType.VarChar, 10).Value = _customerInvoicesObj.InvoiceNo;
+                        cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = _customerInvoicesObj.customerObj.ID;
+                        cmd.Parameters.Add("@PaymentTerm", SqlDbType.VarChar, 10).Value = _customerInvoicesObj.paymentTermsObj.Code;
+                        cmd.Parameters.Add("@InvoiceDate", SqlDbType.DateTime).Value = _customerInvoicesObj.InvoiceDateFormatted;
+                        cmd.Parameters.Add("@PaymentDueDate", SqlDbType.DateTime).Value = _customerInvoicesObj.PaymentDueDateFormatted;
+                        cmd.Parameters.Add("@BillingAddress", SqlDbType.NVarChar, -1).Value = _customerInvoicesObj.BillingAddress;
+                        cmd.Parameters.Add("@GrossAmount", SqlDbType.Decimal).Value = _customerInvoicesObj.GrossAmount;
+                        cmd.Parameters.Add("@Discount", SqlDbType.Decimal).Value = _customerInvoicesObj.Discount;
+                        cmd.Parameters.Add("@TaxTypeCode", SqlDbType.VarChar, 10).Value = _customerInvoicesObj.TaxTypeObj.Code != "" ? _customerInvoicesObj.TaxTypeObj.Code : null;
+                        cmd.Parameters.Add("@TaxPreApplied", SqlDbType.Decimal).Value = _customerInvoicesObj.TaxPercApplied;
+                        cmd.Parameters.Add("@TaxAmount", SqlDbType.Decimal).Value = _customerInvoicesObj.TaxAmount;
+                        cmd.Parameters.Add("@TotalInvoiceAmount", SqlDbType.Decimal).Value = _customerInvoicesObj.TotalInvoiceAmount;
+                        cmd.Parameters.Add("@GeneralNotes", SqlDbType.NVarChar, -1).Value = _customerInvoicesObj.Notes;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = _customerInvoicesObj.commonObj.UpdatedBy;
+                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = _customerInvoicesObj.commonObj.UpdatedDate;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        //outputID = cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier);
+                        //outputID.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+
+
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        AppConst Cobj = new AppConst();
+                        throw new Exception(Cobj.InsertFailure);
+                    case "1":
+                       // _customerInvoicesObj.ID = new Guid(outputID.Value.ToString());
                         break;
                     default:
                         break;

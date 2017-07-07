@@ -48,6 +48,73 @@ namespace UserInterface.Controllers
         }
         #endregion  GetAllTaxTypes
 
+        #region GetTaxTypeDetailsByCode
+        [HttpGet]
+        public string GetTaxTypeDetailsByCode(string Code)
+        {
+            try
+            {
+
+                TaxTypesViewModel taxTypesObj = Mapper.Map<TaxTypes, TaxTypesViewModel>(_taxTypeBusiness.GetTaxTypeDetailsByCode(Code));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = taxTypesObj });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion  GetTaxTypeDetailsByCode
+
+        #region InsertUpdateTaxType
+        [HttpPost]
+        public string InsertUpdateTaxType(TaxTypesViewModel _taxTypesObj)
+        {
+            try
+            {
+
+                object result = null;
+                AppUA ua = new AppUA();
+                if (!string.IsNullOrEmpty(_taxTypesObj.hdnCode))
+                {
+                    _taxTypesObj.Code = _taxTypesObj.hdnCode;
+                }
+
+                result = _taxTypeBusiness.InsertUpdateTaxType(Mapper.Map<TaxTypesViewModel, TaxTypes>(_taxTypesObj), ua);
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+
+            }
+            catch (Exception ex)
+            {
+
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion InsertUpdateTaxType
+
+        #region DeleteTaxType
+        public string DeleteTaxType(string code)
+        {
+
+            try
+            {
+                object result = null;
+
+                result = _taxTypeBusiness.DeleteTaxType(code);
+                return JsonConvert.SerializeObject(new { Result = "OK", Message = result });
+
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+
+
+        }
+        #endregion DeleteTaxType
+
         #region ButtonStyling
         [HttpGet]
         public ActionResult ChangeButtonStyle(string ActionType)
@@ -71,7 +138,30 @@ namespace UserInterface.Controllers
 
                     break;
                 case "Edit":
+                    ToolboxViewModelObj.backbtn.Visible = true;
+                    ToolboxViewModelObj.backbtn.Text = "Back";
+                    ToolboxViewModelObj.backbtn.Title = "Back to list";
+                    ToolboxViewModelObj.backbtn.Event = "goBack();";
 
+                    ToolboxViewModelObj.addbtn.Visible = true;
+                    ToolboxViewModelObj.addbtn.Text = "New";
+                    ToolboxViewModelObj.addbtn.Title = "Add New";
+                    ToolboxViewModelObj.addbtn.Event = "openNav();";
+
+                    ToolboxViewModelObj.savebtn.Visible = true;
+                    ToolboxViewModelObj.savebtn.Text = "Save";
+                    ToolboxViewModelObj.savebtn.Title = "Save Employee";
+                    ToolboxViewModelObj.savebtn.Event = "Save();";
+
+                    ToolboxViewModelObj.deletebtn.Visible = true;
+                    ToolboxViewModelObj.deletebtn.Text = "Delete";
+                    ToolboxViewModelObj.deletebtn.Title = "Delete Employee";
+                    ToolboxViewModelObj.deletebtn.Event = "Delete()";
+
+                    ToolboxViewModelObj.resetbtn.Visible = true;
+                    ToolboxViewModelObj.resetbtn.Text = "Reset";
+                    ToolboxViewModelObj.resetbtn.Title = "Reset";
+                    ToolboxViewModelObj.resetbtn.Event = "Reset();";
 
                     break;
                 case "Add":
@@ -79,7 +169,7 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.savebtn.Visible = true;
                     ToolboxViewModelObj.savebtn.Text = "Save";
                     ToolboxViewModelObj.savebtn.Title = "Save";
-                    ToolboxViewModelObj.savebtn.Event = "saveNow();";
+                    ToolboxViewModelObj.savebtn.Event = "Save();";
 
                     ToolboxViewModelObj.CloseBtn.Visible = true;
                     ToolboxViewModelObj.CloseBtn.Text = "Close";

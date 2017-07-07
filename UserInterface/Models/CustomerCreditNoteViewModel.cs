@@ -9,10 +9,12 @@ namespace UserInterface.Models
 {
     public class CustomerCreditNoteViewModel
     {
+        public Guid? ID { get; set; }
         [Display(Name="Credit Note No")]
         public string CreditNoteNo { get; set; }
-        [Display(Name = "Credit Name")]
+        [Display(Name = "Customer Name")]
         public string CustomerID { get; set; }
+        public string OriginComanyCode { get; set; }
         public string CustomerName { get; set; }
         public DateTime? CreditNoteDate { get; set; }
         [Display(Name = "Credit Note Date")]

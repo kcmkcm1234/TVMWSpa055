@@ -33,6 +33,7 @@ namespace UserInterface.Models
         public string GeneralNotes { get; set; }
 
         public decimal TotalRecdAmt { get; set; }
+        public decimal AdvanceAmount { get; set; }
 
         public string PaymentDateFormatted { get; set; }
         public List<CustomerPaymentsDetailViewModel> CustomerPaymentsDetail { get; set; }
