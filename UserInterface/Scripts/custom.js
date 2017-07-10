@@ -42,7 +42,6 @@ var appAddress = window.location.protocol + "//" + window.location.host + "/";  
 
 
 $(document).ready(function () {
-    debugger;
     $('input.datepicker').datepicker({
         format: "dd-M-yyyy",//",
         maxViewMode: 0,
@@ -52,7 +51,7 @@ $(document).ready(function () {
         todayHighlight: true
     });
    
-    $('input').keydown(function (e) {
+    $('input,textarea').keydown(function (e) {
         var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
         if (key == 13) {
             e.preventDefault();

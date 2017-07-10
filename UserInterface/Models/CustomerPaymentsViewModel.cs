@@ -32,6 +32,7 @@ namespace UserInterface.Models
         [Display(Name = "General Notes")]
         public string GeneralNotes { get; set; }
 
+        [Display(Name = "Amount Received")]
         public decimal TotalRecdAmt { get; set; }
         public decimal AdvanceAmount { get; set; }
 

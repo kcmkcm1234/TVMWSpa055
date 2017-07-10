@@ -26,27 +26,43 @@ $(document).ready(function () {
             { className: "text-right", "targets": [6,7] },
             { className: "text-center", "targets": [1, 2, 3,4,5,8] } 
         ]
-    });  
+    });    
 
 
-
-
-  
-    $('#tblOutStandingDetails').DataTable({
+    debugger;
+    DataTables.OutStandingInvoices = $('#tblOutStandingDetails').DataTable({
         dom: '<"pull-left"f>rt<"bottom"ip><"clear">',
         order: [],
         searching: true,
-        paging: false,
+        paging:false,
+        data:null,
+        columns: [
+             { "data": "ID", "defaultContent": "<i>-</i>" },
+             { "data": "Checkbox", "defaultContent": "<i>-</i>" },
+             { "data": "Description", 'render': function (data, type, row)
+             { 
+                 return ' Invoice # ' + row.InvoiceNo + '(Date:' + row.InvoiceDateFormatted + ')'
+             }, "width": "40%"
+             },
+             { "data": "PaymentDueDateFormatted", "defaultContent": "<i>-</i>", "width": "25%" },
+             { "data": "TotalInvoiceAmount", "defaultContent": "<i>-</i>", "width": "20%" },
+             { "data": "BalanceDue", "defaultContent": "<i>-</i>", "width": "20%" },
+             {
+                 "data": "Payment", 'render': function (data, type, row) {
+                     return '<input class="form-control" id="Markup" name="Markup" type="text">';
+                 }, "width": "20%"
+             }
+        ],
         columnDefs: [{
             'targets': 1,
             'searchable': false,
             'orderable': false,
-            'width': '1%',
+            'width': '5%',
             'className': 'dt-body-center',
-            'render': function (data, type, full, meta) {
+            'render': function (data, type,row) {
                 return '<input type="checkbox">';
             }
-        }],
+        },{ "targets": [0], "visible": false, "searchable": false }],
         select: {
             style: 'os',
             selector: 'td:first-child'
@@ -97,11 +113,13 @@ function Edit(currentObj)
         $('#PaymentMode').val(thisitem.PaymentMode);
         $('#BankCode').val(thisitem.BankCode);
         $('#Notes').val(thisitem.GeneralNotes);
-
-        //BIND OUTSTANDING INVOICE TABLE USING CUSTOMER ID AND PAYMENT HEADER
-
-
+        $('#TotalRecdAmt').val(thisitem.TotalRecdAmt);
+        $('#lblTotalRecdAmt').text(thisitem.TotalRecdAmt);
     }
+
+    debugger;
+    //BIND OUTSTANDING INVOICE TABLE USING CUSTOMER ID AND PAYMENT HEADER 
+    DataTables.OutStandingInvoices.clear().rows.add(GetOutStandingInvoices()).draw(false);
 
 }
 
@@ -112,6 +130,30 @@ function GetCustomerPayments(ID) {
         var data = {"ID":ID};
         var ds = {};
         ds = GetDataFromServer("CustomerPayments/GetCustomerPaymentsByID/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            notyAlert('error', ds.Message);
+            var emptyarr = [];
+            return emptyarr;
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
+function GetOutStandingInvoices() {
+    try {
+        debugger;
+        var ID = $('#Customer').val();
+        var data = { "ID": ID };
+        var ds = {};
+        ds = GetDataFromServer("CustomerPayments/GetOutStandingInvoices/", data);
         if (ds != '') {
             ds = JSON.parse(ds);
         }

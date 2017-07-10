@@ -9,10 +9,10 @@ namespace UserInterface.Models
 {
     public class TaxTypesViewModel
     {
-        [Display(Name = "Code")]
-        [MaxLength(10)]
-        [Required(ErrorMessage = "Code is required")]
-        [RegularExpression(@"^[a-zA-Z0-9_]*$", ErrorMessage = "Entered code is not valid.")]
+        [Display(Name = "Tax Type")]
+        //[MaxLength(10)]
+        //[Required(ErrorMessage = "Code is required")]
+        //[RegularExpression(@"^[a-zA-Z0-9_]*$", ErrorMessage = "Entered code is not valid.")]
         public string Code { get; set; }
         [Display(Name = "Description")]
         [MaxLength(50)]

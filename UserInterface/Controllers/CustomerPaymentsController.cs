@@ -22,10 +22,16 @@ namespace UserInterface.Controllers
         IBankBusiness _bankBusiness;
         ICompaniesBusiness _companiesBusiness;
         IPaymentModesBusiness _paymentmodesBusiness;
-        public CustomerPaymentsController(ICustomerPaymentsBusiness custPaymentBusiness, IPaymentModesBusiness paymentmodeBusiness,ICustomerBusiness customerBusiness, IBankBusiness bankBusiness,ICompaniesBusiness companiesBusiness)
+        ICustomerInvoicesBusiness _customerInvoicesBusiness;
+
+        public CustomerPaymentsController(ICustomerPaymentsBusiness custPaymentBusiness,
+            IPaymentModesBusiness paymentmodeBusiness,
+            ICustomerBusiness customerBusiness,IBankBusiness bankBusiness,ICompaniesBusiness companiesBusiness,
+            ICustomerInvoicesBusiness customerInvoicesBusiness)
         {
             _CustPaymentBusiness = custPaymentBusiness;
             _paymentmodesBusiness = paymentmodeBusiness;
+            _customerInvoicesBusiness = customerInvoicesBusiness;
             _customerBusiness = customerBusiness;
             _bankBusiness = bankBusiness;
             _companiesBusiness = companiesBusiness;
@@ -123,7 +129,18 @@ namespace UserInterface.Controllers
             return JsonConvert.SerializeObject(new { Result = "OK", Records = custpaylist });
 
         }
-        #endregion GetAllCustomerPayments
+        #endregion GetAllCustomerPaymentsByID
+
+        #region  GetOutStandingInvoices
+
+        [HttpGet]
+        public string GetOutStandingInvoices(string ID)
+        {
+            List<CustomerInvoicesViewModel> List = Mapper.Map<List<CustomerInvoice>, List<CustomerInvoicesViewModel>>(_customerInvoicesBusiness.GetOutStandingInvoices(Guid.Parse(ID)));
+            return JsonConvert.SerializeObject(new { Result = "OK", Records = List });
+
+        }
+        #endregion  GetOutStandingInvoices
 
 
 
