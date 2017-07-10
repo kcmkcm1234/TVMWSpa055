@@ -24,5 +24,43 @@ namespace SPAccounts.BusinessService.Services
         {
             return _customerRepository.GetCustomerDetails(ID);
         }
+        public object InsertUpdateCustomer(Customer _customerObj, AppUA ua)
+        {
+            object result = null;
+            try
+            {
+                if (_customerObj.ID==Guid.Empty)
+                {
+                    result = _customerRepository.InsertCustomer(_customerObj, ua);
+                }
+                else
+                {
+                    result = _customerRepository.UpdateCustomer(_customerObj, ua);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+        public object DeleteCustomer(Guid ID)
+        {
+            object result = null;
+            try
+            {
+                result = _customerRepository.DeleteCustomer(ID);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+        public List<Titles> GetAllTitles()
+        {
+            return _customerRepository.GetAllTitles();
+        }
     }
 }

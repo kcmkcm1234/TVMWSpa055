@@ -33,5 +33,45 @@ namespace SPAccounts.BusinessService.Services
 
         }
 
+
+        public Supplier GetSupplierDetails(Guid ID)
+        {
+            return _supplierRepository.GetSupplierDetails(ID);
+        }
+        public object InsertUpdateSupplier(Supplier _supplierObj, AppUA ua)
+        {
+            object result = null;
+            try
+            {
+                if (_supplierObj.ID == Guid.Empty)
+                {
+                    result = _supplierRepository.InsertSupplier(_supplierObj, ua);
+                }
+                else
+                {
+                    result = _supplierRepository.UpdateSupplier(_supplierObj, ua);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+        public object DeleteSupplier(Guid ID)
+        {
+            object result = null;
+            try
+            {
+                result = _supplierRepository.DeleteSupplier(ID);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+
     }
 }
