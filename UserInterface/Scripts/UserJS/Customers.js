@@ -213,6 +213,7 @@ function Reset() {
     else {
         FillCustomerDetails($("#ID").val());
     }
+    ResetForm();
 }
 
 function GetCustomerDetailsByID(ID) {

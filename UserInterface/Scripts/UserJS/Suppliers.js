@@ -210,6 +210,7 @@ function Reset() {
     else {
         FillSupplierDetails($("#ID").val());
     }
+    ResetForm();
 }
 
 function GetSupplierDetailsByID(ID) {
