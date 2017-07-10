@@ -322,8 +322,6 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return _customerInvoicesObj;
         }
-
-
         public List<CustomerInvoice> GetOutStandingInvoices(Guid ID)
         {
             List<CustomerInvoice> CustomerInvoicesList = null;
