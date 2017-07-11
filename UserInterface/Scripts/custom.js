@@ -42,6 +42,16 @@ var appAddress = window.location.protocol + "//" + window.location.host + "/";  
 
 
 $(document).ready(function () {
+
+    var wrap = $(".EntryForms");
+    wrap.on("scroll", function (e) {
+        if (this.scrollTop > 147) {
+            $('#CommonFigure').addClass("fix-search");
+        } else {
+            $('#CommonFigure').removeClass("fix-search");
+        }
+    });
+
     $('input.datepicker').datepicker({
         format: "dd-M-yyyy",//",
         maxViewMode: 0,

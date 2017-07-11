@@ -68,6 +68,8 @@ $(document).ready(function () {
                 $('#ddlTaxType').val('')
         });
 
+        
+
     } catch (x) {
 
         notyAlert('error', e.message);
