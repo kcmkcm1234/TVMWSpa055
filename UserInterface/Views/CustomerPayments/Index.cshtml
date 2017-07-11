@@ -220,7 +220,7 @@
                         <div class="form-group col-md-12"></div>
 
                     </div>
-                    <div class="col-md-4" style="padding-top:2%;border-left:1px solid #64e564">
+                    <div class="col-md-4" id="CommonFigure" style="padding-top:2%;border-left:1px solid #64e564">
                         <div class="form-group col-md-12">
                             <div class="col-md-12 text-right">
                                 <div class="rightAmtCaption">Outstanding  Amount</div>
@@ -249,11 +249,11 @@
                        
                         <div class="form-group col-md-8">
                             <div class="col-md-12">
-                                @Html.LabelFor(model => model.TotalRecdAmt, htmlAttributes: new { @class = "control-label " })
+                                @Html.LabelFor(model => model.TotalRecdAmt, htmlAttributes: new { @class = "control-label" })
                             </div>
                             <div class="col-md-12">
                                 <div class="col-md-12">
-                                    @Html.EditorFor(model => model.TotalRecdAmt, new { htmlAttributes = new { @class = "form-control HeaderBox", @id = "TotalRecdAmt", style = "text-align: right",onchange="AmountChanged();" } })
+                                    @Html.EditorFor(model => model.TotalRecdAmt, new { htmlAttributes = new { @class = "form-control HeaderBox selecttext", @id = "TotalRecdAmt", style = "text-align: right",onchange="AmountChanged();" } })
                                     @Html.ValidationMessageFor(model => model.TotalRecdAmt, "", new { @class = "text-danger" })
                                 </div>
                             </div>
