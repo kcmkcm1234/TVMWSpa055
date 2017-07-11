@@ -45,13 +45,18 @@ $(document).ready(function () {
                  }, "width": "30%"
                 },
              { "data": "PaymentDueDateFormatted", "defaultContent": "<i>-</i>", "width": "20%" },
-             { "data": "TotalInvoiceAmount", "defaultContent": "<i>-</i>", "width": "15%" },
-             { "data": "BalanceDue", "defaultContent": "<i>-</i>", "width": "15%" },
+             { "data": "TotalInvoiceAmount", "defaultContent": "<i>-</i>", "width": "15%",'render': function (data, type, row) {
+                 return roundoff(row.TotalInvoiceAmount)
+             } },
+             {
+                 "data": "BalanceDue", "defaultContent": "<i>-</i>", "width": "15%", 'render': function (data, type, row) {
+                     return roundoff(row.BalanceDue)
+                 }
+             },
              {
                  "data": "Payment", 'render': function (data, type, row) {
-                     debugger;
                      index = index+1
-                     return '<input class="form-control paymentAmount" name="Markup" onchange="PaymentAmountChanged();" id="PaymentValue_'+index+'" type="text">';
+                     return '<input class="form-control text-right paymentAmount" name="Markup" onchange="PaymentAmountChanged();" id="PaymentValue_' + index + '" type="text">';
                  }, "width": "15%"
              }
         ],
@@ -59,7 +64,8 @@ $(document).ready(function () {
             orderable: false,
             className: 'select-checkbox',
             targets: 1
-        }
+        }, { className: "text-right", "targets": [4,5] }
+
         ,{ "targets": [0], "visible": false, "searchable": false }],
         select: {
             style: 'multi',
@@ -68,8 +74,8 @@ $(document).ready(function () {
     });
 
 
-    $(".paymentAmount").on('change', function () {
-        alert("changed");
+    $('input[type="text"].selecttext').on('focus', function () {
+        $(this).select();
     });
     
 });
@@ -99,7 +105,6 @@ function GetAllCustomerPayments() {
 
 function Edit(currentObj)
 {
-    debugger;
     openNav();
     var rowData = DataTables.CustomerPaymentTable.row($(currentObj).parents('tr')).data();
     if ((rowData != null) && (rowData.ID != null))
@@ -123,19 +128,16 @@ function Edit(currentObj)
 }
 
 function openNavClick() {
-    debugger;
-    $('#CustomerPaymentForm')[0].reset(); 
+    $('#CustomerPaymentForm')[0].reset();
+    BindOutstanding();
     openNav();
 } 
 
 function BindOutstanding() {
-    debugger;
     DataTables.OutStandingInvoices.clear().rows.add(GetOutStandingInvoices()).draw(false);
-
 }
 
 function PaymentModeChanged() {
-    debugger;
     if ($('#PaymentMode').val()=="ONLINE")
         $("#depositTo").css("visibility", "visible");
     else
@@ -143,10 +145,8 @@ function PaymentModeChanged() {
 
 }
 
-
 function GetCustomerPayments(ID) {
     try {
-        debugger;
         var data = {"ID":ID};
         var ds = {};
         ds = GetDataFromServer("CustomerPayments/GetCustomerPaymentsByID/", data);
@@ -169,8 +169,9 @@ function GetCustomerPayments(ID) {
 
 function GetOutStandingInvoices() {
     try {
-        debugger;
         var ID = $('#Customer').val();
+        if (ID == "")
+            ID = emptyGUID;
         var data = { "ID": ID };
         var ds = {};
         ds = GetDataFromServer("CustomerPayments/GetOutStandingInvoices/", data);
@@ -193,13 +194,13 @@ function GetOutStandingInvoices() {
 
 function AmountChanged() {
     DataTables.OutStandingInvoices.rows().deselect();
-    debugger;
-    sum = 0;
-    AmountReceived=$('#TotalRecdAmt').val()
+    debugger; 
+    AmountReceived = roundoff(parseFloat($('#TotalRecdAmt').val()))
+    $('#TotalRecdAmt').val(AmountReceived);
     $('#lblTotalRecdAmt').text(AmountReceived);
+    $('#paidAmt').text(AmountReceived);
+    
 
-    //check the rows depends upon amount
-    debugger;
     var table = $('#tblOutStandingDetails').DataTable();
     var allData = table.rows().data();
     var data = table.column(5).data();
@@ -226,19 +227,39 @@ function AmountChanged() {
 }
 
 function PaymentAmountChanged() {
-    debugger; 
-    $('.paymentAmount').each(function () {
-        debugger;
+    sum = 0;
+    var table = $('#tblOutStandingDetails').DataTable();
+    var allData = table.rows().data();
+    var data = table.column(5).data();
+
+    for (var i = 0; i < allData.length; i++)
+    { 
+        if (parseFloat(data[i]) < $("#PaymentValue_" + (i + 1)).val()) {
+            $("#PaymentValue_" + (i + 1)).val(roundoff(data[i])) 
+        }
+    } 
+
+    $('.paymentAmount').each(function () { 
         if ($(this).val() != "") {
             sum += parseFloat($(this).val());
-            if (AmountReceived - sum < 0) {
+            var credit = AmountReceived - sum;
+            if (credit < 0) {
                 $(this).val("");
             }
             else {
-                $('#lblPaymentApplied').text(sum);
-                $('#lblCredit').text(AmountReceived - sum);
+                $('#lblPaymentApplied').text(roundoff(sum));
+                $('#lblCredit').text(roundoff(credit));
             }
         }
     });
+    debugger;
+        for (var i = 0; i < allData.length; i++) {
+        if ($("#PaymentValue_" + (i + 1)).val() != "") {
+            DataTables.OutStandingInvoices.rows(i).select();
+        }
+        else {
+            DataTables.OutStandingInvoices.rows(i).deselect();
+        }
+    }
 
 }
