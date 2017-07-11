@@ -247,6 +247,9 @@ namespace SPAccounts.RepositoryServices.Services
                     case "1":
                         _customerInvoicesObj.ID = new Guid(outputID.Value.ToString());
                         break;
+                    case "2":
+                        AppConst Cobj1 = new AppConst();
+                        throw new Exception(Cobj1.Duplicate);
                     default:
                         break;
                 }

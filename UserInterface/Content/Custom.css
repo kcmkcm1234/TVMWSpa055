@@ -725,10 +725,11 @@ color: #e32;
     .fix-search div.form-group{
         width:36%!important;
         color:#706161;
+        white-space: nowrap!important;
     }
    @media (max-width: 767px) {
   .fix-search{
-    padding-top: 12.5%!important;
+    padding-top: 15%!important;
     position: fixed;
     top: 10px;
     margin-left: 10%;

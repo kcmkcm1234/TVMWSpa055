@@ -176,9 +176,9 @@ function PaintInvoiceDetails()
     $('#txtTotalInvAmt').val(CustomerInvoicesViewModel.TotalInvoiceAmount);
     $('#txtNotes').val(CustomerInvoicesViewModel.Notes);
     $('#ID').val(CustomerInvoicesViewModel.ID);
-    $('#lblinvoicedAmt').text("₹ " + CustomerInvoicesViewModel.TotalInvoiceAmount);
-    $('#lblpaidAmt').text("₹ " + (CustomerInvoicesViewModel.TotalInvoiceAmount - CustomerInvoicesViewModel.BalanceDue));
-    $('#lblbalalnceAmt').text("₹ " + CustomerInvoicesViewModel.BalanceDue);
+    $('#lblinvoicedAmt').text(CustomerInvoicesViewModel.TotalInvoiceAmountstring);
+    $('#lblpaidAmt').text(CustomerInvoicesViewModel.PaidAmountstring);
+    $('#lblbalalnceAmt').text(CustomerInvoicesViewModel.BalanceDuestring);
 
 
 }
