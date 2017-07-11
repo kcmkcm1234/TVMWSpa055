@@ -1,9 +1,10 @@
 ﻿var DataTables = {};
 var emptyGUID = '00000000-0000-0000-0000-000000000000'
+var sum = 0;
+var index = 0;
+var AmountReceived;
 
 $(document).ready(function () {
-    debugger;
-
     DataTables.CustomerPaymentTable = $('#CustPayTable').DataTable(
     {
         dom: '<"pull-left"f>rt<"bottom"ip><"clear">',
@@ -28,8 +29,7 @@ $(document).ready(function () {
         ]
     });    
 
-
-    debugger;
+ 
     DataTables.OutStandingInvoices = $('#tblOutStandingDetails').DataTable({
         dom: '<"pull-left"f>rt<"bottom"ip><"clear">',
         order: [],
@@ -38,44 +38,44 @@ $(document).ready(function () {
         data:null,
         columns: [
              { "data": "ID", "defaultContent": "<i>-</i>" },
-             { "data": "Checkbox", "defaultContent": "<i>-</i>" },
-             { "data": "Description", 'render': function (data, type, row)
-             { 
-                 return ' Invoice # ' + row.InvoiceNo + '(Date:' + row.InvoiceDateFormatted + ')'
-             }, "width": "40%"
-             },
-             { "data": "PaymentDueDateFormatted", "defaultContent": "<i>-</i>", "width": "25%" },
-             { "data": "TotalInvoiceAmount", "defaultContent": "<i>-</i>", "width": "20%" },
-             { "data": "BalanceDue", "defaultContent": "<i>-</i>", "width": "20%" },
+             { "data": "Checkbox","defaultContent":""},
+             {
+                 "data": "Description", 'render': function (data, type, row) {
+                     return ' Invoice # ' + row.InvoiceNo + '(Date:' + row.InvoiceDateFormatted + ')'
+                 }, "width": "30%"
+                },
+             { "data": "PaymentDueDateFormatted", "defaultContent": "<i>-</i>", "width": "20%" },
+             { "data": "TotalInvoiceAmount", "defaultContent": "<i>-</i>", "width": "15%" },
+             { "data": "BalanceDue", "defaultContent": "<i>-</i>", "width": "15%" },
              {
                  "data": "Payment", 'render': function (data, type, row) {
-                     return '<input class="form-control" id="Markup" name="Markup" type="text">';
-                 }, "width": "20%"
+                     debugger;
+                     index = index+1
+                     return '<input class="form-control paymentAmount" name="Markup" onchange="PaymentAmountChanged();" id="PaymentValue_'+index+'" type="text">';
+                 }, "width": "15%"
              }
         ],
         columnDefs: [{
-            'targets': 1,
-            'searchable': false,
-            'orderable': false,
-            'width': '5%',
-            'className': 'dt-body-center',
-            'render': function (data, type,row) {
-                return '<input type="checkbox">';
-            }
-        },{ "targets": [0], "visible": false, "searchable": false }],
+            orderable: false,
+            className: 'select-checkbox',
+            targets: 1
+        }
+        ,{ "targets": [0], "visible": false, "searchable": false }],
         select: {
-            style: 'os',
-            selector: 'td:first-child'
-        },
-        order: [[2, 'asc']]
+            style: 'multi',
+            selector: 'tr'
+        }
     });
+
+
+    $(".paymentAmount").on('change', function () {
+        alert("changed");
+    });
+    
 });
 
-
-
 function GetAllCustomerPayments() {
-    try {
-        debugger;
+    try { 
         var data = {};
         var ds = {};
         ds = GetDataFromServer("CustomerPayments/GetAllCustomerPayments/", data);
@@ -106,6 +106,7 @@ function Edit(currentObj)
     {
         var thisitem = GetCustomerPayments(rowData.ID)
         //ID NOT SET THIS IN PAGE
+        $('#ID').val(rowData.ID);
         $('#Customer').val(thisitem.customerObj.ID);
         $('#PaymentDate').val(thisitem.PaymentDateFormatted);
         $('#PaymentRef').val(thisitem.PaymentRef);
@@ -115,11 +116,30 @@ function Edit(currentObj)
         $('#Notes').val(thisitem.GeneralNotes);
         $('#TotalRecdAmt').val(thisitem.TotalRecdAmt);
         $('#lblTotalRecdAmt').text(thisitem.TotalRecdAmt);
-    }
-
-    debugger;
+    } 
     //BIND OUTSTANDING INVOICE TABLE USING CUSTOMER ID AND PAYMENT HEADER 
+    BindOutstanding();
+
+}
+
+function openNavClick() {
+    debugger;
+    $('#CustomerPaymentForm')[0].reset(); 
+    openNav();
+} 
+
+function BindOutstanding() {
+    debugger;
     DataTables.OutStandingInvoices.clear().rows.add(GetOutStandingInvoices()).draw(false);
+
+}
+
+function PaymentModeChanged() {
+    debugger;
+    if ($('#PaymentMode').val()=="ONLINE")
+        $("#depositTo").css("visibility", "visible");
+    else
+    $("#depositTo").css("visibility", "hidden");
 
 }
 
@@ -169,4 +189,56 @@ function GetOutStandingInvoices() {
     catch (e) {
         notyAlert('error', e.message);
     }
+}
+
+function AmountChanged() {
+    DataTables.OutStandingInvoices.rows().deselect();
+    debugger;
+    sum = 0;
+    AmountReceived=$('#TotalRecdAmt').val()
+    $('#lblTotalRecdAmt').text(AmountReceived);
+
+    //check the rows depends upon amount
+    debugger;
+    var table = $('#tblOutStandingDetails').DataTable();
+    var allData = table.rows().data();
+    var data = table.column(5).data();
+    var RemainingAmount = AmountReceived;
+   
+    for (var i = 0; i < allData.length;i++)
+    {
+        if (parseFloat(data[i]) < RemainingAmount) {
+            $("#PaymentValue_" + (i + 1)).val( roundoff(parseFloat(data[i])))
+            DataTables.OutStandingInvoices.rows(i).select();
+            RemainingAmount = roundoff(RemainingAmount - parseFloat(data[i]));
+        }
+        else {
+            $("#PaymentValue_" + (i + 1)).val(RemainingAmount);
+            DataTables.OutStandingInvoices.rows(i).select();
+            break;
+        } 
+        if (RemainingAmount == 0)
+        {
+            break;
+        } 
+    }
+    PaymentAmountChanged();
+}
+
+function PaymentAmountChanged() {
+    debugger; 
+    $('.paymentAmount').each(function () {
+        debugger;
+        if ($(this).val() != "") {
+            sum += parseFloat($(this).val());
+            if (AmountReceived - sum < 0) {
+                $(this).val("");
+            }
+            else {
+                $('#lblPaymentApplied').text(sum);
+                $('#lblCredit').text(AmountReceived - sum);
+            }
+        }
+    });
+
 }

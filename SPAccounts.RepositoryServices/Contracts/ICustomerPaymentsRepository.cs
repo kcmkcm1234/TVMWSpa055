@@ -11,5 +11,7 @@ namespace SPAccounts.RepositoryServices.Contracts
     {
         List<CustomerPayments> GetAllCustomerPayments();
         CustomerPayments GetCustomerPaymentsByID(string ID);
+        CustomerPayments InsertCustomerPayments(CustomerPayments _custPayObj);
+        CustomerPayments UpdateCustomerPayments(CustomerPayments _custPayObj);
     }
 }

@@ -142,8 +142,32 @@ namespace UserInterface.Controllers
         }
         #endregion  GetOutStandingInvoices
 
+        #region InsertUpdatePayments
 
+        [HttpPost]
+        public string InsertUpdatePayments(CustomerPaymentsViewModel _customerObj)
+        {
+            try
+            {
+                AppUA ua = new AppUA();
+               
+                _customerObj.commonObj = new CommonViewModel();
+                _customerObj.commonObj.CreatedBy = ua.UserName;
+                _customerObj.commonObj.CreatedDate = DateTime.Now;
+                _customerObj.commonObj.UpdatedBy = ua.UserName;
+                _customerObj.commonObj.UpdatedDate = DateTime.Now;
+                CustomerPaymentsViewModel CIVM = Mapper.Map<CustomerPayments, CustomerPaymentsViewModel>(_CustPaymentBusiness.InsertUpdatePayments(Mapper.Map<CustomerPaymentsViewModel, CustomerPayments>(_customerObj)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Message = c.InsertSuccess, Records = CIVM });
+            }
+            catch (Exception ex)
+            {
 
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+
+        #endregion InsertUpdatePayments
 
 
         #region ButtonStyling
@@ -157,7 +181,7 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.addbtn.Visible = true;
                     ToolboxViewModelObj.addbtn.Text = "Add";
                     ToolboxViewModelObj.addbtn.Title = "Add New";
-                    ToolboxViewModelObj.addbtn.Event = "openNav();";
+                    ToolboxViewModelObj.addbtn.Event = "openNavClick();";
 
 
 

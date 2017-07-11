@@ -7,7 +7,11 @@
 }
 
 @section styles {
-    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable") 
+@Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
+@Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatablecheckbox")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableSelect") 
+    
+    
 } 
 
 
@@ -104,17 +108,12 @@
 
 
     <div id="myNav" class="overlay">
-
-
-
         <div class="overlay-content">
-
             <div class="row" id="OverlayHeader">
                 <div class="col-md-6" style="text-align:left">
                     <span id="lbl" class="SCHeader">Receive Payments</span>
                 </div>
                 <div class="col-md-6" id="btnPatchAdd" style="min-height:25px; padding-right:25px;">
-
                     @{
                         var data1 = new { ActionType = "Add" };
                         @Html.Action("ChangeButtonStyle", "CustomerInvoices", data1);
@@ -123,31 +122,30 @@
             </div>
 
             <div class="EntryForms" style="height:550px">
+@using (Ajax.BeginForm("InsertUpdatePayments", "CustomerPayments", new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccess", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", @id = "CustomerPaymentForm" }))
+{
+    @Html.AntiForgeryToken() 
+
                 <div class="col-md-12 headSeperator"><i class="fa fa-th ig-yellow" aria-hidden="true"></i> Basic Details</div>
                 <div class="col-md-12">
-                    <div class="col-md-4">
-
-                        <div class="form-group col-md-12">
+                    <div class="col-md-8">
+                        <div class="form-group col-md-6">
                             <div class="col-md-12">
+                                @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "",value=Guid.Empty })
                                 @Html.LabelFor(model => model.customerObj.ID, htmlAttributes: new { @class = "control-label " })
-
-
                             </div>
                             <div class="col-md-12">
                                 <div class="col-md-10">
-                                    @Html.DropDownListFor(model => model.customerObj.ID, Model.customerObj.CustomerList, "-- Select Customer --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "Customer" })
+                                    @Html.DropDownListFor(model => model.customerObj.ID, Model.customerObj.CustomerList, "-- Select Customer --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "Customer", onchange = "BindOutstanding();" })
                                     @Html.ValidationMessageFor(model => model.customerObj.ID, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-1"></div>
                                 <div class="col-md-1"></div>
-                            </div> 
+                            </div>
                         </div>
-
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-6">
                             <div class="col-md-12">
                                 @Html.LabelFor(model => model.PaymentDate, htmlAttributes: new { @class = "control-label" })
-
-
                             </div>
                             <div class="col-md-12">
                                 <div class="col-md-10">
@@ -157,10 +155,39 @@
                                 <div class="col-md-1"></div>
                                 <div class="col-md-1"></div>
                             </div>
+                        </div>
+                        <div class="form-group col-md-12"></div>
+
+                        <div class="form-group col-md-6">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.PaymentMode, htmlAttributes: new { @class = "control-label " })
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(model => model.PaymentMode, Model.PaymentModesObj.PaymentModesList, "-- Select Payment Mode --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "PaymentMode",onchange= "PaymentModeChanged();" })
+                                    @Html.ValidationMessageFor(model => model.PaymentMode, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-1"></div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6" id="depositTo" style="visibility:hidden">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.BankCode, htmlAttributes: new { @class = "control-label " })
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(model => model.BankCode, Model.bankObj.BanksList, "-- Select Bank --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "BankCode" })
+                                    @Html.ValidationMessageFor(model => model.BankCode, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-1"></div>
+                            </div>
 
                         </div>
+                        <div class="form-group col-md-12"></div>
 
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-6">
                             <div class="col-md-12">
                                 @Html.LabelFor(model => model.PaymentRef, htmlAttributes: new { @class = "control-label" })
 
@@ -175,57 +202,25 @@
                                 <div class="col-md-1"></div>
                             </div>
 
-                        </div>  
-
-                    </div>
-                    <div class="col-md-4">
-
-
-                        <div class="form-group col-md-12">
+                        </div>
+                        <div class="form-group col-md-6">
                             <div class="col-md-12">
                                 @Html.LabelFor(model => model.RecdToComanyCode, htmlAttributes: new { @class = "control-label " })
                             </div>
                             <div class="col-md-12">
                                 <div class="col-md-10">
-                                     @Html.DropDownListFor(model => model.RecdToComanyCode, Model.CompanyObj.CompanyList, "-- Select Customer --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "RecdToComanyCode" })
+                                    @Html.DropDownListFor(model => model.RecdToComanyCode, Model.CompanyObj.CompanyList, "-- Select Customer --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "RecdToComanyCode" })
                                     @Html.ValidationMessageFor(model => model.RecdToComanyCode, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-1"></div>
                                 <div class="col-md-1"></div>
                             </div>
 
-                        </div> 
-
-                        <div class="form-group col-md-12">
-                            <div class="col-md-12">
-                                @Html.LabelFor(model => model.PaymentMode, htmlAttributes: new { @class = "control-label " })
-                            </div>
-                            <div class="col-md-12">
-                                <div class="col-md-10">
-                                     @Html.DropDownListFor(model => model.PaymentMode, Model.PaymentModesObj.PaymentModesList, "-- Select Payment Mode --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "PaymentMode" })
-                                    @Html.ValidationMessageFor(model => model.PaymentMode, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="col-md-1"></div>
-                                <div class="col-md-1"></div>
-                            </div>
                         </div>
-                        <div class="form-group col-md-12">
-                            <div class="col-md-12">
-                                @Html.LabelFor(model => model.BankCode, htmlAttributes: new { @class = "control-label " })
-                            </div>
-                            <div class="col-md-12">
-                                <div class="col-md-10">
-                                     @Html.DropDownListFor(model => model.BankCode, Model.bankObj.BanksList, "-- Select Bank --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "BankCode" })
-                                    @Html.ValidationMessageFor(model => model.BankCode, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="col-md-1"></div>
-                                <div class="col-md-1"></div>
-                            </div>
-
-                        </div>
+                        <div class="form-group col-md-12"></div>
 
                     </div>
-                    <div class="col-md-4" style="padding-top:2%">
+                    <div class="col-md-4" style="padding-top:2%;border-left:1px solid #64e564">
                         <div class="form-group col-md-12">
                             <div class="col-md-12 text-right">
                                 <div class="rightAmtCaption">Outstanding  Amount</div>
@@ -241,11 +236,10 @@
                             <div class="col-md-12 text-right">
                                 <div class="rightAmt" id="paidAmt">₹ 0.00</div>
                             </div>
-                        </div> 
+                        </div>
                     </div>
-
-
                 </div>
+                
                 <div class="col-md-12  ">&nbsp;</div>
                 
                 <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Outstanding Invoices</div>
@@ -259,7 +253,7 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="col-md-12">
-                                    @Html.EditorFor(model => model.TotalRecdAmt, new { htmlAttributes = new { @class = "form-control HeaderBox", @id = "TotalRecdAmt", style = "text-align: right" } })
+                                    @Html.EditorFor(model => model.TotalRecdAmt, new { htmlAttributes = new { @class = "form-control HeaderBox", @id = "TotalRecdAmt", style = "text-align: right",onchange="AmountChanged();" } })
                                     @Html.ValidationMessageFor(model => model.TotalRecdAmt, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -294,7 +288,7 @@
                                 @Html.Label("Total Amount Received:", htmlAttributes: new { @class = "control-label "})
                             </div>
                             <div class="col-md-4" style="text-align: right"> 
-                                @Html.Label("TotalReceived", htmlAttributes: new { @class = "control-label ", @id = "lblTotalRecdAmt" })
+                                @Html.Label("0", htmlAttributes: new { @class = "control-label ", @id = "lblTotalRecdAmt" })
                             </div>
                         </div>
                         <div class="form-group col-md-12">
@@ -302,7 +296,7 @@
                                 @Html.Label("Payment Applied:", htmlAttributes: new { @class = "control-label " })
                             </div>
                             <div class="col-md-4" style="text-align: right">
-                                @Html.Label("Amount", htmlAttributes: new { @class = "control-label ", @id = "lblPaymentApplied" })
+                                @Html.Label("0", htmlAttributes: new { @class = "control-label ", @id = "lblPaymentApplied" })
                             </div>
                         </div>
                         <div class="form-group col-md-12">
@@ -310,7 +304,7 @@
                                 @Html.Label("Credit Received:", htmlAttributes: new { @class = "control-label " })
                             </div>
                             <div class="col-md-4" style="text-align: right">
-                                @Html.Label("Amount", htmlAttributes: new { @class = "control-label ", @id = "lblCredit" })
+                                @Html.Label("0", htmlAttributes: new { @class = "control-label ", @id = "lblCredit" })
                             </div>
                         </div>
                     </div> 
@@ -369,6 +363,13 @@
                 <div class="col-md-12  ">&nbsp;</div>
                 <div class="col-md-12  ">&nbsp;</div>
                 <div class="col-md-12  ">&nbsp;</div>
+
+                <div class="form-group" hidden="hidden">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input id="btnSave" type="submit" value="Create" class="btn btn-default" />
+                    </div>
+                </div>
+}
             </div>
         </div>
     </div>
@@ -385,4 +386,5 @@
 @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
 @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
 @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/CustomerPayments")
+@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableSelect")
 }
