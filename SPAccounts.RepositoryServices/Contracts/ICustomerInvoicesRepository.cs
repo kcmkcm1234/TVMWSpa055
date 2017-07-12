@@ -11,7 +11,7 @@ namespace SPAccounts.RepositoryServices.Contracts
         CustomerInvoice GetCustomerInvoiceDetails(Guid ID);
         CustomerInvoice InsertInvoice(CustomerInvoice _customerInvoicesObj, AppUA ua);
         CustomerInvoice UpdateInvoice(CustomerInvoice _customerInvoicesObj, AppUA ua);
-        List<CustomerInvoice> GetOutStandingInvoices(Guid ID);
+        List<CustomerInvoice> GetOutStandingInvoices(Guid PaymentID, Guid CustID);
 
     }
 }

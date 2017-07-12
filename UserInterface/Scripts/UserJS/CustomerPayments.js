@@ -45,11 +45,17 @@ $(document).ready(function () {
                  }, "width": "30%"
                 },
              { "data": "PaymentDueDateFormatted", "defaultContent": "<i>-</i>", "width": "20%" },
-             { "data": "TotalInvoiceAmount", "defaultContent": "<i>-</i>", "width": "15%",'render': function (data, type, row) {
+             { "data": "TotalInvoiceAmount", "defaultContent": "<i>-</i>", "width": "10%",'render': function (data, type, row) {
                  return roundoff(row.TotalInvoiceAmount)
-             } },
+             }
+             },
              {
-                 "data": "BalanceDue", "defaultContent": "<i>-</i>", "width": "15%", 'render': function (data, type, row) {
+                 "data": "OtherPayments", "defaultContent": "<i>-</i>", "width": "10%", 'render': function (data, type, row) {
+                     return roundoff(row.OtherPayments)
+                 }
+             },
+             {
+                 "data": "BalanceDue", "defaultContent": "<i>-</i>", "width": "10%", 'render': function (data, type, row) {
                      return roundoff(row.BalanceDue)
                  }
              },
@@ -58,6 +64,11 @@ $(document).ready(function () {
                      index = index+1
                      return '<input class="form-control text-right paymentAmount" name="Markup" onchange="PaymentAmountChanged();" id="PaymentValue_' + index + '" type="text">';
                  }, "width": "15%"
+             },
+             {
+                 "data": "PaidAmountEdit", "defaultContent": "<i>-</i>", "width": "10%", 'render': function (data, type, row) {
+                     return roundoff(row.PaidAmountEdit)
+                 }
              }
         ],
         columnDefs: [{
@@ -66,7 +77,7 @@ $(document).ready(function () {
             targets: 1
         }, { className: "text-right", "targets": [4,5] }
 
-        ,{ "targets": [0], "visible": false, "searchable": false }],
+        ,{ "targets": [0,8], "visible": false, "searchable": false }],
         select: {
             style: 'multi',
             selector: 'tr'
@@ -125,15 +136,28 @@ function Edit(currentObj)
     //BIND OUTSTANDING INVOICE TABLE USING CUSTOMER ID AND PAYMENT HEADER 
     BindOutstanding();
 
+    //edit outstanding table Payment text binding
+    var table = $('#tblOutStandingDetails').DataTable();
+    var allData = table.rows().data();
+    var data = table.column(8).data();
+
+    for (var i = 0; i < allData.length; i++) {
+        debugger; 
+           $("#PaymentValue_" + (i + 1)).val(roundoff(data[i]))
+    }
+    Selectcheckbox();
+
 }
 
 function openNavClick() {
     $('#CustomerPaymentForm')[0].reset();
+    $('#lblTotalRecdAmt').text('0');
     BindOutstanding();
     openNav();
 } 
 
 function BindOutstanding() {
+    index = 0;
     DataTables.OutStandingInvoices.clear().rows.add(GetOutStandingInvoices()).draw(false);
 }
 
@@ -169,10 +193,10 @@ function GetCustomerPayments(ID) {
 
 function GetOutStandingInvoices() {
     try {
-        var ID = $('#Customer').val();
-        if (ID == "")
-            ID = emptyGUID;
-        var data = { "ID": ID };
+        var CustID = $('#Customer').val() == "" ? emptyGUID : $('#Customer').val();
+        var PaymentID = $('#ID').val() == "" ? emptyGUID : $('#ID').val();
+       
+        var data = { "CustID": CustID, "PaymentID":PaymentID };
         var ds = {};
         ds = GetDataFromServer("CustomerPayments/GetOutStandingInvoices/", data);
         if (ds != '') {
@@ -193,8 +217,9 @@ function GetOutStandingInvoices() {
 }
 
 function AmountChanged() {
+    debugger;
     DataTables.OutStandingInvoices.rows().deselect();
-    debugger; 
+
     AmountReceived = roundoff(parseFloat($('#TotalRecdAmt').val()))
     $('#TotalRecdAmt').val(AmountReceived);
     $('#lblTotalRecdAmt').text(AmountReceived);
@@ -203,7 +228,7 @@ function AmountChanged() {
 
     var table = $('#tblOutStandingDetails').DataTable();
     var allData = table.rows().data();
-    var data = table.column(5).data();
+    var data = table.column(6).data();
     var RemainingAmount = AmountReceived;
    
     for (var i = 0; i < allData.length;i++)
@@ -227,10 +252,11 @@ function AmountChanged() {
 }
 
 function PaymentAmountChanged() {
+    debugger;
     sum = 0;
     var table = $('#tblOutStandingDetails').DataTable();
     var allData = table.rows().data();
-    var data = table.column(5).data();
+    var data = table.column(6).data();
 
     for (var i = 0; i < allData.length; i++)
     { 
@@ -252,8 +278,16 @@ function PaymentAmountChanged() {
             }
         }
     });
-    debugger;
-        for (var i = 0; i < allData.length; i++) {
+    Selectcheckbox();
+
+}
+
+function Selectcheckbox() {
+
+    var table = $('#tblOutStandingDetails').DataTable();
+    var allData = table.rows().data();
+
+    for (var i = 0; i < allData.length; i++) {
         if ($("#PaymentValue_" + (i + 1)).val() != "") {
             DataTables.OutStandingInvoices.rows(i).select();
         }

@@ -104,6 +104,7 @@
     <Compile Include="Contracts\IDynamicUIRepository.cs" />
     <Compile Include="Contracts\IPaymentModesRepository.cs" />
     <Compile Include="Contracts\IPaymentTermsRepository.cs" />
+    <Compile Include="Contracts\ISupplierInvoicesRepository.cs" />
     <Compile Include="Contracts\IReportRepository.cs" />
     <Compile Include="Contracts\ISupplierRepository.cs" />
     <Compile Include="Contracts\ITaxTypesRepository.cs" />
@@ -120,6 +121,7 @@
     <Compile Include="Services\PaymentModesRepository.cs" />
     <Compile Include="Services\PaymentTermsRepository.cs" />
     <Compile Include="Services\ReportRepository.cs" />
+    <Compile Include="Services\SupplierInvoicesRepository.cs" />
     <Compile Include="Services\SupplierRepository.cs" />
     <Compile Include="Services\TaxTypesRepository.cs" />
   </ItemGroup>
