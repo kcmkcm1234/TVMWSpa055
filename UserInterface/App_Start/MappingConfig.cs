@@ -49,7 +49,7 @@ namespace UserInterface.App_Start
                 config.CreateMap<PaymentModesViewModel, PaymentModes>().ReverseMap();
                 config.CreateMap<CustomerPaymentsViewModel, CustomerPayments>().ReverseMap();
                 config.CreateMap<TitlesViewModel, Titles>().ReverseMap();
-                
+                config.CreateMap<SystemReportViewModel, SystemReport>().ReverseMap();
             });
         }
     }

@@ -1531,6 +1531,7 @@
     <Compile Include="Models\PaymentModesViewModel.cs" />
     <Compile Include="Models\PaymentTermsViewModel.cs" />
     <Compile Include="Models\PrivilegesViewModel.cs" />
+    <Compile Include="Models\ReportViewModel.cs" />
     <Compile Include="Models\RolesViewModel.cs" />
     <Compile Include="Models\SupplierInvoicesViewModel.cs" />
     <Compile Include="Models\SuppliersViewModel.cs" />
