@@ -1502,6 +1502,7 @@
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DynamicUIController.cs" />
     <Compile Include="Controllers\CustomerInvoicesController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\SAMPanelController.cs" />
     <Compile Include="Controllers\ManageAccessController.cs" />
     <Compile Include="Controllers\PrivilegesController.cs" />
@@ -1575,6 +1576,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="bin\" />
+    <Folder Include="Views\Report\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SPAccounts.BusinessService\SPAccounts.BusinessService.csproj">
