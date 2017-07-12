@@ -1570,6 +1570,7 @@
     <Content Include="Views\Account\NotAuthorized.cshtml" />
     <Content Include="Views\Account\Down.cshtml" />
     <Content Include="Views\SupplierInvoices\Index.cshtml" />
+    <Content Include="Views\Report\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1579,9 +1580,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Supplier\" />
     <Folder Include="bin\" />
-    <Folder Include="Views\Report\" />
+    <Folder Include="Views\Supplier\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SPAccounts.BusinessService\SPAccounts.BusinessService.csproj">
