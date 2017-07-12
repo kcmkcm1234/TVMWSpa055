@@ -200,7 +200,14 @@ namespace UserInterface.Controllers
                 _customerInvoicesObj.commonObj.UpdatedBy= ua.UserName;
                 _customerInvoicesObj.commonObj.UpdatedDate= DateTime.Now;
                 CustomerInvoicesViewModel CIVM = Mapper.Map<CustomerInvoice, CustomerInvoicesViewModel>(_customerInvoicesBusiness.InsertUpdateInvoice(Mapper.Map<CustomerInvoicesViewModel, CustomerInvoice>(_customerInvoicesObj), ua));
+                if (_customerInvoicesObj.ID != null && _customerInvoicesObj.ID != Guid.Empty)
+                {
+                    return JsonConvert.SerializeObject(new { Result = "OK", Message = c.UpdateSuccess, Records = CIVM });
+                }
+                else
+                {
                     return JsonConvert.SerializeObject(new { Result = "OK", Message = c.InsertSuccess, Records = CIVM });
+                }
             }
             catch (Exception ex)
             {

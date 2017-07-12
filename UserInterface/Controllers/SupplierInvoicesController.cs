@@ -150,8 +150,16 @@ namespace UserInterface.Controllers
                 _supplierInvoicesObj.commonObj.CreatedDate = DateTime.Now;
                 _supplierInvoicesObj.commonObj.UpdatedBy = ua.UserName;
                 _supplierInvoicesObj.commonObj.UpdatedDate = DateTime.Now;
-                SupplierInvoicesViewModel CIVM = Mapper.Map<SupplierInvoices, SupplierInvoicesViewModel>(_supplierInvoicesBusiness.InsertUpdateInvoice(Mapper.Map<SupplierInvoicesViewModel, SupplierInvoices>(_supplierInvoicesObj)));
-                return JsonConvert.SerializeObject(new { Result = "OK", Message = c.InsertSuccess, Records = CIVM });
+                SupplierInvoicesViewModel SIVM = Mapper.Map<SupplierInvoices, SupplierInvoicesViewModel>(_supplierInvoicesBusiness.InsertUpdateInvoice(Mapper.Map<SupplierInvoicesViewModel, SupplierInvoices>(_supplierInvoicesObj)));
+                if(_supplierInvoicesObj.ID!=null&&_supplierInvoicesObj.ID!=Guid.Empty)
+                {
+                    return JsonConvert.SerializeObject(new { Result = "OK", Message = c.UpdateSuccess, Records = SIVM });
+                }
+                else
+                {
+                    return JsonConvert.SerializeObject(new { Result = "OK", Message = c.InsertSuccess, Records = SIVM });
+                }
+                
             }
             catch (Exception ex)
             {
