@@ -30,6 +30,7 @@ namespace SPAccounts.DataAccessObject.DTO
         
         public decimal BalanceDue { get; set; }
         public decimal OtherPayments { get; set; }
+        public decimal PaidAmountEdit { get; set; }
         public DateTime LastPaymentDate { get; set; }
         public String LastPaymentDateFormatted { get; set; }
         public String Status { get; set; }
