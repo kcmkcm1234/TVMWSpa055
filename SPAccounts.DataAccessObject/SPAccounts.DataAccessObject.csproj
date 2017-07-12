@@ -104,6 +104,7 @@
     <Compile Include="DTO\Menu.cs" />
     <Compile Include="DTO\PaymentModes.cs" />
     <Compile Include="DTO\PaymentTerms.cs" />
+    <Compile Include="DTO\Reports.cs" />
     <Compile Include="DTO\Supplier.cs" />
     <Compile Include="DTO\SupplierInvoices.cs" />
     <Compile Include="DTO\TaxTypes.cs" />
