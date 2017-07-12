@@ -8,7 +8,7 @@
 
 <div style="width:100%;">
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-cogs"></i> Settings</a></li>
+        <li><i class="fa fa-cogs"></i> Settings</li>
         <li><a href=@Url.Content("~/SAMPanel")><i class="fa fa-users"></i> User management</a></li>
         <li class="active">@ViewBag.Title</li>
     </ol>
@@ -33,36 +33,54 @@
                     @Html.AntiForgeryToken()
                     @*<h4>Create Object</h4>*@
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-                    <div class="form-group">
-                        <div class="col-md-4">
+                    <div class="form-group col-md-10">
+                        <div class="col-md-12">
                             @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "", id = "ID", Value = Guid.Empty })
                             <label class="control-label">Select Application</label>
                         </div>
-                        <div class="col-md-6">
-                            @Html.DropDownListFor(model => model.AppID, Model.ApplicationList, "--Select Application--", new { @class = "form-control", @id = "ddlApplication", Value = ViewBag.AppID, @disabled = "disabled" })
+                        <div class="col-md-12">
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(model => model.AppID, Model.ApplicationList, "--Select Application--", new { @class = "form-control", @id = "ddlApplication", Value = ViewBag.AppID, @disabled = "disabled" })
+                            </div>
+                           
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
                         </div>
-                        @*<div class="col-md-1 mandatory"></div>*@
+
                     </div>
-                    <div class="form-group">
-                        <div class="col-md-4">
+
+                    <div class="form-group col-md-10">
+                        <div class="col-md-12">
                             <label class="control-label">Select Object</label>
                         </div>
-                        <div class="col-md-6">
-                            @Html.DropDownListFor(model => model.ObjectID, Model.ObjectList, "--Select Object--", new { @class = "form-control", @id = "ddlObject", Value = ViewBag.ObjectID })
-                            @Html.ValidationMessageFor(model => model.ObjectID, "", new { @class = "text-danger" })
+                        <div class="col-md-12">
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(model => model.ObjectID, Model.ObjectList, "--Select Object--", new { @class = "form-control", @id = "ddlObject", Value = ViewBag.ObjectID })
+                                @Html.ValidationMessageFor(model => model.ObjectID, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
                         </div>
-                        @*<div class="col-md-1 mandatory"></div>*@
+
                     </div>
-                    <div class="form-group">
-                        <div class="col-md-4">
+                    <div class="form-group col-md-10">
+                        <div class="col-md-12">
                             @Html.LabelFor(model => model.SubObjName, htmlAttributes: new { @class = "control-label" })
                         </div>
-                        <div class="col-md-6">
-                            @Html.EditorFor(model => model.SubObjName, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.SubObjName, "", new { @class = "text-danger" })
+                        <div class="col-md-12">
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.SubObjName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.SubObjName, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
                         </div>
+
                     </div>
+
+               
                     <div class="form-group" style="display:none;">
                         <div class="col-md-offset-2 col-md-10">
                             <input type="submit" value="Create" id="btnSave" class="btn btn-default" />

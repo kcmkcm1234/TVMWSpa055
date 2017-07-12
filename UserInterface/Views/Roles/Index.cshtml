@@ -51,40 +51,55 @@
             <div class="form-horizontal">
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="col-md-6">
-
-                    <div class="form-group">
-                        <div class="col-md-4">
+                    <div class="form-group col-md-8">
+                        <div class="col-md-12">
                             <label class="control-label">Select Application</label>
                         </div>
-                        <div class="col-md-5">
-                            @Html.DropDownListFor(model => model.AppID, Model.ApplicationList, "--Select Application--", new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.AppID, "", new { @class = "text-danger" })
+                        <div class="col-md-12">
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(model => model.AppID, Model.ApplicationList, "--Select Application--", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.AppID, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-1 mandatory"></div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
                         </div>
-                        <div class="col-md-1 mandatory"></div>
-                    </div>
 
-                    <div class="form-group">
-                        <div class="col-md-4">
+                    </div>
+                
+                    <div class="form-group col-md-8">
+                        <div class="col-md-12">
                             @Html.LabelFor(model => model.RoleName, htmlAttributes: new { @class = "control-label" })
                         </div>
-                        <div class="col-md-5">
-                            @Html.EditorFor(model => model.RoleName, new { htmlAttributes = new { @class = "form-control BlockEnter" } })
-                            @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "control-label col-lg-2", id = "ID", Value = Guid.Empty })
-                            @Html.ValidationMessageFor(model => model.RoleName, "", new { @class = "text-danger" })
+                        <div class="col-md-12">
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.RoleName, new { htmlAttributes = new { @class = "form-control BlockEnter" } })
+                                @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "control-label col-lg-2", id = "ID", Value = Guid.Empty })
+                                @Html.ValidationMessageFor(model => model.RoleName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-1 mandatory"></div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
                         </div>
-                        <div class="col-md-1 mandatory"></div>
-                    </div>
 
-                    <div class="form-group">
-                        <div class="col-md-4">
+                    </div>
+                  
+                    <div class="form-group col-md-8">
+                        <div class="col-md-12">
                             @Html.LabelFor(model => model.RoleDescription, htmlAttributes: new { @class = "control-label" })
                         </div>
-                        <div class="col-md-5">
-                            @Html.EditorFor(model => model.RoleDescription, new { htmlAttributes = new { @class = "form-control ", rows = 4 } })
-                            @Html.ValidationMessageFor(model => model.RoleDescription, "", new { @class = "text-danger" })
+                        <div class="col-md-12">
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.RoleDescription, new { htmlAttributes = new { @class = "form-control ", rows = 4 } })
+                                @Html.ValidationMessageFor(model => model.RoleDescription, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-1 mandatory"></div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
                         </div>
-                        <div class="col-md-1 mandatory"></div>
+
                     </div>
+                   
                 </div>
                 <div class="col-md-3 ">
 

@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using SAMTool.BusinessServices.Contracts;
 using SAMTool.DataAccessObject.DTO;
+using SPAccounts.UserInterface.SecurityFilter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,8 @@ namespace UserInterface.Controllers
 
 
         // GET: Application
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Application", Mode = "R")]
         public ActionResult Index()
         {
             return View();
@@ -33,6 +36,7 @@ namespace UserInterface.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthSecurityFilter(ProjectObject = "Application", Mode = "W")]
         public string InsertUpdateApplication(ApplicationViewModel appObj)
         {
             object result = null;
@@ -74,6 +78,7 @@ namespace UserInterface.Controllers
 
         #region GetAllApplication
         [HttpGet]
+       [AuthSecurityFilter(ProjectObject = "Application", Mode = "R")]
         public string GetAllApplication()
         {
             try
@@ -93,6 +98,7 @@ namespace UserInterface.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthSecurityFilter(ProjectObject = "Application", Mode = "D")]
         public string DeleteApplication(ApplicationViewModel appObj)
         {
             object result = null;
@@ -120,6 +126,7 @@ namespace UserInterface.Controllers
 
         #region ButtonStyling
         [HttpGet]
+     [AuthSecurityFilter(ProjectObject = "Application", Mode = "R")]
         public ActionResult ChangeButtonStyle(string ActionType)
         {
             ToolboxViewModel ToolboxViewModelObj = new ToolboxViewModel();
@@ -130,6 +137,10 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.addbtn.Text = "Add";
                     ToolboxViewModelObj.addbtn.Title = "Add New";
                     ToolboxViewModelObj.addbtn.Event = "Add();";
+                    ToolboxViewModelObj.backbtn.Visible = true;
+                    ToolboxViewModelObj.backbtn.Text = "Back";
+                    ToolboxViewModelObj.backbtn.Title = "Back to list";
+                    ToolboxViewModelObj.backbtn.Event = "goHome()";
 
                     break;
                 case "Edit":
@@ -177,6 +188,7 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.resetbtn.Event = "reset();";
 
                     break;
+              
                 default:
                     return Content("Nochange");
             }

@@ -30,23 +30,38 @@
 
         <div class="col-md-4" style="padding-left: 0px;">
             <div class="col-md-12" style="padding-left: 0px;border-bottom: 2px solid gainsboro;">
-                <div class="form-group">
-                    <div class="col-md-4">
+           
+                <div class="form-group col-md-10">
+                    <div class="col-md-12">
                         <label class="control-label">Select Object</label>
                     </div>
-                    <div class="col-md-6">
-                        @Html.DropDownListFor(model => model.AppObjectObj.ID, Model.ObjectList, "--Select Object--", new { @class = "form-control", @id = "ddlObject" })
+                    <div class="col-md-12">
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(model => model.AppObjectObj.ID, Model.ObjectList, "--Select Object--", new { @class = "form-control", @id = "ddlObject" })
+                        </div>
+
+                        <div class="col-md-1"></div>
+                        <div class="col-md-1"></div>
                     </div>
+
                 </div>
             </div>
             <div class="col-md-12" style="padding-left: 0px;border-bottom: 2px solid gainsboro;margin-top:4%;">
-                <div class="form-group">
-                    <div class="col-md-4">
+          
+
+                <div class="form-group col-md-10">
+                    <div class="col-md-12">
                         <label class="control-label">Select Role</label>
                     </div>
-                    <div class="col-md-6">
-                        @Html.DropDownListFor(model => model.RoleID, Model.RoleList, "--Select Role--", new { @class = "form-control", @id = "ddlRole" })
+                    <div class="col-md-12">
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(model => model.RoleID, Model.RoleList, "--Select Role--", new { @class = "form-control", @id = "ddlRole" })
+                        </div>
+
+                        <div class="col-md-1"></div>
+                        <div class="col-md-1"></div>
                     </div>
+
                 </div>
             </div>
 

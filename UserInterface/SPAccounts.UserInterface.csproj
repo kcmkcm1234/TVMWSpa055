@@ -1074,9 +1074,6 @@
     <Content Include="AdminLTE\plugins\timepicker\bootstrap-timepicker.js" />
     <Content Include="AdminLTE\plugins\timepicker\bootstrap-timepicker.min.css" />
     <Content Include="AdminLTE\plugins\timepicker\bootstrap-timepicker.min.js" />
-    <Content Include="bin\SAMTool.BusinessServices.dll" />
-    <Content Include="bin\SAMTool.DataAccessObject.dll" />
-    <Content Include="bin\SAMTool.RepositoryServices.dll" />
     <Content Include="Content\AdminLTE\css\AdminLTE.css" />
     <Content Include="Content\AdminLTE\css\AdminLTE.min.css" />
     <Content Include="Content\AdminLTE\css\alt\AdminLTE-bootstrap-social.css" />
@@ -1582,6 +1579,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Supplier\" />
+    <Folder Include="bin\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SPAccounts.BusinessService\SPAccounts.BusinessService.csproj">
@@ -1591,10 +1589,6 @@
     <ProjectReference Include="..\SPAccounts.DataAccessObject\SPAccounts.DataAccessObject.csproj">
       <Project>{2c9f7e5f-ad79-41d0-b6ec-c1b0efb848c8}</Project>
       <Name>SPAccounts.DataAccessObject</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SPAccounts.RepositoryServices\SPAccounts.RepositoryServices.csproj">
-      <Project>{f683a5bd-0415-4572-85e8-5d2fda8ec5b9}</Project>
-      <Name>SPAccounts.RepositoryServices</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
