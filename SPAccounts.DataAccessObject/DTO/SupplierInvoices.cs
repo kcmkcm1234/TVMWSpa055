@@ -23,7 +23,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string CompanyCode { get; set; }
         public Companies companiesObj { get; set; }
         public Guid SupplierID { get; set; }
-        public Customer customerObj { get; set; }
+        public Supplier suppliersObj { get; set; }
         public string PayCode { get; set; }
         public PaymentTerms paymentTermsObj { get; set; }
         public string TaxCode { get; set; }
@@ -34,5 +34,20 @@ namespace SPAccounts.DataAccessObject.DTO
         public String LastPaymentDateFormatted { get; set; }
         public String Status { get; set; }
         public Common commonObj { get; set; }
+    }
+    public class SupplierInvoiceSummary
+    {
+        public decimal OverdueAmount { get; set; }
+        public string OverdueAmountFormatted { get; set; }
+        public int OverdueInvoices { get; set; }
+
+        public decimal OpenAmount { get; set; }
+        public string OpenAmountFormatted { get; set; }
+        public int OpenInvoices { get; set; }
+
+        public decimal PaidAmount { get; set; }
+        public string PaidAmountFormatted { get; set; }
+        public int PaidInvoices { get; set; }
+
     }
 }

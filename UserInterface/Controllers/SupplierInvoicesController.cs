@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Newtonsoft.Json;
 using SPAccounts.BusinessService.Contracts;
 using SPAccounts.DataAccessObject.DTO;
 using System;
@@ -12,16 +13,16 @@ namespace UserInterface.Controllers
 {
     public class SupplierInvoicesController : Controller
     {
-        ICustomerInvoicesBusiness _customerInvoicesBusiness;
+        ISupplierInvoicesBusiness _supplierInvoicesBusiness;
         AppConst c = new AppConst();
         ISupplierBusiness _supplierBusiness;
         ITaxTypesBusiness _taxTypesBusiness;
         ICompaniesBusiness _companiesBusiness;
         IPaymentTermsBusiness _paymentTermsBusiness;
         ICommonBusiness _commonBusiness;
-        public SupplierInvoicesController(ICommonBusiness commonBusiness, IPaymentTermsBusiness paymentTermsBusiness, ICompaniesBusiness companiesBusiness, ICustomerInvoicesBusiness customerInvoicesBusiness, ISupplierBusiness supplierBusiness, ITaxTypesBusiness taxTypesBusiness)
+        public SupplierInvoicesController(ICommonBusiness commonBusiness, IPaymentTermsBusiness paymentTermsBusiness, ICompaniesBusiness companiesBusiness, ISupplierInvoicesBusiness supplierInvoicesBusiness, ISupplierBusiness supplierBusiness, ITaxTypesBusiness taxTypesBusiness)
         {
-            _customerInvoicesBusiness = customerInvoicesBusiness;
+            _supplierInvoicesBusiness = supplierInvoicesBusiness;
             _supplierBusiness = supplierBusiness;
             _taxTypesBusiness = taxTypesBusiness;
             _companiesBusiness = companiesBusiness;
@@ -96,6 +97,114 @@ namespace UserInterface.Controllers
             }
             SI.TaxTypeObj.TaxTypesList = selectListItem;
             return View(SI);
+        }
+
+        [HttpGet]
+        public string GetSupplierInvoiceDetails(string ID)
+        {
+            try
+            {
+                SupplierInvoicesViewModel SupplierInvoiceObj = Mapper.Map<SupplierInvoices, SupplierInvoicesViewModel>(_supplierInvoicesBusiness.GetSupplierInvoiceDetails(Guid.Parse(ID)));
+                if (SupplierInvoiceObj != null)
+                {
+                    SupplierInvoiceObj.TotalInvoiceAmountstring = _commonBusiness.ConvertCurrency(SupplierInvoiceObj.TotalInvoiceAmount, 0);
+                    SupplierInvoiceObj.BalanceDuestring = _commonBusiness.ConvertCurrency(SupplierInvoiceObj.BalanceDue, 0);
+                    SupplierInvoiceObj.PaidAmountstring = _commonBusiness.ConvertCurrency((SupplierInvoiceObj.TotalInvoiceAmount - SupplierInvoiceObj.BalanceDue), 0);
+
+                }
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = SupplierInvoiceObj });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        [HttpGet]
+        public string GetInvoicesAndSummary()
+        {
+            try
+            {
+
+                SupplierInvoiceBundleViewModel Result = new SupplierInvoiceBundleViewModel();
+
+                Result.SupplierInvoiceSummary = Mapper.Map<SupplierInvoiceSummary, SupplierInvoiceSummaryViewModel>(_supplierInvoicesBusiness.GetSupplierInvoicesSummary());
+                Result.SupplierInvoices = Mapper.Map<List<SupplierInvoices>, List<SupplierInvoicesViewModel>>(_supplierInvoicesBusiness.GetAllSupplierInvoices());
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = Result });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        [HttpPost]
+        public string InsertUpdateInvoice(SupplierInvoicesViewModel _supplierInvoicesObj)
+        {
+            try
+            {
+                AppUA ua = new AppUA();
+                ua.UserName = "Thomson";
+                _supplierInvoicesObj.commonObj = new CommonViewModel();
+                _supplierInvoicesObj.commonObj.CreatedBy = ua.UserName;
+                _supplierInvoicesObj.commonObj.CreatedDate = DateTime.Now;
+                _supplierInvoicesObj.commonObj.UpdatedBy = ua.UserName;
+                _supplierInvoicesObj.commonObj.UpdatedDate = DateTime.Now;
+                SupplierInvoicesViewModel CIVM = Mapper.Map<SupplierInvoices, SupplierInvoicesViewModel>(_supplierInvoicesBusiness.InsertUpdateInvoice(Mapper.Map<SupplierInvoicesViewModel, SupplierInvoices>(_supplierInvoicesObj)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Message = c.InsertSuccess, Records = CIVM });
+            }
+            catch (Exception ex)
+            {
+
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        [HttpGet]
+        public string GetSupplierDetails(string ID)
+        {
+            try
+            {
+                SuppliersViewModel SupplierObj = Mapper.Map<Supplier, SuppliersViewModel>(_supplierBusiness.GetSupplierDetails(ID != null && ID != "" ? Guid.Parse(ID) : Guid.Empty));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = SupplierObj });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        [HttpGet]
+        public string GetDueDate(string Code)
+        {
+            try
+            {
+                Common com = new Common();
+                DateTime Datenow = com.GetCurrentDateTime();
+                PaymentTermsViewModel payTermsObj = Mapper.Map<PaymentTerms, PaymentTermsViewModel>(_paymentTermsBusiness.GetPayTermDetails(Code));
+                string DuePaymentDueDateFormatted = Datenow.AddDays(payTermsObj.NoOfDays).ToString("dd-MMM-yyyy");
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = DuePaymentDueDateFormatted });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        [HttpGet]
+        public string GetTaxRate(string Code)
+        {
+            try
+            {
+                TaxTypesViewModel taxTypesObj = Mapper.Map<TaxTypes, TaxTypesViewModel>(_taxTypesBusiness.GetTaxTypeDetailsByCode(Code));
+                decimal Rate = taxTypesObj.Rate;
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = Rate });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
         }
         #region ButtonStyling
         [HttpGet]

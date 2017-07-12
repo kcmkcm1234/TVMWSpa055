@@ -6,6 +6,12 @@ using System.Web;
 
 namespace UserInterface.Models
 {
+    public class SupplierInvoiceBundleViewModel
+    {
+        public List<SupplierInvoicesViewModel> SupplierInvoices { get; set; }
+        public SupplierInvoiceSummaryViewModel SupplierInvoiceSummary { get; set; }
+
+    }
     public class SupplierInvoicesViewModel
     {
         public Guid ID { get; set; }
@@ -80,4 +86,19 @@ namespace UserInterface.Models
         public String LastPaymentDateFormatted { get; set; }
         public String Status { get; set; }
     }
+    public class SupplierInvoiceSummaryViewModel
+    {
+        public decimal OverdueAmount { get; set; }
+        public string OverdueAmountFormatted { get; set; }
+        public int OverdueInvoices { get; set; }
+
+        public decimal OpenAmount { get; set; }
+        public string OpenAmountFormatted { get; set; }
+        public int OpenInvoices { get; set; }
+
+        public decimal PaidAmount { get; set; }
+        public string PaidAmountFormatted { get; set; }
+        public int PaidInvoices { get; set; }
+    }
+
 }
