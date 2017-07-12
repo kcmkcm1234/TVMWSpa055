@@ -9,7 +9,7 @@
 
 <div style="width:100%;">
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-cogs"></i> Settings</a></li>
+        <li><i class="fa fa-cogs"></i> Settings</li>
         <li><a href=@Url.Content("~/SAMPanel")><i class="fa fa-users"></i> User management</a></li>
         <li class="active">@ViewBag.Title</li>
     </ol>
@@ -48,74 +48,99 @@
             @Html.AntiForgeryToken()
             <div class="form-horizontal">
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <div class="col-md-4">
+                <div class="col-md-7">
+                    <div class="form-group col-md-8">
+                        <div class="col-md-12">
                             @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label" })
                         </div>
-                        <div class="col-md-5">
-                            @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control BlockEnter" } })
-                            @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "control-label col-lg-2", id = "ID", Value = Guid.Empty })
-                            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                        <div class="col-md-12">
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter", @autofocus = true } })
+                                @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "control-label col-lg-2", id = "ID", Value = Guid.Empty })
+                                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
                         </div>
-                        <div class="col-md-1 mandatory"></div>
+
                     </div>
-                    <div class="form-group">
-                        <div class="col-md-4">
+                    <div class="form-group col-md-8">
+                        <div class="col-md-12">
                             @Html.LabelFor(model => model.LoginName, htmlAttributes: new { @class = "control-label" })
                         </div>
-                        <div class="col-md-5">
-                            @Html.EditorFor(model => model.LoginName, new { htmlAttributes = new { @class = "form-control BlockEnter" } })
-                            @Html.ValidationMessageFor(model => model.LoginName, "", new { @class = "text-danger" })
+                        <div class="col-md-12">
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.LoginName, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter" } })
+                                @Html.ValidationMessageFor(model => model.LoginName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
                         </div>
-                        <div class="col-md-1 mandatory"></div>
+
                     </div>
-                    <div class="form-group">
-                        <div class="col-md-4">
+                    <div class="form-group col-md-8">
+                        <div class="col-md-12">
                             @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
                         </div>
-                        <div class="col-md-5">
-                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control BlockEnter" } })
-                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        <div class="col-md-12">
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter" } })
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
                         </div>
-                        <div class="col-md-1 mandatory"></div>
+
                     </div>
-                    <div class="form-group">
-                        <div class="col-md-4">
+                    <div class="form-group col-md-8">
+                        <div class="col-md-12">
                             @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label" })
                         </div>
-                        <div class="col-md-5">
-                            @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                        <div class="col-md-12">
+                            <div class="col-md-10">
+                                @Html.PasswordFor(model => model.Password, htmlAttributes:new { @class = "form-control HeaderBox  BlockEnter" } )
+                                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
                         </div>
+
                     </div>
-                    <div class="form-group">
-                        <div class="col-md-4">
+                    <div class="form-group col-md-8">
+                        <div class="col-md-12">
                             @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label" })
                         </div>
-                        <div class="col-md-5">
-                            @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                        <div class="col-md-12">
+                            <div class="col-md-10">
+                                @Html.PasswordFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "form-control HeaderBox BlockEnter"  })
+                                @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
                         </div>
+
                     </div>
-                    <div class="form-group ">
-                        <div class="col-md-4">
+                    <div class="form-group col-md-8">
+                        <div class="col-md-12">
                             @Html.LabelFor(model => model.Active, htmlAttributes: new { @class = "control-label" })
                         </div>
-                        <div class="col-md-5">
-                            @{
-                                List<SelectListItem> listItems = new List<SelectListItem>();
-                                listItems.Add(new SelectListItem
-                                { Text = "Yes", Value = "true" });
-                                listItems.Add(new SelectListItem
-                                { Text = "No", Value = "false" });
-                            }
-                            @Html.DropDownListFor(model => model.Active, listItems, new { @class = "form-control" })
-
+                        <div class="col-md-12">
+                            <div class="col-md-10">
+                                @{
+                                    List<SelectListItem> listItems = new List<SelectListItem>();
+                                    listItems.Add(new SelectListItem
+                                    { Text = "Yes", Value = "true" });
+                                    listItems.Add(new SelectListItem
+                                    { Text = "No", Value = "false" });
+                                }
+                                @Html.DropDownListFor(model => model.Active, listItems, new { @class = "form-control" })
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
                         </div>
+
                     </div>
-
-
+           
                 </div>
                 <div class="col-md-3 ">
                     <div class="form-group">

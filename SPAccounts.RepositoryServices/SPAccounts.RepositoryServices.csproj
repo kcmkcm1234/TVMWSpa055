@@ -94,21 +94,6 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
-    <Content Include="ApplicationInsights.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <None Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
-    <None Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Web.config" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Contracts\IBankRepository.cs" />
     <Compile Include="Contracts\ICompaniesRepository.cs" />
     <Compile Include="Contracts\ICustomerCreditNotesRepository.cs" />
@@ -136,7 +121,6 @@
     <Compile Include="Services\SupplierRepository.cs" />
     <Compile Include="Services\TaxTypesRepository.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\SPAccounts.DataAccessObject\SPAccounts.DataAccessObject.csproj">
       <Project>{2c9f7e5f-ad79-41d0-b6ec-c1b0efb848c8}</Project>

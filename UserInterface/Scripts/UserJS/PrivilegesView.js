@@ -3,7 +3,7 @@ var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 //---------------------------------------Docuement Ready--------------------------------------------------//
 $(document).ready(function () {
 
-    ChangeButtonPatchView("Privileges", "ButtonPatchDiv", "List"); //ControllerName,id of the container div,Name of the action
+   // ChangeButtonPatchView("Privileges", "ButtonPatchDiv", "List"); //ControllerName,id of the container div,Name of the action
     try {
         var PrivilegesViewModel = new Object();
         DataTables.PrivilegesTable = $('#tblPrivilegesList').DataTable(

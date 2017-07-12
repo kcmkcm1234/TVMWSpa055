@@ -90,8 +90,8 @@ namespace UserInterface.Controllers
             {
                 FormsAuthentication.SignOut();
                 Session.Remove("TvmValid");
-
-
+                Session.Remove("UserRights");
+                Session.Remove("AppUA");
             }
             catch (Exception ex)
             {

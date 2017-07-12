@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using SAMTool.BusinessServices.Contracts;
 using SAMTool.DataAccessObject.DTO;
+using SPAccounts.UserInterface.SecurityFilter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,8 @@ namespace UserInterface.Controllers
             _appObjectBusiness = appObjectBusiness;
         }
         // GET: AppObject
+        [HttpGet]
+        //[AuthSecurityFilter(ProjectObject = "AppObject", Mode = "R")]
         public ActionResult Index()
         {
             if (Request.QueryString["appId"] != null)
@@ -46,7 +49,8 @@ namespace UserInterface.Controllers
             _appObjectViewModelObj.ApplicationList = selectListItem;
             return View(_appObjectViewModelObj);
         }
-
+        [HttpGet]
+       // [AuthSecurityFilter(ProjectObject = "AppObject", Mode = "R")]
         public ActionResult Subobjects(string id)
         {
             ViewBag.objectID = id;
@@ -86,6 +90,7 @@ namespace UserInterface.Controllers
 
 
         [HttpGet]
+      //  [AuthSecurityFilter(ProjectObject = "AppObject", Mode = "R")]
         public string GetAllAppObjects(string id)
         {
             List<AppObjectViewModel> ItemList = Mapper.Map<List<AppObject>, List<AppObjectViewModel>>(_appObjectBusiness.GetAllAppObjects(Guid.Parse(id)));
@@ -93,6 +98,7 @@ namespace UserInterface.Controllers
 
         }
         [HttpPost]
+     //   [AuthSecurityFilter(ProjectObject = "AppObject", Mode = "D")]
         public string DeleteObject(AppObjectViewModel AppObjectObj)
         {
             try
@@ -107,6 +113,7 @@ namespace UserInterface.Controllers
             }
         }
         [HttpPost]
+     //   [AuthSecurityFilter(ProjectObject = "AppObject", Mode = "W")]
         public string InserUpdateObject(AppObjectViewModel AppObjectObj)
         {
             string result = "";
@@ -137,6 +144,7 @@ namespace UserInterface.Controllers
 
         //-----------------Sub-Object Methods-------------------
         [HttpPost]
+       // [AuthSecurityFilter(ProjectObject = "AppObject", Mode = "W")]
         public string InserUpdateSubobject(AppSubobjectViewmodel AppObjectObj)
         {
             string result = "";
@@ -163,6 +171,7 @@ namespace UserInterface.Controllers
             return result;
         }
         [HttpGet]
+       // [AuthSecurityFilter(ProjectObject = "AppObject", Mode = "R")]
         public string GetAllAppSubObjects(string ID)
         {
             List<AppSubobjectViewmodel> ItemList = Mapper.Map<List<AppSubobject>, List<AppSubobjectViewmodel>>(_appObjectBusiness.GetAllAppSubObjects(ID));
@@ -170,6 +179,7 @@ namespace UserInterface.Controllers
 
         }
         [HttpPost]
+        //[AuthSecurityFilter(ProjectObject = "AppObject", Mode = "D")]
         public string DeleteSubObject(AppSubobjectViewmodel AppObjectObj)
         {
             try
@@ -187,6 +197,7 @@ namespace UserInterface.Controllers
 
         #region ButtonStyling
         [HttpGet]
+      //  [AuthSecurityFilter(ProjectObject = "AppObject", Mode = "R")]
         public ActionResult ChangeButtonStyle(string ActionType)
         {
             ToolboxViewModel ToolboxViewModelObj = new ToolboxViewModel();

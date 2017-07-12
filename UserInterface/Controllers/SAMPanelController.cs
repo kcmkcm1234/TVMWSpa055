@@ -1,14 +1,12 @@
 ﻿using AutoMapper;
 using SAMTool.BusinessServices.Contracts;
 using SAMTool.DataAccessObject.DTO;
-using SPAccounts.DataAccessObject.DTO;
 using SPAccounts.UserInterface.SecurityFilter;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using UserInterface.Models;
+
 
 namespace UserInterface.Controllers
 {
@@ -21,17 +19,25 @@ namespace UserInterface.Controllers
             _homeBusiness = home;
         }
     
-       // [AuthSecurityFilter(ProjectObject = "SAMPanel", Mode = "R")]
-        public ActionResult Index()
+        [AuthSecurityFilter(ProjectObject = "SAMPanel", Mode = "R")]
+        public ActionResult Index() 
         {
-           // AppUA _appUA= Session["AppUA"] as AppUA;
-          //  Permission _permission = Session["UserRights"] as Permission;
-           // ReadAccess = _permission.SubPermissionList.First(s => s.Name == "LHS").AccessCode;
-           // string R = _permission.SubPermissionList.First(s => s.Name == "RHS").AccessCode;
-
-            List<HomeViewModel> SysLinks = Mapper.Map<List<Home>, List<HomeViewModel>>(_homeBusiness.GetAllSysLinks());
-           // Session.Remove("UserRights");
-            return View(SysLinks);
+            // AppUA _appUA= Session["AppUA"] as AppUA;
+              Permission _permission = Session["UserRights"] as Permission;
+              
+            // string R = _permission.SubPermissionList.First(s => s.Name == "RHS").AccessCode;
+            SAMPanelViewModel SAMPanelViewModel = new SAMPanelViewModel();
+            List<SysMenuViewModel> SysMenuViewModelList = Mapper.Map<List<SysMenu>, List<SysMenuViewModel>>(_homeBusiness.GetAllSysLinks());
+            if((_permission.SubPermissionList!=null? _permission.SubPermissionList.First(s => s.Name == "LHS").AccessCode:string.Empty).Contains("R"))
+            {
+                SAMPanelViewModel._LHSSysMenuViewModel = SysMenuViewModelList != null ? SysMenuViewModelList.Where(s => s.Type == "LHS").ToList() : new List<SysMenuViewModel>();
+            }
+            if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "RHS").AccessCode : string.Empty).Contains("R"))
+            {
+                SAMPanelViewModel._RHSSysMenuViewModel = SysMenuViewModelList != null ? SysMenuViewModelList.Where(s => s.Type == "RHS").ToList() : new List<SysMenuViewModel>();
+            }
+            Session.Remove("UserRights");
+            return View(SAMPanelViewModel);
         }
     }
 }
