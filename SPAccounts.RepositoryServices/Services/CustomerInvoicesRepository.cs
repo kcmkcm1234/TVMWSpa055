@@ -325,7 +325,7 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return _customerInvoicesObj;
         }
-        public List<CustomerInvoice> GetOutStandingInvoices(Guid ID)
+        public List<CustomerInvoice> GetOutStandingInvoices(Guid PaymentID, Guid CustID)
         {
             List<CustomerInvoice> CustomerInvoicesList = null;
             Settings settings = new Settings();
@@ -341,7 +341,8 @@ namespace SPAccounts.RepositoryServices.Services
                         }
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[GetOutStandingInvoices]";
-                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = ID;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = CustID;
+                        cmd.Parameters.Add("@PaymentID", SqlDbType.UniqueIdentifier).Value = PaymentID;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
@@ -360,7 +361,8 @@ namespace SPAccounts.RepositoryServices.Services
                                         CIList.TotalInvoiceAmount = (sdr["TotalInvoiceAmount"].ToString() != "" ? Decimal.Parse(sdr["TotalInvoiceAmount"].ToString()) : CIList.TotalInvoiceAmount);
                                         CIList.BalanceDue = (sdr["BalanceDue"].ToString() != "" ? Decimal.Parse(sdr["BalanceDue"].ToString()) : CIList.BalanceDue);
                                         CIList.LastPaymentDate = (sdr["LastPaymentDate"].ToString() != "" ? DateTime.Parse(sdr["LastPaymentDate"].ToString()) : CIList.LastPaymentDate);
-
+                                        CIList.OtherPayments = (sdr["OtherPayments"].ToString() != "" ? Decimal.Parse(sdr["OtherPayments"].ToString()) : CIList.OtherPayments);
+                                        
                                         //------------date formatting-----------------//
                                         CIList.InvoiceDateFormatted = (sdr["InvoiceDate"].ToString() != "" ? DateTime.Parse(sdr["InvoiceDate"].ToString()).ToString(settings.dateformat) : CIList.InvoiceDateFormatted);
                                         CIList.PaymentDueDateFormatted = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString(settings.dateformat) : CIList.PaymentDueDateFormatted);

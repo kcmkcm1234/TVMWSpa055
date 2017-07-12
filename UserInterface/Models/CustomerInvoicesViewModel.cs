@@ -72,6 +72,7 @@ namespace UserInterface.Models
         public string PaidAmountstring { get; set; }
 
         public decimal BalanceDue { get; set; }
+        public decimal OtherPayments { get; set; }
         public DateTime LastPaymentDate { get; set; }
         public String LastPaymentDateFormatted { get; set; }
         public String Status { get; set; }

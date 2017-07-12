@@ -45,14 +45,20 @@ $(document).ready(function () {
                  }, "width": "30%"
                 },
              { "data": "PaymentDueDateFormatted", "defaultContent": "<i>-</i>", "width": "20%" },
-             { "data": "TotalInvoiceAmount", "defaultContent": "<i>-</i>", "width": "15%",'render': function (data, type, row) {
+             { "data": "TotalInvoiceAmount", "defaultContent": "<i>-</i>", "width": "10%",'render': function (data, type, row) {
                  return roundoff(row.TotalInvoiceAmount)
-             } },
+             }
+             },
              {
-                 "data": "BalanceDue", "defaultContent": "<i>-</i>", "width": "15%", 'render': function (data, type, row) {
-                     return roundoff(row.BalanceDue)
+                 "data": "OtherPayments", "defaultContent": "<i>-</i>", "width": "10%", 'render': function (data, type, row) {
+                     return roundoff(row.OtherPayments)
                  }
              },
+             {
+                 "data": "BalanceDue", "defaultContent": "<i>-</i>", "width": "10%", 'render': function (data, type, row) {
+                     return roundoff(row.BalanceDue)
+                 }
+             }, 
              {
                  "data": "Payment", 'render': function (data, type, row) {
                      index = index+1
@@ -169,10 +175,10 @@ function GetCustomerPayments(ID) {
 
 function GetOutStandingInvoices() {
     try {
-        var ID = $('#Customer').val();
-        if (ID == "")
-            ID = emptyGUID;
-        var data = { "ID": ID };
+        var CustID = $('#Customer').val() == "" ? emptyGUID : $('#Customer').val();
+        var PaymentID = $('#ID').val() == "" ? emptyGUID : $('#ID').val();
+       
+        var data = { "CustID": CustID, "PaymentID":PaymentID };
         var ds = {};
         ds = GetDataFromServer("CustomerPayments/GetOutStandingInvoices/", data);
         if (ds != '') {

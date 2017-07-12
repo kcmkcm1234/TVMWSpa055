@@ -134,9 +134,9 @@ namespace UserInterface.Controllers
         #region  GetOutStandingInvoices
 
         [HttpGet]
-        public string GetOutStandingInvoices(string ID)
+        public string GetOutStandingInvoices(string PaymentID,string CustID)
         {
-            List<CustomerInvoicesViewModel> List = Mapper.Map<List<CustomerInvoice>, List<CustomerInvoicesViewModel>>(_customerInvoicesBusiness.GetOutStandingInvoices(Guid.Parse(ID)));
+            List<CustomerInvoicesViewModel> List = Mapper.Map<List<CustomerInvoice>, List<CustomerInvoicesViewModel>>(_customerInvoicesBusiness.GetOutStandingInvoices(Guid.Parse(PaymentID), Guid.Parse(CustID)));
             return JsonConvert.SerializeObject(new { Result = "OK", Records = List });
 
         }
