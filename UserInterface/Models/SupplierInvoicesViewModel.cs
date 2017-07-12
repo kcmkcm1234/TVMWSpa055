@@ -36,8 +36,8 @@ namespace UserInterface.Models
         public PaymentTermsViewModel paymentTermsObj { get; set; }
         public CommonViewModel commonObj { get; set; }
 
-        [Required(ErrorMessage = "Billing Address is missing")]
-        [Display(Name = "Billing Address")]
+        [Required(ErrorMessage = "Supplier Address is missing")]
+        [Display(Name = "Supplier Address")]
         [DataType(DataType.MultilineText)]
         public String BillingAddress { get; set; }
 
