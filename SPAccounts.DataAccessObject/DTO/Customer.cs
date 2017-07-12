@@ -25,4 +25,9 @@ namespace SPAccounts.DataAccessObject.DTO
         public string GeneralNotes { get; set; }
         public Common commonObj { get; set; }
     }
+
+    public class Titles
+    {
+        public string Title { get; set; }
+    }
 }

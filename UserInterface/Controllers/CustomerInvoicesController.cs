@@ -19,13 +19,15 @@ namespace UserInterface.Controllers
         ITaxTypesBusiness _taxTypesBusiness;
         ICompaniesBusiness _companiesBusiness;
         IPaymentTermsBusiness _paymentTermsBusiness;
-        public CustomerInvoicesController(IPaymentTermsBusiness paymentTermsBusiness,ICompaniesBusiness companiesBusiness, ICustomerInvoicesBusiness customerInvoicesBusiness,ICustomerBusiness customerBusiness,ITaxTypesBusiness taxTypesBusiness)
+        ICommonBusiness _commonBusiness;
+        public CustomerInvoicesController(ICommonBusiness commonBusiness,IPaymentTermsBusiness paymentTermsBusiness,ICompaniesBusiness companiesBusiness, ICustomerInvoicesBusiness customerInvoicesBusiness,ICustomerBusiness customerBusiness,ITaxTypesBusiness taxTypesBusiness)
         {
             _customerInvoicesBusiness = customerInvoicesBusiness;
             _customerBusiness = customerBusiness;
             _taxTypesBusiness = taxTypesBusiness;
             _companiesBusiness = companiesBusiness;
             _paymentTermsBusiness = paymentTermsBusiness;
+            _commonBusiness = commonBusiness;
         }
         #endregion Constructor_Injection
 
@@ -104,6 +106,13 @@ namespace UserInterface.Controllers
             try
             {
                 CustomerInvoicesViewModel CustomerInvoiceObj = Mapper.Map<CustomerInvoice, CustomerInvoicesViewModel>(_customerInvoicesBusiness.GetCustomerInvoiceDetails(Guid.Parse(ID)));
+                if (CustomerInvoiceObj != null)
+                {
+                    CustomerInvoiceObj.TotalInvoiceAmountstring = _commonBusiness.ConvertCurrency(CustomerInvoiceObj.TotalInvoiceAmount, 0);
+                    CustomerInvoiceObj.BalanceDuestring = _commonBusiness.ConvertCurrency(CustomerInvoiceObj.BalanceDue, 0);
+                    CustomerInvoiceObj.PaidAmountstring = _commonBusiness.ConvertCurrency((CustomerInvoiceObj.TotalInvoiceAmount-CustomerInvoiceObj.BalanceDue), 0);
+
+                }
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = CustomerInvoiceObj });
             }
             catch (Exception ex)

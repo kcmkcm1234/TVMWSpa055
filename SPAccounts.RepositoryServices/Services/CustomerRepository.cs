@@ -11,12 +11,15 @@ namespace SPAccounts.RepositoryServices.Services
 {
     public class CustomerRepository:ICustomerRepository
     {
+        AppConst Cobj = new AppConst();
         Settings s = new Settings();
         private IDatabaseFactory _databaseFactory;
         public CustomerRepository(IDatabaseFactory databaseFactory)
         {
             _databaseFactory = databaseFactory;
         }
+
+        #region GetAllCustomers
         public List<Customer> GetAllCustomers()
         {
             List<Customer> customerList = null;
@@ -82,7 +85,9 @@ namespace SPAccounts.RepositoryServices.Services
 
             return customerList;
         }
+        #endregion GetAllCustomers
 
+        #region GetCustomerDetails
         public Customer GetCustomerDetails(Guid ID)
         {
             Customer _customerObj = new Customer();
@@ -142,5 +147,238 @@ namespace SPAccounts.RepositoryServices.Services
 
             return _customerObj;
         }
+        #endregion GetCustomerDetails
+
+        #region InsertCustomer
+        public Customer InsertCustomer(Customer _customerObj, AppUA ua)
+        {
+            try
+            {
+                SqlParameter outputStatus, outputID = null;
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[InsertCustomers]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@CompanyName", SqlDbType.VarChar, 150).Value = _customerObj.CompanyName;
+                        cmd.Parameters.Add("@ContactPerson", SqlDbType.VarChar, 100).Value = _customerObj.ContactPerson;
+                        cmd.Parameters.Add("@ContactEmail", SqlDbType.VarChar, 150).Value = _customerObj.ContactEmail;
+                        cmd.Parameters.Add("@ContactTitle", SqlDbType.VarChar, 10).Value = _customerObj.ContactTitle;
+                        cmd.Parameters.Add("@Website", SqlDbType.NVarChar, 500).Value = _customerObj.Website;
+                        cmd.Parameters.Add("@LandLine", SqlDbType.VarChar, 50).Value = _customerObj.LandLine;
+                        cmd.Parameters.Add("@Mobile", SqlDbType.VarChar, 50).Value = _customerObj.Mobile;
+                        cmd.Parameters.Add("@Fax", SqlDbType.VarChar, 50).Value = _customerObj.Fax;
+                        cmd.Parameters.Add("@OtherPhoneNos", SqlDbType.VarChar, 250).Value = _customerObj.OtherPhoneNos;
+                        cmd.Parameters.Add("@BillingAddress", SqlDbType.NVarChar, -1).Value = _customerObj.BillingAddress;
+                        cmd.Parameters.Add("@ShippingAddress", SqlDbType.NVarChar, -1).Value = _customerObj.ShippingAddress;
+                        cmd.Parameters.Add("@PaymentTermCode", SqlDbType.VarChar, 10).Value = _customerObj.PaymentTermCode;
+                        cmd.Parameters.Add("@TaxRegNo", SqlDbType.VarChar, 50).Value = _customerObj.TaxRegNo;
+                        cmd.Parameters.Add("@PANNo", SqlDbType.VarChar, 50).Value = _customerObj.PANNO;
+                        cmd.Parameters.Add("@GeneralNotes", SqlDbType.NVarChar, -1).Value = _customerObj.GeneralNotes;
+                        cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = "Anija";
+                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = DateTime.Now;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        outputID = cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier);
+                        outputID.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+
+
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        AppConst Cobj = new AppConst();
+                        throw new Exception(Cobj.InsertFailure);
+                    case "1":
+                        _customerObj.ID =Guid.Parse(outputID.Value.ToString());
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return _customerObj;
+        }
+        #endregion InsertCustomer
+
+        #region UpdateCustomer
+        public object UpdateCustomer(Customer _customerObj, AppUA ua)
+        {
+            SqlParameter outputStatus = null;
+            try
+            {
+
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[UpdateCustomer]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = _customerObj.ID;
+                        cmd.Parameters.Add("@CompanyName", SqlDbType.VarChar, 150).Value = _customerObj.CompanyName;
+                        cmd.Parameters.Add("@ContactPerson", SqlDbType.VarChar, 100).Value = _customerObj.ContactPerson;
+                        cmd.Parameters.Add("@ContactEmail", SqlDbType.VarChar, 150).Value = _customerObj.ContactEmail;
+                        cmd.Parameters.Add("@ContactTitle", SqlDbType.VarChar, 10).Value = _customerObj.ContactTitle;
+                        cmd.Parameters.Add("@Website", SqlDbType.NVarChar, 500).Value = _customerObj.Website;
+                        cmd.Parameters.Add("@LandLine", SqlDbType.VarChar, 50).Value = _customerObj.LandLine;
+                        cmd.Parameters.Add("@Mobile", SqlDbType.VarChar, 50).Value = _customerObj.Mobile;
+                        cmd.Parameters.Add("@Fax", SqlDbType.VarChar, 50).Value = _customerObj.Fax;
+                        cmd.Parameters.Add("@OtherPhoneNos", SqlDbType.VarChar, 250).Value = _customerObj.OtherPhoneNos;
+                        cmd.Parameters.Add("@BillingAddress", SqlDbType.NVarChar, -1).Value = _customerObj.BillingAddress;
+                        cmd.Parameters.Add("@ShippingAddress", SqlDbType.NVarChar, -1).Value = _customerObj.ShippingAddress;
+                        cmd.Parameters.Add("@PaymentTermCode", SqlDbType.VarChar, 10).Value = _customerObj.PaymentTermCode;
+                        cmd.Parameters.Add("@TaxRegNo", SqlDbType.VarChar, 50).Value = _customerObj.TaxRegNo;
+                        cmd.Parameters.Add("@PANNo", SqlDbType.VarChar, 50).Value = _customerObj.PANNO;
+                        cmd.Parameters.Add("@GeneralNotes", SqlDbType.NVarChar, -1).Value = _customerObj.GeneralNotes;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = "Anija";
+                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = DateTime.Now;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+
+
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+
+                        throw new Exception(Cobj.UpdateFailure);
+                   
+                    default:
+                        break;
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return new
+            {
+                Status = outputStatus.Value.ToString(),
+                Message = Cobj.UpdateSuccess
+            };
+        }
+        #endregion UpdateCustomer
+
+        #region DeleteCustomer
+        public object DeleteCustomer(Guid ID)
+        {
+            SqlParameter outputStatus = null;
+            try
+            {
+
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[DeleteCustomer]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = ID;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+
+
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+
+                        throw new Exception(Cobj.DeleteFailure);
+
+                    default:
+                        break;
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return new
+            {
+                Status = outputStatus.Value.ToString(),
+                Message = Cobj.DeleteSuccess
+            };
+        }
+        #endregion DeleteCustomer
+
+        #region GetAllTitles
+        public List<Titles> GetAllTitles()
+        {
+            List<Titles> titlesList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetAllTitles]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                titlesList = new List<Titles>();
+                                while (sdr.Read())
+                                {
+                                    Titles _titlesObj = new Titles();
+                                    {                                        
+                                        _titlesObj.Title = (sdr["Title"].ToString() != "" ? sdr["Title"].ToString() : _titlesObj.Title);
+                                      
+                                    }
+                                    titlesList.Add(_titlesObj);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return titlesList;
+        }
+        #endregion GetAllTitles
+
     }
 }

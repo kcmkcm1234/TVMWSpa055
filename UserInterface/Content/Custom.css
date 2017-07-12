@@ -514,7 +514,13 @@ color: #e32;
         background-Repeat: no-repeat;
         cursor: pointer;
     }
-
+ input.ApplyPer{
+        background-image: url('../Content/images/percentage.png');
+        background-Position: 97% center;
+        background-Repeat: no-repeat;
+        background-size:12px;
+        width:52%;
+ }
 .skin-green-light .main-sidebar {
     background-color:#faf9f9;
 }
@@ -708,3 +714,33 @@ color: #e32;
 .ig-yellow {
      color:#db8b0b;
 }
+
+ .fix-search{
+    padding-top: 3.5%!important;
+    position: fixed;
+    top: 10px;
+    margin-left: 16%;
+    width:64%!important;
+    }
+    .fix-search div.form-group{
+        width:36%!important;
+        color:#706161;
+        white-space: nowrap!important;
+    }
+   @media (max-width: 767px) {
+  .fix-search{
+    padding-top: 15%!important;
+    position: fixed;
+    top: 10px;
+    margin-left: 10%;
+    width:55%!important;
+    display: flex;
+    }
+  .fix-search div.form-group{
+    font-size: 11px!important;
+     width:38%!important;
+    }
+   .fix-search div{
+    font-size: 11px!important;
+    }
+  }

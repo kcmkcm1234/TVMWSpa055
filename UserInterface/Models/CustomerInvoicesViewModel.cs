@@ -67,6 +67,10 @@ namespace UserInterface.Models
         [DataType(DataType.MultilineText)]
         public String Notes { get; set; }
 
+        public string BalanceDuestring { get; set; }
+        public string TotalInvoiceAmountstring { get; set; }
+        public string PaidAmountstring { get; set; }
+
         public decimal BalanceDue { get; set; }
         public DateTime LastPaymentDate { get; set; }
         public String LastPaymentDateFormatted { get; set; }

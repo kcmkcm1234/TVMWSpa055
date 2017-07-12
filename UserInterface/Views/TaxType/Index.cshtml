@@ -65,7 +65,7 @@
 
             <div class="row" id="OverlayHeader">
                 <div class="col-md-6" style="text-align:left">
-                    <span id="lblInvoiceNo" class="SCHeader">Tax Types</span>
+                    <span id="lblInvoiceNo" class="SCHeader">Tax Type</span>
                 </div>
                 <div class="col-md-6" id="btnPatchAdd" style="min-height:25px; padding-right:25px;">
 
@@ -128,7 +128,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="col-md-10">
-                                        @Html.EditorFor(model => model.Rate, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter Amount" , @onclick = "SelectAllValue(this);" } })
+                                        @Html.EditorFor(model => model.Rate, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter Amount" , onkeypress = "return isNumber(event)", @onclick = "SelectAllValue(this);" } })
                                         @Html.ValidationMessageFor(model => model.Rate, "", new { @class = "text-danger" })
                                     </div>
                                     <div class="col-md-1"></div>

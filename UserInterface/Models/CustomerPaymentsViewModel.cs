@@ -12,9 +12,11 @@ namespace UserInterface.Models
         public Guid ID { get; set; }
         public string EntryNo { get; set; }
 
+        [Required(ErrorMessage = "Received To Company is missing")]
         [Display(Name = "Received To Company")]
         public string RecdToComanyCode { get; set; }
 
+        [Required(ErrorMessage = "Payment Mode is missing")]
         [Display(Name = "Payment Mode")]
         public string PaymentMode { get; set; }
 
@@ -26,12 +28,15 @@ namespace UserInterface.Models
         [Display(Name = "Reference No.")]
         public string PaymentRef { get; set; }
 
+        [Required(ErrorMessage = "Payment Date is missing")]
         [Display(Name = "Payment Date")]
         public DateTime PaymentDate { get; set; }
 
         [Display(Name = "General Notes")]
         public string GeneralNotes { get; set; }
 
+        [Required(ErrorMessage = "Amount Received is missing")]
+        [Display(Name = "Amount Received")]
         public decimal TotalRecdAmt { get; set; }
         public decimal AdvanceAmount { get; set; }
 

@@ -134,7 +134,7 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.backbtn.Disable = true;
                     ToolboxViewModelObj.backbtn.Text = "Back";
                     ToolboxViewModelObj.backbtn.DisableReason = "Not applicable";
-                    ToolboxViewModelObj.backbtn.Event = "Back();";
+                    ToolboxViewModelObj.backbtn.Event = "goBack();";
 
                     break;
                 case "Edit":
@@ -150,12 +150,12 @@ namespace UserInterface.Controllers
 
                     ToolboxViewModelObj.savebtn.Visible = true;
                     ToolboxViewModelObj.savebtn.Text = "Save";
-                    ToolboxViewModelObj.savebtn.Title = "Save Employee";
+                    ToolboxViewModelObj.savebtn.Title = "Save TaxType";
                     ToolboxViewModelObj.savebtn.Event = "Save();";
 
                     ToolboxViewModelObj.deletebtn.Visible = true;
                     ToolboxViewModelObj.deletebtn.Text = "Delete";
-                    ToolboxViewModelObj.deletebtn.Title = "Delete Employee";
+                    ToolboxViewModelObj.deletebtn.Title = "Delete TaxType";
                     ToolboxViewModelObj.deletebtn.Event = "Delete()";
 
                     ToolboxViewModelObj.resetbtn.Visible = true;

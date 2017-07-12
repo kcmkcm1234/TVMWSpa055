@@ -22,10 +22,16 @@ namespace UserInterface.Controllers
         IBankBusiness _bankBusiness;
         ICompaniesBusiness _companiesBusiness;
         IPaymentModesBusiness _paymentmodesBusiness;
-        public CustomerPaymentsController(ICustomerPaymentsBusiness custPaymentBusiness, IPaymentModesBusiness paymentmodeBusiness,ICustomerBusiness customerBusiness, IBankBusiness bankBusiness,ICompaniesBusiness companiesBusiness)
+        ICustomerInvoicesBusiness _customerInvoicesBusiness;
+
+        public CustomerPaymentsController(ICustomerPaymentsBusiness custPaymentBusiness,
+            IPaymentModesBusiness paymentmodeBusiness,
+            ICustomerBusiness customerBusiness,IBankBusiness bankBusiness,ICompaniesBusiness companiesBusiness,
+            ICustomerInvoicesBusiness customerInvoicesBusiness)
         {
             _CustPaymentBusiness = custPaymentBusiness;
             _paymentmodesBusiness = paymentmodeBusiness;
+            _customerInvoicesBusiness = customerInvoicesBusiness;
             _customerBusiness = customerBusiness;
             _bankBusiness = bankBusiness;
             _companiesBusiness = companiesBusiness;
@@ -123,10 +129,45 @@ namespace UserInterface.Controllers
             return JsonConvert.SerializeObject(new { Result = "OK", Records = custpaylist });
 
         }
-        #endregion GetAllCustomerPayments
+        #endregion GetAllCustomerPaymentsByID
 
+        #region  GetOutStandingInvoices
 
+        [HttpGet]
+        public string GetOutStandingInvoices(string ID)
+        {
+            List<CustomerInvoicesViewModel> List = Mapper.Map<List<CustomerInvoice>, List<CustomerInvoicesViewModel>>(_customerInvoicesBusiness.GetOutStandingInvoices(Guid.Parse(ID)));
+            return JsonConvert.SerializeObject(new { Result = "OK", Records = List });
 
+        }
+        #endregion  GetOutStandingInvoices
+
+        #region InsertUpdatePayments
+
+        [HttpPost]
+        public string InsertUpdatePayments(CustomerPaymentsViewModel _customerObj)
+        {
+            try
+            {
+                AppUA ua = new AppUA();
+               
+                _customerObj.commonObj = new CommonViewModel();
+                _customerObj.commonObj.CreatedBy = ua.UserName;
+                _customerObj.commonObj.CreatedDate = DateTime.Now;
+                _customerObj.commonObj.UpdatedBy = ua.UserName;
+                _customerObj.commonObj.UpdatedDate = DateTime.Now;
+                CustomerPaymentsViewModel CIVM = Mapper.Map<CustomerPayments, CustomerPaymentsViewModel>(_CustPaymentBusiness.InsertUpdatePayments(Mapper.Map<CustomerPaymentsViewModel, CustomerPayments>(_customerObj)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Message = c.InsertSuccess, Records = CIVM });
+            }
+            catch (Exception ex)
+            {
+
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+
+        #endregion InsertUpdatePayments
 
 
         #region ButtonStyling
@@ -140,7 +181,7 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.addbtn.Visible = true;
                     ToolboxViewModelObj.addbtn.Text = "Add";
                     ToolboxViewModelObj.addbtn.Title = "Add New";
-                    ToolboxViewModelObj.addbtn.Event = "openNav();";
+                    ToolboxViewModelObj.addbtn.Event = "openNavClick();";
 
 
 

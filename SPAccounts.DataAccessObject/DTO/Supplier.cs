@@ -23,5 +23,6 @@ namespace SPAccounts.DataAccessObject.DTO
         public string TaxRegNo { get; set; }
         public string PANNO { get; set; }
         public string GeneralNotes { get; set; }
+        public Common commonObj { get; set; }
     }
 }

@@ -172,6 +172,7 @@ function BindAllTaxTypes() {
 function SaveSuccess(data, status) {
 
     var JsonResult = JSON.parse(data)
+    debugger;
     switch (JsonResult.Result) {
         case "OK":
             BindAllTaxTypes();

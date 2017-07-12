@@ -30,5 +30,17 @@ namespace SPAccounts.BusinessService.Services
             return custPayObj;
 
         }
+
+        public CustomerPayments InsertUpdatePayments(CustomerPayments _custPayObj)
+        {
+            if (_custPayObj.ID != null && _custPayObj.ID != Guid.Empty)
+            {
+                return _customerPaymentsRepository.UpdateCustomerPayments(_custPayObj);
+            }
+            else
+            {
+                return _customerPaymentsRepository.InsertCustomerPayments(_custPayObj);
+            }
+        }
     }
 }

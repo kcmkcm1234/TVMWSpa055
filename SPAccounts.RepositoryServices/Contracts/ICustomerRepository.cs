@@ -10,5 +10,9 @@ namespace SPAccounts.RepositoryServices.Contracts
     {
         List<Customer> GetAllCustomers();
         Customer GetCustomerDetails(Guid ID);
+        Customer InsertCustomer(Customer _customerObj, AppUA ua);
+        object UpdateCustomer(Customer _customerObj, AppUA ua);
+        object DeleteCustomer(Guid ID);
+        List<Titles> GetAllTitles();
     }
 }
