@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace SPAccounts.DataAccessObject.DTO
+namespace UserInterface.Models
 {
-    public class SystemReport
+    public class SystemReportViewModel
     {
         public Guid AppID { get; set; }
         public Guid ID { get; set; }

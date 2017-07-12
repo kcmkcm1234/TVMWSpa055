@@ -71,9 +71,9 @@ namespace SPAccounts.BusinessService.Services
             
         }
 
-        public List<CustomerInvoice> GetOutStandingInvoices(Guid ID)
+        public List<CustomerInvoice> GetOutStandingInvoices(Guid PaymentID, Guid CustID)
         {
-            return _customerInvoicesRepository.GetOutStandingInvoices(ID);
+            return _customerInvoicesRepository.GetOutStandingInvoices(PaymentID,CustID);
         }
     }
 }
