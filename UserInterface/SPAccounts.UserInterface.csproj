@@ -1475,6 +1475,7 @@
     <Content Include="Scripts\UserJS\Privileges.js" />
     <Content Include="Scripts\UserJS\PrivilegesView.js" />
     <Content Include="Scripts\UserJS\Roles.js" />
+    <Content Include="Scripts\UserJS\SupplierInvoices.js" />
     <Content Include="Scripts\UserJS\TaxTypes.js" />
     <Content Include="Scripts\UserJS\User.js" />
     <Content Include="Scripts\UserJS\Suppliers.js" />
@@ -1507,6 +1508,7 @@
     <Compile Include="Controllers\ManageAccessController.cs" />
     <Compile Include="Controllers\PrivilegesController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
+    <Compile Include="Controllers\SupplierInvoicesController.cs" />
     <Compile Include="Controllers\TaxTypeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\SuppliersController.cs" />
@@ -1530,6 +1532,7 @@
     <Compile Include="Models\PaymentTermsViewModel.cs" />
     <Compile Include="Models\PrivilegesViewModel.cs" />
     <Compile Include="Models\RolesViewModel.cs" />
+    <Compile Include="Models\SupplierInvoicesViewModel.cs" />
     <Compile Include="Models\SuppliersViewModel.cs" />
     <Compile Include="Models\TaxTypesViewModel.cs" />
     <Compile Include="Models\ToolboxViewModel.cs" />
@@ -1566,6 +1569,7 @@
     <Content Include="Views\TaxType\Index.cshtml" />
     <Content Include="Views\Account\NotAuthorized.cshtml" />
     <Content Include="Views\Account\Down.cshtml" />
+    <Content Include="Views\SupplierInvoices\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1575,6 +1579,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Supplier\" />
     <Folder Include="bin\" />
     <Folder Include="Views\Report\" />
   </ItemGroup>
