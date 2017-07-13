@@ -102,10 +102,12 @@
     <Compile Include="Contracts\ICustomerInvoicesBusiness.cs" />
     <Compile Include="Contracts\ICustomerPaymentsBusiness.cs" />
     <Compile Include="Contracts\IDynamicUIBusiness.cs" />
+    <Compile Include="Contracts\IOtherExpenseBusiness.cs" />
     <Compile Include="Contracts\IPaymentModesBusiness.cs" />
     <Compile Include="Contracts\IPaymentTermsBusiness.cs" />
     <Compile Include="Contracts\IReportBusiness.cs" />
     <Compile Include="Contracts\ISupplierBusiness.cs" />
+    <Compile Include="Contracts\ISupplierCreditBusines.cs" />
     <Compile Include="Contracts\ISupplierInvoicesBusiness.cs" />
     <Compile Include="Contracts\ITaxTypesBusiness.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -117,10 +119,12 @@
     <Compile Include="Services\CustomerInvoicesBusiness.cs" />
     <Compile Include="Services\CustomerPaymentsBusiness.cs" />
     <Compile Include="Services\DynamicUIBusiness.cs" />
+    <Compile Include="Services\OtherExpenseBusiness.cs" />
     <Compile Include="Services\PaymentModesBusiness.cs" />
     <Compile Include="Services\PaymentTermsBusiness.cs" />
     <Compile Include="Services\ReportBusiness.cs" />
     <Compile Include="Services\SupplierBusiness.cs" />
+    <Compile Include="Services\SupplierCreditBusines.cs" />
     <Compile Include="Services\SupplierInvoicesBusiness.cs" />
     <Compile Include="Services\TaxTypesBusiness.cs" />
   </ItemGroup>

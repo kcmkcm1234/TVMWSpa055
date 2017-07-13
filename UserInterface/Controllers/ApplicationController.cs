@@ -104,7 +104,6 @@ namespace UserInterface.Controllers
         public string DeleteApplication(ApplicationViewModel appObj)
         {
             object result = null;
-
             if (appObj.ID != Guid.Empty)
             {
                 try
@@ -120,7 +119,6 @@ namespace UserInterface.Controllers
             {
 
             }
-
             return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
         }
 

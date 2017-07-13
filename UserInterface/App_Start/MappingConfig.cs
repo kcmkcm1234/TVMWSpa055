@@ -53,6 +53,8 @@ namespace UserInterface.App_Start
                 config.CreateMap<SupplierInvoiceSummaryViewModel, SupplierInvoiceSummary>().ReverseMap();
                 
                 config.CreateMap<SystemReportViewModel, SystemReport>().ReverseMap();
+                config.CreateMap<SupplierCreditNoteViewModel, SupplierCreditNote>().ReverseMap();
+                
             });
         }
     }
