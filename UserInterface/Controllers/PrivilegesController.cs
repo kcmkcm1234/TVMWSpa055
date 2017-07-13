@@ -2,6 +2,8 @@
 using Newtonsoft.Json;
 using SAMTool.BusinessServices.Contracts;
 using SAMTool.DataAccessObject.DTO;
+using SPAccounts.DataAccessObject.DTO;
+using SPAccounts.UserInterface.SecurityFilter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +26,8 @@ namespace UserInterface.Controllers
         }
 
         // GET: Privileges
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Privileges", Mode = "R")]
         public ActionResult Index()
         {
             PrivilegesViewModel _privillegesObj = new PrivilegesViewModel();
@@ -57,6 +61,7 @@ namespace UserInterface.Controllers
             return View(_privillegesObj);
         }
 
+        [AuthSecurityFilter(ProjectObject = "PrivilegesView", Mode = "R")]
         public ActionResult PrivilegesView()
         {
             return View();
@@ -66,19 +71,21 @@ namespace UserInterface.Controllers
         #region InsertUpdatePrivileges
 
         [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "Privileges", Mode = "W")]
         [ValidateAntiForgeryToken]
         public string InsertUpdatePrivileges(PrivilegesViewModel PrivilegesObj)
         {
             object result = null;
             if (ModelState.IsValid)
             {
+                AppUA _appUA = Session["AppUA"] as AppUA;
                 if (PrivilegesObj.ID == Guid.Empty)
                 {
                     try
                     {
-                        //UserObj.commonObj = new LogDetailsViewModel();
-                        //UserObj.commonObj.CreatedBy = _commonBusiness.GetUA().UserName;
-                        //UserObj.commonObj.CreatedDate = _commonBusiness.GetCurrentDateTime();
+                        PrivilegesObj.commonDetails = new CommonViewModel();
+                        PrivilegesObj.commonDetails.CreatedBy = _appUA.UserName;
+                        PrivilegesObj.commonDetails.CreatedDate= _appUA.DateTime;
                         result = _privillegesBusiness.InsertPrivileges(Mapper.Map<PrivilegesViewModel, Privileges>(PrivilegesObj));
 
                     }
@@ -91,9 +98,9 @@ namespace UserInterface.Controllers
                 {
                     try
                     {
-                        //UserObj.commonObj = new LogDetailsViewModel();
-                        //UserObj.commonObj.UpdatedBy = _commonBusiness.GetUA().UserName;
-                        //UserObj.commonObj.UpdatedDate = _commonBusiness.GetCurrentDateTime();
+                        PrivilegesObj.commonDetails = new CommonViewModel();
+                        PrivilegesObj.commonDetails.UpdatedBy = _appUA.UserName;
+                        PrivilegesObj.commonDetails.UpdatedDate = _appUA.DateTime;
                         result = _privillegesBusiness.UpdatePrivileges(Mapper.Map<PrivilegesViewModel, Privileges>(PrivilegesObj));
                     }
                     catch (Exception ex)
@@ -106,9 +113,26 @@ namespace UserInterface.Controllers
         }
 
         #endregion InsertUpdatePrivileges
+        #region GetAllPrivilegesForPV
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "PrivilegesView", Mode = "R")]
+        public string GetAllPrivilegesForPV()
+        {
+            try
+            {
+
+                List<PrivilegesViewModel> List = Mapper.Map<List<Privileges>, List<PrivilegesViewModel>>(_privillegesBusiness.GetAllPrivileges());
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = List });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+            }
+        }
+        #endregion GetAllPrivilegesForPV
 
         #region GetAllPrivileges
-
+        [AuthSecurityFilter(ProjectObject = "Privileges", Mode = "R")]
         [HttpGet]
         public string GetAllPrivileges()
         {
@@ -126,12 +150,12 @@ namespace UserInterface.Controllers
         #endregion GetAllPrivileges
 
         #region GetPrivilegesDetailsByID
+        [AuthSecurityFilter(ProjectObject = "Privileges", Mode = "R")]
         [HttpGet]
         public string GetPrivilegesDetailsByID(string Id)
         {
             try
             {
-
                 PrivilegesViewModel List = Mapper.Map<Privileges, PrivilegesViewModel>(_privillegesBusiness.GetPrivilegesDetailsByID(Id));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = List });
             }
@@ -144,7 +168,7 @@ namespace UserInterface.Controllers
 
 
         #region DeletePrivileges
-
+        [AuthSecurityFilter(ProjectObject = "Privileges", Mode = "D")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public string DeletePrivileges(PrivilegesViewModel privilegesObj)
@@ -172,75 +196,136 @@ namespace UserInterface.Controllers
 
         #endregion DeletePrivileges
 
-
-
-
-        #region ButtonStyling
+        #region ChangeButtonStyleForVP
         [HttpGet]
-        public ActionResult ChangeButtonStyle(string ActionType)
+        [AuthSecurityFilter(ProjectObject = "PrivilegesView", Mode = "R")]
+        public ActionResult ChangeButtonStyleForVP(string ActionType)
         {
+            Permission _permission = Session["UserRights"] as Permission;
             ToolboxViewModel ToolboxViewModelObj = new ToolboxViewModel();
             switch (ActionType)
             {
+                case "GoBack":
+                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonBack").AccessCode : string.Empty).Contains("R"))
+                    {
+                        ToolboxViewModelObj.backbtn.Visible = true;
+                    }
+                    ToolboxViewModelObj.backbtn.Text = "Back";
+                    ToolboxViewModelObj.backbtn.Title = "Back to list";
+                    ToolboxViewModelObj.backbtn.Event = "goHome()";
+                    break;
+                default:
+                    return Content("Nochange");
+            }
+            return PartialView("ToolboxView", ToolboxViewModelObj);
+        }
+        #endregion ChangeButtonStyleForVP
+        #region ButtonStyling
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Privileges", Mode = "R")]
+        public ActionResult ChangeButtonStyle(string ActionType)
+        {
+            ToolboxViewModel ToolboxViewModelObj = new ToolboxViewModel();
+            Permission _permission = Session["UserRights"] as Permission;
+            switch (ActionType)
+            {
                 case "List":
-                    ToolboxViewModelObj.addbtn.Visible = true;
+                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonAdd").AccessCode : string.Empty).Contains("R"))
+                    {
+                        ToolboxViewModelObj.addbtn.Visible = true;
+                    }
                     ToolboxViewModelObj.addbtn.Text = "Add";
                     ToolboxViewModelObj.addbtn.Title = "Add New";
                     ToolboxViewModelObj.addbtn.Event = "Add();";
 
-                    ToolboxViewModelObj.backbtn.Visible = true;
+                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonBack").AccessCode : string.Empty).Contains("R"))
+                    {
+                        ToolboxViewModelObj.backbtn.Visible = true;
+                    }
+                    
                     ToolboxViewModelObj.backbtn.Text = "Back";
                     ToolboxViewModelObj.backbtn.Title = "Back to list";
                     ToolboxViewModelObj.backbtn.Event = "goHome()";
 
                     break;
                 case "Edit":
-                    ToolboxViewModelObj.backbtn.Visible = true;
+                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonBack").AccessCode : string.Empty).Contains("R"))
+                    {
+                        ToolboxViewModelObj.backbtn.Visible = true;
+                    }
                     ToolboxViewModelObj.backbtn.Text = "Back";
                     ToolboxViewModelObj.backbtn.Title = "Back to list";
                     ToolboxViewModelObj.backbtn.Event = "Back()";
 
-                    ToolboxViewModelObj.savebtn.Visible = true;
+                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonSave").AccessCode : string.Empty).Contains("R"))
+                    {
+                        ToolboxViewModelObj.savebtn.Visible = true;
+                    }
+                   
                     ToolboxViewModelObj.savebtn.Text = "Save";
                     ToolboxViewModelObj.savebtn.Title = "Save";
                     ToolboxViewModelObj.savebtn.Event = "save();";
 
-                    ToolboxViewModelObj.deletebtn.Visible = true;
+                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonDelete").AccessCode : string.Empty).Contains("R"))
+                    {
+                        ToolboxViewModelObj.deletebtn.Visible = true;
+                    }
+                   
                     ToolboxViewModelObj.deletebtn.Text = "Delete";
                     ToolboxViewModelObj.deletebtn.Title = "Delete";
                     ToolboxViewModelObj.deletebtn.Event = "DeleteClick();";
 
-                    ToolboxViewModelObj.resetbtn.Visible = true;
+                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonReset").AccessCode : string.Empty).Contains("R"))
+                    {
+                        ToolboxViewModelObj.resetbtn.Visible = true;
+                    }
+                   
                     ToolboxViewModelObj.resetbtn.Text = "Reset";
                     ToolboxViewModelObj.resetbtn.Title = "Reset";
                     ToolboxViewModelObj.resetbtn.Event = "reset();";
 
                     break;
                 case "Add":
-                    ToolboxViewModelObj.backbtn.Visible = true;
+                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonBack").AccessCode : string.Empty).Contains("R"))
+                    {
+                        ToolboxViewModelObj.backbtn.Visible = true;
+                    }
                     ToolboxViewModelObj.backbtn.Text = "Back";
                     ToolboxViewModelObj.backbtn.Title = "Back to list";
                     ToolboxViewModelObj.backbtn.Event = "Back()";
 
-                    ToolboxViewModelObj.savebtn.Visible = true;
+                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonSave").AccessCode : string.Empty).Contains("R"))
+                    {
+                        ToolboxViewModelObj.savebtn.Visible = true;
+                    }
                     ToolboxViewModelObj.savebtn.Text = "Save";
                     ToolboxViewModelObj.savebtn.Title = "Save";
                     ToolboxViewModelObj.savebtn.Event = "save();";
 
-                    ToolboxViewModelObj.deletebtn.Visible = true;
+                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonDelete").AccessCode : string.Empty).Contains("R"))
+                    {
+                        ToolboxViewModelObj.deletebtn.Visible = true;
+                    }
                     ToolboxViewModelObj.deletebtn.Text = "Delete";
                     ToolboxViewModelObj.deletebtn.Title = "Delete";
                     ToolboxViewModelObj.deletebtn.Disable = true;
                     ToolboxViewModelObj.deletebtn.Event = "DeleteClick()";
 
-                    ToolboxViewModelObj.resetbtn.Visible = true;
+                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonReset").AccessCode : string.Empty).Contains("R"))
+                    {
+                        ToolboxViewModelObj.resetbtn.Visible = true;
+                    }
+
                     ToolboxViewModelObj.resetbtn.Text = "Reset";
                     ToolboxViewModelObj.resetbtn.Title = "Reset";
                     ToolboxViewModelObj.resetbtn.Event = "reset();";
 
                     break;
                 case "GoBack":
-                    ToolboxViewModelObj.backbtn.Visible = true;
+                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonBack").AccessCode : string.Empty).Contains("R"))
+                    {
+                        ToolboxViewModelObj.backbtn.Visible = true;
+                    }
                     ToolboxViewModelObj.backbtn.Text = "Back";
                     ToolboxViewModelObj.backbtn.Title = "Back to list";
                     ToolboxViewModelObj.backbtn.Event = "goHome()";

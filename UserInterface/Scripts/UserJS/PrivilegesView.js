@@ -36,7 +36,7 @@ function GetAllPrivileges() {
     try {
         var data = {};
         var ds = {};
-        ds = GetDataFromServer("Privileges/GetAllPrivileges/", data);
+        ds = GetDataFromServer("Privileges/GetAllPrivilegesForPV/", data);
         if (ds != '') {
             ds = JSON.parse(ds);
         }
