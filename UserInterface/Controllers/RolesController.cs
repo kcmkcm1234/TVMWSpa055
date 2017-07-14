@@ -2,6 +2,8 @@
 using Newtonsoft.Json;
 using SAMTool.BusinessServices.Contracts;
 using SAMTool.DataAccessObject.DTO;
+using SPAccounts.DataAccessObject.DTO;
+using SPAccounts.UserInterface.SecurityFilter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +26,8 @@ namespace UserInterface.Controllers
 
 
         // GET: Roles
+        [AuthSecurityFilter(ProjectObject = "Roles", Mode = "R")]
+        [HttpGet]
         public ActionResult Index()
         {
             RolesViewModel _rolesObj = new RolesViewModel();
@@ -61,7 +65,7 @@ namespace UserInterface.Controllers
 
 
         #region InsertUpdateRoles
-
+        [AuthSecurityFilter(ProjectObject = "Roles", Mode = "W")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public string InsertUpdateRoles(RolesViewModel rolesObj)
@@ -69,13 +73,14 @@ namespace UserInterface.Controllers
             object result = null;
             if (ModelState.IsValid)
             {
+                AppUA _appUA = Session["AppUA"] as AppUA;
                 if (rolesObj.ID == Guid.Empty)
                 {
                     try
                     {
-                        //UserObj.commonObj = new LogDetailsViewModel();
-                        //UserObj.commonObj.CreatedBy = _commonBusiness.GetUA().UserName;
-                        //UserObj.commonObj.CreatedDate = _commonBusiness.GetCurrentDateTime();
+                        rolesObj.commonDetails = new CommonViewModel();
+                        rolesObj.commonDetails.CreatedBy = _appUA.UserName;
+                        rolesObj.commonDetails.CreatedDate = _appUA.DateTime;
                         result = _rolesBusiness.InsertRoles(Mapper.Map<RolesViewModel, Roles>(rolesObj));
                     }
                     catch (Exception ex)
@@ -87,9 +92,9 @@ namespace UserInterface.Controllers
                 {
                     try
                     {
-                        //UserObj.commonObj = new LogDetailsViewModel();
-                        //UserObj.commonObj.UpdatedBy = _commonBusiness.GetUA().UserName;
-                        //UserObj.commonObj.UpdatedDate = _commonBusiness.GetCurrentDateTime();
+                        rolesObj.commonDetails = new CommonViewModel();
+                        rolesObj.commonDetails.UpdatedBy = _appUA.UserName;
+                        rolesObj.commonDetails.UpdatedDate = _appUA.DateTime;
                         result = _rolesBusiness.UpdateRoles(Mapper.Map<RolesViewModel, Roles>(rolesObj));
                     }
                     catch (Exception ex)
@@ -104,12 +109,12 @@ namespace UserInterface.Controllers
         #endregion InsertUpdateEvent
 
         #region GetAllRoles
+        [AuthSecurityFilter(ProjectObject = "Roles", Mode = "R")]
         [HttpGet]
         public string GetAllRoles()
         {
             try
             {
-
                 List<RolesViewModel> rolesList = Mapper.Map<List<Roles>, List<RolesViewModel>>(_rolesBusiness.GetAllAppRoles(null));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = rolesList });
             }
@@ -121,6 +126,7 @@ namespace UserInterface.Controllers
         #endregion GetAllRoles
 
         #region GetRolesDetailsByID
+        [AuthSecurityFilter(ProjectObject = "Roles", Mode = "R")]
         [HttpGet]
         public string GetRolesDetailsByID(string Id)
         {
@@ -140,6 +146,7 @@ namespace UserInterface.Controllers
         #region DeleteRoles
 
         [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "Roles", Mode = "D")]
         [ValidateAntiForgeryToken]
         public string DeleteRoles(RolesViewModel RolesObj)
         {
@@ -168,64 +175,96 @@ namespace UserInterface.Controllers
 
 
         #region ButtonStyling
+        [AuthSecurityFilter(ProjectObject = "Roles", Mode = "R")]
         [HttpGet]
         public ActionResult ChangeButtonStyle(string ActionType)
         {
+            Permission _permission = Session["UserRights"] as Permission;
             ToolboxViewModel ToolboxViewModelObj = new ToolboxViewModel();
             switch (ActionType)
             {
                 case "List":
-                    ToolboxViewModelObj.addbtn.Visible = true;
+                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonAdd").AccessCode : string.Empty).Contains("R"))
+                    {
+                        ToolboxViewModelObj.addbtn.Visible = true;
+                    }
                     ToolboxViewModelObj.addbtn.Text = "Add";
                     ToolboxViewModelObj.addbtn.Title = "Add New";
                     ToolboxViewModelObj.addbtn.Event = "Add();";
 
-                    ToolboxViewModelObj.backbtn.Visible = true;
+                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonBack").AccessCode : string.Empty).Contains("R"))
+                    {
+                        ToolboxViewModelObj.backbtn.Visible = true;
+                    }
                     ToolboxViewModelObj.backbtn.Text = "Back";
                     ToolboxViewModelObj.backbtn.Title = "Back to list";
                     ToolboxViewModelObj.backbtn.Event = "goHome()";
 
                     break;
                 case "Edit":
-                    ToolboxViewModelObj.backbtn.Visible = true;
+                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonBack").AccessCode : string.Empty).Contains("R"))
+                    {
+                        ToolboxViewModelObj.backbtn.Visible = true;
+                    }
                     ToolboxViewModelObj.backbtn.Text = "Back";
                     ToolboxViewModelObj.backbtn.Title = "Back to list";
                     ToolboxViewModelObj.backbtn.Event = "Back()";
 
-                    ToolboxViewModelObj.savebtn.Visible = true;
+                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonSave").AccessCode : string.Empty).Contains("R"))
+                    {
+                        ToolboxViewModelObj.savebtn.Visible = true;
+                    }
                     ToolboxViewModelObj.savebtn.Text = "Save";
                     ToolboxViewModelObj.savebtn.Title = "Save";
                     ToolboxViewModelObj.savebtn.Event = "save();";
 
-                    ToolboxViewModelObj.deletebtn.Visible = true;
+                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonDelete").AccessCode : string.Empty).Contains("R"))
+                    {
+                        ToolboxViewModelObj.deletebtn.Visible = true;
+                    }
                     ToolboxViewModelObj.deletebtn.Text = "Delete";
                     ToolboxViewModelObj.deletebtn.Title = "Delete";
                     ToolboxViewModelObj.deletebtn.Event = "DeleteClick();";
 
-                    ToolboxViewModelObj.resetbtn.Visible = true;
+                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonReset").AccessCode : string.Empty).Contains("R"))
+                    {
+                        ToolboxViewModelObj.resetbtn.Visible = true;
+                    }
                     ToolboxViewModelObj.resetbtn.Text = "Reset";
                     ToolboxViewModelObj.resetbtn.Title = "Reset";
                     ToolboxViewModelObj.resetbtn.Event = "reset();";
 
                     break;
                 case "Add":
-                    ToolboxViewModelObj.backbtn.Visible = true;
+                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonBack").AccessCode : string.Empty).Contains("R"))
+                    {
+                        ToolboxViewModelObj.backbtn.Visible = true;
+                    }
                     ToolboxViewModelObj.backbtn.Text = "Back";
                     ToolboxViewModelObj.backbtn.Title = "Back to list";
                     ToolboxViewModelObj.backbtn.Event = "Back()";
 
-                    ToolboxViewModelObj.savebtn.Visible = true;
+                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonSave").AccessCode : string.Empty).Contains("R"))
+                    {
+                        ToolboxViewModelObj.savebtn.Visible = true;
+                    }
                     ToolboxViewModelObj.savebtn.Text = "Save";
                     ToolboxViewModelObj.savebtn.Title = "Save";
                     ToolboxViewModelObj.savebtn.Event = "save();";
 
-                    ToolboxViewModelObj.deletebtn.Visible = true;
+                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonDelete").AccessCode : string.Empty).Contains("R"))
+                    {
+                        ToolboxViewModelObj.deletebtn.Visible = true;
+                    }
                     ToolboxViewModelObj.deletebtn.Text = "Delete";
                     ToolboxViewModelObj.deletebtn.Title = "Delete";
                     ToolboxViewModelObj.deletebtn.Disable = true;
                     ToolboxViewModelObj.deletebtn.Event = "DeleteClick()";
 
-                    ToolboxViewModelObj.resetbtn.Visible = true;
+                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonReset").AccessCode : string.Empty).Contains("R"))
+                    {
+                        ToolboxViewModelObj.resetbtn.Visible = true;
+                    }
                     ToolboxViewModelObj.resetbtn.Text = "Reset";
                     ToolboxViewModelObj.resetbtn.Title = "Reset";
                     ToolboxViewModelObj.resetbtn.Event = "reset();";

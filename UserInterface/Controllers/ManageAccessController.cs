@@ -2,6 +2,8 @@
 using Newtonsoft.Json;
 using SAMTool.BusinessServices.Contracts;
 using SAMTool.DataAccessObject.DTO;
+using SPAccounts.DataAccessObject.DTO;
+using SPAccounts.UserInterface.SecurityFilter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +27,8 @@ namespace UserInterface.Controllers
             _rolesBusiness = rolesBusiness;
             __appObjectBusiness = appObjectBusiness;
         }
-        // GET: ManageAccess
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "ManageAccess", Mode = "R")]
         public ActionResult Index()
         {
             ManageAccessViewModel _manageAccessViewModelObj = new ManageAccessViewModel();
@@ -78,6 +81,9 @@ namespace UserInterface.Controllers
             }
             return View(_manageAccessViewModelObj);
         }
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "ManageAccess", Mode = "R")]
         public ActionResult SubobjectIndex(string id)
         {
             ViewBag.objectID = id;
@@ -129,6 +135,7 @@ namespace UserInterface.Controllers
             return View(_manageSubObjectAccessViewModelObj);
         }
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "ManageAccess", Mode = "R")]
         public string GetAllAppRoles(string AppID)
         {
             List<SelectListItem> selectListItem = new List<SelectListItem>();
@@ -146,23 +153,27 @@ namespace UserInterface.Controllers
             return JsonConvert.SerializeObject(new { Result = "OK", Records = selectListItem });
         }
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "ManageAccess", Mode = "R")]
         public string GetAllObjectAccess(string AppID, string RoleID)
         {
             List<ManageAccessViewModel> ItemList = Mapper.Map<List<ManageAccess>, List<ManageAccessViewModel>>(_manageAccessBusiness.GetAllObjectAccess((AppID != "" ? Guid.Parse(AppID) : Guid.Empty), (RoleID != "" ? Guid.Parse(RoleID) : Guid.Empty)));
             return JsonConvert.SerializeObject(new { Result = "OK", Records = ItemList });
 
         }
+       
+        [AuthSecurityFilter(ProjectObject = "ManageAccess", Mode = "W")]
         [HttpPost]
         public string AddAccessChanges(ManageAccessViewModel manageAccessViewModelObj)
         {
-            
+          
             try
             {
+                AppUA _appUA = Session["AppUA"] as AppUA;
                 // if (ModelState.IsValid)
                 //  {
                 manageAccessViewModelObj.commonObj = new CommonViewModel();
-                manageAccessViewModelObj.commonObj.CreatedBy = "Thomson";
-                manageAccessViewModelObj.commonObj.CreatedDate = DateTime.Now;
+                manageAccessViewModelObj.commonObj.CreatedBy = _appUA.UserName;
+                manageAccessViewModelObj.commonObj.CreatedDate = _appUA.DateTime;
                 foreach (ManageAccessViewModel ManageAccessObj in manageAccessViewModelObj.ManageAccessList)
                 {
                     ManageAccessObj.commonObj = new CommonViewModel();
@@ -181,6 +192,8 @@ namespace UserInterface.Controllers
             }
            
         }
+
+        [AuthSecurityFilter(ProjectObject = "ManageAccess", Mode = "R")]
         [HttpGet]
         public string GetAllSubObjectAccess(string ObjectID, string RoleID)
         {
@@ -190,16 +203,18 @@ namespace UserInterface.Controllers
         }
 
         [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "ManageAccess", Mode = "W")]
         public string AddSubObjectAccessChanges(ManageSubObjectAccessViewModel manageSubObjectAccessViewModelObj)
         {
             
             try
             {
+                AppUA _appUA = Session["AppUA"] as AppUA;
                 //if (ModelState.IsValid)
                 // {
                 manageSubObjectAccessViewModelObj.commonObj = new CommonViewModel();
-                manageSubObjectAccessViewModelObj.commonObj.CreatedBy = "Thomson";
-                manageSubObjectAccessViewModelObj.commonObj.CreatedDate = DateTime.Now;
+                manageSubObjectAccessViewModelObj.commonObj.CreatedBy = _appUA.UserName;
+                manageSubObjectAccessViewModelObj.commonObj.CreatedDate = _appUA.DateTime;
                 foreach (ManageSubObjectAccessViewModel ManageSubObjectAccessObj in manageSubObjectAccessViewModelObj.ManageSubObjectAccessList)
                 {
                     ManageSubObjectAccessObj.commonObj = new CommonViewModel();
@@ -219,42 +234,63 @@ namespace UserInterface.Controllers
         
         }
         #region ButtonStyling
+        [AuthSecurityFilter(ProjectObject = "ManageAccess", Mode = "R")]
         [HttpGet]
         public ActionResult ChangeButtonStyle(string ActionType)
         {
+            Permission _permission = Session["UserRights"] as Permission;
             ToolboxViewModel ToolboxViewModelObj = new ToolboxViewModel();
             switch (ActionType)
             {
                 case "Default":
 
-                    ToolboxViewModelObj.backbtn.Visible = true;
+                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonBack").AccessCode : string.Empty).Contains("R"))
+                    {
+                        ToolboxViewModelObj.backbtn.Visible = true;
+                    }
                     ToolboxViewModelObj.backbtn.Text = "Back";
                     ToolboxViewModelObj.backbtn.Title = "Back";
                     ToolboxViewModelObj.backbtn.Event = "GobackMangeAccess()";
 
-                    ToolboxViewModelObj.savebtn.Visible = true;
+                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonSave").AccessCode : string.Empty).Contains("R"))
+                    {
+                        ToolboxViewModelObj.savebtn.Visible = true;
+                    }
+
                     ToolboxViewModelObj.savebtn.Disable = true;
                     ToolboxViewModelObj.savebtn.Text = "Save";
                     ToolboxViewModelObj.savebtn.DisableReason = "No changes yet";
 
-                    ToolboxViewModelObj.resetbtn.Visible = true;
+                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonReset").AccessCode : string.Empty).Contains("R"))
+                    {
+                        ToolboxViewModelObj.resetbtn.Visible = true;
+                    }
                     ToolboxViewModelObj.resetbtn.Disable = true;
                     ToolboxViewModelObj.resetbtn.Text = "Reset";
                     ToolboxViewModelObj.resetbtn.DisableReason = "No changes yet";
                     break;
                 case "Checked":
 
-                    ToolboxViewModelObj.backbtn.Visible = true;
+                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonBack").AccessCode : string.Empty).Contains("R"))
+                    {
+                        ToolboxViewModelObj.backbtn.Visible = true;
+                    }
                     ToolboxViewModelObj.backbtn.Text = "Back";
                     ToolboxViewModelObj.backbtn.Title = "Back";
                     ToolboxViewModelObj.backbtn.Event = "GobackMangeAccess()";
 
-                    ToolboxViewModelObj.savebtn.Visible = true;
+                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonSave").AccessCode : string.Empty).Contains("R"))
+                    {
+                        ToolboxViewModelObj.savebtn.Visible = true;
+                    }
                     ToolboxViewModelObj.savebtn.Title = "Update";
                     ToolboxViewModelObj.savebtn.Text = "Save";
                     ToolboxViewModelObj.savebtn.Event = "SaveChanges();";
 
-                    ToolboxViewModelObj.resetbtn.Visible = true;
+                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonReset").AccessCode : string.Empty).Contains("R"))
+                    {
+                        ToolboxViewModelObj.resetbtn.Visible = true;
+                    }
                     ToolboxViewModelObj.resetbtn.Title = "Reset Changes";
                     ToolboxViewModelObj.resetbtn.Text = "Reset";
                     ToolboxViewModelObj.resetbtn.Event = "Reset();";

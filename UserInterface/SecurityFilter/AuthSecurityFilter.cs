@@ -52,6 +52,8 @@ namespace SPAccounts.UserInterface.SecurityFilter
                     UA _ua = (UA)filterContext.HttpContext.Session["TvmValid"];
                     AppUA appUA = new AppUA();
                     appUA.UserName = _ua.UserName;
+                    SPAccounts.DataAccessObject.DTO.Common common = new SPAccounts.DataAccessObject.DTO.Common();
+                    appUA.DateTime = common.GetCurrentDateTime();
                     appUA.AppID = _ua.AppID;
                     filterContext.HttpContext.Session.Add("AppUA", appUA);
             }
