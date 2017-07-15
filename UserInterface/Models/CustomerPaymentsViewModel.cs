@@ -42,13 +42,15 @@ namespace UserInterface.Models
 
         public string PaymentDateFormatted { get; set; }
         public List<CustomerPaymentsDetailViewModel> CustomerPaymentsDetail { get; set; }
-        
+        public CustomerPaymentsDetailViewModel CustPaymentDetailObj { get; set; }
 
         public CustomerViewModel customerObj { get; set; }
         public CommonViewModel commonObj { get; set; }
         public PaymentModesViewModel PaymentModesObj { get; set; }
         public BankViewModel bankObj { get; set; }
         public CompaniesViewModel CompanyObj { get; set; }
+
+        public string paymentDetailhdf { get; set; }
 
     }
     public class CustomerPaymentsDetailViewModel
@@ -62,6 +64,7 @@ namespace UserInterface.Models
         public decimal PaidAmount { get; set; }
 
         public string PaymentDueDateFormatted { get; set; }
+        public CustomerPaymentsDetailViewModel CustPaymentDetailObj { get; set; }
 
     }
 }

@@ -116,7 +116,7 @@
                 <div class="col-md-6" id="btnPatchAdd" style="min-height:25px; padding-right:25px;">
                     @{
                         var data1 = new { ActionType = "Add" };
-                        @Html.Action("ChangeButtonStyle", "CustomerInvoices", data1);
+                        @Html.Action("ChangeButtonStyle", "CustomerPayments", data1);
                     }
                 </div>
             </div>
@@ -132,6 +132,7 @@
                         <div class="form-group col-md-6">
                             <div class="col-md-12">
                                 @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "",value=Guid.Empty })
+                                @Html.HiddenFor(model => model.paymentDetailhdf, htmlAttributes: new { @class = "", @id ="paymentDetailhdf" })
                                 @Html.LabelFor(model => model.customerObj.ID, htmlAttributes: new { @class = "control-label " })
                             </div>
                             <div class="col-md-12">
@@ -275,7 +276,6 @@
                                     <th>Other Payments (₹)</th>
                                     <th>Balance Due (₹)</th>
                                     <th>Payment (₹)</th>
-                                    <th>PaymentEdit</th>
                                 </tr>
                             </thead>
                         </table>
@@ -389,4 +389,6 @@
 @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
 @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/CustomerPayments")
 @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableSelect")
+@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableapisum")
+
 }

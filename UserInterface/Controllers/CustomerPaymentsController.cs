@@ -153,9 +153,9 @@ namespace UserInterface.Controllers
                
                 _customerObj.commonObj = new CommonViewModel();
                 _customerObj.commonObj.CreatedBy = ua.UserName;
-                _customerObj.commonObj.CreatedDate = DateTime.Now;
+                _customerObj.commonObj.CreatedDate = ua.DateTime;
                 _customerObj.commonObj.UpdatedBy = ua.UserName;
-                _customerObj.commonObj.UpdatedDate = DateTime.Now;
+                _customerObj.commonObj.UpdatedDate = ua.DateTime;
                 CustomerPaymentsViewModel CIVM = Mapper.Map<CustomerPayments, CustomerPaymentsViewModel>(_CustPaymentBusiness.InsertUpdatePayments(Mapper.Map<CustomerPaymentsViewModel, CustomerPayments>(_customerObj)));
                 return JsonConvert.SerializeObject(new { Result = "OK", Message = c.InsertSuccess, Records = CIVM });
             }
@@ -201,7 +201,7 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.savebtn.Visible = true;
                     ToolboxViewModelObj.savebtn.Text = "Save";
                     ToolboxViewModelObj.savebtn.Title = "Save";
-                    ToolboxViewModelObj.savebtn.Event = "saveNow();";
+                    ToolboxViewModelObj.savebtn.Event = "savePayments();";
 
                     ToolboxViewModelObj.CloseBtn.Visible = true;
                     ToolboxViewModelObj.CloseBtn.Text = "Close";
