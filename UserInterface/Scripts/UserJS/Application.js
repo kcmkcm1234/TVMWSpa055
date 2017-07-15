@@ -16,7 +16,7 @@ $(document).ready(function () {
              columns: [
                { "data": "ID" },
                { "data": "Name" },
-                { "data": "CreatedDate","defaultContent": "<i>-</i>" },
+                { "data": "commonDetails.CreatedDatestr", "defaultContent": "<i>-</i>" },
                { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="Edit(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
