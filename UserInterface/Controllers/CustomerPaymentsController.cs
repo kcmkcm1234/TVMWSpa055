@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using SAMTool.DataAccessObject.DTO;
 using SPAccounts.BusinessService.Contracts;
 using SPAccounts.DataAccessObject.DTO;
+using SPAccounts.UserInterface.SecurityFilter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,8 +41,15 @@ namespace UserInterface.Controllers
 
         #region Index
         // GET: CustomerPayments
+
+        [AuthSecurityFilter(ProjectObject = "CustomerPayments", Mode = "R")]
+        [HttpGet]
         public ActionResult Index()
         {
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            ViewBag.Currentdate = _appUA.DateTime.ToString("dd-MMM-yyyy");
+
+
             List<SelectListItem> selectListItem = new List<SelectListItem>();
             CustomerPaymentsViewModel CP = new CustomerPaymentsViewModel();
 
@@ -144,18 +152,19 @@ namespace UserInterface.Controllers
 
         #region InsertUpdatePayments
 
+        [AuthSecurityFilter(ProjectObject = "CustomerPayments", Mode = "W")]
         [HttpPost]
         public string InsertUpdatePayments(CustomerPaymentsViewModel _customerObj)
         {
             try
             {
-                AppUA ua = new AppUA();
-               
+                AppUA _appUA = Session["AppUA"] as AppUA;
+                _customerObj.CustomerPaymentsDetail = JsonConvert.DeserializeObject<List<CustomerPaymentsDetailViewModel>>(_customerObj.paymentDetailhdf);
                 _customerObj.commonObj = new CommonViewModel();
-                _customerObj.commonObj.CreatedBy = ua.UserName;
-                _customerObj.commonObj.CreatedDate = ua.DateTime;
-                _customerObj.commonObj.UpdatedBy = ua.UserName;
-                _customerObj.commonObj.UpdatedDate = ua.DateTime;
+                _customerObj.commonObj.CreatedBy = _appUA.UserName;
+                _customerObj.commonObj.CreatedDate = _appUA.DateTime;
+                _customerObj.commonObj.UpdatedBy = _appUA.UserName;
+                _customerObj.commonObj.UpdatedDate = _appUA.DateTime;
                 CustomerPaymentsViewModel CIVM = Mapper.Map<CustomerPayments, CustomerPaymentsViewModel>(_CustPaymentBusiness.InsertUpdatePayments(Mapper.Map<CustomerPaymentsViewModel, CustomerPayments>(_customerObj)));
                 return JsonConvert.SerializeObject(new { Result = "OK", Message = c.InsertSuccess, Records = CIVM });
             }

@@ -365,6 +365,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         CIList.CustPaymentObj = new CustomerPayments();
                                         CIList.CustPaymentObj.CustPaymentDetailObj = new CustomerPaymentsDetail();
                                         CIList.CustPaymentObj.CustPaymentDetailObj.PaidAmount= (sdr["PaidAmountEdit"].ToString() != "" ? Decimal.Parse(sdr["PaidAmountEdit"].ToString()) : CIList.CustPaymentObj.CustPaymentDetailObj.PaidAmount);
+                                        CIList.CustPaymentObj.CustPaymentDetailObj.ID=(sdr["PaymentDetailID"].ToString() != "" ? Guid.Parse(sdr["PaymentDetailID"].ToString()) : CIList.CustPaymentObj.CustPaymentDetailObj.ID);
                                         //------------date formatting-----------------//
                                         CIList.InvoiceDateFormatted = (sdr["InvoiceDate"].ToString() != "" ? DateTime.Parse(sdr["InvoiceDate"].ToString()).ToString(settings.dateformat) : CIList.InvoiceDateFormatted);
                                         CIList.PaymentDueDateFormatted = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString(settings.dateformat) : CIList.PaymentDueDateFormatted);

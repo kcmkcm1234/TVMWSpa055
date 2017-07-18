@@ -147,11 +147,10 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@BankCode", SqlDbType.VarChar, 10).Value = _custPayObj.BankCode;
                         cmd.Parameters.Add("@PaymentRef", SqlDbType.VarChar, 10).Value = _custPayObj.PaymentRef;
                         cmd.Parameters.Add("@RecdToComanyCode", SqlDbType.VarChar, 10).Value = _custPayObj.RecdToComanyCode;
-
                         cmd.Parameters.Add("@TotalRecdAmt", SqlDbType.Decimal).Value = _custPayObj.TotalRecdAmt;
                         cmd.Parameters.Add("@AdvanceAmount", SqlDbType.Decimal).Value = _custPayObj.AdvanceAmount;
-
                         cmd.Parameters.Add("@GeneralNotes", SqlDbType.NVarChar, -1).Value = _custPayObj.GeneralNotes;
+                        cmd.Parameters.Add("@DetailXml", SqlDbType.NVarChar, -1).Value = _custPayObj.DetailXml;
                         cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = _custPayObj.CommonObj.CreatedBy;
                         cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = _custPayObj.CommonObj.CreatedDate;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
@@ -212,7 +211,7 @@ namespace SPAccounts.RepositoryServices.Services
 
                         cmd.Parameters.Add("@TotalRecdAmt", SqlDbType.Decimal).Value = _custPayObj.TotalRecdAmt;
                         cmd.Parameters.Add("@AdvanceAmount", SqlDbType.Decimal).Value = _custPayObj.AdvanceAmount;
-
+                        cmd.Parameters.Add("@DetailXml", SqlDbType.NVarChar, -1).Value = _custPayObj.DetailXml;
                         cmd.Parameters.Add("@GeneralNotes", SqlDbType.NVarChar, -1).Value = _custPayObj.GeneralNotes;
                         cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = _custPayObj.CommonObj.UpdatedBy;
                         cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = _custPayObj.CommonObj.UpdatedDate;

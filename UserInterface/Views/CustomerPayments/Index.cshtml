@@ -132,6 +132,7 @@
                         <div class="form-group col-md-6">
                             <div class="col-md-12">
                                 @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "",value=Guid.Empty })
+                                @Html.HiddenFor(model => model.AdvanceAmount, htmlAttributes: new { @class = ""})
                                 @Html.HiddenFor(model => model.paymentDetailhdf, htmlAttributes: new { @class = "", @id ="paymentDetailhdf" })
                                 @Html.LabelFor(model => model.customerObj.ID, htmlAttributes: new { @class = "control-label " })
                             </div>
@@ -150,7 +151,7 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.PaymentDate, new { htmlAttributes = new { @class = "form-control HeaderBox datepicker", @id = "PaymentDate", @autofocus = true } })
+                                    @Html.EditorFor(model => model.PaymentDate, new { htmlAttributes = new { @class = "form-control HeaderBox datepicker", @id = "PaymentDate", @autofocus = true, Value = @ViewBag.Currentdate } })
                                     @Html.ValidationMessageFor(model => model.PaymentDate, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-1"></div>
@@ -276,6 +277,7 @@
                                     <th>Other Payments (₹)</th>
                                     <th>Balance Due (₹)</th>
                                     <th>Payment (₹)</th>
+                                    <th>PaymentDetailID</th>
                                 </tr>
                             </thead>
                         </table>
@@ -389,6 +391,4 @@
 @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
 @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/CustomerPayments")
 @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableSelect")
-@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableapisum")
-
 }

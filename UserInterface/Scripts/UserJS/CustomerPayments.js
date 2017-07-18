@@ -75,11 +75,17 @@ $(document).ready(function () {
                      index = index + 1
                      return '<input class="form-control text-right paymentAmount" name="Markup" value="'+roundoff(data)+'" onchange="PaymentAmountChanged(this);" id="PaymentValue_' + index + '" type="text">';
                  }, "width": "15%"
+             },
+             {
+                 "data": "CustPaymentObj.CustPaymentDetailObj.ID", "defaultContent": "<i>-</i>", "width": "10%",
+                 'render': function (data, type, row) {
+                     return roundoff(row.BalanceDue)
+                 }
              }
         ],
         columnDefs: [{ orderable: false, className: 'select-checkbox', targets: 1 }
             , { className: "text-right", "targets": [4, 5, 6] }
-            , { "targets": [0], "visible": false, "searchable": false }
+            , { "targets": [0,8], "visible": false, "searchable": false }
             , { "targets": [2, 3, 4, 5, 6, 7], "bSortable": false }],
 
         select: {style: 'multi', selector: 'td:first-child'   } 
@@ -144,25 +150,27 @@ function Edit(currentObj)
 {
     openNav();
     var rowData = DataTables.CustomerPaymentTable.row($(currentObj).parents('tr')).data();
-    if ((rowData != null) && (rowData.ID != null))
-    {
-        var thisitem = GetCustomerPayments(rowData.ID)
-        //ID NOT SET THIS IN PAGE
-        $('#ID').val(rowData.ID);
-        $('#Customer').val(thisitem.customerObj.ID);
-        $('#PaymentDate').val(thisitem.PaymentDateFormatted);
-        $('#PaymentRef').val(thisitem.PaymentRef);
-        $('#RecdToComanyCode').val(thisitem.RecdToComanyCode);
-        $('#PaymentMode').val(thisitem.PaymentMode);
-        $('#BankCode').val(thisitem.BankCode);
-        $('#Notes').val(thisitem.GeneralNotes);
-        $('#TotalRecdAmt').val(roundoff(thisitem.TotalRecdAmt));
-        $('#lblTotalRecdAmt').text(roundoff(thisitem.TotalRecdAmt));
-        $('#paidAmt').text(roundoff(thisitem.TotalRecdAmt));
+    if ((rowData != null) && (rowData.ID != null)) {
+        GetCustomerPaymentsByID(rowData.ID)
     } 
+}
+
+function GetCustomerPaymentsByID(ID) {
+    var thisitem = GetCustomerPayments(ID)
+    $('#ID').val(ID);
+    $('#Customer').val(thisitem.customerObj.ID);
+    $('#PaymentDate').val(thisitem.PaymentDateFormatted);
+    $('#PaymentRef').val(thisitem.PaymentRef);
+    $('#RecdToComanyCode').val(thisitem.RecdToComanyCode);
+    $('#PaymentMode').val(thisitem.PaymentMode);
+    $('#BankCode').val(thisitem.BankCode);
+    $('#Notes').val(thisitem.GeneralNotes);
+    $('#TotalRecdAmt').val(roundoff(thisitem.TotalRecdAmt));
+    $('#lblTotalRecdAmt').text(roundoff(thisitem.TotalRecdAmt));
+    $('#paidAmt').text(roundoff(thisitem.TotalRecdAmt));
+
     //BIND OUTSTANDING INVOICE TABLE USING CUSTOMER ID AND PAYMENT HEADER 
     BindOutstanding();
-    debugger;
     //edit outstanding table Payment text binding
     var table = $('#tblOutStandingDetails').DataTable();
     var allData = table.rows().data();
@@ -173,8 +181,8 @@ function Edit(currentObj)
     }
     $('#lblPaymentApplied').text(roundoff(sum));
     $('#lblCredit').text(roundoff(AmountReceived - sum));
-   // $('#lblPaymentApplied').text(roundoff(thisitem.TotalRecdAmt));
-    Selectcheckbox();
+        // $('#lblPaymentApplied').text(roundoff(thisitem.TotalRecdAmt));
+    Selectcheckbox(); 
 }
 
 function openNavClick() {
@@ -192,13 +200,35 @@ function savePayments() {
       
         for (var r = 0; r < SelectedRows.length; r++) {
             var PaymentDetailViewModel = new Object();
-            PaymentDetailViewModel.InvoiceID = SelectedRows[r].ID;
+            PaymentDetailViewModel.InvoiceID = SelectedRows[r].ID;//Invoice ID
+            PaymentDetailViewModel.ID = SelectedRows[r].CustPaymentObj.CustPaymentDetailObj.ID//Detail ID
             PaymentDetailViewModel.PaidAmount = SelectedRows[r].CustPaymentObj.CustPaymentDetailObj.PaidAmount;
             ar.push(PaymentDetailViewModel);
         }    
         $('#paymentDetailhdf').val(JSON.stringify(ar)); 
     }
+    $('#AdvanceAmount').val($('#lblCredit').text());
     $('#btnSave').trigger('click');
+}
+
+function SaveSuccess(data, status) {
+    debugger;
+    var JsonResult = JSON.parse(data)
+    switch (JsonResult.Result) {
+        case "OK":
+            debugger;
+           // GetCustomerPaymentsByID()
+           // BindCustomerPaymentsHeader()
+          
+            notyAlert('success', JsonResult.Message);
+            break;
+        case "ERROR":
+            notyAlert('error', JsonResult.Message);
+            break;
+        default:
+            notyAlert('error', JsonResult.Message);
+            break;
+    }
 }
 
 function fieldsclear() { 
@@ -213,6 +243,11 @@ function fieldsclear() {
 function BindOutstanding() {
     index = 0; 
     DataTables.OutStandingInvoices.clear().rows.add(GetOutStandingInvoices()).draw(false);
+}
+
+function BindCustomerPaymentsHeader()
+{
+    DataTables.OutStandingInvoices.clear().rows.add(GetAllCustomerPayments()).draw(false);
 }
 
 function PaymentModeChanged() {
@@ -326,21 +361,28 @@ function PaymentAmountChanged(this_Obj) {
     {
         if (allData[i].ID == rowtable.ID) {
             if (parseFloat(allData[i].BalanceDue) < parseFloat(this_Obj.value)) { 
-                debugger; 
-                if (sum + parseFloat(allData[i].BalanceDue)<AmountReceived)
+                debugger;
+                var oldamount = parseFloat(allData[i].CustPaymentObj.CustPaymentDetailObj.PaidAmount)
+                var credit = parseFloat($("#lblCredit").text())
+                if (credit > 0) {
+                    var currenttotal = AmountReceived + parseFloat(this_Obj.value) - (credit + oldamount)
+                }
+                else {
+                    var currenttotal = AmountReceived + parseFloat(this_Obj.value) - oldamount
+                }
+                if (currenttotal<AmountReceived)
                 {
                     allData[i].CustPaymentObj.CustPaymentDetailObj.PaidAmount = parseFloat(allData[i].BalanceDue)
                     sum = sum + parseFloat(allData[i].BalanceDue);
                 }
                 else
                 {
-                    allData[i].CustPaymentObj.CustPaymentDetailObj.PaidAmount = allData[i].CustPaymentObj.CustPaymentDetailObj.PaidAmount
-                    sum = sum + parseFloat(allData[i].CustPaymentObj.CustPaymentDetailObj.PaidAmount)
+                    allData[i].CustPaymentObj.CustPaymentDetailObj.PaidAmount = oldamount
+                    sum = sum + oldamount
                 }
             }
             else {
                 debugger;
-                // var columnsum= table.column(7).data().sum();
                 var oldamount = parseFloat(allData[i].CustPaymentObj.CustPaymentDetailObj.PaidAmount)
                 var credit = parseFloat($("#lblCredit").text())
                 if(credit >0){

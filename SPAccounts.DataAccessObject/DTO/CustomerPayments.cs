@@ -24,7 +24,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public CustomerPaymentsDetail CustPaymentDetailObj { get; set; }
         public Customer customerObj { get; set; }
         public Common CommonObj { get; set; }
-       
+        public string DetailXml { get; set; }
+
 
     }
     public class CustomerPaymentsDetail
@@ -38,6 +39,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal PaidAmount { get; set; }
         public decimal PaidAmountEdit { get; set; }
         public string PaymentDueDateFormatted { get; set; }
+       
 
 
     }
