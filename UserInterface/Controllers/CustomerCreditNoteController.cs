@@ -19,19 +19,55 @@ namespace UserInterface.Controllers
         AppConst c = new AppConst();
         ICustomerBusiness _customerBusiness;
         ICustomerCreditNotesBusiness _CustomerCreditNotesBusiness;
+        ICompaniesBusiness _companiesBusiness;
 
-        public CustomerCreditNoteController(ICustomerCreditNotesBusiness customerCreditNotesBusiness, ICustomerBusiness customerBusiness)
+        public CustomerCreditNoteController(ICustomerCreditNotesBusiness customerCreditNotesBusiness, ICustomerBusiness customerBusiness, ICompaniesBusiness companiesBusiness)
         {
             _CustomerCreditNotesBusiness = customerCreditNotesBusiness;
             _customerBusiness = customerBusiness;
+            _companiesBusiness = companiesBusiness;
         }
         #endregion Constructor_Injection 
 
         // GET: CustomerCreditNote
         public ActionResult Index()
         {
-            CustomerCreditNoteViewModel ccn = new CustomerCreditNoteViewModel();
-            ccn.CustomerList = new List<SelectListItem>();
+            CustomerCreditNoteViewModel ccn = null;
+            try
+            {
+                ccn = new CustomerCreditNoteViewModel();
+                List<SelectListItem> selectListItem = new List<SelectListItem>();
+                List<CustomerViewModel> CustList = Mapper.Map<List<Customer>, List<CustomerViewModel>>(_customerBusiness.GetAllCustomers());
+                foreach (CustomerViewModel Cust in CustList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = Cust.CompanyName,
+                        Value = Cust.ID.ToString(),
+                        Selected = false
+                    });
+                }
+                ccn.CustomerList = selectListItem;
+
+                ccn.CompaniesList = new List<SelectListItem>();
+                selectListItem = new List<SelectListItem>();
+                List<CompaniesViewModel> companiesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_companiesBusiness.GetAllCompanies());
+                foreach (CompaniesViewModel cvm in companiesList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = cvm.Name,
+                        Value = cvm.Code.ToString(),
+                        Selected = false
+                    });
+                }
+                ccn.CompaniesList = selectListItem;
+
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
             return View(ccn);
         }
 
@@ -53,6 +89,69 @@ namespace UserInterface.Controllers
         }
         #endregion  GetAllCustomerCreditNotes
 
+        #region GetCustomerCreditNoteDetails
+        [HttpGet]
+        public string GetCustomerCreditNoteDetails(string ID)
+        {
+            try
+            {
+
+                CustomerCreditNoteViewModel customerCreditNoteObj = Mapper.Map<CustomerCreditNotes, CustomerCreditNoteViewModel>(_CustomerCreditNotesBusiness.GetCustomerCreditNoteDetails(ID != null && ID != "" ? Guid.Parse(ID) : Guid.Empty));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = customerCreditNoteObj });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion  GetCustomerCreditNoteDetails
+
+        #region InsertUpdateCustomerCreditNote
+        [HttpPost]
+        public string InsertUpdateCustomerCreditNote(CustomerCreditNoteViewModel _customersCreditNoteObj)
+        {
+            try
+            {
+
+                object result = null;
+                AppUA ua = new AppUA();
+
+                result = _CustomerCreditNotesBusiness.InsertUpdateCustomerCreditNote(Mapper.Map<CustomerCreditNoteViewModel, CustomerCreditNotes>(_customersCreditNoteObj), ua);
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+
+            }
+            catch (Exception ex)
+            {
+
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion InsertUpdateCustomerCreditNote
+
+        #region DeleteCustomerCreditNote
+        public string DeleteCustomerCreditNote(string ID)
+        {
+
+            try
+            {
+                object result = null;
+
+                result = _CustomerCreditNotesBusiness.DeleteCustomerCreditNote(ID != null && ID != "" ? Guid.Parse(ID) : Guid.Empty);
+                return JsonConvert.SerializeObject(new { Result = "OK", Message = result });
+
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+
+
+        }
+        #endregion DeleteCustomerCreditNote
+
         #region ButtonStyling
         [HttpGet]
         public ActionResult ChangeButtonStyle(string ActionType)
@@ -72,11 +171,34 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.backbtn.Disable = true;
                     ToolboxViewModelObj.backbtn.Text = "Back";
                     ToolboxViewModelObj.backbtn.DisableReason = "Not applicable";
-                    ToolboxViewModelObj.backbtn.Event = "Back();";
+                    ToolboxViewModelObj.backbtn.Event = "goBack();";
 
                     break;
                 case "Edit":
+                    ToolboxViewModelObj.backbtn.Visible = true;
+                    ToolboxViewModelObj.backbtn.Text = "Back";
+                    ToolboxViewModelObj.backbtn.Title = "Back to list";
+                    ToolboxViewModelObj.backbtn.Event = "goBack();";
 
+                    ToolboxViewModelObj.addbtn.Visible = true;
+                    ToolboxViewModelObj.addbtn.Text = "New";
+                    ToolboxViewModelObj.addbtn.Title = "Add New";
+                    ToolboxViewModelObj.addbtn.Event = "openNav();";
+
+                    ToolboxViewModelObj.savebtn.Visible = true;
+                    ToolboxViewModelObj.savebtn.Text = "Save";
+                    ToolboxViewModelObj.savebtn.Title = "Save Credit Note";
+                    ToolboxViewModelObj.savebtn.Event = "Save();";
+
+                    ToolboxViewModelObj.deletebtn.Visible = true;
+                    ToolboxViewModelObj.deletebtn.Text = "Delete";
+                    ToolboxViewModelObj.deletebtn.Title = "Delete Credit Note";
+                    ToolboxViewModelObj.deletebtn.Event = "Delete()";
+
+                    ToolboxViewModelObj.resetbtn.Visible = true;
+                    ToolboxViewModelObj.resetbtn.Text = "Reset";
+                    ToolboxViewModelObj.resetbtn.Title = "Reset";
+                    ToolboxViewModelObj.resetbtn.Event = "Reset();";
 
                     break;
                 case "Add":
@@ -84,7 +206,7 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.savebtn.Visible = true;
                     ToolboxViewModelObj.savebtn.Text = "Save";
                     ToolboxViewModelObj.savebtn.Title = "Save";
-                    ToolboxViewModelObj.savebtn.Event = "saveNow();";
+                    ToolboxViewModelObj.savebtn.Event = "Save();";
 
                     ToolboxViewModelObj.CloseBtn.Visible = true;
                     ToolboxViewModelObj.CloseBtn.Text = "Close";
