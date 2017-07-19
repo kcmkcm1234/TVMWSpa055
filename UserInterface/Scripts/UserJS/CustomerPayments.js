@@ -195,6 +195,7 @@ function openNavClick() {
     BindOutstanding();
     $('#lblheader').text('New Payment');
     ChangeButtonPatchView('CustomerPayments', 'btnPatchAdd', 'Add');
+    $('#Customer').prop('disabled', false);
     openNav();
 }
 
