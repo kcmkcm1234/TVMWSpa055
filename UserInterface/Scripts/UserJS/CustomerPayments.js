@@ -217,9 +217,8 @@ function SaveSuccess(data, status) {
     switch (JsonResult.Result) {
         case "OK":
             debugger;
-           // GetCustomerPaymentsByID()
-           // BindCustomerPaymentsHeader()
-          
+            GetCustomerPaymentsByID(JsonResult.Records.ID)
+            BindCustomerPaymentsHeader()
             notyAlert('success', JsonResult.Message);
             break;
         case "ERROR":
@@ -247,7 +246,7 @@ function BindOutstanding() {
 
 function BindCustomerPaymentsHeader()
 {
-    DataTables.OutStandingInvoices.clear().rows.add(GetAllCustomerPayments()).draw(false);
+    DataTables.CustomerPaymentTable.clear().rows.add(GetAllCustomerPayments()).draw(false);
 }
 
 function PaymentModeChanged() {

@@ -165,12 +165,18 @@ namespace UserInterface.Controllers
                 _customerObj.commonObj.CreatedDate = _appUA.DateTime;
                 _customerObj.commonObj.UpdatedBy = _appUA.UserName;
                 _customerObj.commonObj.UpdatedDate = _appUA.DateTime;
-                CustomerPaymentsViewModel CIVM = Mapper.Map<CustomerPayments, CustomerPaymentsViewModel>(_CustPaymentBusiness.InsertUpdatePayments(Mapper.Map<CustomerPaymentsViewModel, CustomerPayments>(_customerObj)));
-                return JsonConvert.SerializeObject(new { Result = "OK", Message = c.InsertSuccess, Records = CIVM });
+                CustomerPaymentsViewModel CPVM = Mapper.Map<CustomerPayments, CustomerPaymentsViewModel>(_CustPaymentBusiness.InsertUpdatePayments(Mapper.Map<CustomerPaymentsViewModel, CustomerPayments>(_customerObj)));
+                if (_customerObj.ID != null && _customerObj.ID != Guid.Empty)
+                {
+                    return JsonConvert.SerializeObject(new { Result = "OK", Message = c.UpdateSuccess, Records = CPVM });
+                }
+                else
+                {
+                    return JsonConvert.SerializeObject(new { Result = "OK", Message = c.InsertSuccess, Records = CPVM });
+                }
             }
             catch (Exception ex)
             {
-
                 AppConstMessage cm = c.GetMessage(ex.Message);
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
             }

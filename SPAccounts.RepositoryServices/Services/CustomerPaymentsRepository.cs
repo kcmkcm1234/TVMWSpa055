@@ -227,7 +227,7 @@ namespace SPAccounts.RepositoryServices.Services
                 {
                     case "0":
                         AppConst Cobj = new AppConst();
-                        throw new Exception(Cobj.InsertFailure);
+                        throw new Exception(Cobj.UpdateFailure);
                     case "1":
                         break;
                     default:
