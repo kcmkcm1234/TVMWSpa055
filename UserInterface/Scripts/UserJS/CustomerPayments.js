@@ -149,16 +149,21 @@ function GetAllCustomerPayments() {
 function Edit(currentObj)
 {
     openNav();
-    var rowData = DataTables.CustomerPaymentTable.row($(currentObj).parents('tr')).data();
+       var rowData = DataTables.CustomerPaymentTable.row($(currentObj).parents('tr')).data();
     if ((rowData != null) && (rowData.ID != null)) {
         GetCustomerPaymentsByID(rowData.ID)
     } 
 }
 
 function GetCustomerPaymentsByID(ID) {
+    $('#lblheader').text('Edit Payment');
+    ChangeButtonPatchView('CustomerPayments', 'btnPatchAdd', 'Edit');
     var thisitem = GetCustomerPayments(ID)
     $('#ID').val(ID);
+    $('#deleteId').val(ID); 
     $('#Customer').val(thisitem.customerObj.ID);
+    $('#hdfCustomerID').val(thisitem.customerObj.ID);
+    $('#Customer').prop('disabled', true);
     $('#PaymentDate').val(thisitem.PaymentDateFormatted);
     $('#PaymentRef').val(thisitem.PaymentRef);
     $('#RecdToComanyCode').val(thisitem.RecdToComanyCode);
@@ -188,6 +193,8 @@ function GetCustomerPaymentsByID(ID) {
 function openNavClick() {
     fieldsclear();
     BindOutstanding();
+    $('#lblheader').text('New Payment');
+    ChangeButtonPatchView('CustomerPayments', 'btnPatchAdd', 'Add');
     openNav();
 }
 
@@ -209,6 +216,29 @@ function savePayments() {
     }
     $('#AdvanceAmount').val($('#lblCredit').text());
     $('#btnSave').trigger('click');
+}
+
+function DeletePayments() {
+    $('#btnFormDelete').trigger('click');
+}
+
+function DeleteSuccess(data, status) {
+    var JsonResult = JSON.parse(data)
+    switch (JsonResult.Result) {
+        case "OK":
+            openNavClick()
+            BindCustomerPaymentsHeader()
+            notyAlert('success', JsonResult.Message);
+            break;
+        case "Error":
+            notyAlert('error', JsonResult.Message);
+            break;
+        case "ERROR":
+            notyAlert('error', JsonResult.Message);
+            break;
+        default:
+            break;
+    }
 }
 
 function SaveSuccess(data, status) {

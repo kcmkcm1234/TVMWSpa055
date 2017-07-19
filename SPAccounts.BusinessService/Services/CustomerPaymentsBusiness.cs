@@ -45,7 +45,7 @@ namespace SPAccounts.BusinessService.Services
                 return _customerPaymentsRepository.InsertCustomerPayments(_custPayObj);
             }
         }
-
+        
         public void PaymentDetailsXMl(CustomerPayments CustPaymentObj)
         {
             string result = "<Details>";
@@ -72,10 +72,14 @@ namespace SPAccounts.BusinessService.Services
             result = result + "></item>";
             totalRows = totalRows + 1;
         }
-
         private static PropertyInfo[] GetProperties(object obj)
         {
             return obj.GetType().GetProperties();
+        }
+
+        public object DeletePayments(Guid PaymentID,string UserName)
+        {
+            return _customerPaymentsRepository.DeletePayments(PaymentID, UserName);
         }
     }
 }

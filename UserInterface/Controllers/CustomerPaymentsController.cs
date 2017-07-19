@@ -183,7 +183,28 @@ namespace UserInterface.Controllers
         }
 
         #endregion InsertUpdatePayments
+      
 
+        #region DeletePayments
+
+        [AuthSecurityFilter(ProjectObject = "CustomerPayments", Mode = "W")]
+        [HttpPost]
+        public string DeletePayments(CustomerPaymentsViewModel _customerpayObj)
+        {
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            object result = null;
+            try
+            {
+                result = _CustPaymentBusiness.DeletePayments(_customerpayObj.ID, _appUA.UserName);
+                return JsonConvert.SerializeObject(new { Result = "OK", Message = c.DeleteSuccess, Records = result });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion DeletePayments
 
         #region ButtonStyling
         [HttpGet]
@@ -198,8 +219,6 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.addbtn.Title = "Add New";
                     ToolboxViewModelObj.addbtn.Event = "openNavClick();";
 
-
-
                     ToolboxViewModelObj.backbtn.Visible = true;
                     ToolboxViewModelObj.backbtn.Disable = true;
                     ToolboxViewModelObj.backbtn.Text = "Back";
@@ -209,9 +228,15 @@ namespace UserInterface.Controllers
                     break;
                 case "Edit":
 
+                    ToolboxViewModelObj.addbtn.Visible = true;
+                    ToolboxViewModelObj.addbtn.Text = "Add";
+                    ToolboxViewModelObj.addbtn.Title = "Add New";
+                    ToolboxViewModelObj.addbtn.Event = "openNavClick();"; 
 
-                    break;
-                case "Add":
+                    ToolboxViewModelObj.deletebtn.Visible = true;
+                    ToolboxViewModelObj.deletebtn.Text = "Delete";
+                    ToolboxViewModelObj.deletebtn.Title = "Delete";
+                    ToolboxViewModelObj.deletebtn.Event = "DeletePayments();";
 
                     ToolboxViewModelObj.savebtn.Visible = true;
                     ToolboxViewModelObj.savebtn.Text = "Save";
@@ -223,14 +248,30 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.CloseBtn.Title = "Close";
                     ToolboxViewModelObj.CloseBtn.Event = "closeNav();";
 
-                    break;
-                case "AddSub":
 
                     break;
-                case "tab1":
+                case "Add":
 
-                    break;
-                case "tab2":
+                    ToolboxViewModelObj.addbtn.Visible = true;
+                    ToolboxViewModelObj.addbtn.Text = "Add";
+                    ToolboxViewModelObj.addbtn.Title = "Add New";
+                    ToolboxViewModelObj.addbtn.Event = "openNavClick();";
+
+                    ToolboxViewModelObj.deletebtn.Visible = true;
+                    ToolboxViewModelObj.deletebtn.Disable = true;
+                    ToolboxViewModelObj.deletebtn.Text = "Delete";
+                    ToolboxViewModelObj.deletebtn.Title = "Delete";
+                    ToolboxViewModelObj.deletebtn.Event = "DeletePayments();";
+
+                    ToolboxViewModelObj.savebtn.Visible = true;
+                    ToolboxViewModelObj.savebtn.Text = "Save";
+                    ToolboxViewModelObj.savebtn.Title = "Save";
+                    ToolboxViewModelObj.savebtn.Event = "savePayments();";
+
+                    ToolboxViewModelObj.CloseBtn.Visible = true;
+                    ToolboxViewModelObj.CloseBtn.Text = "Close";
+                    ToolboxViewModelObj.CloseBtn.Title = "Close";
+                    ToolboxViewModelObj.CloseBtn.Event = "closeNav();";
 
                     break;
                 default:

@@ -51,6 +51,7 @@ namespace UserInterface.Models
         public CompaniesViewModel CompanyObj { get; set; }
 
         public string paymentDetailhdf { get; set; }
+        public string hdfCustomerID { get; set; }
 
     }
     public class CustomerPaymentsDetailViewModel
