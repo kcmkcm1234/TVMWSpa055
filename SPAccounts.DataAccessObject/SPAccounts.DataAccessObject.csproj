@@ -106,6 +106,7 @@
     <Compile Include="DTO\PaymentTerms.cs" />
     <Compile Include="DTO\Reports.cs" />
     <Compile Include="DTO\Supplier.cs" />
+    <Compile Include="DTO\SupplierCreditNote.cs" />
     <Compile Include="DTO\SupplierInvoices.cs" />
     <Compile Include="DTO\TaxTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

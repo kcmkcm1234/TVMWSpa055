@@ -13,5 +13,6 @@ namespace SPAccounts.RepositoryServices.Contracts
         CustomerPayments GetCustomerPaymentsByID(string ID);
         CustomerPayments InsertCustomerPayments(CustomerPayments _custPayObj);
         CustomerPayments UpdateCustomerPayments(CustomerPayments _custPayObj);
+        object DeletePayments(Guid PaymentId,string UserName);
     }
 }

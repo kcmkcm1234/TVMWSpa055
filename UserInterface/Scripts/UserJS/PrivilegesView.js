@@ -19,7 +19,7 @@ $(document).ready(function () {
                { "data": "RoleName" },
                { "data": "ModuleName", "defaultContent": "<i>-</i>" },
                { "data": "AccessDescription", "defaultContent": "<i>-</i>" },
-               { "data": "CreatedDate", "defaultContent": "<i>-</i>" }, 
+               { "data": "commonDetails.CreatedDatestr", "defaultContent": "<i>-</i>" },
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                  { className: "text-left", "targets": [1, 2, 3, 4, 5] }
@@ -36,7 +36,7 @@ function GetAllPrivileges() {
     try {
         var data = {};
         var ds = {};
-        ds = GetDataFromServer("Privileges/GetAllPrivileges/", data);
+        ds = GetDataFromServer("Privileges/GetAllPrivilegesForPV/", data);
         if (ds != '') {
             ds = JSON.parse(ds);
         }

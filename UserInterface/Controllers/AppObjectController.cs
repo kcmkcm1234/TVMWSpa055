@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using SAMTool.BusinessServices.Contracts;
 using SAMTool.DataAccessObject.DTO;
+using SPAccounts.DataAccessObject.DTO;
 using SPAccounts.UserInterface.SecurityFilter;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ namespace UserInterface.Controllers
         }
         // GET: AppObject
         [HttpGet]
-        //[AuthSecurityFilter(ProjectObject = "AppObject", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "AppObject", Mode = "R")]
         public ActionResult Index()
         {
             if (Request.QueryString["appId"] != null)
@@ -50,7 +51,7 @@ namespace UserInterface.Controllers
             return View(_appObjectViewModelObj);
         }
         [HttpGet]
-       // [AuthSecurityFilter(ProjectObject = "AppObject", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "AppObject", Mode = "R")]
         public ActionResult Subobjects(string id)
         {
             ViewBag.objectID = id;
@@ -90,7 +91,7 @@ namespace UserInterface.Controllers
 
 
         [HttpGet]
-      //  [AuthSecurityFilter(ProjectObject = "AppObject", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "AppObject", Mode = "R")]
         public string GetAllAppObjects(string id)
         {
             List<AppObjectViewModel> ItemList = Mapper.Map<List<AppObject>, List<AppObjectViewModel>>(_appObjectBusiness.GetAllAppObjects(Guid.Parse(id)));
@@ -98,7 +99,7 @@ namespace UserInterface.Controllers
 
         }
         [HttpPost]
-     //   [AuthSecurityFilter(ProjectObject = "AppObject", Mode = "D")]
+        [AuthSecurityFilter(ProjectObject = "AppObject", Mode = "D")]
         public string DeleteObject(AppObjectViewModel AppObjectObj)
         {
             try
@@ -113,21 +114,22 @@ namespace UserInterface.Controllers
             }
         }
         [HttpPost]
-     //   [AuthSecurityFilter(ProjectObject = "AppObject", Mode = "W")]
+        [AuthSecurityFilter(ProjectObject = "AppObject", Mode = "W")]
         public string InserUpdateObject(AppObjectViewModel AppObjectObj)
         {
             string result = "";
 
             try
             {
+
                 if (ModelState.IsValid)
                 {
-
+                    AppUA _appUA = Session["AppUA"] as AppUA;
                     AppObjectObj.commonDetails = new CommonViewModel();
-                    AppObjectObj.commonDetails.CreatedBy = "Thomson";
-                    AppObjectObj.commonDetails.CreatedDate = DateTime.Now;
-                    AppObjectObj.commonDetails.UpdatedBy = "Thomson";
-                    AppObjectObj.commonDetails.UpdatedDate = DateTime.Now;
+                    AppObjectObj.commonDetails.CreatedBy = _appUA.UserName;
+                    AppObjectObj.commonDetails.CreatedDate = _appUA.DateTime;
+                    AppObjectObj.commonDetails.UpdatedBy = AppObjectObj.commonDetails.CreatedBy;
+                    AppObjectObj.commonDetails.UpdatedDate = AppObjectObj.commonDetails.CreatedDate;
                     AppObjectViewModel r = Mapper.Map<AppObject, AppObjectViewModel>(_appObjectBusiness.InsertUpdate(Mapper.Map<AppObjectViewModel, AppObject>(AppObjectObj)));
                     return JsonConvert.SerializeObject(new { Result = "OK", Message = c.InsertSuccess, Records = r });
                 }
@@ -144,7 +146,7 @@ namespace UserInterface.Controllers
 
         //-----------------Sub-Object Methods-------------------
         [HttpPost]
-       // [AuthSecurityFilter(ProjectObject = "AppObject", Mode = "W")]
+        [AuthSecurityFilter(ProjectObject = "AppObject", Mode = "W")]
         public string InserUpdateSubobject(AppSubobjectViewmodel AppObjectObj)
         {
             string result = "";
@@ -152,11 +154,12 @@ namespace UserInterface.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    AppUA _appUA = Session["AppUA"] as AppUA;
                     AppObjectObj.commonDetails = new CommonViewModel();
-                    AppObjectObj.commonDetails.CreatedBy = "Thomson";
-                    AppObjectObj.commonDetails.CreatedDate = DateTime.Now;
-                    AppObjectObj.commonDetails.UpdatedBy = "Thomson";
-                    AppObjectObj.commonDetails.UpdatedDate = DateTime.Now;
+                    AppObjectObj.commonDetails.CreatedBy = _appUA.UserName;
+                    AppObjectObj.commonDetails.CreatedDate = _appUA.DateTime;
+                    AppObjectObj.commonDetails.UpdatedBy = AppObjectObj.commonDetails.CreatedBy;
+                    AppObjectObj.commonDetails.UpdatedDate = AppObjectObj.commonDetails.CreatedDate;
                     AppSubobjectViewmodel res = Mapper.Map<AppSubobject, AppSubobjectViewmodel>(_appObjectBusiness.InsertUpdateSubObject(Mapper.Map<AppSubobjectViewmodel, AppSubobject>(AppObjectObj)));
                     return JsonConvert.SerializeObject(new { Result = "OK", Message = c.InsertSuccess, Records = res });
                 }
@@ -171,7 +174,7 @@ namespace UserInterface.Controllers
             return result;
         }
         [HttpGet]
-       // [AuthSecurityFilter(ProjectObject = "AppObject", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "AppObject", Mode = "R")]
         public string GetAllAppSubObjects(string ID)
         {
             List<AppSubobjectViewmodel> ItemList = Mapper.Map<List<AppSubobject>, List<AppSubobjectViewmodel>>(_appObjectBusiness.GetAllAppSubObjects(ID));
@@ -179,7 +182,7 @@ namespace UserInterface.Controllers
 
         }
         [HttpPost]
-        //[AuthSecurityFilter(ProjectObject = "AppObject", Mode = "D")]
+        [AuthSecurityFilter(ProjectObject = "AppObject", Mode = "D")]
         public string DeleteSubObject(AppSubobjectViewmodel AppObjectObj)
         {
             try
@@ -197,13 +200,15 @@ namespace UserInterface.Controllers
 
         #region ButtonStyling
         [HttpGet]
-      //  [AuthSecurityFilter(ProjectObject = "AppObject", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "AppObject", Mode = "R")]
         public ActionResult ChangeButtonStyle(string ActionType)
         {
+           // Permission _permission = Session["UserRights"] as Permission;
             ToolboxViewModel ToolboxViewModelObj = new ToolboxViewModel();
             switch (ActionType)
             {
                 case "List":
+                    
                     ToolboxViewModelObj.addbtn.Visible = true;
                     ToolboxViewModelObj.addbtn.Disable = true;
                     ToolboxViewModelObj.addbtn.DisableReason = "No Application selected";
@@ -211,6 +216,7 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.addbtn.Title = "Add New";
                     ToolboxViewModelObj.addbtn.Event = "AddNewObject()";
 
+                   
                     ToolboxViewModelObj.backbtn.Visible = true;
                     ToolboxViewModelObj.backbtn.Text = "Back";
                     ToolboxViewModelObj.backbtn.Title = "Back to list";
@@ -236,6 +242,7 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.addbtn.Title = "Add New";
                     ToolboxViewModelObj.addbtn.Event = "AddNewObject()";
 
+                   
                     ToolboxViewModelObj.backbtn.Visible = true;
                     ToolboxViewModelObj.backbtn.Text = "Back";
                     ToolboxViewModelObj.backbtn.Title = "Back to list";
@@ -257,21 +264,25 @@ namespace UserInterface.Controllers
 
                     break;
                 case "Edit":
+                    
                     ToolboxViewModelObj.addbtn.Visible = true;
                     ToolboxViewModelObj.addbtn.Text = "Add";
                     ToolboxViewModelObj.addbtn.Title = "Add New";
                     ToolboxViewModelObj.addbtn.Event = "AddNewObject()";
 
+                   
                     ToolboxViewModelObj.backbtn.Visible = true;
                     ToolboxViewModelObj.backbtn.Text = "Back";
                     ToolboxViewModelObj.backbtn.Title = "Back to list";
                     ToolboxViewModelObj.backbtn.Event = "goback()";
 
+                  
                     ToolboxViewModelObj.savebtn.Visible = true;
                     ToolboxViewModelObj.savebtn.Title = "Save Object";
                     ToolboxViewModelObj.savebtn.Text = "Save";
                     ToolboxViewModelObj.savebtn.Event = "$('#btnSave').trigger('click');";
 
+                    
                     ToolboxViewModelObj.resetbtn.Visible = true;
                     ToolboxViewModelObj.resetbtn.Title = "Reset Object";
                     ToolboxViewModelObj.resetbtn.Text = "Reset";
@@ -279,16 +290,19 @@ namespace UserInterface.Controllers
 
                     break;
                 case "AddSub":
+                   
                     ToolboxViewModelObj.backbtn.Visible = true;
                     ToolboxViewModelObj.backbtn.Text = "Back";
                     ToolboxViewModelObj.backbtn.Title = "Back to list";
                     ToolboxViewModelObj.backbtn.Event = "GoBack()";
 
+                   
                     ToolboxViewModelObj.savebtn.Visible = true;
                     ToolboxViewModelObj.savebtn.Title = "Save Object";
                     ToolboxViewModelObj.savebtn.Text = "Save";
                     ToolboxViewModelObj.savebtn.Event = "$('#btnSave').trigger('click');";
 
+                  
                     ToolboxViewModelObj.resetbtn.Visible = true;
                     ToolboxViewModelObj.resetbtn.Title = "Reset Object";
                     ToolboxViewModelObj.resetbtn.Text = "Reset";

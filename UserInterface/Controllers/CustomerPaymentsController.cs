@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using SAMTool.DataAccessObject.DTO;
 using SPAccounts.BusinessService.Contracts;
 using SPAccounts.DataAccessObject.DTO;
+using SPAccounts.UserInterface.SecurityFilter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,8 +41,15 @@ namespace UserInterface.Controllers
 
         #region Index
         // GET: CustomerPayments
+
+        [AuthSecurityFilter(ProjectObject = "CustomerPayments", Mode = "R")]
+        [HttpGet]
         public ActionResult Index()
         {
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            ViewBag.Currentdate = _appUA.DateTime.ToString("dd-MMM-yyyy");
+
+
             List<SelectListItem> selectListItem = new List<SelectListItem>();
             CustomerPaymentsViewModel CP = new CustomerPaymentsViewModel();
 
@@ -144,31 +152,59 @@ namespace UserInterface.Controllers
 
         #region InsertUpdatePayments
 
+        [AuthSecurityFilter(ProjectObject = "CustomerPayments", Mode = "W")]
         [HttpPost]
         public string InsertUpdatePayments(CustomerPaymentsViewModel _customerObj)
         {
             try
             {
-                AppUA ua = new AppUA();
-               
+                AppUA _appUA = Session["AppUA"] as AppUA;
+                _customerObj.CustomerPaymentsDetail = JsonConvert.DeserializeObject<List<CustomerPaymentsDetailViewModel>>(_customerObj.paymentDetailhdf);
                 _customerObj.commonObj = new CommonViewModel();
-                _customerObj.commonObj.CreatedBy = ua.UserName;
-                _customerObj.commonObj.CreatedDate = DateTime.Now;
-                _customerObj.commonObj.UpdatedBy = ua.UserName;
-                _customerObj.commonObj.UpdatedDate = DateTime.Now;
-                CustomerPaymentsViewModel CIVM = Mapper.Map<CustomerPayments, CustomerPaymentsViewModel>(_CustPaymentBusiness.InsertUpdatePayments(Mapper.Map<CustomerPaymentsViewModel, CustomerPayments>(_customerObj)));
-                return JsonConvert.SerializeObject(new { Result = "OK", Message = c.InsertSuccess, Records = CIVM });
+                _customerObj.commonObj.CreatedBy = _appUA.UserName;
+                _customerObj.commonObj.CreatedDate = _appUA.DateTime;
+                _customerObj.commonObj.UpdatedBy = _appUA.UserName;
+                _customerObj.commonObj.UpdatedDate = _appUA.DateTime;
+                CustomerPaymentsViewModel CPVM = Mapper.Map<CustomerPayments, CustomerPaymentsViewModel>(_CustPaymentBusiness.InsertUpdatePayments(Mapper.Map<CustomerPaymentsViewModel, CustomerPayments>(_customerObj)));
+                if (_customerObj.ID != null && _customerObj.ID != Guid.Empty)
+                {
+                    return JsonConvert.SerializeObject(new { Result = "OK", Message = c.UpdateSuccess, Records = CPVM });
+                }
+                else
+                {
+                    return JsonConvert.SerializeObject(new { Result = "OK", Message = c.InsertSuccess, Records = CPVM });
+                }
             }
             catch (Exception ex)
             {
-
                 AppConstMessage cm = c.GetMessage(ex.Message);
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
             }
         }
 
         #endregion InsertUpdatePayments
+      
 
+        #region DeletePayments
+
+        [AuthSecurityFilter(ProjectObject = "CustomerPayments", Mode = "W")]
+        [HttpPost]
+        public string DeletePayments(CustomerPaymentsViewModel _customerpayObj)
+        {
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            object result = null;
+            try
+            {
+                result = _CustPaymentBusiness.DeletePayments(_customerpayObj.ID, _appUA.UserName);
+                return JsonConvert.SerializeObject(new { Result = "OK", Message = c.DeleteSuccess, Records = result });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion DeletePayments
 
         #region ButtonStyling
         [HttpGet]
@@ -183,8 +219,6 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.addbtn.Title = "Add New";
                     ToolboxViewModelObj.addbtn.Event = "openNavClick();";
 
-
-
                     ToolboxViewModelObj.backbtn.Visible = true;
                     ToolboxViewModelObj.backbtn.Disable = true;
                     ToolboxViewModelObj.backbtn.Text = "Back";
@@ -194,28 +228,50 @@ namespace UserInterface.Controllers
                     break;
                 case "Edit":
 
+                    ToolboxViewModelObj.addbtn.Visible = true;
+                    ToolboxViewModelObj.addbtn.Text = "Add";
+                    ToolboxViewModelObj.addbtn.Title = "Add New";
+                    ToolboxViewModelObj.addbtn.Event = "openNavClick();"; 
 
-                    break;
-                case "Add":
+                    ToolboxViewModelObj.deletebtn.Visible = true;
+                    ToolboxViewModelObj.deletebtn.Text = "Delete";
+                    ToolboxViewModelObj.deletebtn.Title = "Delete";
+                    ToolboxViewModelObj.deletebtn.Event = "DeletePayments();";
 
                     ToolboxViewModelObj.savebtn.Visible = true;
                     ToolboxViewModelObj.savebtn.Text = "Save";
                     ToolboxViewModelObj.savebtn.Title = "Save";
-                    ToolboxViewModelObj.savebtn.Event = "saveNow();";
+                    ToolboxViewModelObj.savebtn.Event = "savePayments();";
 
                     ToolboxViewModelObj.CloseBtn.Visible = true;
                     ToolboxViewModelObj.CloseBtn.Text = "Close";
                     ToolboxViewModelObj.CloseBtn.Title = "Close";
                     ToolboxViewModelObj.CloseBtn.Event = "closeNav();";
 
-                    break;
-                case "AddSub":
 
                     break;
-                case "tab1":
+                case "Add":
 
-                    break;
-                case "tab2":
+                    ToolboxViewModelObj.addbtn.Visible = true;
+                    ToolboxViewModelObj.addbtn.Text = "Add";
+                    ToolboxViewModelObj.addbtn.Title = "Add New";
+                    ToolboxViewModelObj.addbtn.Event = "openNavClick();";
+
+                    ToolboxViewModelObj.deletebtn.Visible = true;
+                    ToolboxViewModelObj.deletebtn.Disable = true;
+                    ToolboxViewModelObj.deletebtn.Text = "Delete";
+                    ToolboxViewModelObj.deletebtn.Title = "Delete";
+                    ToolboxViewModelObj.deletebtn.Event = "DeletePayments();";
+
+                    ToolboxViewModelObj.savebtn.Visible = true;
+                    ToolboxViewModelObj.savebtn.Text = "Save";
+                    ToolboxViewModelObj.savebtn.Title = "Save";
+                    ToolboxViewModelObj.savebtn.Event = "savePayments();";
+
+                    ToolboxViewModelObj.CloseBtn.Visible = true;
+                    ToolboxViewModelObj.CloseBtn.Text = "Close";
+                    ToolboxViewModelObj.CloseBtn.Title = "Close";
+                    ToolboxViewModelObj.CloseBtn.Event = "closeNav();";
 
                     break;
                 default:

@@ -19,7 +19,7 @@ namespace SPAccounts.RepositoryServices.Services
         public CustomerPaymentsRepository(IDatabaseFactory databaseFactory)
         {
             _databaseFactory = databaseFactory;
-        }
+        } 
 
         public List<CustomerPayments> GetAllCustomerPayments()
         {
@@ -147,11 +147,10 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@BankCode", SqlDbType.VarChar, 10).Value = _custPayObj.BankCode;
                         cmd.Parameters.Add("@PaymentRef", SqlDbType.VarChar, 10).Value = _custPayObj.PaymentRef;
                         cmd.Parameters.Add("@RecdToComanyCode", SqlDbType.VarChar, 10).Value = _custPayObj.RecdToComanyCode;
-
                         cmd.Parameters.Add("@TotalRecdAmt", SqlDbType.Decimal).Value = _custPayObj.TotalRecdAmt;
                         cmd.Parameters.Add("@AdvanceAmount", SqlDbType.Decimal).Value = _custPayObj.AdvanceAmount;
-
                         cmd.Parameters.Add("@GeneralNotes", SqlDbType.NVarChar, -1).Value = _custPayObj.GeneralNotes;
+                        cmd.Parameters.Add("@DetailXml", SqlDbType.NVarChar, -1).Value = _custPayObj.DetailXml;
                         cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = _custPayObj.CommonObj.CreatedBy;
                         cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = _custPayObj.CommonObj.CreatedDate;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
@@ -203,7 +202,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandText = "[Accounts].[UpdateCustomerPayments]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = _custPayObj.ID;
-                        cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = _custPayObj.customerObj.ID;
+                        cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = Guid.Parse(_custPayObj.hdfCustomerID);
                         cmd.Parameters.Add("@PaymentDate", SqlDbType.DateTime).Value = _custPayObj.PaymentDate;
                         cmd.Parameters.Add("@PaymentMode", SqlDbType.VarChar, 10).Value = _custPayObj.PaymentMode;
                         cmd.Parameters.Add("@BankCode", SqlDbType.VarChar, 10).Value = _custPayObj.BankCode;
@@ -212,7 +211,7 @@ namespace SPAccounts.RepositoryServices.Services
 
                         cmd.Parameters.Add("@TotalRecdAmt", SqlDbType.Decimal).Value = _custPayObj.TotalRecdAmt;
                         cmd.Parameters.Add("@AdvanceAmount", SqlDbType.Decimal).Value = _custPayObj.AdvanceAmount;
-
+                        cmd.Parameters.Add("@DetailXml", SqlDbType.NVarChar, -1).Value = _custPayObj.DetailXml;
                         cmd.Parameters.Add("@GeneralNotes", SqlDbType.NVarChar, -1).Value = _custPayObj.GeneralNotes;
                         cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = _custPayObj.CommonObj.UpdatedBy;
                         cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = _custPayObj.CommonObj.UpdatedDate;
@@ -228,7 +227,7 @@ namespace SPAccounts.RepositoryServices.Services
                 {
                     case "0":
                         AppConst Cobj = new AppConst();
-                        throw new Exception(Cobj.InsertFailure);
+                        throw new Exception(Cobj.UpdateFailure);
                     case "1":
                         break;
                     default:
@@ -242,6 +241,48 @@ namespace SPAccounts.RepositoryServices.Services
                 throw ex;
             }
             return _custPayObj;
+        }
+
+        public object DeletePayments(Guid PaymentId,string UserName)
+        {
+
+            AppConst Cobj = new AppConst();
+            try
+            {
+                SqlParameter outputStatus= null;
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[DeleteCustomerPayments]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@PaymentID", SqlDbType.UniqueIdentifier).Value = PaymentId;
+                        cmd.Parameters.Add("@Username", SqlDbType.NVarChar,20).Value =UserName;
+                          outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output; 
+                        cmd.ExecuteNonQuery(); 
+
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0": 
+                        throw new Exception(Cobj.InsertFailure); 
+                    default:
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return new   {  Message = Cobj.DeleteSuccess   };
         }
     }
 }

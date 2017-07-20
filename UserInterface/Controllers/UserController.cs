@@ -45,11 +45,11 @@ namespace UserInterface.Controllers
             object result = null;
             if (ModelState.IsValid)
             {
+                AppUA _appUA = Session["AppUA"] as AppUA;
                 if (UserObj.ID == Guid.Empty)
                 {
                     try
                     {
-                        AppUA _appUA= Session["AppUA"] as AppUA;
                         UserObj.commonDetails = new CommonViewModel();
                         UserObj.commonDetails.CreatedBy = _appUA.UserName;
                         UserObj.commonDetails.CreatedDate = _appUA.DateTime;
@@ -64,9 +64,9 @@ namespace UserInterface.Controllers
                 {
                     try
                     {
-                        //UserObj.commonObj = new LogDetailsViewModel();
-                        //UserObj.commonObj.UpdatedBy = _commonBusiness.GetUA().UserName;
-                        //UserObj.commonObj.UpdatedDate = _commonBusiness.GetCurrentDateTime();
+                        UserObj.commonDetails = new CommonViewModel();
+                        UserObj.commonDetails.UpdatedBy = _appUA.UserName;
+                        UserObj.commonDetails.UpdatedDate = _appUA.DateTime;
                         result = _userBusiness.UpdateUser(Mapper.Map<UserViewModel, User>(UserObj));
                     }
                     catch (Exception ex)
@@ -87,7 +87,6 @@ namespace UserInterface.Controllers
         {
             try
             {
-
                 List<UserViewModel> userList = Mapper.Map<List<User>, List<UserViewModel>>(_userBusiness.GetAllUsers());
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = userList });
             }
@@ -125,7 +124,6 @@ namespace UserInterface.Controllers
         public string DeleteUser(UserViewModel UserObj)
         {
             object result = null;
-
             if (UserObj.ID != Guid.Empty)
             {
                 try
@@ -141,7 +139,6 @@ namespace UserInterface.Controllers
             {
 
             }
-
             return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
         }
 

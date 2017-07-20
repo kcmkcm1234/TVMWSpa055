@@ -18,7 +18,7 @@ $(document).ready(function () {
                   { "data": "RoleName" },
                { "data": "ApplicationName" },
                { "data": "RoleDescription", "defaultContent": "<i>-</i>" },
-               { "data": "CreatedDate", "defaultContent": "<i>-</i>" },
+               { "data": "commonDetails.CreatedDatestr", "defaultContent": "<i>-</i>" },
                { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="Edit(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false },

@@ -19,12 +19,14 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal TotalRecdAmt  { get; set; }
         public decimal AdvanceAmount { get; set; }
 
+        public string hdfCustomerID { get; set; }
         public string PaymentDateFormatted { get; set; }
         public List<CustomerPaymentsDetail> CustomerPaymentsDetail { get; set; }
-
+        public CustomerPaymentsDetail CustPaymentDetailObj { get; set; }
         public Customer customerObj { get; set; }
         public Common CommonObj { get; set; }
-       
+        public string DetailXml { get; set; }
+
 
     }
     public class CustomerPaymentsDetail
@@ -36,8 +38,9 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal OriginalInvoiceAmount { get; set; }
         public decimal BalanceDue { get; set; }
         public decimal PaidAmount { get; set; }
-
+        public decimal PaidAmountEdit { get; set; }
         public string PaymentDueDateFormatted { get; set; }
+       
 
 
     }
