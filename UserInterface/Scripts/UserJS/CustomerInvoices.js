@@ -2,7 +2,14 @@
 var emptyGUID = '00000000-0000-0000-0000-000000000000'
 $(document).ready(function () {
     try {
-                
+        $('#btnUpload').click(function () {
+            //Pass the controller name
+            var FileObject = new Object;
+            FileObject.ParentID = $('#ID').val();
+            FileObject.ParentType = "CusInvoice";
+            FileObject.Controller = "FileUpload";
+            UploadFile(FileObject);
+        });
         DataTables.CustInvTable = $('#CustInvTable').DataTable(
          {
              dom: '<"pull-right"f>rt<"bottom"ip><"clear">',

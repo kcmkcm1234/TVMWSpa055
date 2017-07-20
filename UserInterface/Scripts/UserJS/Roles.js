@@ -2,6 +2,7 @@
 var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 //---------------------------------------Docuement Ready--------------------------------------------------//
 $(document).ready(function () {
+   
     ChangeButtonPatchView("Roles", "ButtonPatchDiv", "List"); //ControllerName,id of the container div,Name of the action
     try {
         var RolesViewModel = new Object();
@@ -208,6 +209,7 @@ function DeleteSuccess(data, status) {
             break;
     }
 }
+
 
 
 

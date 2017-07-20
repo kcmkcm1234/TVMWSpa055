@@ -70,9 +70,17 @@ $(document).ready(function () {
 
     }
 });
+function ResetForm() {
+    var validator = $("#SupplierInvoiceForm").validate();
+    $('#SupplierInvoiceForm').find('.field-validation-error span').each(function () {
+        validator.settings.success($(this));
+    });
+    validator.resetForm();
+    $('#SupplierInvoiceForm')[0].reset();
+}
 function Edit(Obj) {
     debugger;
-    $('#SupplierInvoiceForm')[0].reset();
+    ResetForm();
     var rowData = DataTables.SupplInvTable.row($(Obj).parents('tr')).data();
     $('#ID').val(rowData.ID);
     PaintInvoiceDetails();
@@ -164,7 +172,7 @@ function SaveSuccess(data, status) {
     }
 }
 function AddNew() {
-    $('#SupplierInvoiceForm')[0].reset();
+    ResetForm();
     $('#lblinvoicedAmt').text("₹ 0.00");
     $('#lblpaidAmt').text("₹ 0.00");
     $('#lblbalalnceAmt').text("₹ 0.00");

@@ -245,7 +245,7 @@ namespace SPAccounts.RepositoryServices.Services
                         AppConst Cobj = new AppConst();
                         throw new Exception(Cobj.InsertFailure);
                     case "1":
-                        _customerInvoicesObj.ID = new Guid(outputID.Value.ToString());
+                        _customerInvoicesObj.ID =  Guid.Parse(outputID.Value.ToString());
                         break;
                     case "2":
                         AppConst Cobj1 = new AppConst();

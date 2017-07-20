@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using UserInterface.Models;
 using AutoMapper;
+using System.Web;
+using System.IO;
 
 namespace UserInterface.Controllers
 {
@@ -216,6 +218,7 @@ namespace UserInterface.Controllers
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
             }
         }
+        
         #region ButtonStyling
         [HttpGet]      
         public ActionResult ChangeButtonStyle(string ActionType)

@@ -102,6 +102,7 @@
     <Compile Include="Contracts\ICustomerInvoicesBusiness.cs" />
     <Compile Include="Contracts\ICustomerPaymentsBusiness.cs" />
     <Compile Include="Contracts\IDynamicUIBusiness.cs" />
+    <Compile Include="Contracts\IFileUploadBusiness.cs" />
     <Compile Include="Contracts\IPaymentModesBusiness.cs" />
     <Compile Include="Contracts\IPaymentTermsBusiness.cs" />
     <Compile Include="Contracts\IReportBusiness.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="Services\CustomerInvoicesBusiness.cs" />
     <Compile Include="Services\CustomerPaymentsBusiness.cs" />
     <Compile Include="Services\DynamicUIBusiness.cs" />
+    <Compile Include="Services\FileUploadBusiness.cs" />
     <Compile Include="Services\PaymentModesBusiness.cs" />
     <Compile Include="Services\PaymentTermsBusiness.cs" />
     <Compile Include="Services\ReportBusiness.cs" />

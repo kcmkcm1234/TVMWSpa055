@@ -1,4 +1,5 @@
 var appAddress = window.location.protocol + "//" + window.location.host + "/";   //Retrieving browser Url 
+var fileArray = [];
 //(function Checker() {
 //    var flag = false;
 //    $.ajax({
@@ -42,7 +43,7 @@ var appAddress = window.location.protocol + "//" + window.location.host + "/";  
 
 
 $(document).ready(function () {
-
+    
     var wrap = $(".EntryForms");
     wrap.on("scroll", function (e) {
         if (this.scrollTop > 147) {
@@ -387,3 +388,139 @@ $('.EntryForms').scroll(function () {
         $("#OverlayHeader").removeClass("OverlayHeader");
     }
 });
+
+function UploadFile(FileObject)
+{
+    debugger;
+   // $('#btnUpload').click(function () {
+
+        // Checking whether FormData is available in browser  
+        if (window.FormData !== undefined) {
+
+            var fileUpload = $("#FileUpload1").get(0);
+            var files = fileUpload.files;
+            if (files.length > 0)
+            {
+                // Create FormData object  
+                var fileData = new FormData();
+
+                // Looping over all files and add it to FormData object  
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }
+
+                // Adding one more key to FormData object  
+                fileData.append('ParentID', FileObject.ParentID);
+                fileData.append('ParentType', FileObject.ParentType);
+                $.ajax({
+                    url: '/' + FileObject.Controller + '/UploadFiles',
+                    type: "POST",
+                    contentType: false, // Not to set any content header  
+                    processData: false, // Not to process data  
+                    data: fileData,
+                    success: function (result) {
+                        alert(result);
+                    },
+                    error: function (err) {
+                        alert(err.statusText);
+                    }
+                });
+            }
+            
+        } else {
+            alert("FormData is not supported.");
+        }
+   // });
+}
+
+
+function ShowAttachmentsTable() {
+    var table = document.getElementById("filelist");
+    while (table.firstChild) table.removeChild(table.firstChild);
+
+    AppendToFileList(fileArray);
+}
+function AppendToFileList(list) {
+    var table = document.getElementById("filelist");
+
+    for (var i = 0; i < list.length; i++) {
+        var item = list[i];
+        var row = table.insertRow(-1);
+        row.setAttribute("fileguid", item.FileID);
+        row.setAttribute("filename", item.FileName);
+        var td1 = row.insertCell(-1);
+        td1.innerHTML = "<img src='/Content/circle.png' border='0'/>";
+        var td2 = row.insertCell(-1);
+        td2.innerHTML = item.FileName;
+        var td4 = row.insertCell(-1);
+        td4.innerHTML = "[<a href='javascript:void(0)' onclick='Attachment_Remove(this)'>remove</a>]";
+    }
+}
+
+function Attachment_FindRow(element) {
+    while (true) {
+        if (element.nodeName == "TR")
+            return element;
+        element = element.parentNode;
+    }
+}
+
+function Attachment_Remove(link) {
+    var row = Attachment_FindRow(link);
+    if (!confirm("Are you sure you want to delete '" + row.getAttribute("filename") + "'?"))
+        return;
+
+    var guid = row.getAttribute("fileguid");
+
+    var table = document.getElementById("filelist");
+    table.deleteRow(row.rowIndex);
+
+    for (var i = 0; i < fileArray.length; i++) {
+        if (fileArray[i].FileID == guid) {
+            fileArray.splice(i, 1);
+            break;
+        }
+    }
+    CheckFileCount();
+}
+
+function CuteWebUI_AjaxUploader_OnPostback() {
+    //var uploader = document.getElementById("myuploader");
+    //var guidlist = uploader.value;
+
+    //var xh = CreateAjaxRequest();
+    //xh.send("guidlist=" + guidlist + "&limitcount=3&hascount=" + fileArray.length);
+
+    ////call uploader to clear the client state
+    //uploader.reset();
+
+    //if (xh.status != 200) {
+    //    alert("http error " + xh.status);
+    //    setTimeout(function () { document.write(xh.responseText); }, 10);
+    //    return;
+    //}
+
+    //var list = eval(xh.responseText); //get JSON objects
+
+    //fileArray = fileArray.concat(list);
+    CheckFileCount();
+    AppendToFileList(list);
+}
+
+function CheckFileCount() {
+    var uploadbutton = document.getElementById("FileUpload1");
+    if (fileArray.length >= 3) {
+        uploadbutton.disabled = true;
+    }
+    else
+        uploadbutton.disabled = false;
+    ShowFiles();
+}
+
+function ShowFiles() {
+    var msgs = [];
+    for (var i = 0; i < fileArray.length; i++) {
+        msgs.push(fileArray[i].FileName + ", " + fileArray[i].FileSize + "Kb");
+    }
+    document.getElementById("text_info").value = msgs.join("\r\n");
+}

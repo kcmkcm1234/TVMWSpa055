@@ -102,6 +102,7 @@
     <Compile Include="Contracts\ICustomerRepository.cs" />
     <Compile Include="Contracts\IDatabaseFactory.cs" />
     <Compile Include="Contracts\IDynamicUIRepository.cs" />
+    <Compile Include="Contracts\IFileUploadRepository.cs" />
     <Compile Include="Contracts\IPaymentModesRepository.cs" />
     <Compile Include="Contracts\IPaymentTermsRepository.cs" />
     <Compile Include="Contracts\ISupplierInvoicesRepository.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="Services\CustomerRepository.cs" />
     <Compile Include="Services\DatabaseFactory.cs" />
     <Compile Include="Services\DynamicUIRepository.cs" />
+    <Compile Include="Services\FileUploadRepository.cs" />
     <Compile Include="Services\MasterRepository.cs" />
     <Compile Include="Services\PaymentModesRepository.cs" />
     <Compile Include="Services\PaymentTermsRepository.cs" />

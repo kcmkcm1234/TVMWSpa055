@@ -1,4 +1,6 @@
 ﻿using SPAccounts.BusinessService.Contracts;
+using SPAccounts.DataAccessObject.DTO;
+using SPAccounts.RepositoryServices.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -9,6 +11,7 @@ namespace SPAccounts.BusinessService.Services
 {
     public class CommonBusiness : ICommonBusiness
     {
+        
 
         public string ConvertCurrency(decimal value, int DecimalPoints = 0, bool Symbol = true)
         {
@@ -28,5 +31,6 @@ namespace SPAccounts.BusinessService.Services
             return result;
 
         }
+        
     }
 }
