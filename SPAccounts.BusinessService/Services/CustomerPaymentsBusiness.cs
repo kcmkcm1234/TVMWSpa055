@@ -45,7 +45,13 @@ namespace SPAccounts.BusinessService.Services
                 return _customerPaymentsRepository.InsertCustomerPayments(_custPayObj);
             }
         }
-        
+
+        public CustomerPayments InsertPaymentAdjustment(CustomerPayments _custPayObj)
+        { 
+                PaymentDetailsXMl(_custPayObj);
+                return _customerPaymentsRepository.InsertPaymentAdjustment(_custPayObj);
+        }
+
         public void PaymentDetailsXMl(CustomerPayments CustPaymentObj)
         {
             string result = "<Details>";

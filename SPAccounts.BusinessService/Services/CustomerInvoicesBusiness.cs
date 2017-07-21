@@ -75,5 +75,10 @@ namespace SPAccounts.BusinessService.Services
         {
             return _customerInvoicesRepository.GetOutStandingInvoices(PaymentID,CustID);
         }
+
+        public CustomerInvoice GetCustomerAdvances(string ID)
+        {
+            return _customerInvoicesRepository.GetCustomerAdvances(ID);
+        }
     }
 }

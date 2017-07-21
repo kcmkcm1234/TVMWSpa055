@@ -57,6 +57,8 @@ namespace UserInterface.Models
         public string PANNO { get; set; }
         [Display(Name = "General Notes")]
         public string GeneralNotes { get; set; }
+        [Display(Name = "Available Advance Amount:")]
+        public decimal AdvanceAmount { get; set; }
         public CommonViewModel commonObj { get; set; }
         public List<SelectListItem> CustomerList { get; set; }
         public List<SelectListItem> TitlesList { get; set; }
