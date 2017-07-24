@@ -9,7 +9,7 @@ using System.Web;
 
 namespace SPAccounts.RepositoryServices.Services
 {
-    public class OtherExpenseRepository: IOtherExpenseRepository
+    public class OtherExpenseRepository : IOtherExpenseRepository
     {
         AppConst Cobj = new AppConst();
         Settings settings = new Settings();
@@ -19,6 +19,57 @@ namespace SPAccounts.RepositoryServices.Services
             _databaseFactory = databaseFactory;
         }
 
+        public List<ChartOfAccount> GetAllAccountTypes()
+        {
+            List<ChartOfAccount> chartOfAccountList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetAllAccountTypes]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                chartOfAccountList = new List<ChartOfAccount>();
+                                while (sdr.Read())
+                                {
+                                    ChartOfAccount _chartOfAccount = new ChartOfAccount();
+                                    {
+                                        _chartOfAccount.Code = (sdr["Code"].ToString() != "" ? sdr["Code"].ToString() : _chartOfAccount.Code);
+                                        _chartOfAccount.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : _chartOfAccount.Type);
+                                        _chartOfAccount.Description = (sdr["TypeDesc"].ToString() != "" ? sdr["TypeDesc"].ToString() : _chartOfAccount.Type);
+                                        _chartOfAccount.OpeningPaymentMode = (sdr["OpeningPaymentMode"].ToString() != "" ? sdr["OpeningPaymentMode"].ToString() : _chartOfAccount.OpeningPaymentMode);
+                                        _chartOfAccount.OpeningBalance = (sdr["OpeningBalance"].ToString() != "" ? decimal.Parse(sdr["OpeningBalance"].ToString()) : _chartOfAccount.OpeningBalance);
+                                        _chartOfAccount.OpeningAsOfDate = (sdr["OpeningAsOfDate"].ToString() != "" ? decimal.Parse(sdr["OpeningAsOfDate"].ToString()) : _chartOfAccount.OpeningAsOfDate);
+                                        _chartOfAccount.commonObj = new Common()
+                                        {
+                                            CreatedDateString = (sdr["CreatedDate"].ToString() != "" ? DateTime.Parse(sdr["CreatedDate"].ToString()).ToString(settings.dateformat) : string.Empty)
+                                        };
+
+                                    }
+
+                                    chartOfAccountList.Add(_chartOfAccount);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return chartOfAccountList;
+        }
 
         public List<OtherExpense> GetAllOtherExpenses()
         {
@@ -64,6 +115,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         {
                                             ID = (sdr["DepWithID"].ToString() != "" ? Guid.Parse(sdr["DepWithID"].ToString()) : Guid.Empty)
                                         };
+                                        //_otherExpense.depositAndWithdrwal.ID = (sdr["DepWithID"].ToString() != "" ? Guid.Parse(sdr["DepWithID"].ToString()) : Guid.Empty);
                                         _otherExpense.BankCode = (sdr["BankCode"].ToString() != "" ? (sdr["BankCode"].ToString()) : _otherExpense.BankCode);
                                         _otherExpense.ExpenseRef = (sdr["ExpenseRef"].ToString() != "" ? (sdr["ExpenseRef"].ToString()) : _otherExpense.ExpenseRef);
                                         _otherExpense.Description = (sdr["Description"].ToString() != "" ? (sdr["Description"].ToString()) : _otherExpense.Description);
@@ -88,5 +140,6 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return otherExpenselist;
         }
+
     }
 }

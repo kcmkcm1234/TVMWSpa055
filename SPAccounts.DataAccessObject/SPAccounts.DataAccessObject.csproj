@@ -95,6 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DTO\Bank.cs" />
+    <Compile Include="DTO\ChartOfAccount.cs" />
     <Compile Include="DTO\Common.cs" />
     <Compile Include="DTO\Companies.cs" />
     <Compile Include="DTO\Customer.cs" />

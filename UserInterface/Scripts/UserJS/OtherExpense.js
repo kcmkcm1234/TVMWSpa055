@@ -3,44 +3,40 @@ var emptyGUID = '00000000-0000-0000-0000-000000000000'
 $(document).ready(function () {
     try {
 
-        DataTables.supplierCreditNoteTable = $('#supplierCreditNoteTable').DataTable(
+        DataTables.expenseDetailTable = $('#expenseDetailTable').DataTable(
          {
-             dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
+
+             dom: '<"pull-right"f>rt<"bottom"p><"clear">',
              order: [],
              searching: true,
              paging: true,
-             data: GetAllSupplierCreditNotes(),
-             pageLength: 15,
+             data: GetAllExpenseDetails(),
+             pageLength: 10,
              language: {
                  search: "_INPUT_",
                  searchPlaceholder: "Search"
              },
              columns: [
-               { "data": "ID" },
-               { "data": "supplier.CompanyName", "defaultContent": "<i>-</i>" },
-               { "data": "Company.Name", "defaultContent": "<i>-</i>" },
-               { "data": "CRNRefNo", "defaultContent": "<i>-</i>" },
+               { "data": null },
+               { "data": "AccountCode", "defaultContent": "<i>-</i>" },
+               { "data": "PaymentMode", "defaultContent": "<i>-</i>" },
+               { "data": "Description", "defaultContent": "<i>-</i>" },
                { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
-               { "data": "CRNDate", "defaultContent": "<i>-</i>" },
-                { "data": "Type", "defaultContent": "<i>-</i>" },
-               { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
+               { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' },
+               { "data": "ID" }
+
              ],
-             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                  { className: "text-left", "targets": [1, 2, 7] },
+             columnDefs: [{ "targets": [6], "visible": false, "searchable": false },
+                  { className: "text-left", "targets": [1, 2] },
              { className: "text-center", "targets": [3, 4, 5, 6] }
 
              ]
          });
-
-        $('#supplierCreditNoteTable tbody').on('dblclick', 'td', function () {
-
-            //Edit(this);
-        });
-
-
-
-
-
+        DataTables.expenseDetailTable.on('order.dt search.dt', function () {
+            DataTables.expenseDetailTable.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                cell.innerHTML = i + 1;
+            });
+        }).draw();
 
     } catch (x) {
 
@@ -52,13 +48,12 @@ $(document).ready(function () {
 
 
 
-function GetAllSupplierCreditNotes() {
+function GetAllExpenseDetails() {
     try {
 
         var data = {};
         var ds = {};
-        ds = GetDataFromServer("SupplierCreditNote/GetAllSupplierCreditNotes/", data);
-        debugger;
+        ds = GetDataFromServer("OtherExpenses/GetAllOtherExpenses/", data);
         if (ds != '') {
             ds = JSON.parse(ds);
         }
@@ -66,7 +61,8 @@ function GetAllSupplierCreditNotes() {
             return ds.Records;
         }
         if (ds.Result == "ERROR") {
-            alert(ds.Message);
+            notyAlert('error', ds.Message);
+
         }
     }
     catch (e) {
@@ -74,24 +70,24 @@ function GetAllSupplierCreditNotes() {
     }
 }
 
-function openNav(id) {
-    var left = $(".main-sidebar").width();
-    var total = $(document).width();
+//function openNav(id) {
+//    var left = $(".main-sidebar").width();
+//    var total = $(document).width();
 
-    $('.main').fadeOut();
-    document.getElementById("myNav").style.left = "3%";
-    $('#main').fadeOut();
+//    $('.main').fadeOut();
+//    document.getElementById("myNav").style.left = "3%";
+//    $('#main').fadeOut();
 
-    if ($("body").hasClass("sidebar-collapse")) {
+//    if ($("body").hasClass("sidebar-collapse")) {
 
-    }
-    else {
-        $(".sidebar-toggle").trigger("click");
-    }
-    if (id != "0") {
-        ClearFields();
-    }
-}
+//    }
+//    else {
+//        $(".sidebar-toggle").trigger("click");
+//    }
+//    if (id != "0") {
+//        ClearFields();
+//    }
+//}
 
 function goBack() {
     ClearFields();
@@ -204,7 +200,8 @@ function GetCustomerDetailsByID(ID) {
             return ds.Records;
         }
         if (ds.Result == "ERROR") {
-            alert(ds.Message);
+
+            notyAlert('error', ds.Message);
         }
     }
     catch (e) {
@@ -243,11 +240,20 @@ function FillCustomerDetails(ID) {
 function Edit(currentObj) {
     //Tab Change on edit click
     debugger;
-    openNav("0");
-    ResetForm();
+    // openNav("0");
+    //ResetForm();
 
-    var rowData = DataTables.CustomerTable.row($(currentObj).parents('tr')).data();
+    var rowData = DataTables.expenseDetailTable.row($(currentObj).parents('tr')).data();
     if ((rowData != null) && (rowData.ID != null)) {
-        FillCustomerDetails(rowData.ID);
+        //  FillCustomerDetails(rowData.ID);
+    }
+}
+
+function AddOtherExpense() {
+    try {
+        $("#otherexpenseModel").modal('show');
+    }
+    catch (e) {
+        notyAlert('error', e.message);
     }
 }
