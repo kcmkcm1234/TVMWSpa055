@@ -37,7 +37,7 @@
     </div>
     <div class="row tableContainer">
         <div class="col-md-12">
-            <table id="CustomerCreditNoteTable" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
+            <table id="otherExpenseTable" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
                 <thead>
                     <tr class="text-center TableHead">
                         <th>ID</th>
@@ -51,11 +51,7 @@
 
                     </tr>
                 </thead>
-                <tbody>
-                    <tr><td>345</td><td>02-May-2017</td><td>Accountno</td><td>Keltek pvt Ltd</td><td>anand</td>
-                    <td>Bank</td><td>454343.00</td><td></td>
-                    </tr>
-                </tbody>
+
             </table>
         </div>
     </div>
@@ -92,7 +88,7 @@
                     <div class="col-md-12">
                         <div class="col-md-4">
 
-                         
+
 
                             <div class="form-group col-md-12">
                                 <div class="col-md-12">
@@ -123,41 +119,41 @@
                                         <div class="rightAmt" id="creditdAmt">₹ 0.00</div>
                                     </div>
                                 </div>
-                               
+
 
                             </div>
-                            </div>
-
-                        </div>
-                    <div class="col-md-12  ">&nbsp;</div>
-                    <div class="col-md-12  ">&nbsp;</div>
-                    <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Expense Details</div>
-
-                    <div class="col-md-12">
-                       
-                        <div class="col-md-12">
-                            <table id="Table" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
-                                <thead>
-                                    <tr class="text-center TableHead">
-                                        <th>SI No</th>
-                                        <th>Account</th>
-                                        <th>Payment mode</th>
-                                        <th>Description</th>
-                                        <th>Amount</th>
-                                    </tr>
-                                </thead>
-                            </table>
                         </div>
 
                     </div>
-               
+                        <div class="col-md-12  ">&nbsp;</div>
+                        <div class="col-md-12  ">&nbsp;</div>
+                        <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Expense Details</div>
 
-                    <div class="col-md-12  ">&nbsp;</div>
-                    <div class="col-md-12  ">&nbsp;</div>
-                    <div class="col-md-12  ">&nbsp;</div>
-                    <div class="col-md-12  ">&nbsp;</div>
-                    <div class="col-md-12  ">&nbsp;</div>
-                    <div class="col-md-12  ">&nbsp;</div>
+                        <div class="col-md-12">
+
+                            <div class="col-md-12">
+                                <table id="Table" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
+                                    <thead>
+                                        <tr class="text-center TableHead">
+                                            <th>SI No</th>
+                                            <th>Account</th>
+                                            <th>Payment mode</th>
+                                            <th>Description</th>
+                                            <th>Amount</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-12  ">&nbsp;</div>
+                        <div class="col-md-12  ">&nbsp;</div>
+                        <div class="col-md-12  ">&nbsp;</div>
+                        <div class="col-md-12  ">&nbsp;</div>
+                        <div class="col-md-12  ">&nbsp;</div>
+                        <div class="col-md-12  ">&nbsp;</div>
                 }
             </div>
         </div>
@@ -175,5 +171,5 @@
 @section Scripts {
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/SupplierCreditNotes")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/OtherExpense")
 }
