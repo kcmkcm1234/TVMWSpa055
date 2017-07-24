@@ -218,6 +218,15 @@ namespace UserInterface.Controllers
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
             }
         }
+
+        #region GetCustomerAdvancesByID
+        [HttpGet]
+        public string GetCustomerAdvances(string ID)
+        {
+            CustomerInvoicesViewModel custAdvlist = Mapper.Map<CustomerInvoice, CustomerInvoicesViewModel>(_customerInvoicesBusiness.GetCustomerAdvances(ID));
+            return JsonConvert.SerializeObject(new { Result = "OK", Records = custAdvlist });
+        }
+        #endregion GetCustomerAdvancesByID
         
         #region ButtonStyling
         [HttpGet]      

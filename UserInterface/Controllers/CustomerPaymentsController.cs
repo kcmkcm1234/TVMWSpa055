@@ -184,7 +184,6 @@ namespace UserInterface.Controllers
 
         #endregion InsertUpdatePayments
       
-
         #region DeletePayments
 
         [AuthSecurityFilter(ProjectObject = "CustomerPayments", Mode = "W")]
@@ -281,6 +280,31 @@ namespace UserInterface.Controllers
         }
 
         #endregion
+
+        #region InsertPaymentAdjustment
+
+        [AuthSecurityFilter(ProjectObject = "CustomerPayments", Mode = "W")]
+        [HttpPost]
+        public string InsertPaymentAdjustment(CustomerPaymentsViewModel _custpayObj)
+        {
+            try
+            {               
+               AppUA _appUA = Session["AppUA"] as AppUA;
+               _custpayObj.commonObj = new CommonViewModel();
+               _custpayObj.commonObj.CreatedBy = _appUA.UserName;
+               _custpayObj.commonObj.CreatedDate = _appUA.DateTime; 
+               CustomerPaymentsViewModel CPVM = Mapper.Map<CustomerPayments, CustomerPaymentsViewModel>(_CustPaymentBusiness.InsertPaymentAdjustment(Mapper.Map<CustomerPaymentsViewModel, CustomerPayments>(_custpayObj)));
+               return JsonConvert.SerializeObject(new { Result = "OK", Message = c.InsertSuccess, Records = CPVM });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+
+        #endregion InsertUpdatePayments
+
 
     }
 }

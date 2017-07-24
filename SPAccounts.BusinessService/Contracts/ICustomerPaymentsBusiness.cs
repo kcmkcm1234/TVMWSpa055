@@ -14,6 +14,8 @@ namespace SPAccounts.BusinessService.Contracts
         CustomerPayments InsertUpdatePayments(CustomerPayments _custPayObj);
         object DeletePayments(Guid PaymentID,string UserName);
 
+        CustomerPayments InsertPaymentAdjustment(CustomerPayments _custPayObj);
+
 
 
 
