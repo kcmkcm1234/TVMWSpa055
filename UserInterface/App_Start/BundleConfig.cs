@@ -60,7 +60,7 @@ namespace UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/CustomerPayments").Include("~/Scripts/UserJS/CustomerPayments.js"));
             bundles.Add(new ScriptBundle("~/bundles/SupplierInvoices").Include("~/Scripts/UserJS/SupplierInvoices.js"));
             bundles.Add(new ScriptBundle("~/bundles/SupplierCreditNotes").Include("~/Scripts/UserJS/SupplierCreditNotes.js"));
-            
+            bundles.Add(new ScriptBundle("~/bundles/OtherIncome").Include("~/Scripts/UserJS/OtherIncome.js"));
 
         }
 
