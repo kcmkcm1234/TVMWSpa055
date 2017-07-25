@@ -1476,6 +1476,8 @@
     <Content Include="Scripts\UserJS\Login.js" />
     <Content Include="Scripts\UserJS\ManageAccess.js" />
     <Content Include="Scripts\UserJS\ManageSubObjectAccess.js" />
+    <Content Include="Scripts\UserJS\OtherIncome.js" />
+    <Content Include="Scripts\UserJS\OtherExpense.js" />
     <Content Include="Scripts\UserJS\Privileges.js" />
     <Content Include="Scripts\UserJS\PrivilegesView.js" />
     <Content Include="Scripts\UserJS\Roles.js" />
@@ -1509,6 +1511,7 @@
     <Compile Include="Controllers\CustomerInvoicesController.cs" />
     <Compile Include="Controllers\FileUploadController.cs" />
     <Compile Include="Controllers\OtherExpensesController.cs" />
+    <Compile Include="Controllers\OtherIncomeController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\SAMPanelController.cs" />
     <Compile Include="Controllers\ManageAccessController.cs" />
@@ -1525,6 +1528,9 @@
     <Compile Include="Models\ApplicationViewModel.cs" />
     <Compile Include="Models\AppObjectViewModel.cs" />
     <Compile Include="Models\BankViewModel.cs" />
+    <Compile Include="Models\DepositAndWithdrwalViewModel.cs" />
+    <Compile Include="Models\EmployeeViewModel.cs" />
+    <Compile Include="Models\ChartOfAccountsViewModel.cs" />
     <Compile Include="Models\OtherExpenseViewModel.cs" />
     <Compile Include="Models\CommonViewModel.cs" />
     <Compile Include="Models\CompaniesViewModel.cs" />
@@ -1536,6 +1542,7 @@
     <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Models\ManageAccessViewModel.cs" />
     <Compile Include="Models\MenuViewModel.cs" />
+    <Compile Include="Models\OtherIncomeViewModel.cs" />
     <Compile Include="Models\PaymentModesViewModel.cs" />
     <Compile Include="Models\PaymentTermsViewModel.cs" />
     <Compile Include="Models\PrivilegesViewModel.cs" />
@@ -1585,6 +1592,7 @@
     <Content Include="Views\Shared\_LayoutPage.cshtml" />
     <Content Include="Views\OtherExpenses\Index.cshtml" />
     <Content Include="Views\SupplierCreditNote\Index.cshtml" />
+    <Content Include="Views\OtherIncome\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

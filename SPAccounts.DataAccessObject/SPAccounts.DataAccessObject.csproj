@@ -95,13 +95,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DTO\Bank.cs" />
+    <Compile Include="DTO\ChartOfAccounts.cs" />
     <Compile Include="DTO\Common.cs" />
     <Compile Include="DTO\Companies.cs" />
     <Compile Include="DTO\Customer.cs" />
     <Compile Include="DTO\CustomerCreditNotes.cs" />
     <Compile Include="DTO\CustomerInvoices.cs" />
     <Compile Include="DTO\CustomerPayments.cs" />
+    <Compile Include="DTO\DepositAndWithdrawals.cs" />
+    <Compile Include="DTO\Employee.cs" />
     <Compile Include="DTO\Menu.cs" />
+    <Compile Include="DTO\OtherIncome.cs" />
+    <Compile Include="DTO\OtherExpense.cs" />
     <Compile Include="DTO\PaymentModes.cs" />
     <Compile Include="DTO\PaymentTerms.cs" />
     <Compile Include="DTO\Reports.cs" />

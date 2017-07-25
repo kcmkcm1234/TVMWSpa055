@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace SPAccounts.RepositoryServices.Contracts
 {
-    public interface IOtherExpenseRepository
+   public interface IChartOfAccountsRepository
     {
-        List<OtherExpense> GetAllOtherExpenses();
-       
+        List<ChartOfAccounts> GetChartOfAccountsByType(string type);
     }
 }

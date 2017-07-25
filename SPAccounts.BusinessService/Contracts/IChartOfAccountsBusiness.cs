@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SPAccounts.RepositoryServices.Contracts
+namespace SPAccounts.BusinessService.Contracts
 {
-    public interface IOtherExpenseRepository
+   public interface IChartOfAccountsBusiness
     {
-        List<OtherExpense> GetAllOtherExpenses();
-       
+        List<ChartOfAccounts> GetChartOfAccountsByType(string type);
     }
 }
