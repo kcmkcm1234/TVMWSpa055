@@ -22,8 +22,89 @@ namespace UserInterface.Controllers
         }
         public ActionResult Index()
         {
-            return View();
+            OtherExpenseViewModel otherExpenseViewModelObj = null;
+            try
+            {
+                otherExpenseViewModelObj = new OtherExpenseViewModel();
+               
+                List<SelectListItem> selectListItem = new List<SelectListItem>();
+                List<ChartOfAccountsViewModel> chartOfAccountList = Mapper.Map<List<ChartOfAccounts>, List<ChartOfAccountsViewModel>>(_otherExpenseBusiness.GetAllAccountTypes("OE"));
+                foreach (ChartOfAccountsViewModel cav in chartOfAccountList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = cav.TypeDesc,
+                        Value = cav.Code,
+                        Selected = false
+                    });
+                }
+                otherExpenseViewModelObj.AccountTypes = selectListItem;
+                selectListItem = null;
+                selectListItem = new List<SelectListItem>();
+                List<BankViewModel> bankList = Mapper.Map<List<Bank>, List<BankViewModel>>(_otherExpenseBusiness.GetAllBankes());
+                foreach (BankViewModel bvm in bankList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = bvm.Name,
+                        Value = bvm.Code,
+                        Selected = false
+                    });
+                }
+                otherExpenseViewModelObj.bankList = selectListItem;
+
+                otherExpenseViewModelObj.CompanyList = new List<SelectListItem>();
+                selectListItem = new List<SelectListItem>();
+                List<CompaniesViewModel> companiesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_otherExpenseBusiness.GetAllCompanies());
+                foreach (CompaniesViewModel cvm in companiesList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = cvm.Name,
+                        Value = cvm.Code.ToString(),
+                        Selected = false
+                    });
+                }
+                otherExpenseViewModelObj.CompanyList = selectListItem;
+
+                otherExpenseViewModelObj.paymentModeList = new List<SelectListItem>();
+                selectListItem = new List<SelectListItem>();
+                List<PaymentModesViewModel> PaymentModeList = Mapper.Map<List<PaymentModes>, List<PaymentModesViewModel>>(_otherExpenseBusiness.GetAllPaymentModes());
+                foreach (PaymentModesViewModel PMVM in PaymentModeList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = PMVM.Description,
+                        Value = PMVM.Code,
+                        Selected = false
+                    });
+                }
+                otherExpenseViewModelObj.paymentModeList = selectListItem;
+                selectListItem = new List<SelectListItem>();
+                List<EmployeeViewModel> empList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_otherExpenseBusiness.GetAllEmployees());
+                foreach (EmployeeViewModel evm in empList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = evm.Name,
+                        Value = evm.ID.ToString(),
+                        Selected = false
+                    });
+                }
+                otherExpenseViewModelObj.EmployeeList = selectListItem;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(otherExpenseViewModelObj);
+            
         }
+
+
+
         #region GetAllSupplierCreditNotes
         [HttpGet]
         public string GetAllOtherExpenses()
@@ -40,6 +121,58 @@ namespace UserInterface.Controllers
             }
         }
         #endregion  GetAllSupplierCreditNotes
+
+
+        #region InsertUpdateOtherExpense
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public string InsertUpdateOtherExpense(OtherExpenseViewModel otherExpenseViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    otherExpenseViewModel.commonObj = new CommonViewModel();
+                    otherExpenseViewModel.commonObj.CreatedBy = "Albert Thomson";
+                    otherExpenseViewModel.commonObj.CreatedDate = DateTime.Now;
+                    otherExpenseViewModel.commonObj.UpdatedBy = otherExpenseViewModel.commonObj.CreatedBy;
+                    otherExpenseViewModel.commonObj.UpdatedDate = otherExpenseViewModel.commonObj.CreatedDate;
+                    OtherExpenseViewModel otherExpenseVM = null;
+
+                    switch (otherExpenseViewModel.ID==Guid.Empty)
+                    {
+                        //INSERT
+                        case true:
+                           
+                            otherExpenseVM = Mapper.Map<OtherExpense, OtherExpenseViewModel>(_otherExpenseBusiness.InsertOtherExpense(Mapper.Map<OtherExpenseViewModel, OtherExpense>(otherExpenseViewModel)));
+                            return JsonConvert.SerializeObject(new { Result = "OK", Record = otherExpenseVM });
+                        default:
+
+                            //Getting UA
+                            //otherExpenseVM = Mapper.Map<OtherExpense, OtherExpenseViewModel>(_otherExpenseBusiness..UpdateProduct(Mapper.Map<ProductViewModel, Product>(productObj)));
+                            return JsonConvert.SerializeObject(new { Result = "OK", Record = otherExpenseVM });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+                }
+            }
+            //Model state errror
+            else
+            {
+                List<string> modelErrors = new List<string>();
+                foreach (var modelState in ModelState.Values)
+                {
+                    foreach (var modelError in modelState.Errors)
+                    {
+                        modelErrors.Add(modelError.ErrorMessage);
+                    }
+                }
+                return JsonConvert.SerializeObject(new { Result = "VALIDATION", Message = string.Join(",", modelErrors) });
+            }
+        }
+        #endregion InsertUpdateOtherExpense
 
 
         #region ButtonStyling

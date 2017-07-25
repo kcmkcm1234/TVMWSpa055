@@ -97,7 +97,7 @@ function goBack() {
 
 function Save() {
     try {
-        $("#btnInsertUpdateCustomers").trigger('click');
+        $("#btnSaveOtherExpense").trigger('click');
     }
     catch (e) {
         notyAlert('error', e.message);
@@ -143,9 +143,9 @@ function ResetForm() {
     validator.resetForm();
 }
 
-function BindAllCutomers() {
+function BindAllExpenseDetails() {
     try {
-        DataTables.CustomerTable.clear().rows.add(GetAllCustomers()).draw(false);
+        DataTables.expenseDetailTable.clear().rows.add(GetAllExpenseDetails()).draw(false);
     }
     catch (e) {
         notyAlert('error', e.message);
@@ -153,19 +153,20 @@ function BindAllCutomers() {
 }
 
 function SaveSuccess(data, status) {
-
+    debugger;
     var JsonResult = JSON.parse(data)
     switch (JsonResult.Result) {
         case "OK":
-            BindAllCutomers();
+            BindAllExpenseDetails();
             notyAlert('success', JsonResult.Message);
-            debugger;
-            if ($("#ID").val() != "") {
-                FillCustomerDetails($("#ID").val());
-            }
-            else {
-                FillCustomerDetails(JsonResult.Records.ID);
-            }
+            $("#ID").val(JsonResult.ID);
+
+            //if ($("#ID").val() != "") {
+            //    FillCustomerDetails($("#ID").val());
+            //}
+            //else {
+            //    FillCustomerDetails(JsonResult.Records.ID);
+            //}
             break;
         case "ERROR":
             notyAlert('error', JsonResult.Message);
@@ -251,7 +252,7 @@ function Edit(currentObj) {
 
 function AddOtherExpense() {
     try {
-        $("#otherexpenseModel").modal('show');
+        $("#AddOtherexpenseModel").modal('show');
     }
     catch (e) {
         notyAlert('error', e.message);
