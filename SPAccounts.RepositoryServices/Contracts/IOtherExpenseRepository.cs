@@ -10,6 +10,6 @@ namespace SPAccounts.RepositoryServices.Contracts
     public interface IOtherExpenseRepository
     {
         List<OtherExpense> GetAllOtherExpenses();
-        List<ChartOfAccount> GetAllAccountTypes();
+       
     }
 }

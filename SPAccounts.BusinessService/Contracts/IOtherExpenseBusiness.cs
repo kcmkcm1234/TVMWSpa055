@@ -10,5 +10,6 @@ namespace SPAccounts.BusinessService.Contracts
     public interface IOtherExpenseBusiness
     {
         List<OtherExpense> GetAllOtherExpenses();
+     
     }
 }

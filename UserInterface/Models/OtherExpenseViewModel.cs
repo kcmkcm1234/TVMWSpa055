@@ -15,6 +15,10 @@ namespace UserInterface.Models
         public string ExpenseDate { get; set; }
 
         public string PaidFromCompanyCode { get; set; }
+        [Required(ErrorMessage = "Choose company")]
+        [Display(Name = "Company")]
+        public string CompanyCode { get; set; }
+        public List<SelectListItem> CompanyList { get; set; }
         public CompaniesViewModel companies { get; set; }
         public EmployeeViewModel employee { get; set; }
         public Guid EmpID { get; set; }

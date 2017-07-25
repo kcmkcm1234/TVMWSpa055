@@ -15,6 +15,9 @@ namespace SPAccounts.BusinessService.Services
         {
             _otherExpenseRepository = otherExpenseRepository;
         }
+
+
+     
         public List<OtherExpense> GetAllOtherExpenses()
         {
             List<OtherExpense> otherExpenseList = null;
