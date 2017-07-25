@@ -11,6 +11,6 @@ namespace SPAccounts.BusinessService.Contracts
         CustomerInvoiceSummary GetCustomerInvoicesSummary();
         CustomerInvoice InsertUpdateInvoice(CustomerInvoice _customerInvoicesObj, AppUA ua);
         List<CustomerInvoice> GetOutStandingInvoices(Guid PaymentID,Guid CustID);
-
+        CustomerInvoice GetCustomerAdvances(string ID);
     }
 }

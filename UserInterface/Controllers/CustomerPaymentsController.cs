@@ -183,7 +183,27 @@ namespace UserInterface.Controllers
         }
 
         #endregion InsertUpdatePayments
+      
+        #region DeletePayments
 
+        [AuthSecurityFilter(ProjectObject = "CustomerPayments", Mode = "W")]
+        [HttpPost]
+        public string DeletePayments(CustomerPaymentsViewModel _customerpayObj)
+        {
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            object result = null;
+            try
+            {
+                result = _CustPaymentBusiness.DeletePayments(_customerpayObj.ID, _appUA.UserName);
+                return JsonConvert.SerializeObject(new { Result = "OK", Message = c.DeleteSuccess, Records = result });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion DeletePayments
 
         #region ButtonStyling
         [HttpGet]
@@ -198,8 +218,6 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.addbtn.Title = "Add New";
                     ToolboxViewModelObj.addbtn.Event = "openNavClick();";
 
-
-
                     ToolboxViewModelObj.backbtn.Visible = true;
                     ToolboxViewModelObj.backbtn.Disable = true;
                     ToolboxViewModelObj.backbtn.Text = "Back";
@@ -209,9 +227,40 @@ namespace UserInterface.Controllers
                     break;
                 case "Edit":
 
+                    ToolboxViewModelObj.addbtn.Visible = true;
+                    ToolboxViewModelObj.addbtn.Text = "Add";
+                    ToolboxViewModelObj.addbtn.Title = "Add New";
+                    ToolboxViewModelObj.addbtn.Event = "openNavClick();"; 
+
+                    ToolboxViewModelObj.deletebtn.Visible = true;
+                    ToolboxViewModelObj.deletebtn.Text = "Delete";
+                    ToolboxViewModelObj.deletebtn.Title = "Delete";
+                    ToolboxViewModelObj.deletebtn.Event = "DeletePayments();";
+
+                    ToolboxViewModelObj.savebtn.Visible = true;
+                    ToolboxViewModelObj.savebtn.Text = "Save";
+                    ToolboxViewModelObj.savebtn.Title = "Save";
+                    ToolboxViewModelObj.savebtn.Event = "savePayments();";
+
+                    ToolboxViewModelObj.CloseBtn.Visible = true;
+                    ToolboxViewModelObj.CloseBtn.Text = "Close";
+                    ToolboxViewModelObj.CloseBtn.Title = "Close";
+                    ToolboxViewModelObj.CloseBtn.Event = "closeNav();";
+
 
                     break;
                 case "Add":
+
+                    ToolboxViewModelObj.addbtn.Visible = true;
+                    ToolboxViewModelObj.addbtn.Text = "Add";
+                    ToolboxViewModelObj.addbtn.Title = "Add New";
+                    ToolboxViewModelObj.addbtn.Event = "openNavClick();";
+
+                    ToolboxViewModelObj.deletebtn.Visible = true;
+                    ToolboxViewModelObj.deletebtn.Disable = true;
+                    ToolboxViewModelObj.deletebtn.Text = "Delete";
+                    ToolboxViewModelObj.deletebtn.Title = "Delete";
+                    ToolboxViewModelObj.deletebtn.Event = "DeletePayments();";
 
                     ToolboxViewModelObj.savebtn.Visible = true;
                     ToolboxViewModelObj.savebtn.Text = "Save";
@@ -224,15 +273,6 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.CloseBtn.Event = "closeNav();";
 
                     break;
-                case "AddSub":
-
-                    break;
-                case "tab1":
-
-                    break;
-                case "tab2":
-
-                    break;
                 default:
                     return Content("Nochange");
             }
@@ -240,6 +280,31 @@ namespace UserInterface.Controllers
         }
 
         #endregion
+
+        #region InsertPaymentAdjustment
+
+        [AuthSecurityFilter(ProjectObject = "CustomerPayments", Mode = "W")]
+        [HttpPost]
+        public string InsertPaymentAdjustment(CustomerPaymentsViewModel _custpayObj)
+        {
+            try
+            {               
+               AppUA _appUA = Session["AppUA"] as AppUA;
+               _custpayObj.commonObj = new CommonViewModel();
+               _custpayObj.commonObj.CreatedBy = _appUA.UserName;
+               _custpayObj.commonObj.CreatedDate = _appUA.DateTime; 
+               CustomerPaymentsViewModel CPVM = Mapper.Map<CustomerPayments, CustomerPaymentsViewModel>(_CustPaymentBusiness.InsertPaymentAdjustment(Mapper.Map<CustomerPaymentsViewModel, CustomerPayments>(_custpayObj)));
+               return JsonConvert.SerializeObject(new { Result = "OK", Message = c.InsertSuccess, Records = CPVM });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+
+        #endregion InsertUpdatePayments
+
 
     }
 }

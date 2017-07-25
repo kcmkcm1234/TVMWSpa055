@@ -46,6 +46,12 @@ namespace SPAccounts.BusinessService.Services
             }
         }
 
+        public CustomerPayments InsertPaymentAdjustment(CustomerPayments _custPayObj)
+        { 
+                PaymentDetailsXMl(_custPayObj);
+                return _customerPaymentsRepository.InsertPaymentAdjustment(_custPayObj);
+        }
+
         public void PaymentDetailsXMl(CustomerPayments CustPaymentObj)
         {
             string result = "<Details>";
@@ -72,10 +78,14 @@ namespace SPAccounts.BusinessService.Services
             result = result + "></item>";
             totalRows = totalRows + 1;
         }
-
         private static PropertyInfo[] GetProperties(object obj)
         {
             return obj.GetType().GetProperties();
+        }
+
+        public object DeletePayments(Guid PaymentID,string UserName)
+        {
+            return _customerPaymentsRepository.DeletePayments(PaymentID, UserName);
         }
     }
 }

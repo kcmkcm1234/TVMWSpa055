@@ -1264,16 +1264,20 @@
     <Content Include="Content\DataTables\images\sort_desc.png" />
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
+    <Content Include="Content\filemanage.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\images\add.png" />
     <Content Include="Content\images\back.png" />
+    <Content Include="Content\images\circle.png" />
     <Content Include="Content\images\close.png" />
     <Content Include="Content\images\delete.png" />
     <Content Include="Content\images\helmet.png" />
+    <Content Include="Content\images\listdlt.png" />
     <Content Include="Content\images\loading.gif" />
     <Content Include="Content\images\logo.png" />
+    <Content Include="Content\images\paperclip.png" />
     <Content Include="Content\images\percentage.png" />
     <Content Include="Content\images\reset.png" />
     <Content Include="Content\images\save.png" />
@@ -1473,6 +1477,7 @@
     <Content Include="Scripts\UserJS\ManageAccess.js" />
     <Content Include="Scripts\UserJS\ManageSubObjectAccess.js" />
     <Content Include="Scripts\UserJS\OtherIncome.js" />
+    <Content Include="Scripts\UserJS\OtherExpense.js" />
     <Content Include="Scripts\UserJS\Privileges.js" />
     <Content Include="Scripts\UserJS\PrivilegesView.js" />
     <Content Include="Scripts\UserJS\Roles.js" />
@@ -1482,7 +1487,6 @@
     <Content Include="Scripts\UserJS\User.js" />
     <Content Include="Scripts\UserJS\Suppliers.js" />
     <Content Include="Web.config" />
-    <Content Include="Views\Shared\_LayoutPage.cshtml" />
     <Content Include="Views\Dashboard\Index.cshtml" />
     <Content Include="Views\DynamicUI\_MenuNavBar.cshtml" />
   </ItemGroup>
@@ -1505,6 +1509,7 @@
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DynamicUIController.cs" />
     <Compile Include="Controllers\CustomerInvoicesController.cs" />
+    <Compile Include="Controllers\FileUploadController.cs" />
     <Compile Include="Controllers\OtherExpensesController.cs" />
     <Compile Include="Controllers\OtherIncomeController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
@@ -1523,6 +1528,8 @@
     <Compile Include="Models\ApplicationViewModel.cs" />
     <Compile Include="Models\AppObjectViewModel.cs" />
     <Compile Include="Models\BankViewModel.cs" />
+    <Compile Include="Models\DepositAndWithdrwalViewModel.cs" />
+    <Compile Include="Models\EmployeeViewModel.cs" />
     <Compile Include="Models\ChartOfAccountsViewModel.cs" />
     <Compile Include="Models\OtherExpenseViewModel.cs" />
     <Compile Include="Models\CommonViewModel.cs" />
@@ -1581,6 +1588,8 @@
     <Content Include="Views\Account\Down.cshtml" />
     <Content Include="Views\SupplierInvoices\Index.cshtml" />
     <Content Include="Views\Report\Index.cshtml" />
+    <Content Include="Views\Shared\Fileupload.cshtml" />
+    <Content Include="Views\Shared\_LayoutPage.cshtml" />
     <Content Include="Views\OtherExpenses\Index.cshtml" />
     <Content Include="Views\SupplierCreditNote\Index.cshtml" />
     <Content Include="Views\OtherIncome\Index.cshtml" />
@@ -1594,6 +1603,9 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="bin\" />
+    <Folder Include="Content\Uploads\" />
+    <Folder Include="Views\FileUplad\" />
+    <Folder Include="Views\FileUplaod\" />
     <Folder Include="Views\Supplier\" />
   </ItemGroup>
   <ItemGroup>

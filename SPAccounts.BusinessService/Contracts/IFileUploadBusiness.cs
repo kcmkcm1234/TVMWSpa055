@@ -2,13 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
 namespace SPAccounts.BusinessService.Contracts
 {
-    public interface IOtherExpenseBusiness
+    public interface IFileUploadBusiness
     {
-        List<OtherExpense> GetAllOtherExpenses();
+        FileUpload InsertAttachment(FileUpload fileUploadObj);
     }
 }

@@ -73,7 +73,7 @@ $(document).ready(function () {
              {
                  "data": "CustPaymentObj.CustPaymentDetailObj.PaidAmount", 'render': function (data, type, row) {
                      index = index + 1
-                     return '<input class="form-control text-right paymentAmount" name="Markup" value="'+roundoff(data)+'" onchange="PaymentAmountChanged(this);" id="PaymentValue_' + index + '" type="text">';
+                     return '<input class="form-control text-right paymentAmount" name="Markup" value="' + roundoff(data) + '" onfocus="paymentAmountFocus(this);" onchange="PaymentAmountChanged(this);" id="PaymentValue_' + index + '" type="text">';
                  }, "width": "15%"
              },
              {
@@ -93,15 +93,9 @@ $(document).ready(function () {
 
 
     $('input[type="text"].selecttext').on('focus', function () {
-        debugger;
         $(this).select();
-    });
-    //$('input[type="text"].paymentAmount').on('focus', function () {
-    //    debugger;
-    //    $(this).select();
-    //});
+    }); 
     $('#tblOutStandingDetails tbody').on('click', 'td:first-child', function (e) {
-        debugger; 
         var rt = DataTables.OutStandingInvoices.row($(this).parent()).index()       
         var table = $('#tblOutStandingDetails').DataTable();
         var allData = table.rows().data();
@@ -109,7 +103,6 @@ $(document).ready(function () {
           {
             allData[rt].CustPaymentObj.CustPaymentDetailObj.PaidAmount = roundoff(0)
             DataTables.OutStandingInvoices.clear().rows.add(allData).draw(false);
-          
             var sum = 0;
             AmountReceived = parseFloat($('#TotalRecdAmt').val());
             for (var i = 0; i < allData.length; i++) {
@@ -117,12 +110,16 @@ $(document).ready(function () {
             }
             $('#lblPaymentApplied').text(roundoff(sum));
             $('#lblCredit').text(roundoff(AmountReceived - sum));
-           
             Selectcheckbox();
         }
     });
-    
 });
+
+function paymentAmountFocus(event)
+{
+    event.select();
+}
+
 
 function GetAllCustomerPayments() {
     try { 
@@ -149,16 +146,21 @@ function GetAllCustomerPayments() {
 function Edit(currentObj)
 {
     openNav();
-    var rowData = DataTables.CustomerPaymentTable.row($(currentObj).parents('tr')).data();
+       var rowData = DataTables.CustomerPaymentTable.row($(currentObj).parents('tr')).data();
     if ((rowData != null) && (rowData.ID != null)) {
         GetCustomerPaymentsByID(rowData.ID)
     } 
 }
 
 function GetCustomerPaymentsByID(ID) {
+    $('#lblheader').text('Edit Payment');
+    ChangeButtonPatchView('CustomerPayments', 'btnPatchAdd', 'Edit');
     var thisitem = GetCustomerPayments(ID)
     $('#ID').val(ID);
+    $('#deleteId').val(ID); 
     $('#Customer').val(thisitem.customerObj.ID);
+    $('#hdfCustomerID').val(thisitem.customerObj.ID);
+    $('#Customer').prop('disabled', true);
     $('#PaymentDate').val(thisitem.PaymentDateFormatted);
     $('#PaymentRef').val(thisitem.PaymentRef);
     $('#RecdToComanyCode').val(thisitem.RecdToComanyCode);
@@ -188,6 +190,9 @@ function GetCustomerPaymentsByID(ID) {
 function openNavClick() {
     fieldsclear();
     BindOutstanding();
+    $('#lblheader').text('New Payment');
+    ChangeButtonPatchView('CustomerPayments', 'btnPatchAdd', 'Add');
+    $('#Customer').prop('disabled', false);
     openNav();
 }
 
@@ -209,6 +214,29 @@ function savePayments() {
     }
     $('#AdvanceAmount').val($('#lblCredit').text());
     $('#btnSave').trigger('click');
+}
+
+function DeletePayments() {
+    $('#btnFormDelete').trigger('click');
+}
+
+function DeleteSuccess(data, status) {
+    var JsonResult = JSON.parse(data)
+    switch (JsonResult.Result) {
+        case "OK":
+            openNavClick()
+            BindCustomerPaymentsHeader()
+            notyAlert('success', JsonResult.Message);
+            break;
+        case "Error":
+            notyAlert('error', JsonResult.Message);
+            break;
+        case "ERROR":
+            notyAlert('error', JsonResult.Message);
+            break;
+        default:
+            break;
+    }
 }
 
 function SaveSuccess(data, status) {
@@ -359,37 +387,27 @@ function PaymentAmountChanged(this_Obj) {
     for (var i = 0; i < allData.length; i++)
     {
         if (allData[i].ID == rowtable.ID) {
+
+            var oldamount = parseFloat(allData[i].CustPaymentObj.CustPaymentDetailObj.PaidAmount)
+            var credit = parseFloat($("#lblCredit").text())
+            if (credit > 0) {
+                var currenttotal = AmountReceived + parseFloat(this_Obj.value) - (credit + oldamount)
+            }
+            else {
+                var currenttotal = AmountReceived + parseFloat(this_Obj.value) - oldamount
+            }
+
             if (parseFloat(allData[i].BalanceDue) < parseFloat(this_Obj.value)) { 
-                debugger;
-                var oldamount = parseFloat(allData[i].CustPaymentObj.CustPaymentDetailObj.PaidAmount)
-                var credit = parseFloat($("#lblCredit").text())
-                if (credit > 0) {
-                    var currenttotal = AmountReceived + parseFloat(this_Obj.value) - (credit + oldamount)
-                }
-                else {
-                    var currenttotal = AmountReceived + parseFloat(this_Obj.value) - oldamount
-                }
-                if (currenttotal<AmountReceived)
-                {
+                if (currenttotal<AmountReceived) {
                     allData[i].CustPaymentObj.CustPaymentDetailObj.PaidAmount = parseFloat(allData[i].BalanceDue)
                     sum = sum + parseFloat(allData[i].BalanceDue);
                 }
-                else
-                {
+                else {
                     allData[i].CustPaymentObj.CustPaymentDetailObj.PaidAmount = oldamount
                     sum = sum + oldamount
                 }
             }
             else {
-                debugger;
-                var oldamount = parseFloat(allData[i].CustPaymentObj.CustPaymentDetailObj.PaidAmount)
-                var credit = parseFloat($("#lblCredit").text())
-                if(credit >0){
-                    var currenttotal = AmountReceived + parseFloat(this_Obj.value) - (credit + oldamount)
-                }
-                else {
-                    var currenttotal = AmountReceived + parseFloat(this_Obj.value)- oldamount
-                }
                 if (currenttotal > AmountReceived) {
                     allData[i].CustPaymentObj.CustPaymentDetailObj.PaidAmount = oldamount
                     sum = sum + oldamount;

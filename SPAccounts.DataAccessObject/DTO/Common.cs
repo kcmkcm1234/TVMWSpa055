@@ -152,4 +152,16 @@ namespace SPAccounts.DataAccessObject.DTO
 
         }
     }
+    public class FileUpload
+    {
+        public Guid ID { get; set; }
+        public Guid ParentID { get; set; }
+        public string ParentType { get; set; }
+        public string FileName { get; set; }
+        public string FileType { get; set; }
+        public string FileSize { get; set; }
+        public string AttachmentURL { get; set; }
+        public Common commonObj { get; set; }
+    }
+
 }
