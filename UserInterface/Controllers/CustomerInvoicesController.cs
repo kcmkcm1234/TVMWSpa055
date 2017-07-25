@@ -8,6 +8,7 @@ using UserInterface.Models;
 using AutoMapper;
 using System.Web;
 using System.IO;
+using SPAccounts.UserInterface.SecurityFilter;
 
 namespace UserInterface.Controllers
 {
@@ -219,6 +220,27 @@ namespace UserInterface.Controllers
             }
         }
 
+        #region DeleteInvoices
+
+        [AuthSecurityFilter(ProjectObject = "CustomerPayments", Mode = "W")]
+        [HttpPost]
+        public string DeleteInvoices(CustomerInvoicesViewModel _customerinvObj)
+        {
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            object result = null;
+            try
+            {
+                result = _customerInvoicesBusiness.DeleteInvoices(_customerinvObj.ID, _appUA.UserName);
+                return JsonConvert.SerializeObject(new { Result = "OK", Message = c.DeleteSuccess, Records = result });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion DeleteInvoices
+
         #region GetCustomerAdvancesByID
         [HttpGet]
         public string GetCustomerAdvances(string ID)
@@ -240,18 +262,33 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.addbtn.Text = "Add";
                     ToolboxViewModelObj.addbtn.Title = "Add New";
                     ToolboxViewModelObj.addbtn.Event = "AddNew();";
-
-                  
-
+                     
                     ToolboxViewModelObj.backbtn.Visible = true;
                     ToolboxViewModelObj.backbtn.Disable = true;
                     ToolboxViewModelObj.backbtn.Text = "Back";
                     ToolboxViewModelObj.backbtn.DisableReason = "Not applicable";
-                    ToolboxViewModelObj.backbtn.Event = "Back();";
-
+                    ToolboxViewModelObj.backbtn.Event = "Back();";  
                     break;
-                case "Edit":
-                   
+                case "Edit": 
+                    ToolboxViewModelObj.addbtn.Visible = true;
+                    ToolboxViewModelObj.addbtn.Text = "Add";
+                    ToolboxViewModelObj.addbtn.Title = "Add New";
+                    ToolboxViewModelObj.addbtn.Event = "AddNew();";
+
+                    ToolboxViewModelObj.deletebtn.Visible = true;
+                    ToolboxViewModelObj.deletebtn.Text = "Delete";
+                    ToolboxViewModelObj.deletebtn.Title = "Delete";
+                    ToolboxViewModelObj.deletebtn.Event = "DeleteInvoices();";
+
+                    ToolboxViewModelObj.savebtn.Visible = true;
+                    ToolboxViewModelObj.savebtn.Text = "Save";
+                    ToolboxViewModelObj.savebtn.Title = "Save";
+                    ToolboxViewModelObj.savebtn.Event = "$('#btnSave').click();";
+
+                    ToolboxViewModelObj.CloseBtn.Visible = true;
+                    ToolboxViewModelObj.CloseBtn.Text = "Close";
+                    ToolboxViewModelObj.CloseBtn.Title = "Close";
+                    ToolboxViewModelObj.CloseBtn.Event = "closeNav();";
 
                     break;
                 case "Add":
@@ -271,15 +308,11 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.CloseBtn.Title = "Close";
                     ToolboxViewModelObj.CloseBtn.Event = "closeNav();";
 
-                    break;
-                case "AddSub":
-
-                    break;
-                case "tab1":
-
-                    break;
-                case "tab2":
-
+                    ToolboxViewModelObj.deletebtn.Visible = true;
+                    ToolboxViewModelObj.deletebtn.Disable = true;
+                    ToolboxViewModelObj.deletebtn.Text = "Delete";
+                    ToolboxViewModelObj.deletebtn.Title = "Delete";
+                    ToolboxViewModelObj.deletebtn.Event = "DeleteInvoices();"; 
                     break;
                 default:
                     return Content("Nochange");

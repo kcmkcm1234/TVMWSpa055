@@ -80,5 +80,10 @@ namespace SPAccounts.BusinessService.Services
         {
             return _customerInvoicesRepository.GetCustomerAdvances(ID);
         }
+
+        public object DeleteInvoices(Guid ID, string UserName)
+        {
+            return _customerInvoicesRepository.DeleteInvoices(ID,UserName);
+        }
     }
 }

@@ -23,6 +23,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal TotalInvoiceAmount { get; set; }
         public String Notes { get; set; }
 
+        public string hdfCustomerID { get; set; }
+
         public Companies companiesObj { get; set; }
         public Customer customerObj { get; set; }
         public PaymentTerms paymentTermsObj { get; set; }

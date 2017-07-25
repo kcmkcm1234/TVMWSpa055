@@ -204,6 +204,30 @@ namespace UserInterface.Controllers
             }
         }
         #endregion DeletePayments
+        
+        #region InsertPaymentAdjustment
+
+        [AuthSecurityFilter(ProjectObject = "CustomerPayments", Mode = "W")]
+        [HttpPost]
+        public string InsertPaymentAdjustment(CustomerPaymentsViewModel _custpayObj)
+        {
+            try
+            {               
+               AppUA _appUA = Session["AppUA"] as AppUA;
+               _custpayObj.commonObj = new CommonViewModel();
+               _custpayObj.commonObj.CreatedBy = _appUA.UserName;
+               _custpayObj.commonObj.CreatedDate = _appUA.DateTime; 
+               CustomerPaymentsViewModel CPVM = Mapper.Map<CustomerPayments, CustomerPaymentsViewModel>(_CustPaymentBusiness.InsertPaymentAdjustment(Mapper.Map<CustomerPaymentsViewModel, CustomerPayments>(_custpayObj)));
+               return JsonConvert.SerializeObject(new { Result = "OK", Message = c.InsertSuccess, Records = CPVM });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+
+        #endregion InsertUpdatePayments
 
         #region ButtonStyling
         [HttpGet]
@@ -230,7 +254,7 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.addbtn.Visible = true;
                     ToolboxViewModelObj.addbtn.Text = "Add";
                     ToolboxViewModelObj.addbtn.Title = "Add New";
-                    ToolboxViewModelObj.addbtn.Event = "openNavClick();"; 
+                    ToolboxViewModelObj.addbtn.Event = "openNavClick();";
 
                     ToolboxViewModelObj.deletebtn.Visible = true;
                     ToolboxViewModelObj.deletebtn.Text = "Delete";
@@ -280,31 +304,6 @@ namespace UserInterface.Controllers
         }
 
         #endregion
-
-        #region InsertPaymentAdjustment
-
-        [AuthSecurityFilter(ProjectObject = "CustomerPayments", Mode = "W")]
-        [HttpPost]
-        public string InsertPaymentAdjustment(CustomerPaymentsViewModel _custpayObj)
-        {
-            try
-            {               
-               AppUA _appUA = Session["AppUA"] as AppUA;
-               _custpayObj.commonObj = new CommonViewModel();
-               _custpayObj.commonObj.CreatedBy = _appUA.UserName;
-               _custpayObj.commonObj.CreatedDate = _appUA.DateTime; 
-               CustomerPaymentsViewModel CPVM = Mapper.Map<CustomerPayments, CustomerPaymentsViewModel>(_CustPaymentBusiness.InsertPaymentAdjustment(Mapper.Map<CustomerPaymentsViewModel, CustomerPayments>(_custpayObj)));
-               return JsonConvert.SerializeObject(new { Result = "OK", Message = c.InsertSuccess, Records = CPVM });
-            }
-            catch (Exception ex)
-            {
-                AppConstMessage cm = c.GetMessage(ex.Message);
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
-            }
-        }
-
-        #endregion InsertUpdatePayments
-
 
     }
 }
