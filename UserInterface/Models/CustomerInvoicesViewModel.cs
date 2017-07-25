@@ -26,6 +26,7 @@ namespace UserInterface.Models
         [MaxLength(20)]
         public String InvoiceNo { get; set; }
 
+        public string hdfCustomerID { get; set; }
         public CompaniesViewModel companiesObj { get; set; }
         public CustomerViewModel customerObj { get; set; }        
         public TaxTypesViewModel TaxTypeObj { get; set; }

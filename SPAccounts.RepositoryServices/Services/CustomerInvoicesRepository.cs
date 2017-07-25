@@ -281,7 +281,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = _customerInvoicesObj.ID;
                         cmd.Parameters.Add("@OriginCompanyCode", SqlDbType.VarChar, 10).Value = _customerInvoicesObj.companiesObj.Code;
                         cmd.Parameters.Add("@InvoiceNo", SqlDbType.VarChar, 10).Value = _customerInvoicesObj.InvoiceNo;
-                        cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = _customerInvoicesObj.customerObj.ID;
+                        cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = Guid.Parse(_customerInvoicesObj.hdfCustomerID);
                         cmd.Parameters.Add("@PaymentTerm", SqlDbType.VarChar, 10).Value = _customerInvoicesObj.paymentTermsObj.Code;
                         cmd.Parameters.Add("@InvoiceDate", SqlDbType.DateTime).Value = _customerInvoicesObj.InvoiceDateFormatted;
                         cmd.Parameters.Add("@PaymentDueDate", SqlDbType.DateTime).Value = _customerInvoicesObj.PaymentDueDateFormatted;
@@ -431,6 +431,48 @@ namespace SPAccounts.RepositoryServices.Services
             }
 
             return CIList;
+        }
+
+        public object DeleteInvoices(Guid ID, string UserName)
+        {
+
+            AppConst Cobj = new AppConst();
+            try
+            {
+                SqlParameter outputStatus = null;
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[DeleteInvoices]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = ID;
+                        cmd.Parameters.Add("@Username", SqlDbType.NVarChar, 20).Value = UserName;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        throw new Exception(Cobj.InsertFailure);
+                    default:
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return new { Message = Cobj.DeleteSuccess };
         }
     }
 }

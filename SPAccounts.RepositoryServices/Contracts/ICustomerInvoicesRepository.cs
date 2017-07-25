@@ -13,6 +13,6 @@ namespace SPAccounts.RepositoryServices.Contracts
         CustomerInvoice UpdateInvoice(CustomerInvoice _customerInvoicesObj, AppUA ua);
         List<CustomerInvoice> GetOutStandingInvoices(Guid PaymentID, Guid CustID);
         CustomerInvoice GetCustomerAdvances(string ID);
-
+        object DeleteInvoices(Guid PaymentID, string UserName);
     }
 }

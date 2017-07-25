@@ -150,6 +150,30 @@ $(document).ready(function () {
     }
 });
 
+function DeleteInvoices()
+{ 
+    $('#btnFormDelete').trigger('click'); 
+}
+
+function DeleteSuccess(data, status) {
+    var JsonResult = JSON.parse(data)
+    switch (JsonResult.Result) {
+        case "OK":
+            AddNew();
+            List();
+            notyAlert('success', JsonResult.Message);
+            break;
+        case "Error":
+            notyAlert('error', JsonResult.Message);
+            break;
+        case "ERROR":
+            notyAlert('error', JsonResult.Message);
+            break;
+        default:
+            break;
+    }
+}
+
 function SaveSuccess(data, status) {
     debugger;
     var JsonResult = JSON.parse(data)
@@ -413,6 +437,7 @@ function Edit(Obj) {
     $('#CustomerInvoiceForm')[0].reset();
     var rowData = DataTables.CustInvTable.row($(Obj).parents('tr')).data();
     $('#ID').val(rowData.ID);
+    $('#deleteId').val(rowData.ID);
     PaintInvoiceDetails();
     openNav();
 }
@@ -424,11 +449,14 @@ function AddNew()
     $('#lblbalalnceAmt').text("₹ 0.00");
     $('#ID').val('');
     $('#lblInvoiceNo').text("New Invoice");
+    $('#ddlCustomer').prop('disabled', false);
+    ChangeButtonPatchView('CustomerInvoices', 'btnPatchAdd', 'Add');
     openNav();
 }
 function PaintInvoiceDetails()
 {
     debugger;
+    ChangeButtonPatchView('CustomerInvoices', 'btnPatchAdd', 'Edit');
     var InvoiceID = $('#ID').val();
     var CustomerInvoicesViewModel = GetCustomerInvoiceDetails(InvoiceID);
     $('#lblInvoiceNo').text(CustomerInvoicesViewModel.InvoiceNo);
@@ -436,6 +464,8 @@ function PaintInvoiceDetails()
     $('#txtInvDate').val(CustomerInvoicesViewModel.InvoiceDateFormatted);
     $('#ddlCompany').val(CustomerInvoicesViewModel.companiesObj.Code);
     $('#ddlCustomer').val(CustomerInvoicesViewModel.customerObj.ID);
+    $('#hdfCustomerID').val(CustomerInvoicesViewModel.customerObj.ID);
+    $('#ddlCustomer').prop('disabled', true);
     $('#txtBillingAddress').val(CustomerInvoicesViewModel.BillingAddress);
     $('#ddlPaymentTerm').val(CustomerInvoicesViewModel.paymentTermsObj.Code);
     $('#txtPayDueDate').val(CustomerInvoicesViewModel.PaymentDueDateFormatted);
