@@ -177,6 +177,7 @@
                         <div class="form-group col-md-6" id="depositTo" style="visibility:hidden">
                             <div class="col-md-12">
                                 @Html.LabelFor(model => model.BankCode, htmlAttributes: new { @class = "control-label " })
+                                @Html.HiddenFor(model => model.DepWithdID, htmlAttributes: new { @class = "" })
                             </div>
                             <div class="col-md-12">
                                 <div class="col-md-10">

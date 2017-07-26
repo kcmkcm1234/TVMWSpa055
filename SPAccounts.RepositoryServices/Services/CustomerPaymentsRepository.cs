@@ -108,6 +108,7 @@ namespace SPAccounts.RepositoryServices.Services
                                     CustPaymentsObj.TotalRecdAmt = (sdr["AmountReceived"].ToString() != "" ? Decimal.Parse(sdr["AmountReceived"].ToString()) : CustPaymentsObj.TotalRecdAmt);
                                     CustPaymentsObj.AdvanceAmount = (sdr["AdvanceAmount"].ToString() != "" ? Decimal.Parse(sdr["AdvanceAmount"].ToString()) : CustPaymentsObj.AdvanceAmount);
                                     CustPaymentsObj.BankCode = (sdr["BankCode"].ToString() != "" ? sdr["BankCode"].ToString() : CustPaymentsObj.BankCode);
+                                    CustPaymentsObj.DepWithdID = (sdr["DepWithdID"].ToString() != "" ? Guid.Parse(sdr["DepWithdID"].ToString()) : CustPaymentsObj.DepWithdID);
                                     CustPaymentsObj.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : CustPaymentsObj.GeneralNotes);
                                     CustPaymentsObj.customerObj = new Customer();
                                     CustPaymentsObj.customerObj.ID = (sdr["CustomerID"].ToString() != "" ? Guid.Parse(sdr["CustomerID"].ToString()) : CustPaymentsObj.customerObj.ID);
@@ -206,9 +207,9 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@PaymentDate", SqlDbType.DateTime).Value = _custPayObj.PaymentDate;
                         cmd.Parameters.Add("@PaymentMode", SqlDbType.VarChar, 10).Value = _custPayObj.PaymentMode;
                         cmd.Parameters.Add("@BankCode", SqlDbType.VarChar, 10).Value = _custPayObj.BankCode;
+                        cmd.Parameters.Add("@DepWithdID", SqlDbType.UniqueIdentifier).Value = _custPayObj.DepWithdID;
                         cmd.Parameters.Add("@PaymentRef", SqlDbType.VarChar, 10).Value = _custPayObj.PaymentRef;
                         cmd.Parameters.Add("@RecdToComanyCode", SqlDbType.VarChar, 10).Value = _custPayObj.RecdToComanyCode;
-
                         cmd.Parameters.Add("@TotalRecdAmt", SqlDbType.Decimal).Value = _custPayObj.TotalRecdAmt;
                         cmd.Parameters.Add("@AdvanceAmount", SqlDbType.Decimal).Value = _custPayObj.AdvanceAmount;
                         cmd.Parameters.Add("@DetailXml", SqlDbType.NVarChar, -1).Value = _custPayObj.DetailXml;

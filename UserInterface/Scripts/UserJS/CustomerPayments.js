@@ -156,6 +156,7 @@ function GetCustomerPaymentsByID(ID) {
     $('#lblheader').text('Edit Payment');
     ChangeButtonPatchView('CustomerPayments', 'btnPatchAdd', 'Edit');
     var thisitem = GetCustomerPayments(ID)
+    debugger;
     $('#ID').val(ID);
     $('#deleteId').val(ID); 
     $('#Customer').val(thisitem.customerObj.ID);
@@ -166,11 +167,13 @@ function GetCustomerPaymentsByID(ID) {
     $('#RecdToComanyCode').val(thisitem.RecdToComanyCode);
     $('#PaymentMode').val(thisitem.PaymentMode);
     $('#BankCode').val(thisitem.BankCode);
+    $('#DepWithdID').val(thisitem.DepWithdID);
     $('#Notes').val(thisitem.GeneralNotes);
     $('#TotalRecdAmt').val(roundoff(thisitem.TotalRecdAmt));
     $('#lblTotalRecdAmt').text(roundoff(thisitem.TotalRecdAmt));
     $('#paidAmt').text(roundoff(thisitem.TotalRecdAmt));
 
+    PaymentModeChanged();
     //BIND OUTSTANDING INVOICE TABLE USING CUSTOMER ID AND PAYMENT HEADER 
     BindOutstanding();
     //edit outstanding table Payment text binding
@@ -198,22 +201,33 @@ function openNavClick() {
 
 function savePayments() {
     debugger;
-    var SelectedRows = DataTables.OutStandingInvoices.rows(".selected").data();
-    if ((SelectedRows) && (SelectedRows.length > 0))
-    {
-        var ar = [];
-      
-        for (var r = 0; r < SelectedRows.length; r++) {
-            var PaymentDetailViewModel = new Object();
-            PaymentDetailViewModel.InvoiceID = SelectedRows[r].ID;//Invoice ID
-            PaymentDetailViewModel.ID = SelectedRows[r].CustPaymentObj.CustPaymentDetailObj.ID//Detail ID
-            PaymentDetailViewModel.PaidAmount = SelectedRows[r].CustPaymentObj.CustPaymentDetailObj.PaidAmount;
-            ar.push(PaymentDetailViewModel);
-        }    
-        $('#paymentDetailhdf').val(JSON.stringify(ar)); 
+  
+  
+
+    if ($('#PaymentMode').val() == "ONLINE" &&  $("#BankCode").val()=="" ) {
+
+        notyAlert('error', 'Please Select Bank');
     }
-    $('#AdvanceAmount').val($('#lblCredit').text());
-    $('#btnSave').trigger('click');
+
+    else if ($('#TotalRecdAmt').val()==0) {
+        notyAlert('error', 'Please Enter Amount');
+    }
+    else {
+        var SelectedRows = DataTables.OutStandingInvoices.rows(".selected").data();
+        if ((SelectedRows) && (SelectedRows.length > 0)) {
+            var ar = [];
+            for (var r = 0; r < SelectedRows.length; r++) {
+                var PaymentDetailViewModel = new Object();
+                PaymentDetailViewModel.InvoiceID = SelectedRows[r].ID;//Invoice ID
+                PaymentDetailViewModel.ID = SelectedRows[r].CustPaymentObj.CustPaymentDetailObj.ID//Detail ID
+                PaymentDetailViewModel.PaidAmount = SelectedRows[r].CustPaymentObj.CustPaymentDetailObj.PaidAmount;
+                ar.push(PaymentDetailViewModel);
+            }
+            $('#paymentDetailhdf').val(JSON.stringify(ar));
+        }
+        $('#AdvanceAmount').val($('#lblCredit').text());
+        $('#btnSave').trigger('click');
+    }
 }
 
 function DeletePayments() {
@@ -280,9 +294,10 @@ function BindCustomerPaymentsHeader()
 function PaymentModeChanged() {
     if ($('#PaymentMode').val()=="ONLINE")
         $("#depositTo").css("visibility", "visible");
-    else
-    $("#depositTo").css("visibility", "hidden");
-
+    else {
+        $("#BankCode").val('');
+        $("#depositTo").css("visibility", "hidden");
+    }
 }
 
 function GetCustomerPayments(ID) {
@@ -339,16 +354,18 @@ function AmountChanged() {
     if ($('#TotalRecdAmt').val() < 0 || $('#TotalRecdAmt').val()=="") {
         $('#TotalRecdAmt').val(0);
     }
-    AmountReceived = parseFloat($('#TotalRecdAmt').val())   
-    $('#TotalRecdAmt').val(roundoff(AmountReceived));
-    $('#lblTotalRecdAmt').text(roundoff(AmountReceived));
-    $('#paidAmt').text(roundoff(AmountReceived));
-      
+
+    AmountReceived = parseFloat($('#TotalRecdAmt').val())
+    if (!isNaN(AmountReceived)) {
+        $('#TotalRecdAmt').val(roundoff(AmountReceived));
+        $('#lblTotalRecdAmt').text(roundoff(AmountReceived));
+        $('#paidAmt').text(roundoff(AmountReceived));
+
         var table = $('#tblOutStandingDetails').DataTable();
         var allData = table.rows().data();
         var RemainingAmount = AmountReceived;
 
-        for (var i = 0; i < allData.length; i++) { 
+        for (var i = 0; i < allData.length; i++) {
             var CustPaymentObj = new Object;
             var CustPaymentDetailObj = new Object;
             CustPaymentObj.CustPaymentDetailObj = CustPaymentDetailObj;
@@ -373,7 +390,7 @@ function AmountChanged() {
         Selectcheckbox();
         $('#lblPaymentApplied').text(roundoff(sum));
         $('#lblCredit').text(roundoff(AmountReceived - sum));
-       
+    }
 }
 
 function PaymentAmountChanged(this_Obj) {

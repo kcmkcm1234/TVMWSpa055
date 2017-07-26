@@ -13,7 +13,6 @@ namespace SPAccounts.RepositoryServices.Services
     {
         AppConst Cobj = new AppConst();
         Settings s = new Settings();
-        int slno = 1;
         private IDatabaseFactory _databaseFactory;
         public OtherIncomeRepository(IDatabaseFactory databaseFactory)
         {
@@ -70,10 +69,10 @@ namespace SPAccounts.RepositoryServices.Services
 
                                         _otherIncomeObj.IncomeDateFormatted = (sdr["IncomeDate"].ToString() != "" ? DateTime.Parse(sdr["IncomeDate"].ToString()).ToString(s.dateformat) : _otherIncomeObj.IncomeDateFormatted);
 
-                                        _otherIncomeObj.slNo = slno;
+                                       
                                     }
                                     otherIncomeList.Add(_otherIncomeObj);
-                                    slno++;
+                                   
                                 }
                             }
                         }
