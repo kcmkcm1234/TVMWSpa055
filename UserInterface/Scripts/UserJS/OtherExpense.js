@@ -23,10 +23,11 @@ $(document).ready(function () {
                { "data": "Description", "defaultContent": "<i>-</i>" },
                { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' },
+               { "data": null, "orderable": false, "defaultContent": '<a data-toggle="tp" data-placement="top" data-delay={"show":2000, "hide":3000} title="Delete" href="#" class="DeleteLink" onclick="Delete(this)"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' },
                { "data": "ID" }
 
              ],
-             columnDefs: [{ "targets": [6], "visible": false, "searchable": false },
+             columnDefs: [{ "targets": [7], "visible": false, "searchable": false },
                   { className: "text-left", "targets": [1, 2] },
              { className: "text-center", "targets": [3, 4, 5, 6] }
 
@@ -107,9 +108,6 @@ function Save() {
     }
 }
 
-function Delete() {
-    notyConfirm('Are you sure to delete?', 'DeleteCustomers()', '', "Yes, delete it!");
-}
 
 function PaymentModeOnchange(curobj)
 {
@@ -249,6 +247,15 @@ function FillOtherExpenseDetails(ID) {
         $("#AccountCode").val(thisItem.AccountCode);
         $("#CompanyCode").val(thisItem.companies.Code);
         $("#paymentMode").val(thisItem.PaymentMode);
+        if (thisItem.PaymentMode != "ONLINE")
+        {
+            $("#BankCode").val("");
+            $("#BankCode").prop('disabled', true);
+        }
+        else
+        {
+            $("#BankCode").prop('disabled', false);
+        }
         $("#EmpID").val(thisItem.employee.ID);
         $("#BankCode").val(thisItem.BankCode);
         $("#ExpenseRef").val(thisItem.ExpenseRef);
@@ -278,9 +285,49 @@ function Edit(currentObj) {
 
 function AddOtherExpense() {
     try {
+        ClearFields();
         $("#AddOtherexpenseModel").modal('show');
     }
     catch (e) {
         notyAlert('error', e.message);
     }
+}
+
+function Delete(currObj) {
+    debugger;
+    var rowData = DataTables.expenseDetailTable.row($(currObj).parents('tr')).data();
+    if ((rowData != null) && (rowData.ID != null)) {
+        notyConfirm('Are you sure to delete?', 'DeleteOtherExpense("' + rowData.ID + '")', '', "Yes, delete it!");
+    }
+
+}
+
+function DeleteOtherExpense(ID) {
+    try {
+       
+        
+        if (ID) {
+            var data = { "ID": ID };
+            var ds = {};
+            ds = GetDataFromServer("OtherExpenses/DeleteOtherExpense/", data);
+            if (ds != '') {
+                ds = JSON.parse(ds);
+            }
+            if (ds.Result == "OK") {
+                notyAlert('success', ds.Message.Message);
+              //  IncomeDateOnchange();
+            }
+            if (ds.Result == "ERROR") {
+                notyAlert('error', ds.Message);
+                return 0;
+            }
+            return 1;
+        }
+
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+        return 0;
+    }
+ 
 }

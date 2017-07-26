@@ -37,7 +37,7 @@ namespace UserInterface.Models
         [Display(Name = "Decription")]
         public string Description { get; set; }
         [Required(ErrorMessage = "Amount required")]
-        [Display(Name = "Bank")]
+        [Display(Name = "Amount")]
         public decimal Amount { get; set; }
 
         [Required(ErrorMessage = "Account Type required")]

@@ -20,9 +20,53 @@ namespace SPAccounts.RepositoryServices.Services
         }
 
         #region DeleteOtherExpense
-        public object DeleteOtherExpense(OtherExpense otherExpense)
+        public object DeleteOtherExpense(Guid ID)
         {
-            throw new NotImplementedException();
+            SqlParameter outputStatus = null;
+            try
+            {
+
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[DeleteOtherExpense]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = ID;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+
+
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+
+                        throw new Exception(Cobj.DeleteFailure);
+
+                    default:
+                        break;
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return new
+            {
+                Status = outputStatus.Value.ToString(),
+                Message = Cobj.DeleteSuccess
+            };
         }
         #endregion DeleteOtherExpense
         #region GetAllOtherExpenses
@@ -193,8 +237,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@ExpneseRef", SqlDbType.VarChar, 20).Value = otherExpense.ExpenseRef;
                         cmd.Parameters.Add("@Description", SqlDbType.NVarChar, -1).Value = otherExpense.Description;
                         cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = otherExpense.Amount;
-                        cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = otherExpense.commonObj.CreatedBy;
-                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = otherExpense.commonObj.CreatedDate;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = otherExpense.commonObj.UpdatedBy;
+                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = otherExpense.commonObj.UpdatedDate;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                        

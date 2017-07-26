@@ -190,7 +190,28 @@ namespace UserInterface.Controllers
             }
         }
         #endregion InsertUpdateOtherExpense
+        #region DeleteOtherExpense
+        
+        public string DeleteOtherExpense(string ID)
+        {
 
+            try
+            {
+                object result = null;
+
+                result = _otherExpenseBusiness.DeleteOtherExpense(Guid.Parse(ID));
+                return JsonConvert.SerializeObject(new { Result = "OK", Message = result });
+
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+
+
+        }
+        #endregion DeleteOtherExpense
 
         #region ButtonStyling
         [HttpGet]
