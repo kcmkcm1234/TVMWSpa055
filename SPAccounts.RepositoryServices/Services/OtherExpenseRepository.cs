@@ -167,7 +167,7 @@ namespace SPAccounts.RepositoryServices.Services
         {
             try
             {
-                SqlParameter outputStatus, outputID = null;
+                SqlParameter outputStatus=null;
                 using (SqlConnection con = _databaseFactory.GetDBConnection())
                 {
                     using (SqlCommand cmd = new SqlCommand())
@@ -177,8 +177,9 @@ namespace SPAccounts.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "";
+                        cmd.CommandText = "[Accounts].[UpdateOtherExpense]";
                         cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = otherExpense.ID;
                         cmd.Parameters.Add("@ExpenseDate", SqlDbType.DateTime).Value = otherExpense.ExpenseDate;
                         cmd.Parameters.Add("@AccountCode", SqlDbType.VarChar, 10).Value = otherExpense.AccountCode;
                         cmd.Parameters.Add("@PaidFromComanyCode", SqlDbType.VarChar, 10).Value = otherExpense.PaidFromCompanyCode;
@@ -196,8 +197,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = otherExpense.commonObj.CreatedDate;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
-                        outputID = cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier);
-                        outputID.Direction = ParameterDirection.Output;
+                       
                         cmd.ExecuteNonQuery();
 
 
@@ -208,11 +208,9 @@ namespace SPAccounts.RepositoryServices.Services
                 {
                     case "0":
                         AppConst Cobj = new AppConst();
-                        otherExpense.ID = Guid.Empty;
                         throw new Exception(Cobj.InsertFailure);
                     case "1":
-                        otherExpense.ID = Guid.Parse(outputID.Value.ToString());
-                        break;
+                         break;
                     default:
                         break;
                 }

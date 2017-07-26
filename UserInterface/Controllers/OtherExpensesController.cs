@@ -162,13 +162,11 @@ namespace UserInterface.Controllers
                     {
                         //INSERT
                         case true:
-                           
                             otherExpenseVM = Mapper.Map<OtherExpense, OtherExpenseViewModel>(_otherExpenseBusiness.InsertOtherExpense(Mapper.Map<OtherExpenseViewModel, OtherExpense>(otherExpenseViewModel)));
                             return JsonConvert.SerializeObject(new { Result = "OK", Record = otherExpenseVM });
                         default:
-
                             //Getting UA
-                            //otherExpenseVM = Mapper.Map<OtherExpense, OtherExpenseViewModel>(_otherExpenseBusiness..UpdateProduct(Mapper.Map<ProductViewModel, Product>(productObj)));
+                            otherExpenseVM = Mapper.Map<OtherExpense, OtherExpenseViewModel>(_otherExpenseBusiness.UpdateOtherExpense(Mapper.Map<OtherExpenseViewModel, OtherExpense>(otherExpenseViewModel)));
                             return JsonConvert.SerializeObject(new { Result = "OK", Record = otherExpenseVM });
                     }
                 }

@@ -111,7 +111,41 @@ function Delete() {
     notyConfirm('Are you sure to delete?', 'DeleteCustomers()', '', "Yes, delete it!");
 }
 
+function PaymentModeOnchange(curobj)
+{
+    if (curobj.value == "ONLINE") {
+        $("#BankCode").prop('disabled', false);
+    }
+    else {
+        $("#BankCode").val("");
+        $("#BankCode").prop('disabled', true);
+    }
+    $('span[data-valmsg-for="BankCode"]').empty();
+}
+function BankOnchange()
+{
+    $('span[data-valmsg-for="BankCode"]').empty();
+}
+function Validation()
+{
+    var fl = true;
+    var pm = $("#paymentMode").val();
+    if((pm)&&(pm=="ONLINE"))
+    {
+        if($("#BankCode").val()=="")
+        {
+            fl = false;
+           
+            $('span[data-valmsg-for="BankCode"]').append('<span for="EmpID" class="">BankCode required</span>')
+        }
+        else
+        {
+            $('span[data-valmsg-for="BankCode"]').empty();
+        }
 
+    }
+    return fl;
+}
 
 function ClearFields() {
     $("#ID").val(emptyGUID);
