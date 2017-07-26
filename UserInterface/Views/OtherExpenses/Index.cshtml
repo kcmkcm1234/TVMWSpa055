@@ -128,6 +128,7 @@
                 <div class="container-fluid">
                     <div class="col-md-10">
 
+                        
 
                         @using (Ajax.BeginForm("InsertUpdateOtherExpense", "OtherExpenses", new AjaxOptions { HttpMethod = "POST",OnBegin="Validation", OnSuccess = "SaveSuccess", OnFailure = "SaveFailure", AllowCache = false, LoadingElementId = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", id = "OtherExpenseModal", autocomplete = "off" }))
 

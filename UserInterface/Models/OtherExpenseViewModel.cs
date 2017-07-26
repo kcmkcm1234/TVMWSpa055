@@ -34,7 +34,10 @@ namespace UserInterface.Models
         public string BankCode { get; set; }
         public List<SelectListItem> bankList { get; set; }
         public string ExpenseRef { get; set; }
+        [Display(Name = "Decription")]
         public string Description { get; set; }
+        [Required(ErrorMessage = "Amount required")]
+        [Display(Name = "Bank")]
         public decimal Amount { get; set; }
 
         [Required(ErrorMessage = "Account Type required")]
