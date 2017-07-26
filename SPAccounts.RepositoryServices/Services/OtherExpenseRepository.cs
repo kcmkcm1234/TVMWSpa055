@@ -97,6 +97,11 @@ namespace SPAccounts.RepositoryServices.Services
                                     {
                                         _otherExpense.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : _otherExpense.ID);
                                         _otherExpense.ExpenseDate = (sdr["ExpenseDate"].ToString() != "" ? DateTime.Parse(sdr["ExpenseDate"].ToString()).ToString(settings.dateformat) : _otherExpense.ExpenseDate);
+                                        _otherExpense.chartOfAccounts = new ChartOfAccounts()
+                                        {
+                                            Code= (sdr["AccountCode"].ToString() != "" ? sdr["AccountCode"].ToString() : string.Empty),
+                                            TypeDesc= (sdr["AccountTypeDescription"].ToString() != "" ? sdr["AccountTypeDescription"].ToString() : string.Empty)
+                                        };
                                         _otherExpense.AccountCode = (sdr["AccountCode"].ToString() != "" ? sdr["AccountCode"].ToString() : _otherExpense.AccountCode);
                                         _otherExpense.PaidFromCompanyCode = (sdr["PaidFromComanyCode"].ToString() != "" ? (sdr["PaidFromComanyCode"].ToString()) : _otherExpense.PaidFromCompanyCode);
                                         _otherExpense.companies = new Companies()

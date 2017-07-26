@@ -109,11 +109,20 @@ namespace UserInterface.Controllers
 
         #region GetAllOtherExpenses
         [HttpGet]
-        public string GetAllOtherExpenses()
+        public string GetAllOtherExpenses(string ExpenseDate, string DefaultDate)
         {
             try
             {
                 List<OtherExpenseViewModel> otherExpenseViewModelList = Mapper.Map<List<OtherExpense>, List<OtherExpenseViewModel>>(_otherExpenseBusiness.GetAllOtherExpenses());
+                if(!string.IsNullOrEmpty(ExpenseDate))
+                {
+                    otherExpenseViewModelList = otherExpenseViewModelList != null ? otherExpenseViewModelList.Where(o => o.ExpenseDate == ExpenseDate).ToList():null;
+                }
+                if(!string.IsNullOrEmpty(DefaultDate))
+                {
+                    ExpenseDate = DateTime.Now.AddDays(-int.Parse(DefaultDate)).ToString("dd-MMM-yyyy");
+                    otherExpenseViewModelList = otherExpenseViewModelList != null ? otherExpenseViewModelList.Where(o => o.ExpenseDate == ExpenseDate).ToList() : null;
+                }
                 string totamt = _commonBusiness.ConvertCurrency(otherExpenseViewModelList != null ? otherExpenseViewModelList.Sum(o => o.Amount):decimal.Zero);
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = otherExpenseViewModelList, TotalAmount= totamt});
             }
@@ -212,7 +221,7 @@ namespace UserInterface.Controllers
 
         }
         #endregion DeleteOtherExpense
-
+     
         #region ButtonStyling
         [HttpGet]
         public ActionResult ChangeButtonStyle(string ActionType)

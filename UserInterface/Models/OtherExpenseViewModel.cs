@@ -13,9 +13,11 @@ namespace UserInterface.Models
         [Display(Name = "Date")]
         public string ExpenseDate { get; set; }
         public Guid ID { get; set; }
-       
-        public string CRNDateFormatted { get; set; }
 
+        [Display(Name = "Expense Date")]
+        public string ExpenseDateFormatted { get; set; }
+        public string DefaultDate { get; set; }
+        
 
         [Required(ErrorMessage = "Company required")]
         [Display(Name = "Company")]
@@ -43,6 +45,7 @@ namespace UserInterface.Models
         [Required(ErrorMessage = "Account Type required")]
         [Display(Name = "Account")]
         public string AccountCode { get; set; }
+        public ChartOfAccountsViewModel chartOfAccounts { get; set; }
         public List<SelectListItem> AccountTypes { get; set; }
 
         [Required(ErrorMessage = "Employee required")]

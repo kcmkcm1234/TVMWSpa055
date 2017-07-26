@@ -6,7 +6,7 @@ $(document).ready(function () {
         DataTables.expenseDetailTable = $('#expenseDetailTable').DataTable(
          {
 
-             dom: '<"pull-right"f>rt<"bottom"p><"clear">',
+             dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
              order: [],
              searching: true,
              paging: true,
@@ -18,18 +18,20 @@ $(document).ready(function () {
              },
              columns: [
                { "data": null },
-               { "data": "AccountCode", "defaultContent": "<i>-</i>" },
+               { "data": "chartOfAccounts.TypeDesc", "defaultContent": "<i>-</i>" },
                { "data": "PaymentMode", "defaultContent": "<i>-</i>" },
                { "data": "Description", "defaultContent": "<i>-</i>" },
                { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+                { "data": "ExpenseDate", "defaultContent": "<i>-</i>" },
                { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' },
                { "data": null, "orderable": false, "defaultContent": '<a data-toggle="tp" data-placement="top" data-delay={"show":2000, "hide":3000} title="Delete" href="#" class="DeleteLink" onclick="Delete(this)"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' },
                { "data": "ID" }
 
              ],
-             columnDefs: [{ "targets": [7], "visible": false, "searchable": false },
-                  { className: "text-left", "targets": [1, 2] },
-             { className: "text-center", "targets": [3, 4, 5, 6] }
+             columnDefs: [{ "targets": [8], "visible": false, "searchable": false },
+                  { className: "text-left", "targets": [1, 2,3] },
+             { className: "text-right", "targets": [4] },
+             { className: "text-center", "targets": [5,6,7] }
 
              ]
          });
@@ -49,54 +51,34 @@ $(document).ready(function () {
 
 
 
-function GetAllExpenseDetails() {
+function GetAllExpenseDetails(expDate, DefaultDate) {
     try {
-
-        var data = {};
+      
+        if (expDate == undefined && DefaultDate == undefined) {
+            DefaultDate = $("#DefaultDate").val();
+        }
+        var data = { "ExpenseDate": expDate, "DefaultDate": DefaultDate };
         var ds = {};
         ds = GetDataFromServer("OtherExpenses/GetAllOtherExpenses/", data);
         if (ds != '') {
             ds = JSON.parse(ds);
+            $("#TotalAmt").text("");
+            $("#TotalAmt").text(ds.TotalAmount);
         }
         if (ds.Result == "OK") {
-            $("#creditdAmt").text(ds.TotalAmount);
-           
             return ds.Records;
         }
         if (ds.Result == "ERROR") {
-            notyAlert('error', ds.Message);
-
+            alert(ds.Message);
         }
     }
     catch (e) {
         notyAlert('error', e.message);
     }
+   
 }
 
-//function openNav(id) {
-//    var left = $(".main-sidebar").width();
-//    var total = $(document).width();
 
-//    $('.main').fadeOut();
-//    document.getElementById("myNav").style.left = "3%";
-//    $('#main').fadeOut();
-
-//    if ($("body").hasClass("sidebar-collapse")) {
-
-//    }
-//    else {
-//        $(".sidebar-toggle").trigger("click");
-//    }
-//    if (id != "0") {
-//        ClearFields();
-//    }
-//}
-
-function goBack() {
-    ClearFields();
-    closeNav();
-    // BindAllCutomers();
-}
 
 function Save() {
     try {
@@ -162,7 +144,7 @@ function ClearFields() {
         validator.settings.success($(this));
     });
     validator.resetForm();
-    //ChangeButtonPatchView("Customers", "btnPatchAdd", "Add"); //ControllerName,id of the container div,Name of the action
+   
 }
 
 
@@ -177,20 +159,14 @@ function BindAllExpenseDetails() {
 }
 
 function SaveSuccess(data, status) {
-    debugger;
+   
     var JsonResult = JSON.parse(data)
     switch (JsonResult.Result) {
         case "OK":
             BindAllExpenseDetails();
             notyAlert('success', JsonResult.Message);
             $("#ID").val(JsonResult.Record.ID);
-
-            //if ($("#ID").val() != "") {
-            //    FillCustomerDetails($("#ID").val());
-            //}
-            //else {
-            //    FillCustomerDetails(JsonResult.Records.ID);
-            //}
+                      
             break;
         case "ERROR":
             notyAlert('error', JsonResult.Message);
@@ -206,9 +182,10 @@ function Reset() {
         ClearFields();
     }
     else {
-        FillCustomerDetails($("#ID").val());
+      
+        FillOtherExpenseDetails($("#ID").val())
     }
-    ResetForm();
+  
 }
 
 function GetExpenseDetailsByID(ID) {
@@ -234,10 +211,10 @@ function GetExpenseDetailsByID(ID) {
     }
 }
 
-//---------------------------------------Fill Customer Details--------------------------------------------------//
+//---------------------------------------Fill Expense Details--------------------------------------------------//
 function FillOtherExpenseDetails(ID) {
-    debugger;
-    //ChangeButtonPatchView("Customers", "btnPatchAdd", "Edit"); //ControllerName,id of the container div,Name of the action
+  
+   
     var thisItem = GetExpenseDetailsByID(ID); //Binding Data
     
     if (thisItem)
@@ -267,12 +244,9 @@ function FillOtherExpenseDetails(ID) {
    
 }
 
-//---------------------------------------Edit Bank--------------------------------------------------//
+//---------------------------------------Edit Other expense--------------------------------------------------//
 function Edit(currentObj) {
-    //Tab Change on edit click
-    debugger;
-    // openNav("0");
-    //ResetForm();
+    
 
     var rowData = DataTables.expenseDetailTable.row($(currentObj).parents('tr')).data();
     if ((rowData != null) && (rowData.ID != null)) {
@@ -294,7 +268,7 @@ function AddOtherExpense() {
 }
 
 function Delete(currObj) {
-    debugger;
+    
     var rowData = DataTables.expenseDetailTable.row($(currObj).parents('tr')).data();
     if ((rowData != null) && (rowData.ID != null)) {
         notyConfirm('Are you sure to delete?', 'DeleteOtherExpense("' + rowData.ID + '")', '', "Yes, delete it!");
@@ -315,7 +289,7 @@ function DeleteOtherExpense(ID) {
             }
             if (ds.Result == "OK") {
                 notyAlert('success', ds.Message.Message);
-              //  IncomeDateOnchange();
+                  ExpenseDateOnchange();
             }
             if (ds.Result == "ERROR") {
                 notyAlert('error', ds.Message);
@@ -330,4 +304,45 @@ function DeleteOtherExpense(ID) {
         return 0;
     }
  
+}
+
+function ExpenseDateOnchange()
+{
+    if (DataTables.expenseDetailTable != undefined)
+    {
+      $("#DefaultDate").val("");
+      var expDate = $("#ExpDate").val();
+      BindAllOtherExpense(expDate, "")
+    }
+    else {
+        //GetAllExpenseDetails();
+    }
+}
+
+function BindAllOtherExpense(expDate, DefaultDate) {
+    try {
+       
+        DataTables.expenseDetailTable.clear().rows.add(GetAllExpenseDetails(expDate, DefaultDate)).draw(false);
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
+
+
+
+
+
+function ExpenseDefaultDateOnchange()
+{
+    $("#ExpDate").val("");
+    var ExpenseDefaultDate = $("#DefaultDate").val();
+    if (DataTables.expenseDetailTable != undefined) {
+       
+        BindAllOtherExpense("", ExpenseDefaultDate);
+    }
+    else {
+      
+    }
 }
