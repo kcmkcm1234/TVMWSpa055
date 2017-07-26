@@ -11,13 +11,91 @@ namespace SPAccounts.BusinessService.Services
     public class OtherExpenseBusiness: IOtherExpenseBusiness
     {
         IOtherExpenseRepository _otherExpenseRepository;
-        public OtherExpenseBusiness(IOtherExpenseRepository otherExpenseRepository)
+        IChartOfAccountsBusiness _chartOfAccountsBusiness;
+        IBankBusiness _bankBusiness;
+        ICompaniesBusiness _companiesBusiness;
+        IPaymentModesBusiness _paymentModeBusiness;
+        IEmployeeRepository _employeeRepository;
+        public OtherExpenseBusiness(IOtherExpenseRepository otherExpenseRepository, IChartOfAccountsBusiness chartOfAccountsBusiness, IBankBusiness bankBusiness, ICompaniesBusiness companiesBusiness, IPaymentModesBusiness paymentModeBusiness, IEmployeeRepository employeeRepository)
         {
             _otherExpenseRepository = otherExpenseRepository;
+            _chartOfAccountsBusiness = chartOfAccountsBusiness;
+            _bankBusiness = bankBusiness;
+            _companiesBusiness = companiesBusiness;
+            _paymentModeBusiness = paymentModeBusiness;
+            _employeeRepository = employeeRepository;
         }
 
+        public List<ChartOfAccounts> GetAllAccountTypes(string accountType)
+        {
+            List<ChartOfAccounts> accountsList = null;
+            try
+            {
+                accountsList = _chartOfAccountsBusiness.GetChartOfAccountsByType(accountType);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return accountsList;
+        }
 
-     
+        public List<Companies> GetAllCompanies()
+        {
+            List<Companies> companyList = null;
+            try
+            {
+                companyList = _companiesBusiness.GetAllCompanies();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return companyList;
+        }
+
+        public List<PaymentModes> GetAllPaymentModes()
+        {
+            List<PaymentModes> paymentModeList = null;
+            try
+            {
+                paymentModeList = _paymentModeBusiness.GetAllPaymentModes();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return paymentModeList;
+        }
+
+        public List<Bank> GetAllBankes()
+        {
+            List<Bank> bankList = null;
+            try
+            {
+                bankList = _bankBusiness.GetAllBanks();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return bankList;
+        }
+
+        public List<Employee> GetAllEmployees()
+        {
+            List<Employee> employeeList = null;
+            try
+            {
+                employeeList = _employeeRepository.GetAllEmployees();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return employeeList;
+        }
+
         public List<OtherExpense> GetAllOtherExpenses()
         {
             List<OtherExpense> otherExpenseList = null;
@@ -31,5 +109,17 @@ namespace SPAccounts.BusinessService.Services
             }
             return otherExpenseList;
         }
+
+        public OtherExpense InsertOtherExpense(OtherExpense otherExpense)
+        {
+            try
+            {
+                return  _otherExpenseRepository.InsertOtherExpense(otherExpense);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+         }
     }
 }

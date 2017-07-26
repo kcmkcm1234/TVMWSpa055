@@ -138,6 +138,8 @@
                                 <div class="col-md-12">
                                     @Html.LabelFor(model => model.InvoiceNo, htmlAttributes: new { @class = "control-label" })
                                     @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "" })
+                                    @Html.HiddenFor(model => model.hdfCustomerID, htmlAttributes: new { @class = "" })
+
 
                                 </div>
                                 <div class="col-md-12">
@@ -445,6 +447,16 @@
                 </div>
         </div>
                     
+    </div>
+    <div id="ExpensesDelete" hidden="hidden">
+        @using (Ajax.BeginForm("DeleteInvoices", "CustomerInvoices", new AjaxOptions { HttpMethod = "POST", OnSuccess = "DeleteSuccess", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form" }))
+            {
+            @Html.AntiForgeryToken()
+            <div class="form-actions no-color">
+                @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "control-label col-md-4", Value = "0", id = "deleteId" })
+                <input id="btnFormDelete" type="submit" value="Delete" class="btn btn-default" />
+            </div>
+        }
     </div>
     <div class="preloader" id="prelaoder">
        <div class="col-md-12">
