@@ -19,9 +19,9 @@ namespace SPAccounts.BusinessService.Services
             _commonBusiness = commonBusiness;
         }
 
-        public List<OtherIncome> GetAllOtherIncome(string IncomeDate)
+        public List<OtherIncome> GetAllOtherIncome(string IncomeDate,string DefaultDate)
         {
-            return _iOtherIncomeRepository.GetAllOtherIncome(IncomeDate);
+            return _iOtherIncomeRepository.GetAllOtherIncome(IncomeDate,DefaultDate);
         }
 
         public OtherIncome GetOtherIncomeDetails(Guid ID)

@@ -37,6 +37,9 @@ namespace UserInterface.Models
         [Display(Name = "Income Date")]
         [Required(ErrorMessage = "Please Select Income Date")]
         public string IncomeDateFormatted { get; set; }
+        public decimal TotalAmt { get; set; }
+        [Display(Name ="Default Date")]
+        public string DefaultDate { get; set; }
         public List<SelectListItem> accountCodeList { get; set; }
         public List<SelectListItem> bankList { get; set; }
         public List<SelectListItem> companiesList { get; set; }

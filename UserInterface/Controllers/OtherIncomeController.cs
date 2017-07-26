@@ -98,13 +98,14 @@ namespace UserInterface.Controllers
 
         #region GetAllOtherIncome
         [HttpGet]
-        public string GetAllOtherIncome(string IncomeDate)
+        public string GetAllOtherIncome(string IncomeDate,string DefaultDate)
         {
             try
             {
 
-                List<OtherIncomeViewModel> otherIncomeList = Mapper.Map<List<OtherIncome>, List<OtherIncomeViewModel>>(_otherIncomeBusiness.GetAllOtherIncome(IncomeDate));
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = otherIncomeList });
+                List<OtherIncomeViewModel> otherIncomeList = Mapper.Map<List<OtherIncome>, List<OtherIncomeViewModel>>(_otherIncomeBusiness.GetAllOtherIncome(IncomeDate,DefaultDate));
+                var totalAmt= otherIncomeList.Sum(amt => amt.Amount);
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = otherIncomeList,TotalAmt=totalAmt });
             }
             catch (Exception ex)
             {
