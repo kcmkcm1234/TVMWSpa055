@@ -11,7 +11,7 @@ $(document).ready(function () {
              searching: true,
              paging: true,
              data: GetAllOtherIncome(),
-             pageLength: 15,
+             pageLength: 10,
              language: {
                  search: "_INPUT_",
                  searchPlaceholder: "Search"
@@ -35,10 +35,10 @@ $(document).ready(function () {
              ]
          });
 
-        //$('#CustomerCreditNoteTable tbody').on('dblclick', 'td', function () {
+        $('#OtherIncomeTable tbody').on('dblclick', 'td', function () {
 
-        //    Edit(this);
-        //});
+            Edit(this);
+        });
 
 
      
@@ -148,6 +148,10 @@ function PaymentModeOnchange(curObj)
     if (curObj.value == "ONLINE")
     {
         $("#BankCode").prop('disabled', false);
+        if($("#BankCode").val()=="")
+        {
+            //notyAlert('error', 'Please Select Bank');
+        }
     }
     else
     {
@@ -161,7 +165,6 @@ function ShowModal()
 {
     $("#AddOtherIncomeModel").modal('show');
     ClearFields();
-    BindAllAccountCode();
     $("#AddOrEditSpan").text("Add New");
 }
 
@@ -177,36 +180,6 @@ function SaveOtherIncome()
     }
 }
 
-function BindAllAccountCode() {
-    try {
-
-        var data = {"type":"OI"};
-        var ds = {};
-        ds = GetDataFromServer("OtherIncome/GetChartOfAccountsByType/", data);
-        debugger;
-        if (ds != '') {
-            $('#AccountCode').find('option').not(':first').remove();
-            ds = JSON.parse(ds);
-
-            $.each(ds.Records.accountCodeList, function (key,arr) {
-                $('#AccountCode')
-                    .append($("<option></option>")
-                               .attr("value", arr.Value)
-                               .text(arr.Text));
-            });
-                      
-        }
-        if (ds.Result == "OK") {
-            return ds.Records;
-        }
-        if (ds.Result == "ERROR") {
-            alert(ds.Message);
-        }
-    }
-    catch (e) {
-        notyAlert('error', e.message);
-    }
-}
 
 function GetAllOtherIncome(IncomeDate,DefaultDate) {
     try {
@@ -222,7 +195,7 @@ function GetAllOtherIncome(IncomeDate,DefaultDate) {
         if (ds != '') {
             ds = JSON.parse(ds);
             $("#TotalAmt").text("");
-            $("#TotalAmt").text(roundoff(ds.TotalAmt));
+            $("#TotalAmt").text(ds.TotalAmt);
         }
         if (ds.Result == "OK") {
             return ds.Records;

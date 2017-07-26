@@ -20,6 +20,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public int slNo { get; set; }
         public string AccountDesc { get; set; }
         public decimal TotalAmt { get; set; }
+        public string TotalAmtFormatted { get; set; }
         public string IncomeDateFormatted { get; set; }
         public Common commonObj { get; set; }
     }

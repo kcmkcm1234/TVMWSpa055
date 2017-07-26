@@ -40,6 +40,7 @@ namespace UserInterface.Models
         public decimal TotalAmt { get; set; }
         [Display(Name ="Default Date")]
         public string DefaultDate { get; set; }
+        public string TotalAmtFormatted { get; set; }
         public List<SelectListItem> accountCodeList { get; set; }
         public List<SelectListItem> bankList { get; set; }
         public List<SelectListItem> companiesList { get; set; }
