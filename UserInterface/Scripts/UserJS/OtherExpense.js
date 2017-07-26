@@ -58,6 +58,8 @@ function GetAllExpenseDetails() {
             ds = JSON.parse(ds);
         }
         if (ds.Result == "OK") {
+            $("#creditdAmt").text(ds.TotalAmount);
+           
             return ds.Records;
         }
         if (ds.Result == "ERROR") {
@@ -109,39 +111,63 @@ function Delete() {
     notyConfirm('Are you sure to delete?', 'DeleteCustomers()', '', "Yes, delete it!");
 }
 
+function PaymentModeOnchange(curobj)
+{
+    if (curobj.value == "ONLINE") {
+        $("#BankCode").prop('disabled', false);
+    }
+    else {
+        $("#BankCode").val("");
+        $("#BankCode").prop('disabled', true);
+    }
+    $('span[data-valmsg-for="BankCode"]').empty();
+}
+function BankOnchange()
+{
+    $('span[data-valmsg-for="BankCode"]').empty();
+}
+function Validation()
+{
+    var fl = true;
+    var pm = $("#paymentMode").val();
+    if((pm)&&(pm=="ONLINE"))
+    {
+        if($("#BankCode").val()=="")
+        {
+            fl = false;
+           
+            $('span[data-valmsg-for="BankCode"]').append('<span for="EmpID" class="">BankCode required</span>')
+        }
+        else
+        {
+            $('span[data-valmsg-for="BankCode"]').empty();
+        }
 
-
-function ClearFields() {
-    $("#ID").val("");
-    $("#CompanyName").val("");
-    $("#ContactTitle").val("");
-    $("#ContactPerson").val("");
-    //$("#CompanyName").prop('disabled', false);
-    $("#ContactEmail").val("");
-    $("#Website").val("");
-    $("#LandLine").val("");
-    $("#Mobile").val("");
-    $("#Fax").val("");
-    $("#OtherPhoneNos").val("");
-    $("#BillingAddress").val("");
-    $("#ShippingAddress").val("");
-    $("#PaymentTermCode").val("");
-    $("#TaxRegNo").val("");
-    $("#PANNO").val("");
-    $("#GeneralNotes").val("");
-    ResetForm();
-    ChangeButtonPatchView("Customers", "btnPatchAdd", "Add"); //ControllerName,id of the container div,Name of the action
+    }
+    return fl;
 }
 
-//-----------------------------------------Reset Validation Messages--------------------------------------//
-function ResetForm() {
-
-    var validator = $("#CustomersForm").validate();
-    $('#CustomersForm').find('.field-validation-error span').each(function () {
+function ClearFields() {
+    $("#ID").val(emptyGUID);
+    $("#expenseDateModal").val('');
+    $("#AccountCode").val('');
+    $("#CompanyCode").val('');
+    $("#paymentMode").val('');
+    $("#EmpID").val('');
+    $("#BankCode").val('');
+    $("#ExpenseRef").val('');
+    $("#Amount").val('');
+    $("#Description").val('');
+ 
+    var validator = $("#OtherExpenseModal").validate();
+    $('#OtherExpenseModal').find('.field-validation-error span').each(function () {
         validator.settings.success($(this));
     });
     validator.resetForm();
+    //ChangeButtonPatchView("Customers", "btnPatchAdd", "Add"); //ControllerName,id of the container div,Name of the action
 }
+
+
 
 function BindAllExpenseDetails() {
     try {
@@ -159,7 +185,7 @@ function SaveSuccess(data, status) {
         case "OK":
             BindAllExpenseDetails();
             notyAlert('success', JsonResult.Message);
-            $("#ID").val(JsonResult.ID);
+            $("#ID").val(JsonResult.Record.ID);
 
             //if ($("#ID").val() != "") {
             //    FillCustomerDetails($("#ID").val());
@@ -178,7 +204,7 @@ function SaveSuccess(data, status) {
 }
 
 function Reset() {
-    if ($("#ID").val() == "0") {
+    if ($("#ID").val() == emptyGUID) {
         ClearFields();
     }
     else {
@@ -187,18 +213,18 @@ function Reset() {
     ResetForm();
 }
 
-function GetCustomerDetailsByID(ID) {
+function GetExpenseDetailsByID(ID) {
     try {
 
         var data = { "ID": ID };
         var ds = {};
-        ds = GetDataFromServer("Customers/GetCustomerDetailsByID/", data);
+        ds = GetDataFromServer("OtherExpenses/GetExpenseDetailsByID/", data);
         debugger;
         if (ds != '') {
             ds = JSON.parse(ds);
         }
         if (ds.Result == "OK") {
-            return ds.Records;
+            return ds.Record;
         }
         if (ds.Result == "ERROR") {
 
@@ -211,30 +237,27 @@ function GetCustomerDetailsByID(ID) {
 }
 
 //---------------------------------------Fill Customer Details--------------------------------------------------//
-function FillCustomerDetails(ID) {
+function FillOtherExpenseDetails(ID) {
     debugger;
-    ChangeButtonPatchView("Customers", "btnPatchAdd", "Edit"); //ControllerName,id of the container div,Name of the action
-    var thisItem = GetCustomerDetailsByID(ID); //Binding Data
-    //Hidden
-    debugger;
+    //ChangeButtonPatchView("Customers", "btnPatchAdd", "Edit"); //ControllerName,id of the container div,Name of the action
+    var thisItem = GetExpenseDetailsByID(ID); //Binding Data
+    
+    if (thisItem)
+    {
+        $("#ID").val(thisItem.ID);
+        $("#expenseDateModal").val(thisItem.ExpenseDate);
+        $("#AccountCode").val(thisItem.AccountCode);
+        $("#CompanyCode").val(thisItem.companies.Code);
+        $("#paymentMode").val(thisItem.PaymentMode);
+        $("#EmpID").val(thisItem.employee.ID);
+        $("#BankCode").val(thisItem.BankCode);
+        $("#ExpenseRef").val(thisItem.ExpenseRef);
+        $("#Amount").val(thisItem.Amount);
+        $("#Description").val(thisItem.Description);
+    }
+   
 
-    $("#ID").val(thisItem.ID);
-    $("#CompanyName").val(thisItem.CompanyName);
-    $("#ContactTitle").val(thisItem.ContactTitle);
-    $("#ContactPerson").val(thisItem.ContactPerson);
-    //$("#CompanyName").prop('disabled', true);
-    $("#ContactEmail").val(thisItem.ContactEmail);
-    $("#Website").val(thisItem.Website);
-    $("#LandLine").val(thisItem.LandLine);
-    $("#Mobile").val(thisItem.Mobile);
-    $("#Fax").val(thisItem.Fax);
-    $("#OtherPhoneNos").val(thisItem.OtherPhoneNos);
-    $("#BillingAddress").val(thisItem.BillingAddress);
-    $("#ShippingAddress").val(thisItem.ShippingAddress);
-    $("#PaymentTermCode").val(thisItem.PaymentTermCode);
-    $("#TaxRegNo").val(thisItem.TaxRegNo);
-    $("#PANNO").val(thisItem.PANNO);
-    $("#GeneralNotes").val(thisItem.GeneralNotes);
+   
 }
 
 //---------------------------------------Edit Bank--------------------------------------------------//
@@ -246,7 +269,10 @@ function Edit(currentObj) {
 
     var rowData = DataTables.expenseDetailTable.row($(currentObj).parents('tr')).data();
     if ((rowData != null) && (rowData.ID != null)) {
-        //  FillCustomerDetails(rowData.ID);
+       
+        ClearFields();
+        FillOtherExpenseDetails(rowData.ID);
+        $("#AddOtherexpenseModel").modal('show');
     }
 }
 

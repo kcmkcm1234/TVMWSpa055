@@ -16,9 +16,11 @@ namespace UserInterface.Controllers
         // GET: OtherExpenses
         AppConst c = new AppConst();
         IOtherExpenseBusiness _otherExpenseBusiness;
-        public OtherExpensesController(IOtherExpenseBusiness otherExpenseBusiness)
+        ICommonBusiness _commonBusiness;
+        public OtherExpensesController(IOtherExpenseBusiness otherExpenseBusiness, ICommonBusiness commonBusiness)
         {
             _otherExpenseBusiness = otherExpenseBusiness;
+            _commonBusiness = commonBusiness;
         }
         public ActionResult Index()
         {
@@ -105,14 +107,15 @@ namespace UserInterface.Controllers
 
 
 
-        #region GetAllSupplierCreditNotes
+        #region GetAllOtherExpenses
         [HttpGet]
         public string GetAllOtherExpenses()
         {
             try
             {
                 List<OtherExpenseViewModel> otherExpenseViewModelList = Mapper.Map<List<OtherExpense>, List<OtherExpenseViewModel>>(_otherExpenseBusiness.GetAllOtherExpenses());
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = otherExpenseViewModelList });
+                string totamt = _commonBusiness.ConvertCurrency(otherExpenseViewModelList != null ? otherExpenseViewModelList.Sum(o => o.Amount):decimal.Zero);
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = otherExpenseViewModelList, TotalAmount= totamt});
             }
             catch (Exception ex)
             {
@@ -120,9 +123,25 @@ namespace UserInterface.Controllers
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
             }
         }
-        #endregion  GetAllSupplierCreditNotes
+        #endregion  GetAllOtherExpenses
 
-
+        #region GetExpenseDetailsByID
+        [HttpGet]
+        public string GetExpenseDetailsByID(string ID)
+        {
+            try
+            {
+                OtherExpenseViewModel otherExpenseViewModel = Mapper.Map<OtherExpense, OtherExpenseViewModel>(_otherExpenseBusiness.GetExpenseDetailsByID(Guid.Parse(ID)));
+               
+                return JsonConvert.SerializeObject(new { Result = "OK", Record = otherExpenseViewModel});
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion GetExpenseDetailsByID
         #region InsertUpdateOtherExpense
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -143,13 +162,11 @@ namespace UserInterface.Controllers
                     {
                         //INSERT
                         case true:
-                           
                             otherExpenseVM = Mapper.Map<OtherExpense, OtherExpenseViewModel>(_otherExpenseBusiness.InsertOtherExpense(Mapper.Map<OtherExpenseViewModel, OtherExpense>(otherExpenseViewModel)));
                             return JsonConvert.SerializeObject(new { Result = "OK", Record = otherExpenseVM });
                         default:
-
                             //Getting UA
-                            //otherExpenseVM = Mapper.Map<OtherExpense, OtherExpenseViewModel>(_otherExpenseBusiness..UpdateProduct(Mapper.Map<ProductViewModel, Product>(productObj)));
+                            otherExpenseVM = Mapper.Map<OtherExpense, OtherExpenseViewModel>(_otherExpenseBusiness.UpdateOtherExpense(Mapper.Map<OtherExpenseViewModel, OtherExpense>(otherExpenseViewModel)));
                             return JsonConvert.SerializeObject(new { Result = "OK", Record = otherExpenseVM });
                     }
                 }

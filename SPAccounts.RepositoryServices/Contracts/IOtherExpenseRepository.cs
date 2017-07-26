@@ -11,5 +11,7 @@ namespace SPAccounts.RepositoryServices.Contracts
     {
         List<OtherExpense> GetAllOtherExpenses();
         OtherExpense InsertOtherExpense(OtherExpense otherExpense);
+        OtherExpense UpdateOtherExpense(OtherExpense otherExpense);
+        object DeleteOtherExpense(OtherExpense otherExpense);
     }
 }

@@ -29,7 +29,7 @@ namespace UserInterface.Models
         public List<SelectListItem> paymentModeList { get; set; }
         public Guid DepWithID { get; set; }
         public DepositAndWithdrwalViewModel depositAndWithdrwal { get; set; }
-        [Required(ErrorMessage = "Bank required")]
+        
         [Display(Name = "Bank")]
         public string BankCode { get; set; }
         public List<SelectListItem> bankList { get; set; }
