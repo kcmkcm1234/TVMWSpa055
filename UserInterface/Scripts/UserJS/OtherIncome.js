@@ -297,6 +297,7 @@ function FillOtherIncomeDetails(ID)
     $("#Amount").val(roundoff(thisItem.Amount));
     $("#Description").val(thisItem.Description);
     $("#IncomeRef").val(thisItem.IncomeRef);
+    $("#DepWithdID").val(thisItem.DepWithdID);
     $("#AddOrEditSpan").text("Edit");
 }
 
@@ -344,5 +345,7 @@ function ClearFields()
     $("#Description").val("");
     $("#Amount").val("");
     $("#IncomeDateModal").val("");
+    $("#ID").val("");
+    $("#DepWithdID").val(emptyGUID);
     ResetForm();
 }
