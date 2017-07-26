@@ -121,5 +121,31 @@ namespace SPAccounts.BusinessService.Services
                 throw ex;
             }
          }
+
+        public OtherExpense GetExpenseDetailsByID(Guid ID)
+        {
+            List<OtherExpense> otherExpenseList = null;
+            OtherExpense otherExpense = null;
+            try
+            {
+                otherExpenseList = GetAllOtherExpenses();
+                otherExpense = otherExpenseList != null ? otherExpenseList.Where(o => o.ID == ID).ToList().FirstOrDefault() : null;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            return otherExpense;
+        }
+
+        public OtherExpense UpdateOtherExpense(OtherExpense otherExpense)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object DeleteOtherExpense(OtherExpense otherExpense)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
