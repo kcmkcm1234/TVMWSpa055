@@ -159,6 +159,8 @@
                             @Html.AntiForgeryToken()
 
                             @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "", Value = "0" })
+                            @Html.HiddenFor(model => model.DepWithdID, htmlAttributes: new { @class = "", Value = "0" })
+
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                             <div class="form-group col-md-12">
