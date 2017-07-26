@@ -10,6 +10,14 @@ namespace SPAccounts.BusinessService.Contracts
     public interface IOtherExpenseBusiness
     {
         List<OtherExpense> GetAllOtherExpenses();
-     
+        OtherExpense GetExpenseDetailsByID(Guid ID);
+        List<ChartOfAccounts> GetAllAccountTypes(string accountType);
+        List<Companies> GetAllCompanies();
+        List<PaymentModes> GetAllPaymentModes();
+        List<Bank> GetAllBankes();
+        List<Employee> GetAllEmployees();
+        OtherExpense InsertOtherExpense(OtherExpense otherExpense);
+        OtherExpense UpdateOtherExpense(OtherExpense otherExpense);
+        object DeleteOtherExpense(OtherExpense otherExpense);
     }
 }

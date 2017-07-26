@@ -7,8 +7,6 @@
 
 @section styles {
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
-
-
 }
 <div style="width:100%;">
     <ol class="breadcrumb">
@@ -32,25 +30,15 @@
     </div>
 
     <div id="myNav">
-
-
-
         <div class="overlay-content">
-
-
-
-            <div class="EntryForms" style="height:550px">
+           <div class="EntryForms" style="height:550px">
                 @using (Ajax.BeginForm("InsertUpdateCreditNote", "CustomerCreditNote", new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccess", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", @id = "CustomerCreditNoteForm" }))
                 {
                     @Html.AntiForgeryToken()
-
                     <div class="">
-
                         <div class="form-group col-md-6" style="padding-left: 0px;">
                             <div class="col-md-12">
                                 @Html.LabelFor(model => model.CRNDateFormatted, htmlAttributes: new { @class = "control-label" })
-
-
                             </div>
                             <div class="col-md-12">
                                 <div class="col-md-10">
@@ -60,9 +48,7 @@
                                 <div class="col-md-1"></div>
                                 <div class="col-md-1"></div>
                             </div>
-
                         </div>
-
                         <div class="col-md-4" id="CommonFigure" style="padding-top:2%;border-left:1px solid #64e564;white-space:nowrap;">
                             <div class="col-md-4" style="padding-top:2%">
                                 <div class="form-group col-md-12">
@@ -70,22 +56,16 @@
                                         <div class="rightAmtCaption">Total Amount</div>
                                     </div>
                                     <div class="col-md-12 text-right">
-                                        <div class="rightAmt" id="creditdAmt">₹ 0.00</div>
+                                        <div class="rightAmt" id="creditdAmt">0.00</div>
                                     </div>
                                 </div>
-
-
                             </div>
                         </div>
-
                     </div>
                     <div class="col-md-12  ">&nbsp;</div>
                         <div class="col-md-12  ">&nbsp;</div>
                         <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Expense Details</div>
-
-
-
-                        <div class="container-fluid">
+                       <div class="container-fluid">
                             <table id="expenseDetailTable" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
                                 <thead>
                                     <tr class="text-center TableHead">
@@ -100,10 +80,6 @@
                                 </thead>
                             </table>
                         </div>
-
-
-
-
                             <div class="col-md-12  ">&nbsp;</div>
                             <div class="col-md-12  ">&nbsp;</div>
                             <div class="col-md-12  ">&nbsp;</div>
@@ -113,7 +89,6 @@
                 }
             </div>
         </div>
-
     </div>
     <div class="preloader" id="prelaoder">
         <div class="col-md-12">
@@ -128,7 +103,7 @@
 </section>
 
 @*Model*@
-<div class="modal fade" id="AddOtherIncomeModel" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="AddOtherexpenseModel" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 36px;padding: 3px;">
@@ -143,14 +118,7 @@
                 </div>
             </div>
 
-            <div class="col-md-12">
-                <span style="font-weight: 600;font-size: 14px;"><i class="fa fa-user" aria-hidden="true"></i></span>
-                <span class="modal-title" id="TechnicianLabel" style="font-weight: 600;font-size: 14px;"></span>
-                &nbsp;&nbsp;&nbsp;
-                <span style="font-weight: 600;font-size: 14px;"><i class="fa fa-calendar" aria-hidden="true"></i></span>
-                <span class="modal-title" id="ServiceDateLabel" style="font-weight: 600;font-size: 14px;"></span>
-
-            </div>
+          
             @*<div class="container-fluid">
                     <br />
                     <br />
@@ -159,19 +127,18 @@
             <div class="modal-body">
                 <div class="container-fluid">
                     <div class="col-md-10">
-
-
-                        @using (Ajax.BeginForm("InsertUpdateOtherIncome", "OtherIncome", new AjaxOptions { HttpMethod = "POST", OnSuccess = "SaveSuccess", OnFailure = "SaveFailure", AllowCache = false, LoadingElementId = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", id = "OtherIncomeAddModal", autocomplete = "off" }))
+                        @using (Ajax.BeginForm("InsertUpdateOtherExpense", "OtherExpenses", new AjaxOptions { HttpMethod = "POST",OnBegin="Validation", OnSuccess = "SaveSuccess", OnFailure = "SaveFailure", AllowCache = false, LoadingElementId = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", id = "OtherExpenseModal", autocomplete = "off" }))
 
                         {
                             @Html.AntiForgeryToken()
 
-                            @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "", Value = "0" })
+                          
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                             <div class="form-group col-md-12">
                                 <div class="col-md-12">
                                     @Html.LabelFor(model => model.ExpenseDate, htmlAttributes: new { @class = "control-label" })
+                                    @Html.HiddenFor(model => model.ID, htmlAttributes: new { @Value = Guid.Empty })
                                 </div>
                                 <div class="col-md-12">
                                     <div class="col-md-10">
@@ -182,7 +149,7 @@
                                     <div class="col-md-1"></div>
                                 </div>
                             </div>
-                            @*<div class="form-group col-md-12">
+                            <div class="form-group col-md-12">
                                 <div class="col-md-12">
                                     @Html.LabelFor(model => model.AccountCode, htmlAttributes: new { @class = "control-label" })
                                 </div>
@@ -197,14 +164,14 @@
                             </div>
                             <div class="form-group col-md-12">
                                 <div class="col-md-12">
-                                    @Html.LabelFor(model => model.cm, htmlAttributes: new { @class = "control-label" })
+                                    @Html.LabelFor(model => model.PaidFromCompanyCode, htmlAttributes: new { @class = "control-label" })
                                 </div>
 
                                 <div class="col-md-12">
                                     <div class="col-md-10">
-                                        @Html.DropDownListFor(model => model.PaymentRcdComanyCode, Model.companiesList, "-- Select Company --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "PaymentRcdComanyCode" })
+                                        @Html.DropDownListFor(model => model.PaidFromCompanyCode, Model.CompanyList, "-- Select Company --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "CompanyCode" })
 
-                                        @Html.ValidationMessageFor(model => model.PaymentRcdComanyCode, "", new { @class = "text-danger" })
+                                        @Html.ValidationMessageFor(model => model.PaidFromCompanyCode, "", new { @class = "text-danger" })
                                     </div>
                                     <div class="col-md-1"></div>
                                     <div class="col-md-1"></div>
@@ -219,32 +186,15 @@
 
                                     <div class="col-md-12">
                                         <div class="col-md-10">
-                                            @Html.DropDownListFor(model => model, Model.companiesList, "-- Select Company --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "PaymentRcdComanyCode" })
-
-                                            @Html.ValidationMessageFor(model => model.PaymentRcdComanyCode, "", new { @class = "text-danger" })
-                                        </div>
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-1"></div>
-                                    </div>
-
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-12">
-                                        @Html.LabelFor(model => model.PaymentMode, htmlAttributes: new { @class = "control-label " })
-                                    </div>
-
-                                    <div class="col-md-12">
-                                        <div class="col-md-10">
-                                            @Html.DropDownListFor(model => model.PaymentMode, Model.paymentModeList, "-- Select Payment Mode --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "PaymentMode", @onclick = "PaymentModeOnchange(this)" })
-
+                                            @Html.DropDownListFor(model => model.PaymentMode, Model.paymentModeList, "-- Select payment mode --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "paymentMode",@onchange = "PaymentModeOnchange(this)" })
 
                                             @Html.ValidationMessageFor(model => model.PaymentMode, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-1"></div>
                                         <div class="col-md-1"></div>
                                     </div>
-                                </div>
 
+                                </div>
                                 <div class="form-group col-md-12">
                                     <div class="col-md-12">
                                         @Html.LabelFor(model => model.BankCode, htmlAttributes: new { @class = "control-label" })
@@ -252,7 +202,7 @@
 
                                     <div class="col-md-12">
                                         <div class="col-md-10">
-                                            @Html.DropDownListFor(model => model.BankCode, Model.bankList, "-- Select Bank --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "BankCode" })
+                                            @Html.DropDownListFor(model => model.BankCode, Model.bankList, "-- Select Bank --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "BankCode",@onchange = "BankOnchange(this)" })
 
                                             @Html.ValidationMessageFor(model => model.BankCode, "", new { @class = "text-danger" })
                                         </div>
@@ -260,17 +210,34 @@
                                         <div class="col-md-1"></div>
                                     </div>
                                 </div>
-
-
                                 <div class="form-group col-md-12">
                                     <div class="col-md-12">
-                                        @Html.LabelFor(model => model.IncomeRef, htmlAttributes: new { @class = "control-label" })
+                                        @Html.LabelFor(model => model.EmpID, htmlAttributes: new { @class = "control-label" })
                                     </div>
 
                                     <div class="col-md-12">
                                         <div class="col-md-10">
-                                            @Html.EditorFor(model => model.IncomeRef, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.IncomeRef, "", new { @class = "text-danger" })
+                                            @Html.DropDownListFor(model => model.EmpID, Model.EmployeeList, "-- Select Employee --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;" })
+
+                                            @Html.ValidationMessageFor(model => model.EmpID, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-1"></div>
+                                        <div class="col-md-1"></div>
+                                    </div>
+                                </div>
+
+                          
+
+
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-12">
+                                        @Html.LabelFor(model => model.ExpenseRef, htmlAttributes: new { @class = "control-label" })
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.ExpenseRef, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.ExpenseRef, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-1"></div>
                                         <div class="col-md-1"></div>
@@ -298,7 +265,7 @@
                                     </div>
                                     <div class="col-md-12">
                                         <div class="col-md-10">
-                                            @Html.TextAreaFor(model => model.Description, 7, 60, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter", @id = "Description" } })
+                                            @Html.TextAreaFor(model => model.Description, 3, 60, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter", @id = "Description" } })
 
                                             @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                                         </div>
@@ -306,7 +273,7 @@
                                         <div class="col-md-1"></div>
                                     </div>
 
-                                </div>*@
+                                </div>
 
 
 
@@ -316,7 +283,7 @@
 
                                 <div class="form-group" style="display:none;">
                                     <div class="col-md-offset-2 col-md-10">
-                                        <input id="btnOtherIncomeSave" type="submit" value="Create" class="btn btn-default" />
+                                        <input id="btnSaveOtherExpense" type="submit" value="Create" class="btn btn-default" />
                                     </div>
                                 </div>
                         }
@@ -331,7 +298,7 @@
                 </div>
             </div>
             <div class="modal-footer" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 50px;padding: 7px;">
-                <a class="btn btn-primary" onclick="SaveOtherIncome()"><i class="glyphicon glyphicon-floppy-disk"></i> Save</a>
+                <a class="btn btn-primary" onclick="Save()"><i class="glyphicon glyphicon-floppy-disk"></i> Save</a>
                 <a class="btn btn-default" onclick="Reset()"><i class="glyphicon glyphicon-refresh"></i> Reset</a>
 
             </div>

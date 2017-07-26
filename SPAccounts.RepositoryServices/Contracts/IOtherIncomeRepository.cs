@@ -9,7 +9,7 @@ namespace SPAccounts.RepositoryServices.Contracts
 {
    public interface IOtherIncomeRepository
     {
-        List<OtherIncome> GetAllOtherIncome(string IncomeDate);
+        List<OtherIncome> GetAllOtherIncome(string IncomeDate,string DefaultDate);
         OtherIncome GetOtherIncomeDetails(Guid ID);
         OtherIncome InsertOtherIncome(OtherIncome _otherIncomeObj, AppUA ua);
         object UpdateOtherIncome(OtherIncome _otherIncomeObj, AppUA ua);

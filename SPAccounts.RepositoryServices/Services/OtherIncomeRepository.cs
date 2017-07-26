@@ -21,7 +21,7 @@ namespace SPAccounts.RepositoryServices.Services
         }
 
         #region GetAllOtherIncome
-        public List<OtherIncome> GetAllOtherIncome(string IncomeDate)
+        public List<OtherIncome> GetAllOtherIncome(string IncomeDate,string DefaultDate)
         {
             List<OtherIncome> otherIncomeList = null;
             try
@@ -40,7 +40,11 @@ namespace SPAccounts.RepositoryServices.Services
                         {
                             cmd.Parameters.Add("@IncomeDate", SqlDbType.DateTime).Value = DateTime.Parse(IncomeDate);
                         }
-                       
+                        if(!string.IsNullOrEmpty(DefaultDate))
+                        {
+                            cmd.Parameters.Add("@DefaultDate", SqlDbType.Int).Value = Convert.ToInt32(DefaultDate);
+                        }
+                        
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
@@ -62,6 +66,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         _otherIncomeObj.Description = (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : _otherIncomeObj.Description);
                                         _otherIncomeObj.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : _otherIncomeObj.Amount);
                                         _otherIncomeObj.AccountDesc= (sdr["TypeDesc"].ToString() != "" ? (sdr["TypeDesc"].ToString()) : _otherIncomeObj.AccountDesc);
+                                        //_otherIncomeObj.TotalAmt = (sdr["totalamt"].ToString() != "" ? decimal.Parse(sdr["totalamt"].ToString()) : _otherIncomeObj.TotalAmt);
 
                                         _otherIncomeObj.IncomeDateFormatted = (sdr["IncomeDate"].ToString() != "" ? DateTime.Parse(sdr["IncomeDate"].ToString()).ToString(s.dateformat) : _otherIncomeObj.IncomeDateFormatted);
 

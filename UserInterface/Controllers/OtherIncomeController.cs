@@ -23,8 +23,9 @@ namespace UserInterface.Controllers
         IBankBusiness _bankBusiness;
         ICompaniesBusiness _companiesBusiness;
         IPaymentModesBusiness _paymentModeBusiness;
+        ICommonBusiness _commonBusiness;
 
-        public OtherIncomeController(IOtherIncomeBusiness otherIncomeBusiness, ICustomerBusiness customerBusiness, IChartOfAccountsBusiness chartOfAccountsBusiness,IBankBusiness bankBusiness, ICompaniesBusiness companiesBusiness, IPaymentModesBusiness paymentModeBusiness)
+        public OtherIncomeController(IOtherIncomeBusiness otherIncomeBusiness, ICustomerBusiness customerBusiness, IChartOfAccountsBusiness chartOfAccountsBusiness,IBankBusiness bankBusiness, ICompaniesBusiness companiesBusiness, IPaymentModesBusiness paymentModeBusiness,ICommonBusiness commonBusiness)
         {
             _otherIncomeBusiness = otherIncomeBusiness;
             _customerBusiness = customerBusiness;
@@ -32,6 +33,7 @@ namespace UserInterface.Controllers
             _bankBusiness = bankBusiness;
             _companiesBusiness = companiesBusiness;
             _paymentModeBusiness = paymentModeBusiness;
+            _commonBusiness = commonBusiness;
         }
         #endregion Constructor_Injection 
 
@@ -75,8 +77,8 @@ namespace UserInterface.Controllers
 
                 otherIncomeViewModalObj.paymentModeList = new List<SelectListItem>();
                 selectListItem = new List<SelectListItem>();
-                List<PaymentModesViewModel> PaymentModeList = Mapper.Map<List<PaymentModes>, List<PaymentModesViewModel>>(_paymentModeBusiness.GetAllPaymentModes());
-                foreach (PaymentModesViewModel PMVM in PaymentModeList)
+                List<PaymentModesViewModel> PaymentList = Mapper.Map<List<PaymentModes>, List<PaymentModesViewModel>>(_paymentModeBusiness.GetAllPaymentModes());
+                foreach (PaymentModesViewModel PMVM in PaymentList)
                 {
                     selectListItem.Add(new SelectListItem
                     {
@@ -86,6 +88,20 @@ namespace UserInterface.Controllers
                     });
                 }
                 otherIncomeViewModalObj.paymentModeList = selectListItem;
+
+                otherIncomeViewModalObj.accountCodeList = new List<SelectListItem>();
+                selectListItem = new List<SelectListItem>();
+                List<ChartOfAccountsViewModel> AccountList = Mapper.Map<List<ChartOfAccounts>, List<ChartOfAccountsViewModel>>(_chartOfAccountsBusiness.GetChartOfAccountsByType("OI"));
+                foreach (ChartOfAccountsViewModel COAVM in AccountList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = COAVM.TypeDesc,
+                        Value = COAVM.Code,
+                        Selected = false
+                    });
+                }
+                otherIncomeViewModalObj.accountCodeList = selectListItem;
 
             }
             catch(Exception ex)
@@ -98,13 +114,15 @@ namespace UserInterface.Controllers
 
         #region GetAllOtherIncome
         [HttpGet]
-        public string GetAllOtherIncome(string IncomeDate)
+        public string GetAllOtherIncome(string IncomeDate,string DefaultDate)
         {
             try
             {
 
-                List<OtherIncomeViewModel> otherIncomeList = Mapper.Map<List<OtherIncome>, List<OtherIncomeViewModel>>(_otherIncomeBusiness.GetAllOtherIncome(IncomeDate));
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = otherIncomeList });
+                List<OtherIncomeViewModel> otherIncomeList = Mapper.Map<List<OtherIncome>, List<OtherIncomeViewModel>>(_otherIncomeBusiness.GetAllOtherIncome(IncomeDate,DefaultDate));
+                var totalAmt= otherIncomeList.Sum(amt => amt.Amount);              
+                string totalAmtFormatted = _commonBusiness.ConvertCurrency(totalAmt, 2);
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = otherIncomeList,TotalAmt= totalAmtFormatted });
             }
             catch (Exception ex)
             {
@@ -176,37 +194,6 @@ namespace UserInterface.Controllers
 
         }
         #endregion DeleteOtherIncome
-
-        #region GetChartOfAccountsByType
-        [HttpGet]
-        public string GetChartOfAccountsByType(string type)
-        {
-            OtherIncomeViewModel otherIncomeViewModel = null;
-            try
-            {
-                otherIncomeViewModel = new OtherIncomeViewModel();
-                List<ChartOfAccountsViewModel> accountCodeList = Mapper.Map<List<ChartOfAccounts>, List<ChartOfAccountsViewModel>>(_chartOfAccountsBusiness.GetChartOfAccountsByType(type));
-                List<SelectListItem> selectListItem = new List<SelectListItem>();
-                foreach (ChartOfAccountsViewModel cavm in accountCodeList)
-                {
-                    selectListItem.Add(new SelectListItem
-                    {
-                        Text = cavm.TypeDesc,
-                        Value = cavm.Code,
-                        Selected = false
-                    });
-                }
-                otherIncomeViewModel.accountCodeList = selectListItem;
-                
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = otherIncomeViewModel });
-            }
-            catch (Exception ex)
-            {
-                AppConstMessage cm = c.GetMessage(ex.Message);
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
-            }
-        }
-        #endregion  GetChartOfAccountsByType
 
         #region ButtonStyling
         [HttpGet]

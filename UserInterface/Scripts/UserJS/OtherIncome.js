@@ -11,7 +11,7 @@ $(document).ready(function () {
              searching: true,
              paging: true,
              data: GetAllOtherIncome(),
-             pageLength: 15,
+             pageLength: 10,
              language: {
                  search: "_INPUT_",
                  searchPlaceholder: "Search"
@@ -25,19 +25,20 @@ $(document).ready(function () {
                { "data": "IncomeDateFormatted", "defaultContent": "<i>-</i>" },
                  { "data": "Description", "defaultContent": "<i>-</i>" },
                { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
-               { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
+               { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' },
+               { "data": null, "orderable": false, "defaultContent": '<a data-toggle="tp" data-placement="top" data-delay={"show":2000, "hide":3000} title="Delete OtherIncome" href="#" class="DeleteLink" onclick="Delete(this)"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' }
              ],
              columnDefs: [{ "targets": [0,2], "visible": false, "searchable": false },
                   { className: "text-right", "targets": [7] },
-             { className: "text-center", "targets": [1,3,4, 6,8] }
+             { className: "text-center", "targets": [1,3,4,5, 6,8] }
 
              ]
          });
 
-        //$('#CustomerCreditNoteTable tbody').on('dblclick', 'td', function () {
+        $('#OtherIncomeTable tbody').on('dblclick', 'td', function () {
 
-        //    Edit(this);
-        //});
+            Edit(this);
+        });
 
 
      
@@ -52,10 +53,31 @@ $(document).ready(function () {
 
 });
 
+function IncomeDefaultDateOnchange()
+{
+    $("#IncomeDate").val("");
+    var IncomeDefaultDate = $("#DefaultDate").val();
+    if (DataTables.OtherIncomeTable != undefined) {
+        BindAllOtherIncome("",IncomeDefaultDate)
+    }
+    else {
+        GetAllOtherIncome();
+    }
+}
 function IncomeDateOnchange()
 {
-    var IncomeDate = $("#IncomeDate").val();
-    GetAllOtherIncome(IncomeDate);
+    debugger;
+    if (DataTables.OtherIncomeTable != undefined)
+    {
+        $("#DefaultDate").val("");
+        var IncomeDate = $("#IncomeDate").val();        
+        BindAllOtherIncome(IncomeDate,"")
+    }
+    else
+    {
+        GetAllOtherIncome();
+    }
+   
 }
 
 //---------------------------------------Edit Other Income--------------------------------------------------//
@@ -64,7 +86,6 @@ function Edit(currentObj) {
     debugger;
     ShowModal();
     ResetForm();
-
     var rowData = DataTables.OtherIncomeTable.row($(currentObj).parents('tr')).data();
     if ((rowData != null) && (rowData.ID != null)) {
         FillOtherIncomeDetails(rowData.ID);
@@ -81,6 +102,45 @@ function ResetForm() {
     validator.resetForm();
 }
 
+function Delete(currObj) {
+    debugger;    
+    var rowData = DataTables.OtherIncomeTable.row($(currObj).parents('tr')).data();
+    if ((rowData != null) && (rowData.ID != null)) {
+        var ID = rowData.ID;
+        notyConfirm('Are you sure to delete?', 'DeleteOtherIncome("' + ID + '")', '', "Yes, delete it!");
+    }
+    
+}
+
+function DeleteOtherIncome(ID) {
+    try {
+        debugger;
+        var id = ID;
+        if (id != '' && id != null) {
+            var data = { "ID": id };
+            var ds = {};
+            ds = GetDataFromServer("OtherIncome/DeleteOtherIncome/", data);
+            debugger;
+            if (ds != '') {
+                ds = JSON.parse(ds);
+            }
+            if (ds.Result == "OK") {
+                notyAlert('success', ds.Message.Message);
+                IncomeDateOnchange();
+            }
+            if (ds.Result == "ERROR") {
+                notyAlert('error', ds.Message);
+                return 0;
+            }
+            return 1;
+        }
+
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+        return 0;
+    }
+}
 
 function PaymentModeOnchange(curObj)
 {
@@ -88,6 +148,10 @@ function PaymentModeOnchange(curObj)
     if (curObj.value == "ONLINE")
     {
         $("#BankCode").prop('disabled', false);
+        if($("#BankCode").val()=="")
+        {
+            //notyAlert('error', 'Please Select Bank');
+        }
     }
     else
     {
@@ -101,7 +165,7 @@ function ShowModal()
 {
     $("#AddOtherIncomeModel").modal('show');
     ClearFields();
-    BindAllAccountCode();
+    $("#AddOrEditSpan").text("Add New");
 }
 
 
@@ -116,46 +180,22 @@ function SaveOtherIncome()
     }
 }
 
-function BindAllAccountCode() {
-    try {
 
-        var data = {"type":"OI"};
-        var ds = {};
-        ds = GetDataFromServer("OtherIncome/GetChartOfAccountsByType/", data);
+function GetAllOtherIncome(IncomeDate,DefaultDate) {
+    try {
         debugger;
-        if (ds != '') {
-            $('#AccountCode').find('option').not(':first').remove();
-            ds = JSON.parse(ds);
-
-            $.each(ds.Records.accountCodeList, function (key,arr) {
-                $('#AccountCode')
-                    .append($("<option></option>")
-                               .attr("value", arr.Value)
-                               .text(arr.Text));
-            });
-                      
+        if (IncomeDate == undefined && DefaultDate == undefined)
+        {
+            DefaultDate = $("#DefaultDate").val();
         }
-        if (ds.Result == "OK") {
-            return ds.Records;
-        }
-        if (ds.Result == "ERROR") {
-            alert(ds.Message);
-        }
-    }
-    catch (e) {
-        notyAlert('error', e.message);
-    }
-}
-
-function GetAllOtherIncome(IncomeDate) {
-    try {
-
-        var data = { "IncomeDate": IncomeDate };
+        var data = { "IncomeDate": IncomeDate,"DefaultDate":DefaultDate };
         var ds = {};
         ds = GetDataFromServer("OtherIncome/GetAllOtherIncome/", data);
         debugger;
         if (ds != '') {
             ds = JSON.parse(ds);
+            $("#TotalAmt").text("");
+            $("#TotalAmt").text(ds.TotalAmt);
         }
         if (ds.Result == "OK") {
             return ds.Records;
@@ -170,9 +210,10 @@ function GetAllOtherIncome(IncomeDate) {
 }
 
 
-function BindAllOtherIncome() {
+function BindAllOtherIncome(IncomeDate,DefaultDate) {
     try {
-        DataTables.OtherIncomeTable.clear().rows.add(GetAllOtherIncome()).draw(false);
+        debugger;
+        DataTables.OtherIncomeTable.clear().rows.add(GetAllOtherIncome(IncomeDate, DefaultDate)).draw(false);
     }
     catch (e) {
         notyAlert('error', e.message);
@@ -206,6 +247,7 @@ function Reset()
 {
     if ($("#ID").val() == "0") {
         ClearFields();
+        $("#AddOrEditSpan").text("Add New");
     }
     else {
         FillOtherIncomeDetails($("#ID").val());
@@ -228,6 +270,8 @@ function FillOtherIncomeDetails(ID)
     $("#Amount").val(roundoff(thisItem.Amount));
     $("#Description").val(thisItem.Description);
     $("#IncomeRef").val(thisItem.IncomeRef);
+    $("#DepWithdID").val(thisItem.DepWithdID);
+    $("#AddOrEditSpan").text("Edit");
 }
 
 function SaveSuccess(data, status)
@@ -236,10 +280,18 @@ function SaveSuccess(data, status)
     var JsonResult = JSON.parse(data)
     switch (JsonResult.Result) {
         case "OK":
-            BindAllOtherIncome();
+            if ($("#IncomeDate").val() == undefined || $("#IncomeDate").val() == "")
+            {
+                IncomeDefaultDateOnchange();
+            }
+            else
+            {
+                IncomeDateOnchange();
+            }
+            //IncomeDateOnchange();
             notyAlert('success', JsonResult.Message);
             debugger;
-            if ($("#ID").val() != "") {
+            if ($("#ID").val() != "" && $("#ID").val() != "0") {
                 FillOtherIncomeDetails($("#ID").val());
             }
             else {
@@ -266,4 +318,7 @@ function ClearFields()
     $("#Description").val("");
     $("#Amount").val("");
     $("#IncomeDateModal").val("");
+    $("#ID").val("");
+    $("#DepWithdID").val(emptyGUID);
+    ResetForm();
 }

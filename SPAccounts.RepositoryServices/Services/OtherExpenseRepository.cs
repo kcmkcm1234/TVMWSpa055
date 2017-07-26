@@ -19,8 +19,13 @@ namespace SPAccounts.RepositoryServices.Services
             _databaseFactory = databaseFactory;
         }
 
-     
-
+        #region DeleteOtherExpense
+        public object DeleteOtherExpense(OtherExpense otherExpense)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion DeleteOtherExpense
+        #region GetAllOtherExpenses
         public List<OtherExpense> GetAllOtherExpenses()
         {
             List<OtherExpense> otherExpenselist = null;
@@ -48,7 +53,7 @@ namespace SPAccounts.RepositoryServices.Services
                                     {
                                         _otherExpense.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : _otherExpense.ID);
                                         _otherExpense.ExpenseDate = (sdr["ExpenseDate"].ToString() != "" ? DateTime.Parse(sdr["ExpenseDate"].ToString()).ToString(settings.dateformat) : _otherExpense.ExpenseDate);
-                                        _otherExpense.AccountCode = (sdr["AccountCode"].ToString() != "" ? Guid.Parse(sdr["AccountCode"].ToString()) : _otherExpense.AccountCode);
+                                        _otherExpense.AccountCode = (sdr["AccountCode"].ToString() != "" ? sdr["AccountCode"].ToString() : _otherExpense.AccountCode);
                                         _otherExpense.PaidFromCompanyCode = (sdr["PaidFromComanyCode"].ToString() != "" ? (sdr["PaidFromComanyCode"].ToString()) : _otherExpense.PaidFromCompanyCode);
                                         _otherExpense.companies = new Companies()
                                         {
@@ -90,6 +95,134 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return otherExpenselist;
         }
+       #endregion GetAllOtherExpenses
 
+
+        #region InsertOtherExpense
+        public OtherExpense InsertOtherExpense(OtherExpense otherExpense)
+        {
+            try
+            {
+                SqlParameter outputStatus, outputID = null;
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[InsertOtherExpense]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ExpenseDate", SqlDbType.DateTime).Value = otherExpense.ExpenseDate;
+                        cmd.Parameters.Add("@AccountCode", SqlDbType.VarChar, 10).Value = otherExpense.AccountCode;
+                        cmd.Parameters.Add("@PaidFromComanyCode", SqlDbType.VarChar, 10).Value = otherExpense.PaidFromCompanyCode;
+                        cmd.Parameters.Add("@EmpID", SqlDbType.UniqueIdentifier).Value = otherExpense.EmpID;
+                        cmd.Parameters.Add("@PaymentMode", SqlDbType.VarChar, 10).Value = otherExpense.PaymentMode;
+                        if (otherExpense.DepWithID != Guid.Empty)
+                        {
+                            cmd.Parameters.Add("@DepWithdID", SqlDbType.UniqueIdentifier).Value = otherExpense.DepWithID;
+                        }
+                        cmd.Parameters.Add("@BankCode", SqlDbType.VarChar, 5).Value = otherExpense.BankCode;
+                        cmd.Parameters.Add("@ExpneseRef", SqlDbType.VarChar, 20).Value = otherExpense.ExpenseRef;
+                        cmd.Parameters.Add("@Description", SqlDbType.NVarChar, -1).Value = otherExpense.Description;
+                        cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = otherExpense.Amount;
+                        cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = otherExpense.commonObj.CreatedBy;
+                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = otherExpense.commonObj.CreatedDate;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        outputID = cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier);
+                        outputID.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+
+
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        AppConst Cobj = new AppConst();
+                        otherExpense.ID = Guid.Empty;
+                        throw new Exception(Cobj.InsertFailure);
+                    case "1":
+                        otherExpense.ID = Guid.Parse(outputID.Value.ToString());
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return otherExpense;
+        }
+        #endregion InsertOtherExpense
+        #region UpdateOtherExpense
+        public OtherExpense UpdateOtherExpense(OtherExpense otherExpense)
+        {
+            try
+            {
+                SqlParameter outputStatus=null;
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[UpdateOtherExpense]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = otherExpense.ID;
+                        cmd.Parameters.Add("@ExpenseDate", SqlDbType.DateTime).Value = otherExpense.ExpenseDate;
+                        cmd.Parameters.Add("@AccountCode", SqlDbType.VarChar, 10).Value = otherExpense.AccountCode;
+                        cmd.Parameters.Add("@PaidFromComanyCode", SqlDbType.VarChar, 10).Value = otherExpense.PaidFromCompanyCode;
+                        cmd.Parameters.Add("@EmpID", SqlDbType.UniqueIdentifier).Value = otherExpense.EmpID;
+                        cmd.Parameters.Add("@PaymentMode", SqlDbType.VarChar, 10).Value = otherExpense.PaymentMode;
+                        if (otherExpense.DepWithID != Guid.Empty)
+                        {
+                            cmd.Parameters.Add("@DepWithdID", SqlDbType.UniqueIdentifier).Value = otherExpense.DepWithID;
+                        }
+                        cmd.Parameters.Add("@BankCode", SqlDbType.VarChar, 5).Value = otherExpense.BankCode;
+                        cmd.Parameters.Add("@ExpneseRef", SqlDbType.VarChar, 20).Value = otherExpense.ExpenseRef;
+                        cmd.Parameters.Add("@Description", SqlDbType.NVarChar, -1).Value = otherExpense.Description;
+                        cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = otherExpense.Amount;
+                        cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = otherExpense.commonObj.CreatedBy;
+                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = otherExpense.commonObj.CreatedDate;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                       
+                        cmd.ExecuteNonQuery();
+
+
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        AppConst Cobj = new AppConst();
+                        throw new Exception(Cobj.InsertFailure);
+                    case "1":
+                         break;
+                    default:
+                        break;
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return otherExpense;
+        }
+        #endregion UpdateOtherExpense
     }
 }

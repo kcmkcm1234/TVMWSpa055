@@ -9,7 +9,7 @@ namespace SPAccounts.BusinessService.Contracts
 {
    public interface IOtherIncomeBusiness
     {
-        List<OtherIncome> GetAllOtherIncome(string IncomeDate);
+        List<OtherIncome> GetAllOtherIncome(string IncomeDate,string DefaultDate);
         OtherIncome GetOtherIncomeDetails(Guid ID);
         object InsertUpdateOtherIncome(OtherIncome _otherIncomeObj, AppUA ua);
         object DeleteOtherIncome(Guid ID);

@@ -51,13 +51,35 @@
                     </div>
                 </div>
                 </div>
-            <div class="col-md-4"></div>
-                <div class="col-md-4" style="padding-top:2%">
+            <div class="col-md-4">
+                <div class="form-group col-md-12">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.DefaultDate, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-10">
+                            @{
+                                List<SelectListItem> listDefaultDate = new List<SelectListItem>();
+                                listDefaultDate.Add(new SelectListItem
+                                { Text = "30 Days", Value = "30" });
+                                listDefaultDate.Add(new SelectListItem
+                                { Text = "60 Days", Value = "60" });
+                            }
+                            @Html.DropDownListFor(model =>model.DefaultDate, listDefaultDate, new { @class = "form-control BlockEnter",  style = "padding:4px 12px;",@id= "DefaultDate",  @onchange = "IncomeDefaultDateOnchange()" })
+                            @Html.ValidationMessageFor(model => model.DefaultDate, "", new { @class = "text-danger" })
+                          
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-1"></div>
+                    </div>
+                </div>
+            </div>
+                <div class="col-md-4" >
                     <div class="form-group col-md-12">
                         <div class="col-md-12 text-right">
                             <div class="rightAmtCaption">Total Amount</div>
                         </div>
-                        <div class="col-md-12 text-right">
+                        <div class="col-md-12 text-right" style="padding:0px !important;">
                             <div class="rightAmt" id="TotalAmt">₹ 0.00</div>
                         </div>
                     </div>
@@ -69,7 +91,9 @@
       
         <div class="row summaryboxes">
 
-            <div class="clearfix visible-sm-block"></div>
+            <div class="clearfix visible-sm-block">
+
+            </div>
 
         </div>
         <div class="row">
@@ -89,7 +113,7 @@
                             <th>Description</th>
                             <th>Amount</th>
                             <th>...</th>
-
+                            <th>...</th>
                         </tr>
                     </thead>
                 </table>
@@ -115,11 +139,8 @@
             </div>
 
             <div class="col-md-12">
-                <span style="font-weight: 600;font-size: 14px;"><i class="fa fa-user" aria-hidden="true"></i></span>
-                <span class="modal-title" id="TechnicianLabel" style="font-weight: 600;font-size: 14px;"></span>
-                &nbsp;&nbsp;&nbsp;
-                <span style="font-weight: 600;font-size: 14px;"><i class="fa fa-calendar" aria-hidden="true"></i></span>
-                <span class="modal-title" id="ServiceDateLabel" style="font-weight: 600;font-size: 14px;"></span>
+                <span style="font-weight: 600;font-size: 14px;" id="AddOrEditSpan">Add New</span>
+              
 
             </div>
             @*<div class="container-fluid">
@@ -138,6 +159,8 @@
                             @Html.AntiForgeryToken()
 
                             @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "", Value = "0" })
+                            @Html.HiddenFor(model => model.DepWithdID, htmlAttributes: new { @class = "", Value = "0" })
+
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                             <div class="form-group col-md-12">
@@ -255,7 +278,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="col-md-10">
-                                        @Html.TextAreaFor(model => model.Description, 7, 60, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter", @id = "Description" } })
+                                        @Html.TextAreaFor(model => model.Description, 3, 60, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter", @id = "Description" } })
                                        
                                         @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                                     </div>
