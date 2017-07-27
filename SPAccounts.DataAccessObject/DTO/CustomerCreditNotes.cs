@@ -14,6 +14,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string CreditNoteNo { get; set; }
         public DateTime? CreditNoteDate { get; set; }
         public decimal CreditAmount { get; set; }
+        public decimal AvailableCredit  { get; set; }
         public string Type { get; set; }
         public string GeneralNotes { get; set; }
         public string CreditNoteDateFormatted { get; set; }

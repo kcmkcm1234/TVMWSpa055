@@ -10,7 +10,13 @@ namespace UserInterface.Models
     {
 
         public Guid ID { get; set; }
-        public string EntryNo { get; set; }
+        public string EntryNo { get; set; } 
+       
+        [Display(Name = "Payment/Credit Adjustment")]
+        public string Type { get; set; }
+
+        [Display(Name = "Credit Note To Adjust")]
+        public Guid CreditID { get; set; }
 
         [Required(ErrorMessage = "Received To Company is missing")]
         [Display(Name = "Received To Company")]
@@ -49,6 +55,7 @@ namespace UserInterface.Models
         public PaymentModesViewModel PaymentModesObj { get; set; }
         public BankViewModel bankObj { get; set; }
         public CompaniesViewModel CompanyObj { get; set; }
+        public CustomerCreditNoteViewModel CreditObj { get; set; }
 
         public string paymentDetailhdf { get; set; }
         public string hdfCustomerID { get; set; }

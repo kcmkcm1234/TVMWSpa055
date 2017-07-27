@@ -66,5 +66,21 @@ namespace SPAccounts.BusinessService.Services
             }
             return result;
         }
+
+        public List<CustomerCreditNotes> GetCreditNoteByCustomer(Guid ID)
+        {
+            List<CustomerCreditNotes> custcreditlist = new List<CustomerCreditNotes>();
+            custcreditlist = _customerCreditNotesRepository.GetCreditNoteByCustomer(ID);
+            return custcreditlist;
+        }
+        public CustomerCreditNotes GetCreditNoteAmount(Guid CreditID,Guid CustomerID)
+        {
+            CustomerCreditNotes creditnote = new CustomerCreditNotes();
+            List<CustomerCreditNotes> custcreditlist = new List<CustomerCreditNotes>();
+            custcreditlist = _customerCreditNotesRepository.GetCreditNoteByCustomer(CustomerID);
+            custcreditlist = custcreditlist.Where(m => m.ID == CreditID).ToList();
+            creditnote = custcreditlist[0];
+            return creditnote;
+        }
     }
 }
