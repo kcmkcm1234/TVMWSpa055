@@ -10,6 +10,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public Guid ID { get; set; }
         public string ExpenseDate { get; set; }
         public string AccountCode { get; set; }
+        public ChartOfAccounts chartOfAccounts { get; set; }
         public string PaidFromCompanyCode { get; set; }
         public Companies companies { get; set; }
         public Employee employee { get; set; }
