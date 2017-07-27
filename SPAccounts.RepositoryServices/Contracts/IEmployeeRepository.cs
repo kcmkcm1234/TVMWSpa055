@@ -10,5 +10,6 @@ namespace SPAccounts.RepositoryServices.Contracts
     public interface IEmployeeRepository
     {
         List<Employee> GetAllEmployees();
+        List<EmployeeType> GetAllEmployeeTypes();
     }
 }

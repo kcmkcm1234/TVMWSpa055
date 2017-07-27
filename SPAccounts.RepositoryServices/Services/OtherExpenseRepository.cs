@@ -100,8 +100,9 @@ namespace SPAccounts.RepositoryServices.Services
                                         _otherExpense.chartOfAccounts = new ChartOfAccounts()
                                         {
                                             Code= (sdr["AccountCode"].ToString() != "" ? sdr["AccountCode"].ToString() : string.Empty),
-                                            TypeDesc= (sdr["AccountTypeDescription"].ToString() != "" ? sdr["AccountTypeDescription"].ToString() : string.Empty)
-                                        };
+                                            TypeDesc= (sdr["AccountTypeDescription"].ToString() != "" ? sdr["AccountTypeDescription"].ToString() : string.Empty),
+                                            ISEmploy= (sdr["ISEmpApplicable"].ToString() != "" ? bool.Parse(sdr["ISEmpApplicable"].ToString()) : false),
+                                        }; 
                                         _otherExpense.AccountCode = (sdr["AccountCode"].ToString() != "" ? sdr["AccountCode"].ToString() : _otherExpense.AccountCode);
                                         _otherExpense.PaidFromCompanyCode = (sdr["PaidFromComanyCode"].ToString() != "" ? (sdr["PaidFromComanyCode"].ToString()) : _otherExpense.PaidFromCompanyCode);
                                         _otherExpense.companies = new Companies()

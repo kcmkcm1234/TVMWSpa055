@@ -48,6 +48,7 @@ namespace SPAccounts.RepositoryServices.Services
                                     {
                                         _chartofAccountsObj.Code = (sdr["Code"].ToString() != "" ? (sdr["Code"].ToString()) : _chartofAccountsObj.Code);
                                         _chartofAccountsObj.TypeDesc = (sdr["TypeDesc"].ToString() != "" ? (sdr["TypeDesc"].ToString()) : _chartofAccountsObj.TypeDesc);
+                                        _chartofAccountsObj.ISEmploy = (sdr["ISEmpApplicable"].ToString() != "" ? bool.Parse(sdr["ISEmpApplicable"].ToString()) : _chartofAccountsObj.ISEmploy);
                                         
                                     }
                                     chartofAccountsList.Add(_chartofAccountsObj);                                   

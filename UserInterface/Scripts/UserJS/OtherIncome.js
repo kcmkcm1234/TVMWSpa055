@@ -106,8 +106,8 @@ function ResetForm() {
     validator.resetForm();
 }
 
-function Delete(currObj) {
-    debugger;    
+function Delete(currObj)
+{
     var rowData = DataTables.OtherIncomeTable.row($(currObj).parents('tr')).data();
     if ((rowData != null) && (rowData.ID != null)) {
         var ID = rowData.ID;

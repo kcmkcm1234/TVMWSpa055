@@ -84,5 +84,48 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return employeeList;
         }
+
+        public List<EmployeeType> GetAllEmployeeTypes()
+        {
+            List<EmployeeType> employeeTypeList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetEmployeeTypes]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                employeeTypeList = new List<EmployeeType>();
+                                while (sdr.Read())
+                                {
+                                    EmployeeType _employeeType = new EmployeeType()
+                                    {
+                                        Code = (sdr["Code"].ToString() != "" ? sdr["Code"].ToString() : string.Empty),
+                                        Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : string.Empty)
+                                    };
+
+                                    employeeTypeList.Add(_employeeType);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return employeeTypeList;
+        }
     }
 }
