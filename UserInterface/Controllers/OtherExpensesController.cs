@@ -36,8 +36,10 @@ namespace UserInterface.Controllers
                     selectListItem.Add(new SelectListItem
                     {
                         Text = cav.TypeDesc,
-                        Value = cav.Code,
-                        Selected = false
+                        Value = cav.Code +":"+ cav.ISEmploy,
+                        Selected = false,
+                      
+                        
                     });
                 }
                 otherExpenseViewModelObj.AccountTypes = selectListItem;
@@ -82,18 +84,31 @@ namespace UserInterface.Controllers
                     });
                 }
                 otherExpenseViewModelObj.paymentModeList = selectListItem;
+                //selectListItem = new List<SelectListItem>();
+                //List<EmployeeViewModel> empList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_otherExpenseBusiness.GetAllEmployees());
+                //foreach (EmployeeViewModel evm in empList)
+                //{
+                //    selectListItem.Add(new SelectListItem
+                //    {
+                //        Text = evm.Name,
+                //        Value = evm.ID.ToString(),
+                //        Selected = false
+                //    });
+                //}
+                //otherExpenseViewModelObj.EmployeeList = selectListItem;
+                selectListItem = null;
                 selectListItem = new List<SelectListItem>();
-                List<EmployeeViewModel> empList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_otherExpenseBusiness.GetAllEmployees());
-                foreach (EmployeeViewModel evm in empList)
+                List<EmployeeTypeViewModel> empTypeList = Mapper.Map<List<EmployeeType>, List<EmployeeTypeViewModel>>(_otherExpenseBusiness.GetAllEmployeeTypes());
+                foreach (EmployeeTypeViewModel etvm in empTypeList)
                 {
                     selectListItem.Add(new SelectListItem
                     {
-                        Text = evm.Name,
-                        Value = evm.ID.ToString(),
+                        Text = etvm.Name,
+                        Value = etvm.Code,
                         Selected = false
                     });
                 }
-                otherExpenseViewModelObj.EmployeeList = selectListItem;
+                otherExpenseViewModelObj.EmployeeTypeList = selectListItem;
 
             }
             catch (Exception ex)
@@ -105,16 +120,50 @@ namespace UserInterface.Controllers
             
         }
 
-
+        #region GetAllEmployeeTypes
+        [HttpGet]
+        public string GetAllEmployeesByType(string Type)
+        {
+            try
+            {
+                List<EmployeeViewModel> employeeViewModelList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_otherExpenseBusiness.GetAllEmployeesByType(Type));
+                var empList = employeeViewModelList != null ? employeeViewModelList.Select(i => new { i.ID, i.Name }).ToList() : null;
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = empList });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion  GetAllEmployeeTypes
 
         #region GetAllOtherExpenses
         [HttpGet]
-        public string GetAllOtherExpenses()
+        public string GetAllOtherExpenses(string ExpenseDate, string DefaultDate)
         {
             try
             {
                 List<OtherExpenseViewModel> otherExpenseViewModelList = Mapper.Map<List<OtherExpense>, List<OtherExpenseViewModel>>(_otherExpenseBusiness.GetAllOtherExpenses());
+                if(!string.IsNullOrEmpty(ExpenseDate))
+                {
+
+                    otherExpenseViewModelList = otherExpenseViewModelList != null ? otherExpenseViewModelList
+                     .Where(o => o.ExpenseDate == ExpenseDate)
+                    .ToList():null;
+                }
+                if(!string.IsNullOrEmpty(DefaultDate))
+                {
+                    //DefaultDate is no. of days coming ie 30 or 60 days
+                    ExpenseDate = DateTime.Now.AddDays(-int.Parse(DefaultDate)).ToString("dd-MMM-yyyy");
+                    //JobList = JobList == null ? null : JobList.Where(stype => stype.SCCode == SCCode && stype.Employee.ID == id && DateTime.Parse(stype.ServiceDate) == DateTime.Parse(servicedate)).ToList();
+                    otherExpenseViewModelList = otherExpenseViewModelList != null ? otherExpenseViewModelList
+                    .Where(o => DateTime.Parse(o.ExpenseDate).Date >= DateTime.Parse(ExpenseDate).Date && DateTime.Parse(o.ExpenseDate).Date<=DateTime.Now.Date)
+                    .ToList() : null;
+
+                }
                 string totamt = _commonBusiness.ConvertCurrency(otherExpenseViewModelList != null ? otherExpenseViewModelList.Sum(o => o.Amount):decimal.Zero);
+
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = otherExpenseViewModelList, TotalAmount= totamt});
             }
             catch (Exception ex)
@@ -132,6 +181,10 @@ namespace UserInterface.Controllers
             try
             {
                 OtherExpenseViewModel otherExpenseViewModel = Mapper.Map<OtherExpense, OtherExpenseViewModel>(_otherExpenseBusiness.GetExpenseDetailsByID(Guid.Parse(ID)));
+                if(otherExpenseViewModel!=null)
+                {
+                    otherExpenseViewModel.AccountCode = otherExpenseViewModel.AccountCode + ":" + otherExpenseViewModel.chartOfAccounts.ISEmploy;
+                }
                
                 return JsonConvert.SerializeObject(new { Result = "OK", Record = otherExpenseViewModel});
             }
@@ -151,6 +204,11 @@ namespace UserInterface.Controllers
             {
                 try
                 {
+                    //removiing combined code
+                    int len=otherExpenseViewModel.AccountCode.IndexOf(':');
+                    otherExpenseViewModel.AccountCode = otherExpenseViewModel.AccountCode.Remove(len);
+                    //
+
                     otherExpenseViewModel.commonObj = new CommonViewModel();
                     otherExpenseViewModel.commonObj.CreatedBy = "Albert Thomson";
                     otherExpenseViewModel.commonObj.CreatedDate = DateTime.Now;
@@ -190,8 +248,29 @@ namespace UserInterface.Controllers
             }
         }
         #endregion InsertUpdateOtherExpense
+        #region DeleteOtherExpense
+        
+        public string DeleteOtherExpense(string ID)
+        {
+
+            try
+            {
+                object result = null;
+
+                result = _otherExpenseBusiness.DeleteOtherExpense(Guid.Parse(ID));
+                return JsonConvert.SerializeObject(new { Result = "OK", Message = result });
+
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
 
 
+        }
+        #endregion DeleteOtherExpense
+     
         #region ButtonStyling
         [HttpGet]
         public ActionResult ChangeButtonStyle(string ActionType)

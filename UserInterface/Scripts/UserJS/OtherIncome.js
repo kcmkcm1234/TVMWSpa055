@@ -17,24 +17,29 @@ $(document).ready(function () {
                  searchPlaceholder: "Search"
              },
              columns: [
-               { "data": "ID" },
-               { "data": "slNo" },
+               { "data": null },
+               { "data": "ID" },              
                { "data": "AccountCode", "defaultContent": "<i>-</i>" },
                { "data": "AccountDesc", "defaultContent": "<i>-</i>" },
                { "data": "PaymentMode", "defaultContent": "<i>-</i>" },
                { "data": "IncomeDateFormatted", "defaultContent": "<i>-</i>" },
                  { "data": "Description", "defaultContent": "<i>-</i>" },
                { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
-               { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' },
+               { "data": null, "orderable": false, "defaultContent": '<a href="#" title="Edit OtherIncome" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' },
                { "data": null, "orderable": false, "defaultContent": '<a data-toggle="tp" data-placement="top" data-delay={"show":2000, "hide":3000} title="Delete OtherIncome" href="#" class="DeleteLink" onclick="Delete(this)"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' }
              ],
-             columnDefs: [{ "targets": [0,2], "visible": false, "searchable": false },
+             columnDefs: [{ "targets": [1,2], "visible": false, "searchable": false },
                   { className: "text-right", "targets": [7] },
-             { className: "text-center", "targets": [1,3,4,5, 6,8] }
+                    { className: "text-left", "targets": [0,3,4,6] },
+             { className: "text-center", "targets": [5,8] }
 
              ]
          });
-
+        DataTables.OtherIncomeTable.on('order.dt search.dt', function () {
+            DataTables.OtherIncomeTable.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                cell.innerHTML = i + 1;
+            });
+        }).draw();
         $('#OtherIncomeTable tbody').on('dblclick', 'td', function () {
 
             Edit(this);
@@ -102,8 +107,8 @@ function ResetForm() {
     validator.resetForm();
 }
 
-function Delete(currObj) {
-    debugger;    
+function Delete(currObj)
+{
     var rowData = DataTables.OtherIncomeTable.row($(currObj).parents('tr')).data();
     if ((rowData != null) && (rowData.ID != null)) {
         var ID = rowData.ID;
@@ -126,7 +131,7 @@ function DeleteOtherIncome(ID) {
             }
             if (ds.Result == "OK") {
                 notyAlert('success', ds.Message.Message);
-                IncomeDateOnchange();
+                BindAllOtherIncome($("#IncomeDate").val(), $("#DefaultDate").val());
             }
             if (ds.Result == "ERROR") {
                 notyAlert('error', ds.Message);
@@ -148,16 +153,13 @@ function PaymentModeOnchange(curObj)
     if (curObj.value == "ONLINE")
     {
         $("#BankCode").prop('disabled', false);
-        if($("#BankCode").val()=="")
-        {
-            //notyAlert('error', 'Please Select Bank');
-        }
     }
     else
     {
         $("#BankCode").val("");
         $("#BankCode").prop('disabled', true);
     }
+    $('span[data-valmsg-for="BankCode"]').empty();
 }
 
 
@@ -168,6 +170,23 @@ function ShowModal()
     $("#AddOrEditSpan").text("Add New");
 }
 
+function Validation() {
+    debugger;
+    var fl = true;
+    var pm = $("#PaymentMode").val();
+    if ((pm) && (pm == "ONLINE")) {
+        if ($("#BankCode").val() == "") {
+            fl = false;
+
+            $('span[data-valmsg-for="BankCode"]').append('<span for="EmpID" class="">BankCode required</span>')
+        }
+        else {
+            $('span[data-valmsg-for="BankCode"]').empty();
+        }
+
+    }
+    return fl;
+}
 
 function SaveOtherIncome()
 {

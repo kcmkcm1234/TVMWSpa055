@@ -12,6 +12,7 @@ namespace UserInterface.Models
         public Guid? ID { get; set; }
         [Display(Name="Credit Note No")]
         [Required(ErrorMessage = "Please enter Credit Note No")]
+        [MaxLength(20)]
         public string CreditNoteNo { get; set; }
         [Display(Name = "Customer Name")]
         [Required(ErrorMessage = "Please select customer")]

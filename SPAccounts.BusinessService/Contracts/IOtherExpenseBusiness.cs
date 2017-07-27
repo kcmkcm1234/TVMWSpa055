@@ -16,8 +16,10 @@ namespace SPAccounts.BusinessService.Contracts
         List<PaymentModes> GetAllPaymentModes();
         List<Bank> GetAllBankes();
         List<Employee> GetAllEmployees();
+        List<EmployeeType> GetAllEmployeeTypes();
+        List<Employee> GetAllEmployeesByType(string Type);
         OtherExpense InsertOtherExpense(OtherExpense otherExpense);
         OtherExpense UpdateOtherExpense(OtherExpense otherExpense);
-        object DeleteOtherExpense(OtherExpense otherExpense);
+        object DeleteOtherExpense(Guid ID);
     }
 }

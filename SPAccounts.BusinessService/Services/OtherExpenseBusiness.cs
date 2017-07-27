@@ -140,12 +140,33 @@ namespace SPAccounts.BusinessService.Services
 
         public OtherExpense UpdateOtherExpense(OtherExpense otherExpense)
         {
-            throw new NotImplementedException();
+            return _otherExpenseRepository.UpdateOtherExpense(otherExpense);
         }
 
-        public object DeleteOtherExpense(OtherExpense otherExpense)
+        public object DeleteOtherExpense(Guid ID)
         {
-            throw new NotImplementedException();
+            return _otherExpenseRepository.DeleteOtherExpense(ID);
+        }
+
+        public List<EmployeeType> GetAllEmployeeTypes()
+        {
+            return _employeeRepository.GetAllEmployeeTypes();
+        }
+
+        public List<Employee> GetAllEmployeesByType(string Type)
+        {
+            List<Employee> empList = null;
+            try
+            {
+                empList=GetAllEmployees();
+                empList = empList != null ? empList.Where(e => e.employeeType.Code == Type).ToList() : null;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+
+            return empList;
         }
     }
 }
