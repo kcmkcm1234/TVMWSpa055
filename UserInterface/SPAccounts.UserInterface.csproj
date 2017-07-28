@@ -1528,6 +1528,7 @@
     <Compile Include="Models\ApplicationViewModel.cs" />
     <Compile Include="Models\AppObjectViewModel.cs" />
     <Compile Include="Models\BankViewModel.cs" />
+    <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\DepositAndWithdrwalViewModel.cs" />
     <Compile Include="Models\EmployeeViewModel.cs" />
     <Compile Include="Models\ChartOfAccountsViewModel.cs" />
@@ -1593,6 +1594,7 @@
     <Content Include="Views\OtherExpenses\Index.cshtml" />
     <Content Include="Views\SupplierCreditNote\Index.cshtml" />
     <Content Include="Views\OtherIncome\Index.cshtml" />
+    <Content Include="Views\Dashboard\Admin.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
