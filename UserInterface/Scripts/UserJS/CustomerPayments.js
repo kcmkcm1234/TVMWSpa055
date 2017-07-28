@@ -298,10 +298,7 @@ function GetCreditNoteByCustomer(ID) {
 }
 
 function savePayments() {
-    debugger;
-  
-  
-
+    debugger; 
     if ($('#PaymentMode').val() == "ONLINE" &&  $("#BankCode").val()=="" ) {
 
         notyAlert('error', 'Please Select Bank');
@@ -323,6 +320,7 @@ function savePayments() {
             }
             $('#paymentDetailhdf').val(JSON.stringify(ar));
         }
+        $('#hdfCreditAmount').val($('#lblPaymentApplied').text());
         $('#AdvanceAmount').val($('#lblCredit').text());
         $('#btnSave').trigger('click');
     }
