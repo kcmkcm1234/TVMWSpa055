@@ -194,6 +194,21 @@ function GetCustomerPaymentsByID(ID) {
     $('#Type').val(thisitem.Type);
     $('#hdfType').val(thisitem.Type);
     $('#Type').prop('disabled', true);
+    debugger;
+    if ( $('#Type').val() == 'C') {
+        $("#CreditID").html("");
+        $("#CreditID").append($('<option></option>').val(thisitem.CreditID).html(thisitem.CreditNo + ' ( Credit Amt: ₹' + thisitem.TotalRecdAmt + ')'));
+        $('#CreditID').val(thisitem.CreditID)
+        $('#CreditID').prop('disabled', true); 
+        $('#TotalRecdAmt').prop('disabled', true); 
+        $('#hdfCreditID').val(thisitem.CreditID);
+        $('#PaymentMode').prop('disabled', true); 
+    }
+    else {
+        $("#CreditID").html(""); // clear before appending new list 
+        $("#CreditID").append($('<option></option>').val(emptyGUID).html('--Select Credit Note--'));
+        $('#hdfCreditID').val(emptyGUID);
+}
 
     PaymentModeChanged();
     //BIND OUTSTANDING INVOICE TABLE USING CUSTOMER ID AND PAYMENT HEADER 
@@ -220,6 +235,7 @@ function openNavClick() {
     $('#Customer').prop('disabled', false);
     $('#BankCode').prop('disabled', true);
     $('#Type').prop('disabled', false);
+    $('#PaymentMode').prop('disabled', false);
     openNav();
 }
  
@@ -402,13 +418,20 @@ function fieldsclear() {
     $('#lblCredit').text('0');
     $('#paidAmt').text('₹ 0.00');
     $('#ID').val(emptyGUID);
+    $("#CreditID").html("");
+    $('#Type').val('P');
+    $("#ddlCreditDiv").css("visibility", "hidden");
+}
+function CustomerChange() {
+    debugger;
+    if ($('#Customer').val() != "")
+        BindCreditDropDown();
+    BindOutstanding();
 }
 
 function BindOutstanding() {
     index = 0; 
-    DataTables.OutStandingInvoices.clear().rows.add(GetOutStandingInvoices()).draw(false);
-    
-    BindCreditDropDown();
+    DataTables.OutStandingInvoices.clear().rows.add(GetOutStandingInvoices()).draw(false); 
 }
 
 function BindCustomerPaymentsHeader()
