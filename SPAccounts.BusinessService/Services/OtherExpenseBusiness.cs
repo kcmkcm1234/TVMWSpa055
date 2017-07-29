@@ -147,5 +147,26 @@ namespace SPAccounts.BusinessService.Services
         {
             return _otherExpenseRepository.DeleteOtherExpense(ID);
         }
+
+        public List<EmployeeType> GetAllEmployeeTypes()
+        {
+            return _employeeRepository.GetAllEmployeeTypes();
+        }
+
+        public List<Employee> GetAllEmployeesByType(string Type)
+        {
+            List<Employee> empList = null;
+            try
+            {
+                empList=GetAllEmployees();
+                empList = empList != null ? empList.Where(e => e.employeeType.Code == Type).ToList() : null;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+
+            return empList;
+        }
     }
 }

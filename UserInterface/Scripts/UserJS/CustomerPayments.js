@@ -4,13 +4,8 @@ var sum = 0;
 var index = 0;
 var AmountReceived=0;
 
-$(document).ready(function () {
-    $(".paymentAmount").on('change', function () {
-        alert(1);
-    });
-
-
-
+$(document).ready(function () { 
+try{
     DataTables.CustomerPaymentTable = $('#CustPayTable').DataTable(
     {
         dom: '<"pull-left"f>rt<"bottom"ip><"clear">',
@@ -33,9 +28,13 @@ $(document).ready(function () {
             { className: "text-right", "targets": [6,7] },
             { className: "text-center", "targets": [1, 2, 3,4,5,8] } 
         ]
-    });    
+    });        
+}
+    catch (e) {
+        notyAlert('error', e.message);
+}
 
- 
+ try{
     DataTables.OutStandingInvoices = $('#tblOutStandingDetails').DataTable({
         dom: '<"pull-left"f>rt<"bottom"ip><"clear">',
         order: [],
@@ -90,7 +89,12 @@ $(document).ready(function () {
 
         select: {style: 'multi', selector: 'td:first-child'   } 
     });
+ }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
 
+try{
 
     $('input[type="text"].selecttext').on('focus', function () {
         $(this).select();
@@ -113,6 +117,10 @@ $(document).ready(function () {
             Selectcheckbox();
         }
     });
+}
+    catch (e) {
+        notyAlert('error', e.message);
+    }
 });
 
 function paymentAmountFocus(event)
@@ -196,14 +204,114 @@ function openNavClick() {
     $('#lblheader').text('New Payment');
     ChangeButtonPatchView('CustomerPayments', 'btnPatchAdd', 'Add');
     $('#Customer').prop('disabled', false);
+    $('#BankCode').prop('disabled', true);
     openNav();
+}
+ 
+function TypeOnChange() {
+    if ($('#Type').val() == "C"){
+        $("#ddlCreditDiv").css("visibility", "visible"); 
+        $('#PaymentMode').val('');
+        $('#BankCode').val('');
+        $('#PaymentMode').prop('disabled', true);
+        $('#BankCode').prop('disabled', true);
+        $("#lblTotalRecdAmtCptn").text('Credit Amount');
+        $("#lblPaymentAppliedCptn").text('Total Credit Used');
+        $("#lblCreditCptn").text('Credit Remaining');
+        $("#lblTotalAmtRecdCptn").text('Credit Amount')
+    }
+    else {
+        $("#ddlCreditDiv").css("visibility", "hidden");
+        $('#PaymentMode').prop('disabled', false);
+        $('#BankCode').prop('disabled', true);
+        $("#lblTotalRecdAmtCptn").text('Total Amount Recevied');
+        $("#lblPaymentAppliedCptn").text('Payment Applied');
+        $("#lblCreditCptn").text('Credit Received');
+        $("#lblTotalAmtRecdCptn").text('Amount Received');
+        $('#TotalRecdAmt').val(0);
+        $('#TotalRecdAmt').prop('disabled', false);
+        AmountChanged();
+    }
+}
+function ddlCreditOnChange(event) {
+    debugger;
+    var creditID = $("#CreditID").val();
+    var CustomerID = $("#Customer").val();
+    var ds = GetCreditNoteAmount(creditID, CustomerID);
+    $('#TotalRecdAmt').val(ds.AvailableCredit);
+    $('#TotalRecdAmt').prop('disabled', true);
+    AmountChanged();
+
+}
+
+function GetCreditNoteAmount(ID,CustomerID) {
+    try {
+        var data = { "CreditID": ID, "CustomerID": CustomerID };
+        var ds = {};
+        ds = GetDataFromServer("CustomerPayments/GetCreditNoteAmount/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            notyAlert('error', ds.Message);
+            var emptyarr = [];
+            return emptyarr;
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
+function BindCreditDropDown() {
+    debugger;
+    var ID = $("#Customer").val() == "" ? null : $("#Customer").val();
+    if (ID != null) {
+        var ds = GetCreditNoteByCustomer(ID);
+        if (ds.length > 0) {
+            $("#CreditID").html(""); // clear before appending new list 
+            $("#CreditID").append($('<option></option>').val(emptyGUID).html('--Select Credit Note--'));
+            $.each(ds, function (i, credit) {
+                $("#CreditID").append(
+                    $('<option></option>').val(credit.ID).html(credit.CreditNoteNo + ' ( Credit Amt: ₹' + credit.AvailableCredit + ')'));
+            });
+        }
+        else {
+            $("#CreditID").html("");
+            $("#CreditID").append($('<option></option>').val(emptyGUID).html('No Credit Notes Available'));
+            $("#Type").val('P');
+            TypeOnChange();
+        }
+    }
+}
+
+function GetCreditNoteByCustomer(ID) {
+    try {
+        var data = { "ID": ID };
+        var ds = {};
+        ds = GetDataFromServer("CustomerPayments/GetCreditNoteByCustomer/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            notyAlert('error', ds.Message);
+            var emptyarr = [];
+            return emptyarr;
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
 }
 
 function savePayments() {
-    debugger;
-  
-  
-
+    debugger; 
     if ($('#PaymentMode').val() == "ONLINE" &&  $("#BankCode").val()=="" ) {
 
         notyAlert('error', 'Please Select Bank');
@@ -225,6 +333,7 @@ function savePayments() {
             }
             $('#paymentDetailhdf').val(JSON.stringify(ar));
         }
+        $('#hdfCreditAmount').val($('#lblPaymentApplied').text());
         $('#AdvanceAmount').val($('#lblCredit').text());
         $('#btnSave').trigger('click');
     }
@@ -284,6 +393,8 @@ function fieldsclear() {
 function BindOutstanding() {
     index = 0; 
     DataTables.OutStandingInvoices.clear().rows.add(GetOutStandingInvoices()).draw(false);
+    if ($('#Type').val() == "C")
+    BindCreditDropDown();
 }
 
 function BindCustomerPaymentsHeader()
@@ -292,11 +403,13 @@ function BindCustomerPaymentsHeader()
 }
 
 function PaymentModeChanged() {
-    if ($('#PaymentMode').val()=="ONLINE")
-        $("#depositTo").css("visibility", "visible");
+    if ($('#PaymentMode').val()=="ONLINE"){
+        $('#BankCode').prop('disabled', false);
+    }
+       
     else {
         $("#BankCode").val('');
-        $("#depositTo").css("visibility", "hidden");
+        $('#BankCode').prop('disabled', true);
     }
 }
 

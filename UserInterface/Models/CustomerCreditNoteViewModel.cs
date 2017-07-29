@@ -31,6 +31,7 @@ namespace UserInterface.Models
         [Display(Name = "Credit Amount")]
         [Required(ErrorMessage = "Please enter credit amount")]
         public decimal CreditAmount { get; set; }
+        public decimal AvailableCredit { get; set; }
         [Display(Name = "General Notes")]
         public string GeneralNotes { get; set; }
         public string creditAmountFormatted { get; set; }
@@ -39,5 +40,6 @@ namespace UserInterface.Models
         public List<SelectListItem> CustomerList { get; set; }
         public CommonViewModel commonObj { get; set; }
         public List<SelectListItem> CompaniesList { get; set; }
+        public List<SelectListItem> CreditList { get; set; }
     }
 }

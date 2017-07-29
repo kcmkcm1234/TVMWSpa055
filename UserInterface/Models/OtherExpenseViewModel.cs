@@ -48,13 +48,16 @@ namespace UserInterface.Models
         public ChartOfAccountsViewModel chartOfAccounts { get; set; }
         public List<SelectListItem> AccountTypes { get; set; }
 
-        [Required(ErrorMessage = "Employee required")]
+       
         [Display(Name = "Employee")]
         public Guid EmpID { get; set; }
         public List<SelectListItem> EmployeeList { get; set; }
         public EmployeeViewModel employee { get; set; }
-       
 
+        
+        [Display(Name = "Employee Type")]
+        public string EmpTypeCode { get; set; }
+        public List<SelectListItem> EmployeeTypeList { get; set; }
         public CommonViewModel commonObj { get; set; }
     }
 }

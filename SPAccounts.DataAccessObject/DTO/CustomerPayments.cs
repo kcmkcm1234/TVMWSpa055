@@ -20,6 +20,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal AdvanceAmount { get; set; }
 
         public string hdfCustomerID { get; set; }
+        public string hdfCreditAmount { get; set; }
         public string PaymentDateFormatted { get; set; }
         public List<CustomerPaymentsDetail> CustomerPaymentsDetail { get; set; }
         public CustomerPaymentsDetail CustPaymentDetailObj { get; set; }

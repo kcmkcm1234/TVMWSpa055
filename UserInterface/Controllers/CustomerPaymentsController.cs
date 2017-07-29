@@ -22,19 +22,21 @@ namespace UserInterface.Controllers
         ICustomerBusiness _customerBusiness;
         IBankBusiness _bankBusiness;
         ICompaniesBusiness _companiesBusiness;
+        ICustomerCreditNotesBusiness _customerCreditNotesBusiness;
         IPaymentModesBusiness _paymentmodesBusiness;
         ICustomerInvoicesBusiness _customerInvoicesBusiness;
 
         public CustomerPaymentsController(ICustomerPaymentsBusiness custPaymentBusiness,
             IPaymentModesBusiness paymentmodeBusiness,
             ICustomerBusiness customerBusiness,IBankBusiness bankBusiness,ICompaniesBusiness companiesBusiness,
-            ICustomerInvoicesBusiness customerInvoicesBusiness)
+            ICustomerInvoicesBusiness customerInvoicesBusiness, ICustomerCreditNotesBusiness CustomerCreditNotesBusiness)
         {
             _CustPaymentBusiness = custPaymentBusiness;
             _paymentmodesBusiness = paymentmodeBusiness;
             _customerInvoicesBusiness = customerInvoicesBusiness;
             _customerBusiness = customerBusiness;
             _bankBusiness = bankBusiness;
+            _customerCreditNotesBusiness = CustomerCreditNotesBusiness;
             _companiesBusiness = companiesBusiness;
         }
         #endregion Constructor_Injection 
@@ -113,7 +115,7 @@ namespace UserInterface.Controllers
                     Selected = false
                 });
             }
-            CP.CompanyObj.CompanyList= selectListItem;   
+            CP.CompanyObj.CompanyList= selectListItem;
             return View(CP);
         }
         #endregion Index
@@ -228,6 +230,30 @@ namespace UserInterface.Controllers
         }
 
         #endregion InsertUpdatePayments
+
+        #region GetCreditNoteByCustomer
+
+        [HttpGet]
+        public string GetCreditNoteByCustomer(string ID)
+        {
+            List<CustomerCreditNoteViewModel> CreditList = Mapper.Map<List<CustomerCreditNotes>, List<CustomerCreditNoteViewModel>>(_customerCreditNotesBusiness.GetCreditNoteByCustomer(Guid.Parse(ID)));
+
+            return JsonConvert.SerializeObject(new { Result = "OK", Records = CreditList });
+
+        }
+        #endregion GetCreditNoteByCustomer
+
+        #region GetCreditNoteByCustomer
+
+        [HttpGet]
+        public string GetCreditNoteAmount(string CreditID,string CustomerID)
+        {
+            CustomerCreditNoteViewModel CreditNote = Mapper.Map<CustomerCreditNotes,CustomerCreditNoteViewModel>(_customerCreditNotesBusiness.GetCreditNoteAmount(Guid.Parse(CreditID), Guid.Parse(CustomerID)));
+
+            return JsonConvert.SerializeObject(new { Result = "OK", Records = CreditNote });
+
+        }
+        #endregion GetCreditNoteByCustomer
 
         #region ButtonStyling
         [HttpGet]

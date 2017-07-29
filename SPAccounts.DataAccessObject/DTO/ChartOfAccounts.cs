@@ -13,5 +13,6 @@ namespace SPAccounts.DataAccessObject.DTO
         public string OpeningPaymentMode { get; set; }
         public decimal OpeningBalance { get; set; }
         public DateTime OpeningAsOfDate { get; set; }
+        public bool ISEmploy {get;set;}
     }
 }

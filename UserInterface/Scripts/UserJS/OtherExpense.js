@@ -149,9 +149,9 @@ function ClearFields() {
 
 
 
-function BindAllExpenseDetails() {
+function BindAllExpenseDetails(ExpenseDate, DefaultDate) {
     try {
-        DataTables.expenseDetailTable.clear().rows.add(GetAllExpenseDetails()).draw(false);
+        DataTables.expenseDetailTable.clear().rows.add(GetAllExpenseDetails(ExpenseDate, DefaultDate)).draw(false);
     }
     catch (e) {
         notyAlert('error', e.message);
@@ -164,6 +164,7 @@ function SaveSuccess(data, status) {
     switch (JsonResult.Result) {
         case "OK":
             BindAllExpenseDetails();
+            $("#AddOtherexpenseModel").modal('hide');
             notyAlert('success', JsonResult.Message);
             $("#ID").val(JsonResult.Record.ID);
                       
@@ -180,6 +181,7 @@ function SaveSuccess(data, status) {
 function Reset() {
     if ($("#ID").val() == emptyGUID) {
         ClearFields();
+        $("#AddOrEditSpan").text("Add New");
     }
     else {
       
@@ -238,6 +240,7 @@ function FillOtherExpenseDetails(ID) {
         $("#ExpenseRef").val(thisItem.ExpenseRef);
         $("#Amount").val(thisItem.Amount);
         $("#Description").val(thisItem.Description);
+        $("#AddOrEditSpan").text("Edit");
     }
    
 
@@ -260,7 +263,12 @@ function Edit(currentObj) {
 function AddOtherExpense() {
     try {
         ClearFields();
+        $("#expenseDateModal").val($("#ExpDate").val());
         $("#AddOtherexpenseModel").modal('show');
+        $("#AddOrEditSpan").text("Add New");
+        $("#EmpID").prop('disabled', true);
+        $("#EmpTypeCode").prop('disabled', true);
+        $("#BankCode").prop('disabled', true);
     }
     catch (e) {
         notyAlert('error', e.message);
@@ -289,7 +297,8 @@ function DeleteOtherExpense(ID) {
             }
             if (ds.Result == "OK") {
                 notyAlert('success', ds.Message.Message);
-                  ExpenseDateOnchange();
+                
+                BindAllOtherExpense($("#ExpDate").val(), $("#DefaultDate").val());
             }
             if (ds.Result == "ERROR") {
                 notyAlert('error', ds.Message);
@@ -344,5 +353,83 @@ function ExpenseDefaultDateOnchange()
     }
     else {
       
+    }
+}
+function AccountCodeOnchange(curobj)
+{
+    var AcodeCombined = $(curobj).val();
+    if(AcodeCombined)
+    {
+        var len = AcodeCombined.indexOf(':');
+        var IsEmploy = AcodeCombined.substring(len + 1, (AcodeCombined.length));
+        // console.log(str.substring(0, (len)));
+        if(IsEmploy=="True")
+        {
+            $("#EmpTypeCode").prop('disabled', false);
+            $("#EmpID").prop('disabled', false);
+        }
+        else
+        {
+            $("#EmpTypeCode").val('');
+            $("#EmpID").val('');
+            $("#EmpTypeCode").prop('disabled', true);
+            $("#EmpID").prop('disabled', true);
+        }
+    }
+
+}
+
+function EmployeeTypeOnchange(curobj)
+{
+    var emptypeselected = $(curobj).val();
+    if(emptypeselected)
+    {
+        BindEmployeeDropDown(emptypeselected);
+    }
+}
+
+
+function BindEmployeeDropDown(type)
+{
+    try
+    {
+        var employees = GetAllEmployeesByType(type);
+        if (employees)
+        {
+            $('#EmpID').empty();
+            $('#EmpID').append(new Option('-- Select Employee --', -1));
+            for (var i = 0; i < employees.length; i++) {
+                var opt = new Option(employees[i].Name, employees[i].ID);
+                $('#EmpID').append(opt);
+
+            }
+        }
+       
+
+    }
+    catch(e)
+    {
+        notyAlert('error', e.message);
+    }
+}
+
+function GetAllEmployeesByType(type)
+{
+    try {
+        var data = { "Type": type };
+        var ds = {};
+        ds = GetDataFromServer("OtherExpenses/GetAllEmployeesByType/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            notyAlert('error', ds.Message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
     }
 }
