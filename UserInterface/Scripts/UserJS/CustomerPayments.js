@@ -369,7 +369,11 @@ function savePayments() {
     }
 }
 
+
 function DeletePayments() {
+    notyConfirm('Are you sure to delete?', 'Delete()', '', "Yes, delete it!");
+} 
+function Delete() {
     $('#btnFormDelete').trigger('click');
 }
 
