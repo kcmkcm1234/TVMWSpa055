@@ -18,7 +18,11 @@ namespace SPAccounts.DataAccessObject.DTO
         public string GeneralNotes { get; set; } 
         public decimal TotalRecdAmt  { get; set; }
         public decimal AdvanceAmount { get; set; }
-
+        public string Type { get; set; }
+        public Guid CreditID { get; set; }
+        public string CreditNo { get; set; }
+        public string hdfType { get; set; }
+        public string hdfCreditID { get; set; }
         public string hdfCustomerID { get; set; }
         public string hdfCreditAmount { get; set; }
         public string PaymentDateFormatted { get; set; }
