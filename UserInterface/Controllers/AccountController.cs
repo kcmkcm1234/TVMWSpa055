@@ -59,7 +59,7 @@ namespace UserInterface.Controllers
                     ua.UserName = uservm.UserName;
                     ua.AppID = AppID;
                     Session.Add("TvmValid", ua);
-                    if (uservm.RoleCSV.Contains("SAdmin") || uservm.RoleCSV.Contains("Admin"))
+                    if (uservm.RoleCSV.Contains("SAdmin") || uservm.RoleCSV.Contains("CEO"))
                     {
                         return RedirectToAdminDashboard();
                     }
