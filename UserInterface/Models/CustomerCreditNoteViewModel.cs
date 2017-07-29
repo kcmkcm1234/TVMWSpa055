@@ -12,6 +12,7 @@ namespace UserInterface.Models
         public Guid? ID { get; set; }
         [Display(Name="Credit Note No")]
         [Required(ErrorMessage = "Please enter Credit Note No")]
+        [RegularExpression(@"^[a-zA-Z0-9_]*$", ErrorMessage = "Entered Credit Note is not valid.")]
         [MaxLength(20)]
         public string CreditNoteNo { get; set; }
         [Display(Name = "Customer Name")]

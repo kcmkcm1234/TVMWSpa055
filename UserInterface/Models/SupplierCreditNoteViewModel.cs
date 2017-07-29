@@ -10,26 +10,37 @@ namespace UserInterface.Models
         public Guid? ID { get; set; }
 
         [Display(Name = "Supplier")]
-        public Guid? SupplierID { get; set; }
+        [Required(ErrorMessage = "Please Select Supplier")]
+        public Guid SupplierID { get; set; }
         public List<SelectListItem> SupplierList { get; set; }
-
+        public List<SelectListItem> CompaniesList { get; set; }
+        [Display(Name ="Credit To Company")]
+        [Required(ErrorMessage = "Please Select Company")]
+        public string CreditToComanyCode { get; set; }
+        public string creditAmountFormatted { get; set; }
+        public string adjustedAmountFormatted { get; set; }
         [Display(Name = "Supplier Address")]
         public string SupplierAddress { get; set; }
         
         public string CompanyCode { get; set; }
 
         [Display(Name = "Credit Note Number")]
+        [Required(ErrorMessage = "Please enter credit Note Number")]
+        [RegularExpression(@"^[a-zA-Z0-9_]*$", ErrorMessage = "Entered Credit Note is not valid.")]
+        [MaxLength(20)]
         public string CRNRefNo { get; set; }
 
        
         public string CRNDate { get; set; }
 
         [Display(Name = "Credit Note Date")]
+        [Required(ErrorMessage = "Please Select Credit Note Date")]
         public string CRNDateFormatted { get; set; }
 
         [Display(Name = "Credit Amount")]
+        [Required(ErrorMessage = "Please Enter Credit Amount")]
         public decimal Amount { get; set; }
-
+       
         public string Type { get; set; }
         [Display(Name = "General Notes")]
         public string GeneralNotes { get; set; }

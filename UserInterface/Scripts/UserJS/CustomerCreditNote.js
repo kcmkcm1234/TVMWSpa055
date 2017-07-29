@@ -21,7 +21,7 @@ $(document).ready(function () {
                { "data": "CustomerName", "defaultContent": "<i>-</i>" },
                { "data": "CreditNoteDateFormatted", "defaultContent": "<i>-</i>" },
                { "data": "CreditAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
-               { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
+               { "data": null, "orderable": false, "defaultContent": '<a href="#" title="Edit Credit Note" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                   { className: "text-right", "targets": [4] },
