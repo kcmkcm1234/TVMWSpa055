@@ -93,6 +93,8 @@
                         <th>Payment Ref.</th>
                         <th>Customer</th>
                         <th>Payment Mode</th>
+                        <th>Type</th>
+                        <th>Credit Note No.</th>
                         <th>Amount Received(₹)</th>
                         <th>Advance Received(₹)</th> 
                         <th>...</th>
@@ -134,6 +136,7 @@
                                 @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "",value=Guid.Empty })
                                 @Html.HiddenFor(model => model.AdvanceAmount, htmlAttributes: new { @class = ""})
                                 @Html.HiddenFor(model => model.hdfCustomerID, htmlAttributes: new { @class =""})
+                                @Html.HiddenFor(model => model.hdfType, htmlAttributes: new { @class = "" })
                                 @Html.HiddenFor(model => model.hdfCreditAmount, htmlAttributes: new { @class = "" })
                                 @Html.HiddenFor(model => model.paymentDetailhdf, htmlAttributes: new { @class = "", @id ="paymentDetailhdf" })
                                 @Html.LabelFor(model => model.customerObj.ID, htmlAttributes: new { @class = "control-label " })

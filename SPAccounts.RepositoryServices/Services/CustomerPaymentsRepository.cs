@@ -19,7 +19,7 @@ namespace SPAccounts.RepositoryServices.Services
         public CustomerPaymentsRepository(IDatabaseFactory databaseFactory)
         {
             _databaseFactory = databaseFactory;
-        } 
+        }
 
         public List<CustomerPayments> GetAllCustomerPayments()
         {
@@ -55,6 +55,8 @@ namespace SPAccounts.RepositoryServices.Services
                                         CustPaymentsObj.TotalRecdAmt = (sdr["AmountReceived"].ToString() != "" ? Decimal.Parse(sdr["AmountReceived"].ToString()): CustPaymentsObj.TotalRecdAmt);
                                         CustPaymentsObj.AdvanceAmount = (sdr["AdvanceAmount"].ToString() != "" ? Decimal.Parse(sdr["AdvanceAmount"].ToString()) : CustPaymentsObj.AdvanceAmount);
 
+                                        CustPaymentsObj.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : CustPaymentsObj.Type);
+                                        CustPaymentsObj.CreditNo = (sdr["CRNRefNo"].ToString() != "" ? sdr["CRNRefNo"].ToString() : CustPaymentsObj.CreditNo);
                                         CustPaymentsObj.customerObj = new Customer();
                                         CustPaymentsObj.customerObj.CompanyName = (sdr["Customer"].ToString() != "" ? sdr["Customer"].ToString() : CustPaymentsObj.customerObj.CompanyName);
                                         CustPaymentsObj.customerObj.ID = (sdr["CustomerID"].ToString() != "" ? Guid.Parse(sdr["CustomerID"].ToString()) : CustPaymentsObj.customerObj.ID);
@@ -89,7 +91,7 @@ namespace SPAccounts.RepositoryServices.Services
                         {
                             con.Open();
                         }
-                        cmd.Connection = con; 
+                        cmd.Connection = con;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = Guid.Parse(ID);
                         cmd.CommandText = "[Accounts].[GetCustomerPaymentsDetails]";
                         cmd.CommandType = CommandType.StoredProcedure;
@@ -105,6 +107,9 @@ namespace SPAccounts.RepositoryServices.Services
                                     CustPaymentsObj.PaymentRef = (sdr["PaymentRef"].ToString() != "" ? sdr["PaymentRef"].ToString() : CustPaymentsObj.PaymentRef);
                                     CustPaymentsObj.EntryNo = (sdr["EntryNo"].ToString() != "" ? sdr["EntryNo"].ToString() : CustPaymentsObj.EntryNo);
                                     CustPaymentsObj.PaymentMode = (sdr["PaymentMode"].ToString() != "" ? sdr["PaymentMode"].ToString() : CustPaymentsObj.PaymentMode);
+                                    CustPaymentsObj.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : CustPaymentsObj.Type);
+                                    CustPaymentsObj.CreditID = (sdr["CreditID"].ToString() != "" ? Guid.Parse(sdr["CreditID"].ToString()) : CustPaymentsObj.CreditID);
+                                    CustPaymentsObj.CreditNo = (sdr["CRNRefNo"].ToString() != "" ? sdr["CRNRefNo"].ToString() : CustPaymentsObj.CreditNo);
                                     CustPaymentsObj.TotalRecdAmt = (sdr["AmountReceived"].ToString() != "" ? Decimal.Parse(sdr["AmountReceived"].ToString()) : CustPaymentsObj.TotalRecdAmt);
                                     CustPaymentsObj.AdvanceAmount = (sdr["AdvanceAmount"].ToString() != "" ? Decimal.Parse(sdr["AdvanceAmount"].ToString()) : CustPaymentsObj.AdvanceAmount);
                                     CustPaymentsObj.BankCode = (sdr["BankCode"].ToString() != "" ? sdr["BankCode"].ToString() : CustPaymentsObj.BankCode);
@@ -150,6 +155,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@RecdToComanyCode", SqlDbType.VarChar, 10).Value = _custPayObj.RecdToComanyCode;
                         cmd.Parameters.Add("@TotalRecdAmt", SqlDbType.Decimal).Value = _custPayObj.TotalRecdAmt;
                         cmd.Parameters.Add("@AdvanceAmount", SqlDbType.Decimal).Value = _custPayObj.AdvanceAmount;
+                        cmd.Parameters.Add("@Type", SqlDbType.VarChar, 1).Value = _custPayObj.Type;
+                        cmd.Parameters.Add("@CreditID", SqlDbType.UniqueIdentifier).Value = _custPayObj.CreditID;
                         cmd.Parameters.Add("@GeneralNotes", SqlDbType.NVarChar, -1).Value = _custPayObj.GeneralNotes;
                         cmd.Parameters.Add("@DetailXml", SqlDbType.NVarChar, -1).Value = _custPayObj.DetailXml;
                         cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = _custPayObj.CommonObj.CreatedBy;
@@ -206,6 +213,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = Guid.Parse(_custPayObj.hdfCustomerID);
                         cmd.Parameters.Add("@PaymentDate", SqlDbType.DateTime).Value = _custPayObj.PaymentDate;
                         cmd.Parameters.Add("@PaymentMode", SqlDbType.VarChar, 10).Value = _custPayObj.PaymentMode;
+                        cmd.Parameters.Add("@Type", SqlDbType.VarChar, 1).Value = _custPayObj.hdfType;
+                        cmd.Parameters.Add("@CreditID", SqlDbType.UniqueIdentifier).Value = _custPayObj.hdfCreditID;
                         cmd.Parameters.Add("@BankCode", SqlDbType.VarChar, 10).Value = _custPayObj.BankCode;
                         cmd.Parameters.Add("@DepWithdID", SqlDbType.UniqueIdentifier).Value = _custPayObj.DepWithdID;
                         cmd.Parameters.Add("@PaymentRef", SqlDbType.VarChar, 10).Value = _custPayObj.PaymentRef;
@@ -264,17 +273,17 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@PaymentID", SqlDbType.UniqueIdentifier).Value = PaymentId;
                         cmd.Parameters.Add("@Username", SqlDbType.NVarChar,20).Value =UserName;
-                          outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
-                        outputStatus.Direction = ParameterDirection.Output; 
-                        cmd.ExecuteNonQuery(); 
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
 
                     }
                 }
 
                 switch (outputStatus.Value.ToString())
                 {
-                    case "0": 
-                        throw new Exception(Cobj.InsertFailure); 
+                    case "0":
+                        throw new Exception(Cobj.InsertFailure);
                     default:
                         break;
                 }
@@ -320,7 +329,7 @@ namespace SPAccounts.RepositoryServices.Services
                         AppConst Cobj = new AppConst();
                         throw new Exception(Cobj.InsertFailure);
                     case "1":
-                         
+
                         break;
                     default:
                         break;

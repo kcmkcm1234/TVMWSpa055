@@ -20,13 +20,24 @@ try{
              { "data": "PaymentRef", "defaultContent": "<i>-</i>" },
              { "data": "customerObj.CompanyName", "defaultContent": "<i>-</i>" },//render customerObj.ContactPerson
              { "data": "PaymentMode", "defaultContent": "<i>-</i>" },
+             {
+                 "data": "Type", "defaultContent": "<i>-</i>", 'render': function (data, type, row) {
+                     if (data == 'C') {
+                         return 'Credit'
+                     }
+                     else {
+                         return 'Normal'
+                     }
+                 }
+             },
+             { "data": "CreditNo", "defaultContent": "<i>-</i>" },
              { "data": "TotalRecdAmt", "defaultContent": "<i>-</i>" },
              { "data": "AdvanceAmount", "defaultContent": "<i>-</i>" }, 
              { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink" onclick="Edit(this)"><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
         ],
         columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-            { className: "text-right", "targets": [6,7] },
-            { className: "text-center", "targets": [1, 2, 3,4,5,8] } 
+            { className: "text-right", "targets": [8,9] },
+            { className: "text-center", "targets": [1, 2, 3,4,5,6,7,10] } 
         ]
     });        
 }
@@ -180,6 +191,9 @@ function GetCustomerPaymentsByID(ID) {
     $('#TotalRecdAmt').val(roundoff(thisitem.TotalRecdAmt));
     $('#lblTotalRecdAmt').text(roundoff(thisitem.TotalRecdAmt));
     $('#paidAmt').text(roundoff(thisitem.TotalRecdAmt));
+    $('#Type').val(thisitem.Type);
+    $('#hdfType').val(thisitem.Type);
+    $('#Type').prop('disabled', true);
 
     PaymentModeChanged();
     //BIND OUTSTANDING INVOICE TABLE USING CUSTOMER ID AND PAYMENT HEADER 
@@ -205,6 +219,7 @@ function openNavClick() {
     ChangeButtonPatchView('CustomerPayments', 'btnPatchAdd', 'Add');
     $('#Customer').prop('disabled', false);
     $('#BankCode').prop('disabled', true);
+    $('#Type').prop('disabled', false);
     openNav();
 }
  
@@ -283,7 +298,6 @@ function BindCreditDropDown() {
             $("#CreditID").html("");
             $("#CreditID").append($('<option></option>').val(emptyGUID).html('No Credit Notes Available'));
             $("#Type").val('P');
-            TypeOnChange();
         }
     }
 }
@@ -393,7 +407,7 @@ function fieldsclear() {
 function BindOutstanding() {
     index = 0; 
     DataTables.OutStandingInvoices.clear().rows.add(GetOutStandingInvoices()).draw(false);
-    if ($('#Type').val() == "C")
+    
     BindCreditDropDown();
 }
 
