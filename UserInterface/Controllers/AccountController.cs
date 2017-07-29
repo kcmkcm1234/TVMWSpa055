@@ -59,7 +59,14 @@ namespace UserInterface.Controllers
                     ua.UserName = uservm.UserName;
                     ua.AppID = AppID;
                     Session.Add("TvmValid", ua);
-                    return RedirectToLocal();
+                    if (uservm.RoleCSV.Contains("SAdmin") || uservm.RoleCSV.Contains("Admin"))
+                    {
+                        return RedirectToAdminDashboard();
+                    }
+                    else {
+                        return RedirectToLocal();
+                    }
+                   
                 }
                 else
                 {
@@ -107,7 +114,10 @@ namespace UserInterface.Controllers
         {
             return RedirectToAction("Index", "Account");
         }
-
+        private ActionResult RedirectToAdminDashboard()
+        {
+            return RedirectToAction("Admin", "DashBoard");
+        }
 
         [HttpGet]
         public ActionResult NotAuthorized()
