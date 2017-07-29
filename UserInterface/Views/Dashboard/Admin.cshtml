@@ -87,7 +87,64 @@
         <!-- /.box -->
     </div>
 
+<div class="col-md-6">
+    <div class="box box-default">
+        <div class="box-header with-border">
+            <h3 class="box-title">Expense Summary (July 2017)</h3>
 
+             
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="chart-responsive">
+                        <canvas id="pieChart" height="170" width="205" style="width: 205px; height: 170px;"></canvas>
+                    </div>
+                    <!-- ./chart-responsive -->
+                </div>
+                <!-- /.col -->
+                <div class="col-md-4">
+                    <ul class="chart-legend clearfix">
+                        <li><i class="fa fa-circle-o text-red"></i> Salary</li>
+                        <li><i class="fa fa-circle-o text-green"></i> Salary Advance</li>
+                        <li><i class="fa fa-circle-o text-yellow"></i> Fuel</li>
+                        <li><i class="fa fa-circle-o text-aqua"></i> Vehicle Rent</li>
+                        <li><i class="fa fa-circle-o text-light-blue"></i> Office Expense</li>
+                        <li><i class="fa fa-circle-o text-gray"></i> Misc</li>
+                    </ul>
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer no-padding">
+            <div class="row">
+                <div class="col-sm-4 col-xs-6">
+                     
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4 col-xs-6">
+                    
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4 col-xs-6">
+                    <div class="description-block">
+                        <span class="description-text">Total Expense</span>  
+                        <h5 class="description-header">₹1,34,500</h5>
+                       
+                    </div>
+                    <!-- /.description-block -->
+                </div>
+
+            </div>
+        </div>
+        <!-- /.footer -->
+    </div>
+
+
+</div>
 
     @section Scripts {
         @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jquery")

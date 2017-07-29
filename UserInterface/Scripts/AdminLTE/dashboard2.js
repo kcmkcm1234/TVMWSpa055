@@ -96,40 +96,40 @@ $(function () {
   var pieChart       = new Chart(pieChartCanvas);
   var PieData        = [
     {
-      value    : 700,
+      value    : 70000,
       color    : '#f56954',
       highlight: '#f56954',
-      label    : 'Chrome'
+      label    : 'Salary'
     },
     {
-      value    : 500,
+      value    : 25000,
       color    : '#00a65a',
       highlight: '#00a65a',
-      label    : 'IE'
+      label    : 'Salary Advance'
     },
     {
-      value    : 400,
+      value    : 15000,
       color    : '#f39c12',
       highlight: '#f39c12',
-      label    : 'FireFox'
+      label: 'Fuel'
     },
     {
-      value    : 600,
+      value    : 12000,
       color    : '#00c0ef',
       highlight: '#00c0ef',
-      label    : 'Safari'
+      label: 'Vehicle Rent'
     },
     {
-      value    : 300,
+      value    : 20000,
       color    : '#3c8dbc',
       highlight: '#3c8dbc',
-      label    : 'Opera'
+      label: 'Office Expense'
     },
     {
-      value    : 100,
+      value    : 2500,
       color    : '#d2d6de',
       highlight: '#d2d6de',
-      label    : 'Navigator'
+      label: 'Misc'
     }
   ];
   var pieOptions     = {
@@ -154,9 +154,9 @@ $(function () {
     // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
     maintainAspectRatio  : false,
     // String - A legend template
-    legendTemplate       : '<ul class=\'<%=name.toLowerCase()%>-legend\'><% for (var i=0; i<segments.length; i++){%><li><span style=\'background-color:<%=segments[i].fillColor%>\'></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>',
+    legendTemplate: '<ul class=\'<%=name.toLowerCase() %>-legend\'><% for (var i=0; i<segments.length; i++){%><li><span style=\'background-color:<%=segments[i].fillColor%>\'></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>',
     // String - A tooltip template
-    tooltipTemplate      : '<%=value %> <%=label%> users'
+    tooltipTemplate: '<%=label%> ₹ <%=value %>'
   };
   // Create pie or douhnut chart
   // You can switch between pie and douhnut using the method below.
