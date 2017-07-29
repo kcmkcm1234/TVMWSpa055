@@ -23,5 +23,11 @@ namespace UserInterface.Controllers
         {
             return View();
         }
+
+
+        private ActionResult RedirectToAdminDashboard()
+        {
+            return RedirectToAction("Admin", "DashBoard");
+        }
     }
 }
