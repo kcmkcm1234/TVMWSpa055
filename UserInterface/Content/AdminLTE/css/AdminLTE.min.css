@@ -1624,7 +1624,7 @@ a {
 .box {
     position: relative;
     border-radius: 3px;
-    background: #ffffff;
+    background:rgba(255, 255, 255, 0.51);
     border-top: 3px solid #d2d6de;
     margin-bottom: 20px;
     width: 100%;
