@@ -143,7 +143,7 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="col-md-10">
-                                    @Html.DropDownListFor(model => model.customerObj.ID, Model.customerObj.CustomerList, "-- Select Customer --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "Customer", onchange = "BindOutstanding();" })
+                                    @Html.DropDownListFor(model => model.customerObj.ID, Model.customerObj.CustomerList, "-- Select Customer --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "Customer", onchange = "CustomerChange();" })
                                     @Html.ValidationMessageFor(model => model.customerObj.ID, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-1 mandatory"></div>
@@ -192,7 +192,7 @@
                                 <div class="col-md-10">
                                     @Html.DropDownListFor(model => model.CreditID, new SelectList(Enumerable.Empty<SelectListItem>(), "CreditID", "CreditName"), "-- Select Credit --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "CreditID", onchange = "ddlCreditOnChange()" })
                                 </div>
-                                <div class="col-md-1 mandatory"></div>
+                                <div class="col-md-1"></div>
                                 <div class="col-md-1"></div>
                             </div>
 
