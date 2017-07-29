@@ -5,7 +5,7 @@ var index = 0;
 var AmountReceived=0;
 
 $(document).ready(function () { 
-  
+try{
     DataTables.CustomerPaymentTable = $('#CustPayTable').DataTable(
     {
         dom: '<"pull-left"f>rt<"bottom"ip><"clear">',
@@ -28,9 +28,13 @@ $(document).ready(function () {
             { className: "text-right", "targets": [6,7] },
             { className: "text-center", "targets": [1, 2, 3,4,5,8] } 
         ]
-    });    
+    });        
+}
+    catch (e) {
+        notyAlert('error', e.message);
+}
 
- 
+ try{
     DataTables.OutStandingInvoices = $('#tblOutStandingDetails').DataTable({
         dom: '<"pull-left"f>rt<"bottom"ip><"clear">',
         order: [],
@@ -85,7 +89,12 @@ $(document).ready(function () {
 
         select: {style: 'multi', selector: 'td:first-child'   } 
     });
+ }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
 
+try{
 
     $('input[type="text"].selecttext').on('focus', function () {
         $(this).select();
@@ -108,6 +117,10 @@ $(document).ready(function () {
             Selectcheckbox();
         }
     });
+}
+    catch (e) {
+        notyAlert('error', e.message);
+    }
 });
 
 function paymentAmountFocus(event)
@@ -380,6 +393,7 @@ function fieldsclear() {
 function BindOutstanding() {
     index = 0; 
     DataTables.OutStandingInvoices.clear().rows.add(GetOutStandingInvoices()).draw(false);
+    if ($('#Type').val() == "C")
     BindCreditDropDown();
 }
 
