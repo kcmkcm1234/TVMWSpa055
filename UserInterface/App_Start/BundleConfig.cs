@@ -65,6 +65,11 @@ namespace UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/OtherExpense").Include("~/Scripts/UserJS/OtherExpense.js"));
             bundles.Add(new ScriptBundle("~/bundles/MonthlyRecap").Include("~/Scripts/UserJS/MonthlyRecap.js"));
             bundles.Add(new ScriptBundle("~/bundles/ExpenseSummary").Include("~/Scripts/UserJS/ExpenseSummary.js"));
+            bundles.Add(new ScriptBundle("~/bundles/Outstanding").Include("~/Scripts/UserJS/Outstanding.js"));
+            bundles.Add(new ScriptBundle("~/bundles/TopCustomers").Include("~/Scripts/UserJS/TopCustomers.js"));
+            bundles.Add(new ScriptBundle("~/bundles/TopSuppliers").Include("~/Scripts/UserJS/TopSuppliers.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/AdminDash").Include("~/Scripts/UserJS/MonthlyRecap.js", "~/Scripts/UserJS/ExpenseSummary.js","~/Scripts/UserJS/Outstanding.js", "~/Scripts/UserJS/TopCustomers.js", "~/Scripts/UserJS/TopSuppliers.js"));
 
         }
 

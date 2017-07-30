@@ -41,6 +41,29 @@ namespace UserInterface.Controllers
             return PartialView("_ExpenseSummary", data);
         }
 
+        [AuthSecurityFilter(ProjectObject = "AdminDashboard", Mode = "R")]
+        public ActionResult OutstandingSummary(string Company)
+        {
+            OutstandingSummaryViewModel data = new OutstandingSummaryViewModel();
+            data.CompanyName = Company;
+            return PartialView("_OutstandingSummary", data);
+        }
+
+        [AuthSecurityFilter(ProjectObject = "AdminDashboard", Mode = "R")]
+        public ActionResult TopCustomers(string Company)
+        {
+            TopCustomersViewModel data = new TopCustomersViewModel();
+            data.CompanyName = Company;
+            return PartialView("_TopCustomers", data);
+        }
+
+        [AuthSecurityFilter(ProjectObject = "AdminDashboard", Mode = "R")]
+        public ActionResult TopSuppliers(string Company)
+        {
+            TopSuppliersViewModel data = new TopSuppliersViewModel();
+            data.CompanyName = Company;
+            return PartialView("_TopSuppliers", data);
+        }
 
         private ActionResult RedirectToAdminDashboard()
         {

@@ -1480,12 +1480,15 @@
     <Content Include="Scripts\UserJS\ManageSubObjectAccess.js" />
     <Content Include="Scripts\UserJS\OtherIncome.js" />
     <Content Include="Scripts\UserJS\OtherExpense.js" />
+    <Content Include="Scripts\UserJS\Outstanding.js" />
     <Content Include="Scripts\UserJS\Privileges.js" />
     <Content Include="Scripts\UserJS\PrivilegesView.js" />
     <Content Include="Scripts\UserJS\Roles.js" />
     <Content Include="Scripts\UserJS\SupplierCreditNotes.js" />
     <Content Include="Scripts\UserJS\SupplierInvoices.js" />
     <Content Include="Scripts\UserJS\TaxTypes.js" />
+    <Content Include="Scripts\UserJS\TopCustomers.js" />
+    <Content Include="Scripts\UserJS\TopSuppliers.js" />
     <Content Include="Scripts\UserJS\User.js" />
     <Content Include="Scripts\UserJS\Suppliers.js" />
     <Content Include="Web.config" />
@@ -1599,6 +1602,9 @@
     <Content Include="Views\Dashboard\Admin.cshtml" />
     <Content Include="Views\Dashboard\_MontlyRecap.cshtml" />
     <Content Include="Views\Dashboard\_ExpenseSummary.cshtml" />
+    <Content Include="Views\Dashboard\_OutstandingSummary.cshtml" />
+    <Content Include="Views\Dashboard\_TopSuppliers.cshtml" />
+    <Content Include="Views\Dashboard\_TopCustomers.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

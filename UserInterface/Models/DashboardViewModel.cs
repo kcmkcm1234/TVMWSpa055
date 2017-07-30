@@ -26,4 +26,22 @@ namespace UserInterface.Models
         public string CompanyName { get; set; }
 
     }
+
+    public class OutstandingSummaryViewModel
+    {
+        public string CompanyName { get; set; }
+
+    }
+
+    public class TopCustomersViewModel
+    {
+        public string CompanyName { get; set; }
+
+    }
+
+    public class TopSuppliersViewModel
+    {
+        public string CompanyName { get; set; }
+
+    }
 }
