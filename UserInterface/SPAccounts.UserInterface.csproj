@@ -1605,6 +1605,7 @@
     <Content Include="Views\Dashboard\_OutstandingSummary.cshtml" />
     <Content Include="Views\Dashboard\_TopSuppliers.cshtml" />
     <Content Include="Views\Dashboard\_TopCustomers.cshtml" />
+    <Content Include="Views\Dashboard\_RecentDocs.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -41,7 +41,7 @@ namespace UserInterface.Controllers
             return PartialView("_ExpenseSummary", data);
         }
 
-        [AuthSecurityFilter(ProjectObject = "AdminDashboard", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "Dashboard", Mode = "R")]
         public ActionResult OutstandingSummary(string Company)
         {
             OutstandingSummaryViewModel data = new OutstandingSummaryViewModel();
@@ -64,6 +64,70 @@ namespace UserInterface.Controllers
             data.CompanyName = Company;
             return PartialView("_TopSuppliers", data);
         }
+
+
+        [AuthSecurityFilter(ProjectObject = "Dashboard", Mode = "R")]
+        public ActionResult RecentCustomerInvoice(string Company)
+        {
+            RecentDocumentsViewModel data = new RecentDocumentsViewModel();
+            data.DocType = "CustomerInvoice";
+            data.Title = "Recent Customer Invoices";
+            data.Color = "bg-yellow";
+            return PartialView("_RecentDocs", data);
+        }
+
+        [AuthSecurityFilter(ProjectObject = "Dashboard", Mode = "R")]
+        public ActionResult RecentCustomerPayments(string Company)
+        {
+            RecentDocumentsViewModel data = new RecentDocumentsViewModel();
+            data.DocType = "CustomerPayments";
+            data.Title = "Recent Customer Payments";
+            data.Color = "bg-yellow";
+            return PartialView("_RecentDocs", data);
+        }
+        [AuthSecurityFilter(ProjectObject = "Dashboard", Mode = "R")]
+        public ActionResult RecentSupplierInvoice(string Company)
+        {
+            RecentDocumentsViewModel data = new RecentDocumentsViewModel();
+            data.DocType = "SupplierInvoice";
+            data.Title = "Recent Supplier Invoices";
+            data.Color = "bg-green";
+            return PartialView("_RecentDocs", data);
+        }
+
+        [AuthSecurityFilter(ProjectObject = "Dashboard", Mode = "R")]
+        public ActionResult RecentSupplierPayments(string Company)
+        {
+            RecentDocumentsViewModel data = new RecentDocumentsViewModel();
+            data.DocType = "SupplierPayments";
+            data.Title = "Recent Supplier Payments";
+            data.Color = "bg-green";
+            return PartialView("_RecentDocs", data);
+        }
+
+
+        [AuthSecurityFilter(ProjectObject = "Dashboard", Mode = "R")]
+        public ActionResult RecentOtherIncome(string Company)
+        {
+            RecentDocumentsViewModel data = new RecentDocumentsViewModel();
+            data.DocType = "OtherIncome";
+            data.Title = "Recent Other Income";
+            data.Color = "bg-yellow";
+            return PartialView("_RecentDocs", data);
+        }
+
+
+        [AuthSecurityFilter(ProjectObject = "Dashboard", Mode = "R")]
+        public ActionResult RecentOtherExpense(string Company)
+        {
+            RecentDocumentsViewModel data = new RecentDocumentsViewModel();
+            data.DocType = "OtherExpense";
+            data.Title = "Recent Other Expense";
+            data.Color = "bg-green";
+            return PartialView("_RecentDocs", data);
+        }
+
+
 
         private ActionResult RedirectToAdminDashboard()
         {

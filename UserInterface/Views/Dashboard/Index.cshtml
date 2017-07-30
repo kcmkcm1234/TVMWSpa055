@@ -10,6 +10,61 @@
         <li class="active">@ViewBag.Title</li>
     </ol>
 </div> 
- <h2> &nbsp;</h2>
+<div class="col-md-12">
+    &nbsp;
+</div>
+<div class="col-md-12">
+    &nbsp;
+</div>
+<div class="col-md-12">
+    
+    @{
+        var data2 = new { Company = "All" };
+        @Html.Action("OutstandingSummary", "Dashboard", data2);
+    }
+</div>
+<div class="col-md-12">
+    &nbsp;
+</div>
+<div class="col-md-12 ">
+    @{
+        var data3 = new { Company = "All" };
+        @Html.Action("RecentCustomerInvoice", "Dashboard", data3);
+    }
+
+    @{
+        var data4 = new { Company = "All" };
+        @Html.Action("RecentCustomerPayments", "Dashboard", data4);
+    }
+
+</div>
+
+ 
+
+<div class="col-md-12 ">
+    @{
+        var data7 = new { Company = "All" };
+        @Html.Action("RecentOtherIncome", "Dashboard", data7);
+    }
+
+    @{
+        var data8 = new { Company = "All" };
+        @Html.Action("RecentOtherExpense", "Dashboard", data8);
+    }
+
+</div>
+
+<div class="col-md-12 ">
+    @{
+        var data9 = new { Company = "All" };
+        @Html.Action("RecentSupplierInvoice", "Dashboard", data9);
+    }
+
+    @{
+        var data10 = new { Company = "All" };
+        @Html.Action("RecentSupplierPayments", "Dashboard", data10);
+    }
+
+</div>
 
 @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jquery")
