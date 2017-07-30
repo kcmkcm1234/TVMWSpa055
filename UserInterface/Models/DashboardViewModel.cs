@@ -12,4 +12,11 @@ namespace UserInterface.Models
     public class AdminDashboardViewModel
     {
     }
+
+
+    public class MonthlyRecapViewModel
+    {
+        public string CompanyName { get; set; }
+
+    }
 }

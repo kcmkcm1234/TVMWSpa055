@@ -18,306 +18,310 @@
 <div class="col-md-12">
     &nbsp;
 </div>
-    <div class="col-md-12">
-        <div class="box">
-            <div class="box-header with-border">
-                <h3 class="box-title">Monthly Recap Report</h3>
+ <div class="col-md-12">
+     <div class="col-md-12">
+         <div class="box">
+             <div class="box-header with-border">
+                 <h3 class="box-title">Monthly Recap Report</h3>
 
-                <div class="box-tools pull-right">
-                    @*<button type="button" class="btn btn-box-tool" data-widget="collapse">
-                        <i class="fa fa-minus"></i>
-                    </button>*@                     
-                </div>
+                 <div class="box-tools pull-right">
+                     @*<button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>*@
+                 </div>
+             </div>
+             <!-- /.box-header -->
+             <div class="box-body">
+                 <div class="row">
+                     <div class="col-md-12">
+                         <p class="text-center">
+                             <strong>Sales: 1 Jan, 2017 - 30 Jul, 2017</strong>
+                         </p>
+
+                         <div class="chart">
+                             <!-- Sales Chart Canvas -->
+                             <canvas id="salesChart" style="height: 180px; width: 703px;" width="703" height="180"></canvas>
+                         </div>
+                         <!-- /.chart-responsive -->
+                     </div>
+                     <!-- /.col -->
+                     <!-- /.col -->
+                 </div>
+                 <!-- /.row -->
+             </div>
+             <!-- ./box-body -->
+             <div class="box-footer">
+                 <div class="row">
+                     <div class="col-sm-4 col-xs-6">
+                         <div class="description-block border-right">
+                             <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 17%</span>
+                             <h5 class="description-header">₹35,210.43</h5>
+                             <span class="description-text">TOTAL INCOME</span>
+                         </div>
+                         <!-- /.description-block -->
+                     </div>
+                     <!-- /.col -->
+                     <div class="col-sm-4 col-xs-6">
+                         <div class="description-block border-right">
+                             <span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>
+                             <h5 class="description-header">₹10,390.90</h5>
+                             <span class="description-text">TOTAL EXPENSE</span>
+                         </div>
+                         <!-- /.description-block -->
+                     </div>
+                     <!-- /.col -->
+                     <div class="col-sm-4 col-xs-6">
+                         <div class="description-block">
+                             <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 20%</span>
+                             <h5 class="description-header">₹24,813.53</h5>
+                             <span class="description-text">TOTAL PROFIT</span>
+                         </div>
+                         <!-- /.description-block -->
+                     </div>
+
+                 </div>
+                 <!-- /.row -->
+             </div>
+             <!-- /.box-footer -->
+         </div>
+         <!-- /.box -->
+     </div>
+ </div>
+  
+<div class="col-md-12">
+    <div class="col-md-6">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Expense Summary (July 2017)</h3>
+
+
             </div>
             <!-- /.box-header -->
             <div class="box-body">
                 <div class="row">
-                    <div class="col-md-12">
-                        <p class="text-center">
-                            <strong>Sales: 1 Jan, 2017 - 30 Jul, 2017</strong>
-                        </p>
-
-                        <div class="chart">
-                            <!-- Sales Chart Canvas -->
-                            <canvas id="salesChart" style="height: 180px; width: 703px;" width="703" height="180"></canvas>
+                    <div class="col-md-8">
+                        <div class="chart-responsive">
+                            <canvas id="pieChart" height="170" width="205" style="width: 205px; height: 170px;"></canvas>
                         </div>
-                        <!-- /.chart-responsive -->
+                        <!-- ./chart-responsive -->
                     </div>
                     <!-- /.col -->
-                    
+                    <div class="col-md-4">
+                        <ul class="chart-legend clearfix">
+                            <li><i class="fa fa-circle-o text-red"></i> Salary</li>
+                            <li><i class="fa fa-circle-o text-green"></i> Salary Advance</li>
+                            <li><i class="fa fa-circle-o text-yellow"></i> Fuel</li>
+                            <li><i class="fa fa-circle-o text-aqua"></i> Vehicle Rent</li>
+                            <li><i class="fa fa-circle-o text-light-blue"></i> Office Expense</li>
+                            <li><i class="fa fa-circle-o text-gray"></i> Misc</li>
+                        </ul>
+                    </div>
                     <!-- /.col -->
                 </div>
                 <!-- /.row -->
             </div>
-            <!-- ./box-body -->
-            <div class="box-footer">
+            <!-- /.box-body -->
+            <div class="box-footer no-padding">
                 <div class="row">
                     <div class="col-sm-4 col-xs-6">
-                        <div class="description-block border-right">
-                            <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 17%</span>
-                            <h5 class="description-header">₹35,210.43</h5>
-                            <span class="description-text">TOTAL INCOME</span>
-                        </div>
-                        <!-- /.description-block -->
+
                     </div>
                     <!-- /.col -->
                     <div class="col-sm-4 col-xs-6">
-                        <div class="description-block border-right">
-                            <span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>
-                            <h5 class="description-header">₹10,390.90</h5>
-                            <span class="description-text">TOTAL EXPENSE</span>
-                        </div>
-                        <!-- /.description-block -->
+
                     </div>
                     <!-- /.col -->
                     <div class="col-sm-4 col-xs-6">
                         <div class="description-block">
-                            <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 20%</span>
-                            <h5 class="description-header">₹24,813.53</h5>
-                            <span class="description-text">TOTAL PROFIT</span>
+                            <span class="description-text">Total Expense</span>
+                            <h5 class="description-header">₹1,34,500</h5>
+
                         </div>
                         <!-- /.description-block -->
                     </div>
-                   
+
                 </div>
-                <!-- /.row -->
             </div>
-            <!-- /.box-footer -->
+            <!-- /.footer -->
         </div>
-        <!-- /.box -->
+
+
     </div>
+    <div class="col-md-6">
+        <div class="col-md-12 ">
+            <!-- Info Boxes Style 2 -->
+            <div class="info-box bg-yellow">
+                <span class="info-box-icon"><i class="ion ion-ios-pricetag-outline"></i></span>
 
-<div class="col-md-6">
-    <div class="box box-default">
-        <div class="box-header with-border">
-            <h3 class="box-title">Expense Summary (July 2017)</h3>
+                <div class="info-box-content">
+                    <span class="info-box-text">Outstanding Invoices (20) </span>
+                    <span class="info-box-number">₹5,200</span>
 
-             
-        </div>
-        <!-- /.box-header -->
-        <div class="box-body">
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="chart-responsive">
-                        <canvas id="pieChart" height="170" width="205" style="width: 205px; height: 170px;"></canvas>
+                    <div class="progress">
+                        <div class="progress-bar" style="width: 95%"></div>
                     </div>
-                    <!-- ./chart-responsive -->
+                    <span class="progress-description">
+                        (Last 365 Days)
+                    </span>
                 </div>
-                <!-- /.col -->
-                <div class="col-md-4">
-                    <ul class="chart-legend clearfix">
-                        <li><i class="fa fa-circle-o text-red"></i> Salary</li>
-                        <li><i class="fa fa-circle-o text-green"></i> Salary Advance</li>
-                        <li><i class="fa fa-circle-o text-yellow"></i> Fuel</li>
-                        <li><i class="fa fa-circle-o text-aqua"></i> Vehicle Rent</li>
-                        <li><i class="fa fa-circle-o text-light-blue"></i> Office Expense</li>
-                        <li><i class="fa fa-circle-o text-gray"></i> Misc</li>
-                    </ul>
-                </div>
-                <!-- /.col -->
+                <!-- /.info-box-content -->
             </div>
-            <!-- /.row -->
-        </div>
-        <!-- /.box-body -->
-        <div class="box-footer no-padding">
-            <div class="row">
-                <div class="col-sm-4 col-xs-6">
-                     
-                </div>
-                <!-- /.col -->
-                <div class="col-sm-4 col-xs-6">
-                    
-                </div>
-                <!-- /.col -->
-                <div class="col-sm-4 col-xs-6">
-                    <div class="description-block">
-                        <span class="description-text">Total Expense</span>  
-                        <h5 class="description-header">₹1,34,500</h5>
-                       
-                    </div>
-                    <!-- /.description-block -->
-                </div>
+            <!-- /.info-box -->
+            <div class="info-box bg-green">
+                <span class="info-box-icon"><i class="ion ion-ios-heart-outline"></i></span>
 
+                <div class="info-box-content">
+                    <span class="info-box-text">Outstanding Payments(10)</span>
+                    <span class="info-box-number">₹92,050</span>
+
+                    <div class="progress">
+                        <div class="progress-bar" style="width: 95%"></div>
+                    </div>
+                    <span class="progress-description">
+                        (Last 365 Days)
+                    </span>
+                </div>
+                <!-- /.info-box-content -->
             </div>
+
         </div>
-        <!-- /.footer -->
+
     </div>
-
-
 </div>
-<div class="col-md-6">
+   
     <div class="col-md-12 ">
-        <!-- Info Boxes Style 2 -->
-        <div class="info-box bg-yellow">
-            <span class="info-box-icon"><i class="ion ion-ios-pricetag-outline"></i></span>
+        <div class="col-md-6">
 
-            <div class="info-box-content">
-                <span class="info-box-text">Outstanding Invoices (20) </span>
-                <span class="info-box-number">₹5,200</span>
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Top 5 Customers</h3>
+                    <span>Last 365 Days</span>
 
-                <div class="progress">
-                    <div class="progress-bar" style="width: 95%"></div>
                 </div>
-                <span class="progress-description">
-                    (Last 365 Days)
-                </span>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table class="table no-margin">
+                            <thead>
+                                <tr>
+                                    <th>Customer Name</th>
+                                    <th>Sales</th>
+                                    <th>Last Sale Date</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><a href="../Customers">Dathri</a></td>
+                                    <td>₹1,34,500</td>
+                                    <td><span class="label label-success">29-Jul-2017</span></td>
+
+                                </tr>
+                                <tr>
+                                    <td><a href="../Customers">Kottakal</a></td>
+                                    <td>₹54,500</td>
+                                    <td><span class="label label-success">20-Jun-2017</span></td>
+
+                                </tr>
+                                <tr>
+                                    <td><a href="../Customers">Pathanjali</a></td>
+                                    <td>₹44,000</td>
+                                    <td><span class="label label-success">29-Mar-2017</span></td>
+
+                                </tr>
+                                <tr>
+                                    <td><a href="../Customers">Oushadhi</a></td>
+                                    <td>₹24,500</td>
+                                    <td><span class="label label-success">29-Dec-2016</span></td>
+
+                                </tr>
+                                <tr>
+                                    <td><a href="../Customers">Nagarjuna</a></td>
+                                    <td>₹14,500</td>
+                                    <td><span class="label label-success">29-Jan-2017</span></td>
+
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer clearfix">
+
+                    <a href="../Customers" class="label label-info">View All Customers</a>
+                </div>
+                <!-- /.box-footer -->
             </div>
-            <!-- /.info-box-content -->
         </div>
-        <!-- /.info-box -->
-        <div class="info-box bg-green">
-            <span class="info-box-icon"><i class="ion ion-ios-heart-outline"></i></span>
+        <div class="col-md-6">
 
-            <div class="info-box-content">
-                <span class="info-box-text">Outstanding Payments(10)</span>
-                <span class="info-box-number">₹92,050</span>
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Top 5 Suppliers</h3>
+                    <span>Last 365 Days</span>
 
-                <div class="progress">
-                    <div class="progress-bar" style="width: 95%"></div>
                 </div>
-                <span class="progress-description">
-(Last 365 Days)
-                </span>
-            </div>
-            <!-- /.info-box-content -->
-        </div>
-                
-    </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table class="table no-margin">
+                            <thead>
+                                <tr>
+                                    <th>Supplier Name</th>
+                                    <th>Sales</th>
+                                    <th>Last Purchase Date</th>
 
-</div>
-<div class="col-md-12 ">
-    <div class="col-md-6">
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><a href="../Suppliers">Ari Plast 100</a></td>
+                                    <td>₹94,500</td>
+                                    <td><span class="label label-success">29-Jul-2017</span></td>
 
-        <div class="box box-info">
-            <div class="box-header with-border">
-                <h3 class="box-title">Top 5 Customers</h3>
-                <span>Last 365 Days</span>
+                                </tr>
+                                <tr>
+                                    <td><a href="../Suppliers">Jaina Plastic</a></td>
+                                    <td>₹54,000</td>
+                                    <td><span class="label label-success">15-Jun-2017</span></td>
 
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-                <div class="table-responsive">
-                    <table class="table no-margin">
-                        <thead>
-                            <tr>
-                                <th>Customer Name</th>
-                                <th>Sales</th>
-                                <th>Last Sale Date</th>
+                                </tr>
+                                <tr>
+                                    <td><a href="../Suppliers">JAIRAM Plastic Industries</a></td>
+                                    <td>₹34,000</td>
+                                    <td><span class="label label-success">12-Mar-2017</span></td>
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><a href="../Customers">Dathri</a></td>
-                                <td>₹1,34,500</td>
-                                <td><span class="label label-success">29-Jul-2017</span></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="../Suppliers">Priya Overseas Trades Vashi</a></td>
+                                    <td>₹30,500</td>
+                                    <td><span class="label label-success">08-Dec-2016</span></td>
 
-                            </tr>
-                            <tr>
-                                <td><a href="../Customers">Kottakal</a></td>
-                                <td>₹54,500</td>
-                                <td><span class="label label-success">20-Jun-2017</span></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="../Suppliers">Triveni Chemicals</a></td>
+                                    <td>₹14,500</td>
+                                    <td><span class="label label-success">18-Jan-2017</span></td>
 
-                            </tr>
-                            <tr>
-                                <td><a href="../Customers">Pathanjali</a></td>
-                                <td>₹44,000</td>
-                                <td><span class="label label-success">29-Mar-2017</span></td>
+                                </tr>
 
-                            </tr>
-                            <tr>
-                                <td><a href="../Customers">Oushadhi</a></td>
-                                <td>₹24,500</td>
-                                <td><span class="label label-success">29-Dec-2016</span></td>
-
-                            </tr>
-                            <tr>
-                                <td><a href="../Customers">Nagarjuna</a></td>
-                                <td>₹14,500</td>
-                                <td><span class="label label-success">29-Jan-2017</span></td>
-
-                            </tr>
-
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
                 </div>
-                <!-- /.table-responsive -->
-            </div>
-            <!-- /.box-body -->
-            <div class="box-footer clearfix">
-           
-                <a href="../Customers" class="label label-info">View All Customers</a>
-            </div>
-            <!-- /.box-footer -->
-        </div>
-    </div>
-    <div class="col-md-6">
+                <!-- /.box-body -->
+                <div class="box-footer clearfix">
 
-        <div class="box box-info">
-            <div class="box-header with-border">
-                <h3 class="box-title">Top 5 Suppliers</h3>
-                <span>Last 365 Days</span>
-
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-                <div class="table-responsive">
-                    <table class="table no-margin">
-                        <thead>
-                            <tr>
-                                <th>Supplier Name</th>
-                                <th>Sales</th>
-                                <th>Last Purchase Date</th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><a href="../Suppliers">Ari Plast 100</a></td>
-                                <td>₹94,500</td>
-                                <td><span class="label label-success">29-Jul-2017</span></td>
-
-                            </tr>
-                            <tr>
-                                <td><a href="./Suppliers">Jaina Plastic</a></td>
-                                <td>₹54,000</td>
-                                <td><span class="label label-success">15-Jun-2017</span></td>
-
-                            </tr>
-                            <tr>
-                                <td><a href="./Suppliers">JAIRAM Plastic Industries</a></td>
-                                <td>₹34,000</td>
-                                <td><span class="label label-success">12-Mar-2017</span></td>
-
-                            </tr>
-                            <tr>
-                                <td><a href="./Suppliers">Priya Overseas Trades Vashi</a></td>
-                                <td>₹30,500</td>
-                                <td><span class="label label-success">08-Dec-2016</span></td>
-
-                            </tr>
-                            <tr>
-                                <td><a href="./Suppliers">Triveni Chemicals</a></td>
-                                <td>₹14,500</td>
-                                <td><span class="label label-success">18-Jan-2017</span></td>
-
-                            </tr>
-
-                        </tbody>
-                    </table>
+                    <a href="../Suppliers" class="label label-info">View All Suppliers</a>
                 </div>
-                <!-- /.table-responsive -->
+                <!-- /.box-footer -->
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer clearfix">
-                
-                <a href="./Suppliers" class="label label-info">View All Suppliers</a>
-            </div>
-            <!-- /.box-footer -->
         </div>
     </div>
-</div>
-    
+
 
     @section Scripts {
         @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jquery")

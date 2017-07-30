@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using SAMTool.BusinessServices.Contracts;
 using SAMTool.DataAccessObject.DTO;
 using SPAccounts.UserInterface.SecurityFilter;
+using UserInterface.Models;
 
 namespace UserInterface.Controllers
 {
@@ -23,6 +24,15 @@ namespace UserInterface.Controllers
         {
             return View();
         }
+
+        [AuthSecurityFilter(ProjectObject = "AdminDashboard", Mode = "R")]
+        public ActionResult MonthlyRecap(string Company)
+        {
+            MonthlyRecapViewModel data = new MonthlyRecapViewModel();
+            data.CompanyName = Company;
+            return PartialView("_MontlyRecap", data);
+        }
+        
 
 
         private ActionResult RedirectToAdminDashboard()
