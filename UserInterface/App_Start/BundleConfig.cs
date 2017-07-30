@@ -64,6 +64,7 @@ namespace UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/OtherIncome").Include("~/Scripts/UserJS/OtherIncome.js"));
             bundles.Add(new ScriptBundle("~/bundles/OtherExpense").Include("~/Scripts/UserJS/OtherExpense.js"));
             bundles.Add(new ScriptBundle("~/bundles/MonthlyRecap").Include("~/Scripts/UserJS/MonthlyRecap.js"));
+            bundles.Add(new ScriptBundle("~/bundles/ExpenseSummary").Include("~/Scripts/UserJS/ExpenseSummary.js"));
 
         }
 

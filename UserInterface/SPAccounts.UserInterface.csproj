@@ -1473,6 +1473,7 @@
     <Content Include="Scripts\UserJS\CustomerInvoices.js" />
     <Content Include="Scripts\UserJS\CustomerPayments.js" />
     <Content Include="Scripts\UserJS\Customers.js" />
+    <Content Include="Scripts\UserJS\ExpenseSummary.js" />
     <Content Include="Scripts\UserJS\MonthlyRecap.js" />
     <Content Include="Scripts\UserJS\Login.js" />
     <Content Include="Scripts\UserJS\ManageAccess.js" />
@@ -1597,6 +1598,7 @@
     <Content Include="Views\OtherIncome\Index.cshtml" />
     <Content Include="Views\Dashboard\Admin.cshtml" />
     <Content Include="Views\Dashboard\_MontlyRecap.cshtml" />
+    <Content Include="Views\Dashboard\_ExpenseSummary.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

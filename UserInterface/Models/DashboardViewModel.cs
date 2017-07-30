@@ -19,4 +19,11 @@ namespace UserInterface.Models
         public string CompanyName { get; set; }
 
     }
+
+
+    public class ExpenseSummaryViewModel
+    {
+        public string CompanyName { get; set; }
+
+    }
 }

@@ -32,7 +32,14 @@ namespace UserInterface.Controllers
             data.CompanyName = Company;
             return PartialView("_MontlyRecap", data);
         }
-        
+
+        [AuthSecurityFilter(ProjectObject = "AdminDashboard", Mode = "R")]
+        public ActionResult ExpenseSummary(string Company)
+        {
+            ExpenseSummaryViewModel data = new ExpenseSummaryViewModel();
+            data.CompanyName = Company;
+            return PartialView("_ExpenseSummary", data);
+        }
 
 
         private ActionResult RedirectToAdminDashboard()
