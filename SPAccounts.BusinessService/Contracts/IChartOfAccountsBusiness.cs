@@ -10,5 +10,6 @@ namespace SPAccounts.BusinessService.Contracts
    public interface IChartOfAccountsBusiness
     {
         List<ChartOfAccounts> GetChartOfAccountsByType(string type);
+        List<ChartOfAccounts> GetExpenseTypeDetails(ChartOfAccounts account);
     }
 }

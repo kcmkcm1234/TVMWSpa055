@@ -59,6 +59,7 @@ namespace UserInterface.Models
         public string GeneralNotes { get; set; }
         [Display(Name = "Available Advance Amount:")]
         public decimal AdvanceAmount { get; set; }
+        public decimal OutStanding { get; set; }
         public CommonViewModel commonObj { get; set; }
         public List<SelectListItem> CustomerList { get; set; }
         public List<SelectListItem> TitlesList { get; set; }

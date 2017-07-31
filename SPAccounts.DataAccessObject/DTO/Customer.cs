@@ -24,6 +24,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string PANNO { get; set; }
         public string GeneralNotes { get; set; }
         public decimal AdvanceAmount { get; set; }
+        public decimal OutStanding { get; set; }
         public Common commonObj { get; set; }
     }
 

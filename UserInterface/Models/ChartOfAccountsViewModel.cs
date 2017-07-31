@@ -14,5 +14,7 @@ namespace UserInterface.Models
         public decimal OpeningBalance { get; set; }
         public DateTime OpeningAsOfDate { get; set; }
         public bool ISEmploy { get; set; }
+        public decimal Amount { get; set; }
+        public string account { get; set; }
     }
 }

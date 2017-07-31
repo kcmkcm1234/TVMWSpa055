@@ -85,5 +85,32 @@ namespace SPAccounts.BusinessService.Services
         {
             return _customerInvoicesRepository.DeleteInvoices(ID,UserName);
         }
+        public List<CustomerInvoice> GetOutstandingCustomerInvoices()
+        {
+            try
+            {
+                return _customerInvoicesRepository.GetOutstandingCustomerInvoices();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
+        public List<CustomerInvoice> GetOpeningCustomerInvoices()
+        {
+            try
+            {
+                return _customerInvoicesRepository.GetOpeningCustomerInvoices();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
     }
 }

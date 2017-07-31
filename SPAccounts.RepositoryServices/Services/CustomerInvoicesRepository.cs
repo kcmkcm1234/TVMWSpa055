@@ -474,5 +474,114 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return new { Message = Cobj.DeleteSuccess };
         }
+
+
+
+        public List<CustomerInvoice> GetOutstandingCustomerInvoices()
+        {
+            List<CustomerInvoice> CustomerInvoicesList = null;
+            Settings settings = new Settings();
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetAllOutStandingInvoices]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                CustomerInvoicesList = new List<CustomerInvoice>();
+                                while (sdr.Read())
+                                {
+                                    CustomerInvoice CIList = new CustomerInvoice();
+                                    {
+                                        CIList.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : CIList.ID);
+                                        CIList.InvoiceNo = sdr["InvoiceNo"].ToString();
+                                        CIList.customerObj = new Customer();
+                                        CIList.customerObj.ID = Guid.Parse(sdr["ID"].ToString());
+                                        CIList.customerObj.ContactPerson = sdr["ContactPerson"].ToString();
+                                        CIList.PaymentDueDate = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()) : CIList.PaymentDueDate);
+                                        CIList.BalanceDue = (sdr["BalanceDue"].ToString() != "" ? Decimal.Parse(sdr["BalanceDue"].ToString()) : CIList.BalanceDue);
+                                        CIList.PaidAmount=(sdr["PaidAmount"].ToString()!=""?Decimal.Parse(sdr["PaidAmount"].ToString()):CIList.PaidAmount);
+                                        CIList.PaymentDueDateFormatted = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString(settings.dateformat) : CIList.PaymentDueDateFormatted);
+                                      
+                                    }
+                                    CustomerInvoicesList.Add(CIList);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return CustomerInvoicesList;
+        }
+
+
+        public List<CustomerInvoice> GetOpeningCustomerInvoices()
+        {
+            List<CustomerInvoice> CustomerInvoicesList = null;
+            Settings settings = new Settings();
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetAllOpenInvoices]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                CustomerInvoicesList = new List<CustomerInvoice>();
+                                while (sdr.Read())
+                                {
+                                    CustomerInvoice CIList = new CustomerInvoice();
+                                    {
+                                        CIList.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : CIList.ID);
+                                        CIList.InvoiceNo = sdr["InvoiceNo"].ToString();
+                                        CIList.customerObj = new Customer();
+                                        CIList.customerObj.ID = Guid.Parse(sdr["ID"].ToString());
+                                        CIList.customerObj.ContactPerson = sdr["ContactPerson"].ToString();
+                                        CIList.PaymentDueDate = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()) : CIList.PaymentDueDate);
+                                        CIList.BalanceDue = (sdr["BalanceDue"].ToString() != "" ? Decimal.Parse(sdr["BalanceDue"].ToString()) : CIList.BalanceDue);
+                                        CIList.PaidAmount = (sdr["PaidAmount"].ToString() != "" ? Decimal.Parse(sdr["PaidAmount"].ToString()) : CIList.PaidAmount);
+                                        CIList.PaymentDueDateFormatted = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString(settings.dateformat) : CIList.PaymentDueDateFormatted);
+
+                                    }
+                                    CustomerInvoicesList.Add(CIList);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return CustomerInvoicesList;
+        }
     }
 }

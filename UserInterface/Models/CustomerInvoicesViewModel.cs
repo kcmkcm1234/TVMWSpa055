@@ -73,6 +73,7 @@ namespace UserInterface.Models
         public string PaidAmountstring { get; set; }
 
         public decimal BalanceDue { get; set; }
+        public decimal PaidAmount { get; set; }
         public decimal OtherPayments { get; set; }
         public CustomerPaymentsViewModel CustPaymentObj { get; set; }
 

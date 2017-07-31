@@ -33,6 +33,32 @@ namespace SPAccounts.BusinessService.Services
 
         }
 
+        public List<Supplier> GetAllSuppliersForMobile()
+        {
+            try
+            {
+                return _supplierRepository.GetAllSuppliersForMobile( );
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public Supplier GetSupplierDetailsForMobile(Guid ID)
+        {
+            try
+            {
+                return _supplierRepository.GetSupplierDetailsForMobile(ID);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
 
         public Supplier GetSupplierDetails(Guid ID)
         {

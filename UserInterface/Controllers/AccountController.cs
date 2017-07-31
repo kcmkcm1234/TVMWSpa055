@@ -22,7 +22,7 @@ namespace UserInterface.Controllers
 
 
         // GET: Account
-        public ActionResult Index()
+        public ActionResult Index() 
         {
             return View();
         }
