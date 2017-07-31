@@ -13,7 +13,6 @@ namespace SPAccounts.BusinessService.Contracts
         Customer GetCustomerDetails(Guid ID);
         object InsertUpdateCustomer(Customer _customerObj);
         Customer GetCustomerDetailsForMobile(Guid ID);
-        object InsertUpdateCustomer(Customer _customerObj, AppUA ua);
         object DeleteCustomer(Guid ID);
         List<Titles> GetAllTitles();
     }

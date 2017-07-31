@@ -29,12 +29,12 @@ namespace SPAccounts.BusinessService.Services
         {
             return _customerRepository.GetCustomerDetails(ID);
         }
-        public object InsertUpdateCustomer(Customer _customerObj)
+        
         public Customer GetCustomerDetailsForMobile(Guid ID)
         {
             return _customerRepository.GetCustomerDetailsForMobile(ID);
         }
-        public object InsertUpdateCustomer(Customer _customerObj, AppUA ua)
+        public object InsertUpdateCustomer(Customer _customerObj)
         {
             object result = null;
             try
