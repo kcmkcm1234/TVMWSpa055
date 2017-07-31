@@ -1278,6 +1278,7 @@
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\images\add.png" />
     <Content Include="Content\images\back.png" />
+    <Content Include="Content\images\bgTest1.JPG" />
     <Content Include="Content\images\circle.png" />
     <Content Include="Content\images\close.png" />
     <Content Include="Content\images\delete.png" />
@@ -1511,6 +1512,7 @@
     <Compile Include="API\HomeScreenChartController.cs" />
     <Compile Include="API\InvoiceSummaryController.cs" />
     <Compile Include="API\LoginController.cs" />
+    <Compile Include="API\PurchaseSummaryController.cs" />
     <Compile Include="API\SupplierController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />

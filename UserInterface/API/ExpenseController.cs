@@ -37,12 +37,12 @@ namespace UserInterface.API
             {
                 List<ChartOfAccountsViewModel> expenseObj = Mapper.Map<List<ChartOfAccounts>, List<ChartOfAccountsViewModel>>(_chartofaccountsBusiness.GetExpenseTypeDetails(account));
                  
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = expenseObj });
+                return JsonConvert.SerializeObject(new { Result = true, Records = expenseObj });
             }
             catch (Exception ex)
             {
 
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+                return JsonConvert.SerializeObject(new { Result = false, Message = ex.Message });
             }
         }
         #endregion  GetExpenseDetailsByValue

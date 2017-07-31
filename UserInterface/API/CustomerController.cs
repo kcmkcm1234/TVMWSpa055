@@ -54,12 +54,12 @@ namespace UserInterface.API
             {
 
                 CustomerViewModel customerObj = Mapper.Map<Customer, CustomerViewModel>(_customerBusiness.GetCustomerDetailsForMobile(cust.ID != null && cust.ID.ToString() != "" ? Guid.Parse(cust.ID.ToString()) : Guid.Empty));
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = customerObj });
+                return JsonConvert.SerializeObject(new { Result = true, Records = customerObj });
             }
             catch (Exception ex)
             {
                 
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+                return JsonConvert.SerializeObject(new { Result = false, Message = ex.Message });
             }
         }
         #endregion  GetCustomerDetailsByID

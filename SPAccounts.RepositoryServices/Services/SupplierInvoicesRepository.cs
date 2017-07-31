@@ -326,5 +326,112 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return _supplierInvoicesObj;
         }
+
+        public List<SupplierInvoices> GetOutstandingSupplierInvoices()
+        {
+            List<SupplierInvoices> SupplierInvoicesList = null;
+            Settings settings = new Settings();
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetAllSupplierOutStandingInvoices]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                SupplierInvoicesList = new List<SupplierInvoices>();
+                                while (sdr.Read())
+                                {
+                                    SupplierInvoices CIList = new SupplierInvoices();
+                                    {
+                                        CIList.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : CIList.ID);
+                                        CIList.InvoiceNo = sdr["InvoiceNo"].ToString();
+                                        CIList.suppliersObj = new Supplier();
+                                        CIList.suppliersObj.ID = Guid.Parse(sdr["ID"].ToString());
+                                        CIList.suppliersObj.ContactPerson = sdr["ContactPerson"].ToString();
+                                        CIList.PaymentDueDate = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()) : CIList.PaymentDueDate);
+                                        CIList.BalanceDue = (sdr["BalanceDue"].ToString() != "" ? Decimal.Parse(sdr["BalanceDue"].ToString()) : CIList.BalanceDue);
+                                        CIList.PaidAmount = (sdr["PaidAmount"].ToString() != "" ? Decimal.Parse(sdr["PaidAmount"].ToString()) : CIList.PaidAmount);
+                                        CIList.PaymentDueDateFormatted = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString(settings.dateformat) : CIList.PaymentDueDateFormatted);
+
+                                    }
+                                    SupplierInvoicesList.Add(CIList);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return SupplierInvoicesList;
+        }
+
+
+        public List<SupplierInvoices> GetOpeningSupplierInvoices()
+        {
+            List<SupplierInvoices> SupplierInvoicesList = null;
+            Settings settings = new Settings();
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetAllSupplierOpeningInvoices]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                SupplierInvoicesList = new List<SupplierInvoices>();
+                                while (sdr.Read())
+                                {
+                                    SupplierInvoices CIList = new SupplierInvoices();
+                                    {
+                                        CIList.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : CIList.ID);
+                                        CIList.InvoiceNo = sdr["InvoiceNo"].ToString();
+                                        CIList.suppliersObj = new Supplier();
+                                        CIList.suppliersObj.ID = Guid.Parse(sdr["ID"].ToString());
+                                        CIList.suppliersObj.ContactPerson = sdr["ContactPerson"].ToString();
+                                        CIList.PaymentDueDate = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()) : CIList.PaymentDueDate);
+                                        CIList.BalanceDue = (sdr["BalanceDue"].ToString() != "" ? Decimal.Parse(sdr["BalanceDue"].ToString()) : CIList.BalanceDue);
+                                        CIList.PaidAmount = (sdr["PaidAmount"].ToString() != "" ? Decimal.Parse(sdr["PaidAmount"].ToString()) : CIList.PaidAmount);
+                                        CIList.PaymentDueDateFormatted = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString(settings.dateformat) : CIList.PaymentDueDateFormatted);
+
+                                    }
+                                    SupplierInvoicesList.Add(CIList);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return SupplierInvoicesList;
+        }
     }
 }

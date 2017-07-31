@@ -41,5 +41,32 @@ namespace SPAccounts.BusinessService.Services
         {
             return _supplierInvoicesRepository.GetSupplierInvoiceDetails(ID);
         }
+
+        public List<SupplierInvoices> GetOutstandingSupplierInvoices()
+        {
+            try
+            {
+                return _supplierInvoicesRepository.GetOutstandingSupplierInvoices();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
+        public List<SupplierInvoices> GetOpeningSupplierInvoices()
+        {
+            try
+            {
+                return _supplierInvoicesRepository.GetOpeningSupplierInvoices();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
