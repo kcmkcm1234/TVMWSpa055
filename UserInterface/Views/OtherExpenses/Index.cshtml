@@ -60,9 +60,9 @@
                         @{
                             List<SelectListItem> listDefaultDate = new List<SelectListItem>();
                             listDefaultDate.Add(new SelectListItem
-                            { Text = "30 Days", Value = "30" });
+                            { Text = "Last 30 Days", Value = "30" });
                             listDefaultDate.Add(new SelectListItem
-                            { Text = "60 Days", Value = "60" });
+                            { Text = "Last 60 Days", Value = "60" });
                         }
                         @Html.DropDownListFor(model => model.DefaultDate, listDefaultDate, new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "DefaultDate", @onchange = "ExpenseDefaultDateOnchange()" })
                         @Html.ValidationMessageFor(model => model.DefaultDate, "", new { @class = "text-danger" })

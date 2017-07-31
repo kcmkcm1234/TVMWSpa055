@@ -20,6 +20,6 @@ namespace SPAccounts.BusinessService.Contracts
         List<Employee> GetAllEmployeesByType(string Type);
         OtherExpense InsertOtherExpense(OtherExpense otherExpense);
         OtherExpense UpdateOtherExpense(OtherExpense otherExpense);
-        object DeleteOtherExpense(Guid ID);
+        object DeleteOtherExpense(Guid ID, string UserName);
     }
 }

@@ -172,12 +172,13 @@ function ShowModal()
 
 function Validation() {
     debugger;
+    
     var fl = true;
     var pm = $("#PaymentMode").val();
     if ((pm) && (pm == "ONLINE")) {
         if ($("#BankCode").val() == "") {
             fl = false;
-
+            $('span[data-valmsg-for="BankCode"]').empty();
             $('span[data-valmsg-for="BankCode"]').append('<span for="EmpID" class="">BankCode required</span>')
         }
         else {
@@ -272,6 +273,7 @@ function Reset()
         FillOtherIncomeDetails($("#ID").val());
     }
     ResetForm();
+    $('span[data-valmsg-for="BankCode"]').empty();
 }
 
 function FillOtherIncomeDetails(ID)

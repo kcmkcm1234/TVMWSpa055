@@ -20,7 +20,7 @@ namespace SPAccounts.RepositoryServices.Services
         }
 
         #region DeleteOtherExpense
-        public object DeleteOtherExpense(Guid ID)
+        public object DeleteOtherExpense(Guid ID,string UserName)
         {
             SqlParameter outputStatus = null;
             try
@@ -38,6 +38,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandText = "[Accounts].[DeleteOtherExpense]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = ID;
+                        cmd.Parameters.Add("@DeletedBy", SqlDbType.NVarChar, 250).Value = UserName;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();
@@ -97,6 +98,7 @@ namespace SPAccounts.RepositoryServices.Services
                                     {
                                         _otherExpense.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : _otherExpense.ID);
                                         _otherExpense.ExpenseDate = (sdr["ExpenseDate"].ToString() != "" ? DateTime.Parse(sdr["ExpenseDate"].ToString()).ToString(settings.dateformat) : _otherExpense.ExpenseDate);
+                                        _otherExpense.EmpTypeCode = (sdr["EmpType"].ToString() != "" ? sdr["EmpType"].ToString() : string.Empty);
                                         _otherExpense.chartOfAccounts = new ChartOfAccounts()
                                         {
                                             Code= (sdr["AccountCode"].ToString() != "" ? sdr["AccountCode"].ToString() : string.Empty),

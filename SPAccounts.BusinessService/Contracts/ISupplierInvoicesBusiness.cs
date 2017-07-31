@@ -12,5 +12,8 @@ namespace SPAccounts.BusinessService.Contracts
         SupplierInvoices GetSupplierInvoiceDetails(Guid ID);
         SupplierInvoiceSummary GetSupplierInvoicesSummary();
         SupplierInvoices InsertUpdateInvoice(SupplierInvoices _supplierInvoicesObj);
+        List<SupplierInvoices> GetOutstandingSupplierInvoices();
+        List<SupplierInvoices> GetOpeningSupplierInvoices();
+
     }
 }

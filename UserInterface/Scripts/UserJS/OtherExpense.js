@@ -108,6 +108,7 @@ function BankOnchange()
 }
 function Validation()
 {
+    debugger;
     var fl = true;
     var pm = $("#paymentMode").val();
     if((pm)&&(pm=="ONLINE"))
@@ -124,6 +125,43 @@ function Validation()
         }
 
     }
+    debugger;
+    var AcodeCombined = $("#AccountCode").val();
+    if (AcodeCombined) {
+        var len = AcodeCombined.indexOf(':');
+        var IsEmploy = AcodeCombined.substring(len + 1, (AcodeCombined.length));
+        if (IsEmploy == "True") {
+            if ($("#EmpTypeCode").val() == "")
+            {
+                fl = false;
+                $('span[data-valmsg-for="EmpTypeCode"]').empty();
+                $('span[data-valmsg-for="EmpTypeCode"]').append('<span for="EmpTypeCode" class="">Employee Type required</span>')
+            }
+            else
+            {
+                $('span[data-valmsg-for="EmpTypeCode"]').empty();
+            }
+            if ($("#EmpID").val() == "-1" || $("#EmpID").val() == null)
+            {
+                fl = false;
+                $('span[data-valmsg-for="EmpID"]').empty();
+                $('span[data-valmsg-for="EmpID"]').append('<span for="EmpID" class="">Employee required</span>')
+            }
+            else
+            {
+                $('span[data-valmsg-for="EmpID"]').empty();
+            }
+            
+            
+           
+        }
+        else
+        {
+            $('span[data-valmsg-for="EmpTypeCode"]').empty();
+            $('span[data-valmsg-for="EmpID"]').empty();
+        }
+    }
+
     return fl;
 }
 
@@ -187,7 +225,8 @@ function Reset() {
       
         FillOtherExpenseDetails($("#ID").val())
     }
-  
+    $('span[data-valmsg-for="EmpTypeCode"]').empty();
+    $('span[data-valmsg-for="EmpID"]').empty();
 }
 
 function GetExpenseDetailsByID(ID) {
@@ -235,12 +274,37 @@ function FillOtherExpenseDetails(ID) {
         {
             $("#BankCode").prop('disabled', false);
         }
+       
+        $("#EmpTypeCode").val(thisItem.EmpTypeCode);
+        if (thisItem.EmpTypeCode)
+        {
+            BindEmployeeDropDown(thisItem.EmpTypeCode);
+        }
+        
         $("#EmpID").val(thisItem.employee.ID);
         $("#BankCode").val(thisItem.BankCode);
         $("#ExpenseRef").val(thisItem.ExpenseRef);
         $("#Amount").val(thisItem.Amount);
         $("#Description").val(thisItem.Description);
         $("#AddOrEditSpan").text("Edit");
+
+        if(thisItem.AccountCode)
+        {
+            var AcodeCombined = thisItem.AccountCode;
+            var len = AcodeCombined.indexOf(':');
+            var IsEmploy = AcodeCombined.substring(len + 1, (AcodeCombined.length));
+            // console.log(str.substring(0, (len)));
+            if (IsEmploy == "True") {
+                $("#EmpTypeCode").prop('disabled', false);
+                $("#EmpID").prop('disabled', false);
+            }
+            else {
+                $("#EmpTypeCode").val('');
+                $("#EmpID").val('');
+                $("#EmpTypeCode").prop('disabled', true);
+                $("#EmpID").prop('disabled', true);
+            }
+        }
     }
    
 
@@ -255,6 +319,7 @@ function Edit(currentObj) {
     if ((rowData != null) && (rowData.ID != null)) {
        
         ClearFields();
+        debugger;
         FillOtherExpenseDetails(rowData.ID);
         $("#AddOtherexpenseModel").modal('show');
     }
@@ -357,6 +422,7 @@ function ExpenseDefaultDateOnchange()
 }
 function AccountCodeOnchange(curobj)
 {
+    debugger;
     var AcodeCombined = $(curobj).val();
     if(AcodeCombined)
     {
@@ -376,7 +442,8 @@ function AccountCodeOnchange(curobj)
             $("#EmpID").prop('disabled', true);
         }
     }
-
+    $('span[data-valmsg-for="EmpTypeCode"]').empty();
+    $('span[data-valmsg-for="EmpID"]').empty();
 }
 
 function EmployeeTypeOnchange(curobj)
