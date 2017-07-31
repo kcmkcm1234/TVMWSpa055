@@ -44,18 +44,18 @@ namespace SPAccounts.BusinessService.Services
             return supplierCreditNoteObj;
         }
 
-        public object InsertUpdateSupplierCreditNote(SupplierCreditNote _supplierCreditNoteObj, AppUA ua)
+        public object InsertUpdateSupplierCreditNote(SupplierCreditNote _supplierCreditNoteObj)
         {
             object result = null;
             try
             {
                 if (_supplierCreditNoteObj.ID == Guid.Empty)
                 {
-                    result = _supplierCreditRepository.InsertSupplierCreditNotes(_supplierCreditNoteObj, ua);
+                    result = _supplierCreditRepository.InsertSupplierCreditNotes(_supplierCreditNoteObj);
                 }
                 else
                 {
-                    result = _supplierCreditRepository.UpdateSupplierCreditNotes(_supplierCreditNoteObj, ua);
+                    result = _supplierCreditRepository.UpdateSupplierCreditNotes(_supplierCreditNoteObj);
                 }
             }
             catch (Exception ex)
@@ -65,12 +65,12 @@ namespace SPAccounts.BusinessService.Services
             return result;
         }
 
-        public object DeleteSupplierCreditNote(Guid ID)
+        public object DeleteSupplierCreditNote(Guid ID, string userName)
         {
             object result = null;
             try
             {
-                result = _supplierCreditRepository.DeleteSupplierCreditNote(ID);
+                result = _supplierCreditRepository.DeleteSupplierCreditNote(ID,userName);
 
             }
             catch (Exception ex)

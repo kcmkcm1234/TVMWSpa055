@@ -17,8 +17,8 @@ $(document).ready(function () {
              },
              columns: [
                { "data": "ID" },
-               { "data": "CompanyName" },
-               { "data": "ContactPerson" },
+               { "data": "CompanyName", "defaultContent": "<i>-</i>" },
+               { "data": "ContactPerson", "defaultContent": "<i>-</i>" },
                { "data": "Mobile", "defaultContent": "<i>-</i>" },
                { "data": "TaxRegNo", "defaultContent": "<i>-</i>" },
                { "data": "PANNO", "defaultContent": "<i>-</i>" },

@@ -30,18 +30,18 @@ namespace SPAccounts.BusinessService.Services
             otherIncomeObj = _iOtherIncomeRepository.GetOtherIncomeDetails(ID);            
             return otherIncomeObj;
         }
-        public object InsertUpdateOtherIncome(OtherIncome _otherIncomeObj, AppUA ua)
+        public object InsertUpdateOtherIncome(OtherIncome _otherIncomeObj)
         {
             object result = null;
             try
             {
                 if (_otherIncomeObj.ID == Guid.Empty)
                 {                    
-                    result = _iOtherIncomeRepository.InsertOtherIncome(_otherIncomeObj, ua);
+                    result = _iOtherIncomeRepository.InsertOtherIncome(_otherIncomeObj);
                 }
                 else
                 {
-                    result = _iOtherIncomeRepository.UpdateOtherIncome(_otherIncomeObj, ua);
+                    result = _iOtherIncomeRepository.UpdateOtherIncome(_otherIncomeObj);
                 }
             }
             catch (Exception ex)
@@ -50,12 +50,12 @@ namespace SPAccounts.BusinessService.Services
             }
             return result;
         }
-        public object DeleteOtherIncome(Guid ID)
+        public object DeleteOtherIncome(Guid ID, string userName)
         {
             object result = null;
             try
             {
-                result = _iOtherIncomeRepository.DeleteOtherIncome(ID);
+                result = _iOtherIncomeRepository.DeleteOtherIncome(ID,userName);
 
             }
             catch (Exception ex)

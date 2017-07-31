@@ -13,7 +13,7 @@ namespace SPAccounts.BusinessService.Contracts
         List<Supplier> GetAllSuppliersForMobile();
         Supplier GetSupplierDetailsForMobile(Guid ID);
         Supplier GetSupplierDetails(Guid ID);
-        object InsertUpdateSupplier(Supplier _supplierObj, AppUA ua);
+        object InsertUpdateSupplier(Supplier _supplierObj);
         object DeleteSupplier(Guid ID);
     }
 }

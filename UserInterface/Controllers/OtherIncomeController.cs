@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using SPAccounts.BusinessService.Contracts;
 using SPAccounts.DataAccessObject.DTO;
+using SPAccounts.UserInterface.SecurityFilter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +39,8 @@ namespace UserInterface.Controllers
         #endregion Constructor_Injection 
 
         // GET: OtherIncome
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "OtherIncome", Mode = "R")]
         public ActionResult Index()
         {
             OtherIncomeViewModel otherIncomeViewModalObj = null;
@@ -114,6 +117,7 @@ namespace UserInterface.Controllers
 
         #region GetAllOtherIncome
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "OtherIncome", Mode = "R")]
         public string GetAllOtherIncome(string IncomeDate,string DefaultDate)
         {
             try
@@ -134,6 +138,7 @@ namespace UserInterface.Controllers
 
         #region GetOtherIncomeDetails
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "OtherIncome", Mode = "R")]
         public string GetOtherIncomeDetails(string ID)
         {
             try
@@ -152,15 +157,22 @@ namespace UserInterface.Controllers
 
         #region InsertUpdateOtherIncome
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AuthSecurityFilter(ProjectObject = "OtherIncome", Mode = "W")]
         public string InsertUpdateOtherIncome(OtherIncomeViewModel _otherIncomeObj)
         {
             try
             {
 
                 object result = null;
-                AppUA ua = new AppUA();
+                AppUA _appUA = Session["AppUA"] as AppUA;
+                _otherIncomeObj.commonObj = new CommonViewModel();
+                _otherIncomeObj.commonObj.CreatedBy = _appUA.UserName;
+                _otherIncomeObj.commonObj.CreatedDate = _appUA.DateTime;
+                _otherIncomeObj.commonObj.UpdatedBy = _appUA.UserName;
+                _otherIncomeObj.commonObj.UpdatedDate = _appUA.DateTime;
 
-                result = _otherIncomeBusiness.InsertUpdateOtherIncome(Mapper.Map<OtherIncomeViewModel, OtherIncome>(_otherIncomeObj), ua);
+                result = _otherIncomeBusiness.InsertUpdateOtherIncome(Mapper.Map<OtherIncomeViewModel, OtherIncome>(_otherIncomeObj));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
 
             }
@@ -174,14 +186,16 @@ namespace UserInterface.Controllers
         #endregion InsertUpdateOtherIncome
 
         #region DeleteOtherIncome
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "OtherIncome", Mode = "D")]
         public string DeleteOtherIncome(string ID)
         {
 
             try
             {
                 object result = null;
-
-                result = _otherIncomeBusiness.DeleteOtherIncome(ID != null && ID != "" ? Guid.Parse(ID) : Guid.Empty);
+                AppUA _appUA = Session["AppUA"] as AppUA;
+                result = _otherIncomeBusiness.DeleteOtherIncome(ID != null && ID != "" ? Guid.Parse(ID) : Guid.Empty,_appUA.UserName);
                 return JsonConvert.SerializeObject(new { Result = "OK", Message = result });
 
             }
@@ -197,6 +211,7 @@ namespace UserInterface.Controllers
 
         #region ButtonStyling
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "OtherIncome", Mode = "R")]
         public ActionResult ChangeButtonStyle(string ActionType)
         {
             ToolboxViewModel ToolboxViewModelObj = new ToolboxViewModel();
@@ -208,13 +223,6 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.addbtn.Title = "Add New";
                     ToolboxViewModelObj.addbtn.Event = "ShowModal();";
 
-
-
-                    ToolboxViewModelObj.backbtn.Visible = true;
-                    ToolboxViewModelObj.backbtn.Disable = true;
-                    ToolboxViewModelObj.backbtn.Text = "Back";
-                    ToolboxViewModelObj.backbtn.DisableReason = "Not applicable";
-                    ToolboxViewModelObj.backbtn.Event = "goBack();";
 
                     break;
                 case "Edit":

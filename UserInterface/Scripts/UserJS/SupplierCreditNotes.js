@@ -22,12 +22,12 @@ $(document).ready(function () {
                { "data": "CRNRefNo", "defaultContent": "<i>-</i>" },
                { "data": "Amount",render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                { "data": "CRNDate", "defaultContent": "<i>-</i>" },
-                { "data": "Type", "defaultContent": "<i>-</i>" },
+                //{ "data": "Type", "defaultContent": "<i>-</i>" },
                { "data": null, "orderable": false, "defaultContent": '<a href="#" title="Edit Credit Note" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false },                 
                    { className: "text-right", "targets": [4] },
-             { className: "text-center", "targets": [1,2,3, 5, 6,7] }
+             { className: "text-center", "targets": [1,2,3, 5, 6] }
 
              ]
          });

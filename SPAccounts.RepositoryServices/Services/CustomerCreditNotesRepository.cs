@@ -133,7 +133,7 @@ namespace SPAccounts.RepositoryServices.Services
         #endregion GetCustomerCreditNoteDetails
 
         #region InsertCustomerCreditNotes
-        public CustomerCreditNotes InsertCustomerCreditNotes(CustomerCreditNotes _customerCreditNotesObj, AppUA ua)
+        public CustomerCreditNotes InsertCustomerCreditNotes(CustomerCreditNotes _customerCreditNotesObj)
         {
             try
             {
@@ -156,8 +156,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@Type", SqlDbType.VarChar, 5).Value = _customerCreditNotesObj.Type;                       
                         cmd.Parameters.Add("@GeneralNotes", SqlDbType.NVarChar, -1).Value = _customerCreditNotesObj.GeneralNotes;
                         cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = _customerCreditNotesObj.CustomerID;
-                        cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = "Anija";
-                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = DateTime.Now;
+                        cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = _customerCreditNotesObj.commonObj.CreatedBy;
+                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = _customerCreditNotesObj.commonObj.CreatedDate;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         outputID = cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier);
@@ -191,7 +191,7 @@ namespace SPAccounts.RepositoryServices.Services
         #endregion InsertCustomerCreditNotes
 
         #region UpdateCustomerCreditNotes
-        public object UpdateCustomerCreditNotes(CustomerCreditNotes _customerCreditNotesObj, AppUA ua)
+        public object UpdateCustomerCreditNotes(CustomerCreditNotes _customerCreditNotesObj)
         {
             SqlParameter outputStatus = null;
             try
@@ -216,8 +216,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = _customerCreditNotesObj.CreditAmount;
                         cmd.Parameters.Add("@Type", SqlDbType.VarChar, 5).Value = _customerCreditNotesObj.Type;
                         cmd.Parameters.Add("@GeneralNotes", SqlDbType.NVarChar, -1).Value = _customerCreditNotesObj.GeneralNotes;
-                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = "Anija";
-                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = DateTime.Now;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = _customerCreditNotesObj.commonObj.UpdatedBy;
+                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = _customerCreditNotesObj.commonObj.UpdatedDate;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();
@@ -251,7 +251,7 @@ namespace SPAccounts.RepositoryServices.Services
         #endregion UpdateCustomerCreditNotes
 
         #region DeleteCustomerCreditNotes
-        public object DeleteCustomerCreditNotes(Guid ID)
+        public object DeleteCustomerCreditNotes(Guid ID, string userName)
         {
             SqlParameter outputStatus = null;
             try
@@ -269,7 +269,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandText = "[Accounts].[DeleteCustCreditNotes]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = ID;
-                        cmd.Parameters.Add("@DeletedBy", SqlDbType.NVarChar, 250).Value = "Anija";
+                        cmd.Parameters.Add("@DeletedBy", SqlDbType.NVarChar, 250).Value = userName;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();

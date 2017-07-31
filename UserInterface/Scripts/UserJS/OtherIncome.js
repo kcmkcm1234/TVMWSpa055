@@ -30,8 +30,8 @@ $(document).ready(function () {
              ],
              columnDefs: [{ "targets": [1,2], "visible": false, "searchable": false },
                   { className: "text-right", "targets": [7] },
-                    { className: "text-left", "targets": [0,3,4,6] },
-             { className: "text-center", "targets": [5,8] }
+                    { className: "text-left", "targets": [0,6] },
+             { className: "text-center", "targets": [3,4,5,8] }
 
              ]
          });

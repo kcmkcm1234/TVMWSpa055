@@ -10,7 +10,7 @@ namespace SPAccounts.BusinessService.Contracts
     {
         List<TaxTypes> GetAllTaxTypes();
         TaxTypes GetTaxTypeDetailsByCode(string Code);
-        object InsertUpdateTaxType(TaxTypes _taxTypesObj, AppUA ua);
+        object InsertUpdateTaxType(TaxTypes _taxTypesObj);
         object DeleteTaxType(string Code);
     }
 }

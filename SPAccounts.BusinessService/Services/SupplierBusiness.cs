@@ -64,18 +64,18 @@ namespace SPAccounts.BusinessService.Services
         {
             return _supplierRepository.GetSupplierDetails(ID);
         }
-        public object InsertUpdateSupplier(Supplier _supplierObj, AppUA ua)
+        public object InsertUpdateSupplier(Supplier _supplierObj)
         {
             object result = null;
             try
             {
                 if (_supplierObj.ID == Guid.Empty)
                 {
-                    result = _supplierRepository.InsertSupplier(_supplierObj, ua);
+                    result = _supplierRepository.InsertSupplier(_supplierObj);
                 }
                 else
                 {
-                    result = _supplierRepository.UpdateSupplier(_supplierObj, ua);
+                    result = _supplierRepository.UpdateSupplier(_supplierObj);
                 }
             }
             catch (Exception ex)

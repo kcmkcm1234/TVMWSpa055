@@ -26,18 +26,18 @@ namespace SPAccounts.BusinessService.Services
             return _bankRepository.GetBankDetailsByCode(Code);
         }
 
-        public object InsertUpdateBank(Bank bankObj, AppUA ua)
+        public object InsertUpdateBank(Bank bankObj)
         {
             object result = null;
             try
             {
                 if ((bankObj.isUpdate)=="0")
                 {
-                    result = _bankRepository.InsertBank(bankObj,ua);
+                    result = _bankRepository.InsertBank(bankObj);
                 }
                 else
                 {                   
-                    result = _bankRepository.UpdateBank(bankObj,ua);
+                    result = _bankRepository.UpdateBank(bankObj);
                 }
             }
             catch (Exception ex)

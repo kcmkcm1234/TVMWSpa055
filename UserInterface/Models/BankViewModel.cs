@@ -27,5 +27,6 @@ namespace UserInterface.Models
         public List<SelectListItem> BanksList { get; set; }
         public List<SelectListItem> CompaniesList { get; set; }
         public string isUpdate { get; set; }
+        public CompaniesViewModel Company { get; set; }
     }
 }

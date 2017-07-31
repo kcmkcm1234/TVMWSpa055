@@ -77,7 +77,7 @@ namespace SPAccounts.RepositoryServices.Services
         #endregion GetAllSupplierCreditNotes
 
         #region InsertSupplierCreditNotes
-        public SupplierCreditNote InsertSupplierCreditNotes(SupplierCreditNote _supplierCreditNoteObj, AppUA ua)
+        public SupplierCreditNote InsertSupplierCreditNotes(SupplierCreditNote _supplierCreditNoteObj)
         {
             try
             {
@@ -100,8 +100,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@Type", SqlDbType.VarChar, 5).Value = _supplierCreditNoteObj.Type;
                         cmd.Parameters.Add("@GeneralNotes", SqlDbType.NVarChar, -1).Value = _supplierCreditNoteObj.GeneralNotes;
                         cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = _supplierCreditNoteObj.SupplierID;
-                        cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = "Anija";
-                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = DateTime.Now;
+                        cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = _supplierCreditNoteObj.commonObj.CreatedBy;
+                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = _supplierCreditNoteObj.commonObj.CreatedDate;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         outputID = cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier);
@@ -135,7 +135,7 @@ namespace SPAccounts.RepositoryServices.Services
         #endregion InsertSupplierCreditNotes
 
         #region UpdateSupplierCreditNotes
-        public object UpdateSupplierCreditNotes(SupplierCreditNote _supplierCreditNoteObj, AppUA ua)
+        public object UpdateSupplierCreditNotes(SupplierCreditNote _supplierCreditNoteObj)
         {
             SqlParameter outputStatus = null;
             try
@@ -160,8 +160,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = _supplierCreditNoteObj.Amount;
                         cmd.Parameters.Add("@Type", SqlDbType.VarChar, 5).Value = _supplierCreditNoteObj.Type;
                         cmd.Parameters.Add("@GeneralNotes", SqlDbType.NVarChar, -1).Value = _supplierCreditNoteObj.GeneralNotes;
-                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = "Anija";
-                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = DateTime.Now;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = _supplierCreditNoteObj.commonObj.UpdatedBy;
+                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = _supplierCreditNoteObj.commonObj.UpdatedDate;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();
@@ -255,7 +255,7 @@ namespace SPAccounts.RepositoryServices.Services
         #endregion GetSupplierCreditNoteDetails
 
         #region DeleteSupplierCreditNote
-        public object DeleteSupplierCreditNote(Guid ID)
+        public object DeleteSupplierCreditNote(Guid ID, string userName)
         {
             SqlParameter outputStatus = null;
             try
@@ -273,7 +273,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandText = "[Accounts].[DeleteSupplierCreditNote]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = ID;
-                        cmd.Parameters.Add("@DeletedBy", SqlDbType.NVarChar, 250).Value = "Anija";
+                        cmd.Parameters.Add("@DeletedBy", SqlDbType.NVarChar, 250).Value = userName;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();
