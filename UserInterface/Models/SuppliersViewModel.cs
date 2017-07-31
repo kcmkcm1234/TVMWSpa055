@@ -55,6 +55,7 @@ namespace UserInterface.Models
         public string PANNO { get; set; }
         [Display(Name = "General Notes")]
         public string GeneralNotes { get; set; }
+        public decimal OutStanding { get; set; }
         public CommonViewModel commonObj { get; set; }
         public List<SelectListItem> SupplierList { get; set; }
         public List<SelectListItem> TitlesList { get; set; }

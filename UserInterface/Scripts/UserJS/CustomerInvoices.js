@@ -150,7 +150,11 @@ $(document).ready(function () {
     }
 });
 
-function DeleteInvoices()
+function DeleteInvoices() {
+    notyConfirm('Are you sure to delete?', 'Delete()', '', "Yes, delete it!");
+}
+
+function Delete()
 { 
     $('#btnFormDelete').trigger('click'); 
 }

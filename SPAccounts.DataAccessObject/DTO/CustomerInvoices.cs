@@ -29,7 +29,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public Customer customerObj { get; set; }
         public PaymentTerms paymentTermsObj { get; set; }
         public TaxTypes TaxTypeObj { get; set; }
-        
+        public decimal PaidAmount { get; set; }
         public decimal BalanceDue { get; set; }
         public decimal OtherPayments { get; set; } 
         public CustomerPayments CustPaymentObj { get; set; }

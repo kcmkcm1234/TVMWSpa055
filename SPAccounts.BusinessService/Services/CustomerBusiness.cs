@@ -20,11 +20,21 @@ namespace SPAccounts.BusinessService.Services
         {
             return _customerRepository.GetAllCustomers();
         }
+
+        public List<Customer> GetAllCustomersForMobile()
+        {
+            return _customerRepository.GetAllCustomersForMobile();
+        }
         public Customer GetCustomerDetails(Guid ID)
         {
             return _customerRepository.GetCustomerDetails(ID);
         }
         public object InsertUpdateCustomer(Customer _customerObj)
+        public Customer GetCustomerDetailsForMobile(Guid ID)
+        {
+            return _customerRepository.GetCustomerDetailsForMobile(ID);
+        }
+        public object InsertUpdateCustomer(Customer _customerObj, AppUA ua)
         {
             object result = null;
             try

@@ -17,6 +17,9 @@ namespace UserInterface.Models
 
         [Display(Name = "Credit Note To Adjust")]
         public Guid CreditID { get; set; }
+        public string CreditNo { get; set; }
+        public string hdfType { get; set; }
+        public string hdfCreditID { get; set; }
 
         [Required(ErrorMessage = "Received To Company is missing")]
         [Display(Name = "Received To Company")]

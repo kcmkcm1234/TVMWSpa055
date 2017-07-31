@@ -27,8 +27,9 @@ namespace UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include("~/Scripts/jquery-3.1.1.min.js"));
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include("~/Scripts/bootstrap.min.js"));
             bundles.Add(new ScriptBundle("~/bundles/jqueryform").Include("~/Scripts/jquery.form.js"));
-            bundles.Add(new ScriptBundle("~/bundles/AdminLTE").Include("~/Scripts/AdminLTE/fastclick.min.js", "~/Scripts/AdminLTE/adminlte.min.js", "~/Scripts/AdminLTE/jquery.sparkline.min.js", "~/Scripts/AdminLTE/jquery.slimscroll.min.js", "~/Scripts/AdminLTE/Chart.min.js", "~/Scripts/AdminLTE/Chart.min.js"));
-            bundles.Add(new ScriptBundle("~/bundles/jqueryunobtrusiveajaxvalidate").Include("~/Scripts/jquery.validate.min.js", "~/Scripts/jquery.validate.unobtrusive.min.js", "~/Scripts/jquery.unobtrusive-ajax.min.js"));
+            bundles.Add(new ScriptBundle("~/bundles/AdminLTE").Include("~/Scripts/AdminLTE/fastclick.min.js", "~/Scripts/AdminLTE/adminlte.min.js", "~/Scripts/AdminLTE/jquery.sparkline.min.js", "~/Scripts/AdminLTE/jquery.slimscroll.min.js", "~/Scripts/AdminLTE/Chart.min.js"));
+            bundles.Add(new ScriptBundle("~/bundles/AdminLTEDash").Include("~/Scripts/AdminLTE/dashboard2.js"));
+          bundles.Add(new ScriptBundle("~/bundles/jqueryunobtrusiveajaxvalidate").Include("~/Scripts/jquery.validate.min.js", "~/Scripts/jquery.validate.unobtrusive.min.js", "~/Scripts/jquery.unobtrusive-ajax.min.js"));
             bundles.Add(new ScriptBundle("~/bundles/datatable").Include("~/Scripts/DataTables/jquery.dataTables.min.js", "~/Scripts/DataTables/dataTables.bootstrap.min.js", "~/Scripts/DataTables/dataTables.responsive.min.js", "~/Scripts/DataTables/responsive.bootstrap.min.js"));
             bundles.Add(new ScriptBundle("~/bundles/datatableSelect").Include("~/Scripts/DataTables/dataTables.select.min.js"));
             bundles.Add(new ScriptBundle("~/bundles/datatablecheckbox").Include("~/Scripts/DataTables/dataTables.checkboxes.js"));
@@ -62,6 +63,13 @@ namespace UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/SupplierCreditNotes").Include("~/Scripts/UserJS/SupplierCreditNotes.js"));
             bundles.Add(new ScriptBundle("~/bundles/OtherIncome").Include("~/Scripts/UserJS/OtherIncome.js"));
             bundles.Add(new ScriptBundle("~/bundles/OtherExpense").Include("~/Scripts/UserJS/OtherExpense.js"));
+            bundles.Add(new ScriptBundle("~/bundles/MonthlyRecap").Include("~/Scripts/UserJS/MonthlyRecap.js"));
+            bundles.Add(new ScriptBundle("~/bundles/ExpenseSummary").Include("~/Scripts/UserJS/ExpenseSummary.js"));
+            bundles.Add(new ScriptBundle("~/bundles/Outstanding").Include("~/Scripts/UserJS/Outstanding.js"));
+            bundles.Add(new ScriptBundle("~/bundles/TopCustomers").Include("~/Scripts/UserJS/TopCustomers.js"));
+            bundles.Add(new ScriptBundle("~/bundles/TopSuppliers").Include("~/Scripts/UserJS/TopSuppliers.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/AdminDash").Include("~/Scripts/UserJS/MonthlyRecap.js", "~/Scripts/UserJS/ExpenseSummary.js","~/Scripts/UserJS/Outstanding.js", "~/Scripts/UserJS/TopCustomers.js", "~/Scripts/UserJS/TopSuppliers.js"));
 
         }
 

@@ -100,6 +100,10 @@
       <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Practices.Unity.WebApi, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.AspNet.WebApi.4.0.1\lib\net45\Microsoft.Practices.Unity.WebApi.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -149,6 +153,10 @@
     </Reference>
     <Reference Include="System.Web.Http.Cors, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Cors.5.2.3\lib\net45\System.Web.Http.Cors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -1473,24 +1481,37 @@
     <Content Include="Scripts\UserJS\CustomerInvoices.js" />
     <Content Include="Scripts\UserJS\CustomerPayments.js" />
     <Content Include="Scripts\UserJS\Customers.js" />
+    <Content Include="Scripts\UserJS\ExpenseSummary.js" />
+    <Content Include="Scripts\UserJS\MonthlyRecap.js" />
     <Content Include="Scripts\UserJS\Login.js" />
     <Content Include="Scripts\UserJS\ManageAccess.js" />
     <Content Include="Scripts\UserJS\ManageSubObjectAccess.js" />
     <Content Include="Scripts\UserJS\OtherIncome.js" />
     <Content Include="Scripts\UserJS\OtherExpense.js" />
+    <Content Include="Scripts\UserJS\Outstanding.js" />
     <Content Include="Scripts\UserJS\Privileges.js" />
     <Content Include="Scripts\UserJS\PrivilegesView.js" />
     <Content Include="Scripts\UserJS\Roles.js" />
     <Content Include="Scripts\UserJS\SupplierCreditNotes.js" />
     <Content Include="Scripts\UserJS\SupplierInvoices.js" />
     <Content Include="Scripts\UserJS\TaxTypes.js" />
+    <Content Include="Scripts\UserJS\TopCustomers.js" />
+    <Content Include="Scripts\UserJS\TopSuppliers.js" />
     <Content Include="Scripts\UserJS\User.js" />
     <Content Include="Scripts\UserJS\Suppliers.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\Dashboard\Index.cshtml" />
     <Content Include="Views\DynamicUI\_MenuNavBar.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\CustomerController.cs" />
+    <Compile Include="API\ExpenseController.cs" />
+    <Compile Include="API\HomeScreenChartController.cs" />
+    <Compile Include="API\InvoiceSummaryController.cs" />
+    <Compile Include="API\LoginController.cs" />
+    <Compile Include="API\SupplierController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\MappingConfig.cs" />
@@ -1498,6 +1519,7 @@
     <Compile Include="App_Start\SiteKeys.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
+    <Compile Include="App_Start\UnityWebApiActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BankController.cs" />
@@ -1560,7 +1582,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -1595,6 +1619,12 @@
     <Content Include="Views\SupplierCreditNote\Index.cshtml" />
     <Content Include="Views\OtherIncome\Index.cshtml" />
     <Content Include="Views\Dashboard\Admin.cshtml" />
+    <Content Include="Views\Dashboard\_MontlyRecap.cshtml" />
+    <Content Include="Views\Dashboard\_ExpenseSummary.cshtml" />
+    <Content Include="Views\Dashboard\_OutstandingSummary.cshtml" />
+    <Content Include="Views\Dashboard\_TopSuppliers.cshtml" />
+    <Content Include="Views\Dashboard\_TopCustomers.cshtml" />
+    <Content Include="Views\Dashboard\_RecentDocs.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

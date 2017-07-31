@@ -160,6 +160,11 @@ namespace UserInterface.Controllers
         {
             try
             {
+                if (_customerObj.TotalRecdAmt == 0 && _customerObj.Type == "C" || _customerObj.hdfType == "C")
+                {
+                    _customerObj.TotalRecdAmt = Decimal.Parse(_customerObj.hdfCreditAmount);
+                    _customerObj.AdvanceAmount = 0;
+                }
                 AppUA _appUA = Session["AppUA"] as AppUA;
                 _customerObj.CustomerPaymentsDetail = JsonConvert.DeserializeObject<List<CustomerPaymentsDetailViewModel>>(_customerObj.paymentDetailhdf);
                 _customerObj.commonObj = new CommonViewModel();
