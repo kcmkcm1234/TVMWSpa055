@@ -1511,6 +1511,7 @@
     <Compile Include="API\HomeScreenChartController.cs" />
     <Compile Include="API\InvoiceSummaryController.cs" />
     <Compile Include="API\LoginController.cs" />
+    <Compile Include="API\PurchaseSummaryController.cs" />
     <Compile Include="API\SupplierController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />

@@ -33,12 +33,12 @@ namespace UserInterface.API
             try
             {
                 List<CustomerInvoicesViewModel> invoiceObj = Mapper.Map<List<CustomerInvoice>, List<CustomerInvoicesViewModel>>(_customerInvoicesBusiness.GetOutstandingCustomerInvoices());
-                  return JsonConvert.SerializeObject(new { Result = "OK", Records = invoiceObj });
+                  return JsonConvert.SerializeObject(new { Result = true, Records = invoiceObj });
             }
             catch (Exception ex)
             {
 
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+                return JsonConvert.SerializeObject(new { Result = false, Message = ex.Message });
             }
         }
         #endregion GetOutstandingInvoices
@@ -51,12 +51,12 @@ namespace UserInterface.API
             try
             {
                 List<CustomerInvoicesViewModel> invoiceObj = Mapper.Map<List<CustomerInvoice>, List<CustomerInvoicesViewModel>>(_customerInvoicesBusiness.GetOpeningCustomerInvoices());
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = invoiceObj });
+                return JsonConvert.SerializeObject(new { Result = true, Records = invoiceObj });
             }
             catch (Exception ex)
             {
 
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+                return JsonConvert.SerializeObject(new { Result = false, Message = ex.Message });
             }
         }
         #endregion GetOpeningInvoices

@@ -37,12 +37,12 @@ namespace UserInterface.API
             {
 
                 List<SuppliersViewModel> suppliersList = Mapper.Map<List<Supplier>, List<SuppliersViewModel>>(_supplierBusiness.GetAllSuppliersForMobile());
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = suppliersList });
+                return JsonConvert.SerializeObject(new { Result = true, Records = suppliersList });
             }
             catch (Exception ex)
             {
                
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+                return JsonConvert.SerializeObject(new { Result = false, Message = ex.Message });
             }
         }
         #endregion  GetAllSuppliersForMobile
@@ -56,12 +56,12 @@ namespace UserInterface.API
             {
 
                 SuppliersViewModel supplierObj = Mapper.Map<Supplier, SuppliersViewModel>(_supplierBusiness.GetSupplierDetailsForMobile(sup.ID != null && sup.ID.ToString() != "" ? Guid.Parse(sup.ID.ToString()) : Guid.Empty));
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = supplierObj });
+                return JsonConvert.SerializeObject(new { Result = true, Records = supplierObj });
             }
             catch (Exception ex)
             {
 
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+                return JsonConvert.SerializeObject(new { Result = false, Message = ex.Message });
             }
         }
         #endregion  GetSupplierDetailsByIDForMobile
