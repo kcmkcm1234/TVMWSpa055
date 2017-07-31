@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using SPAccounts.BusinessService.Contracts;
 using SPAccounts.DataAccessObject.DTO;
+using SPAccounts.UserInterface.SecurityFilter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,8 @@ namespace UserInterface.Controllers
             _otherExpenseBusiness = otherExpenseBusiness;
             _commonBusiness = commonBusiness;
         }
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "OtherExpense", Mode = "R")]
         public ActionResult Index()
         {
             OtherExpenseViewModel otherExpenseViewModelObj = null;
@@ -122,6 +125,7 @@ namespace UserInterface.Controllers
 
         #region GetAllEmployeeTypes
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "OtherExpense", Mode = "R")]
         public string GetAllEmployeesByType(string Type)
         {
             try
@@ -140,6 +144,7 @@ namespace UserInterface.Controllers
 
         #region GetAllOtherExpenses
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "OtherExpense", Mode = "R")]
         public string GetAllOtherExpenses(string ExpenseDate, string DefaultDate)
         {
             try
@@ -176,6 +181,7 @@ namespace UserInterface.Controllers
 
         #region GetExpenseDetailsByID
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "OtherExpense", Mode = "R")]
         public string GetExpenseDetailsByID(string ID)
         {
             try
@@ -198,6 +204,7 @@ namespace UserInterface.Controllers
         #region InsertUpdateOtherExpense
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthSecurityFilter(ProjectObject = "OtherExpense", Mode = "W")]
         public string InsertUpdateOtherExpense(OtherExpenseViewModel otherExpenseViewModel)
         {
             if (ModelState.IsValid)
@@ -209,11 +216,12 @@ namespace UserInterface.Controllers
                     otherExpenseViewModel.AccountCode = otherExpenseViewModel.AccountCode.Remove(len);
                     //
 
+                     AppUA _appUA = Session["AppUA"] as AppUA;
                     otherExpenseViewModel.commonObj = new CommonViewModel();
-                    otherExpenseViewModel.commonObj.CreatedBy = "Albert Thomson";
-                    otherExpenseViewModel.commonObj.CreatedDate = DateTime.Now;
-                    otherExpenseViewModel.commonObj.UpdatedBy = otherExpenseViewModel.commonObj.CreatedBy;
-                    otherExpenseViewModel.commonObj.UpdatedDate = otherExpenseViewModel.commonObj.CreatedDate;
+                    otherExpenseViewModel.commonObj.CreatedBy = _appUA.UserName;
+                    otherExpenseViewModel.commonObj.CreatedDate = _appUA.DateTime;
+                    otherExpenseViewModel.commonObj.UpdatedBy = _appUA.UserName;
+                    otherExpenseViewModel.commonObj.UpdatedDate = _appUA.DateTime;
                     OtherExpenseViewModel otherExpenseVM = null;
 
                     switch (otherExpenseViewModel.ID==Guid.Empty)
@@ -249,15 +257,16 @@ namespace UserInterface.Controllers
         }
         #endregion InsertUpdateOtherExpense
         #region DeleteOtherExpense
-        
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "OtherExpense", Mode = "D")]
         public string DeleteOtherExpense(string ID)
         {
 
             try
             {
                 object result = null;
-
-                result = _otherExpenseBusiness.DeleteOtherExpense(Guid.Parse(ID));
+                AppUA _appUA = Session["AppUA"] as AppUA;
+                result = _otherExpenseBusiness.DeleteOtherExpense(Guid.Parse(ID),_appUA.UserName);
                 return JsonConvert.SerializeObject(new { Result = "OK", Message = result });
 
             }
@@ -270,9 +279,10 @@ namespace UserInterface.Controllers
 
         }
         #endregion DeleteOtherExpense
-     
+
         #region ButtonStyling
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "OtherExpense", Mode = "R")]
         public ActionResult ChangeButtonStyle(string ActionType)
         {
             ToolboxViewModel ToolboxViewModelObj = new ToolboxViewModel();
