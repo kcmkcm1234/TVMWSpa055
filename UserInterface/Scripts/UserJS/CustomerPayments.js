@@ -5,7 +5,7 @@ var index = 0;
 var AmountReceived=0;
 
 $(document).ready(function () { 
-  
+try{
     DataTables.CustomerPaymentTable = $('#CustPayTable').DataTable(
     {
         dom: '<"pull-left"f>rt<"bottom"ip><"clear">',
@@ -20,17 +20,32 @@ $(document).ready(function () {
              { "data": "PaymentRef", "defaultContent": "<i>-</i>" },
              { "data": "customerObj.CompanyName", "defaultContent": "<i>-</i>" },//render customerObj.ContactPerson
              { "data": "PaymentMode", "defaultContent": "<i>-</i>" },
+             {
+                 "data": "Type", "defaultContent": "<i>-</i>", 'render': function (data, type, row) {
+                     if (data == 'C') {
+                         return 'Credit'
+                     }
+                     else {
+                         return 'Normal'
+                     }
+                 }
+             },
+             { "data": "CreditNo", "defaultContent": "<i>-</i>" },
              { "data": "TotalRecdAmt", "defaultContent": "<i>-</i>" },
              { "data": "AdvanceAmount", "defaultContent": "<i>-</i>" }, 
              { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink" onclick="Edit(this)"><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
         ],
         columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-            { className: "text-right", "targets": [6,7] },
-            { className: "text-center", "targets": [1, 2, 3,4,5,8] } 
+            { className: "text-right", "targets": [8,9] },
+            { className: "text-center", "targets": [1, 2, 3,4,5,6,7,10] } 
         ]
-    });    
+    });        
+}
+    catch (e) {
+        notyAlert('error', e.message);
+}
 
- 
+ try{
     DataTables.OutStandingInvoices = $('#tblOutStandingDetails').DataTable({
         dom: '<"pull-left"f>rt<"bottom"ip><"clear">',
         order: [],
@@ -85,7 +100,12 @@ $(document).ready(function () {
 
         select: {style: 'multi', selector: 'td:first-child'   } 
     });
+ }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
 
+try{
 
     $('input[type="text"].selecttext').on('focus', function () {
         $(this).select();
@@ -108,6 +128,10 @@ $(document).ready(function () {
             Selectcheckbox();
         }
     });
+}
+    catch (e) {
+        notyAlert('error', e.message);
+    }
 });
 
 function paymentAmountFocus(event)
@@ -167,6 +191,24 @@ function GetCustomerPaymentsByID(ID) {
     $('#TotalRecdAmt').val(roundoff(thisitem.TotalRecdAmt));
     $('#lblTotalRecdAmt').text(roundoff(thisitem.TotalRecdAmt));
     $('#paidAmt').text(roundoff(thisitem.TotalRecdAmt));
+    $('#Type').val(thisitem.Type);
+    $('#hdfType').val(thisitem.Type);
+    $('#Type').prop('disabled', true);
+    debugger;
+    if ( $('#Type').val() == 'C') {
+        $("#CreditID").html("");
+        $("#CreditID").append($('<option></option>').val(thisitem.CreditID).html(thisitem.CreditNo + ' ( Credit Amt: ₹' + thisitem.TotalRecdAmt + ')'));
+        $('#CreditID').val(thisitem.CreditID)
+        $('#CreditID').prop('disabled', true); 
+        $('#TotalRecdAmt').prop('disabled', true); 
+        $('#hdfCreditID').val(thisitem.CreditID);
+        $('#PaymentMode').prop('disabled', true); 
+    }
+    else {
+        $("#CreditID").html(""); // clear before appending new list 
+        $("#CreditID").append($('<option></option>').val(emptyGUID).html('--Select Credit Note--'));
+        $('#hdfCreditID').val(emptyGUID);
+}
 
     PaymentModeChanged();
     //BIND OUTSTANDING INVOICE TABLE USING CUSTOMER ID AND PAYMENT HEADER 
@@ -192,6 +234,8 @@ function openNavClick() {
     ChangeButtonPatchView('CustomerPayments', 'btnPatchAdd', 'Add');
     $('#Customer').prop('disabled', false);
     $('#BankCode').prop('disabled', true);
+    $('#Type').prop('disabled', false);
+    $('#PaymentMode').prop('disabled', false);
     openNav();
 }
  
@@ -270,7 +314,6 @@ function BindCreditDropDown() {
             $("#CreditID").html("");
             $("#CreditID").append($('<option></option>').val(emptyGUID).html('No Credit Notes Available'));
             $("#Type").val('P');
-            TypeOnChange();
         }
     }
 }
@@ -326,7 +369,11 @@ function savePayments() {
     }
 }
 
+
 function DeletePayments() {
+    notyConfirm('Are you sure to delete?', 'Delete()', '', "Yes, delete it!");
+} 
+function Delete() {
     $('#btnFormDelete').trigger('click');
 }
 
@@ -375,12 +422,20 @@ function fieldsclear() {
     $('#lblCredit').text('0');
     $('#paidAmt').text('₹ 0.00');
     $('#ID').val(emptyGUID);
+    $("#CreditID").html("");
+    $('#Type').val('P');
+    $("#ddlCreditDiv").css("visibility", "hidden");
+}
+function CustomerChange() {
+    debugger;
+    if ($('#Customer').val() != "")
+        BindCreditDropDown();
+    BindOutstanding();
 }
 
 function BindOutstanding() {
     index = 0; 
-    DataTables.OutStandingInvoices.clear().rows.add(GetOutStandingInvoices()).draw(false);
-    BindCreditDropDown();
+    DataTables.OutStandingInvoices.clear().rows.add(GetOutStandingInvoices()).draw(false); 
 }
 
 function BindCustomerPaymentsHeader()

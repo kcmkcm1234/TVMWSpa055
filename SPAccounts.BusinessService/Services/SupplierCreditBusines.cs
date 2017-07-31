@@ -11,9 +11,11 @@ namespace SPAccounts.BusinessService.Services
     public class SupplierCreditBusines : ISupplierCreditBusines
     {
         ISupplierCreditRepository _supplierCreditRepository;
-        public SupplierCreditBusines(ISupplierCreditRepository supplierCreditRepository)
+        ICommonBusiness _commonBusinessRepository;
+        public SupplierCreditBusines(ISupplierCreditRepository supplierCreditRepository,ICommonBusiness commonBusinessRepository)
         {
             _supplierCreditRepository = supplierCreditRepository;
+            _commonBusinessRepository = commonBusinessRepository;
         }
 
         public List<SupplierCreditNote> GetAllSupplierCreditNotes()
@@ -29,5 +31,54 @@ namespace SPAccounts.BusinessService.Services
             }
             return supplierCreditNoteList;
         }
+
+        public SupplierCreditNote GetSupplierCreditNoteDetails(Guid ID)
+        {
+            SupplierCreditNote supplierCreditNoteObj = new SupplierCreditNote();
+            supplierCreditNoteObj = _supplierCreditRepository.GetSupplierCreditNoteDetails(ID);
+            if (supplierCreditNoteObj != null)
+            {
+                supplierCreditNoteObj.creditAmountFormatted = _commonBusinessRepository.ConvertCurrency(supplierCreditNoteObj.Amount, 2);
+                supplierCreditNoteObj.adjustedAmountFormatted = _commonBusinessRepository.ConvertCurrency(supplierCreditNoteObj.Amount,2);
+            }
+            return supplierCreditNoteObj;
+        }
+
+        public object InsertUpdateSupplierCreditNote(SupplierCreditNote _supplierCreditNoteObj, AppUA ua)
+        {
+            object result = null;
+            try
+            {
+                if (_supplierCreditNoteObj.ID == Guid.Empty)
+                {
+                    result = _supplierCreditRepository.InsertSupplierCreditNotes(_supplierCreditNoteObj, ua);
+                }
+                else
+                {
+                    result = _supplierCreditRepository.UpdateSupplierCreditNotes(_supplierCreditNoteObj, ua);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+
+        public object DeleteSupplierCreditNote(Guid ID)
+        {
+            object result = null;
+            try
+            {
+                result = _supplierCreditRepository.DeleteSupplierCreditNote(ID);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+
     }
 }

@@ -1481,17 +1481,22 @@
     <Content Include="Scripts\UserJS\CustomerInvoices.js" />
     <Content Include="Scripts\UserJS\CustomerPayments.js" />
     <Content Include="Scripts\UserJS\Customers.js" />
+    <Content Include="Scripts\UserJS\ExpenseSummary.js" />
+    <Content Include="Scripts\UserJS\MonthlyRecap.js" />
     <Content Include="Scripts\UserJS\Login.js" />
     <Content Include="Scripts\UserJS\ManageAccess.js" />
     <Content Include="Scripts\UserJS\ManageSubObjectAccess.js" />
     <Content Include="Scripts\UserJS\OtherIncome.js" />
     <Content Include="Scripts\UserJS\OtherExpense.js" />
+    <Content Include="Scripts\UserJS\Outstanding.js" />
     <Content Include="Scripts\UserJS\Privileges.js" />
     <Content Include="Scripts\UserJS\PrivilegesView.js" />
     <Content Include="Scripts\UserJS\Roles.js" />
     <Content Include="Scripts\UserJS\SupplierCreditNotes.js" />
     <Content Include="Scripts\UserJS\SupplierInvoices.js" />
     <Content Include="Scripts\UserJS\TaxTypes.js" />
+    <Content Include="Scripts\UserJS\TopCustomers.js" />
+    <Content Include="Scripts\UserJS\TopSuppliers.js" />
     <Content Include="Scripts\UserJS\User.js" />
     <Content Include="Scripts\UserJS\Suppliers.js" />
     <Content Include="Web.config">
@@ -1545,6 +1550,7 @@
     <Compile Include="Models\ApplicationViewModel.cs" />
     <Compile Include="Models\AppObjectViewModel.cs" />
     <Compile Include="Models\BankViewModel.cs" />
+    <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\DepositAndWithdrwalViewModel.cs" />
     <Compile Include="Models\EmployeeViewModel.cs" />
     <Compile Include="Models\ChartOfAccountsViewModel.cs" />
@@ -1612,6 +1618,13 @@
     <Content Include="Views\OtherExpenses\Index.cshtml" />
     <Content Include="Views\SupplierCreditNote\Index.cshtml" />
     <Content Include="Views\OtherIncome\Index.cshtml" />
+    <Content Include="Views\Dashboard\Admin.cshtml" />
+    <Content Include="Views\Dashboard\_MontlyRecap.cshtml" />
+    <Content Include="Views\Dashboard\_ExpenseSummary.cshtml" />
+    <Content Include="Views\Dashboard\_OutstandingSummary.cshtml" />
+    <Content Include="Views\Dashboard\_TopSuppliers.cshtml" />
+    <Content Include="Views\Dashboard\_TopCustomers.cshtml" />
+    <Content Include="Views\Dashboard\_RecentDocs.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,0 +1,62 @@
+﻿@model UserInterface.Models.AdminDashboardViewModel
+@using UserInterface.App_Start
+@{
+    ViewBag.Title = "Admin Dashboard";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+    ViewBag.path = "Home / " + ViewBag.Title;
+}
+ 
+<div style="width:100%;">
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li class="active">@ViewBag.Title</li>
+    </ol>
+</div> 
+<div class="col-md-12">
+    &nbsp;
+</div>
+<div class="col-md-12">
+    &nbsp;
+</div>
+<div class="col-md-12">
+    @{
+        var data = new { Company = "All" };
+        @Html.Action("MonthlyRecap", "Dashboard", data);
+    }
+</div>
+  
+  
+<div class="col-md-12">
+    @{
+        var data1 = new { Company = "All" };
+        @Html.Action("ExpenseSummary", "Dashboard", data1);
+    }
+    @{
+        var data2 = new { Company = "All" };
+        @Html.Action("OutstandingSummary", "Dashboard", data2);
+    }
+</div>
+   
+    <div class="col-md-12 ">
+        @{
+            var data3 = new { Company = "All" };
+            @Html.Action("TopCustomers", "Dashboard", data3);
+        }
+
+        @{
+            var data4 = new { Company = "All" };
+            @Html.Action("TopSuppliers", "Dashboard", data4);
+        }
+
+    </div>
+
+
+    @section Scripts {
+        @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jquery")
+        @*@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/AdminLTEDash")*@
+        @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/AdminDash")
+       
+    }
+    <div>
+
+    </div>
