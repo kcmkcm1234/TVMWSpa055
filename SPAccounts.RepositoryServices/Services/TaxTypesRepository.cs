@@ -110,7 +110,7 @@ namespace SPAccounts.RepositoryServices.Services
         #endregion GetTaxTypeDetailsByCode
 
         #region InsertTaxType
-        public TaxTypes InsertTaxType(TaxTypes _taxTypesObj, AppUA ua)
+        public TaxTypes InsertTaxType(TaxTypes _taxTypesObj)
         {
             try
             {
@@ -129,8 +129,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@Code", SqlDbType.VarChar, 10).Value = _taxTypesObj.Code;
                         cmd.Parameters.Add("@Description", SqlDbType.VarChar, 50).Value = _taxTypesObj.Description;
                         cmd.Parameters.Add("@Rate", SqlDbType.Decimal).Value = _taxTypesObj.Rate;
-                        cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = "Anija";
-                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = DateTime.Now;
+                        cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = _taxTypesObj.commonObj.CreatedBy;
+                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = _taxTypesObj.commonObj.CreatedDate;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         outputCode = cmd.Parameters.Add("@CodeOut", SqlDbType.VarChar, 10);
@@ -164,7 +164,7 @@ namespace SPAccounts.RepositoryServices.Services
         #endregion InsertTaxType
 
         #region UpdateTaxType
-        public object UpdateTaxType(TaxTypes _taxTypesObj, AppUA ua)
+        public object UpdateTaxType(TaxTypes _taxTypesObj)
         {
             SqlParameter outputStatus = null;
             try
@@ -184,8 +184,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@Code", SqlDbType.VarChar, 10).Value = _taxTypesObj.Code;
                         cmd.Parameters.Add("@Description", SqlDbType.VarChar, 50).Value = _taxTypesObj.Description;
                         cmd.Parameters.Add("@Rate", SqlDbType.Decimal).Value = _taxTypesObj.Rate;
-                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = "Anija";
-                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = DateTime.Now;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = _taxTypesObj.commonObj.UpdatedBy;
+                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = _taxTypesObj.commonObj.UpdatedDate;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();

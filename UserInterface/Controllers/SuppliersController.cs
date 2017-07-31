@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using SPAccounts.BusinessService.Contracts;
 using SPAccounts.DataAccessObject.DTO;
+using SPAccounts.UserInterface.SecurityFilter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,8 @@ namespace UserInterface.Controllers
         }
         #endregion Constructor_Injection 
         // GET: Suppliers
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Suppliers", Mode = "R")]
         public ActionResult Index()
         {
             SuppliersViewModel supplierViewModel = null;
@@ -73,6 +76,7 @@ namespace UserInterface.Controllers
 
         #region GetAllSuppliers
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Suppliers", Mode = "R")]
         public string GetAllSuppliers()
         {
             try
@@ -91,6 +95,7 @@ namespace UserInterface.Controllers
 
         #region GetSupplierDetails
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Suppliers", Mode = "R")]
         public string GetSupplierDetails(string ID)
         {
             try
@@ -109,15 +114,22 @@ namespace UserInterface.Controllers
 
         #region InsertUpdateSupplier
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AuthSecurityFilter(ProjectObject = "Suppliers", Mode = "W")]
         public string InsertUpdateSupplier(SuppliersViewModel _supplierObj)
         {
             try
             {
 
                 object result = null;
-                AppUA ua = new AppUA();
+                AppUA _appUA = Session["AppUA"] as AppUA;
+                _supplierObj.commonObj = new CommonViewModel();
+                _supplierObj.commonObj.CreatedBy = _appUA.UserName;
+                _supplierObj.commonObj.CreatedDate = _appUA.DateTime;
+                _supplierObj.commonObj.UpdatedBy = _appUA.UserName;
+                _supplierObj.commonObj.UpdatedDate = _appUA.DateTime;
 
-                result = _SupplierBusiness.InsertUpdateSupplier(Mapper.Map<SuppliersViewModel, Supplier>(_supplierObj), ua);
+                result = _SupplierBusiness.InsertUpdateSupplier(Mapper.Map<SuppliersViewModel, Supplier>(_supplierObj));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
 
             }
@@ -131,6 +143,8 @@ namespace UserInterface.Controllers
         #endregion InsertUpdateSupplier
 
         #region DeleteSupplier
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Suppliers", Mode = "D")]
         public string DeleteSupplier(string ID)
         {
 
@@ -154,6 +168,7 @@ namespace UserInterface.Controllers
 
         #region ButtonStyling
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Suppliers", Mode = "R")]
         public ActionResult ChangeButtonStyle(string ActionType)
         {
             ToolboxViewModel ToolboxViewModelObj = new ToolboxViewModel();
@@ -165,21 +180,9 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.addbtn.Title = "Add New";
                     ToolboxViewModelObj.addbtn.Event = "openNav();";
 
-
-
-                    ToolboxViewModelObj.backbtn.Visible = true;
-                    ToolboxViewModelObj.backbtn.Disable = true;
-                    ToolboxViewModelObj.backbtn.Text = "Back";
-                    ToolboxViewModelObj.backbtn.DisableReason = "Not applicable";
-                    ToolboxViewModelObj.backbtn.Event = "goBack();";
-
                     break;
                 case "Edit":
-                    ToolboxViewModelObj.backbtn.Visible = true;
-                    ToolboxViewModelObj.backbtn.Text = "Back";
-                    ToolboxViewModelObj.backbtn.Title = "Back to list";
-                    ToolboxViewModelObj.backbtn.Event = "goBack();";
-
+                   
                     ToolboxViewModelObj.addbtn.Visible = true;
                     ToolboxViewModelObj.addbtn.Text = "New";
                     ToolboxViewModelObj.addbtn.Title = "Add New";
@@ -199,6 +202,11 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.resetbtn.Text = "Reset";
                     ToolboxViewModelObj.resetbtn.Title = "Reset";
                     ToolboxViewModelObj.resetbtn.Event = "Reset();";
+
+                    ToolboxViewModelObj.CloseBtn.Visible = true;
+                    ToolboxViewModelObj.CloseBtn.Text = "Close";
+                    ToolboxViewModelObj.CloseBtn.Title = "Close";
+                    ToolboxViewModelObj.CloseBtn.Event = "closeNav();";
 
                     break;
                 case "Add":

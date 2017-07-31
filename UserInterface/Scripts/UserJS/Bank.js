@@ -18,7 +18,7 @@ $(document).ready(function () {
              columns: [
                { "data": "Code", "defaultContent": "<i>-</i>" },
                { "data": "Name", "defaultContent": "<i>-</i>" },
-               { "data": "CompanyCode", "defaultContent": "<i>-</i>" },
+               { "data": "Company.Name", "defaultContent": "<i>-</i>" },
                { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
              ],
              columnDefs: [{ "targets": [], "visible": false, "searchable": false },

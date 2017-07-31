@@ -140,7 +140,7 @@ namespace SPAccounts.RepositoryServices.Services
         #endregion GetOtherIncomeByID
 
         #region InsertOtherIncome
-        public OtherIncome InsertOtherIncome(OtherIncome _otherIncomeObj, AppUA ua)
+        public OtherIncome InsertOtherIncome(OtherIncome _otherIncomeObj)
         {
             try
             {
@@ -168,8 +168,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@IncomeRef", SqlDbType.VarChar,20).Value = _otherIncomeObj.IncomeRef;
                         cmd.Parameters.Add("@Description", SqlDbType.NVarChar,-1).Value = _otherIncomeObj.Description;
                         cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = _otherIncomeObj.Amount;
-                        cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = "Anija";
-                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = DateTime.Now;
+                        cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = _otherIncomeObj.commonObj.CreatedBy;
+                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = _otherIncomeObj.commonObj.CreatedDate;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         outputID = cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier);
@@ -203,7 +203,7 @@ namespace SPAccounts.RepositoryServices.Services
         #endregion InsertOtherIncome
 
         #region UpdateOtherIncome
-        public object UpdateOtherIncome(OtherIncome _otherIncomeObj, AppUA ua)
+        public object UpdateOtherIncome(OtherIncome _otherIncomeObj)
         {
             SqlParameter outputStatus = null;
             try
@@ -234,8 +234,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@IncomeRef", SqlDbType.VarChar, 20).Value = _otherIncomeObj.IncomeRef;
                         cmd.Parameters.Add("@Description", SqlDbType.NVarChar, -1).Value = _otherIncomeObj.Description;
                         cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = _otherIncomeObj.Amount;
-                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = "Anija";
-                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = DateTime.Now;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = _otherIncomeObj.commonObj.UpdatedBy;
+                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = _otherIncomeObj.commonObj.UpdatedDate;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();
@@ -269,7 +269,7 @@ namespace SPAccounts.RepositoryServices.Services
         #endregion UpdateOtherIncome
 
         #region DeleteOtherIncome
-        public object DeleteOtherIncome(Guid ID)
+        public object DeleteOtherIncome(Guid ID, string userName)
         {
             SqlParameter outputStatus = null;
             try
@@ -287,7 +287,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandText = "[Accounts].[DeleteOtherIncome]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = ID;
-                        cmd.Parameters.Add("@DeletedBy", SqlDbType.NVarChar, 250).Value = "Anija";
+                        cmd.Parameters.Add("@DeletedBy", SqlDbType.NVarChar, 250).Value = userName;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();

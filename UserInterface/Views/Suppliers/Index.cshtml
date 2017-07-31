@@ -76,6 +76,7 @@
             <div class="EntryForms" style="height:550px">
 @using (Ajax.BeginForm("InsertUpdateSupplier", "Suppliers", new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccess", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", @id = "SuppliersForm" }))
 {
+    @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "", Value = "0" })
                 <div class="col-md-10">
                     <div class="col-md-12  ">

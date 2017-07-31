@@ -12,7 +12,7 @@ namespace SPAccounts.BusinessService.Contracts
 
         List<SupplierCreditNote> GetAllSupplierCreditNotes();
         SupplierCreditNote GetSupplierCreditNoteDetails(Guid ID);
-        object InsertUpdateSupplierCreditNote(SupplierCreditNote _supplierCreditNoteObj, AppUA ua);
-        object DeleteSupplierCreditNote(Guid ID);
+        object InsertUpdateSupplierCreditNote(SupplierCreditNote _supplierCreditNoteObj);
+        object DeleteSupplierCreditNote(Guid ID, string userName);
     }
 }

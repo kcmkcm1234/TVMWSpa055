@@ -49,7 +49,8 @@ namespace SPAccounts.RepositoryServices.Services
                                         _bankObj.Code = (sdr["Code"].ToString() != "" ? sdr["Code"].ToString() : _bankObj.Code);
                                         _bankObj.Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : _bankObj.Name);
                                         _bankObj.CompanyCode = (sdr["CompanyCode"].ToString() != "" ? sdr["CompanyCode"].ToString() : _bankObj.CompanyCode);
-                                       
+                                        _bankObj.Company = new Companies();
+                                       _bankObj.Company.Name= (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : _bankObj.Company.Name);
                                     }
                                     bankList.Add(_bankObj);
                                 }
@@ -156,7 +157,7 @@ namespace SPAccounts.RepositoryServices.Services
         #endregion GetBankDetailsByCode
 
         #region InsertBank
-        public Bank InsertBank(Bank _bankObj, AppUA ua)
+        public Bank InsertBank(Bank _bankObj)
         {
             try
             {
@@ -175,8 +176,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@Code", SqlDbType.VarChar, 5).Value = _bankObj.Code;
                         cmd.Parameters.Add("@Name", SqlDbType.VarChar, 100).Value = _bankObj.Name;
                         cmd.Parameters.Add("@CompanyCode", SqlDbType.VarChar,10).Value = _bankObj.CompanyCode;                        
-                        cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value ="Anija";
-                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = DateTime.Now;
+                        cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value =_bankObj.commonObj.CreatedBy;
+                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = _bankObj.commonObj.CreatedDate;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         outputCode = cmd.Parameters.Add("@CodeOut", SqlDbType.VarChar,5);
@@ -210,7 +211,7 @@ namespace SPAccounts.RepositoryServices.Services
         #endregion InsertBank
 
         #region UpdateBank
-        public object UpdateBank(Bank _bankObj, AppUA ua)
+        public object UpdateBank(Bank _bankObj)
         {
             SqlParameter outputStatus = null;
             try
@@ -230,8 +231,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@Code", SqlDbType.VarChar, 5).Value = _bankObj.Code;
                         cmd.Parameters.Add("@Name", SqlDbType.VarChar, 100).Value = _bankObj.Name;
                         cmd.Parameters.Add("@CompanyCode", SqlDbType.VarChar, 10).Value = _bankObj.CompanyCode;
-                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = "Anija";
-                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = DateTime.Now;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = _bankObj.commonObj.UpdatedBy;
+                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = _bankObj.commonObj.UpdatedDate;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();

@@ -24,18 +24,18 @@ namespace SPAccounts.BusinessService.Services
         {
             return _taxTypesRepository.GetTaxTypeDetailsByCode(Code);
         }
-        public object InsertUpdateTaxType(TaxTypes _taxTypesObj, AppUA ua)
+        public object InsertUpdateTaxType(TaxTypes _taxTypesObj)
         {
             object result = null;
             try
             {
                 if ((_taxTypesObj.isUpdate) == "0")
                 {
-                    result = _taxTypesRepository.InsertTaxType(_taxTypesObj, ua);
+                    result = _taxTypesRepository.InsertTaxType(_taxTypesObj);
                 }
                 else
                 {
-                    result = _taxTypesRepository.UpdateTaxType(_taxTypesObj, ua);
+                    result = _taxTypesRepository.UpdateTaxType(_taxTypesObj);
                 }
             }
             catch (Exception ex)

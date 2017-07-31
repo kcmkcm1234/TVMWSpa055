@@ -32,18 +32,18 @@ namespace SPAccounts.BusinessService.Services
             }
             return custCreditNotesObj;
         }
-        public object InsertUpdateCustomerCreditNote(CustomerCreditNotes _customerCreditNoteObj, AppUA ua)
+        public object InsertUpdateCustomerCreditNote(CustomerCreditNotes _customerCreditNoteObj)
         {
             object result = null;
             try
             {
                 if (_customerCreditNoteObj.ID == null)
                 {
-                    result = _customerCreditNotesRepository.InsertCustomerCreditNotes(_customerCreditNoteObj, ua);
+                    result = _customerCreditNotesRepository.InsertCustomerCreditNotes(_customerCreditNoteObj);
                 }
                 else
                 {
-                    result = _customerCreditNotesRepository.UpdateCustomerCreditNotes(_customerCreditNoteObj, ua);
+                    result = _customerCreditNotesRepository.UpdateCustomerCreditNotes(_customerCreditNoteObj);
                 }
             }
             catch (Exception ex)
@@ -52,12 +52,12 @@ namespace SPAccounts.BusinessService.Services
             }
             return result;
         }
-        public object DeleteCustomerCreditNote(Guid ID)
+        public object DeleteCustomerCreditNote(Guid ID, string userName)
         {
             object result = null;
             try
             {
-                result = _customerCreditNotesRepository.DeleteCustomerCreditNotes(ID);
+                result = _customerCreditNotesRepository.DeleteCustomerCreditNotes(ID,userName);
 
             }
             catch (Exception ex)

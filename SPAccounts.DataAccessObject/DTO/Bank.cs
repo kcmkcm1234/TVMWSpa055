@@ -11,6 +11,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string Name { get; set; }
         public string CompanyCode { get; set; }
         public Common commonObj { get; set; }
+        public Companies Company { get; set; }
         public string isUpdate { get; set; }        
     }
 }

@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using SPAccounts.BusinessService.Contracts;
 using SPAccounts.DataAccessObject.DTO;
+using SPAccounts.UserInterface.SecurityFilter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,8 @@ namespace UserInterface.Controllers
         #endregion Constructor_Injection 
 
         // GET: Bank
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Bank", Mode = "R")]
         public ActionResult Index()
         {
             BankViewModel bankViewModel = null;
@@ -58,6 +61,7 @@ namespace UserInterface.Controllers
 
         #region GetAllBanks
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Bank", Mode = "R")]
         public string GetAllBanks()
         {
             try
@@ -76,6 +80,7 @@ namespace UserInterface.Controllers
 
         #region GetBankDetailsByCode
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Bank", Mode = "R")]
         public string GetBankDetailsByCode(string Code)
         {
             try
@@ -95,19 +100,26 @@ namespace UserInterface.Controllers
 
         #region InsertUpdateBank
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AuthSecurityFilter(ProjectObject = "Bank", Mode = "W")]
         public string InsertUpdateBank(BankViewModel _bankObj)
         {
             try
             {
                 
                     object result = null;
-                    AppUA ua = new AppUA();
-                    if(!string.IsNullOrEmpty(_bankObj.hdnCode))
+                AppUA _appUA = Session["AppUA"] as AppUA;
+                _bankObj.commonObj = new CommonViewModel();
+                _bankObj.commonObj.CreatedBy = _appUA.UserName;
+                _bankObj.commonObj.CreatedDate = _appUA.DateTime;
+                _bankObj.commonObj.UpdatedBy = _appUA.UserName;
+                _bankObj.commonObj.UpdatedDate = _appUA.DateTime;
+                if (!string.IsNullOrEmpty(_bankObj.hdnCode))
                     {
                         _bankObj.Code = _bankObj.hdnCode;
                     }
                     
-                    result = _bankBusiness.InsertUpdateBank(Mapper.Map<BankViewModel, Bank>(_bankObj), ua);
+                    result = _bankBusiness.InsertUpdateBank(Mapper.Map<BankViewModel, Bank>(_bankObj));
                     return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
                
             }
@@ -121,6 +133,8 @@ namespace UserInterface.Controllers
         #endregion InsertUpdateBank
 
         #region DeleteBank
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Bank", Mode = "D")]
         public string DeleteBank(string code)
         {
 
@@ -144,6 +158,7 @@ namespace UserInterface.Controllers
 
         #region ButtonStyling
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Bank", Mode = "R")]
         public ActionResult ChangeButtonStyle(string ActionType)
         {
             ToolboxViewModel ToolboxViewModelObj = new ToolboxViewModel();
@@ -156,20 +171,9 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.addbtn.Event = "openNav();";
 
 
-
-                    ToolboxViewModelObj.backbtn.Visible = true;
-                    ToolboxViewModelObj.backbtn.Disable = true;
-                    ToolboxViewModelObj.backbtn.Text = "Back";
-                    ToolboxViewModelObj.backbtn.DisableReason = "Not applicable";
-                    ToolboxViewModelObj.backbtn.Event = "goBack();";
-
                     break;
                 case "Edit":
-                    ToolboxViewModelObj.backbtn.Visible = true;
-                    ToolboxViewModelObj.backbtn.Text = "Back";
-                    ToolboxViewModelObj.backbtn.Title = "Back to list";
-                    ToolboxViewModelObj.backbtn.Event = "goBack();";
-
+                   
                     ToolboxViewModelObj.addbtn.Visible = true;
                     ToolboxViewModelObj.addbtn.Text = "New";
                     ToolboxViewModelObj.addbtn.Title = "Add New";
@@ -189,6 +193,11 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.resetbtn.Text = "Reset";
                     ToolboxViewModelObj.resetbtn.Title = "Reset";
                     ToolboxViewModelObj.resetbtn.Event = "Reset();";
+
+                    ToolboxViewModelObj.CloseBtn.Visible = true;
+                    ToolboxViewModelObj.CloseBtn.Text = "Close";
+                    ToolboxViewModelObj.CloseBtn.Title = "Close";
+                    ToolboxViewModelObj.CloseBtn.Event = "closeNav();";
 
                     break;
                 case "Add":

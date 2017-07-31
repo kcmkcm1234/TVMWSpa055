@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using SPAccounts.BusinessService.Contracts;
 using SPAccounts.DataAccessObject.DTO;
+using SPAccounts.UserInterface.SecurityFilter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,8 +24,10 @@ namespace UserInterface.Controllers
             _supplierBusiness = supplierBusiness;
             _companiesBusiness = companiesBusiness;
         }
-        
+
         // GET: SupplierCredit
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "SupplierCreditNotes", Mode = "R")]
         public ActionResult Index()
         {
             SupplierCreditNoteViewModel scn = null;
@@ -69,6 +72,7 @@ namespace UserInterface.Controllers
 
         #region GetAllSupplierCreditNotes
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "SupplierCreditNotes", Mode = "R")]
         public string GetAllSupplierCreditNotes()
         {
             try
@@ -87,6 +91,7 @@ namespace UserInterface.Controllers
 
         #region GetSupplierCreditNoteDetails
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "SupplierCreditNotes", Mode = "R")]
         public string GetSupplierCreditNoteDetails(string ID)
         {
             try
@@ -105,15 +110,22 @@ namespace UserInterface.Controllers
 
         #region InsertUpdateSupplierCreditNote
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AuthSecurityFilter(ProjectObject = "SupplierCreditNotes", Mode = "W")]
         public string InsertUpdateSupplierCreditNote(SupplierCreditNoteViewModel _supplierCreditNoteObj)
         {
             try
             {
 
                 object result = null;
-                AppUA ua = new AppUA();
+                AppUA _appUA = Session["AppUA"] as AppUA;
+                _supplierCreditNoteObj.commonObj = new CommonViewModel();
+                _supplierCreditNoteObj.commonObj.CreatedBy = _appUA.UserName;
+                _supplierCreditNoteObj.commonObj.CreatedDate = _appUA.DateTime;
+                _supplierCreditNoteObj.commonObj.UpdatedBy = _appUA.UserName;
+                _supplierCreditNoteObj.commonObj.UpdatedDate = _appUA.DateTime;
 
-                result = _supplierCreditBusines.InsertUpdateSupplierCreditNote(Mapper.Map<SupplierCreditNoteViewModel, SupplierCreditNote>(_supplierCreditNoteObj), ua);
+                result = _supplierCreditBusines.InsertUpdateSupplierCreditNote(Mapper.Map<SupplierCreditNoteViewModel, SupplierCreditNote>(_supplierCreditNoteObj));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
 
             }
@@ -127,14 +139,16 @@ namespace UserInterface.Controllers
         #endregion InsertUpdateSupplierCreditNote
 
         #region DeleteSupplierCreditNote
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "SupplierCreditNotes", Mode = "D")]
         public string DeleteSupplierCreditNote(string ID)
         {
 
             try
             {
                 object result = null;
-
-                result = _supplierCreditBusines.DeleteSupplierCreditNote(ID != null && ID != "" ? Guid.Parse(ID) : Guid.Empty);
+                AppUA _appUA = Session["AppUA"] as AppUA;
+                result = _supplierCreditBusines.DeleteSupplierCreditNote(ID != null && ID != "" ? Guid.Parse(ID) : Guid.Empty,_appUA.UserName);
                 return JsonConvert.SerializeObject(new { Result = "OK", Message = result });
 
             }
@@ -150,6 +164,7 @@ namespace UserInterface.Controllers
 
         #region ButtonStyling
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "SupplierCreditNotes", Mode = "R")]
         public ActionResult ChangeButtonStyle(string ActionType)
         {
             ToolboxViewModel ToolboxViewModelObj = new ToolboxViewModel();
@@ -161,13 +176,6 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.addbtn.Title = "Add New";
                     ToolboxViewModelObj.addbtn.Event = "openNav();";
 
-
-
-                    ToolboxViewModelObj.backbtn.Visible = true;
-                    ToolboxViewModelObj.backbtn.Disable = true;
-                    ToolboxViewModelObj.backbtn.Text = "Back";
-                    ToolboxViewModelObj.backbtn.DisableReason = "Not applicable";
-                    ToolboxViewModelObj.backbtn.Event = "goBack();";
 
                     break;
                 case "Edit":

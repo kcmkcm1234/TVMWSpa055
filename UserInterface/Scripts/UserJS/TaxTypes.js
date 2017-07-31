@@ -112,6 +112,7 @@ function Delete() {
 function DeleteTaxType()
 {
     try {
+        debugger;
         var code = $('#hdnCode').val();
         if (code != '' && code != null) {
             var data = { "code": code };

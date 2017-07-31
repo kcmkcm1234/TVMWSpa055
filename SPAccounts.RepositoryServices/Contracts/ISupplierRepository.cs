@@ -11,8 +11,8 @@ namespace SPAccounts.RepositoryServices.Contracts
     {
         List<Supplier> GetAllSuppliers();
         Supplier GetSupplierDetails(Guid ID);
-        Supplier InsertSupplier(Supplier _supplierObj, AppUA ua);
-        object UpdateSupplier(Supplier _supplierObj, AppUA ua);
+        Supplier InsertSupplier(Supplier _supplierObj);
+        object UpdateSupplier(Supplier _supplierObj);
         object DeleteSupplier(Guid ID);
     }
 }

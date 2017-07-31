@@ -150,7 +150,7 @@ namespace SPAccounts.RepositoryServices.Services
         #endregion GetCustomerDetails
 
         #region InsertCustomer
-        public Customer InsertCustomer(Customer _customerObj, AppUA ua)
+        public Customer InsertCustomer(Customer _customerObj)
         {
             try
             {
@@ -181,8 +181,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@TaxRegNo", SqlDbType.VarChar, 50).Value = _customerObj.TaxRegNo;
                         cmd.Parameters.Add("@PANNo", SqlDbType.VarChar, 50).Value = _customerObj.PANNO;
                         cmd.Parameters.Add("@GeneralNotes", SqlDbType.NVarChar, -1).Value = _customerObj.GeneralNotes;
-                        cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = "Anija";
-                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = DateTime.Now;
+                        cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = _customerObj.commonObj.CreatedBy;
+                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value =_customerObj.commonObj.CreatedDate;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         outputID = cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier);
@@ -216,7 +216,7 @@ namespace SPAccounts.RepositoryServices.Services
         #endregion InsertCustomer
 
         #region UpdateCustomer
-        public object UpdateCustomer(Customer _customerObj, AppUA ua)
+        public object UpdateCustomer(Customer _customerObj)
         {
             SqlParameter outputStatus = null;
             try
@@ -249,8 +249,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@TaxRegNo", SqlDbType.VarChar, 50).Value = _customerObj.TaxRegNo;
                         cmd.Parameters.Add("@PANNo", SqlDbType.VarChar, 50).Value = _customerObj.PANNO;
                         cmd.Parameters.Add("@GeneralNotes", SqlDbType.NVarChar, -1).Value = _customerObj.GeneralNotes;
-                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = "Anija";
-                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = DateTime.Now;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = _customerObj.commonObj.UpdatedBy;
+                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = _customerObj.commonObj.UpdatedDate;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();

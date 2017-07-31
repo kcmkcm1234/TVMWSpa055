@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using SPAccounts.BusinessService.Contracts;
 using SPAccounts.DataAccessObject.DTO;
+using SPAccounts.UserInterface.SecurityFilter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,8 @@ namespace UserInterface.Controllers
         }
         #endregion Constructor_Injection 
         // GET: Customers
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Customers", Mode = "R")]
         public ActionResult Index()
         {
             CustomerViewModel customerViewModel = null;
@@ -78,6 +81,7 @@ namespace UserInterface.Controllers
 
         #region GetAllCustomers
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Customers", Mode = "R")]
         public string GetAllCustomers()
         {
             try
@@ -96,6 +100,7 @@ namespace UserInterface.Controllers
 
         #region GetCustomerDetailsByID
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Customers", Mode = "R")]
         public string GetCustomerDetailsByID(string ID)
         {
             try
@@ -114,28 +119,41 @@ namespace UserInterface.Controllers
 
         #region InsertUpdateCustomer
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AuthSecurityFilter(ProjectObject = "Customers", Mode = "W")]
         public string InsertUpdateCustomer(CustomerViewModel _customersObj)
         {
-            try
-            {
+            object result = null;
+           
+                try
+                {
 
-                object result = null;
-                AppUA ua = new AppUA();
-              
-                result = _customerBusiness.InsertUpdateCustomer(Mapper.Map<CustomerViewModel, Customer>(_customersObj), ua);
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+                    
+                    AppUA _appUA = Session["AppUA"] as AppUA;
+                    _customersObj.commonObj = new CommonViewModel();
+                    _customersObj.commonObj.CreatedBy = _appUA.UserName;
+                    _customersObj.commonObj.CreatedDate = _appUA.DateTime;
+                    _customersObj.commonObj.UpdatedBy = _appUA.UserName;
+                    _customersObj.commonObj.UpdatedDate = _appUA.DateTime;
+
+                    result = _customerBusiness.InsertUpdateCustomer(Mapper.Map<CustomerViewModel, Customer>(_customersObj));
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
 
             }
-            catch (Exception ex)
-            {
+                catch (Exception ex)
+                {
 
-                AppConstMessage cm = c.GetMessage(ex.Message);
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
-            }
+                    AppConstMessage cm = c.GetMessage(ex.Message);
+                    return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+                }
+            
+           
         }
         #endregion InsertUpdateCustomer
 
         #region DeleteCustomer
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Customers", Mode = "D")]
         public string DeleteCustomer(string ID)
         {
 
@@ -156,9 +174,10 @@ namespace UserInterface.Controllers
 
         }
         #endregion DeleteCustomer
-        
+
         #region ButtonStyling
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Customers", Mode = "R")]
         public ActionResult ChangeButtonStyle(string ActionType)
         {
             ToolboxViewModel ToolboxViewModelObj = new ToolboxViewModel();
@@ -170,21 +189,9 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.addbtn.Title = "Add New";
                     ToolboxViewModelObj.addbtn.Event = "openNav();";
 
-
-
-                    ToolboxViewModelObj.backbtn.Visible = true;
-                    ToolboxViewModelObj.backbtn.Disable = true;
-                    ToolboxViewModelObj.backbtn.Text = "Back";
-                    ToolboxViewModelObj.backbtn.DisableReason = "Not applicable";
-                    ToolboxViewModelObj.backbtn.Event = "goBack();";
-
                     break;
                 case "Edit":
-                    ToolboxViewModelObj.backbtn.Visible = true;
-                    ToolboxViewModelObj.backbtn.Text = "Back";
-                    ToolboxViewModelObj.backbtn.Title = "Back to list";
-                    ToolboxViewModelObj.backbtn.Event = "goBack();";
-
+                   
                     ToolboxViewModelObj.addbtn.Visible = true;
                     ToolboxViewModelObj.addbtn.Text = "New";
                     ToolboxViewModelObj.addbtn.Title = "Add New";
@@ -204,6 +211,11 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.resetbtn.Text = "Reset";
                     ToolboxViewModelObj.resetbtn.Title = "Reset";
                     ToolboxViewModelObj.resetbtn.Event = "Reset();";
+
+                    ToolboxViewModelObj.CloseBtn.Visible = true;
+                    ToolboxViewModelObj.CloseBtn.Text = "Close";
+                    ToolboxViewModelObj.CloseBtn.Title = "Close";
+                    ToolboxViewModelObj.CloseBtn.Event = "closeNav();";
 
                     break;
                 case "Add":

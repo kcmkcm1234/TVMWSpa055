@@ -13,7 +13,7 @@ namespace SPAccounts.BusinessService.Contracts
         List<CustomerCreditNotes> GetCreditNoteByCustomer(Guid ID);
         CustomerCreditNotes GetCreditNoteAmount(Guid CreditID, Guid CustomerID);
         CustomerCreditNotes GetCustomerCreditNoteDetails(Guid ID);
-        object InsertUpdateCustomerCreditNote(CustomerCreditNotes _customerCreditNoteObj, AppUA ua);
-        object DeleteCustomerCreditNote(Guid ID);
+        object InsertUpdateCustomerCreditNote(CustomerCreditNotes _customerCreditNoteObj);
+        object DeleteCustomerCreditNote(Guid ID,string userName);
     }
 }

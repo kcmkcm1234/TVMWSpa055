@@ -24,18 +24,18 @@ namespace SPAccounts.BusinessService.Services
         {
             return _customerRepository.GetCustomerDetails(ID);
         }
-        public object InsertUpdateCustomer(Customer _customerObj, AppUA ua)
+        public object InsertUpdateCustomer(Customer _customerObj)
         {
             object result = null;
             try
             {
                 if (_customerObj.ID==Guid.Empty)
                 {
-                    result = _customerRepository.InsertCustomer(_customerObj, ua);
+                    result = _customerRepository.InsertCustomer(_customerObj);
                 }
                 else
                 {
-                    result = _customerRepository.UpdateCustomer(_customerObj, ua);
+                    result = _customerRepository.UpdateCustomer(_customerObj);
                 }
             }
             catch (Exception ex)
