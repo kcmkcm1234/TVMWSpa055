@@ -42,31 +42,72 @@ namespace SPAccounts.BusinessService.Services
             return _supplierInvoicesRepository.GetSupplierInvoiceDetails(ID);
         }
 
-        public List<SupplierInvoices> GetOutstandingSupplierInvoices()
+        public SupplierSummaryforMobile GetOutstandingSupplierInvoices()
         {
+            SupplierSummaryforMobile supObj= new SupplierSummaryforMobile();
+            supObj.supInvSumObj = new SupplierInvoiceSummaryformobile();
             try
             {
-                return _supplierInvoicesRepository.GetOutstandingSupplierInvoices();
+                decimal tmp = 0;
+                supObj.SupInv=_supplierInvoicesRepository.GetOutstandingSupplierInvoices();
+                if (supObj.SupInv == null)
+                {
+                    supObj.supInvSumObj.Amount = 0;
+                    supObj.supInvSumObj.AmountFormatted = "0";
+                    supObj.supInvSumObj.count = 0;
+                }
+                else
+                {
+                    foreach (SupplierInvoices m in supObj.SupInv)
+                    {
+                        tmp = tmp + m.BalanceDue;
+                    }
+                    supObj.supInvSumObj.Amount = tmp;
+                    supObj.supInvSumObj.AmountFormatted = _commonBusiness.ConvertCurrency(tmp, 0);
+                    supObj.supInvSumObj.count = supObj.SupInv.Count;
+                }
             }
+            
             catch (Exception)
             {
 
                 throw;
             }
+            return supObj;
 
         }
 
-        public List<SupplierInvoices> GetOpeningSupplierInvoices()
+        public SupplierSummaryforMobile GetOpeningSupplierInvoices()
         {
+            SupplierSummaryforMobile supObj = new SupplierSummaryforMobile();
+            supObj.supInvSumObj = new SupplierInvoiceSummaryformobile();
             try
             {
-                return _supplierInvoicesRepository.GetOpeningSupplierInvoices();
+                decimal tmp = 0;
+                supObj.SupInv = _supplierInvoicesRepository.GetOpeningSupplierInvoices();
+                if (supObj.SupInv == null)
+                {
+                    supObj.supInvSumObj.Amount = 0;
+                    supObj.supInvSumObj.AmountFormatted = "0";
+                    supObj.supInvSumObj.count = 0;
+                }
+                else
+                {
+                    foreach (SupplierInvoices m in supObj.SupInv)
+                    {
+                        tmp = tmp + m.BalanceDue;
+                    }
+                    supObj.supInvSumObj.Amount = tmp;
+                    supObj.supInvSumObj.AmountFormatted = _commonBusiness.ConvertCurrency(tmp, 0);
+                    supObj.supInvSumObj.count = supObj.SupInv.Count;
+                }
             }
             catch (Exception)
             {
 
                 throw;
             }
+            return supObj;
         }
     }
 }

@@ -91,18 +91,26 @@ namespace SPAccounts.BusinessService.Services
             cusumObj.CustInvSumObj = new InvoiceSummaryformobile();
             try
             {
-                decimal tmp =0;
-                
-                cusumObj.CustInv= _customerInvoicesRepository.GetOutstandingCustomerInvoices();
-                
-                foreach (CustomerInvoice m in cusumObj.CustInv)
-                {
-                    tmp = tmp + m.BalanceDue;
-                }
-                cusumObj.CustInvSumObj.Amount = tmp;
-                cusumObj.CustInvSumObj.AmountFormatted = _commonBusiness.ConvertCurrency(tmp, 0); ;
-                cusumObj.CustInvSumObj.count = cusumObj.CustInv.Count;
+                decimal tmp = 0;
 
+                cusumObj.CustInv = _customerInvoicesRepository.GetOutstandingCustomerInvoices();
+                if (cusumObj.CustInv == null)
+                {
+                    cusumObj.CustInvSumObj.Amount = 0;
+                    cusumObj.CustInvSumObj.AmountFormatted = "0";
+                    cusumObj.CustInvSumObj.count = 0;
+                }
+                else
+                {
+                    foreach (CustomerInvoice m in cusumObj.CustInv)
+                    {
+                        tmp = tmp + m.BalanceDue;
+                    }
+                    cusumObj.CustInvSumObj.Amount = tmp;
+                    cusumObj.CustInvSumObj.AmountFormatted = _commonBusiness.ConvertCurrency(tmp, 0);
+                    cusumObj.CustInvSumObj.count = cusumObj.CustInv.Count;
+
+                }
             }
             catch (Exception)
             {
@@ -111,22 +119,42 @@ namespace SPAccounts.BusinessService.Services
             }
 
             return cusumObj;
-
-
-
         }
 
-        public List<CustomerInvoice> GetOpeningCustomerInvoices()
+        public CustomerInvoicesSummaryForMobile GetOpeningCustomerInvoices()
         {
+
+            CustomerInvoicesSummaryForMobile cusumObj = new CustomerInvoicesSummaryForMobile();
+            cusumObj.CustInvSumObj = new InvoiceSummaryformobile();
             try
             {
-                return _customerInvoicesRepository.GetOpeningCustomerInvoices();
+                decimal tmp = 0;
+                cusumObj.CustInv = _customerInvoicesRepository.GetOpeningCustomerInvoices();
+                if (cusumObj.CustInv == null)
+                {
+                    cusumObj.CustInvSumObj.Amount = 0;
+                    cusumObj.CustInvSumObj.AmountFormatted = "0";
+                    cusumObj.CustInvSumObj.count = 0;
+                }
+                else
+                {
+                    foreach (CustomerInvoice m in cusumObj.CustInv)
+                    {
+                        tmp = tmp + m.BalanceDue;
+                    }
+                    cusumObj.CustInvSumObj.Amount = tmp;
+                    cusumObj.CustInvSumObj.AmountFormatted = _commonBusiness.ConvertCurrency(tmp, 0);
+                    cusumObj.CustInvSumObj.count = cusumObj.CustInv.Count;
+
+                }
             }
             catch (Exception)
             {
 
                 throw;
             }
+
+            return cusumObj;
 
         }
     }
