@@ -316,6 +316,7 @@ function TypeOnChange() {
         $('#BankCode').val('');
         $('#PaymentMode').prop('disabled', true);
         $('#BankCode').prop('disabled', true);
+        $('#CreditID').prop('disabled', false);
         $("#lblTotalRecdAmtCptn").text('Credit Amount');
         $("#lblPaymentAppliedCptn").text('Total Credit Used');
         $("#lblCreditCptn").text('Credit Remaining');
