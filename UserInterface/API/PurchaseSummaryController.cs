@@ -30,13 +30,13 @@ namespace UserInterface.API
         Const messages = new Const();
 
         #region GetSupplierOutstandingInvoices
-        [HttpGet]
+        [HttpPost]
         public string GetSupplierOutstandingInvoicesForMobile()
         {
             try
             {
-                List<SupplierInvoicesViewModel> invoiceObj = Mapper.Map<List<SupplierInvoices>, List<SupplierInvoicesViewModel>>(_supplierInvoicesBusiness.GetOutstandingSupplierInvoices());
-                return JsonConvert.SerializeObject(new { Result = true, Records = invoiceObj });
+                SupplierSummaryforMobileViewModel invoiceObj = Mapper.Map<SupplierSummaryforMobile, SupplierSummaryforMobileViewModel>(_supplierInvoicesBusiness.GetOutstandingSupplierInvoices());
+                return JsonConvert.SerializeObject(new { Result = true, Records = new { OutStandingList = invoiceObj.SupInv, Summary = invoiceObj.supInvSumObj } });
             }
             catch (Exception ex)
             {
@@ -48,13 +48,14 @@ namespace UserInterface.API
 
 
         #region GetSupplierOpeningInvoices
-        [HttpGet]
+        [HttpPost]
         public string GetSupplierOpeningInvoicesForMobile()
         {
             try
             {
-                List<SupplierInvoicesViewModel> invoiceObj = Mapper.Map<List<SupplierInvoices>, List<SupplierInvoicesViewModel>>(_supplierInvoicesBusiness.GetOpeningSupplierInvoices());
-                return JsonConvert.SerializeObject(new { Result = true, Records = invoiceObj });
+                SupplierSummaryforMobileViewModel invoiceObj = Mapper.Map<SupplierSummaryforMobile, SupplierSummaryforMobileViewModel>(_supplierInvoicesBusiness.GetOpeningSupplierInvoices());
+                return JsonConvert.SerializeObject(new { Result = true, Records = new { OpeningList = invoiceObj.SupInv, Summary = invoiceObj.supInvSumObj } });
+           
             }
             catch (Exception ex)
             {

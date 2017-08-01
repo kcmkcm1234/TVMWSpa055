@@ -62,6 +62,13 @@ namespace UserInterface.App_Start
                 config.CreateMap<ChartOfAccountsViewModel, ChartOfAccounts>().ReverseMap();
                 config.CreateMap<EmployeeViewModel, Employee>().ReverseMap();
                 config.CreateMap<EmployeeTypeViewModel, EmployeeType>().ReverseMap();
+
+                config.CreateMap<MonthlyRecapViewModel, MonthlyRecap>().ReverseMap();
+                config.CreateMap<MonthlyRecapItemViewModel, MonthlyRecapItem>().ReverseMap();
+                config.CreateMap<CustomerInvoicesSummaryForMobileViewModel, CustomerInvoicesSummaryForMobile>().ReverseMap();
+                config.CreateMap<InvoiceSummaryformobileViewModel, InvoiceSummaryformobile>().ReverseMap();
+                config.CreateMap<SupplierSummaryforMobileViewModel, SupplierSummaryforMobile>().ReverseMap();
+                config.CreateMap<SupplierInvoiceSummaryformobileViewModel, SupplierInvoiceSummaryformobile>().ReverseMap();
             });
         }
     }

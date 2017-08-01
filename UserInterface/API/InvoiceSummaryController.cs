@@ -27,13 +27,14 @@ namespace UserInterface.API
         Const messages = new Const();
 
         #region GetOutstandingInvoices
-        [HttpGet]
+        [HttpPost]
         public string GetOutstandingInvoicesForMobile()
         {
             try
             {
-                List<CustomerInvoicesViewModel> invoiceObj = Mapper.Map<List<CustomerInvoice>, List<CustomerInvoicesViewModel>>(_customerInvoicesBusiness.GetOutstandingCustomerInvoices());
-                  return JsonConvert.SerializeObject(new { Result = true, Records = invoiceObj });
+                CustomerInvoicesSummaryForMobileViewModel invoiceObj = Mapper.Map<CustomerInvoicesSummaryForMobile, CustomerInvoicesSummaryForMobileViewModel>(_customerInvoicesBusiness.GetOutstandingCustomerInvoices());
+                  return JsonConvert.SerializeObject(new { Result = true, Records = new {OutstandingList= invoiceObj.CustInv, Summary = invoiceObj.CustInvSumObj } });
+                
             }
             catch (Exception ex)
             {
@@ -44,14 +45,14 @@ namespace UserInterface.API
         #endregion GetOutstandingInvoices
 
 
-        #region GetOpeningInvoices
-        [HttpGet]
-        public string GetOpeningInvoicesForMobile()
+        #region GetOpenInvoices
+        [HttpPost]
+        public string GetOpenInvoicesForMobile()
         {
             try
             {
-                List<CustomerInvoicesViewModel> invoiceObj = Mapper.Map<List<CustomerInvoice>, List<CustomerInvoicesViewModel>>(_customerInvoicesBusiness.GetOpeningCustomerInvoices());
-                return JsonConvert.SerializeObject(new { Result = true, Records = invoiceObj });
+                CustomerInvoicesSummaryForMobileViewModel invoiceObj = Mapper.Map<CustomerInvoicesSummaryForMobile, CustomerInvoicesSummaryForMobileViewModel>(_customerInvoicesBusiness.GetOpeningCustomerInvoices());
+                return JsonConvert.SerializeObject(new { Result = true, Records = new { OpeningList = invoiceObj.CustInv, Summary = invoiceObj.CustInvSumObj } });
             }
             catch (Exception ex)
             {
@@ -59,7 +60,7 @@ namespace UserInterface.API
                 return JsonConvert.SerializeObject(new { Result = false, Message = ex.Message });
             }
         }
-        #endregion GetOpeningInvoices
+        #endregion GetOpenInvoices
     }
 }
 

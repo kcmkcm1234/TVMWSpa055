@@ -101,6 +101,7 @@
     <Compile Include="Contracts\ICustomerInvoicesRepository.cs" />
     <Compile Include="Contracts\ICustomerPaymentsRepository.cs" />
     <Compile Include="Contracts\ICustomerRepository.cs" />
+    <Compile Include="Contracts\IDashboardRepository.cs" />
     <Compile Include="Contracts\IDatabaseFactory.cs" />
     <Compile Include="Contracts\IDepositAndWithdrawalsRepository.cs" />
     <Compile Include="Contracts\IDynamicUIRepository.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="Services\CustomerInvoicesRepository.cs" />
     <Compile Include="Services\CustomerPaymentsRepository.cs" />
     <Compile Include="Services\CustomerRepository.cs" />
+    <Compile Include="Services\DashboardRepository.cs" />
     <Compile Include="Services\DatabaseFactory.cs" />
     <Compile Include="Services\DepositAndWithdrawalsRepository.cs" />
     <Compile Include="Services\DynamicUIRepository.cs" />

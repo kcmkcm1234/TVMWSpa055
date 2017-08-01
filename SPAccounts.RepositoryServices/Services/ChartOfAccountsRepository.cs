@@ -84,7 +84,7 @@ namespace SPAccounts.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[Accounts].[GetAllExpenseTypeForMobile]";
+                        cmd.CommandText = "[Accounts].[GetOtherExpenseSummaryForMobile]";
                         cmd.Parameters.Add("@account", SqlDbType.NVarChar, 20).Value = accObj.account;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())

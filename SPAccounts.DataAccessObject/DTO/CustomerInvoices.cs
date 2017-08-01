@@ -31,16 +31,18 @@ namespace SPAccounts.DataAccessObject.DTO
         public TaxTypes TaxTypeObj { get; set; }
         public decimal PaidAmount { get; set; }
         public decimal BalanceDue { get; set; }
-        public decimal OtherPayments { get; set; } 
+        public decimal OtherPayments { get; set; }
         public CustomerPayments CustPaymentObj { get; set; }
         public DateTime LastPaymentDate { get; set; }
         public String LastPaymentDateFormatted { get; set; }
         public String Status { get; set; }
         public Common commonObj { get; set; }
+        public decimal TotalAmount { get; set; }
 
     }
 
-    public class CustomerInvoiceSummary {
+    public class CustomerInvoiceSummary
+    {
         public decimal OverdueAmount { get; set; }
         public string OverdueAmountFormatted { get; set; }
         public int OverdueInvoices { get; set; }
@@ -52,6 +54,21 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal PaidAmount { get; set; }
         public string PaidAmountFormatted { get; set; }
         public int PaidInvoices { get; set; }
+
+    }
+
+    public class CustomerInvoicesSummaryForMobile
+    {
+        public InvoiceSummaryformobile CustInvSumObj { get; set; }
+        public List<CustomerInvoice> CustInv { get; set; }
+    }
+
+    public class InvoiceSummaryformobile
+    {
+        public decimal Amount { get; set; }
+        public string AmountFormatted { get; set; }
+        public int count { get; set; }
+       
 
     }
 }

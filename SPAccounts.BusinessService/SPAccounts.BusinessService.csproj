@@ -102,6 +102,7 @@
     <Compile Include="Contracts\ICustomerCreditNotesBusiness.cs" />
     <Compile Include="Contracts\ICustomerInvoicesBusiness.cs" />
     <Compile Include="Contracts\ICustomerPaymentsBusiness.cs" />
+    <Compile Include="Contracts\IDashboardBusiness.cs" />
     <Compile Include="Contracts\IDepositAndWithdrawalsBusiness.cs" />
     <Compile Include="Contracts\IDynamicUIBusiness.cs" />
     <Compile Include="Contracts\IEmployeeBusiness.cs" />
@@ -124,6 +125,7 @@
     <Compile Include="Services\CustomerCreditNotesBusiness.cs" />
     <Compile Include="Services\CustomerInvoicesBusiness.cs" />
     <Compile Include="Services\CustomerPaymentsBusiness.cs" />
+    <Compile Include="Services\DashboardBusiness.cs" />
     <Compile Include="Services\DepositAndWithdrawalsBusiness.cs" />
     <Compile Include="Services\DynamicUIBusiness.cs" />
     <Compile Include="Services\EmployeeBusiness.cs" />
