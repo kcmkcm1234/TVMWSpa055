@@ -187,10 +187,11 @@ namespace SPAccounts.BusinessService.Services
                 string color = "rgba($r$,$g$,$b$,0.6)";
                 foreach (OtherExpSummaryItem s in result.ItemsList)
                 {
+                    Random rnd = new Random();
                     s.color = color.Replace("$r$", r.ToString()).Replace("$g$", g.ToString()).Replace("$b$", b.ToString());
                     b = b + 50;
                     g = g + 30;
-                    r = r + 30;
+                    r = rnd.Next(100, 250);
                     if (b > 250)
                     {
                         b = 0;
@@ -207,8 +208,11 @@ namespace SPAccounts.BusinessService.Services
 
 
                     s.AmountFormatted = _commonBusiness.ConvertCurrency(s.Amount, 2);
+                    result.Total = result.Total +s.Amount;
                 }
 
+                result.TotalFormatted = _commonBusiness.ConvertCurrency(result.Total, 2);
+                result.Month = new DateTime(2010, month, 1).ToString("MMM") + " " + year;
             }
             return result;
         }

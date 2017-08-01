@@ -66,6 +66,9 @@ namespace UserInterface.Models
     {
 
         public List<OtherExpSummaryItemViewModel> ItemsList { get; set; }
+        public string Month { get; set; }
+        public decimal Total { get; set; }
+        public String TotalFormatted { get; set; }
     }
     public class OtherExpSummaryItemViewModel
     {

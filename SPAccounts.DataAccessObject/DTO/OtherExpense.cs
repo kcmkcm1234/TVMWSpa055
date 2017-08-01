@@ -30,6 +30,9 @@ namespace SPAccounts.DataAccessObject.DTO
     public class OtherExpSummary {
 
         public List<OtherExpSummaryItem> ItemsList { get; set; }
+        public string Month { get; set; }
+        public decimal Total { get; set; }
+        public String TotalFormatted { get; set; }
     }
     public class OtherExpSummaryItem
     {
