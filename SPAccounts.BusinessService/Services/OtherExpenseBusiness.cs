@@ -159,7 +159,7 @@ namespace SPAccounts.BusinessService.Services
             try
             {
                 empList=GetAllEmployees();
-                empList = empList != null ? empList.Where(e => e.employeeType.Code == Type).ToList() : null;
+                empList = empList != null ? empList.Where(e => e.employeeTypeObj.Code == Type).ToList() : null;
             }
             catch(Exception ex)
             {

@@ -12,7 +12,8 @@ namespace SPAccounts.DataAccessObject.DTO
          public string Name { get; set; }
          public string MobileNo { get; set; }
          public string Address { get; set; }
-         public EmployeeType employeeType { get; set; }
+         public EmployeeType employeeTypeObj { get; set; }
+         public string EmployeeType { get; set; } 
          public string ImageURL { get; set; }
          public Companies companies { get; set; }
          public string companyID { get; set; }

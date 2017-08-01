@@ -1482,6 +1482,7 @@
     <Content Include="Scripts\UserJS\CustomerInvoices.js" />
     <Content Include="Scripts\UserJS\CustomerPayments.js" />
     <Content Include="Scripts\UserJS\Customers.js" />
+    <Content Include="Scripts\UserJS\Employee.js" />
     <Content Include="Scripts\UserJS\ExpenseSummary.js" />
     <Content Include="Scripts\UserJS\MonthlyRecap.js" />
     <Content Include="Scripts\UserJS\Login.js" />
@@ -1533,6 +1534,7 @@
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DynamicUIController.cs" />
     <Compile Include="Controllers\CustomerInvoicesController.cs" />
+    <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\FileUploadController.cs" />
     <Compile Include="Controllers\OtherExpensesController.cs" />
     <Compile Include="Controllers\OtherIncomeController.cs" />
@@ -1627,6 +1629,7 @@
     <Content Include="Views\Dashboard\_TopSuppliers.cshtml" />
     <Content Include="Views\Dashboard\_TopCustomers.cshtml" />
     <Content Include="Views\Dashboard\_RecentDocs.cshtml" />
+    <Content Include="Views\Employee\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
