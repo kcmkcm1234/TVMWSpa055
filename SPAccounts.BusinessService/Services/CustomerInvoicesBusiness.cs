@@ -85,17 +85,34 @@ namespace SPAccounts.BusinessService.Services
         {
             return _customerInvoicesRepository.DeleteInvoices(ID,UserName);
         }
-        public List<CustomerInvoice> GetOutstandingCustomerInvoices()
+        public CustomerInvoicesSummaryForMobile GetOutstandingCustomerInvoices()
         {
+            CustomerInvoicesSummaryForMobile cusumObj = new CustomerInvoicesSummaryForMobile();
+            cusumObj.CustInvSumObj = new InvoiceSummaryformobile();
             try
             {
-                return _customerInvoicesRepository.GetOutstandingCustomerInvoices();
+                decimal tmp =0;
+                
+                cusumObj.CustInv= _customerInvoicesRepository.GetOutstandingCustomerInvoices();
+                
+                foreach (CustomerInvoice m in cusumObj.CustInv)
+                {
+                    tmp = tmp + m.BalanceDue;
+                }
+                cusumObj.CustInvSumObj.Amount = tmp;
+                cusumObj.CustInvSumObj.AmountFormatted = _commonBusiness.ConvertCurrency(tmp, 0); ;
+                cusumObj.CustInvSumObj.count = cusumObj.CustInv.Count;
+
             }
             catch (Exception)
             {
 
                 throw;
             }
+
+            return cusumObj;
+
+
 
         }
 

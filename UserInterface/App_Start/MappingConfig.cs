@@ -65,6 +65,8 @@ namespace UserInterface.App_Start
 
                 config.CreateMap<MonthlyRecapViewModel, MonthlyRecap>().ReverseMap();
                 config.CreateMap<MonthlyRecapItemViewModel, MonthlyRecapItem>().ReverseMap();
+                config.CreateMap<CustomerInvoicesSummaryForMobileViewModel, CustomerInvoicesSummaryForMobile>().ReverseMap();
+                config.CreateMap<InvoiceSummaryformobileViewModel, InvoiceSummaryformobile>().ReverseMap();
             });
         }
     }
