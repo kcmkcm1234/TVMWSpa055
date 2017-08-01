@@ -17,9 +17,16 @@ namespace UserInterface.Models
     public class MonthlyRecapViewModel
     {
         public string CompanyName { get; set; }
+        public List<MonthlyRecapItemViewModel> MonthlyRecapItemList { get; set; }
 
     }
+    public class MonthlyRecapItemViewModel
+    {
+        public string Period { get; set; }
+        public decimal INAmount { get; set; }
+        public decimal ExAmount { get; set; }
 
+    }
 
     public class ExpenseSummaryViewModel
     {

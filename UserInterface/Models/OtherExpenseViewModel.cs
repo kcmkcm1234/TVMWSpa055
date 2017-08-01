@@ -50,7 +50,7 @@ namespace UserInterface.Models
 
        
         [Display(Name = "Employee")]
-        public Guid EmpID { get; set; }
+        public Guid? EmpID { get; set; }
         public List<SelectListItem> EmployeeList { get; set; }
         public EmployeeViewModel employee { get; set; }
 

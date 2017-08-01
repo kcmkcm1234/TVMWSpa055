@@ -12,6 +12,6 @@ namespace SPAccounts.RepositoryServices.Contracts
         List<OtherExpense> GetAllOtherExpenses();
         OtherExpense InsertOtherExpense(OtherExpense otherExpense);
         OtherExpense UpdateOtherExpense(OtherExpense otherExpense);
-        object DeleteOtherExpense(Guid ID);
+        object DeleteOtherExpense(Guid ID, string UserName);
     }
 }

@@ -202,7 +202,8 @@ function GetCustomerPaymentsByID(ID) {
         $('#CreditID').prop('disabled', true); 
         $('#TotalRecdAmt').prop('disabled', true); 
         $('#hdfCreditID').val(thisitem.CreditID);
-        $('#PaymentMode').prop('disabled', true); 
+        $('#PaymentMode').prop('disabled', true);
+        $("#ddlCreditDiv").css("visibility", "visible");
     }
     else {
         $("#CreditID").html(""); // clear before appending new list 

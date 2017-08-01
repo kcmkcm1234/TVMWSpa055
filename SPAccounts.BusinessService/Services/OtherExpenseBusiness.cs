@@ -143,9 +143,9 @@ namespace SPAccounts.BusinessService.Services
             return _otherExpenseRepository.UpdateOtherExpense(otherExpense);
         }
 
-        public object DeleteOtherExpense(Guid ID)
+        public object DeleteOtherExpense(Guid ID, string UserName)
         {
-            return _otherExpenseRepository.DeleteOtherExpense(ID);
+            return _otherExpenseRepository.DeleteOtherExpense(ID,UserName);
         }
 
         public List<EmployeeType> GetAllEmployeeTypes()

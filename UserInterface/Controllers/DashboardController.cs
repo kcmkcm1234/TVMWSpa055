@@ -7,11 +7,29 @@ using SAMTool.BusinessServices.Contracts;
 using SAMTool.DataAccessObject.DTO;
 using SPAccounts.UserInterface.SecurityFilter;
 using UserInterface.Models;
+using AutoMapper;
+using SPAccounts.DataAccessObject.DTO;
+using SPAccounts.BusinessService.Contracts;
 
 namespace UserInterface.Controllers
 {
     public class DashboardController : Controller
     {
+
+        #region Constructor_Injection 
+
+        AppConst c = new AppConst();
+        IDashboardBusiness _dashboardBusiness;
+        
+
+        public DashboardController(IDashboardBusiness dashboardBusiness)
+        {
+            _dashboardBusiness = dashboardBusiness;
+            
+        }
+        #endregion Constructor_Injection 
+
+
         // GET: Dashboard
         [AuthSecurityFilter(ProjectObject = "Dashboard", Mode = "R")]
         public ActionResult Index()
@@ -28,8 +46,11 @@ namespace UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject = "AdminDashboard", Mode = "R")]
         public ActionResult MonthlyRecap(string Company)
         {
-            MonthlyRecapViewModel data = new MonthlyRecapViewModel();
+            MonthlyRecapViewModel data = new MonthlyRecapViewModel();   
+
+            data = Mapper.Map<MonthlyRecap, MonthlyRecapViewModel>(_dashboardBusiness.GetMonthlyRecap(Company));
             data.CompanyName = Company;
+
             return PartialView("_MontlyRecap", data);
         }
 
