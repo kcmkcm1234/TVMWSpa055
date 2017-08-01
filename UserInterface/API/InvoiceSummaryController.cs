@@ -27,7 +27,7 @@ namespace UserInterface.API
         Const messages = new Const();
 
         #region GetOutstandingInvoices
-        [HttpGet]
+        [HttpPost]
         public string GetOutstandingInvoicesForMobile()
         {
             try
@@ -44,9 +44,9 @@ namespace UserInterface.API
         #endregion GetOutstandingInvoices
 
 
-        #region GetOpeningInvoices
-        [HttpGet]
-        public string GetOpeningInvoicesForMobile()
+        #region GetOpenInvoices
+        [HttpPost]
+        public string GetOpenInvoicesForMobile()
         {
             try
             {
@@ -59,7 +59,7 @@ namespace UserInterface.API
                 return JsonConvert.SerializeObject(new { Result = false, Message = ex.Message });
             }
         }
-        #endregion GetOpeningInvoices
+        #endregion GetOpenInvoices
     }
 }
 
