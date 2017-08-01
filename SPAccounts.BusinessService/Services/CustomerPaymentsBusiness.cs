@@ -12,9 +12,11 @@ namespace SPAccounts.BusinessService.Services
     public class CustomerPaymentsBusiness: ICustomerPaymentsBusiness
     { 
         private ICustomerPaymentsRepository _customerPaymentsRepository;
-        public CustomerPaymentsBusiness(ICustomerPaymentsRepository custPaymentRepository)
+        private ICommonBusiness _commonBusiness;
+        public CustomerPaymentsBusiness(ICustomerPaymentsRepository custPaymentRepository,ICommonBusiness commonBusiness)
         {
             _customerPaymentsRepository = custPaymentRepository;
+            _commonBusiness= commonBusiness;
         }
 
         public List<CustomerPayments> GetAllCustomerPayments()
@@ -86,6 +88,14 @@ namespace SPAccounts.BusinessService.Services
         public object DeletePayments(Guid PaymentID,string UserName)
         {
             return _customerPaymentsRepository.DeletePayments(PaymentID, UserName);
+        }
+
+        public CustomerPayments GetOutstandingAmountByCustomer(string CustomerID)
+        {
+            CustomerPayments CustomerPayObj = _customerPaymentsRepository.GetOutstandingAmountByCustomer(CustomerID);
+            //decimal temp = Decimal.Parse(CustomerPayObj.OutstandingAmount);
+            //CustomerPayObj.OutstandingAmount= _commonBusiness.ConvertCurrency(temp,0);
+            return CustomerPayObj;
         }
     }
 }

@@ -40,7 +40,7 @@
                 <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
 
                 <div class="info-box-content">
-                    <span class="info-box-text">Outstanding: <b><span id="overdueamt">₹ 0.00</span></b></span>
+                    <span class="info-box-text">Overdue <b><span id="overdueamt">₹ 0.00</span></b></span>
                     <span class="info-box-more">Invoices <small><span id="overdueinvoice">0</span></small></span>
                 </div>
                 <!-- /.info-box-content -->
@@ -52,8 +52,8 @@
                 <span class="info-box-icon bg-aqua"></span>
 
                 <div class="info-box-content">
-                    @*<span class="info-box-text">Open Invoices <b><span id="openamt">₹ 0.00</span></b></span>
-                    <span class="info-box-more">Invoices <small><span id="openinvoice">0</span></small></span>*@
+                    <span class="info-box-text">Open Invoices <b><span id="openamt">₹ 0.00</span></b></span>
+                    <span class="info-box-more">Invoices <small><span id="openinvoice">0</span></small></span>
                 </div>
                 <!-- /.info-box-content -->
             </div>
@@ -69,8 +69,8 @@
                 <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
 
                 <div class="info-box-content">
-                    @*<span class="info-box-text">Fully Paid <b><span id="paidamt">₹ 0.00</span></b></span>
-                    <span class="info-box-more">Invoices <small><span id="paidinvoice">0</span></small></span>*@
+                    <span class="info-box-text">Fully Paid <b><span id="paidamt">₹ 0.00</span></b></span>
+                    <span class="info-box-more">Invoices <small><span id="paidinvoice">0</span></small></span>
                 </div>
                 <!-- /.info-box-content -->
             </div>
@@ -251,7 +251,7 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="col-md-10">
-                                    @Html.DropDownListFor(model => model.RecdToComanyCode, Model.CompanyObj.CompanyList, "-- Select Customer --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "RecdToComanyCode" })
+                                    @Html.DropDownListFor(model => model.RecdToComanyCode, Model.CompanyObj.CompanyList, "-- Select Company --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "RecdToComanyCode" })
                                     @Html.ValidationMessageFor(model => model.RecdToComanyCode, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-1 mandatory"></div>
@@ -360,8 +360,6 @@
                         <div class="form-group col-md-12">
                             <div class="col-md-12">
                                 @Html.LabelFor(model => model.GeneralNotes, htmlAttributes: new { @class = "control-label" })
-
-
                             </div>
                             <div class="col-md-12">
                                 <div class="col-md-10">
@@ -371,7 +369,6 @@
                                 <div class="col-md-1"></div>
                                 <div class="col-md-1"></div>
                             </div>
-
                         </div>
                     </div>
                     <div class="col-md-1"></div>
@@ -382,28 +379,19 @@
                     <div class="col-md-10">
                         <div class="form-group col-md-12">
                             <div class="col-md-12">
-                        
-                                
-                                         
                             </div>
                             <div class="col-md-12">
                                 <div class="col-md-10">
-                                    Attachment controll here
+                                    @*Attachment controll here*@
                                 </div>
                                 <div class="col-md-1"></div>
                                 <div class="col-md-1"></div>
                             </div>
-
                         </div>
                     </div>
                     <div class="col-md-1"></div>
                     <div class="col-md-1"></div>
                 </div>
-
-                <div class="col-md-12  ">&nbsp;</div>
-                <div class="col-md-12  ">&nbsp;</div>
-                <div class="col-md-12  ">&nbsp;</div>
-                <div class="col-md-12  ">&nbsp;</div>
                 <div class="col-md-12  ">&nbsp;</div>
                 <div class="col-md-12  ">&nbsp;</div>
 
@@ -424,7 +412,7 @@
                 @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "control-label col-md-4", Value = "0", id = "deleteId" })
                 <input id="btnFormDelete" type="submit" value="Delete" class="btn btn-default" />
             </div>
-        }
+            }
     </div>
 
     <div class="preloader" id="prelaoder">

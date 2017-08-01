@@ -166,6 +166,7 @@ namespace UserInterface.Controllers
                     _customerObj.AdvanceAmount = 0;
                 }
                 AppUA _appUA = Session["AppUA"] as AppUA;
+                if (_customerObj.paymentDetailhdf!=null)
                 _customerObj.CustomerPaymentsDetail = JsonConvert.DeserializeObject<List<CustomerPaymentsDetailViewModel>>(_customerObj.paymentDetailhdf);
                 _customerObj.commonObj = new CommonViewModel();
                 _customerObj.commonObj.CreatedBy = _appUA.UserName;
@@ -259,6 +260,20 @@ namespace UserInterface.Controllers
 
         }
         #endregion GetCreditNoteByCustomer
+
+
+
+        #region GetOutstandingAmountByCustomer
+
+        [HttpGet]
+        public string GetOutstandingAmountByCustomer(string CreditID, string CustomerID)
+        {
+            CustomerPaymentsViewModel Cus_pay = Mapper.Map<CustomerPayments, CustomerPaymentsViewModel>(_CustPaymentBusiness.GetOutstandingAmountByCustomer(CustomerID));
+
+            return JsonConvert.SerializeObject(new { Result = "OK", Records = Cus_pay });
+
+        }
+        #endregion GetOutstandingAmountByCustomer
 
         #region ButtonStyling
         [HttpGet]

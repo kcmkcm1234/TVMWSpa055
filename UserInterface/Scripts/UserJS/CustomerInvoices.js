@@ -183,12 +183,13 @@ function SaveSuccess(data, status) {
     var JsonResult = JSON.parse(data)
     switch (JsonResult.Result) {
         case "OK":
+            if(  $('#ID').val()=="")
+                 Advanceadjustment(); //calling advance adjustment popup
             $('#ID').val(JsonResult.Records.ID);
             PaintInvoiceDetails()
             List();
-            debugger;
             var res = notyAlert('success', JsonResult.Message);
-            Advanceadjustment(); //calling advance adjustment popup
+           
             break;
         case "ERROR":
             notyAlert('error', JsonResult.Message);
@@ -220,28 +221,26 @@ function SaveAdvanceAdujust() {
         CustomerPaymentsViewModel.CustomerPaymentsDetail=[]
         for (var r = 0; r < SelectedRows.length; r++) {
             var PaymentDetailViewModel = new Object();
-          
+
             PaymentDetailViewModel.InvoiceID = SelectedRows[r].ID;//Invoice ID
             PaymentDetailViewModel.ID = SelectedRows[r].CustPaymentObj.CustPaymentDetailObj.ID//Detail ID
             PaymentDetailViewModel.PaidAmount = SelectedRows[r].CustPaymentObj.CustPaymentDetailObj.PaidAmount;
             CustomerPaymentsViewModel.CustomerPaymentsDetail.push(PaymentDetailViewModel)
-        } 
+        }
         var CustomerViewModel=new Object();
         CustomerViewModel.ID=$('#ddlCustomer').val();
-        CustomerPaymentsViewModel.customerObj=CustomerViewModel;
-        }
+        CustomerPaymentsViewModel.customerObj = CustomerViewModel;
         //PostDataToServer
         try {
-            debugger;
             var data = "{'_custpayObj':" + JSON.stringify(CustomerPaymentsViewModel) + "}";
             PostDataToServer("CustomerPayments/InsertPaymentAdjustment/", data, function (JsonResult) {
                 if (JsonResult != '') {
                     switch (JsonResult.Result) {
                         case "OK":
-                            notyAlert('success', JsonResult.Record.Message);
+                            notyAlert('success', JsonResult.Message); 
                             break;
                         case "ERROR":
-                            notyAlert('error', JsonResult.Record.Message);
+                            notyAlert('error', JsonResult.Message);
                             break;
                         default:
                             break;
@@ -252,6 +251,8 @@ function SaveAdvanceAdujust() {
         catch (e) {
             notyAlert('error', e.message);
         }
+    }
+    $('#AdvAdjustmentModel').modal('hide');
 }
 
 function AmountChanged() {
