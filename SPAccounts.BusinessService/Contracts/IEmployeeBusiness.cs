@@ -5,15 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SPAccounts.RepositoryServices.Contracts
+namespace SPAccounts.BusinessService.Contracts
 {
-    public interface IEmployeeRepository
+   public interface IEmployeeBusiness
     {
         List<Employee> GetAllEmployees();
         List<EmployeeType> GetAllEmployeeTypes();
-        Employee InsertEmployee(Employee _employeeObj);
-        object UpdateEmployee(Employee _employeeObj);
-        object DeleteEmployee(Guid ID);
         Employee GetEmployeeDetails(Guid ID);
+        object InsertUpdateEmployee(Employee _employeeObj);
+        object DeleteEmployee(Guid ID);
     }
 }

@@ -503,10 +503,10 @@ namespace SPAccounts.RepositoryServices.Services
                                 {
                                     CustomerInvoice CIList = new CustomerInvoice();
                                     {
-                                        CIList.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : CIList.ID);
+                                        CIList.ID = (sdr["InvoiceID"].ToString() != "" ? Guid.Parse(sdr["InvoiceID"].ToString()) : CIList.ID);
                                         CIList.InvoiceNo = sdr["InvoiceNo"].ToString();
                                         CIList.customerObj = new Customer();
-                                        CIList.customerObj.ID = Guid.Parse(sdr["ID"].ToString());
+                                        CIList.customerObj.ID = Guid.Parse(sdr["CustomerID"].ToString());
                                         CIList.customerObj.ContactPerson = sdr["ContactPerson"].ToString();
                                         CIList.PaymentDueDate = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()) : CIList.PaymentDueDate);
                                         CIList.BalanceDue = (sdr["BalanceDue"].ToString() != "" ? Decimal.Parse(sdr["BalanceDue"].ToString()) : CIList.BalanceDue);

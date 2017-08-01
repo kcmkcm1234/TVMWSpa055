@@ -2,7 +2,7 @@ $(function () {
 
      
     debugger;
-    var list = model.MonthlyRecapItemList;
+    var list = MRmodel.MonthlyRecapItemList;
     var labelList = [];
     var IncomeList = [];
     var ExpenseList = [];

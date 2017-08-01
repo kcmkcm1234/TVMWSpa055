@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SPAccounts.DataAccessObject.DTO;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -101,4 +102,17 @@ namespace UserInterface.Models
         public int PaidInvoices { get; set; }
     }
 
+    public class SupplierSummaryforMobileViewModel
+    {
+        public SupplierInvoiceSummaryformobileViewModel supInvSumObj { get; set; }
+        public List<SupplierInvoices> SupInv { get; set; }
+    }
+
+    public class SupplierInvoiceSummaryformobileViewModel
+    {
+        public decimal Amount { get; set; }
+        public string AmountFormatted { get; set; }
+        public int count { get; set; }
+
+    }
 }

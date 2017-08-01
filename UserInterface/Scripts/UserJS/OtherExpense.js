@@ -202,9 +202,17 @@ function SaveSuccess(data, status) {
     switch (JsonResult.Result) {
         case "OK":
             BindAllExpenseDetails();
-            $("#AddOtherexpenseModel").modal('hide');
+            //$("#AddOtherexpenseModel").modal('hide');
             notyAlert('success', JsonResult.Message);
-            $("#ID").val(JsonResult.Record.ID);
+            debugger;
+            if ($("#ID").val() != "" && $("#ID").val() != "0" && $("#ID").val()!=emptyGUID) {
+                FillOtherExpenseDetails($("#ID").val());
+            }
+            else
+            {
+                FillOtherExpenseDetails(JsonResult.Record.ID);
+            }
+           //$("#ID").val(JsonResult.Record.ID);
                       
             break;
         case "ERROR":
@@ -257,7 +265,7 @@ function FillOtherExpenseDetails(ID) {
   
    
     var thisItem = GetExpenseDetailsByID(ID); //Binding Data
-    
+    debugger;
     if (thisItem)
     {
         $("#ID").val(thisItem.ID);

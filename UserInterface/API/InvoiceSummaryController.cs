@@ -32,8 +32,9 @@ namespace UserInterface.API
         {
             try
             {
-                List<CustomerInvoicesViewModel> invoiceObj = Mapper.Map<List<CustomerInvoice>, List<CustomerInvoicesViewModel>>(_customerInvoicesBusiness.GetOutstandingCustomerInvoices());
-                  return JsonConvert.SerializeObject(new { Result = true, Records = invoiceObj });
+                CustomerInvoicesSummaryForMobileViewModel invoiceObj = Mapper.Map<CustomerInvoicesSummaryForMobile, CustomerInvoicesSummaryForMobileViewModel>(_customerInvoicesBusiness.GetOutstandingCustomerInvoices());
+                  return JsonConvert.SerializeObject(new { Result = true, Records = new {OutstandingList= invoiceObj.CustInv, Summary = invoiceObj.CustInvSumObj } });
+                
             }
             catch (Exception ex)
             {
@@ -50,8 +51,8 @@ namespace UserInterface.API
         {
             try
             {
-                List<CustomerInvoicesViewModel> invoiceObj = Mapper.Map<List<CustomerInvoice>, List<CustomerInvoicesViewModel>>(_customerInvoicesBusiness.GetOpeningCustomerInvoices());
-                return JsonConvert.SerializeObject(new { Result = true, Records = invoiceObj });
+                CustomerInvoicesSummaryForMobileViewModel invoiceObj = Mapper.Map<CustomerInvoicesSummaryForMobile, CustomerInvoicesSummaryForMobileViewModel>(_customerInvoicesBusiness.GetOpeningCustomerInvoices());
+                return JsonConvert.SerializeObject(new { Result = true, Records = new { OpeningList = invoiceObj.CustInv, Summary = invoiceObj.CustInvSumObj } });
             }
             catch (Exception ex)
             {

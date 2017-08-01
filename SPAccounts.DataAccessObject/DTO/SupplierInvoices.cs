@@ -51,4 +51,19 @@ namespace SPAccounts.DataAccessObject.DTO
         public int PaidInvoices { get; set; }
 
     }
+
+
+    public class SupplierSummaryforMobile
+    {
+        public SupplierInvoiceSummaryformobile supInvSumObj { get; set; }
+        public List<SupplierInvoices> SupInv { get; set; }
+    }
+
+    public class SupplierInvoiceSummaryformobile
+    {
+        public decimal Amount { get; set; }
+        public string AmountFormatted { get; set; }
+        public int count { get; set; }
+
+    }
 }

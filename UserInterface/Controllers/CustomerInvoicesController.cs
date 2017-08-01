@@ -222,7 +222,6 @@ namespace UserInterface.Controllers
 
         #region DeleteInvoices
 
-        [AuthSecurityFilter(ProjectObject = "CustomerPayments", Mode = "W")]
         [HttpPost]
         public string DeleteInvoices(CustomerInvoicesViewModel _customerinvObj)
         {
