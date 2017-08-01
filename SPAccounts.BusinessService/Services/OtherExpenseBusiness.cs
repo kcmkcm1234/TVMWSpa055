@@ -16,7 +16,8 @@ namespace SPAccounts.BusinessService.Services
         ICompaniesBusiness _companiesBusiness;
         IPaymentModesBusiness _paymentModeBusiness;
         IEmployeeRepository _employeeRepository;
-        public OtherExpenseBusiness(IOtherExpenseRepository otherExpenseRepository, IChartOfAccountsBusiness chartOfAccountsBusiness, IBankBusiness bankBusiness, ICompaniesBusiness companiesBusiness, IPaymentModesBusiness paymentModeBusiness, IEmployeeRepository employeeRepository)
+        ICommonBusiness _commonBusiness;
+        public OtherExpenseBusiness(IOtherExpenseRepository otherExpenseRepository, IChartOfAccountsBusiness chartOfAccountsBusiness, IBankBusiness bankBusiness, ICompaniesBusiness companiesBusiness, IPaymentModesBusiness paymentModeBusiness, IEmployeeRepository employeeRepository, ICommonBusiness commonBusiness)
         {
             _otherExpenseRepository = otherExpenseRepository;
             _chartOfAccountsBusiness = chartOfAccountsBusiness;
@@ -24,6 +25,7 @@ namespace SPAccounts.BusinessService.Services
             _companiesBusiness = companiesBusiness;
             _paymentModeBusiness = paymentModeBusiness;
             _employeeRepository = employeeRepository;
+            _commonBusiness = commonBusiness;
         }
 
         public List<ChartOfAccounts> GetAllAccountTypes(string accountType)
@@ -167,6 +169,48 @@ namespace SPAccounts.BusinessService.Services
             }
 
             return empList;
+        }
+
+
+
+        public OtherExpSummary GetOtherExpSummary(int month, int year, string Company) {
+
+            OtherExpSummary result= _otherExpenseRepository.GetOtherExpSummary(month, year, Company);
+
+
+
+            if (result != null)
+            {
+                int r = 250;
+                int g = 120;
+                int b = 80;
+                string color = "rgba($r$,$g$,$b$,0.6)";
+                foreach (OtherExpSummaryItem s in result.ItemsList)
+                {
+                    s.color = color.Replace("$r$", r.ToString()).Replace("$g$", g.ToString()).Replace("$b$", b.ToString());
+                    b = b + 50;
+                    g = g + 30;
+                    r = r + 30;
+                    if (b > 250)
+                    {
+                        b = 0;
+                    }
+                    if (g > 250)
+                    {
+                        g = 0;
+
+                    }
+                    if (r > 250)
+                    {
+                        r = 0;
+                    }
+
+
+                    s.AmountFormatted = _commonBusiness.ConvertCurrency(s.Amount, 2);
+                }
+
+            }
+            return result;
         }
     }
 }

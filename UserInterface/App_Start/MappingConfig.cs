@@ -69,6 +69,10 @@ namespace UserInterface.App_Start
                 config.CreateMap<InvoiceSummaryformobileViewModel, InvoiceSummaryformobile>().ReverseMap();
                 config.CreateMap<SupplierSummaryforMobileViewModel, SupplierSummaryforMobile>().ReverseMap();
                 config.CreateMap<SupplierInvoiceSummaryformobileViewModel, SupplierInvoiceSummaryformobile>().ReverseMap();
+
+                config.CreateMap<OtherExpSummaryViewModel, OtherExpSummary>().ReverseMap();
+                config.CreateMap<OtherExpSummaryItemViewModel, OtherExpSummaryItem>().ReverseMap();
+             
             });
         }
     }

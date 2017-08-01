@@ -1,5 +1,7 @@
 ﻿@model UserInterface.Models.ExpenseSummaryViewModel
-
+@{
+    List<UserInterface.Models.OtherExpSummaryItemViewModel> OEList = Model.OtherExpSummary.ItemsList;
+}
 
 <div class="col-md-6">
     <div class="box box-default">
@@ -20,12 +22,11 @@
                 <!-- /.col -->
                 <div class="col-md-4">
                     <ul class="chart-legend clearfix">
-                        <li><i class="fa fa-circle-o text-red"></i> Salary</li>
-                        <li><i class="fa fa-circle-o text-green"></i> Salary Advance</li>
-                        <li><i class="fa fa-circle-o text-yellow"></i> Fuel</li>
-                        <li><i class="fa fa-circle-o text-aqua"></i> Vehicle Rent</li>
-                        <li><i class="fa fa-circle-o text-light-blue"></i> Office Expense</li>
-                        <li><i class="fa fa-circle-o text-gray"></i> Misc</li>
+                       @foreach (var mp in OEList)
+                       {
+                        <li><i class="fa fa-circle-o" style="color:@mp.color"></i> @mp.Head</li>
+                       }
+                        
                     </ul>
                 </div>
                 <!-- /.col -->
@@ -59,4 +60,13 @@
 
 
 </div>
+
+
+
+<script type="text/javascript">
+    var ESModel = @Html.Raw(Json.Encode(Model));
+
+
+</script>
+
 

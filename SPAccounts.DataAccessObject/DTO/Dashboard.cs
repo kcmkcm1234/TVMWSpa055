@@ -36,5 +36,12 @@ namespace SPAccounts.DataAccessObject.DTO
 
     }
 
+    public class ExpenseSummary
+    {
+        public string CompanyName { get; set; }
+        public OtherExpSummary OtherExpSummary { get; set; }
+        int month { get; set; }
+        int year { get; set; }
+    }
 
 }
