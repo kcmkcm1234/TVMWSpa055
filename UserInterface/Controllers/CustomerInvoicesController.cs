@@ -190,19 +190,19 @@ namespace UserInterface.Controllers
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
             }
         }
+
         [HttpPost]
         public string InsertUpdateInvoice(CustomerInvoicesViewModel _customerInvoicesObj)
         {
             try
             {
-                AppUA ua = new AppUA();
-                ua.UserName = "Thomson";
+                AppUA _appUA = Session["AppUA"] as AppUA;
                 _customerInvoicesObj.commonObj = new CommonViewModel();
-                _customerInvoicesObj.commonObj.CreatedBy = ua.UserName;
+                _customerInvoicesObj.commonObj.CreatedBy = _appUA.UserName;
                 _customerInvoicesObj.commonObj.CreatedDate = DateTime.Now;
-                _customerInvoicesObj.commonObj.UpdatedBy= ua.UserName;
+                _customerInvoicesObj.commonObj.UpdatedBy= _appUA.UserName;
                 _customerInvoicesObj.commonObj.UpdatedDate= DateTime.Now;
-                CustomerInvoicesViewModel CIVM = Mapper.Map<CustomerInvoice, CustomerInvoicesViewModel>(_customerInvoicesBusiness.InsertUpdateInvoice(Mapper.Map<CustomerInvoicesViewModel, CustomerInvoice>(_customerInvoicesObj), ua));
+                CustomerInvoicesViewModel CIVM = Mapper.Map<CustomerInvoice, CustomerInvoicesViewModel>(_customerInvoicesBusiness.InsertUpdateInvoice(Mapper.Map<CustomerInvoicesViewModel, CustomerInvoice>(_customerInvoicesObj), _appUA));
                 if (_customerInvoicesObj.ID != null && _customerInvoicesObj.ID != Guid.Empty)
                 {
                     return JsonConvert.SerializeObject(new { Result = "OK", Message = c.UpdateSuccess, Records = CIVM });
