@@ -63,6 +63,7 @@ namespace UserInterface.Models
         public string paymentDetailhdf { get; set; }
         public string hdfCustomerID { get; set; }
         public string hdfCreditAmount { get; set; }
+        public string OutstandingAmount { get; set; }
 
     }
     public class CustomerPaymentsDetailViewModel

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SPAccounts.BusinessService.Contracts
 {
-    public interface ISupplierCreditBusines
+    public interface ISupplierCreditNotesBusiness
     {
 
         List<SupplierCreditNote> GetAllSupplierCreditNotes();

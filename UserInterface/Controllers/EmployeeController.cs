@@ -12,43 +12,32 @@ using UserInterface.Models;
 
 namespace UserInterface.Controllers
 {
-    public class SupplierCreditNoteController : Controller
+    public class EmployeeController : Controller
     {
-        ISupplierCreditNotesBusiness _supplierCreditBusines;
-        ISupplierBusiness _supplierBusiness;
-        ICompaniesBusiness _companiesBusiness;
-        AppConst c = new AppConst();
-        public SupplierCreditNoteController(ISupplierCreditNotesBusiness supplierCreditBusines,ISupplierBusiness supplierBusiness,ICompaniesBusiness companiesBusiness)
-        {
-            _supplierCreditBusines = supplierCreditBusines;
-            _supplierBusiness = supplierBusiness;
-            _companiesBusiness = companiesBusiness;
-        }
 
-        // GET: SupplierCredit
+        #region Constructor_Injection 
+
+        AppConst c = new AppConst();
+        IEmployeeBusiness _employeeBusiness;
+        ICompaniesBusiness _companiesBusiness;
+
+        public EmployeeController(IEmployeeBusiness employeeBusiness,ICompaniesBusiness companiesBusiness)
+        {
+            _employeeBusiness = employeeBusiness;
+            _companiesBusiness = companiesBusiness;      
+        }
+        #endregion Constructor_Injection 
+
+        // GET: Employee
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "SupplierCreditNotes", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "Employee", Mode = "R")]
         public ActionResult Index()
         {
-            SupplierCreditNoteViewModel scn = null;
+            EmployeeViewModel evm = null;
             try
             {
-                scn = new SupplierCreditNoteViewModel();
+                evm = new EmployeeViewModel();
                 List<SelectListItem> selectListItem = new List<SelectListItem>();
-                List<SuppliersViewModel> suppList = Mapper.Map<List<Supplier>, List<SuppliersViewModel>>(_supplierBusiness.GetAllSuppliers());
-                foreach (SuppliersViewModel supp in suppList)
-                {
-                    selectListItem.Add(new SelectListItem
-                    {
-                        Text = supp.CompanyName,
-                        Value = supp.ID.ToString(),
-                        Selected = false
-                    });
-                }
-                scn.SupplierList = selectListItem;
-
-                scn.CompaniesList = new List<SelectListItem>();
-                selectListItem = new List<SelectListItem>();
                 List<CompaniesViewModel> companiesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_companiesBusiness.GetAllCompanies());
                 foreach (CompaniesViewModel cvm in companiesList)
                 {
@@ -59,27 +48,39 @@ namespace UserInterface.Controllers
                         Selected = false
                     });
                 }
-                scn.CompaniesList = selectListItem;
+                evm.CompaniesList = selectListItem;
 
+                evm.EmployeeTypeList = new List<SelectListItem>();
+                selectListItem = new List<SelectListItem>();
+                List<EmployeeTypeViewModel> employeeTypeList = Mapper.Map<List<EmployeeType>, List<EmployeeTypeViewModel>>(_employeeBusiness.GetAllEmployeeTypes());
+                foreach (EmployeeTypeViewModel etvm in employeeTypeList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = etvm.Name,
+                        Value = etvm.Code.ToString(),
+                        Selected = false
+                    });
+                }
+                evm.EmployeeTypeList = selectListItem;
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 throw ex;
             }
-            return View(scn);
+            return View(evm);
         }
 
-
-        #region GetAllSupplierCreditNotes
+        #region GetAllEmployees
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "SupplierCreditNotes", Mode = "R")]
-        public string GetAllSupplierCreditNotes()
+        [AuthSecurityFilter(ProjectObject = "Employee", Mode = "R")]
+        public string GetAllEmployees()
         {
             try
             {
 
-                List<SupplierCreditNoteViewModel> SupplierCreditNoteList = Mapper.Map<List<SupplierCreditNote>, List<SupplierCreditNoteViewModel>>(_supplierCreditBusines.GetAllSupplierCreditNotes());
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = SupplierCreditNoteList });
+                List<EmployeeViewModel> employeesList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_employeeBusiness.GetAllEmployees());
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = employeesList });
             }
             catch (Exception ex)
             {
@@ -87,18 +88,18 @@ namespace UserInterface.Controllers
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
             }
         }
-        #endregion  GetAllSupplierCreditNotes
+        #endregion  GetAllEmployees
 
-        #region GetSupplierCreditNoteDetails
+        #region GetEmployeeDetails
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "SupplierCreditNotes", Mode = "R")]
-        public string GetSupplierCreditNoteDetails(string ID)
+        [AuthSecurityFilter(ProjectObject = "Employee", Mode = "R")]
+        public string GetEmployeeDetails(string ID)
         {
             try
             {
 
-                SupplierCreditNoteViewModel supplierCreditNoteObj = Mapper.Map<SupplierCreditNote, SupplierCreditNoteViewModel>(_supplierCreditBusines.GetSupplierCreditNoteDetails(ID != null && ID != "" ? Guid.Parse(ID) : Guid.Empty));
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = supplierCreditNoteObj });
+                EmployeeViewModel employeeObj = Mapper.Map<Employee, EmployeeViewModel>(_employeeBusiness.GetEmployeeDetails(ID != null && ID != "" ? Guid.Parse(ID) : Guid.Empty));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = employeeObj });
             }
             catch (Exception ex)
             {
@@ -106,26 +107,28 @@ namespace UserInterface.Controllers
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
             }
         }
-        #endregion  GetSupplierCreditNoteDetails
+        #endregion  GetEmployeeDetails
 
-        #region InsertUpdateSupplierCreditNote
+        #region InsertUpdateEmployee
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [AuthSecurityFilter(ProjectObject = "SupplierCreditNotes", Mode = "W")]
-        public string InsertUpdateSupplierCreditNote(SupplierCreditNoteViewModel _supplierCreditNoteObj)
+        [AuthSecurityFilter(ProjectObject = "Employee", Mode = "W")]
+        public string InsertUpdateEmployee(EmployeeViewModel _employeeObj)
         {
+            object result = null;
+
             try
             {
 
-                object result = null;
-                AppUA _appUA = Session["AppUA"] as AppUA;
-                _supplierCreditNoteObj.commonObj = new CommonViewModel();
-                _supplierCreditNoteObj.commonObj.CreatedBy = _appUA.UserName;
-                _supplierCreditNoteObj.commonObj.CreatedDate = _appUA.DateTime;
-                _supplierCreditNoteObj.commonObj.UpdatedBy = _appUA.UserName;
-                _supplierCreditNoteObj.commonObj.UpdatedDate = _appUA.DateTime;
 
-                result = _supplierCreditBusines.InsertUpdateSupplierCreditNote(Mapper.Map<SupplierCreditNoteViewModel, SupplierCreditNote>(_supplierCreditNoteObj));
+                AppUA _appUA = Session["AppUA"] as AppUA;
+                _employeeObj.commonObj = new CommonViewModel();
+                _employeeObj.commonObj.CreatedBy = _appUA.UserName;
+                _employeeObj.commonObj.CreatedDate = _appUA.DateTime;
+                _employeeObj.commonObj.UpdatedBy = _appUA.UserName;
+                _employeeObj.commonObj.UpdatedDate = _appUA.DateTime;
+
+                result = _employeeBusiness.InsertUpdateEmployee(Mapper.Map<EmployeeViewModel, Employee>(_employeeObj));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
 
             }
@@ -135,20 +138,22 @@ namespace UserInterface.Controllers
                 AppConstMessage cm = c.GetMessage(ex.Message);
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
             }
-        }
-        #endregion InsertUpdateSupplierCreditNote
 
-        #region DeleteSupplierCreditNote
+
+        }
+        #endregion InsertUpdateEmployee
+
+        #region DeleteEmployee
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "SupplierCreditNotes", Mode = "D")]
-        public string DeleteSupplierCreditNote(string ID)
+        [AuthSecurityFilter(ProjectObject = "Employee", Mode = "D")]
+        public string DeleteEmployee(string ID)
         {
 
             try
             {
                 object result = null;
-                AppUA _appUA = Session["AppUA"] as AppUA;
-                result = _supplierCreditBusines.DeleteSupplierCreditNote(ID != null && ID != "" ? Guid.Parse(ID) : Guid.Empty,_appUA.UserName);
+
+                result = _employeeBusiness.DeleteEmployee(ID != null && ID != "" ? Guid.Parse(ID) : Guid.Empty);
                 return JsonConvert.SerializeObject(new { Result = "OK", Message = result });
 
             }
@@ -160,11 +165,11 @@ namespace UserInterface.Controllers
 
 
         }
-        #endregion DeleteSupplierCreditNote
+        #endregion DeleteEmployee
 
         #region ButtonStyling
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "SupplierCreditNotes", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "Employee", Mode = "R")]
         public ActionResult ChangeButtonStyle(string ActionType)
         {
             ToolboxViewModel ToolboxViewModelObj = new ToolboxViewModel();
@@ -179,7 +184,7 @@ namespace UserInterface.Controllers
 
                     break;
                 case "Edit":
-                    
+
                     ToolboxViewModelObj.addbtn.Visible = true;
                     ToolboxViewModelObj.addbtn.Text = "New";
                     ToolboxViewModelObj.addbtn.Title = "Add New";
@@ -187,12 +192,12 @@ namespace UserInterface.Controllers
 
                     ToolboxViewModelObj.savebtn.Visible = true;
                     ToolboxViewModelObj.savebtn.Text = "Save";
-                    ToolboxViewModelObj.savebtn.Title = "Save Credit Note";
+                    ToolboxViewModelObj.savebtn.Title = "Save Bank";
                     ToolboxViewModelObj.savebtn.Event = "Save();";
 
                     ToolboxViewModelObj.deletebtn.Visible = true;
                     ToolboxViewModelObj.deletebtn.Text = "Delete";
-                    ToolboxViewModelObj.deletebtn.Title = "Delete Credit Note";
+                    ToolboxViewModelObj.deletebtn.Title = "Delete Bank";
                     ToolboxViewModelObj.deletebtn.Event = "Delete()";
 
                     ToolboxViewModelObj.resetbtn.Visible = true;
@@ -218,6 +223,21 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.CloseBtn.Title = "Close";
                     ToolboxViewModelObj.CloseBtn.Event = "closeNav();";
 
+                    ToolboxViewModelObj.resetbtn.Visible = false;
+                    ToolboxViewModelObj.resetbtn.Text = "Reset";
+                    ToolboxViewModelObj.resetbtn.Title = "Reset";
+                    ToolboxViewModelObj.resetbtn.Event = "Reset();";
+
+                    ToolboxViewModelObj.deletebtn.Visible = false;
+                    ToolboxViewModelObj.deletebtn.Text = "Delete";
+                    ToolboxViewModelObj.deletebtn.Title = "Delete Bank";
+                    ToolboxViewModelObj.deletebtn.Event = "Delete()";
+
+                    ToolboxViewModelObj.addbtn.Visible = false;
+                    ToolboxViewModelObj.addbtn.Text = "New";
+                    ToolboxViewModelObj.addbtn.Title = "Add New";
+                    ToolboxViewModelObj.addbtn.Event = "openNav();";
+
                     break;
                 case "AddSub":
 
@@ -235,5 +255,6 @@ namespace UserInterface.Controllers
         }
 
         #endregion
+
     }
 }

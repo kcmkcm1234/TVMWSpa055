@@ -295,7 +295,7 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.GrossAmount, new { htmlAttributes = new { @class = "form-control HeaderBox Roundoff", @id = "txtGrossAmt" } })
+                                    @Html.EditorFor(model => model.GrossAmount, new { htmlAttributes = new { @class = "form-control HeaderBox Amount Roundoff", onkeypress = "return isNumber(event)",@id = "txtGrossAmt" } })
                                     @Html.ValidationMessageFor(model => model.GrossAmount, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-1"></div>
@@ -311,7 +311,7 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Discount, new { htmlAttributes = new { @class = "form-control HeaderBox Roundoff", @id = "txtDiscount" } })
+                                    @Html.EditorFor(model => model.Discount, new { htmlAttributes = new { @class = "form-control HeaderBox Amount Roundoff", onkeypress = "return isNumber(event)", @id = "txtDiscount" } })
                                     @Html.ValidationMessageFor(model => model.Discount, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-1"></div>
@@ -328,7 +328,7 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.NetTaxableAmount, new { htmlAttributes = new { @class = "form-control HeaderBox", @id = "txtNetTaxableAmt", @readonly = "true" } })
+                                    @Html.EditorFor(model => model.NetTaxableAmount, new { htmlAttributes = new { @class = "form-control HeaderBox Amount", onkeypress = "return isNumber(event)", @id = "txtNetTaxableAmt", @readonly = "true" } })
                                     @Html.ValidationMessageFor(model => model.NetTaxableAmount, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-1"></div>
@@ -360,7 +360,7 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.TaxPercApplied, new { htmlAttributes = new { @class = "form-control HeaderBox Roundoff ApplyPer", @id = "txtTaxPercApp" } })
+                                    @Html.EditorFor(model => model.TaxPercApplied, new { htmlAttributes = new { @class = "form-control HeaderBox Roundoff ApplyPer", onkeypress = "return isNumber(event)",@id = "txtTaxPercApp" } })
                                     @Html.ValidationMessageFor(model => model.TaxPercApplied, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-1"></div>
@@ -377,7 +377,7 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.TaxAmount, new { htmlAttributes = new { @class = "form-control HeaderBox", @id = "txtTaxAmt", @readonly = "true" } })
+                                    @Html.EditorFor(model => model.TaxAmount, new { htmlAttributes = new { @class = "form-control HeaderBox Amount", onkeypress = "return isNumber(event)", @id = "txtTaxAmt", @readonly = "true" } })
                                     @Html.ValidationMessageFor(model => model.TaxAmount, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-1"></div>
@@ -393,7 +393,7 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.TotalInvoiceAmount, new { htmlAttributes = new { @class = "form-control HeaderBox", @id = "txtTotalInvAmt", @readonly = "true" } })
+                                    @Html.EditorFor(model => model.TotalInvoiceAmount, new { htmlAttributes = new { @class = "form-control HeaderBox Amount", onkeypress = "return isNumber(event)", @id = "txtTotalInvAmt", @readonly = "true" } })
                                     @Html.ValidationMessageFor(model => model.TotalInvoiceAmount, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-1"></div>

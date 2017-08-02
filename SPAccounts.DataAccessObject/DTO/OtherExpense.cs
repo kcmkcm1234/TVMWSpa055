@@ -26,4 +26,20 @@ namespace SPAccounts.DataAccessObject.DTO
         public Common commonObj { get; set; }
 
     }
+
+    public class OtherExpSummary {
+
+        public List<OtherExpSummaryItem> ItemsList { get; set; }
+        public string Month { get; set; }
+        public decimal Total { get; set; }
+        public String TotalFormatted { get; set; }
+    }
+    public class OtherExpSummaryItem
+    {
+        public string Head { get; set; }
+        public decimal Amount  { get; set; }
+        public string AmountFormatted { get; set; }
+        public string color { get; set; }
+
+    }
 }

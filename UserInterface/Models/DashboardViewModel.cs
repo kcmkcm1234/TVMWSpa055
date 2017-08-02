@@ -1,4 +1,5 @@
-﻿using System;
+﻿ 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -45,7 +46,9 @@ namespace UserInterface.Models
     public class ExpenseSummaryViewModel
     {
         public string CompanyName { get; set; }
-
+        public OtherExpSummaryViewModel OtherExpSummary { get; set; }
+        public int month { get; set; }
+        public int year { get; set; }
     }
 
     public class OutstandingSummaryViewModel

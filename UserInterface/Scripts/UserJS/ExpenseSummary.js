@@ -2,7 +2,13 @@ $(function () {
 
   'use strict';
 
-   
+  var list = ESModel.OtherExpSummary.ItemsList;
+  var jsonData = [];
+  for(i=0;i<list.length;i++)
+  {
+      debugger;
+      jsonData.push({ value: list[i].Amount, color: list[i].color, highlight: list[i].color, label: list[i].Head })
+  }
 
   // -------------
   // - PIE CHART -
@@ -10,44 +16,45 @@ $(function () {
   // Get context with jQuery - using jQuery's .get() method.
   var pieChartCanvas = $('#pieChartM').get(0).getContext('2d');
   var pieChart       = new Chart(pieChartCanvas);
-  var PieData        = [
-    {
-      value    : 70000,
-      color    : '#f56954',
-      highlight: '#f56954',
-      label    : 'Salary'
-    },
-    {
-      value    : 25000,
-      color    : '#00a65a',
-      highlight: '#00a65a',
-      label    : 'Salary Advance'
-    },
-    {
-      value    : 15000,
-      color    : '#f39c12',
-      highlight: '#f39c12',
-      label: 'Fuel'
-    },
-    {
-      value    : 12000,
-      color    : '#00c0ef',
-      highlight: '#00c0ef',
-      label: 'Vehicle Rent'
-    },
-    {
-      value    : 20000,
-      color    : '#3c8dbc',
-      highlight: '#3c8dbc',
-      label: 'Office Expense'
-    },
-    {
-      value    : 2500,
-      color    : '#d2d6de',
-      highlight: '#d2d6de',
-      label: 'Misc'
-    }
-  ];
+  //var PieData        = [
+  //  {
+  //    value    : 70000,
+  //    color    : '#f56954',
+  //    highlight: '#f56954',
+  //    label    : 'Salary'
+  //  },
+  //  {
+  //    value    : 25000,
+  //    color    : '#00a65a',
+  //    highlight: '#00a65a',
+  //    label    : 'Salary Advance'
+  //  },
+  //  {
+  //    value    : 15000,
+  //    color    : '#f39c12',
+  //    highlight: '#f39c12',
+  //    label: 'Fuel'
+  //  },
+  //  {
+  //    value    : 12000,
+  //    color    : '#00c0ef',
+  //    highlight: '#00c0ef',
+  //    label: 'Vehicle Rent'
+  //  },
+  //  {
+  //    value    : 20000,
+  //    color    : '#3c8dbc',
+  //    highlight: '#3c8dbc',
+  //    label: 'Office Expense'
+  //  },
+  //  {
+  //    value    : 2500,
+  //    color    : '#d2d6de',
+  //    highlight: '#d2d6de',
+  //    label: 'Misc'
+  //  }
+  //];
+  
   var pieOptions     = {
     // Boolean - Whether we should show a stroke on each segment
     segmentShowStroke    : true,
@@ -76,7 +83,7 @@ $(function () {
   };
   // Create pie or douhnut chart
   // You can switch between pie and douhnut using the method below.
-  pieChart.Doughnut(PieData, pieOptions);
+  pieChart.Doughnut(jsonData, pieOptions);
   // -----------------
   // - END PIE CHART -
   // -----------------

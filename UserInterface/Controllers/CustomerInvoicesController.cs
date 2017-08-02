@@ -34,7 +34,9 @@ namespace UserInterface.Controllers
         }
         #endregion Constructor_Injection
 
+        #region Index
         // GET: Invoices
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoices", Mode = "R")]
         public ActionResult Index()
         {
             List<SelectListItem> selectListItem = new List<SelectListItem>();
@@ -102,7 +104,10 @@ namespace UserInterface.Controllers
             CI.TaxTypeObj.TaxTypesList = selectListItem;
             return View(CI);
         }
+        #endregion Index
 
+        #region GetCustomerInvoiceDetails
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoices", Mode = "R")]
         [HttpGet]
         public string GetCustomerInvoiceDetails(string ID)
         {
@@ -124,7 +129,10 @@ namespace UserInterface.Controllers
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
             }
         }
+        #endregion GetCustomerInvoiceDetails
+
         #region GetAllInvoices
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoices", Mode = "R")]
         [HttpGet]    
         public string GetInvoicesAndSummary()
         {
@@ -144,6 +152,9 @@ namespace UserInterface.Controllers
             }
         }
         #endregion  GetAllInvoices
+        
+        #region GetCustomerDetails
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoices", Mode = "R")]
         [HttpGet]
         public string GetCustomerDetails(string ID)
         {
@@ -158,6 +169,10 @@ namespace UserInterface.Controllers
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
             }
         }
+        #endregion GetCustomerDetails
+
+        #region GetDueDate
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoices", Mode = "R")]
         [HttpGet]
         public string GetDueDate(string Code)
         {
@@ -175,6 +190,10 @@ namespace UserInterface.Controllers
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
             }
         }
+        #endregion GetDueDate
+
+        #region GetTaxRate
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoices", Mode = "R")]
         [HttpGet]
         public string GetTaxRate(string Code)
         {
@@ -190,19 +209,22 @@ namespace UserInterface.Controllers
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
             }
         }
+        #endregion GetTaxRate
+        
+        #region InsertUpdateInvoice
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoices", Mode = "W")]
         [HttpPost]
         public string InsertUpdateInvoice(CustomerInvoicesViewModel _customerInvoicesObj)
         {
             try
             {
-                AppUA ua = new AppUA();
-                ua.UserName = "Thomson";
+                AppUA _appUA = Session["AppUA"] as AppUA;
                 _customerInvoicesObj.commonObj = new CommonViewModel();
-                _customerInvoicesObj.commonObj.CreatedBy = ua.UserName;
+                _customerInvoicesObj.commonObj.CreatedBy = _appUA.UserName;
                 _customerInvoicesObj.commonObj.CreatedDate = DateTime.Now;
-                _customerInvoicesObj.commonObj.UpdatedBy= ua.UserName;
+                _customerInvoicesObj.commonObj.UpdatedBy= _appUA.UserName;
                 _customerInvoicesObj.commonObj.UpdatedDate= DateTime.Now;
-                CustomerInvoicesViewModel CIVM = Mapper.Map<CustomerInvoice, CustomerInvoicesViewModel>(_customerInvoicesBusiness.InsertUpdateInvoice(Mapper.Map<CustomerInvoicesViewModel, CustomerInvoice>(_customerInvoicesObj), ua));
+                CustomerInvoicesViewModel CIVM = Mapper.Map<CustomerInvoice, CustomerInvoicesViewModel>(_customerInvoicesBusiness.InsertUpdateInvoice(Mapper.Map<CustomerInvoicesViewModel, CustomerInvoice>(_customerInvoicesObj), _appUA));
                 if (_customerInvoicesObj.ID != null && _customerInvoicesObj.ID != Guid.Empty)
                 {
                     return JsonConvert.SerializeObject(new { Result = "OK", Message = c.UpdateSuccess, Records = CIVM });
@@ -219,10 +241,10 @@ namespace UserInterface.Controllers
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
             }
         }
+        #endregion InsertUpdateInvoice
 
         #region DeleteInvoices
-
-        [AuthSecurityFilter(ProjectObject = "CustomerPayments", Mode = "W")]
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoices", Mode = "D")]
         [HttpPost]
         public string DeleteInvoices(CustomerInvoicesViewModel _customerinvObj)
         {
@@ -242,6 +264,7 @@ namespace UserInterface.Controllers
         #endregion DeleteInvoices
 
         #region GetCustomerAdvancesByID
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoices", Mode = "D")]
         [HttpGet]
         public string GetCustomerAdvances(string ID)
         {

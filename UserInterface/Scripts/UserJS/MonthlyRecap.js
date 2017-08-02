@@ -1,7 +1,7 @@
 $(function () {
 
      
-    debugger;
+    
     var list = MRmodel.MonthlyRecapItemList;
     var labelList = [];
     var IncomeList = [];
@@ -40,7 +40,7 @@ function createSalesChart(labelList,IncomeList,ExpenseList) {
         datasets: [
           {
               label: 'Income',
-              fillColor: 'rgba(210, 214, 222,0.5)',
+              fillColor: 'rgba(10, 156, 43, 0.5)',
               strokeColor: 'rgb(210, 214, 222)',
               pointColor: 'rgb(210, 214, 222)',
               pointStrokeColor: '#c1c7d1',

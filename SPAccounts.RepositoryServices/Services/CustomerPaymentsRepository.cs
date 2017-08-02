@@ -309,7 +309,7 @@ namespace SPAccounts.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[Accounts].[InsertPaymentAdjustments]";
+                        cmd.CommandText = "[Accounts].[AdvanceAdjustment]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = _custPayObj.customerObj.ID;
                         cmd.Parameters.Add("@DetailXml", SqlDbType.NVarChar, -1).Value = _custPayObj.DetailXml;
@@ -343,6 +343,43 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return _custPayObj;
 
+        }
+
+        public CustomerPayments GetOutstandingAmountByCustomer(string CustomerID)
+        {
+            CustomerPayments CustPaymentsObj = new CustomerPayments();
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = Guid.Parse(CustomerID);
+                        cmd.CommandText = "[Accounts].[GetOutstandingAmountByCustomer]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                while (sdr.Read())
+                                {
+                                    CustPaymentsObj.OutstandingAmount = (sdr["OutstandingAmount"].ToString() != "" ?sdr["OutstandingAmount"].ToString() : CustPaymentsObj.OutstandingAmount);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return CustPaymentsObj;
         }
     }
 }

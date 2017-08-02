@@ -20,12 +20,13 @@ namespace UserInterface.Controllers
 
         AppConst c = new AppConst();
         IDashboardBusiness _dashboardBusiness;
-        
+        IOtherExpenseBusiness _otherExpenseBusiness;
 
-        public DashboardController(IDashboardBusiness dashboardBusiness)
+        public DashboardController(IDashboardBusiness dashboardBusiness, IOtherExpenseBusiness otherExpenseBusiness)
         {
             _dashboardBusiness = dashboardBusiness;
-            
+            _otherExpenseBusiness = otherExpenseBusiness;
+
         }
         #endregion Constructor_Injection 
 
@@ -55,10 +56,16 @@ namespace UserInterface.Controllers
         }
 
         [AuthSecurityFilter(ProjectObject = "AdminDashboard", Mode = "R")]
-        public ActionResult ExpenseSummary(string Company)
+        public ActionResult ExpenseSummary(ExpenseSummaryViewModel d)
         {
+            if (d.month == 0) {
+                d.month = DateTime.Today.Month;
+                d.year = DateTime.Today.Year;
+                d.CompanyName = "ALL";
+            }
             ExpenseSummaryViewModel data = new ExpenseSummaryViewModel();
-            data.CompanyName = Company;
+            data.OtherExpSummary= Mapper.Map<OtherExpSummary, OtherExpSummaryViewModel>(_otherExpenseBusiness.GetOtherExpSummary(d.month,d.year,d.CompanyName));
+            data.CompanyName = d.CompanyName;
             return PartialView("_ExpenseSummary", data);
         }
 

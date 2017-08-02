@@ -21,5 +21,6 @@ namespace SPAccounts.BusinessService.Contracts
         OtherExpense InsertOtherExpense(OtherExpense otherExpense);
         OtherExpense UpdateOtherExpense(OtherExpense otherExpense);
         object DeleteOtherExpense(Guid ID, string UserName);
+        OtherExpSummary GetOtherExpSummary(int month, int year, string Company);
     }
 }
