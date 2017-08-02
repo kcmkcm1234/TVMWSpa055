@@ -5,7 +5,7 @@ using System.Web;
 
 namespace UserInterface.Models
 {
-    public class ChartOfAccountsViewModel
+    public class DashBoardViewModel
     {
         public string Code { get; set; }
         public string Type { get; set; }

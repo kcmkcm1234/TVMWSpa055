@@ -45,7 +45,7 @@ namespace UserInterface.Models
         [Required(ErrorMessage = "Account Type required")]
         [Display(Name = "Account")]
         public string AccountCode { get; set; }
-        public ChartOfAccountsViewModel chartOfAccounts { get; set; }
+        public DashBoardViewModel chartOfAccounts { get; set; }
         public List<SelectListItem> AccountTypes { get; set; }
 
        

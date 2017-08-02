@@ -90,4 +90,11 @@ namespace UserInterface.Models
         public string URL { get; set; }
 
     }
+
+    public class SalesSummaryViewModel
+    {
+        public string Period { get; set; }
+        public string Amount { get; set; }
+        public string duration { get; set; }
+    }
 }
