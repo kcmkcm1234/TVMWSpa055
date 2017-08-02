@@ -88,13 +88,16 @@ namespace UserInterface.Models
     public class TopCustomersViewModel
     {
         public string CompanyName { get; set; }
-       
+        public TopDocsVewModel Docs { get; set; }
+        public string BaseURL { get; set; }
     }
 
     public class TopSuppliersViewModel
     {
         public string CompanyName { get; set; }
-        
+        public TopDocsVewModel Docs { get; set; }
+        public string BaseURL { get; set; }
+
     }
 
 
