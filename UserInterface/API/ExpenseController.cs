@@ -17,12 +17,12 @@ namespace UserInterface.API
     {
         #region Constructor_Injection
 
-        IChartOfAccountsBusiness _chartofaccountsBusiness;
+        IOtherExpenseBusiness _otherExpenseBusiness;
 
 
-        public ExpenseController(IChartOfAccountsBusiness chartofaccountsBusiness)
+        public ExpenseController(IOtherExpenseBusiness otherExpenseBusiness)
         {
-            _chartofaccountsBusiness = chartofaccountsBusiness;
+            _otherExpenseBusiness = otherExpenseBusiness ;
 
         }
         #endregion Constructor_Injection
@@ -31,11 +31,11 @@ namespace UserInterface.API
 
         #region GetExpenseDetailsByValue
         [HttpPost]
-        public string GetExpenseDetailsForMobile(ChartOfAccounts account)
+        public string GetExpenseDetailsForMobile(OtherExpense expObj)
         {
             try
             {
-                List<DashBoardViewModel> expenseObj = Mapper.Map<List<ChartOfAccounts>, List<DashBoardViewModel>>(_chartofaccountsBusiness.GetExpenseTypeDetails(account));
+                List<OtherExpenseViewModel> expenseObj = Mapper.Map<List<OtherExpense>, List<OtherExpenseViewModel>>(_otherExpenseBusiness.GetExpenseTypeDetails(expObj));
                  
                 return JsonConvert.SerializeObject(new { Result = true, Records = expenseObj });
             }
