@@ -13,12 +13,12 @@ namespace UserInterface.Models
         [Display(Name = "Code")]
         [Required(ErrorMessage = "Please Enter Code")]
         [MaxLength(10)]
-        [RegularExpression(@"^[a-zA-Z0-9_]*$", ErrorMessage = "Entered Code is not valid.")]
+        //[RegularExpression(@"^[a-zA-Z0-9_]*$", ErrorMessage = "Entered Code is not valid.")]
         public string Code { get; set; }
         [Display(Name = "Name")]
         [Required(ErrorMessage = "Please Enter Name")]
         [MaxLength(100)]
-        [RegularExpression(@"^[a-zA-Z0-9_]*$", ErrorMessage = "Entered Name is not valid.")]
+        //[RegularExpression(@"^[a-zA-Z0-9_]*$", ErrorMessage = "Entered Name is not valid.")]
         public string Name { get; set; }
         [Display(Name = "Mobile No.")]
         [MaxLength(50)]

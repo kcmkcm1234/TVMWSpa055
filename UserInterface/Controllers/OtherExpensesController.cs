@@ -33,8 +33,8 @@ namespace UserInterface.Controllers
                 otherExpenseViewModelObj = new OtherExpenseViewModel();
                
                 List<SelectListItem> selectListItem = new List<SelectListItem>();
-                List<DashBoardViewModel> chartOfAccountList = Mapper.Map<List<ChartOfAccounts>, List<DashBoardViewModel>>(_otherExpenseBusiness.GetAllAccountTypes("OE"));
-                foreach (DashBoardViewModel cav in chartOfAccountList)
+                List<ChartOfAccountsViewModel> chartOfAccountList = Mapper.Map<List<ChartOfAccounts>, List<ChartOfAccountsViewModel>>(_otherExpenseBusiness.GetAllAccountTypes("OE"));
+                foreach (ChartOfAccountsViewModel cav in chartOfAccountList)
                 {
                     selectListItem.Add(new SelectListItem
                     {
@@ -189,7 +189,7 @@ namespace UserInterface.Controllers
                 OtherExpenseViewModel otherExpenseViewModel = Mapper.Map<OtherExpense, OtherExpenseViewModel>(_otherExpenseBusiness.GetExpenseDetailsByID(Guid.Parse(ID)));
                 if(otherExpenseViewModel!=null)
                 {
-                    otherExpenseViewModel.AccountCode = otherExpenseViewModel.AccountCode + ":" + otherExpenseViewModel.chartOfAccounts.ISEmploy;
+                    otherExpenseViewModel.AccountCode = otherExpenseViewModel.AccountCode + ":" + otherExpenseViewModel.chartOfAccountsObj.ISEmploy;
                 }
                
                 return JsonConvert.SerializeObject(new { Result = "OK", Record = otherExpenseViewModel});

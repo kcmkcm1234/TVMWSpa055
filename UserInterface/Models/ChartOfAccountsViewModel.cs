@@ -5,8 +5,10 @@ using System.Web;
 
 namespace UserInterface.Models
 {
-    public class DashBoardViewModel
+
+    public class ChartOfAccountsViewModel
     {
+        
         public string Code { get; set; }
         public string Type { get; set; }
         public string TypeDesc { get; set; }
@@ -15,6 +17,9 @@ namespace UserInterface.Models
         public DateTime OpeningAsOfDate { get; set; }
         public bool ISEmploy { get; set; }
         public decimal Amount { get; set; }
-        public string account { get; set; }
+        //public string account { get; set; }
+        public string startdate { get; set; }
+        public string enddate { get; set; }
+        public int days { get; set; }
     }
 }
