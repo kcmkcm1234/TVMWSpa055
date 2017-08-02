@@ -33,8 +33,8 @@ namespace UserInterface.Controllers
                 otherExpenseViewModelObj = new OtherExpenseViewModel();
                
                 List<SelectListItem> selectListItem = new List<SelectListItem>();
-                List<DashBoardViewModel> chartOfAccountList = Mapper.Map<List<ChartOfAccounts>, List<DashBoardViewModel>>(_otherExpenseBusiness.GetAllAccountTypes("OE"));
-                foreach (DashBoardViewModel cav in chartOfAccountList)
+                List<ChartOfAccountsViewModel> chartOfAccountList = Mapper.Map<List<ChartOfAccounts>, List<ChartOfAccountsViewModel>>(_otherExpenseBusiness.GetAllAccountTypes("OE"));
+                foreach (ChartOfAccountsViewModel cav in chartOfAccountList)
                 {
                     selectListItem.Add(new SelectListItem
                     {
