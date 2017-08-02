@@ -60,4 +60,21 @@ namespace UserInterface.Models
         public List<SelectListItem> EmployeeTypeList { get; set; }
         public CommonViewModel commonObj { get; set; }
     }
+
+
+    public class OtherExpSummaryViewModel
+    {
+
+        public List<OtherExpSummaryItemViewModel> ItemsList { get; set; }
+        public string Month { get; set; }
+        public decimal Total { get; set; }
+        public String TotalFormatted { get; set; }
+    }
+    public class OtherExpSummaryItemViewModel
+    {
+        public string Head { get; set; }
+        public decimal Amount { get; set; }
+        public string AmountFormatted { get; set; }
+        public string color { get; set; }
+    }
 }

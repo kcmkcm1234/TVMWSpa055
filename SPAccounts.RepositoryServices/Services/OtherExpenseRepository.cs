@@ -276,5 +276,65 @@ namespace SPAccounts.RepositoryServices.Services
             return otherExpense;
         }
         #endregion UpdateOtherExpense
+
+
+
+
+        #region summary
+        public OtherExpSummary GetOtherExpSummary(int month,int year,string Company)
+        {
+            OtherExpSummary OES = new OtherExpSummary();
+            OES.ItemsList = new List<OtherExpSummaryItem>();
+            OtherExpSummaryItem OEI = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetOtherExpensesSummary]";
+                        cmd.Parameters.Add("@Month", SqlDbType.Int).Value = month;
+                        cmd.Parameters.Add("@Year", SqlDbType.Int).Value = year;
+                        cmd.Parameters.Add("@Company", SqlDbType.NVarChar, 10).Value = Company;
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                while (sdr.Read())
+                                {
+                                    OEI = new OtherExpSummaryItem();
+                                    OEI.Head = (sdr["AccountTypeDescription"].ToString() != "" ? (sdr["AccountTypeDescription"].ToString()) : OEI.Head);
+                                    OEI.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : OEI.Amount);
+                                    OEI.color = "red";
+
+                                    OES.ItemsList.Add(OEI);
+
+
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return OES;
+        }
+
+
+        #endregion summary
     }
 }

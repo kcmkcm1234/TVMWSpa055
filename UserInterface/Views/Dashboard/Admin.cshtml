@@ -28,7 +28,7 @@
   
 <div class="col-md-12">
     @{
-        var data1 = new { Company = "All" };
+        var data1 = new {month=0,year=0, CompanyName = "All" };
         @Html.Action("ExpenseSummary", "Dashboard", data1);
     }
     @{

@@ -4,7 +4,7 @@ var sum = 0;
 var index = 0;
 var AmountReceived=0;
 
-$(document).ready(function () { 
+$(document).ready(function () {
 try{
     DataTables.CustomerPaymentTable = $('#CustPayTable').DataTable(
     {
@@ -43,9 +43,14 @@ try{
 }
     catch (e) {
         notyAlert('error', e.message);
-}
+    }
 
- try{
+$('#CustPayTable tbody').on('dblclick', 'td', function () {
+    Edit(this)
+});
+List();
+
+try {
     DataTables.OutStandingInvoices = $('#tblOutStandingDetails').DataTable({
         dom: '<"pull-left"f>rt<"bottom"ip><"clear">',
         order: [],
@@ -138,6 +143,66 @@ function paymentAmountFocus(event)
 {
     event.select();
 }
+//-------------------------------------------------------------------------------------
+function List() {
+    var result = GetAllInvoicesAndSummary();
+    if (result != null) {
+        if (result.CustomerInvoiceSummary != null) {
+            Summary(result.CustomerInvoiceSummary);
+        }
+    }
+}
+function Summary(Records) {
+    $('#overdueamt').html(Records.OverdueAmountFormatted);
+    $('#overdueinvoice').html(Records.OverdueInvoices);
+    $('#openamt').html(Records.OpenAmountFormatted);
+    $('#openinvoice').html(Records.OpenInvoices);
+    $('#paidamt').html(Records.PaidAmountFormatted);
+    $('#paidinvoice').html(Records.PaidInvoices);
+}
+
+//---------------Bind logics-------------------
+function GetAllInvoicesAndSummary() {
+    try {
+        var data = {};
+        var ds = {};
+        ds = GetDataFromServer("CustomerInvoices/GetInvoicesAndSummary/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            alert(ds.Message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
+//------------------------------[GetOutstandingAmountByCustomer]-------------------------
+function GetOutstandingAmountByCustomer(CustomerID) {
+    try {
+        var data = { "CustomerID": CustomerID };
+        var ds = {};
+        ds = GetDataFromServer("CustomerPayments/GetOutstandingAmountByCustomer/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            alert(ds.Message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+//--------------------------------------------------------------------------------------
 
 
 function GetAllCustomerPayments() {
@@ -172,10 +237,9 @@ function Edit(currentObj)
 }
 
 function GetCustomerPaymentsByID(ID) {
-    $('#lblheader').text('Edit Payment');
     ChangeButtonPatchView('CustomerPayments', 'btnPatchAdd', 'Edit');
     var thisitem = GetCustomerPayments(ID)
-    debugger;
+    $('#lblheader').text('Entry No: ' + thisitem.EntryNo);
     $('#ID').val(ID);
     $('#deleteId').val(ID); 
     $('#Customer').val(thisitem.customerObj.ID);
@@ -194,6 +258,7 @@ function GetCustomerPaymentsByID(ID) {
     $('#Type').val(thisitem.Type);
     $('#hdfType').val(thisitem.Type);
     $('#Type').prop('disabled', true);
+    BindOutstandingAmount();
     debugger;
     if ( $('#Type').val() == 'C') {
         $("#CreditID").html("");
@@ -204,6 +269,10 @@ function GetCustomerPaymentsByID(ID) {
         $('#hdfCreditID').val(thisitem.CreditID);
         $('#PaymentMode').prop('disabled', true);
         $("#ddlCreditDiv").css("visibility", "visible");
+        $("#lblTotalRecdAmtCptn").text('Credit Amount');
+        $("#lblPaymentAppliedCptn").text('Total Credit Used');
+        $("#lblCreditCptn").text('Credit Remaining');
+        $("#lblTotalAmtRecdCptn").text('Credit Amount')
     }
     else {
         $("#CreditID").html(""); // clear before appending new list 
@@ -247,6 +316,7 @@ function TypeOnChange() {
         $('#BankCode').val('');
         $('#PaymentMode').prop('disabled', true);
         $('#BankCode').prop('disabled', true);
+        $('#CreditID').prop('disabled', false);
         $("#lblTotalRecdAmtCptn").text('Credit Amount');
         $("#lblPaymentAppliedCptn").text('Total Credit Used');
         $("#lblCreditCptn").text('Credit Remaining');
@@ -385,6 +455,7 @@ function DeleteSuccess(data, status) {
             openNavClick()
             BindCustomerPaymentsHeader()
             notyAlert('success', JsonResult.Message);
+            List();
             break;
         case "Error":
             notyAlert('error', JsonResult.Message);
@@ -406,6 +477,7 @@ function SaveSuccess(data, status) {
             GetCustomerPaymentsByID(JsonResult.Records.ID)
             BindCustomerPaymentsHeader()
             notyAlert('success', JsonResult.Message);
+            List();
             break;
         case "ERROR":
             notyAlert('error', JsonResult.Message);
@@ -422,6 +494,7 @@ function fieldsclear() {
     $('#lblPaymentApplied').text('0');
     $('#lblCredit').text('0');
     $('#paidAmt').text('₹ 0.00');
+    $('#invoicedAmt').text('₹ 0.00');
     $('#ID').val(emptyGUID);
     $("#CreditID").html("");
     $('#Type').val('P');
@@ -429,11 +502,17 @@ function fieldsclear() {
 }
 function CustomerChange() {
     debugger;
-    if ($('#Customer').val() != "")
-        BindCreditDropDown();
+    if ($('#Customer').val() != "") {
+        BindCreditDropDown(); 
+        BindOutstandingAmount();
+    }
     BindOutstanding();
 }
 
+function BindOutstandingAmount() {
+    var thisitem = GetOutstandingAmountByCustomer($('#Customer').val()) 
+    $('#invoicedAmt').text(thisitem.OutstandingAmount == null ? "₹ 0.00" : thisitem.OutstandingAmount);
+}
 function BindOutstanding() {
     index = 0; 
     DataTables.OutStandingInvoices.clear().rows.add(GetOutStandingInvoices()).draw(false); 
@@ -448,7 +527,6 @@ function PaymentModeChanged() {
     if ($('#PaymentMode').val()=="ONLINE"){
         $('#BankCode').prop('disabled', false);
     }
-       
     else {
         $("#BankCode").val('');
         $('#BankCode').prop('disabled', true);
