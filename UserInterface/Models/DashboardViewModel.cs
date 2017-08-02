@@ -82,19 +82,30 @@ namespace UserInterface.Models
     public class OutstandingSummaryViewModel
     {
         public string CompanyName { get; set; }
-      
+        public decimal OutstandingInv { get; set; }
+        public decimal OuttandingPay { get; set; }
+
+        public int invCount { get; set; }
+        public int payCount { get; set; }
+
+        public string OutstandingInvFormatted { get; set; }
+        public string OuttandingPayFormatted { get; set; }
+
     }
 
     public class TopCustomersViewModel
     {
         public string CompanyName { get; set; }
-       
+        public TopDocsVewModel Docs { get; set; }
+        public string BaseURL { get; set; }
     }
 
     public class TopSuppliersViewModel
     {
         public string CompanyName { get; set; }
-        
+        public TopDocsVewModel Docs { get; set; }
+        public string BaseURL { get; set; }
+
     }
 
 
@@ -126,4 +137,6 @@ namespace UserInterface.Models
         public string Amount { get; set; }
         public string duration { get; set; }
     }
-}
+
+
+ 

@@ -7,7 +7,7 @@ using System.Web;
 
 namespace SPAccounts.BusinessService.Services
 {
-    public class SupplierPaymentsBusiness
+    public class SupplierPaymentsBusiness: ISupplierPaymentsBusiness
     {
         private ISupplierPaymentsRepository _supplierPaymentsRepository;
         private ICommonBusiness _commonBusiness;

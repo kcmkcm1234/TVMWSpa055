@@ -189,7 +189,7 @@ namespace UserInterface.Controllers
                 OtherExpenseViewModel otherExpenseViewModel = Mapper.Map<OtherExpense, OtherExpenseViewModel>(_otherExpenseBusiness.GetExpenseDetailsByID(Guid.Parse(ID)));
                 if(otherExpenseViewModel!=null)
                 {
-                    otherExpenseViewModel.AccountCode = otherExpenseViewModel.AccountCode + ":" + otherExpenseViewModel.chartOfAccounts.ISEmploy;
+                    otherExpenseViewModel.AccountCode = otherExpenseViewModel.AccountCode + ":" + otherExpenseViewModel.chartOfAccountsObj.ISEmploy;
                 }
                
                 return JsonConvert.SerializeObject(new { Result = "OK", Record = otherExpenseViewModel});
