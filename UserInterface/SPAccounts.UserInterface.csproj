@@ -1496,6 +1496,7 @@
     <Content Include="Scripts\UserJS\Roles.js" />
     <Content Include="Scripts\UserJS\SupplierCreditNotes.js" />
     <Content Include="Scripts\UserJS\SupplierInvoices.js" />
+    <Content Include="Scripts\UserJS\SupplierPayments.js" />
     <Content Include="Scripts\UserJS\TaxTypes.js" />
     <Content Include="Scripts\UserJS\TopCustomers.js" />
     <Content Include="Scripts\UserJS\TopSuppliers.js" />
@@ -1545,6 +1546,7 @@
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\SupplierCreditNoteController.cs" />
     <Compile Include="Controllers\SupplierInvoicesController.cs" />
+    <Compile Include="Controllers\SupplierPaymentsController.cs" />
     <Compile Include="Controllers\TaxTypeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\SuppliersController.cs" />
@@ -1577,6 +1579,7 @@
     <Compile Include="Models\RolesViewModel.cs" />
     <Compile Include="Models\SupplierCreditNoteViewModel.cs" />
     <Compile Include="Models\SupplierInvoicesViewModel.cs" />
+    <Compile Include="Models\SupplierPaymentsViewModel.cs" />
     <Compile Include="Models\SuppliersViewModel.cs" />
     <Compile Include="Models\TaxTypesViewModel.cs" />
     <Compile Include="Models\ToolboxViewModel.cs" />
@@ -1630,6 +1633,7 @@
     <Content Include="Views\Dashboard\_TopCustomers.cshtml" />
     <Content Include="Views\Dashboard\_RecentDocs.cshtml" />
     <Content Include="Views\Employee\Index.cshtml" />
+    <Content Include="Views\SupplierPayments\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

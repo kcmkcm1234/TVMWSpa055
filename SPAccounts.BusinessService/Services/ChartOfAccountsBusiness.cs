@@ -22,9 +22,6 @@ namespace SPAccounts.BusinessService.Services
             return _chartOfAccountsRepository.GetChartOfAccountsByType(type);
         }
 
-        public List<ChartOfAccounts> GetExpenseTypeDetails(ChartOfAccounts account)
-        {
-            return _chartOfAccountsRepository.GetExpenseTypeDetails(account);
-        }
+       
     }
 }

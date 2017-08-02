@@ -14,11 +14,11 @@ namespace UserInterface.Controllers
 {
     public class SupplierCreditNoteController : Controller
     {
-        ISupplierCreditBusines _supplierCreditBusines;
+        ISupplierCreditNotesBusiness _supplierCreditBusines;
         ISupplierBusiness _supplierBusiness;
         ICompaniesBusiness _companiesBusiness;
         AppConst c = new AppConst();
-        public SupplierCreditNoteController(ISupplierCreditBusines supplierCreditBusines,ISupplierBusiness supplierBusiness,ICompaniesBusiness companiesBusiness)
+        public SupplierCreditNoteController(ISupplierCreditNotesBusiness supplierCreditBusines,ISupplierBusiness supplierBusiness,ICompaniesBusiness companiesBusiness)
         {
             _supplierCreditBusines = supplierCreditBusines;
             _supplierBusiness = supplierBusiness;

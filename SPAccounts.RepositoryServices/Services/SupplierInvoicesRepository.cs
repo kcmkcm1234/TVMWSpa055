@@ -11,6 +11,7 @@ namespace SPAccounts.RepositoryServices.Services
 {
     public class SupplierInvoicesRepository: ISupplierInvoicesRepository
     {
+        AppConst Cobj = new AppConst();
         private IDatabaseFactory _databaseFactory;
         /// <summary>
         /// Constructor Injection:-Getting IDatabaseFactory implementing object
@@ -225,8 +226,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@Discount", SqlDbType.Decimal).Value = _supplierInvoicesObj.Discount;
                         cmd.Parameters.Add("@TaxTypeCode", SqlDbType.VarChar, 10).Value = _supplierInvoicesObj.TaxCode != "" ? _supplierInvoicesObj.TaxCode : null;
                         cmd.Parameters.Add("@TaxPreApplied", SqlDbType.Decimal).Value = _supplierInvoicesObj.TaxPercApplied;
-                        cmd.Parameters.Add("@TaxAmount", SqlDbType.Decimal).Value = _supplierInvoicesObj.TaxAmount;
-                        cmd.Parameters.Add("@TotalInvoiceAmount", SqlDbType.Decimal).Value = _supplierInvoicesObj.TotalInvoiceAmount;
+                        cmd.Parameters.Add("@TaxAmount", SqlDbType.Decimal).Value = _supplierInvoicesObj.TaxAmount;                       
                         cmd.Parameters.Add("@GeneralNotes", SqlDbType.NVarChar, -1).Value = _supplierInvoicesObj.Notes;
                         cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = _supplierInvoicesObj.commonObj.CreatedBy;
                         cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = _supplierInvoicesObj.commonObj.CreatedDate;
@@ -291,8 +291,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@Discount", SqlDbType.Decimal).Value = _supplierInvoicesObj.Discount;
                         cmd.Parameters.Add("@TaxTypeCode", SqlDbType.VarChar, 10).Value = _supplierInvoicesObj.TaxCode != "" ? _supplierInvoicesObj.TaxCode : null;
                         cmd.Parameters.Add("@TaxPreApplied", SqlDbType.Decimal).Value = _supplierInvoicesObj.TaxPercApplied;
-                        cmd.Parameters.Add("@TaxAmount", SqlDbType.Decimal).Value = _supplierInvoicesObj.TaxAmount;
-                        cmd.Parameters.Add("@TotalInvoiceAmount", SqlDbType.Decimal).Value = _supplierInvoicesObj.TotalInvoiceAmount;
+                        cmd.Parameters.Add("@TaxAmount", SqlDbType.Decimal).Value = _supplierInvoicesObj.TaxAmount;                       
                         cmd.Parameters.Add("@GeneralNotes", SqlDbType.NVarChar, -1).Value = _supplierInvoicesObj.Notes;
                         cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = _supplierInvoicesObj.commonObj.UpdatedBy;
                         cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = _supplierInvoicesObj.commonObj.UpdatedDate;
@@ -433,5 +432,58 @@ namespace SPAccounts.RepositoryServices.Services
 
             return SupplierInvoicesList;
         }
+
+        #region DeleteSupplierInvoice
+        public object DeleteSupplierInvoice(Guid ID, string userName)
+        {
+            SqlParameter outputStatus = null;
+            try
+            {
+
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[DeleteSupplierInvoice]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = ID;
+                        cmd.Parameters.Add("@DeletedBy", SqlDbType.NVarChar, 250).Value = userName;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+
+
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+
+                        throw new Exception(Cobj.DeleteFailure);
+
+                    default:
+                        break;
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return new
+            {
+                Status = outputStatus.Value.ToString(),
+                Message = Cobj.DeleteSuccess
+            };
+        }
+        #endregion DeleteSupplierInvoice
+
     }
 }

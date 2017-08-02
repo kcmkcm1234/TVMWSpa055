@@ -34,7 +34,7 @@ $(document).ready(function () {
 
         $('#supplierCreditNoteTable tbody').on('dblclick', 'td', function () {
 
-            //Edit(this);
+            Edit(this);
         });
 
 

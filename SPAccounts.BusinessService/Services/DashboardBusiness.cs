@@ -77,5 +77,10 @@ namespace SPAccounts.BusinessService.Services
             return Result;
 
         }
+        public List<SalesSummary> GetSalesSummaryChart(SalesSummary duration)
+        {
+            return _dashboardRepository.GetSalesSummaryChart(duration);
+        }
+
     }
 }

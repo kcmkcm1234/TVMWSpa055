@@ -76,6 +76,8 @@ namespace UserInterface.App_Start
                 config.CreateMap<TopDocsVewModel, TopDocs>().ReverseMap();
                 config.CreateMap<TopDocsItemVewModel, TopDocsItem>().ReverseMap();
 
+             
+                config.CreateMap<SalesSummaryViewModel, SalesSummary>().ReverseMap();
             });
         }
     }

@@ -5,6 +5,7 @@ using System.Web;
 
 namespace UserInterface.Models
 {
+
     public class ChartOfAccountsViewModel
     {
         public string Code { get; set; }

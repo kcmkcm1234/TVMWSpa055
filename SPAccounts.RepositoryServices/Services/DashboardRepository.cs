@@ -136,5 +136,53 @@ namespace SPAccounts.RepositoryServices.Services
 
         }
 
+
+
+        public List<SalesSummary> GetSalesSummaryChart(SalesSummary dueObj)
+        {
+            List<SalesSummary> SalesSummaryList = null;
+            Settings settings = new Settings();
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetSalesSummaryChart]";
+                        cmd.Parameters.Add("@duration", SqlDbType.NVarChar, 20).Value = dueObj.duration;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                SalesSummaryList = new List<SalesSummary>();
+                                while (sdr.Read())
+                                {
+                                    SalesSummary SSList = new SalesSummary();
+                                    {
+                                        SSList.Period = (sdr["Period"].ToString() != "" ? sdr["Period"].ToString() : SSList.Period);
+                                        SSList.Amount = (sdr["Amount"].ToString() != "" ? sdr["Amount"].ToString() : SSList.Amount);
+
+                                    }
+                                    SalesSummaryList.Add(SSList);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return SalesSummaryList;
+        }
     }
 }

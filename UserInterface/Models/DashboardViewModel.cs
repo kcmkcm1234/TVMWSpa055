@@ -8,6 +8,15 @@ namespace UserInterface.Models
 {
     public class DashboardViewModel
     {
+        public string Code { get; set; }
+        public string Type { get; set; }
+        public string TypeDesc { get; set; }
+        public string OpeningPaymentMode { get; set; }
+        public decimal OpeningBalance { get; set; }
+        public DateTime OpeningAsOfDate { get; set; }
+        public bool ISEmploy { get; set; }
+        public decimal Amount { get; set; }
+        public string account { get; set; }
     }
 
     public class AdminDashboardViewModel
@@ -109,5 +118,12 @@ namespace UserInterface.Models
     //    public string DocDate { get; set; }
     //    public string URL { get; set; }
 
-    //}
+    }
+
+    public class SalesSummaryViewModel
+    {
+        public string Period { get; set; }
+        public string Amount { get; set; }
+        public string duration { get; set; }
+    }
 }

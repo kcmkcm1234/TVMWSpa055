@@ -43,7 +43,6 @@ namespace UserInterface.Controllers
 
         #region Index
         // GET: CustomerPayments
-
         [AuthSecurityFilter(ProjectObject = "CustomerPayments", Mode = "R")]
         [HttpGet]
         public ActionResult Index()
@@ -51,12 +50,10 @@ namespace UserInterface.Controllers
             AppUA _appUA = Session["AppUA"] as AppUA;
             ViewBag.Currentdate = _appUA.DateTime.ToString("dd-MMM-yyyy");
 
-
             List<SelectListItem> selectListItem = new List<SelectListItem>();
             CustomerPaymentsViewModel CP = new CustomerPaymentsViewModel();
-
+            //-------------1.CustomerList-------------------//
             CP.customerObj = new CustomerViewModel();
-            
             CP.customerObj.CustomerList = new List<SelectListItem>();
             selectListItem = new List<SelectListItem>();
             List<CustomerViewModel> CustList = Mapper.Map<List<Customer>, List<CustomerViewModel>>(_customerBusiness.GetAllCustomers());
@@ -70,7 +67,7 @@ namespace UserInterface.Controllers
                 });
             }
             CP.customerObj.CustomerList = selectListItem;
-
+            //-------------2.PaymentModes-------------------//
             CP.PaymentModesObj = new PaymentModesViewModel();
             CP.PaymentModesObj.PaymentModesList = new List<SelectListItem>();
             selectListItem = new List<SelectListItem>();
@@ -85,8 +82,7 @@ namespace UserInterface.Controllers
                 });
             }
             CP.PaymentModesObj.PaymentModesList = selectListItem;
-
-
+            //-------------3.BanksList-------------------//
             CP.bankObj = new BankViewModel();
             CP.bankObj.BanksList = new List<SelectListItem>();
             selectListItem = new List<SelectListItem>();
@@ -101,7 +97,7 @@ namespace UserInterface.Controllers
                 });
             }
             CP.bankObj.BanksList = selectListItem;
-
+            //-------------4.CompanyList-------------------//
             CP.CompanyObj = new CompaniesViewModel();
             CP.CompanyObj.CompanyList  = new List<SelectListItem>();
             selectListItem = new List<SelectListItem>();
@@ -121,8 +117,8 @@ namespace UserInterface.Controllers
         #endregion Index
 
         #region GetAllCustomerPayments
-        [HttpGet]
-       
+        [AuthSecurityFilter(ProjectObject = "CustomerPayments", Mode = "R")]
+        [HttpGet]       
         public string GetAllCustomerPayments(string FromDate, string ToDate)
         { 
             List<CustomerPaymentsViewModel> CustPayList = Mapper.Map<List<CustomerPayments>, List<CustomerPaymentsViewModel>>(_CustPaymentBusiness.GetAllCustomerPayments());
@@ -131,7 +127,7 @@ namespace UserInterface.Controllers
         #endregion GetAllCustomerPayments
 
         #region GetAllCustomerPaymentsByID
-
+        [AuthSecurityFilter(ProjectObject = "CustomerPayments", Mode = "R")]
         [HttpGet]
         public string GetCustomerPaymentsByID(string ID)
         {
@@ -142,7 +138,7 @@ namespace UserInterface.Controllers
         #endregion GetAllCustomerPaymentsByID
 
         #region  GetOutStandingInvoices
-
+        [AuthSecurityFilter(ProjectObject = "CustomerPayments", Mode = "R")]
         [HttpGet]
         public string GetOutStandingInvoices(string PaymentID,string CustID)
         {
@@ -192,9 +188,8 @@ namespace UserInterface.Controllers
 
         #endregion InsertUpdatePayments
       
-        #region DeletePayments
-
-        [AuthSecurityFilter(ProjectObject = "CustomerPayments", Mode = "W")]
+        #region DeletePayments 
+        [AuthSecurityFilter(ProjectObject = "CustomerPayments", Mode = "D")]
         [HttpPost]
         public string DeletePayments(CustomerPaymentsViewModel _customerpayObj)
         {
@@ -214,7 +209,6 @@ namespace UserInterface.Controllers
         #endregion DeletePayments
         
         #region InsertPaymentAdjustment
-
         [AuthSecurityFilter(ProjectObject = "CustomerPayments", Mode = "W")]
         [HttpPost]
         public string InsertPaymentAdjustment(CustomerPaymentsViewModel _custpayObj)
@@ -234,23 +228,21 @@ namespace UserInterface.Controllers
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
             }
         }
-
         #endregion InsertUpdatePayments
 
         #region GetCreditNoteByCustomer
-
+        [AuthSecurityFilter(ProjectObject = "CustomerPayments", Mode = "R")]
         [HttpGet]
         public string GetCreditNoteByCustomer(string ID)
         {
             List<CustomerCreditNoteViewModel> CreditList = Mapper.Map<List<CustomerCreditNotes>, List<CustomerCreditNoteViewModel>>(_customerCreditNotesBusiness.GetCreditNoteByCustomer(Guid.Parse(ID)));
 
             return JsonConvert.SerializeObject(new { Result = "OK", Records = CreditList });
-
         }
         #endregion GetCreditNoteByCustomer
 
         #region GetCreditNoteByCustomer
-
+        [AuthSecurityFilter(ProjectObject = "CustomerPayments", Mode = "R")]
         [HttpGet]
         public string GetCreditNoteAmount(string CreditID,string CustomerID)
         {
@@ -264,14 +256,12 @@ namespace UserInterface.Controllers
 
 
         #region GetOutstandingAmountByCustomer
-
+        [AuthSecurityFilter(ProjectObject = "CustomerPayments", Mode = "R")]
         [HttpGet]
         public string GetOutstandingAmountByCustomer(string CreditID, string CustomerID)
         {
             CustomerPaymentsViewModel Cus_pay = Mapper.Map<CustomerPayments, CustomerPaymentsViewModel>(_CustPaymentBusiness.GetOutstandingAmountByCustomer(CustomerID));
-
             return JsonConvert.SerializeObject(new { Result = "OK", Records = Cus_pay });
-
         }
         #endregion GetOutstandingAmountByCustomer
 
