@@ -76,6 +76,68 @@ namespace SPAccounts.RepositoryServices.Services
         }
 
 
+        public TopDocs GetTopDocs(string DocType,string Company) {
+            Settings settings = new Settings();
+            TopDocs Docs = new TopDocs();
+            Docs.DocItems = new List<TopDocsItem>();
+            TopDocsItem TDI = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetTopDocs]";
+                        cmd.Parameters.Add("@DocType", SqlDbType.NVarChar, 10).Value = DocType;
+                        cmd.Parameters.Add("@Company", SqlDbType.NVarChar, 10).Value = Company;
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                while (sdr.Read())
+                                {
+                                    TDI = new TopDocsItem();
+                                    TDI.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : TDI.ID);
+                                    TDI.DocNo = (sdr["DocNo"].ToString() != "" ? (sdr["DocNo"].ToString()) : TDI.DocNo);
+                                    TDI.Customer = (sdr["Customer"].ToString() != "" ? (sdr["Customer"].ToString()) : TDI.Customer);
+                                    TDI.Value = (sdr["Value"].ToString() != "" ? decimal.Parse(sdr["Value"].ToString()) : TDI.Value);
+                                    TDI.CreatedBy = (sdr["CreatedBy"].ToString() != "" ? (sdr["CreatedBy"].ToString()) : TDI.CreatedBy);
+                                    TDI.CreatedDate = (sdr["CreatedDate"].ToString() != "" ? DateTime.Parse(sdr["CreatedDate"].ToString()) : TDI.CreatedDate);
+                                    TDI.CreatedDateFormatted = (sdr["CreatedDate"].ToString() != "" ? DateTime.Parse(sdr["CreatedDate"].ToString()).ToString(settings.dateformat) : TDI.CreatedDateFormatted);
+
+
+                                    Docs.DocItems.Add(TDI);
+
+
+                                }
+                                Docs.DocType = DocType;
+
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return Docs;
+
+
+        }
+
+
+
         public List<SalesSummary> GetSalesSummaryChart(SalesSummary dueObj)
         {
             List<SalesSummary> SalesSummaryList = null;
