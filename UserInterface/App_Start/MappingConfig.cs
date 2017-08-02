@@ -72,7 +72,10 @@ namespace UserInterface.App_Start
 
                 config.CreateMap<OtherExpSummaryViewModel, OtherExpSummary>().ReverseMap();
                 config.CreateMap<OtherExpSummaryItemViewModel, OtherExpSummaryItem>().ReverseMap();
-             
+
+                config.CreateMap<TopDocsVewModel, TopDocs>().ReverseMap();
+                config.CreateMap<TopDocsItemVewModel, TopDocsItem>().ReverseMap();
+
             });
         }
     }

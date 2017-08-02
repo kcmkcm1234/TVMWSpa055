@@ -10,5 +10,6 @@ namespace SPAccounts.RepositoryServices.Contracts
     public interface IDashboardRepository
     {
          MonthlyRecap GetMonthlyRecap(string Company);
+        TopDocs GetTopDocs(string DocType, string Company);
     }
 }
