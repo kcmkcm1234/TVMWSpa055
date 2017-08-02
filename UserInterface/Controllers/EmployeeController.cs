@@ -29,6 +29,8 @@ namespace UserInterface.Controllers
         #endregion Constructor_Injection 
 
         // GET: Employee
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Employee", Mode = "R")]
         public ActionResult Index()
         {
             EmployeeViewModel evm = null;
@@ -71,7 +73,7 @@ namespace UserInterface.Controllers
 
         #region GetAllEmployees
         [HttpGet]
-        //[AuthSecurityFilter(ProjectObject = "Employee", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "Employee", Mode = "R")]
         public string GetAllEmployees()
         {
             try
@@ -90,7 +92,7 @@ namespace UserInterface.Controllers
 
         #region GetEmployeeDetails
         [HttpGet]
-        //[AuthSecurityFilter(ProjectObject = "Employee", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "Employee", Mode = "R")]
         public string GetEmployeeDetails(string ID)
         {
             try
@@ -109,8 +111,8 @@ namespace UserInterface.Controllers
 
         #region InsertUpdateEmployee
         [HttpPost]
-        //[ValidateAntiForgeryToken]
-        //[AuthSecurityFilter(ProjectObject = "Employee", Mode = "W")]
+        [ValidateAntiForgeryToken]
+        [AuthSecurityFilter(ProjectObject = "Employee", Mode = "W")]
         public string InsertUpdateEmployee(EmployeeViewModel _employeeObj)
         {
             object result = null;
@@ -143,7 +145,7 @@ namespace UserInterface.Controllers
 
         #region DeleteEmployee
         [HttpGet]
-        //[AuthSecurityFilter(ProjectObject = "Employee", Mode = "D")]
+        [AuthSecurityFilter(ProjectObject = "Employee", Mode = "D")]
         public string DeleteEmployee(string ID)
         {
 
@@ -167,7 +169,7 @@ namespace UserInterface.Controllers
 
         #region ButtonStyling
         [HttpGet]
-        //[AuthSecurityFilter(ProjectObject = "Bank", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "Employee", Mode = "R")]
         public ActionResult ChangeButtonStyle(string ActionType)
         {
             ToolboxViewModel ToolboxViewModelObj = new ToolboxViewModel();

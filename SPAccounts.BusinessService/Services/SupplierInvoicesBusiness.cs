@@ -109,5 +109,19 @@ namespace SPAccounts.BusinessService.Services
             }
             return supObj;
         }
+        public object DeleteSupplierInvoice(Guid ID, string userName)
+        {
+            object result = null;
+            try
+            {
+                result = _supplierInvoicesRepository.DeleteSupplierInvoice(ID, userName);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
     }
 }

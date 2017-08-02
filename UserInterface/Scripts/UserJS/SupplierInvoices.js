@@ -88,6 +88,7 @@ function Edit(Obj) {
 }
 function PaintInvoiceDetails() {
     debugger;
+    ChangeButtonPatchView("SupplierInvoices", "btnPatchAdd", "Edit"); //ControllerName,id of the container div,Name of the action
     var InvoiceID = $('#ID').val();
     var SupplierInvoiceViewModel = GetSupplierInvoiceDetails(InvoiceID);
     $('#lblInvoiceNo').text(SupplierInvoiceViewModel.InvoiceNo);
@@ -179,7 +180,21 @@ function AddNew() {
     $('#ID').val('');
     $('#lblInvoiceNo').text("New Invoice");
     openNav();
+    ChangeButtonPatchView("SupplierInvoices", "btnPatchAdd", "Add"); //ControllerName,id of the container div,Name of the action
 }
+
+function Reset() {
+    debugger;
+    if ($("#ID").val() == "0") {
+        ResetForm();
+    }
+    else {
+        PaintInvoiceDetails();
+    }
+   
+}
+
+
 function FillCustomerDefault(this_Obj) {
     try {
         var ID = this_Obj.value;
@@ -281,4 +296,42 @@ function GetSupplierInvoiceDetails() {
     catch (e) {
         notyAlert('error', e.message);
     }
+}
+
+function Delete() {
+    notyConfirm('Are you sure to delete?', 'DeleteSupplierInvoices()', '', "Yes, delete it!");
+}
+
+function DeleteSupplierInvoices() {
+    try {
+        var id = $('#ID').val();
+        if (id != '' && id != null) {
+            var data = { "ID": id };
+            var ds = {};
+            ds = GetDataFromServer("SupplierInvoices/DeleteSupplierInvoice/", data);
+            debugger;
+            if (ds != '') {
+                ds = JSON.parse(ds);
+            }
+            if (ds.Result == "OK") {
+                notyAlert('success', ds.Message.Message);
+                goBack();
+            }
+            if (ds.Result == "ERROR") {
+                notyAlert('error', ds.Message);
+                return 0;
+            }
+            return 1;
+        }
+
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+        return 0;
+    }
+}
+function goBack() {
+    ResetForm();
+    closeNav();
+    List();
 }
