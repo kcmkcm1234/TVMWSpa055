@@ -114,6 +114,7 @@
     <Compile Include="Contracts\ISupplierCreditRepository.cs" />
     <Compile Include="Contracts\ISupplierInvoicesRepository.cs" />
     <Compile Include="Contracts\IReportRepository.cs" />
+    <Compile Include="Contracts\ISupplierPaymentsRepository.cs" />
     <Compile Include="Contracts\ISupplierRepository.cs" />
     <Compile Include="Contracts\ITaxTypesRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -138,6 +139,7 @@
     <Compile Include="Services\ReportRepository.cs" />
     <Compile Include="Services\SupplierCreditRepository.cs" />
     <Compile Include="Services\SupplierInvoicesRepository.cs" />
+    <Compile Include="Services\SupplierPaymentsRepository.cs" />
     <Compile Include="Services\SupplierRepository.cs" />
     <Compile Include="Services\TaxTypesRepository.cs" />
   </ItemGroup>

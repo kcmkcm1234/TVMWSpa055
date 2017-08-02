@@ -8,11 +8,11 @@ using SPAccounts.DataAccessObject.DTO;
 
 namespace SPAccounts.BusinessService.Services
 {
-    public class SupplierCreditBusines : ISupplierCreditBusines
+    public class SupplierCreditNotesBusiness : ISupplierCreditNotesBusiness
     {
         ISupplierCreditRepository _supplierCreditRepository;
         ICommonBusiness _commonBusinessRepository;
-        public SupplierCreditBusines(ISupplierCreditRepository supplierCreditRepository,ICommonBusiness commonBusinessRepository)
+        public SupplierCreditNotesBusiness(ISupplierCreditRepository supplierCreditRepository,ICommonBusiness commonBusinessRepository)
         {
             _supplierCreditRepository = supplierCreditRepository;
             _commonBusinessRepository = commonBusinessRepository;
