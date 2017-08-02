@@ -25,7 +25,7 @@ namespace UserInterface.Models
 
     public class TopDocsVewModel
     {
-        public string DocType { get; set; }       
+        public string DocType { get; set; }
         public List<TopDocsItemVewModel> DocItems { get; set; }
 
     }
@@ -67,7 +67,7 @@ namespace UserInterface.Models
         public string Period { get; set; }
         public decimal INAmount { get; set; }
         public decimal ExAmount { get; set; }
-       
+
 
     }
 
@@ -137,6 +137,7 @@ namespace UserInterface.Models
         public string Amount { get; set; }
         public string duration { get; set; }
     }
+}
 
 
  
