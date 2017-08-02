@@ -126,4 +126,3 @@ namespace UserInterface.Models
         public string Amount { get; set; }
         public string duration { get; set; }
     }
-}
