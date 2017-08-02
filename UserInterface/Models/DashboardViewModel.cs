@@ -118,7 +118,7 @@ namespace UserInterface.Models
     //    public string DocDate { get; set; }
     //    public string URL { get; set; }
 
-    }
+    //}
 
     public class SalesSummaryViewModel
     {

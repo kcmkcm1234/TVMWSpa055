@@ -27,5 +27,37 @@ namespace UserInterface.Controllers
             systemReportList = systemReportList != null ? systemReportList.OrderBy(s => s.GroupOrder).ToList() : null;
             return View(systemReportList);
         }
+
+        public ActionResult SaleSummary()
+        {
+            OtherExpenseViewModel otherExpenseViewModel = new OtherExpenseViewModel();
+            return View(otherExpenseViewModel);
+        }
+
+
+        #region ButtonStyling
+        [HttpGet]
+        public ActionResult ChangeButtonStyle(string ActionType)
+        {
+            ToolboxViewModel ToolboxViewModelObj = new ToolboxViewModel();
+            switch (ActionType)
+            {
+                case "List":
+                    ToolboxViewModelObj.backbtn.Visible = true;
+                    ToolboxViewModelObj.backbtn.Disable = false;
+                    ToolboxViewModelObj.backbtn.Text = "Back";
+                    ToolboxViewModelObj.backbtn.DisableReason = "Not applicable";
+                    ToolboxViewModelObj.backbtn.Event = "Back();";
+
+                    break;
+              
+                default:
+                    return Content("Nochange");
+            }
+            return PartialView("ToolboxView", ToolboxViewModelObj);
+        }
+
+        #endregion
+
     }
 }
