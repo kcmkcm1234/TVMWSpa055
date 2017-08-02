@@ -241,7 +241,7 @@ namespace UserInterface.Controllers
         }
         #endregion GetCreditNoteByCustomer
 
-        #region GetCreditNoteByCustomer
+        #region GetCreditNoteAmount
         [AuthSecurityFilter(ProjectObject = "CustomerPayments", Mode = "R")]
         [HttpGet]
         public string GetCreditNoteAmount(string CreditID,string CustomerID)
@@ -251,7 +251,7 @@ namespace UserInterface.Controllers
             return JsonConvert.SerializeObject(new { Result = "OK", Records = CreditNote });
 
         }
-        #endregion GetCreditNoteByCustomer
+        #endregion GetCreditNoteAmount
 
 
 
