@@ -75,7 +75,7 @@ function IncomeDateOnchange()
     if (DataTables.OtherIncomeTable != undefined)
     {
         $("#DefaultDate").val("");
-        var IncomeDate = $("#IncomeDate").val();        
+        var IncomeDate = $("#IncomeDate").val();
         BindAllOtherIncome(IncomeDate,"")
     }
     else
@@ -168,6 +168,8 @@ function ShowModal()
     $("#AddOtherIncomeModel").modal('show');
     ClearFields();
     $("#AddOrEditSpan").text("Add New");
+    var IncomeDate = $("#IncomeDate").val();
+    $("#IncomeDateModal").val(IncomeDate);
 }
 
 function Validation() {

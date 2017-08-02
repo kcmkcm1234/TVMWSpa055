@@ -15,5 +15,6 @@ namespace SPAccounts.RepositoryServices.Contracts
         SupplierInvoices UpdateInvoice(SupplierInvoices _supplierInvoicesObj);
         List<SupplierInvoices> GetOutstandingSupplierInvoices();
         List<SupplierInvoices> GetOpeningSupplierInvoices();
+        object DeleteSupplierInvoice(Guid ID, string userName);
     }
 }
