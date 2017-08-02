@@ -35,7 +35,7 @@ namespace UserInterface.API
         {
             try
             {
-                List<ChartOfAccountsViewModel> expenseObj = Mapper.Map<List<ChartOfAccounts>, List<ChartOfAccountsViewModel>>(_chartofaccountsBusiness.GetExpenseTypeDetails(account));
+                List<DashBoardViewModel> expenseObj = Mapper.Map<List<ChartOfAccounts>, List<DashBoardViewModel>>(_chartofaccountsBusiness.GetExpenseTypeDetails(account));
                  
                 return JsonConvert.SerializeObject(new { Result = true, Records = expenseObj });
             }

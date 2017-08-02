@@ -94,8 +94,8 @@ namespace UserInterface.Controllers
 
                 otherIncomeViewModalObj.accountCodeList = new List<SelectListItem>();
                 selectListItem = new List<SelectListItem>();
-                List<ChartOfAccountsViewModel> AccountList = Mapper.Map<List<ChartOfAccounts>, List<ChartOfAccountsViewModel>>(_chartOfAccountsBusiness.GetChartOfAccountsByType("OI"));
-                foreach (ChartOfAccountsViewModel COAVM in AccountList)
+                List<DashBoardViewModel> AccountList = Mapper.Map<List<ChartOfAccounts>, List<DashBoardViewModel>>(_chartOfAccountsBusiness.GetChartOfAccountsByType("OI"));
+                foreach (DashBoardViewModel COAVM in AccountList)
                 {
                     selectListItem.Add(new SelectListItem
                     {

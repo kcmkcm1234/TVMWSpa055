@@ -36,5 +36,10 @@ namespace SPAccounts.DataAccessObject.DTO
 
     }
 
-
+    public class SalesSummary
+    {
+        public string Period { get; set; }
+        public string Amount { get; set; }
+        public string duration { get; set; }
+    }
 }

@@ -59,7 +59,7 @@ namespace UserInterface.App_Start
                 config.CreateMap<EmployeeViewModel, Employee>().ReverseMap();
                 config.CreateMap<DepositAndWithdrwalViewModel, DepositAndWithdrawals>().ReverseMap();
                 config.CreateMap<OtherIncomeViewModel, OtherIncome>().ReverseMap();
-                config.CreateMap<ChartOfAccountsViewModel, ChartOfAccounts>().ReverseMap();
+                config.CreateMap<DashBoardViewModel, ChartOfAccounts>().ReverseMap();
                 config.CreateMap<EmployeeViewModel, Employee>().ReverseMap();
                 config.CreateMap<EmployeeTypeViewModel, EmployeeType>().ReverseMap();
 
@@ -69,6 +69,7 @@ namespace UserInterface.App_Start
                 config.CreateMap<InvoiceSummaryformobileViewModel, InvoiceSummaryformobile>().ReverseMap();
                 config.CreateMap<SupplierSummaryforMobileViewModel, SupplierSummaryforMobile>().ReverseMap();
                 config.CreateMap<SupplierInvoiceSummaryformobileViewModel, SupplierInvoiceSummaryformobile>().ReverseMap();
+                config.CreateMap<SalesSummaryViewModel, SalesSummary>().ReverseMap();
             });
         }
     }
