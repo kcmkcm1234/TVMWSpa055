@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using SPAccounts.BusinessService.Contracts;
 using SPAccounts.DataAccessObject.DTO;
+using SPAccounts.UserInterface.SecurityFilter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,8 @@ namespace UserInterface.Controllers
             _commonBusiness = commonBusiness;
         }
         // GET: SupplierInvoices
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "SupplierInvoices", Mode = "R")]
         public ActionResult Index()
         {
 
@@ -100,6 +103,7 @@ namespace UserInterface.Controllers
         }
 
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "SupplierInvoices", Mode = "R")]
         public string GetSupplierInvoiceDetails(string ID)
         {
             try
@@ -121,6 +125,7 @@ namespace UserInterface.Controllers
             }
         }
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "SupplierInvoices", Mode = "R")]
         public string GetInvoicesAndSummary()
         {
             try
@@ -139,16 +144,17 @@ namespace UserInterface.Controllers
             }
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AuthSecurityFilter(ProjectObject = "SupplierInvoices", Mode = "W")]
         public string InsertUpdateInvoice(SupplierInvoicesViewModel _supplierInvoicesObj)
         {
             try
             {
-                AppUA ua = new AppUA();
-                ua.UserName = "Thomson";
+                AppUA _appUA = Session["AppUA"] as AppUA;
                 _supplierInvoicesObj.commonObj = new CommonViewModel();
-                _supplierInvoicesObj.commonObj.CreatedBy = ua.UserName;
+                _supplierInvoicesObj.commonObj.CreatedBy = _appUA.UserName;
                 _supplierInvoicesObj.commonObj.CreatedDate = DateTime.Now;
-                _supplierInvoicesObj.commonObj.UpdatedBy = ua.UserName;
+                _supplierInvoicesObj.commonObj.UpdatedBy = _appUA.UserName;
                 _supplierInvoicesObj.commonObj.UpdatedDate = DateTime.Now;
                 SupplierInvoicesViewModel SIVM = Mapper.Map<SupplierInvoices, SupplierInvoicesViewModel>(_supplierInvoicesBusiness.InsertUpdateInvoice(Mapper.Map<SupplierInvoicesViewModel, SupplierInvoices>(_supplierInvoicesObj)));
                 if(_supplierInvoicesObj.ID!=null&&_supplierInvoicesObj.ID!=Guid.Empty)
@@ -169,6 +175,7 @@ namespace UserInterface.Controllers
             }
         }
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "SupplierInvoices", Mode = "R")]
         public string GetSupplierDetails(string ID)
         {
             try
@@ -183,6 +190,7 @@ namespace UserInterface.Controllers
             }
         }
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "SupplierInvoices", Mode = "R")]
         public string GetDueDate(string Code)
         {
             try
@@ -201,7 +209,8 @@ namespace UserInterface.Controllers
         }
 
         #region DeleteSupplierInvoice
-        [HttpGet]       
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "SupplierInvoices", Mode = "D")]
         public string DeleteSupplierInvoice(string ID)
         {
 
@@ -224,6 +233,7 @@ namespace UserInterface.Controllers
         #endregion DeleteSupplierInvoice
 
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "SupplierInvoices", Mode = "R")]
         public string GetTaxRate(string Code)
         {
             try
@@ -240,6 +250,7 @@ namespace UserInterface.Controllers
         }
         #region ButtonStyling
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "SupplierInvoices", Mode = "R")]
         public ActionResult ChangeButtonStyle(string ActionType)
         {
             ToolboxViewModel ToolboxViewModelObj = new ToolboxViewModel();

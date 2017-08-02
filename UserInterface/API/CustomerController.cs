@@ -30,7 +30,7 @@ namespace UserInterface.API
 
         Const messages = new Const();
 
-        [HttpGet]
+        [HttpPost]
         public object GetCustomerDetailsMobile()
         {
             try

@@ -26,7 +26,7 @@ namespace UserInterface.Models
 
         [Display(Name = "Credit Note Number")]
         [Required(ErrorMessage = "Please enter credit Note Number")]
-        [RegularExpression(@"^[a-zA-Z0-9_]*$", ErrorMessage = "Entered Credit Note is not valid.")]
+        //[RegularExpression(@"^[a-zA-Z0-9_]*$", ErrorMessage = "Entered Credit Note is not valid.")]
         [MaxLength(20)]
         public string CRNRefNo { get; set; }
 
