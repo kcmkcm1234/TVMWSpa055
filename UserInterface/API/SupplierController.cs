@@ -30,12 +30,11 @@ namespace UserInterface.API
         Const messages = new Const();
 
         #region GetAllSuppliersForMobile
-        [HttpGet]
+        [HttpPost]
         public string GetAllSuppliersDetailForMobile()
         {
             try
             {
-
                 List<SuppliersViewModel> suppliersList = Mapper.Map<List<Supplier>, List<SuppliersViewModel>>(_supplierBusiness.GetAllSuppliersForMobile());
                 return JsonConvert.SerializeObject(new { Result = true, Records = suppliersList });
             }
