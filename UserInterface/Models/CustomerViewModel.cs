@@ -61,6 +61,7 @@ namespace UserInterface.Models
         public decimal AdvanceAmount { get; set; }
         public decimal OutStanding { get; set; }
         public CommonViewModel commonObj { get; set; }
+        public PaymentTermsViewModel PaymentTermsObj { get; set; }
         public List<SelectListItem> CustomerList { get; set; }
         public List<SelectListItem> TitlesList { get; set; }
     }

@@ -26,10 +26,11 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal AdvanceAmount { get; set; }
         public decimal OutStanding { get; set; }
         public Common commonObj { get; set; }
+        public PaymentTerms PaymentTermsObj { get; set; }
     }
+}
 
     public class Titles
     {
         public string Title { get; set; }
     }
-}
