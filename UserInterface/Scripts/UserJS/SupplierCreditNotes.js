@@ -154,7 +154,7 @@ function ClearFields() {
     $("#CreditAmount").val("");
     $("#GeneralNotes").val("");
     $("#creditdAmt").text("₹ 0.00");
-    //$("#adjusteddAmt").text("₹ 0.00");
+    $("#adjusteddAmt").text("₹ 0.00");
     ResetForm();
     ChangeButtonPatchView("SupplierCreditNote", "btnPatchAdd", "Add"); //ControllerName,id of the container div,Name of the action
 }
@@ -250,7 +250,7 @@ function FillSupplierDetails(ID) {
     $("#SupplierAddress").val(thisItem.SupplierAddress);
     $("#CreditAmount").val(roundoff(thisItem.Amount));
     $("#creditdAmt").text(thisItem.creditAmountFormatted);
-    //$("#adjusteddAmt").text(thisItem.adjustedAmountFormatted);
+    $("#adjusteddAmt").text(thisItem.adjustedAmountFormatted);
     $("#GeneralNotes").val(thisItem.GeneralNotes);
 }
 

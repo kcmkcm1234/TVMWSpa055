@@ -132,6 +132,11 @@ namespace SPAccounts.BusinessService.Services
             {
                 otherExpenseList = GetAllOtherExpenses();
                 otherExpense = otherExpenseList != null ? otherExpenseList.Where(o => o.ID == ID).ToList().FirstOrDefault() : null;
+                if (otherExpense != null)
+                {
+                    otherExpense.creditAmountFormatted = _commonBusiness.ConvertCurrency(otherExpense.Amount, 2);
+                  
+                }
             }
             catch(Exception ex)
             {
@@ -181,17 +186,18 @@ namespace SPAccounts.BusinessService.Services
 
             if (result != null)
             {
-                int r = 250;
+                int r = 150;
                 int g = 120;
                 int b = 80;
                 string color = "rgba($r$,$g$,$b$,0.6)";
                 foreach (OtherExpSummaryItem s in result.ItemsList)
                 {
                     Random rnd = new Random();
+                  
                     s.color = color.Replace("$r$", r.ToString()).Replace("$g$", g.ToString()).Replace("$b$", b.ToString());
                     b = b + 50;
                     g = g + 30;
-                    r = rnd.Next(100, 250);
+                    r = r + g;
                     if (b > 250)
                     {
                         b = 0;

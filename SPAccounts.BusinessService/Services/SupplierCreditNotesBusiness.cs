@@ -39,7 +39,7 @@ namespace SPAccounts.BusinessService.Services
             if (supplierCreditNoteObj != null)
             {
                 supplierCreditNoteObj.creditAmountFormatted = _commonBusinessRepository.ConvertCurrency(supplierCreditNoteObj.Amount, 2);
-                supplierCreditNoteObj.adjustedAmountFormatted = _commonBusinessRepository.ConvertCurrency(supplierCreditNoteObj.Amount,2);
+                supplierCreditNoteObj.adjustedAmountFormatted = _commonBusinessRepository.ConvertCurrency(supplierCreditNoteObj.adjustedAmount,2);
             }
             return supplierCreditNoteObj;
         }
