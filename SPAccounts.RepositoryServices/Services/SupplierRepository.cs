@@ -163,6 +163,10 @@ namespace SPAccounts.RepositoryServices.Services
                                     _supplierObj.BillingAddress = (sdr["BillingAddress"].ToString() != "" ? sdr["BillingAddress"].ToString() : _supplierObj.BillingAddress);
                                     _supplierObj.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : _supplierObj.GeneralNotes);
                                     _supplierObj.OutStanding = (sdr["OutStanding"].ToString() != "" ? decimal.Parse(sdr["OutStanding"].ToString()) : _supplierObj.OutStanding);
+                                    _supplierObj.PaymentTermCode = (sdr["PaymentTermCode"].ToString() != "" ? sdr["PaymentTermCode"].ToString() : _supplierObj.PaymentTermCode);
+                                    _supplierObj.PaymentTermsObj = new PaymentTerms();
+                                    _supplierObj.PaymentTermsObj.NoOfDays = (sdr["PaymentTermNoofDays"].ToString() != "" ? int.Parse(sdr["PaymentTermNoofDays"].ToString()) : _supplierObj.PaymentTermsObj.NoOfDays);
+
 
                                 }
                         }
