@@ -13,7 +13,7 @@ namespace UserInterface.Models
         public Guid ID { get; set; }
         public string AccountDesc { get; set; }
         public DateTime? IncomeDate { get; set; }
-        [Display(Name = "Account")]
+        [Display(Name = "Account Head")]
         [Required(ErrorMessage ="Please Select Account")]
         public string AccountCode { get; set; }
         [Display(Name = "Payment Received Company")]
@@ -25,7 +25,7 @@ namespace UserInterface.Models
         public Guid DepWithdID { get; set; }
         [Display(Name = "Bank")]
         public string BankCode { get; set; }
-        [Display(Name = "Income Reference")]
+        [Display(Name = "Payment Reference")]
         [MaxLength(20)]
         public string IncomeRef { get; set; }
         [Display(Name = "Description")]
@@ -34,13 +34,16 @@ namespace UserInterface.Models
         [Required(ErrorMessage ="Please Enter An Amount")]
         public decimal Amount { get; set; }
         public int slNo { get; set; }
-        [Display(Name = "Income Date")]
-        [Required(ErrorMessage = "Please Select Income Date")]
+        [Display(Name = "Transaction Date")]
+        [Required(ErrorMessage = "Please Select Transaction Date")]
         public string IncomeDateFormatted { get; set; }
         public decimal TotalAmt { get; set; }
         [Display(Name ="Default Date")]
         public string DefaultDate { get; set; }
+        [Display(Name = "Cheque Date")]
+        public string ChequeDate { get; set; }
         public string TotalAmtFormatted { get; set; }
+        public string creditAmountFormatted { get; set; }
         public List<SelectListItem> accountCodeList { get; set; }
         public List<SelectListItem> bankList { get; set; }
         public List<SelectListItem> companiesList { get; set; }

@@ -9,7 +9,7 @@ namespace UserInterface.Models
 {
     public class OtherExpenseViewModel
     {
-        [Required(ErrorMessage = "Expense date required")]
+        [Required(ErrorMessage = "Transaction date required")]
         [Display(Name = "Transaction Date")]
         public string ExpenseDate { get; set; }
         [Display(Name = "Cheque Date")]
@@ -45,7 +45,7 @@ namespace UserInterface.Models
         [Display(Name = "Amount")]
         public decimal Amount { get; set; }
 
-        [Required(ErrorMessage = "Account Type required")]
+        [Required(ErrorMessage = "Account Head required")]
         [Display(Name = "Account Head")]
         public string AccountCode { get; set; }
         public ChartOfAccountsViewModel chartOfAccountsObj { get; set; }

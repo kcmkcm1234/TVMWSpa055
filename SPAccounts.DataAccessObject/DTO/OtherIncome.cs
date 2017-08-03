@@ -22,6 +22,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal TotalAmt { get; set; }
         public string TotalAmtFormatted { get; set; }
         public string IncomeDateFormatted { get; set; }
+        public string creditAmountFormatted { get; set; }
+        public string ChequeDate { get; set; }
         public Common commonObj { get; set; }
     }
 }
