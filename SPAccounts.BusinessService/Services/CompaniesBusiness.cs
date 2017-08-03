@@ -18,7 +18,10 @@ namespace SPAccounts.BusinessService.Services
         }
         public List<Companies> GetAllCompanies()
         {
-            return _companiesRepository.GetAllCompanies();
+            List<Companies> companiesList = null;
+            companiesList=_companiesRepository.GetAllCompanies();
+            companiesList = companiesList != null ? companiesList.OrderBy(c => c.Name).ToList() : null;
+            return companiesList;
         }
     }
 }

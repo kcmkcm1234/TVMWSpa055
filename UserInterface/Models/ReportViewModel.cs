@@ -29,6 +29,8 @@ namespace UserInterface.Models
         public decimal Invoiced { get; set; }
         public decimal Paid { get; set; }
         public decimal NetDue { get; set; }
+        public decimal Credit { get; set; }
+        public decimal Balance { get; set; }
         public string OriginCompany { get; set; }
         public List<SelectListItem> CompanyList { get; set; }
         public List<CompaniesViewModel> companiesList;
