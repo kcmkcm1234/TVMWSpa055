@@ -9,6 +9,9 @@ namespace UserInterface.Models
 {
     public class SuppliersViewModel
     {
+
+        [Required(ErrorMessage = "Supplier is missing")]
+        [Display(Name = "Supplier")]
         public Guid ID { get; set; }
         [Display(Name = "Company Name")]
         [MaxLength(150)]
