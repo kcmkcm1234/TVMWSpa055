@@ -48,10 +48,12 @@ namespace SPAccounts.UserInterface.SecurityFilter
 
                     filterContext.HttpContext.User = new System.Security.Principal.GenericPrincipal(
                     new System.Security.Principal.GenericIdentity(authTicket.Name, "Forms"), authTicket.UserData.Split(',').Select(t => t.Trim()).ToArray());
-                    LoggedUserName = authTicket.UserData;
+                    LoggedUserName = filterContext.HttpContext.User.Identity.Name;
+                  
                     UA _ua = (UA)filterContext.HttpContext.Session["TvmValid"];
                     AppUA appUA = new AppUA();
-                    appUA.UserName = _ua.UserName;
+                   appUA.RolesCSV = authTicket.UserData;
+                   appUA.UserName = _ua.UserName;
                     SPAccounts.DataAccessObject.DTO.Common common = new SPAccounts.DataAccessObject.DTO.Common();
                     appUA.DateTime = common.GetCurrentDateTime();
                     appUA.AppID = _ua.AppID;

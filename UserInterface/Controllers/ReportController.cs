@@ -14,9 +14,11 @@ namespace UserInterface.Controllers
     public class ReportController : Controller
     {
         IReportBusiness _reportBusiness;
-        public ReportController(IReportBusiness reportBusiness)
+        ICompaniesBusiness _companiesBusiness;
+        public ReportController(IReportBusiness reportBusiness, ICompaniesBusiness companiesBusiness)
         {
             _reportBusiness = reportBusiness;
+            _companiesBusiness = companiesBusiness;
         }
         // GET: Report
         [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
@@ -30,8 +32,20 @@ namespace UserInterface.Controllers
 
         public ActionResult SaleSummary()
         {
-            OtherExpenseViewModel otherExpenseViewModel = new OtherExpenseViewModel();
-            return View(otherExpenseViewModel);
+            SaleSummaryViewModel SaleSummary = new SaleSummaryViewModel();
+            List<SelectListItem>  selectListItem = new List<SelectListItem>();
+            SaleSummary.companiesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_companiesBusiness.GetAllCompanies());
+            foreach (CompaniesViewModel cvm in SaleSummary.companiesList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = cvm.Name,
+                    Value = cvm.Code.ToString(),
+                    Selected = false
+                });
+            }
+            SaleSummary.CompanyList = selectListItem;
+            return View(SaleSummary);
         }
 
 

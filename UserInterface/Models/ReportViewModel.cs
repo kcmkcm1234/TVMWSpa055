@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace UserInterface.Models
 {
@@ -18,5 +18,19 @@ namespace UserInterface.Models
         public string SPName { get; set; }
         public string SQL { get; set; }
         public int ReportOrder { get; set; }
+    }
+    public class SaleSummaryViewModel
+    {
+        [Required(ErrorMessage = "Company required")]
+        [Display(Name = "Company")]
+        public string CompanyCode { get; set; }
+        public string CustomerName { get; set; }
+        public decimal OpeningBalance { get; set; }
+        public decimal Invoiced { get; set; }
+        public decimal Paid { get; set; }
+        public decimal NetDue { get; set; }
+        public string OriginCompany { get; set; }
+        public List<SelectListItem> CompanyList { get; set; }
+        public List<CompaniesViewModel> companiesList;
     }
 }
