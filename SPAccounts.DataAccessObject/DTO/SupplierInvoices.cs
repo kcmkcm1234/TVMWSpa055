@@ -29,6 +29,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public string TaxCode { get; set; }
         public TaxTypes TaxTypeObj { get; set; }
         public decimal PaidAmount { get; set; }
+        public decimal OtherPayments { get; set; }
+        public SupplierPayments SuppPaymentObj { get; set; }
 
         public decimal BalanceDue { get; set; }
         public DateTime LastPaymentDate { get; set; }

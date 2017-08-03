@@ -27,7 +27,12 @@ namespace SPAccounts.BusinessService.Services
         public OtherIncome GetOtherIncomeDetails(Guid ID)
         {
             OtherIncome otherIncomeObj = new OtherIncome();
-            otherIncomeObj = _iOtherIncomeRepository.GetOtherIncomeDetails(ID);            
+            otherIncomeObj = _iOtherIncomeRepository.GetOtherIncomeDetails(ID);
+            if (otherIncomeObj != null)
+            {
+                otherIncomeObj.creditAmountFormatted = _commonBusiness.ConvertCurrency(otherIncomeObj.Amount, 2);
+
+            }
             return otherIncomeObj;
         }
         public object InsertUpdateOtherIncome(OtherIncome _otherIncomeObj)

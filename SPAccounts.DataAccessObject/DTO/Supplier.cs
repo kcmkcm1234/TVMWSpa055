@@ -25,5 +25,6 @@ namespace SPAccounts.DataAccessObject.DTO
         public string GeneralNotes { get; set; }
         public decimal OutStanding { get; set; }
         public Common commonObj { get; set; }
+        public PaymentTerms PaymentTermsObj { get; set; }
     }
 }

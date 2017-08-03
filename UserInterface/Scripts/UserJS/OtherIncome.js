@@ -159,6 +159,12 @@ function PaymentModeOnchange(curObj)
         $("#BankCode").val("");
         $("#BankCode").prop('disabled', true);
     }
+    if (curObj.value == "CHEQUE") {
+        $("#ChequeDate").prop('disabled', false);
+    }
+    else {
+        $("#ChequeDate").prop('disabled', true);
+    }
     $('span[data-valmsg-for="BankCode"]').empty();
 }
 
@@ -170,6 +176,7 @@ function ShowModal()
     $("#AddOrEditSpan").text("Add New");
     var IncomeDate = $("#IncomeDate").val();
     $("#IncomeDateModal").val(IncomeDate);
+    $("#ChequeDate").prop('disabled', true);
 }
 
 function Validation() {
@@ -187,6 +194,16 @@ function Validation() {
             $('span[data-valmsg-for="BankCode"]').empty();
         }
 
+    }
+    if ((pm) && (pm == "CHEQUE")) {
+        if ($("#ChequeDate").val() == "") {
+            fl = false;
+
+            $('span[data-valmsg-for="ChequeDate"]').append('<span for="ChequeDate" class="">Cheque Date required</span>')
+        }
+        else {
+            $('span[data-valmsg-for="ChequeDate"]').empty();
+        }
     }
     return fl;
 }
@@ -276,6 +293,7 @@ function Reset()
     }
     ResetForm();
     $('span[data-valmsg-for="BankCode"]').empty();
+    $('span[data-valmsg-for="ChequeDate"]').empty();
 }
 
 function FillOtherIncomeDetails(ID)
@@ -289,12 +307,20 @@ function FillOtherIncomeDetails(ID)
     $("#AccountCode").val(thisItem.AccountCode);
     $("#PaymentRcdComanyCode").val(thisItem.PaymentRcdComanyCode);
     $("#PaymentMode").val(thisItem.PaymentMode);
+    $("#ChequeDate").val(thisItem.ChequeDate);
     $("#BankCode").val(thisItem.BankCode);
     $("#Amount").val(roundoff(thisItem.Amount));
     $("#Description").val(thisItem.Description);
     $("#IncomeRef").val(thisItem.IncomeRef);
     $("#DepWithdID").val(thisItem.DepWithdID);
+    $("#creditdAmt").text(thisItem.creditAmountFormatted);
     $("#AddOrEditSpan").text("Edit");
+    if (thisItem.PaymentMode != "CHEQUE") {
+        $("#ChequeDate").prop('disabled', true);
+    }
+    else {
+        $("#ChequeDate").prop('disabled', false);
+    }
 }
 
 function SaveSuccess(data, status)
@@ -343,5 +369,7 @@ function ClearFields()
     $("#IncomeDateModal").val("");
     $("#ID").val("");
     $("#DepWithdID").val(emptyGUID);
+    $("#ChequeDate").val('');
+    $("#creditdAmt").text("₹ 0.00");
     ResetForm();
 }

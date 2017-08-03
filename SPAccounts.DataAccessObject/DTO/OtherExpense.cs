@@ -24,7 +24,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public string Description { get; set; }
         public decimal Amount { get; set; }
         public Common commonObj { get; set; }
-
+        public string ChequeDate { get; set; }
+        public string creditAmountFormatted { get; set; }
     }
 
     public class OtherExpSummary {

@@ -109,6 +109,8 @@ namespace SPAccounts.RepositoryServices.Services
                                 {
                                     Supplier _SupplierObj = new Supplier();
                                     {
+                                        _SupplierObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : _SupplierObj.ID);
+                                        _SupplierObj.ContactTitle = (sdr["ContactTitle"].ToString() != "" ? sdr["ContactTitle"].ToString() : _SupplierObj.ContactTitle);
                                         _SupplierObj.CompanyName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : _SupplierObj.CompanyName);
                                         _SupplierObj.ContactPerson = (sdr["ContactPerson"].ToString() != "" ? sdr["ContactPerson"].ToString() : _SupplierObj.ContactPerson);
                                         _SupplierObj.Mobile = (sdr["Mobile"].ToString() != "" ? sdr["Mobile"].ToString() : _SupplierObj.Mobile);
@@ -155,6 +157,7 @@ namespace SPAccounts.RepositoryServices.Services
                                 if (sdr.Read())
                                 {
                                     _supplierObj.CompanyName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : _supplierObj.CompanyName);
+                                    _supplierObj.ContactTitle = (sdr["ContactTitle"].ToString() != "" ? sdr["ContactTitle"].ToString() : _supplierObj.ContactTitle);
                                     _supplierObj.ContactPerson = (sdr["ContactPerson"].ToString() != "" ? sdr["ContactPerson"].ToString() : _supplierObj.ContactPerson);
                                     _supplierObj.ContactEmail = (sdr["ContactEmail"].ToString() != "" ? sdr["ContactEmail"].ToString() : _supplierObj.ContactEmail);
                                     _supplierObj.Website = (sdr["Website"].ToString() != "" ? sdr["Website"].ToString() : _supplierObj.Website);
@@ -163,6 +166,10 @@ namespace SPAccounts.RepositoryServices.Services
                                     _supplierObj.BillingAddress = (sdr["BillingAddress"].ToString() != "" ? sdr["BillingAddress"].ToString() : _supplierObj.BillingAddress);
                                     _supplierObj.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : _supplierObj.GeneralNotes);
                                     _supplierObj.OutStanding = (sdr["OutStanding"].ToString() != "" ? decimal.Parse(sdr["OutStanding"].ToString()) : _supplierObj.OutStanding);
+                                    _supplierObj.PaymentTermCode = (sdr["PaymentTermCode"].ToString() != "" ? sdr["PaymentTermCode"].ToString() : _supplierObj.PaymentTermCode);
+                                    _supplierObj.PaymentTermsObj = new PaymentTerms();
+                                    _supplierObj.PaymentTermsObj.NoOfDays = (sdr["PaymentTermNoofDays"].ToString() != "" ? int.Parse(sdr["PaymentTermNoofDays"].ToString()) : _supplierObj.PaymentTermsObj.NoOfDays);
+
 
                                 }
                         }

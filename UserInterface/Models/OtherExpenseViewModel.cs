@@ -9,18 +9,20 @@ namespace UserInterface.Models
 {
     public class OtherExpenseViewModel
     {
-        [Required(ErrorMessage = "Expense date required")]
-        [Display(Name = "Date")]
+        [Required(ErrorMessage = "Transaction date required")]
+        [Display(Name = "Transaction Date")]
         public string ExpenseDate { get; set; }
+        [Display(Name = "Cheque Date")]
+        public string ChequeDate { get; set; }
         public Guid ID { get; set; }
 
         [Display(Name = "Expense Date")]
         public string ExpenseDateFormatted { get; set; }
         public string DefaultDate { get; set; }
-        
+        public string creditAmountFormatted { get; set; }
 
         [Required(ErrorMessage = "Company required")]
-        [Display(Name = "Company")]
+        [Display(Name = "Expense From Company")]
         public string PaidFromCompanyCode { get; set; }
         public List<SelectListItem> CompanyList { get; set; }
         public CompaniesViewModel companies { get; set; }
@@ -35,6 +37,7 @@ namespace UserInterface.Models
         [Display(Name = "Bank")]
         public string BankCode { get; set; }
         public List<SelectListItem> bankList { get; set; }
+        [Display(Name = "Payment Reference")]
         public string ExpenseRef { get; set; }
         [Display(Name = "Decription")]
         public string Description { get; set; }
@@ -42,20 +45,20 @@ namespace UserInterface.Models
         [Display(Name = "Amount")]
         public decimal Amount { get; set; }
 
-        [Required(ErrorMessage = "Account Type required")]
-        [Display(Name = "Account")]
+        [Required(ErrorMessage = "Account Head required")]
+        [Display(Name = "Account Head")]
         public string AccountCode { get; set; }
         public ChartOfAccountsViewModel chartOfAccountsObj { get; set; }
         public List<SelectListItem> AccountTypes { get; set; }
 
        
-        [Display(Name = "Employee")]
+        [Display(Name = "Employee/Other")]
         public Guid? EmpID { get; set; }
         public List<SelectListItem> EmployeeList { get; set; }
         public EmployeeViewModel employee { get; set; }
 
         
-        [Display(Name = "Employee Type")]
+        [Display(Name = "Subtype (Employee,Other,etc.)")]
         public string EmpTypeCode { get; set; }
         public List<SelectListItem> EmployeeTypeList { get; set; }
         public CommonViewModel commonObj { get; set; }

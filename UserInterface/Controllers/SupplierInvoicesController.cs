@@ -191,14 +191,22 @@ namespace UserInterface.Controllers
         }
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "SupplierInvoices", Mode = "R")]
-        public string GetDueDate(string Code)
+        public string GetDueDate(string Code, string InvDate = "")
         {
             try
             {
                 Common com = new Common();
                 DateTime Datenow = com.GetCurrentDateTime();
                 PaymentTermsViewModel payTermsObj = Mapper.Map<PaymentTerms, PaymentTermsViewModel>(_paymentTermsBusiness.GetPayTermDetails(Code));
-                string DuePaymentDueDateFormatted = Datenow.AddDays(payTermsObj.NoOfDays).ToString("dd-MMM-yyyy");
+                string DuePaymentDueDateFormatted;
+                if (InvDate == "")
+                {
+                    DuePaymentDueDateFormatted = Datenow.AddDays(payTermsObj.NoOfDays).ToString("dd-MMM-yyyy");
+                }
+                else
+                {
+                    DuePaymentDueDateFormatted = Convert.ToDateTime(InvDate).AddDays(payTermsObj.NoOfDays).ToString("dd-MMM-yyyy");
+                }
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = DuePaymentDueDateFormatted });
             }
             catch (Exception ex)
