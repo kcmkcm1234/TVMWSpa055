@@ -80,5 +80,23 @@ namespace SPAccounts.BusinessService.Services
             return result;
         }
 
+        public List<SupplierCreditNote> GetCreditNoteBySupplier(Guid SupplierID)
+        {
+            List<SupplierCreditNote> Creditlist = new List<SupplierCreditNote>();
+            Creditlist = _supplierCreditRepository.GetCreditNoteBySupplier(SupplierID);
+            return Creditlist;
+
+        }
+
+        public SupplierCreditNote GetCreditNoteAmount(Guid CreditID, Guid SupplierID)
+        {
+            SupplierCreditNote creditnote = new SupplierCreditNote();
+            List<SupplierCreditNote> creditlist = new List<SupplierCreditNote>();
+            creditlist = _supplierCreditRepository.GetCreditNoteBySupplier(SupplierID);
+            creditlist = creditlist.Where(m => m.ID == CreditID).ToList();
+            creditnote = creditlist[0];
+            return creditnote;
+
+        }
     }
 }
