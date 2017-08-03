@@ -42,7 +42,7 @@ namespace UserInterface.Controllers
         public ActionResult Index()
         {
             AppUA _appUA = Session["AppUA"] as AppUA;
-            if (_appUA.RolesCSV.Contains("SAdmin") || _appUA.RolesCSV.Contains("CEO"))
+            if (("," +_appUA.RolesCSV+ ",").Contains(",SAdmin,") || _appUA.RolesCSV.Contains(",CEO,"))
             {
                 return RedirectToAdminDashboard();
             }
