@@ -21,11 +21,17 @@ namespace UserInterface.Controllers
         AppConst c = new AppConst();
         IDashboardBusiness _dashboardBusiness;
         IOtherExpenseBusiness _otherExpenseBusiness;
+        ICustomerInvoicesBusiness _customerInvoiceBusiness;
+        ISupplierInvoicesBusiness _supplierInvoicesBusiness;
+        ICommonBusiness _commonBusiness;
 
-        public DashboardController(IDashboardBusiness dashboardBusiness, IOtherExpenseBusiness otherExpenseBusiness)
+        public DashboardController(IDashboardBusiness dashboardBusiness, IOtherExpenseBusiness otherExpenseBusiness, ICustomerInvoicesBusiness customerInvoiceBusiness, ISupplierInvoicesBusiness supplierInvoicesBusiness, ICommonBusiness commonBusiness)
         {
             _dashboardBusiness = dashboardBusiness;
             _otherExpenseBusiness = otherExpenseBusiness;
+            _customerInvoiceBusiness = customerInvoiceBusiness;
+            _supplierInvoicesBusiness = supplierInvoicesBusiness;
+            _commonBusiness = commonBusiness;
 
         }
         #endregion Constructor_Injection 
@@ -74,6 +80,17 @@ namespace UserInterface.Controllers
         {
             OutstandingSummaryViewModel data = new OutstandingSummaryViewModel();
             data.CompanyName = Company;
+            CustomerInvoiceSummaryViewModel CustomerInvoiceSummary = Mapper.Map<CustomerInvoiceSummary, CustomerInvoiceSummaryViewModel>(_customerInvoiceBusiness.GetCustomerInvoicesSummary());
+            SupplierInvoiceSummaryViewModel SupplierInvoiceSummary = Mapper.Map<SupplierInvoiceSummary, SupplierInvoiceSummaryViewModel>(_supplierInvoicesBusiness.GetSupplierInvoicesSummary());
+            data.OutstandingInv = CustomerInvoiceSummary.OpenAmount + CustomerInvoiceSummary.OverdueAmount;
+            data.OuttandingPay = SupplierInvoiceSummary.OpenAmount + SupplierInvoiceSummary.OverdueAmount;
+
+            data.OutstandingInvFormatted = _commonBusiness.ConvertCurrency(data.OutstandingInv, 2);
+            data.OuttandingPayFormatted = _commonBusiness.ConvertCurrency(data.OuttandingPay, 2);
+
+            data.invCount = CustomerInvoiceSummary.OpenInvoices + CustomerInvoiceSummary.OverdueInvoices;
+            data.payCount = SupplierInvoiceSummary.OpenInvoices + SupplierInvoiceSummary.OverdueInvoices;
+
             return PartialView("_OutstandingSummary", data);
         }
 
@@ -82,6 +99,8 @@ namespace UserInterface.Controllers
         {
             TopCustomersViewModel data = new TopCustomersViewModel();
             data.CompanyName = Company;
+            data.BaseURL = "../Customers/Index";
+            data.Docs = Mapper.Map<TopDocs, TopDocsVewModel>(_dashboardBusiness.GetTopDocs("CUST", "ALL", data.BaseURL));
             return PartialView("_TopCustomers", data);
         }
 
@@ -90,6 +109,8 @@ namespace UserInterface.Controllers
         {
             TopSuppliersViewModel data = new TopSuppliersViewModel();
             data.CompanyName = Company;
+            data.BaseURL = "../Suppliers/Index";
+            data.Docs = Mapper.Map<TopDocs, TopDocsVewModel>(_dashboardBusiness.GetTopDocs("SUPP", "ALL", data.BaseURL));
             return PartialView("_TopSuppliers", data);
         }
 

@@ -51,12 +51,12 @@ namespace UserInterface.Controllers
                         loginvm.Message = _const.LoginFailedNoRoles;
                         return View("Index", loginvm);
                     }
-                    FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, uservm.UserName, DateTime.Now, DateTime.Now.AddHours(24), true, uservm.LoginName);
+                    FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, uservm.UserName, DateTime.Now, DateTime.Now.AddHours(24), true, uservm.RoleCSV);
                     string encryptedTicket = FormsAuthentication.Encrypt(ticket);
                     Response.Cookies.Add(new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket));
                     //session setting
                     UA ua = new UA();
-                    ua.UserName = uservm.UserName;
+                    ua.UserName = uservm.LoginName;
                     ua.AppID = AppID;
                     Session.Add("TvmValid", ua);
                     if (uservm.RoleCSV.Contains("SAdmin") || uservm.RoleCSV.Contains("CEO"))

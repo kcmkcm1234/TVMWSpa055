@@ -27,6 +27,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string UserName { get; set; }
         public DateTime DateTime { get; set; }
         public Guid AppID { get; set; }
+        public string RolesCSV { get; set; }
     }
 
     public class Settings

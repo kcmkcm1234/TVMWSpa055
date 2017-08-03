@@ -6,8 +6,8 @@
             <span class="info-box-icon"><i class="ion ion-ios-pricetag-outline"></i></span>
 
             <div class="info-box-content">
-                <span class="info-box-text">Outstanding Invoices (20) </span>
-                <span class="info-box-number">₹5,200</span>
+                <span class="info-box-text">Outstanding Invoices (@Model.invCount) </span>
+                <span class="info-box-number">@Model.OutstandingInvFormatted</span>
 
                 <div class="progress">
                     <div class="progress-bar" style="width: 95%"></div>
@@ -23,8 +23,8 @@
             <span class="info-box-icon"><i class="ion ion-ios-heart-outline"></i></span>
 
             <div class="info-box-content">
-                <span class="info-box-text">Outstanding Payments(10)</span>
-                <span class="info-box-number">₹92,050</span>
+                <span class="info-box-text">Outstanding Payments(@Model.payCount)</span>
+                <span class="info-box-number">@Model.OuttandingPayFormatted</span>
 
                 <div class="progress">
                     <div class="progress-bar" style="width: 95%"></div>

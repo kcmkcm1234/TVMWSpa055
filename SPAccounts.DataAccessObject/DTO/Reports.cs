@@ -19,4 +19,28 @@ namespace SPAccounts.DataAccessObject.DTO
         public string SQL { get; set; }
         public int ReportOrder { get; set; }
     }
+
+    public class SaleSummary
+    {
+        public string CustomerName { get; set; }
+        public decimal OpeningBalance { get; set; }
+        public decimal Invoiced { get; set; }
+        public decimal Paid { get; set; }
+        public decimal NetDue { get; set; }
+        public string OriginCompany { get; set; }
+    }
+
+    public class SaleDetail
+    {
+        public string InvoiceNo { get; set; }
+        public string Date { get; set; }
+        public string PaymentDueDate { get; set; }
+        public decimal PaidAmount { get; set; }
+        public decimal InvoiceAmount { get; set; }
+        public decimal BalanceDue { get; set; }
+        public string OriginCompany { get; set; }
+        public string GeneralNotes { get; set; }
+        public string CustomerName { get; set; }
+
+    }
 }
