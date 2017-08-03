@@ -25,7 +25,8 @@
                     {
                         foreach (SystemReportViewModel svm in Model.GroupBy(elem => elem.ReportGroup).Select(group => group.First()))
                         {
-                            <div class="col-md-12" style="border-bottom: 1px solid #c2dee0;">
+                            <div class="col-md-12">
+                                <div class="col-md-12 headSeperator" style="margin-left:0%;width:100%;"><i class="fa fa-th ig-yellow" aria-hidden="true"></i> @svm.ReportGroup</div>
                                @foreach (SystemReportViewModel subsvm in Model.Where(s=>s.GroupOrder==svm.GroupOrder).OrderBy(os=>os.ReportOrder))
                                 {
                                 <div class="col-md-4">

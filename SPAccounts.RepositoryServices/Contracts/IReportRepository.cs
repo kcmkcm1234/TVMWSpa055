@@ -10,5 +10,7 @@ namespace SPAccounts.RepositoryServices.Contracts
     public  interface IReportRepository
     {
         List<SystemReport> GetAllSysReports(AppUA appUA);
+        List<SaleSummary> GetSaleSummary(DateTime? FromDate,DateTime? ToDate, string CompanyCode);
+        List<SaleDetail> GetSaleDetail(DateTime? FromDate, DateTime? ToDate, string CompanyCode);
     }
 }

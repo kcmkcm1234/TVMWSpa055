@@ -259,25 +259,31 @@ function GetCustomerPaymentsByID(ID) {
     $('#hdfType').val(thisitem.Type);
     $('#Type').prop('disabled', true);
     BindOutstandingAmount();
-    debugger;
+  
     if ( $('#Type').val() == 'C') {
         $("#CreditID").html("");
-        $("#CreditID").append($('<option></option>').val(thisitem.CreditID).html(thisitem.CreditNo + ' ( Credit Amt: ₹' + thisitem.TotalRecdAmt + ')'));
+        //Get Available Credit and Add with  TotalRecdAmt
+        debugger;
+        var thisObj = GetCreditNoteByCustomer(thisitem.customerObj.ID)
+        var CreditAmount = parseFloat(thisitem.TotalRecdAmt) + parseFloat(thisObj[0].AvailableCredit);
+        $('#TotalRecdAmt').val(roundoff(CreditAmount))
+        $('#lblTotalRecdAmt').text(roundoff(CreditAmount))
+        $('#paidAmt').text(roundoff(CreditAmount));
+        $("#CreditID").append($('<option></option>').val(thisitem.CreditID).html(thisitem.CreditNo + ' ( Credit Amt: ₹' + CreditAmount + ')'));
         $('#CreditID').val(thisitem.CreditID)
         $('#CreditID').prop('disabled', true); 
         $('#TotalRecdAmt').prop('disabled', true); 
         $('#hdfCreditID').val(thisitem.CreditID);
         $('#PaymentMode').prop('disabled', true);
         $("#ddlCreditDiv").css("visibility", "visible");
-        $("#lblTotalRecdAmtCptn").text('Credit Amount');
-        $("#lblPaymentAppliedCptn").text('Total Credit Used');
-        $("#lblCreditCptn").text('Credit Remaining');
-        $("#lblTotalAmtRecdCptn").text('Credit Amount')
+        CaptionChangeCredit();
     }
     else {
         $("#CreditID").html(""); // clear before appending new list 
         $("#CreditID").append($('<option></option>').val(emptyGUID).html('--Select Credit Note--'));
         $('#hdfCreditID').val(emptyGUID);
+        $('#PaymentMode').prop('disabled', false);
+        CaptionChangePayment();
 }
 
     PaymentModeChanged();
@@ -287,7 +293,7 @@ function GetCustomerPaymentsByID(ID) {
     var table = $('#tblOutStandingDetails').DataTable();
     var allData = table.rows().data();
     var sum = 0;
-    AmountReceived = roundoff(thisitem.TotalRecdAmt)
+    AmountReceived = roundoff( $('#TotalRecdAmt').val())
     for (var i = 0; i < allData.length; i++) {
         sum = sum + parseFloat(allData[i].CustPaymentObj.CustPaymentDetailObj.PaidAmount);
     }
@@ -317,23 +323,31 @@ function TypeOnChange() {
         $('#PaymentMode').prop('disabled', true);
         $('#BankCode').prop('disabled', true);
         $('#CreditID').prop('disabled', false);
-        $("#lblTotalRecdAmtCptn").text('Credit Amount');
-        $("#lblPaymentAppliedCptn").text('Total Credit Used');
-        $("#lblCreditCptn").text('Credit Remaining');
-        $("#lblTotalAmtRecdCptn").text('Credit Amount')
+        CaptionChangeCredit()
     }
     else {
         $("#ddlCreditDiv").css("visibility", "hidden");
         $('#PaymentMode').prop('disabled', false);
-        $('#BankCode').prop('disabled', true);
-        $("#lblTotalRecdAmtCptn").text('Total Amount Recevied');
-        $("#lblPaymentAppliedCptn").text('Payment Applied');
-        $("#lblCreditCptn").text('Credit Received');
-        $("#lblTotalAmtRecdCptn").text('Amount Received');
+        $('#BankCode').prop('disabled', true); 
         $('#TotalRecdAmt').val(0);
         $('#TotalRecdAmt').prop('disabled', false);
+        CaptionChangePayment()
         AmountChanged();
     }
+}
+function CaptionChangeCredit() {
+    $("#lblTotalRecdAmtCptn").text('Credit Amount');
+    $("#lblPaymentAppliedCptn").text('Total Credit Used');
+    $("#lblCreditCptn").text('Credit Remaining');
+    $("#lblTotalAmtRecdCptn").text('Credit Amount');
+    $("#lblpaidAmt").text('Credit Amount');
+}
+function CaptionChangePayment() {
+    $("#lblTotalRecdAmtCptn").text('Total Amount Recevied');
+    $("#lblPaymentAppliedCptn").text('Payment Applied');
+    $("#lblCreditCptn").text('Credit Received');
+    $("#lblTotalAmtRecdCptn").text('Amount Received');
+    $("#lblpaidAmt").text('Amount Received');
 }
 function ddlCreditOnChange(event) {
     debugger;
@@ -499,6 +513,7 @@ function fieldsclear() {
     $("#CreditID").html("");
     $('#Type').val('P');
     $("#ddlCreditDiv").css("visibility", "hidden");
+    CaptionChangePayment();
 }
 function CustomerChange() {
     debugger;

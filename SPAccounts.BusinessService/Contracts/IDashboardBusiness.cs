@@ -11,5 +11,6 @@ namespace SPAccounts.BusinessService.Contracts
     {
         MonthlyRecap GetMonthlyRecap(string Company);
         List<SalesSummary> GetSalesSummaryChart(SalesSummary duration);
+        TopDocs GetTopDocs(string DocType, string Company,string BaseURL);
     }
 }

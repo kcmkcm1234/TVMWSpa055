@@ -23,7 +23,26 @@ namespace UserInterface.Models
     {
     }
 
+    public class TopDocsVewModel
+    {
+        public string DocType { get; set; }
+        public List<TopDocsItemVewModel> DocItems { get; set; }
 
+    }
+
+    public class TopDocsItemVewModel
+    {
+        public string DocNo { get; set; }
+        public string Customer { get; set; }
+        public decimal Value { get; set; }
+        public string ValueFormatted { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public string CreatedDateFormatted { get; set; }
+        public Guid ID { get; set; }
+        public string URL { get; set; }
+
+    }
     public class MonthlyRecapViewModel
     {
         public string CompanyName { get; set; }
@@ -48,7 +67,7 @@ namespace UserInterface.Models
         public string Period { get; set; }
         public decimal INAmount { get; set; }
         public decimal ExAmount { get; set; }
-       
+
 
     }
 
@@ -63,18 +82,29 @@ namespace UserInterface.Models
     public class OutstandingSummaryViewModel
     {
         public string CompanyName { get; set; }
+        public decimal OutstandingInv { get; set; }
+        public decimal OuttandingPay { get; set; }
+
+        public int invCount { get; set; }
+        public int payCount { get; set; }
+
+        public string OutstandingInvFormatted { get; set; }
+        public string OuttandingPayFormatted { get; set; }
 
     }
 
     public class TopCustomersViewModel
     {
         public string CompanyName { get; set; }
-
+        public TopDocsVewModel Docs { get; set; }
+        public string BaseURL { get; set; }
     }
 
     public class TopSuppliersViewModel
     {
         public string CompanyName { get; set; }
+        public TopDocsVewModel Docs { get; set; }
+        public string BaseURL { get; set; }
 
     }
 
@@ -85,20 +115,21 @@ namespace UserInterface.Models
         public string DocType { get; set; }
         public string Title { get; set; }
         public string Color { get; set; }
-        public List<DocumentSummaryViewModel> DocList { get; set; }
+        public string BaseURL { get; set; }
+        public TopDocsVewModel Docs { get; set; }
     }
 
-    public class DocumentSummaryViewModel
-    {
-        public Guid ID { get; set; }
-        public string DocName { get; set; }
-        public string CustName { get; set; }
-        public decimal DocValue { get; set; }
-        public string CreatedBy { get; set; }
-        public string DocDate { get; set; }
-        public string URL { get; set; }
+    //public class DocumentSummaryViewModel
+    //{
+    //    public Guid ID { get; set; }
+    //    public string DocName { get; set; }
+    //    public string CustName { get; set; }
+    //    public decimal DocValue { get; set; }
+    //    public string CreatedBy { get; set; }
+    //    public string DocDate { get; set; }
+    //    public string URL { get; set; }
 
-    }
+    //}
 
     public class SalesSummaryViewModel
     {
@@ -107,3 +138,6 @@ namespace UserInterface.Models
         public string duration { get; set; }
     }
 }
+
+
+ 

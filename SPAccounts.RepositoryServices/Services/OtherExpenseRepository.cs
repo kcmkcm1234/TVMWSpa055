@@ -99,7 +99,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         _otherExpense.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : _otherExpense.ID);
                                         _otherExpense.ExpenseDate = (sdr["ExpenseDate"].ToString() != "" ? DateTime.Parse(sdr["ExpenseDate"].ToString()).ToString(settings.dateformat) : _otherExpense.ExpenseDate);
                                         _otherExpense.EmpTypeCode = (sdr["EmpType"].ToString() != "" ? sdr["EmpType"].ToString() : string.Empty);
-                                        _otherExpense.chartOfAccounts = new ChartOfAccounts()
+                                        _otherExpense.chartOfAccountsObj = new ChartOfAccounts()
                                         {
                                             Code= (sdr["AccountCode"].ToString() != "" ? sdr["AccountCode"].ToString() : string.Empty),
                                             TypeDesc= (sdr["AccountTypeDescription"].ToString() != "" ? sdr["AccountTypeDescription"].ToString() : string.Empty),
@@ -339,5 +339,61 @@ namespace SPAccounts.RepositoryServices.Services
 
 
         #endregion summary
+
+
+        #region GetExpenseDetailsByValue
+        public List<OtherExpense> GetExpenseTypeDetails(OtherExpense expObj)
+        {
+            List<OtherExpense> chartofAccountsList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetOtherExpenseSummaryForMobile]";
+                        cmd.Parameters.Add("@startdate", SqlDbType.DateTime).Value = expObj.chartOfAccountsObj.startdate;
+                        cmd.Parameters.Add("@enddate", SqlDbType.DateTime).Value = expObj.chartOfAccountsObj.enddate;
+                        cmd.Parameters.Add("@days", SqlDbType.Int).Value = expObj.chartOfAccountsObj.days;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                chartofAccountsList = new List<OtherExpense>();
+                                while (sdr.Read())
+                                {
+                                    OtherExpense _chartofAccountsObj = new OtherExpense();
+                                    {
+                                        _chartofAccountsObj.chartOfAccountsObj = new ChartOfAccounts();
+                                        _chartofAccountsObj.chartOfAccountsObj.Type = (sdr["Type"].ToString() != "" ? (sdr["Type"].ToString()) : _chartofAccountsObj.chartOfAccountsObj.Type);
+                                        _chartofAccountsObj.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : _chartofAccountsObj.Amount);
+
+
+                                        chartofAccountsList.Add(_chartofAccountsObj);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return chartofAccountsList;
+        }
+        #endregion GetExpenseDetailsByValue
     }
+
 }
+
+   

@@ -14,5 +14,6 @@ namespace SPAccounts.RepositoryServices.Contracts
         OtherExpense UpdateOtherExpense(OtherExpense otherExpense);
         object DeleteOtherExpense(Guid ID, string UserName);
         OtherExpSummary GetOtherExpSummary(int month, int year, string Company);
+        List<OtherExpense> GetExpenseTypeDetails(OtherExpense expObj);
     }
 }

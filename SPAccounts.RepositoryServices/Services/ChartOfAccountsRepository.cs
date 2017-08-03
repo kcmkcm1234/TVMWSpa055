@@ -69,54 +69,5 @@ namespace SPAccounts.RepositoryServices.Services
         #endregion GetChartOfAccountsByType
 
 
-        #region GetExpenseDetailsByValue
-        public List<ChartOfAccounts> GetExpenseTypeDetails(ChartOfAccounts accObj)
-        {
-            List<ChartOfAccounts> chartofAccountsList = null;
-            try
-            {
-                using (SqlConnection con = _databaseFactory.GetDBConnection())
-                {
-                    using (SqlCommand cmd = new SqlCommand())
-                    {
-                        if (con.State == ConnectionState.Closed)
-                        {
-                            con.Open();
-                        }
-                        cmd.Connection = con;
-                        cmd.CommandText = "[Accounts].[GetOtherExpenseSummaryForMobile]";
-                        cmd.Parameters.Add("@account", SqlDbType.NVarChar, 20).Value = accObj.account;
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        using (SqlDataReader sdr = cmd.ExecuteReader())
-                        {
-                            if ((sdr != null) && (sdr.HasRows))
-                            {
-                                chartofAccountsList = new List<ChartOfAccounts>();
-                                while (sdr.Read())
-                                {
-                                    ChartOfAccounts _chartofAccountsObj = new ChartOfAccounts();
-                                    {
-                                        _chartofAccountsObj.Type = (sdr["Type"].ToString() != "" ? (sdr["Type"].ToString()) : _chartofAccountsObj.Type);
-                                        _chartofAccountsObj.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : _chartofAccountsObj.Amount);
-
-
-                                        chartofAccountsList.Add(_chartofAccountsObj);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
-            return chartofAccountsList;
-        }
-        #endregion GetExpenseDetailsByValue
     }
-
 }

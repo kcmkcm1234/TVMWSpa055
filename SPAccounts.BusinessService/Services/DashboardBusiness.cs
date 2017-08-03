@@ -8,7 +8,7 @@ using System.Web;
 
 namespace SPAccounts.BusinessService.Services
 {
-    public class DashboardBusiness:IDashboardBusiness
+    public class DashboardBusiness : IDashboardBusiness
     {
         private IDashboardRepository _dashboardRepository;
         private ICommonBusiness _commonBusiness;
@@ -19,9 +19,11 @@ namespace SPAccounts.BusinessService.Services
         }
         public MonthlyRecap GetMonthlyRecap(string Company)
         {
-            MonthlyRecap Result= _dashboardRepository.GetMonthlyRecap(Company);
-            if (Result != null) {
-                foreach (MonthlyRecapItem m in Result.MonthlyRecapItemList) {
+            MonthlyRecap Result = _dashboardRepository.GetMonthlyRecap(Company);
+            if (Result != null)
+            {
+                foreach (MonthlyRecapItem m in Result.MonthlyRecapItemList)
+                {
                     Result.TotalIncome = Result.TotalIncome + m.INAmount;
                     Result.TotalExpense = Result.TotalExpense + m.ExAmount;
                 }
@@ -54,6 +56,27 @@ namespace SPAccounts.BusinessService.Services
 
         }
 
+
+        public TopDocs GetTopDocs(string DocType, string Company, string BaseURL)
+        {
+            TopDocs Result = _dashboardRepository.GetTopDocs(DocType, Company);
+           
+             
+
+
+            if (Result != null)
+            {
+                foreach (TopDocsItem m in Result.DocItems)
+                {
+                    m.ValueFormatted = _commonBusiness.ConvertCurrency(m.Value, 2);
+                    m.URL = BaseURL;
+                }
+
+            }
+
+            return Result;
+
+        }
         public List<SalesSummary> GetSalesSummaryChart(SalesSummary duration)
         {
             return _dashboardRepository.GetSalesSummaryChart(duration);

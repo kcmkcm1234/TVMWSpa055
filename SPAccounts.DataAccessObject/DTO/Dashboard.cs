@@ -9,6 +9,27 @@ namespace SPAccounts.DataAccessObject.DTO
     {
     }
 
+
+    public class TopDocs {
+        public string DocType { get; set; }
+        public List<TopDocsItem> DocItems{ get; set; }
+
+}
+
+    public class TopDocsItem
+    {
+        public string DocNo { get; set; }
+        public string Customer { get; set; }
+        public decimal Value { get; set; }
+        public string ValueFormatted { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public string CreatedDateFormatted { get; set; }
+        public Guid ID { get; set; }
+        public string URL { get; set; }
+    }
+
+
     public class MonthlyRecap
     {
         public string CompanyName { get; set; }

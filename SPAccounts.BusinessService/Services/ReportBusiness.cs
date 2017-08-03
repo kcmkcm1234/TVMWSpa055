@@ -28,5 +28,33 @@ namespace SPAccounts.BusinessService.Services
             }
             return systemReportList;
         }
+
+        public List<SaleDetail> GetSaleDetail(DateTime? FromDate, DateTime? ToDate, string CompanyCode)
+        {
+            List<SaleDetail> saleDetailList = null;
+            try
+            {
+                saleDetailList = _reportRepository.GetSaleDetail(FromDate,ToDate, CompanyCode);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return saleDetailList;
+        }
+
+        public List<SaleSummary> GetSaleSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode)
+        {
+            List<SaleSummary> saleSummaryList = null;
+            try
+            {
+                saleSummaryList = _reportRepository.GetSaleSummary(FromDate, ToDate, CompanyCode);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return saleSummaryList;
+        }
     }
 }

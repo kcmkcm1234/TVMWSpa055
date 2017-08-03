@@ -221,5 +221,10 @@ namespace SPAccounts.BusinessService.Services
             }
             return result;
         }
+
+        public List<OtherExpense> GetExpenseTypeDetails(OtherExpense expObj)
+        {
+            return _otherExpenseRepository.GetExpenseTypeDetails(expObj);
+        }
     }
 }

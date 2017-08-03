@@ -15,45 +15,122 @@
                 <table class="table no-margin">
                     <thead>
                         <tr>
-                            <th>Doc Name</th>
-                            <th>Cust Name</th>
-                            <th>Value</th>
-                            <th>Created By</th>
-                            <th>Date</th>
+                            @if (Model.DocType == "CINV")
+                            {
+                                <th>Invoice No</th>
+                                <th>Cust Name</th>
+                                <th class="text-center">Value</th>
+                                <th>Created By</th>
+                                <th>Date</th>
+                            }
+                            else if (Model.DocType == "SINV")
+                            {
+                                <th>Invoice No</th>
+                                <th>Supp Name</th>
+                                <th class="text-center">Value</th>
+                                <th>Created By</th>
+                                <th>Date</th>
+                            }
+                            else if (Model.DocType == "CPAY")
+                            {
+                                <th>Entry No</th>
+                                <th>Cust Name</th>
+                                <th class="text-center">Value</th>
+                                <th>Created By</th>
+                                <th>Date</th>
+                            }
+                            else if (Model.DocType == "SPAY")
+                            {
+                                <th>Entry No</th>
+                                <th>Supp Name</th>
+                                <th class="text-center">Value</th>
+                                <th>Created By</th>
+                                <th>Date</th>
+                            }
+                            else if (Model.DocType == "OI")
+                            {
+                                <th>Ref No</th>
+                                <th>Income Type</th>
+                                <th class="text-center">Value</th>
+                                <th>Created By</th>
+                                <th>Date</th>
+                            }
+                            else if (Model.DocType == "OE")
+                            {
+                                <th>Expense Type</th>
+                                <th>To</th>
+                                <th class="text-center">Value</th>
+                                <th>Created By</th>
+                                <th>Date</th>
+                            }
+                            else
+                            {
+
+                                <th>Doc Name</th>
+                                <th>Cust Name</th>
+                                <th class="text-center">Value</th>
+                                <th >Created By</th>
+                                <th>Date</th>
+
+                            }
+                          
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th>1234</th>
-                            <td><a href="../Customers">Dathri</a></td>
-                            <td>₹1,34,500</td><td></td>
-                            <td><span class="label label-info">29-Jul-2017</span></td>
-                           
-                        </tr>
-                        <tr><th>1234</th>
-                            <td><a href="../Customers">Kottakal</a></td>
-                            <td>₹54,500</td><td></td>
-                            <td><span class="label label-info">20-Jun-2017</span></td>
-                            
-                        </tr>
-                        <tr><th>1234</th>
-                            <td><a href="../Customers">Pathanjali</a></td>
-                            <td>₹44,000</td><td></td>
-                            <td><span class="label label-info">29-Mar-2017</span></td>
-                           
-                        </tr>
-                        <tr><th>1234</th>
-                            <td><a href="../Customers">Oushadhi</a></td>
-                            <td>₹24,500</td><td></td>
-                            <td><span class="label label-info">29-Dec-2016</span></td>
-                            
-                        </tr>
-                        <tr><th>1234</th>
-                            <td><a href="../Customers">Nagarjuna</a></td>
-                            <td>₹14,500</td><td></td>
-                            <td><span class="label label-info">29-Jan-2017</span></td>
-                            
-                        </tr>
+                        @if (Model.Docs != null)
+                        {
+                            if (Model.Docs.DocItems != null)
+                            {
+                                for (int i = 0; i < Model.Docs.DocItems.Count; i++)
+                                {
+                                    <tr>
+                                        <th>@Model.Docs.DocItems[i].DocNo</th>
+                                        <td><a href="@Model.Docs.DocItems[i].URL">@Model.Docs.DocItems[i].Customer</a></td>
+                                        <td class="text-right">@Model.Docs.DocItems[i].ValueFormatted</td>
+                                        <td>@Model.Docs.DocItems[i].CreatedBy</td>
+                                        <td><span class="label label-info">@Model.Docs.DocItems[i].CreatedDateFormatted</span></td>
+
+                                    </tr>
+
+                                }
+                            }
+
+                        }
+                        @if (Model.Docs != null)
+                        {
+                            for (int i = (Model.Docs.DocItems == null ? 0 : Model.Docs.DocItems.Count); i < 5; i++)
+                            {
+                                <tr>
+                                    <th>-</th>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td><span class="label label-info">-</span></td>
+
+                                </tr>
+
+                            }
+                        }
+                        else
+                        {
+                            for (int i =0; i < 5; i++)
+                            {
+                                <tr>
+                                    <th>-</th>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td><span class="label label-info">-</span></td>
+
+                                </tr>
+
+                            }
+
+
+                        }
+
+
+
 
                     </tbody>
                 </table>
@@ -64,8 +141,10 @@
         
         <!-- /.box-footer -->
         <div class="box-footer clearfix">
+         
+                <a href="@Model.BaseURL" class="label @Model.Color">View All</a>
+            
 
-            <a href="#" class="label @Model.Color">View All</a>
         </div>
     </div>
 </div>

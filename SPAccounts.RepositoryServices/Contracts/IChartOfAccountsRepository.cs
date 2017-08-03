@@ -10,6 +10,6 @@ namespace SPAccounts.RepositoryServices.Contracts
    public interface IChartOfAccountsRepository
     {
         List<ChartOfAccounts> GetChartOfAccountsByType(string type);
-        List<ChartOfAccounts> GetExpenseTypeDetails(ChartOfAccounts account);
+     
     }
 }

@@ -4,10 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using SPAccounts.DataAccessObject.DTO;
 
 namespace SPAccounts.BusinessService.Services
 {
-    public class SupplierPaymentsBusiness
+    public class SupplierPaymentsBusiness: ISupplierPaymentsBusiness
     {
         private ISupplierPaymentsRepository _supplierPaymentsRepository;
         private ICommonBusiness _commonBusiness;
@@ -16,6 +17,36 @@ namespace SPAccounts.BusinessService.Services
             _supplierPaymentsRepository = supplierPaymentsRepository;
             _commonBusiness = commonBusiness;
 
+        }
+
+        public List<SupplierPayments> GetAllSupplierPayments()
+        {
+            throw new NotImplementedException();
+        }
+
+        public SupplierPayments GetSupplierPaymentsByID(string ID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public SupplierPayments InsertUpdatePayments(SupplierPayments _supplierPayObj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object DeletePayments(Guid PaymentID, string UserName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public SupplierPayments InsertPaymentAdjustment(SupplierPayments _supplierPayObj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public SupplierPayments GetOutstandingAmountBySupplier(string SupplierID)
+        {
+            throw new NotImplementedException();
         }
     }
 }
