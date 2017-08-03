@@ -105,7 +105,7 @@ namespace SPAccounts.RepositoryServices.Services
                                     _customerCreditNoteObj.CreditNoteDate = (sdr["CRNDate"].ToString() != "" ? DateTime.Parse(sdr["CRNDate"].ToString()) : _customerCreditNoteObj.CreditNoteDate);
                                     _customerCreditNoteObj.CreditAmount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : _customerCreditNoteObj.CreditAmount);
                                     _customerCreditNoteObj.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : _customerCreditNoteObj.Type);
-                                    //_customerCreditNoteObj.adjustedAmount = (sdr["AdjAmount"].ToString() != "" ? decimal.Parse(sdr["AdjAmount"].ToString()) : _customerCreditNoteObj.adjustedAmount);
+                                    _customerCreditNoteObj.adjustedAmount = (sdr["AdjAmount"].ToString() != "" ? decimal.Parse(sdr["AdjAmount"].ToString()) : _customerCreditNoteObj.adjustedAmount);
                                     _customerCreditNoteObj.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : _customerCreditNoteObj.GeneralNotes);
                                     _customerCreditNoteObj.BillingAddress= (sdr["BillingAddress"].ToString() != "" ? sdr["BillingAddress"].ToString() : _customerCreditNoteObj.BillingAddress);
                                     _customerCreditNoteObj.CreditNoteDateFormatted = (sdr["CRNDate"].ToString() != "" ? DateTime.Parse(sdr["CRNDate"].ToString()).ToString(s.dateformat) : _customerCreditNoteObj.CreditNoteDateFormatted);

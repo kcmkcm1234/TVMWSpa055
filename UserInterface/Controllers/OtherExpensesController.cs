@@ -159,12 +159,21 @@ namespace UserInterface.Controllers
                 }
                 if(!string.IsNullOrEmpty(DefaultDate))
                 {
-                    //DefaultDate is no. of days coming ie 30 or 60 days
-                    ExpenseDate = DateTime.Now.AddDays(-int.Parse(DefaultDate)).ToString("dd-MMM-yyyy");
-                    //JobList = JobList == null ? null : JobList.Where(stype => stype.SCCode == SCCode && stype.Employee.ID == id && DateTime.Parse(stype.ServiceDate) == DateTime.Parse(servicedate)).ToList();
-                    otherExpenseViewModelList = otherExpenseViewModelList != null ? otherExpenseViewModelList
-                    .Where(o => DateTime.Parse(o.ExpenseDate).Date >= DateTime.Parse(ExpenseDate).Date && DateTime.Parse(o.ExpenseDate).Date<=DateTime.Now.Date)
-                    .ToList() : null;
+                    if (DefaultDate == "0")
+                    {
+                        otherExpenseViewModelList = otherExpenseViewModelList != null ? otherExpenseViewModelList                      
+                       .ToList() : null;
+                    }
+                    else
+                    {
+                        //DefaultDate is no. of days coming ie 30 or 60 days
+                        ExpenseDate = DateTime.Now.AddDays(-int.Parse(DefaultDate)).ToString("dd-MMM-yyyy");
+                        //JobList = JobList == null ? null : JobList.Where(stype => stype.SCCode == SCCode && stype.Employee.ID == id && DateTime.Parse(stype.ServiceDate) == DateTime.Parse(servicedate)).ToList();
+                        otherExpenseViewModelList = otherExpenseViewModelList != null ? otherExpenseViewModelList
+                        .Where(o => DateTime.Parse(o.ExpenseDate).Date >= DateTime.Parse(ExpenseDate).Date && DateTime.Parse(o.ExpenseDate).Date <= DateTime.Now.Date)
+                        .ToList() : null;
+                    }
+                   
 
                 }
                 string totamt = _commonBusiness.ConvertCurrency(otherExpenseViewModelList != null ? otherExpenseViewModelList.Sum(o => o.Amount):decimal.Zero);

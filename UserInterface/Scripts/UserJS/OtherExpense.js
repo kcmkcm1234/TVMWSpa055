@@ -100,6 +100,14 @@ function PaymentModeOnchange(curobj)
         $("#BankCode").val("");
         $("#BankCode").prop('disabled', true);
     }
+    if (curobj.value == "CHEQUE")
+    {
+        $("#ChequeDate").prop('disabled', false);
+    }
+    else
+    {
+        $("#ChequeDate").prop('disabled', true);
+    }
     $('span[data-valmsg-for="BankCode"]').empty();
 }
 function BankOnchange()
@@ -124,6 +132,17 @@ function Validation()
             $('span[data-valmsg-for="BankCode"]').empty();
         }
 
+    }
+    if ((pm) && (pm == "CHEQUE"))
+    {
+        if ($("#ChequeDate").val() == "") {
+            fl = false;
+
+            $('span[data-valmsg-for="ChequeDate"]').append('<span for="ChequeDate" class="">Cheque Date required</span>')
+        }
+        else {
+            $('span[data-valmsg-for="ChequeDate"]').empty();
+        }
     }
     debugger;
     var AcodeCombined = $("#AccountCode").val();
@@ -176,7 +195,8 @@ function ClearFields() {
     $("#ExpenseRef").val('');
     $("#Amount").val('');
     $("#Description").val('');
- 
+    $("#ChequeDate").val('');
+    $("#creditdAmt").text("₹ 0.00");
     var validator = $("#OtherExpenseModal").validate();
     $('#OtherExpenseModal').find('.field-validation-error span').each(function () {
         validator.settings.success($(this));
@@ -235,6 +255,7 @@ function Reset() {
     }
     $('span[data-valmsg-for="EmpTypeCode"]').empty();
     $('span[data-valmsg-for="EmpID"]').empty();
+    $('span[data-valmsg-for="ChequeDate"]').empty();
 }
 
 function GetExpenseDetailsByID(ID) {
@@ -273,6 +294,8 @@ function FillOtherExpenseDetails(ID) {
         $("#AccountCode").val(thisItem.AccountCode);
         $("#CompanyCode").val(thisItem.companies.Code);
         $("#paymentMode").val(thisItem.PaymentMode);
+        $("#ChequeDate").val(thisItem.ChequeDate);
+        $("#creditdAmt").text(thisItem.creditAmountFormatted);
         if (thisItem.PaymentMode != "ONLINE")
         {
             $("#BankCode").val("");
@@ -282,7 +305,15 @@ function FillOtherExpenseDetails(ID) {
         {
             $("#BankCode").prop('disabled', false);
         }
-       
+        if (thisItem.PaymentMode != "CHEQUE")
+        {
+            $("#ChequeDate").prop('disabled', true);
+        }
+        else
+        {
+            $("#ChequeDate").prop('disabled', false);
+        }
+        
         $("#EmpTypeCode").val(thisItem.EmpTypeCode);
         if (thisItem.EmpTypeCode)
         {
@@ -342,6 +373,7 @@ function AddOtherExpense() {
         $("#EmpID").prop('disabled', true);
         $("#EmpTypeCode").prop('disabled', true);
         $("#BankCode").prop('disabled', true);
+        $("#ChequeDate").prop('disabled',true);
     }
     catch (e) {
         notyAlert('error', e.message);
