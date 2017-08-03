@@ -178,7 +178,7 @@ function ClearFields() {
     $("#CreditAmount").val("");
     $("#GeneralNotes").val("");
     $("#creditdAmt").text("₹ 0.00");
-    //$("#adjusteddAmt").text("₹ 0.00");
+    $("#adjusteddAmt").text("₹ 0.00");
     ResetForm();
     ChangeButtonPatchView("CustomerCreditNote", "btnPatchAdd", "Add"); //ControllerName,id of the container div,Name of the action
 }
@@ -274,7 +274,7 @@ function FillCustomerCreditNoteDetails(ID) {
     $("#BillingAddress").val(thisItem.BillingAddress);
     $("#CreditAmount").val(roundoff(thisItem.CreditAmount));
     $("#creditdAmt").text(thisItem.creditAmountFormatted);
-    //$("#adjusteddAmt").text(thisItem.adjustedAmountFormatted);
+    $("#adjusteddAmt").text(thisItem.adjustedAmountFormatted);
     $("#GeneralNotes").val(thisItem.GeneralNotes);
 }
 

@@ -29,6 +29,7 @@ namespace SPAccounts.BusinessService.Services
             if(custCreditNotesObj!=null)
             {
                 custCreditNotesObj.creditAmountFormatted= _commonBusiness.ConvertCurrency(custCreditNotesObj.CreditAmount, 2);
+                custCreditNotesObj.adjustedAmountFormatted = _commonBusiness.ConvertCurrency(custCreditNotesObj.adjustedAmount,2);
             }
             return custCreditNotesObj;
         }

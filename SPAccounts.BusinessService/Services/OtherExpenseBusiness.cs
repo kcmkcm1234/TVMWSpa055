@@ -132,6 +132,11 @@ namespace SPAccounts.BusinessService.Services
             {
                 otherExpenseList = GetAllOtherExpenses();
                 otherExpense = otherExpenseList != null ? otherExpenseList.Where(o => o.ID == ID).ToList().FirstOrDefault() : null;
+                if (otherExpense != null)
+                {
+                    otherExpense.creditAmountFormatted = _commonBusiness.ConvertCurrency(otherExpense.Amount, 2);
+                  
+                }
             }
             catch(Exception ex)
             {
