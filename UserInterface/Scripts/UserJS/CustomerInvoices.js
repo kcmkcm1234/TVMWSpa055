@@ -564,7 +564,7 @@ function GetPaymentTermDetails(Code)
 {
     debugger;
     try {
-        var data = { "Code":Code };
+        var data = { "Code":Code,"InvDate":$('#txtInvDate').val() };
         var ds = {};
         ds = GetDataFromServer("CustomerInvoices/GetDueDate/", data);
         if (ds != '') {
