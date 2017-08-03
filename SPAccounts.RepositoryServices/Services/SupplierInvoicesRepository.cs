@@ -13,14 +13,17 @@ namespace SPAccounts.RepositoryServices.Services
     {
         AppConst Cobj = new AppConst();
         private IDatabaseFactory _databaseFactory;
+        
         /// <summary>
         /// Constructor Injection:-Getting IDatabaseFactory implementing object
         /// </summary>
         /// <param name="databaseFactory"></param>
+
         public SupplierInvoicesRepository(IDatabaseFactory databaseFactory)
         {
             _databaseFactory = databaseFactory;
         }
+
         public List<SupplierInvoices> GetAllSupplierInvoices()
         {
             List<SupplierInvoices> SupplierInvoicesList = null;
@@ -81,6 +84,7 @@ namespace SPAccounts.RepositoryServices.Services
 
             return SupplierInvoicesList;
         }
+
         public SupplierInvoiceSummary GetSupplierInvoicesSummary()
         {
             SupplierInvoiceSummary SupplierInvoiceSummaryObj = null;
@@ -132,6 +136,7 @@ namespace SPAccounts.RepositoryServices.Services
 
             return SupplierInvoiceSummaryObj;
         }
+
         public SupplierInvoices GetSupplierInvoiceDetails(Guid ID)
         {
             SupplierInvoices SIList = null;
@@ -199,6 +204,7 @@ namespace SPAccounts.RepositoryServices.Services
 
             return SIList;
         }
+
         public SupplierInvoices InsertInvoice(SupplierInvoices _supplierInvoicesObj)
         {
             try
@@ -263,6 +269,7 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return _supplierInvoicesObj;
         }
+
         public SupplierInvoices UpdateInvoice(SupplierInvoices _supplierInvoicesObj)
         {
             try
@@ -379,7 +386,6 @@ namespace SPAccounts.RepositoryServices.Services
             return SupplierInvoicesList;
         }
 
-
         public List<SupplierInvoices> GetOpeningSupplierInvoices()
         {
             List<SupplierInvoices> SupplierInvoicesList = null;
@@ -484,6 +490,68 @@ namespace SPAccounts.RepositoryServices.Services
             };
         }
         #endregion DeleteSupplierInvoice
+
+        public List<SupplierInvoices> GetOutStandingInvoicesBySupplier(Guid PaymentID, Guid supplierID)
+        {
+            List<SupplierInvoices> SupplierInvoicesList = null;
+            Settings settings = new Settings();
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetSupplierOutStandingInvoices]";
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = supplierID;
+                        cmd.Parameters.Add("@PaymentID", SqlDbType.UniqueIdentifier).Value = PaymentID;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                SupplierInvoicesList = new List<SupplierInvoices>();
+                                while (sdr.Read())
+                                {
+                                    SupplierInvoices SIList = new SupplierInvoices();
+                                    {
+                                        SIList.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : SIList.ID);
+                                        SIList.InvoiceDate = (sdr["InvoiceDate"].ToString() != "" ? DateTime.Parse(sdr["InvoiceDate"].ToString()) : SIList.InvoiceDate);
+                                        SIList.InvoiceNo = sdr["InvoiceNo"].ToString();
+
+                                        SIList.PaymentDueDate = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()) : SIList.PaymentDueDate);
+                                        SIList.TotalInvoiceAmount = (sdr["TotalInvoiceAmount"].ToString() != "" ? Decimal.Parse(sdr["TotalInvoiceAmount"].ToString()) : SIList.TotalInvoiceAmount);
+                                        SIList.BalanceDue = (sdr["BalanceDue"].ToString() != "" ? Decimal.Parse(sdr["BalanceDue"].ToString()) : SIList.BalanceDue);
+                                        SIList.LastPaymentDate = (sdr["LastPaymentDate"].ToString() != "" ? DateTime.Parse(sdr["LastPaymentDate"].ToString()) : SIList.LastPaymentDate);
+                                        SIList.OtherPayments = (sdr["OtherPayments"].ToString() != "" ? Decimal.Parse(sdr["OtherPayments"].ToString()) : SIList.OtherPayments);
+                                        SIList.SuppPaymentObj = new SupplierPayments();
+                                        SIList.SuppPaymentObj.supplierPaymentsDetailObj = new SupplierPaymentsDetail();
+                                        SIList.SuppPaymentObj.supplierPaymentsDetailObj.PaidAmount = (sdr["PaidAmountEdit"].ToString() != "" ? Decimal.Parse(sdr["PaidAmountEdit"].ToString()) : SIList.SuppPaymentObj.supplierPaymentsDetailObj.PaidAmount);
+                                        SIList.SuppPaymentObj.supplierPaymentsDetailObj.ID = (sdr["PaymentDetailID"].ToString() != "" ? Guid.Parse(sdr["PaymentDetailID"].ToString()) : SIList.SuppPaymentObj.supplierPaymentsDetailObj.ID);
+                                        //------------date formatting-----------------//
+                                        SIList.InvoiceDateFormatted = (sdr["InvoiceDate"].ToString() != "" ? DateTime.Parse(sdr["InvoiceDate"].ToString()).ToString(settings.dateformat) : SIList.InvoiceDateFormatted);
+                                        SIList.PaymentDueDateFormatted = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString(settings.dateformat) : SIList.PaymentDueDateFormatted);
+                                        SIList.LastPaymentDateFormatted = (sdr["LastPaymentDate"].ToString() != "" ? DateTime.Parse(sdr["LastPaymentDate"].ToString()).ToString(settings.dateformat) : SIList.LastPaymentDateFormatted);
+                                    }
+                                    SupplierInvoicesList.Add(SIList);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return SupplierInvoicesList;
+        }
 
     }
 }

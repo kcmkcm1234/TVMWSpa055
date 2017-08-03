@@ -18,7 +18,7 @@ $(document).ready(function () {
              },
              columns: [
                { "data": null },
-               { "data": "chartOfAccounts.TypeDesc", "defaultContent": "<i>-</i>" },
+               { "data": "chartOfAccountsObj.TypeDesc", "defaultContent": "<i>-</i>" },
                { "data": "PaymentMode", "defaultContent": "<i>-</i>" },
                { "data": "Description", "defaultContent": "<i>-</i>" },
                { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
@@ -65,6 +65,7 @@ function GetAllExpenseDetails(expDate, DefaultDate) {
             $("#TotalAmt").text("");
             $("#TotalAmt").text(ds.TotalAmount);
         }
+        debugger;
         if (ds.Result == "OK") {
             return ds.Records;
         }
