@@ -315,7 +315,7 @@
                                         </div>
                                         <div class="col-md-12">
 
-                                            @Html.TextAreaFor(model => model.Description, 3, 60, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter", @id = "Description" } })
+                                            @Html.TextAreaFor(model => model.Description, 3, 50, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter", @id = "Description" } })
 
                                             @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
 
