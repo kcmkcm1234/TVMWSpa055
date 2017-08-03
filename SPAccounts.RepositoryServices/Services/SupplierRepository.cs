@@ -155,6 +155,7 @@ namespace SPAccounts.RepositoryServices.Services
                                 if (sdr.Read())
                                 {
                                     _supplierObj.CompanyName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : _supplierObj.CompanyName);
+                                    _supplierObj.ContactTitle = (sdr["ContactTitle"].ToString() != "" ? sdr["ContactTitle"].ToString() : _supplierObj.ContactTitle);
                                     _supplierObj.ContactPerson = (sdr["ContactPerson"].ToString() != "" ? sdr["ContactPerson"].ToString() : _supplierObj.ContactPerson);
                                     _supplierObj.ContactEmail = (sdr["ContactEmail"].ToString() != "" ? sdr["ContactEmail"].ToString() : _supplierObj.ContactEmail);
                                     _supplierObj.Website = (sdr["Website"].ToString() != "" ? sdr["Website"].ToString() : _supplierObj.Website);
