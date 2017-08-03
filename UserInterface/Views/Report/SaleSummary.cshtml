@@ -7,6 +7,7 @@
 
 @section styles {
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableButtons")
 }
 <div style="width:100%;">
     <ol class="breadcrumb">
@@ -16,15 +17,7 @@
 </div>
 
 
-<div class="row">
-    <div class="" id="btnPatchAttributeSettab" style="min-height:25px">
 
-        @{
-            var data = new { ActionType = "List" };
-            @Html.Action("ChangeButtonStyle", "Report", data);
-        }
-    </div>
-</div>
 <div class="preloader" id="prelaoder">
     <div class="col-md-12">
         <div class="col-md-12">Loading </div>
@@ -32,63 +25,58 @@
     </div>
 
 </div>
+<div class="col-md-12">
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+</div>
 <div class="form-horizontal">
 
-    <div class="col-md-12" style="border: 2px solid #ded9d9;margin-top:10px;background-color:#f4f4f4;">
-        <div class="col-md-4">
-            <div class="form-group col-md-12">
-                <div class="col-md-12">
-                    @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })
+    <div class="col-md-8" style="margin-top:10px;">
+        <div class="col-md-3">
+            @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-12">
+                @Html.TextBox("fromdate","", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @onchange = "RefreshSaleSummaryTable()", @Value= ViewBag.fromdate })
 
-                </div>
-                <div class="col-md-12">
-                    <div class="col-md-10">
-                        @Html.TextBox("fromdate", "", new { @class = "form-control datepicker HeaderBox BlockEnter", onchange = "alert('hi')" })
-
-                        @*<input class="form-control " onchange="RefreshItemSummaryTable()" style="width:190px" name="fromdate" id="fromdate" type="text">*@
-                    </div>
-                    <div class="col-md-1"></div>
-                    <div class="col-md-1"></div>
-                </div>
+              
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="form-group col-md-12">
-                <div class="col-md-12">
-                    @Html.Label("To Date", htmlAttributes:new { @class = "control-label" })
-                </div>
-                <div class="col-md-12">
-                    <div class="col-md-10">
-                        @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter", onchange = "alert('hi')" })
-
-
-                    </div>
-                    <div class="col-md-1"></div>
-                    <div class="col-md-1"></div>
-                </div>
+        <div class="col-md-3">
+            @Html.Label("To Date", htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-12">
+                @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @onchange = "RefreshSaleSummaryTable()", @Value = ViewBag.todate })
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="form-group col-md-12">
-                <div class="col-md-12">
-                    @Html.LabelFor(model => model.CompanyCode, htmlAttributes: new { @class = "control-label" })
-                </div>
-                <div class="col-md-12">
-                    <div class="col-md-10">
-                        @Html.DropDownListFor(model => model.CompanyCode, Model.CompanyList, "-- Select Company --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "CompanyCode" })
-                        @Html.ValidationMessageFor(model => model.CompanyCode, "", new { @class = "text-danger" })
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.CompanyCode, htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-12">
+                @Html.DropDownListFor(model => model.CompanyCode, Model.CompanyList, "-- Select Company --", new { @class = "form-control BlockEnter", @onchange = "RefreshSaleSummaryTable()", value = -1, style = "padding:4px 12px;", @id = "CompanyCode" })
+                @Html.ValidationMessageFor(model => model.CompanyCode, "", new { @class = "text-danger" })
 
-                    </div>
-                    <div class="col-md-1"></div>
-                    <div class="col-md-1"></div>
-                </div>
             </div>
         </div>
       
-           
-    
-    </div>
+   
+   
+         @*<div class="col-md-12 filterHead">Filter</div>
+        <div class="col-md-12">
+            
+          
+        </div>*@
+      
 
+        
+
+    </div>
+    <div class="col-md-4" id="btnPatchAttributeSettab" style="min-height:25px">
+        @{
+            var data = new { ActionType = "List" };
+            @Html.Action("ChangeButtonStyle", "Report", data);
+        }
+    </div>
     <div class="row summaryboxes">
 
         <div class="clearfix visible-sm-block">
@@ -101,15 +89,17 @@
     </div>
     <div class="row tableContainer">
         <div class="col-md-12">
-            <table id="saleSummaryTable" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
+            <table id="saleSummaryTable" class="table stripe" cellspacing="0" width="100%">
                 <thead>
                     <tr class="text-center TableHead">
                         <th>Customer Name</th>
-                        <th>Opening Balance(A)(net receivable till from date)</th>
+                        <th>Opening Balance(A)</th>
                         <th>Invoiced (B)</th>
                         <th>Paid (C)</th>
                         <th>Balance (D = B-C)</th>
-                        <th>Net Due (Till To Date) (E=(A+B) - C)</th>
+                        <th>Net Due(E=(A+B) - C)</th>
+                        <th>Credit</th>
+                        <th>Company</th>
 
                     </tr>
                 </thead>
@@ -127,10 +117,10 @@
 
 @section Scripts {
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/OtherExpense")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/SaleSummaryReport")
 }
-
 
 
 

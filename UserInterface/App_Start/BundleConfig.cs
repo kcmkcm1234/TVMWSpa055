@@ -72,7 +72,8 @@ namespace UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/Employee").Include("~/Scripts/UserJS/Employee.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/AdminDash").Include("~/Scripts/UserJS/MonthlyRecap.js", "~/Scripts/UserJS/ExpenseSummary.js","~/Scripts/UserJS/Outstanding.js", "~/Scripts/UserJS/TopCustomers.js", "~/Scripts/UserJS/TopSuppliers.js"));
-
+            bundles.Add(new ScriptBundle("~/bundles/SaleSummaryReport").Include("~/Scripts/UserJS/SaleSummaryReport.js"));
+            
         }
 
     }
