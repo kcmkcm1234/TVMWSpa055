@@ -41,7 +41,15 @@ namespace UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject = "Dashboard", Mode = "R")]
         public ActionResult Index()
         {
-            return View();
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            if (_appUA.RolesCSV.Contains("SAdmin") || _appUA.RolesCSV.Contains("CEO"))
+            {
+                return RedirectToAdminDashboard();
+            }
+            else {
+                return View();
+            }
+            
         }
 
         [AuthSecurityFilter(ProjectObject = "AdminDashboard", Mode = "R")]
