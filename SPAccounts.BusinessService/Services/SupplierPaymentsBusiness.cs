@@ -21,7 +21,9 @@ namespace SPAccounts.BusinessService.Services
 
         public List<SupplierPayments> GetAllSupplierPayments()
         {
-            throw new NotImplementedException();
+            List<SupplierPayments> supplierPayObj = null;
+            supplierPayObj = _supplierPaymentsRepository.GetAllSupplierPayments();
+            return supplierPayObj;
         }
 
         public SupplierPayments GetSupplierPaymentsByID(string ID)

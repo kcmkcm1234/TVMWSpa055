@@ -123,5 +123,10 @@ namespace SPAccounts.BusinessService.Services
             }
             return result;
         }
+
+        public List<SupplierInvoices> GetOutStandingInvoicesBySupplier(Guid PaymentID, Guid supplierID)
+        {
+            return _supplierInvoicesRepository.GetOutStandingInvoicesBySupplier(PaymentID, supplierID);
+        }
     }
 }

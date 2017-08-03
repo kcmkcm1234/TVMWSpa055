@@ -13,6 +13,7 @@ namespace SPAccounts.BusinessService.Contracts
         SupplierInvoiceSummary GetSupplierInvoicesSummary();
         SupplierInvoices InsertUpdateInvoice(SupplierInvoices _supplierInvoicesObj);
         SupplierSummaryforMobile GetOutstandingSupplierInvoices();
+        List<SupplierInvoices> GetOutStandingInvoicesBySupplier(Guid PaymentID,Guid supplierID);
         SupplierSummaryforMobile GetOpeningSupplierInvoices();
         object DeleteSupplierInvoice(Guid ID, string userName);
     }
