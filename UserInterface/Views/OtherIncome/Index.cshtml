@@ -64,6 +64,8 @@
                                 { Text = "Last 30 Days", Value = "30" });
                                 listDefaultDate.Add(new SelectListItem
                                 { Text = "Last 60 Days", Value = "60" });
+                                listDefaultDate.Add(new SelectListItem
+                                { Text = "All", Value = "0" });
                             }
                             @Html.DropDownListFor(model =>model.DefaultDate, listDefaultDate, new { @class = "form-control BlockEnter",  style = "padding:4px 12px;",@id= "DefaultDate",  @onchange = "IncomeDefaultDateOnchange()" })
                             @Html.ValidationMessageFor(model => model.DefaultDate, "", new { @class = "text-danger" })
@@ -123,15 +125,15 @@
         </div>
 
 
-<div class="modal fade" id="AddOtherIncomeModel" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="AddOtherIncomeModel" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true" style="overflow-y:hidden !important;">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 36px;padding: 3px;">
+            <div class="modal-header" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 36px;padding: 3px;border-bottom:2px solid rgb(149, 76, 132)!important;">
                 <div class="container-fluid" style="padding-right: 0px;">
                     <div class="col-md-8">
                         <h3 class="modal-title SCHeader" id="modelContextLabel"></h3>
                         <div class="col-md-12">
-                            <span style="font-weight: 600;font-size: 14px;" id="AddOrEditSpan">Add New</span>
+                            <span style="font-weight: 600;font-size: 20px;" id="AddOrEditSpan">Add New</span>
 
 
                         </div>

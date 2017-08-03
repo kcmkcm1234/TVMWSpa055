@@ -260,7 +260,7 @@ function GetDueDate(this_Obj) {
 function GetPaymentTermDetails(Code) {
     debugger;
     try {
-        var data = { "Code": Code };
+        var data = { "Code": Code, "InvDate": $('#txtInvDate').val() }; //var data = { "Code": Code };
         var ds = {};
         ds = GetDataFromServer("SupplierInvoices/GetDueDate/", data);
         if (ds != '') {
