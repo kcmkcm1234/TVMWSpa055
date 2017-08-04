@@ -45,7 +45,7 @@ namespace UserInterface.Controllers
                 selectListItem.Add(new SelectListItem
                 {
                     Text = "All",
-                    Value = "All",
+                    Value = "ALL",
                     Selected = true
                 });
                 foreach (CompaniesViewModel cvm in SaleSummary.companiesList)
@@ -99,7 +99,7 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.backbtn.Event = "Back();";
 
                     ToolboxViewModelObj.PrintBtn.Visible = true;
-                    ToolboxViewModelObj.PrintBtn.Text = "Print";
+                    ToolboxViewModelObj.PrintBtn.Text = "Export";
                     ToolboxViewModelObj.PrintBtn.Event = "PrintReport();";
 
                     break;
