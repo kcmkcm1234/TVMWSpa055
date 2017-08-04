@@ -45,7 +45,7 @@ namespace UserInterface.Controllers
                 selectListItem.Add(new SelectListItem
                 {
                     Text = "All",
-                    Value = "All",
+                    Value = "ALL",
                     Selected = true
                 });
                 foreach (CompaniesViewModel cvm in SaleSummary.companiesList)
