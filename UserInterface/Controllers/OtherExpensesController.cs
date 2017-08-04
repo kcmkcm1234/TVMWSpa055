@@ -18,10 +18,12 @@ namespace UserInterface.Controllers
         AppConst c = new AppConst();
         IOtherExpenseBusiness _otherExpenseBusiness;
         ICommonBusiness _commonBusiness;
-        public OtherExpensesController(IOtherExpenseBusiness otherExpenseBusiness, ICommonBusiness commonBusiness)
+        IEmployeeBusiness _employeeBusiness;
+        public OtherExpensesController(IOtherExpenseBusiness otherExpenseBusiness, ICommonBusiness commonBusiness,IEmployeeBusiness employeeBusiness)
         {
             _otherExpenseBusiness = otherExpenseBusiness;
             _commonBusiness = commonBusiness;
+            _employeeBusiness = employeeBusiness;
         }
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "OtherExpense", Mode = "R")]
@@ -265,6 +267,40 @@ namespace UserInterface.Controllers
             }
         }
         #endregion InsertUpdateOtherExpense
+
+        #region InsertUpdateEmployee
+        [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "OtherExpense", Mode = "W")]
+        public string InsertUpdateEmployee(EmployeeViewModel _employeeObj)
+        {
+            object result = null;
+
+            try
+            {
+
+
+                AppUA _appUA = Session["AppUA"] as AppUA;
+                _employeeObj.commonObj = new CommonViewModel();
+                _employeeObj.commonObj.CreatedBy = _appUA.UserName;
+                _employeeObj.commonObj.CreatedDate = _appUA.DateTime;
+                _employeeObj.commonObj.UpdatedBy = _appUA.UserName;
+                _employeeObj.commonObj.UpdatedDate = _appUA.DateTime;
+
+                result = _employeeBusiness.InsertUpdateEmployee(Mapper.Map<EmployeeViewModel, Employee>(_employeeObj));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+
+            }
+            catch (Exception ex)
+            {
+
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+
+
+        }
+        #endregion InsertUpdateEmployee
+
         #region DeleteOtherExpense
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "OtherExpense", Mode = "D")]

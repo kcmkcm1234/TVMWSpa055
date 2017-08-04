@@ -90,8 +90,8 @@
                         <th>Payment Mode</th>
                         <th>Type</th>
                         <th>Credit Note No.</th>
-                        <th>Amount Received(₹)</th>
-                        <th>Advance Received(₹)</th>
+                        <th>Amount Paid(₹)</th>
+                        <th>Advance Paid(₹)</th>
                         <th>...</th>
                     </tr>
                 </thead>
@@ -268,7 +268,7 @@
                             </div>
                             <div class="form-group col-md-12">
                                 <div class="col-md-12 text-right">
-                                    <div class="rightAmtCaption">Amount Received</div>
+                                    <div class="rightAmtCaption">Amount Paid</div>
                                 </div>
                                 <div class="col-md-12 text-right">
                                     <div class="rightAmt" id="paidAmt">₹ 0.00</div>
@@ -323,7 +323,7 @@
                         <div class="col-md-4">
                             <div class="form-group col-md-12">
                                 <div class="col-md-8" style="text-align: right">
-                                    @Html.Label("Total Amount Received:", htmlAttributes: new { @class = "control-label ", @id = "lblTotalPaidAmtCptn" })
+                                    @Html.Label("Total Amount Paid:", htmlAttributes: new { @class = "control-label ", @id = "lblTotalPaidAmtCptn" })
                                 </div>
                                 <div class="col-md-4" style="text-align: right">
                                     @Html.Label("0", htmlAttributes: new { @class = "control-label ", @id = "lblTotalPaidAmt" })
@@ -339,7 +339,7 @@
                             </div>
                             <div class="form-group col-md-12">
                                 <div class="col-md-8" style="text-align: right">
-                                    @Html.Label("Credit Received:", htmlAttributes: new { @class = "control-label ", @id = "lblCreditCptn" })
+                                    @Html.Label("Credit Paid:", htmlAttributes: new { @class = "control-label ", @id = "lblCreditCptn" })
                                 </div>
                                 <div class="col-md-4" style="text-align: right">
                                     @Html.Label("0", htmlAttributes: new { @class = "control-label ", @id = "lblCredit" })

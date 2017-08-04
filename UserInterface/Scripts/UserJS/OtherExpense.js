@@ -161,7 +161,7 @@ function Validation()
             {
                 $('span[data-valmsg-for="EmpTypeCode"]').empty();
             }
-            if ($("#EmpID").val() == "-1" || $("#EmpID").val() == null)
+            if (($("#EmpID").val() == "-1" || $("#EmpID").val() == null) && $("#EmpName").val() == "")
             {
                 fl = false;
                 $('span[data-valmsg-for="EmpID"]').empty();
@@ -191,12 +191,18 @@ function ClearFields() {
     $("#AccountCode").val('');
     $("#CompanyCode").val('');
     $("#paymentMode").val('');
-    $("#EmpID").val('');
+    $("#EmpTypeCode").val('');
     $("#BankCode").val('');
     $("#ExpenseRef").val('');
     $("#Amount").val('');
     $("#Description").val('');
     $("#ChequeDate").val('');
+    $('#EmpID').empty();
+    $('#EmpID').append(new Option('-- Select Employee --', -1));
+    $('#EmpID').val("-1");
+    $("#EmpName").val("");
+    $("#btnAddEmployee").css("pointer-events", "none");
+    $("#EmployeeDiv").hide();
     $("#creditdAmt").text("₹ 0.00");
     var validator = $("#OtherExpenseModal").validate();
     $('#OtherExpenseModal').find('.field-validation-error span').each(function () {
@@ -337,12 +343,15 @@ function FillOtherExpenseDetails(ID) {
             if (IsEmploy == "True") {
                 $("#EmpTypeCode").prop('disabled', false);
                 $("#EmpID").prop('disabled', false);
+                $("#btnAddEmployee").css("pointer-events", "auto");
             }
             else {
                 $("#EmpTypeCode").val('');
                 $("#EmpID").val('');
                 $("#EmpTypeCode").prop('disabled', true);
                 $("#EmpID").prop('disabled', true);
+                $("#btnAddEmployee").css("pointer-events", "none");
+               
             }
         }
     }
@@ -350,6 +359,17 @@ function FillOtherExpenseDetails(ID) {
 
    
 }
+
+function AddEmployee()
+{
+    $("#EmployeeDiv").show();
+}
+
+function CancelEmployee()
+{
+    $("#EmpName").val("");
+    $("#EmployeeDiv").hide();
+    }
 
 //---------------------------------------Edit Other expense--------------------------------------------------//
 function Edit(currentObj) {
@@ -374,7 +394,10 @@ function AddOtherExpense() {
         $("#EmpID").prop('disabled', true);
         $("#EmpTypeCode").prop('disabled', true);
         $("#BankCode").prop('disabled', true);
-        $("#ChequeDate").prop('disabled',true);
+        $("#ChequeDate").prop('disabled', true);
+        $("#btnAddEmployee").css("pointer-events", "none");
+        $("#EmployeeDiv").hide();
+        
     }
     catch (e) {
         notyAlert('error', e.message);
@@ -446,8 +469,89 @@ function BindAllOtherExpense(expDate, DefaultDate) {
 
 
 
+function SaveEmployee()
+{
+    debugger;
+    try {
+        //$("#btnSaveEmployee").trigger('click');
+        var f1 = true;
+        if($("#EmpTypeCode").val()=="" )
+        {
+            f1 = false;
+            $('span[data-valmsg-for="EmpTypeCode"]').empty();
+            $('span[data-valmsg-for="EmpTypeCode"]').append('<span for="EmpTypeCode" class="">Employee Type required</span>')
+        }
+        else
+        {
+            
+            $('span[data-valmsg-for="EmpTypeCode"]').empty();
+        }
+        if($("#CompanyCode").val()=="")
+        {
+            f1 = false;
+            $('span[data-valmsg-for="PaidFromCompanyCode"]').empty();
+            $('span[data-valmsg-for="PaidFromCompanyCode"]').append('<span for="PaidFromCompanyCode" class="">Company Code required</span>')
+        }
+        else
+        {
+            $('span[data-valmsg-for="PaidFromCompanyCode"]').empty();
+        }
+        if ($("#EmpName").val() == "")
+        {
+            f1 = false;
+            $('span[data-valmsg-for="EmpName"]').empty();
+            $('span[data-valmsg-for="EmpName"]').append('<span for="EmpName" class="">Employee Name required</span>')
+        }
+        else
+        {
+            $('span[data-valmsg-for="EmpName"]').empty();
+        }
+        if(f1==true)
+        {
+            AddNewEmployee();
+        }
+        
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+        return 0;
+    }
+}
 
+function AddNewEmployee()
+{
+    debugger;
+    try {
+        var EmployeeViewModel = new Object();
+        EmployeeViewModel.Name = $("#EmpName").val();
+        EmployeeViewModel.EmployeeType = $("#EmpTypeCode").val();
+        EmployeeViewModel.companyID = $("#CompanyCode").val();
+        EmployeeViewModel.Code = Math.floor((Math.random() * 10000) + 1);
+        var data = "{'_employeeObj':" + JSON.stringify(EmployeeViewModel) + "}";
+        PostDataToServer('OtherExpenses/InsertUpdateEmployee/', data, function (JsonResult) {
+            debugger;
+            if (JsonResult != '') {
+                switch (JsonResult.Result) {
+                    case "OK":
+                        notyAlert('success', "Success");
+                        BindEmployeeDropDown($("#EmpTypeCode").val());
+                        $('#EmpID').val(JsonResult.Records.ID);
+                        $("#EmployeeDiv").hide();
 
+                        break;
+                    case "ERROR":
+                        notyAlert('error', JsonResult.Message.Message);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        })
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
 
 function ExpenseDefaultDateOnchange()
 {
@@ -474,13 +578,19 @@ function AccountCodeOnchange(curobj)
         {
             $("#EmpTypeCode").prop('disabled', false);
             $("#EmpID").prop('disabled', false);
+            $("#btnAddEmployee").css("pointer-events", "auto");
+          
         }
         else
         {
             $("#EmpTypeCode").val('');
-            $("#EmpID").val('');
+            $('#EmpID').empty();
+            $('#EmpID').append(new Option('-- Select Employee --', -1));
+            $('#EmpID').val("-1");
             $("#EmpTypeCode").prop('disabled', true);
             $("#EmpID").prop('disabled', true);
+            $("#btnAddEmployee").css("pointer-events", "none");
+            $("#EmployeeDiv").hide();
         }
     }
     $('span[data-valmsg-for="EmpTypeCode"]').empty();
