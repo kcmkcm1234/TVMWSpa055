@@ -40,7 +40,9 @@ namespace UserInterface.Models
         [Display(Name = "Credit Amount")]
         [Required(ErrorMessage = "Please Enter Credit Amount")]
         public decimal Amount { get; set; }
-       
+        public decimal AvailableCredit { get; set; }
+
+
         public string Type { get; set; }
         [Display(Name = "General Notes")]
         public string GeneralNotes { get; set; }

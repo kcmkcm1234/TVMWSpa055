@@ -11,6 +11,6 @@ namespace SPAccounts.BusinessService.Contracts
     {
         List<SystemReport> GetAllSysReports(AppUA appUA);
         List<SaleSummary> GetSaleSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode);
-        List<SaleDetail> GetSaleDetail(DateTime? FromDate, DateTime? ToDate, string CompanyCode);
+        List<SaleDetailReport> GetSaleDetail(DateTime? FromDate, DateTime? ToDate, string CompanyCode);
     }
 }

@@ -70,9 +70,9 @@ namespace SPAccounts.RepositoryServices.Services
             return Reportlist;
         }
 
-        public List<SaleDetail> GetSaleDetail(DateTime? FromDate, DateTime? ToDate, string CompanyCode)
+        public List<SaleDetailReport> GetSaleDetail(DateTime? FromDate, DateTime? ToDate, string CompanyCode)
         {
-            List<SaleDetail> SaleDetailList = null;
+            List<SaleDetailReport> SaleDetailList = null;
             try
             {
                 using (SqlConnection con = _databaseFactory.GetDBConnection())
@@ -93,10 +93,10 @@ namespace SPAccounts.RepositoryServices.Services
                         {
                             if ((sdr != null) && (sdr.HasRows))
                             {
-                                SaleDetailList = new List<SaleDetail>();
+                                SaleDetailList = new List<SaleDetailReport>();
                                 while (sdr.Read())
                                 {
-                                    SaleDetail saleDetail = new SaleDetail();
+                                    SaleDetailReport saleDetail = new SaleDetailReport();
                                     {
                                         saleDetail.InvoiceNo = (sdr["InvoiceNo"].ToString() != "" ? sdr["InvoiceNo"].ToString() : saleDetail.InvoiceNo);
                                         saleDetail.Date = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(s.dateformat) : saleDetail.Date);
@@ -107,7 +107,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         saleDetail.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : saleDetail.GeneralNotes);
                                         saleDetail.OriginCompany = (sdr["OriginCompany"].ToString() != "" ? sdr["OriginCompany"].ToString() : saleDetail.OriginCompany);
                                         saleDetail.CustomerName = (sdr["CustomerName"].ToString() != "" ? sdr["CustomerName"].ToString() : saleDetail.CustomerName);
-                                       
+                                        saleDetail.Credit= (sdr["Credit"].ToString() != "" ? decimal.Parse(sdr["Credit"].ToString()) : saleDetail.Credit);
                                     }
                                     SaleDetailList.Add(saleDetail);
                                 }
@@ -156,8 +156,9 @@ namespace SPAccounts.RepositoryServices.Services
                                         saleSummary.Invoiced= (sdr["Invoiced"].ToString() != "" ? decimal.Parse(sdr["Invoiced"].ToString()) : saleSummary.Invoiced);
                                         saleSummary.Paid = (sdr["Paid"].ToString() != "" ? decimal.Parse(sdr["Paid"].ToString()) : saleSummary.Paid);
                                         saleSummary.NetDue= (sdr["NetDue"].ToString() != "" ? decimal.Parse(sdr["NetDue"].ToString()) : saleSummary.NetDue);
+                                        saleSummary.Credit= (sdr["Credit"].ToString() != "" ? decimal.Parse(sdr["Credit"].ToString()) : saleSummary.Credit);
                                         saleSummary.OriginCompany = (sdr["OriginCompany"].ToString() != "" ? (sdr["OriginCompany"].ToString()) : saleSummary.OriginCompany);
-                                      
+                                        saleSummary.Balance = (sdr["Balance"].ToString() != "" ? decimal.Parse(sdr["Balance"].ToString()) : saleSummary.Balance);
                                     }
                                     SaleSummaryList.Add(saleSummary);
                                 }

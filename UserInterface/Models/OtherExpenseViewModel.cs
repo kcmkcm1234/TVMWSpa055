@@ -56,7 +56,7 @@ namespace UserInterface.Models
         public Guid? EmpID { get; set; }
         public List<SelectListItem> EmployeeList { get; set; }
         public EmployeeViewModel employee { get; set; }
-
+        public string EmpName { get; set; }
         
         [Display(Name = "Subtype (Employee,Other,etc.)")]
         public string EmpTypeCode { get; set; }

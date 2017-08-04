@@ -78,6 +78,9 @@ namespace UserInterface.Models
         [DataType(DataType.MultilineText)]
         public String Notes { get; set; }
 
+        public SupplierPaymentsViewModel SuppPaymentObj { get; set; }
+        public decimal OtherPayments { get; set; }
+
         public string BalanceDuestring { get; set; }
         public string TotalInvoiceAmountstring { get; set; }
         public string PaidAmountstring { get; set; }
