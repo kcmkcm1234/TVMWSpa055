@@ -83,6 +83,7 @@ namespace UserInterface.App_Start
                 
                 //Report purpose
                 config.CreateMap<SaleSummaryViewModel, SaleSummary>().ReverseMap();
+                config.CreateMap<SaleDetailReportViewModel, SaleDetailReport>().ReverseMap();
             });
         }
     }

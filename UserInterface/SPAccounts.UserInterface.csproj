@@ -1495,6 +1495,7 @@
     <Content Include="Scripts\UserJS\Privileges.js" />
     <Content Include="Scripts\UserJS\PrivilegesView.js" />
     <Content Include="Scripts\UserJS\Roles.js" />
+    <Content Include="Scripts\UserJS\SalesDetailReport.js" />
     <Content Include="Scripts\UserJS\SaleSummaryReport.js" />
     <Content Include="Scripts\UserJS\SupplierCreditNotes.js" />
     <Content Include="Scripts\UserJS\SupplierInvoices.js" />
@@ -1637,6 +1638,7 @@
     <Content Include="Views\Employee\Index.cshtml" />
     <Content Include="Views\SupplierPayments\Index.cshtml" />
     <Content Include="Views\Report\SaleSummary.cshtml" />
+    <Content Include="Views\Report\SalesDetail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
