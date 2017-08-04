@@ -99,7 +99,7 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.backbtn.Event = "Back();";
 
                     ToolboxViewModelObj.PrintBtn.Visible = true;
-                    ToolboxViewModelObj.PrintBtn.Text = "Print";
+                    ToolboxViewModelObj.PrintBtn.Text = "Export";
                     ToolboxViewModelObj.PrintBtn.Event = "PrintReport();";
 
                     break;
