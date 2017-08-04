@@ -32,7 +32,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string OriginCompany { get; set; }
     }
 
-    public class SaleDetail
+    public class SaleDetailReport
     {
         public string InvoiceNo { get; set; }
         public string Date { get; set; }
@@ -43,6 +43,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string OriginCompany { get; set; }
         public string GeneralNotes { get; set; }
         public string CustomerName { get; set; }
+        public decimal Credit { get; set; }
 
     }
 }

@@ -35,4 +35,23 @@ namespace UserInterface.Models
         public List<SelectListItem> CompanyList { get; set; }
         public List<CompaniesViewModel> companiesList;
     }
+    public class SaleDetailReportViewModel
+    {
+        [Required(ErrorMessage = "Company required")]
+        [Display(Name = "Company")]
+        public string CompanyCode { get; set; }
+        public string InvoiceNo { get; set; }
+        public string Date { get; set; }
+        public string PaymentDueDate { get; set; }
+        public decimal PaidAmount { get; set; }
+        public decimal InvoiceAmount { get; set; }
+        public decimal BalanceDue { get; set; }
+        public string OriginCompany { get; set; }
+        public string GeneralNotes { get; set; }
+        public string CustomerName { get; set; }
+        public decimal Credit { get; set; }
+        public List<SelectListItem> CompanyList { get; set; }
+        public List<CompaniesViewModel> companiesList;
+
+    }
 }

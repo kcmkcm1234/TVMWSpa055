@@ -2,7 +2,7 @@
 $(document).ready(function () {
     try {
 
-        DataTables.saleSummaryReportTable = $('#saleSummaryTable').DataTable(
+        DataTables.saleDetailReportTable = $('#saleDetailTable').DataTable(
          {
 
              // dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
@@ -11,48 +11,50 @@ $(document).ready(function () {
                  extend: 'excel',
                  exportOptions:
                               {
-                                  columns: [0,1,2, 3,4,5,6]
+                                  columns: [0, 1, 2, 3, 4, 5, 6]
                               }
              }],
              order: [],
              searching: true,
              paging: true,
-             data: GetSaleSummary(),
+             data: GetSaleDetail(),
              pageLength: 10,
              language: {
                  search: "_INPUT_",
                  searchPlaceholder: "Search"
              },
              columns: [
-             
-               { "data": "CustomerName", "defaultContent": "<i>-</i>" },
-               { "data": "OpeningBalance",render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
-               { "data": "Invoiced",render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
-               { "data": "Paid", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
-              { "data": "Balance", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
-               { "data": "NetDue", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
-               { "data": "Credit", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+
+               { "data": "InvoiceNo", "defaultContent": "<i>-</i>" },
+                { "data": "Date", "defaultContent": "<i>-</i>" },
+                  { "data": "PaymentDueDate", "defaultContent": "<i>-</i>" },
                
-              { "data": "OriginCompany", "defaultContent": "<i>-</i>" },
+               { "data": "InvoiceAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+               { "data": "PaidAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+               { "data": "BalanceDue", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+              { "data": "Credit", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+                { "data": "GeneralNotes", "defaultContent": "<i>-</i>" },
+             { "data": "OriginCompany", "defaultContent": "<i>-</i>" }
 
              ],
-             columnDefs: [{ "targets": [7], "visible": false, "searchable": false },
-                  { className: "text-left", "targets": [0] },
-                  { className: "text-right", "targets": [1, 2, 3, 4, 5] }],
+             columnDefs: [{ "targets": [8], "visible": false, "searchable": false },
+                  { className: "text-left", "targets": [0,8] },
+                   { className: "text-center", "targets": [1,2,3] },
+                  { className: "text-right", "targets": [ 4, 5,6,7,] }],
              drawCallback: function (settings) {
                  var api = this.api();
                  var rows = api.rows({ page: 'current' }).nodes();
                  var last = null;
 
-                 api.column(7, { page: 'current' }).data().each(function (group, i) {
+                 api.column(8, { page: 'current' }).data().each(function (group, i) {
                      if (last !== group) {
-                         $(rows).eq(i).before('<tr class="group "><td colspan="7" class="rptGrp">' + '<b>Company</b> : ' + group + '</td></tr>');
+                         $(rows).eq(i).before('<tr class="group "><td colspan="5" class="rptGrp">' + '<b>Company</b> : ' + group + '</td></tr>');
                          last = group;
                      }
                  });
              }
          });
-     
+
         $(".buttons-excel").hide();
 
     } catch (x) {
@@ -64,15 +66,15 @@ $(document).ready(function () {
 });
 
 
-function GetSaleSummary() {
+function GetSaleDetail() {
     try {
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
-        var companycode=$("#CompanyCode").val();
+        var companycode = $("#CompanyCode").val();
         if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
             var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode };
             var ds = {};
-            ds = GetDataFromServer("Report/GetSaleSummary/", data);
+            ds = GetDataFromServer("Report/GetSaleDetail/", data);
             if (ds != '') {
                 ds = JSON.parse(ds);
             }
@@ -83,9 +85,9 @@ function GetSaleSummary() {
                 notyAlert('error', ds.Message);
             }
         }
-      
-       
-       
+
+
+
     }
     catch (e) {
         notyAlert('error', e.message);
@@ -93,13 +95,13 @@ function GetSaleSummary() {
 }
 
 
-function RefreshSaleSummaryTable() {
+function RefreshSaleDetailTable() {
     try {
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
         var companycode = $("#CompanyCode").val();
-        if (DataTables.saleSummaryReportTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            DataTables.saleSummaryReportTable.clear().rows.add(GetSaleSummary()).draw(false);
+        if (DataTables.saleDetailReportTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
+            DataTables.saleDetailReportTable.clear().rows.add(GetSaleDetail()).draw(false);
         }
     }
     catch (e) {

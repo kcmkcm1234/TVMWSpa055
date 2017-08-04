@@ -203,7 +203,7 @@
 
                                     </div>
                                 </div>
-                             <div class="col-md-6">
+                                <div class="col-md-6">
                                  <div class="col-md-12">
                                      @Html.LabelFor(model => model.EmpID, htmlAttributes: new { @class = "control-label" })
                                  </div>
@@ -214,11 +214,13 @@
 
                                          @Html.ValidationMessageFor(model => model.EmpID, "", new { @class = "text-danger" })
                                     
-
+                                    
                                  </div>
+                                
                              </div>
+                              
                             </div>
-                           
+                            <span id="btnAddEmployee" title="Add Employee" style="z-index: 12;position: absolute;margin-top:10%;right: 7%;"><img src="~/Content/images/add.png" style="width:12px;cursor:pointer;" onclick="AddEmployee();"/></span>
 
                             <div class="form-group col-md-12">
                                 <div class="col-md-6">
@@ -231,7 +233,18 @@
                                         @Html.ValidationMessageFor(model => model.PaidFromCompanyCode, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                                <div class="col-md-6"></div>
+                                <div class="col-md-6">
+                                    <div id="EmployeeDiv" hidden="hidden" style="padding-top:15px;border:2px solid #954c84;padding-bottom:8px;">
+                                       
+                                        <h3 style="text-align:center;font-size:18px;">Add Employee/Other</h3>
+                                        @Html.EditorFor(model => model.EmpName, new { htmlAttributes = new { @class = "form-control" , placeholder = "Employee Name", style = "width:80% !important;font-size:12px;padding-left:5px;margin-left:20px;height:28px;border-radius:4px;border:1px solid #ccc;" } })
+                                        @Html.ValidationMessageFor(model => model.EmpName, "", new { @class = "text-danger" ,style= "padding-left:5px;margin-left:20px;" })
+                                 
+                                       <br/>
+                                         <a class="btn btn-primary" style="height:30px;margin-left:30%;" onclick="SaveEmployee();">Save</a>
+                                        <a class="btn btn-default" style="height:30px;" onclick="CancelEmployee();">Cancel</a>
+                                    </div>
+                                </div>
                                                               
                                
 
