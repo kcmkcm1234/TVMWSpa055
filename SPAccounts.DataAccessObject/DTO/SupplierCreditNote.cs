@@ -20,6 +20,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string SupplierAddress { get; set; }
         public string CRNDateFormatted { get; set; }
         public decimal Amount { get; set; }
+        public decimal AvailableCredit { get; set; }
         public decimal adjustedAmount { get; set; }
         public string Type { get; set; }
         public string GeneralNotes { get; set; }

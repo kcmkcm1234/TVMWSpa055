@@ -40,9 +40,11 @@ namespace UserInterface.Controllers
             _companiesBusiness = companiesBusiness;
         }
         #endregion Constructor_Injection
-         
+
         #region Index 
         // GET: SupplierPayments
+        [AuthSecurityFilter(ProjectObject = "SupplierPayments", Mode = "R")]
+        [HttpGet]
         public ActionResult Index()
         {
             AppUA _appUA = Session["AppUA"] as AppUA;
@@ -117,7 +119,7 @@ namespace UserInterface.Controllers
         #region GetAllSupplierPayments
         [AuthSecurityFilter(ProjectObject = "SupplierPayments", Mode = "R")]
         [HttpGet]
-        public string GetAllSupplierPayments(string FromDate, string ToDate)
+        public string GetAllSupplierPayments()
         {
             List<SupplierPaymentsViewModel> supplierPayList = Mapper.Map<List<SupplierPayments>, List<SupplierPaymentsViewModel>>(_supplierPaymentsBusiness.GetAllSupplierPayments());
             return JsonConvert.SerializeObject(new { Result = "OK", Records = supplierPayList });
@@ -135,16 +137,16 @@ namespace UserInterface.Controllers
         }
         #endregion GetAllSupplierPaymentsByID
 
-        //#region  GetOutStandingInvoices
-        //[AuthSecurityFilter(ProjectObject = "SupplierPayments", Mode = "R")]
-        //[HttpGet]
-        //public string GetOutStandingInvoices(string PaymentID, string supplierID)
-        //{
-        //    List<SupplierInvoicesViewModel> List = Mapper.Map<List<SupplierInvoices>, List<SupplierInvoicesViewModel>>(_supplierInvoicesBusiness.GetOutStandingInvoices(Guid.Parse(PaymentID), Guid.Parse(supplierID)));
-        //    return JsonConvert.SerializeObject(new { Result = "OK", Records = List });
+        #region  GetOutStandingInvoices
+        [AuthSecurityFilter(ProjectObject = "SupplierPayments", Mode = "R")]
+        [HttpGet]
+        public string GetOutStandingInvoices(string PaymentID, string supplierID)
+        {
+            List<SupplierInvoicesViewModel> List = Mapper.Map<List<SupplierInvoices>, List<SupplierInvoicesViewModel>>(_supplierInvoicesBusiness.GetOutStandingInvoicesBySupplier(Guid.Parse(PaymentID), Guid.Parse(supplierID)));
+            return JsonConvert.SerializeObject(new { Result = "OK", Records = List });
 
-        //}
-        //#endregion  GetOutStandingInvoices
+        }
+        #endregion  GetOutStandingInvoices
 
         #region InsertUpdatePayments
 
@@ -228,28 +230,28 @@ namespace UserInterface.Controllers
         }
         #endregion InsertUpdatePayments
 
-        //#region GetCreditNoteBySupplier
-        //[AuthSecurityFilter(ProjectObject = "SupplierPayments", Mode = "R")]
-        //[HttpGet]
-        //public string GetCreditNoteBySupplier(string ID)
-        //{
-        //    List<SupplierCreditNoteViewModel> CreditList = Mapper.Map<List<SupplierCreditNote>, List<SupplierCreditNoteViewModel>>(_supplierCreditNotesBusiness.GetCreditNoteBySupplier(Guid.Parse(ID)));
+        #region GetCreditNoteBySupplier
+        [AuthSecurityFilter(ProjectObject = "SupplierPayments", Mode = "R")]
+        [HttpGet]
+        public string GetCreditNoteBySupplier(string ID)
+        {
+            List<SupplierCreditNoteViewModel> CreditList = Mapper.Map<List<SupplierCreditNote>, List<SupplierCreditNoteViewModel>>(_supplierCreditNotesBusiness.GetCreditNoteBySupplier(Guid.Parse(ID)));
 
-        //    return JsonConvert.SerializeObject(new { Result = "OK", Records = CreditList });
-        //}
-        //#endregion GetCreditNoteBySupplier
+            return JsonConvert.SerializeObject(new { Result = "OK", Records = CreditList });
+        }
+        #endregion GetCreditNoteBySupplier
 
-        //#region GetCreditNoteAmount
-        //[AuthSecurityFilter(ProjectObject = "SupplierPayments", Mode = "R")]
-        //[HttpGet]
-        //public string GetCreditNoteAmount(string CreditID, string SupplierID)
-        //{
-        //    SupplierCreditNoteViewModel CreditNote = Mapper.Map<SupplierCreditNote, SupplierCreditNoteViewModel>(_supplierCreditNotesBusiness.GetCreditNoteAmount(Guid.Parse(CreditID), Guid.Parse(SupplierID)));
+        #region GetCreditNoteAmount
+        [AuthSecurityFilter(ProjectObject = "SupplierPayments", Mode = "R")]
+        [HttpGet]
+        public string GetCreditNoteAmount(string CreditID, string SupplierID)
+        {
+            SupplierCreditNoteViewModel CreditNote = Mapper.Map<SupplierCreditNote, SupplierCreditNoteViewModel>(_supplierCreditNotesBusiness.GetCreditNoteAmount(Guid.Parse(CreditID), Guid.Parse(SupplierID)));
 
-        //    return JsonConvert.SerializeObject(new { Result = "OK", Records = CreditNote });
+            return JsonConvert.SerializeObject(new { Result = "OK", Records = CreditNote });
 
-        //}
-        //#endregion GetCreditNoteAmount
+        }
+        #endregion GetCreditNoteAmount
 
 
 

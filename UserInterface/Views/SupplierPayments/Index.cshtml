@@ -129,11 +129,11 @@
                             <div class="form-group col-md-6">
                                 <div class="col-md-12">
                                     @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "", value = Guid.Empty })
-                                    @Html.HiddenFor(model => model.AdvanceAmount, htmlAttributes: new { @class = "" })
-                                    @Html.HiddenFor(model => model.hdfSupplierID, htmlAttributes: new { @class = "" })
-                                    @Html.HiddenFor(model => model.hdfType, htmlAttributes: new { @class = "" })
-                                    @Html.HiddenFor(model => model.hdfCreditAmount, htmlAttributes: new { @class = "" })
-                                    @Html.HiddenFor(model => model.paymentDetailhdf, htmlAttributes: new { @class = "", @id = "paymentDetailhdf" })
+                                    @Html.HiddenFor(model => model.AdvanceAmount, htmlAttributes: new { @class = "", value =0 })
+                                    @Html.HiddenFor(model => model.hdfSupplierID, htmlAttributes: new { @class = "", value ="" })
+                                    @Html.HiddenFor(model => model.hdfType, htmlAttributes: new { @class = "", value = "" })
+                                    @Html.HiddenFor(model => model.hdfCreditAmount, htmlAttributes: new { @class = "", value = "" })
+                                    @Html.HiddenFor(model => model.paymentDetailhdf, htmlAttributes: new { @class = "", value = "", @id = "paymentDetailhdf" })
                                     @Html.LabelFor(model => model.supplierObj.ID, htmlAttributes: new { @class = "control-label " })
                                 </div>
                                 <div class="col-md-12">
@@ -246,7 +246,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="col-md-10">
-                                        @Html.DropDownListFor(model => model.PaidFromComanyCode, Model.CompanyObj.CompanyList, "-- Select Company --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "RecdToComanyCode" })
+                                        @Html.DropDownListFor(model => model.PaidFromComanyCode, Model.CompanyObj.CompanyList, "-- Select Company --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "PaidFromComanyCode" })
                                         @Html.ValidationMessageFor(model => model.PaidFromComanyCode, "", new { @class = "text-danger" })
                                     </div>
                                     <div class="col-md-1 mandatory"></div>
@@ -286,11 +286,11 @@
 
                             <div class="form-group col-md-8">
                                 <div class="col-md-12">
-                                    @Html.LabelFor(model => model.TotalPaidAmt, htmlAttributes: new { @class = "control-label", @id = "lblTotalAmtRecdCptn" })
+                                    @Html.LabelFor(model => model.TotalPaidAmt, htmlAttributes: new { @class = "control-label", @id = "lblTotalAmtPaidCptn" })
                                 </div>
                                 <div class="col-md-12">
                                     <div class="col-md-12">
-                                        @Html.EditorFor(model => model.TotalPaidAmt, new { htmlAttributes = new { @class = "form-control HeaderBox selecttext", @id = "TotalRecdAmt", style = "text-align: right", onchange = "AmountChanged();" } })
+                                        @Html.EditorFor(model => model.TotalPaidAmt, new { htmlAttributes = new { @class = "form-control HeaderBox selecttext", @id = "TotalPaidAmt", style = "text-align: right", onchange = "AmountChanged();" } })
                                         @Html.ValidationMessageFor(model => model.TotalPaidAmt, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -323,10 +323,10 @@
                         <div class="col-md-4">
                             <div class="form-group col-md-12">
                                 <div class="col-md-8" style="text-align: right">
-                                    @Html.Label("Total Amount Received:", htmlAttributes: new { @class = "control-label ", @id = "lblTotalRecdAmtCptn" })
+                                    @Html.Label("Total Amount Received:", htmlAttributes: new { @class = "control-label ", @id = "lblTotalPaidAmtCptn" })
                                 </div>
                                 <div class="col-md-4" style="text-align: right">
-                                    @Html.Label("0", htmlAttributes: new { @class = "control-label ", @id = "lblTotalRecdAmt" })
+                                    @Html.Label("0", htmlAttributes: new { @class = "control-label ", @id = "lblTotalPaidAmt" })
                                 </div>
                             </div>
                             <div class="form-group col-md-12">

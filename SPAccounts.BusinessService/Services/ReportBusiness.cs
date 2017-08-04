@@ -29,9 +29,9 @@ namespace SPAccounts.BusinessService.Services
             return systemReportList;
         }
 
-        public List<SaleDetail> GetSaleDetail(DateTime? FromDate, DateTime? ToDate, string CompanyCode)
+        public List<SaleDetailReport> GetSaleDetail(DateTime? FromDate, DateTime? ToDate, string CompanyCode)
         {
-            List<SaleDetail> saleDetailList = null;
+            List<SaleDetailReport> saleDetailList = null;
             try
             {
                 saleDetailList = _reportRepository.GetSaleDetail(FromDate,ToDate, CompanyCode);
