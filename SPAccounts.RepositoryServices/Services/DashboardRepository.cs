@@ -166,7 +166,7 @@ namespace SPAccounts.RepositoryServices.Services
                                     SalesSummary SSList = new SalesSummary();
                                     {
                                         SSList.Period = (sdr["Period"].ToString() != "" ? sdr["Period"].ToString() : SSList.Period);
-                                        SSList.Amount = (sdr["INAmount"].ToString() != "" ? sdr["INAmount"].ToString() : SSList.Amount);
+                                        SSList.Amount = (sdr["INAmount"].ToString() != "" ? (sdr["INAmount"].ToString()): SSList.Amount);
                                      
 
                                     }

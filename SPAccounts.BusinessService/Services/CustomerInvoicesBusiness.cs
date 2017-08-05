@@ -85,7 +85,7 @@ namespace SPAccounts.BusinessService.Services
         {
             return _customerInvoicesRepository.DeleteInvoices(ID,UserName);
         }
-        public CustomerInvoicesSummaryForMobile GetOutstandingCustomerInvoices()
+        public CustomerInvoicesSummaryForMobile GetOutstandingCustomerInvoices(CustomerInvoice CusObj)
         {
             CustomerInvoicesSummaryForMobile cusumObj = new CustomerInvoicesSummaryForMobile();
             cusumObj.CustInvSumObj = new InvoiceSummaryformobile();
@@ -93,7 +93,7 @@ namespace SPAccounts.BusinessService.Services
             {
                 decimal tmp = 0;
 
-                cusumObj.CustInv = _customerInvoicesRepository.GetOutstandingCustomerInvoices();
+                cusumObj.CustInv = _customerInvoicesRepository.GetOutstandingCustomerInvoices(CusObj);
                 if (cusumObj.CustInv == null)
                 {
                     cusumObj.CustInvSumObj.Amount = 0;

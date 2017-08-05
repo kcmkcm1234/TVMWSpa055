@@ -333,7 +333,7 @@ namespace SPAccounts.RepositoryServices.Services
             return _supplierInvoicesObj;
         }
 
-        public List<SupplierInvoices> GetOutstandingSupplierInvoices()
+        public List<SupplierInvoices> GetOutstandingSupplierInvoices(SupplierInvoices SupplierInvoiceObj)
         {
             List<SupplierInvoices> SupplierInvoicesList = null;
             Settings settings = new Settings();
@@ -350,6 +350,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[GetAllSupplierOutStandingInvoices]";
                         cmd.CommandType = CommandType.StoredProcedure;
+                        if(SupplierInvoiceObj!=null)
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = SupplierInvoiceObj.suppliersObj.ID;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
                             if ((sdr != null) && (sdr.HasRows))
