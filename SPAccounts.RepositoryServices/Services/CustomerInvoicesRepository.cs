@@ -477,7 +477,7 @@ namespace SPAccounts.RepositoryServices.Services
 
 
 
-        public List<CustomerInvoice> GetOutstandingCustomerInvoices()
+        public List<CustomerInvoice> GetOutstandingCustomerInvoices(CustomerInvoice CustomerInvoiceObj)
         {
             List<CustomerInvoice> CustomerInvoicesList = null;
             Settings settings = new Settings();
@@ -494,6 +494,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[GetAllOutStandingInvoices]";
                         cmd.CommandType = CommandType.StoredProcedure;
+                        if(CustomerInvoiceObj!=null)
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = CustomerInvoiceObj.customerObj.ID;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
                             if ((sdr != null) && (sdr.HasRows))
