@@ -635,6 +635,34 @@ color: #e32;
 .table {
     
 }
+.addEmp {
+    border:2px solid #954c84;padding-bottom:8px;z-index:10;position:absolute;border-radius:15px;width:90%;background-color:whitesmoke;
+
+}
+.addEmp::before {
+	content: "";
+	width: 0px;
+	height: 0px;
+	border: 0.8em solid transparent;
+	position: absolute;
+   left: 85%;
+	top: -20px;
+	border-bottom: 10px solid #954c84;
+}
+
+.addEmp::after {
+	content: "";
+	width: 0px;
+	height: 0px;
+	border: 0.8em solid transparent;
+	position: absolute;
+   left: 85%;
+	top: -17px;
+	border-bottom: 10px solid whitesmoke;
+}
+ 
+
+
 
 .EntryForms {
     width:100%;
