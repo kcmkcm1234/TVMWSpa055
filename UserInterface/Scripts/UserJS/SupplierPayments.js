@@ -29,7 +29,7 @@ $(document).ready(function () {
                          }
                      }
                  },
-                 { "data": "CRNRefNo", "defaultContent": "<i>-</i>" },
+                 { "data": "CreditNo", "defaultContent": "<i>-</i>" },
                  { "data": "TotalPaidAmt", "defaultContent": "<i>-</i>" },
                  { "data": "AdvanceAmount", "defaultContent": "<i>-</i>" },
                  { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink" onclick="Edit(this)"><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
@@ -47,7 +47,7 @@ $(document).ready(function () {
     $('#SupPayTable tbody').on('dblclick', 'td', function () {
     Edit(this)
     });
-//    List();
+    List();
 
     try {
         DataTables.OutStandingInvoices = $('#tblOutStandingDetails').DataTable({
@@ -138,44 +138,44 @@ $(document).ready(function () {
 function paymentAmountFocus(event) {
     event.select();
 }
-////-------------------------------------------------------------------------------------
-//function List() {
-//    var result = GetAllInvoicesAndSummary();
-//    if (result != null) {
-//        if (result.SupplierInvoiceSummary != null) {
-//            Summary(result.SupplierInvoiceSummary);
-//        }
-//    }
-//}
-//function Summary(Records) {
-//    $('#overdueamt').html(Records.OverdueAmountFormatted);
-//    $('#overdueinvoice').html(Records.OverdueInvoices);
-//    $('#openamt').html(Records.OpenAmountFormatted);
-//    $('#openinvoice').html(Records.OpenInvoices);
-//    $('#paidamt').html(Records.PaidAmountFormatted);
-//    $('#paidinvoice').html(Records.PaidInvoices);
-//}
+//-------------------------------------------------------------------------------------
+function List() {
+    var result = GetAllInvoicesAndSummary();
+    if (result != null) {
+        if (result.SupplierInvoiceSummary != null) {
+            Summary(result.SupplierInvoiceSummary);
+        }
+    }
+}
+function Summary(Records) {
+    $('#overdueamt').html(Records.OverdueAmountFormatted);
+    $('#overdueinvoice').html(Records.OverdueInvoices);
+    $('#openamt').html(Records.OpenAmountFormatted);
+    $('#openinvoice').html(Records.OpenInvoices);
+    $('#paidamt').html(Records.PaidAmountFormatted);
+    $('#paidinvoice').html(Records.PaidInvoices);
+}
 
-////---------------Bind logics-------------------
-//function GetAllInvoicesAndSummary() {
-//    try {
-//        var data = {};
-//        var ds = {};
-//        ds = GetDataFromServer("SupplierInvoices/GetInvoicesAndSummary/", data);
-//        if (ds != '') {
-//            ds = JSON.parse(ds);
-//        }
-//        if (ds.Result == "OK") {
-//            return ds.Records;
-//        }
-//        if (ds.Result == "ERROR") {
-//            alert(ds.Message);
-//        }
-//    }
-//    catch (e) {
-//        notyAlert('error', e.message);
-//    }
-//}
+//---------------Bind logics-------------------
+function GetAllInvoicesAndSummary() {
+    try {
+        var data = {};
+        var ds = {};
+        ds = GetDataFromServer("SupplierInvoices/GetInvoicesAndSummary/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            alert(ds.Message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
 
 ////------------------------------[GetOutstandingAmountBySupplier]-------------------------
 function GetOutstandingAmountBySupplier(SupplierID) {
@@ -248,7 +248,7 @@ function GetSupplierPaymentsByID(ID) {
     $('#Notes').val(thisitem.GeneralNotes);
     $('#TotalPaidAmt').val(roundoff(thisitem.TotalPaidAmt));
     $('#lblTotalPaidAmt').text(roundoff(thisitem.TotalPaidAmt));
-    $('#paidAmt').text(roundoff(thisitem.TotalPaidAmt));
+    $('#paidAmt').text('₹ ' + roundoff(thisitem.TotalPaidAmt));
     $('#Type').val(thisitem.Type);
     $('#hdfType').val(thisitem.Type);
     $('#Type').prop('disabled', true);
@@ -263,7 +263,7 @@ function GetSupplierPaymentsByID(ID) {
         $('#TotalPaidAmt').val(roundoff(CreditAmount))
         $('#lblTotalPaidAmt').text(roundoff(CreditAmount))
         $('#paidAmt').text(roundoff(CreditAmount));
-        $("#CreditID").append($('<option></option>').val(thisitem.CreditID).html(thisitem.CRNRefNo + ' ( Credit Amt: ₹' + CreditAmount + ')'));
+        $("#CreditID").append($('<option></option>').val(thisitem.CreditID).html(thisitem.CreditNo + ' ( Credit Amt: ₹' + CreditAmount + ')'));
         $('#CreditID').val(thisitem.CreditID)
         $('#CreditID').prop('disabled', true);
         $('#TotalPaidAmt').prop('disabled', true);
@@ -277,6 +277,7 @@ function GetSupplierPaymentsByID(ID) {
         $("#CreditID").append($('<option></option>').val(emptyGUID).html('--Select Credit Note--'));
         $('#hdfCreditID').val(emptyGUID);
         $('#PaymentMode').prop('disabled', false);
+        $('#TotalPaidAmt').prop('disabled', false);
         CaptionChangePayment();
     }
 
@@ -324,8 +325,7 @@ function TypeOnChange() {
         $("#ddlCreditDiv").css("visibility", "hidden");
         $('#PaymentMode').prop('disabled', false);
         $('#BankCode').prop('disabled', true);
-        $('#TotalPaidAmt').val(0);
-        $('#TotalPaidAmt').prop('disabled', false);
+     //   $('#TotalPaidAmt').val(0);
         CaptionChangePayment()
         AmountChanged();
     }
@@ -338,11 +338,11 @@ function CaptionChangeCredit() {
     $("#lblpaidAmt").text('Credit Amount');
 }
 function CaptionChangePayment() {
-    $("#lblTotalPaidAmtCptn").text('Total Amount Recevied');
+    $("#lblTotalPaidAmtCptn").text('Total Amount Paid');
     $("#lblPaymentAppliedCptn").text('Payment Applied');
-    $("#lblCreditCptn").text('Credit Received');
-    $("#lblTotalAmtPaidCptn").text('Amount Received');
-    $("#lblpaidAmt").text('Amount Received');
+    $("#lblCreditCptn").text('Credit Paid');
+    $("#lblTotalAmtPaidCptn").text('Amount Paid');
+    $("#lblpaidAmt").text('Amount Paid');
 }
 function ddlCreditOnChange(event) {
     debugger;
@@ -483,6 +483,7 @@ function SaveSuccess(data, status) {
     switch (JsonResult.Result) {
         case "OK":
             debugger;
+            fieldsclear();
             GetSupplierPaymentsByID(JsonResult.Records.ID)
             BindSupplierPaymentsHeader()
             notyAlert('success', JsonResult.Message);
@@ -499,14 +500,16 @@ function SaveSuccess(data, status) {
 
 function fieldsclear() {
     $('#SupplierPaymentForm')[0].reset();
-    $('#lblTotalPaidAmt').text('0');
-    $('#lblPaymentApplied').text('0');
-    $('#lblCredit').text('0');
+    $('#lblTotalPaidAmt').text('0.00');
+    $('#lblPaymentApplied').text('0.00');
+    $('#lblCredit').text('0.00');
     $('#paidAmt').text('₹ 0.00');
     $('#invoicedAmt').text('₹ 0.00');
     $('#ID').val(emptyGUID);
     $("#CreditID").html("");
     $('#Type').val('P');
+    $('#paymentDetailhdf').val('');
+    $('#TotalPaidAmt').prop('disabled', false);
     $("#ddlCreditDiv").css("visibility", "hidden");
     CaptionChangePayment();
 }
@@ -602,7 +605,7 @@ function AmountChanged() {
     if (!isNaN(AmountReceived)) {
         $('#TotalPaidAmt').val(roundoff(AmountReceived));
         $('#lblTotalPaidAmt').text(roundoff(AmountReceived));
-        $('#paidAmt').text(roundoff(AmountReceived));
+        $('#paidAmt').text('₹ '+roundoff(AmountReceived));
         var table = $('#tblOutStandingDetails').DataTable();
         var allData = table.rows().data();
         var RemainingAmount = AmountReceived;

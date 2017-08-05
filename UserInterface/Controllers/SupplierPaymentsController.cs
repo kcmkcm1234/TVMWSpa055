@@ -48,7 +48,7 @@ namespace UserInterface.Controllers
         public ActionResult Index()
         {
             AppUA _appUA = Session["AppUA"] as AppUA;
-           // ViewBag.Currentdate = _appUA.DateTime.ToString("dd-MMM-yyyy");
+            ViewBag.Currentdate = _appUA.DateTime.ToString("dd-MMM-yyyy");
 
             List<SelectListItem> selectListItem = new List<SelectListItem>();
             SupplierPaymentsViewModel SP = new SupplierPaymentsViewModel();

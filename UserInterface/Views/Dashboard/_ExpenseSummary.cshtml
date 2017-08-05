@@ -1,6 +1,10 @@
 ﻿@model UserInterface.Models.ExpenseSummaryViewModel
 @{
     List<UserInterface.Models.OtherExpSummaryItemViewModel> OEList = Model.OtherExpSummary.ItemsList;
+    int h=0;
+    if (OEList.Count > 2) {
+        h = OEList.Count / 2;
+    }
 }
 
 <div class="col-md-6">
@@ -20,14 +24,47 @@
                     <!-- ./chart-responsive -->
                 </div>
                 <!-- /.col -->
-                <div class="col-md-4">
-                    <ul class="chart-legend clearfix">
-                       @foreach (var mp in OEList)
-                       {
-                        <li><i class="fa fa-circle" style="color:@mp.color"></i> @mp.Head</li>
-                       }
-                        
-                    </ul>
+                <div class="col-md-12">
+                    <div class="col-md-6">
+
+                        <ul class="chart-legend clearfix">
+                            @for (int i = 0; i < h; i++)
+                            {
+                                <li title="@OEList[i].Head">
+                                    <i class="fa fa-circle" style="color:@OEList[i].color"></i>@if (OEList[i].Head.Length > 15)
+                                    {
+                                        @OEList[i].Head.Substring(0, 14); <span>..</span>
+
+                                    }
+                                    else
+                                    {
+                                        @OEList[i].Head;
+                                    }
+                                </li>
+                            }
+
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+
+                        <ul class="chart-legend clearfix">
+                            @for (int i = h; i < OEList.Count; i++)
+                            {
+                                <li title="@OEList[i].Head">
+                                    <i class="fa fa-circle" style="color:@OEList[i].color"></i>@if (OEList[i].Head.Length > 15)
+                                    {
+                                        @OEList[i].Head.Substring(0, 14); <span>..</span>
+
+                                    }
+                                    else
+                                    {
+                                        @OEList[i].Head;
+                                    }
+                                </li>
+                            }
+
+                        </ul>
+                    </div>
                 </div>
                 <!-- /.col -->
             </div>
