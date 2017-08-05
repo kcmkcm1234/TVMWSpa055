@@ -2,7 +2,7 @@
 $(document).ready(function () {
     try {
 
-        DataTables.saleDetailReportTable = $('#saleDetailTable').DataTable(
+        DataTables.otherExpenseSummaryReportTable = $('#otherExpenseSummaryTable').DataTable(
          {
 
              // dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
@@ -11,44 +11,35 @@ $(document).ready(function () {
                  extend: 'excel',
                  exportOptions:
                               {
-                                  columns: [0, 1, 2, 3, 4, 5, 6]
+                                  columns: [0, 1, 2]
                               }
              }],
              order: [],
              searching: true,
              paging: true,
-             data: GetSaleDetail(),
+             data: GetExpenseSummaryReport(),
              pageLength: 10,
              language: {
                  search: "_INPUT_",
                  searchPlaceholder: "Search"
              },
              columns: [
-
-               { "data": "InvoiceNo", "defaultContent": "<i>-</i>" },
-                { "data": "Date", "defaultContent": "<i>-</i>" },
-                  { "data": "PaymentDueDate", "defaultContent": "<i>-</i>" },
-               
-               { "data": "InvoiceAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
-               { "data": "PaidAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
-               { "data": "BalanceDue", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
-              { "data": "Credit", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
-                { "data": "GeneralNotes", "defaultContent": "<i>-</i>" },
-             { "data": "OriginCompany", "defaultContent": "<i>-</i>" }
-
+               { "data": "AccountHeadORSubtype", "defaultContent": "<i>-</i>" },
+               { "data": "SubTypeDesc", "defaultContent": "<i>-</i>" },
+               { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+               { "data": "OriginCompany", "defaultContent": "<i>-</i>" },
              ],
-             columnDefs: [{ "targets": [8], "visible": false, "searchable": false },
-                  { className: "text-left", "targets": [0,8] },
-                   { className: "text-center", "targets": [1,2,3] },
-                  { className: "text-right", "targets": [ 4, 5,6,7,] }],
+             columnDefs: [{ "targets": [3], "visible": false, "searchable": false },
+                  { className: "text-left", "targets": [0,1] },
+                  { className: "text-right", "targets": [2] }],
              drawCallback: function (settings) {
                  var api = this.api();
                  var rows = api.rows({ page: 'current' }).nodes();
                  var last = null;
 
-                 api.column(8, { page: 'current' }).data().each(function (group, i) {
+                 api.column(3, { page: 'current' }).data().each(function (group, i) {
                      if (last !== group) {
-                         $(rows).eq(i).before('<tr class="group "><td colspan="8" class="rptGrp">' + '<b>Company</b> : ' + group + '</td></tr>');
+                         $(rows).eq(i).before('<tr class="group "><td colspan="3" class="rptGrp">' + '<b>Company</b> : ' + group + '</td></tr>');
                          last = group;
                      }
                  });
@@ -66,7 +57,7 @@ $(document).ready(function () {
 });
 
 
-function GetSaleDetail() {
+function GetExpenseSummaryReport() {
     try {
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
@@ -74,7 +65,7 @@ function GetSaleDetail() {
         if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
             var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode };
             var ds = {};
-            ds = GetDataFromServer("Report/GetSaleDetail/", data);
+            ds = GetDataFromServer("Report/GetOtherExpenseSummary/", data);
             if (ds != '') {
                 ds = JSON.parse(ds);
             }
@@ -95,13 +86,13 @@ function GetSaleDetail() {
 }
 
 
-function RefreshSaleDetailTable() {
+function RefreshOtherExpenseSummaryTable() {
     try {
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
         var companycode = $("#CompanyCode").val();
-        if (DataTables.saleDetailReportTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            DataTables.saleDetailReportTable.clear().rows.add(GetSaleDetail()).draw(false);
+        if (DataTables.otherExpenseSummaryReportTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
+            DataTables.otherExpenseSummaryReportTable.clear().rows.add(GetExpenseSummaryReport()).draw(false);
         }
     }
     catch (e) {

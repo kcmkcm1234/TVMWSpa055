@@ -29,6 +29,20 @@ namespace SPAccounts.BusinessService.Services
             return systemReportList;
         }
 
+        public List<OtherExpenseSummaryReport> GetOtherExpenseSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode)
+        {
+            List<OtherExpenseSummaryReport> otherExpenseSummaryList = null;
+            try
+            {
+                otherExpenseSummaryList = _reportRepository.GetOtherExpenseSummary(FromDate, ToDate, CompanyCode);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return otherExpenseSummaryList;
+        }
+
         public List<SaleDetailReport> GetSaleDetail(DateTime? FromDate, DateTime? ToDate, string CompanyCode)
         {
             List<SaleDetailReport> saleDetailList = null;

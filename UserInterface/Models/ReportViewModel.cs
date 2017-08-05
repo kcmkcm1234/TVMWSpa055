@@ -54,4 +54,17 @@ namespace UserInterface.Models
         public List<CompaniesViewModel> companiesList;
 
     }
+
+    public class OtherExpenseSummaryReportViewModel
+    {
+        [Required(ErrorMessage = "Company required")]
+        [Display(Name = "Company")]
+        public string CompanyCode { get; set; }
+        public string AccountHeadORSubtype { get; set; }
+        public string SubTypeDesc { get; set; }
+        public decimal Amount { get; set; }
+        public string OriginCompany { get; set; }
+        public List<SelectListItem> CompanyList { get; set; }
+        public List<CompaniesViewModel> companiesList;
+    }
 }

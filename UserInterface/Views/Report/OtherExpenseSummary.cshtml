@@ -1,7 +1,7 @@
-﻿@model UserInterface.Models.SaleDetailReportViewModel
+﻿@model UserInterface.Models.OtherExpenseSummaryReportViewModel
 @using UserInterface.App_Start
 @{
-    ViewBag.Title = "SalesDetail (Customer Wise)";
+    ViewBag.Title = "OtherExpenseSummary";
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
 
@@ -40,7 +40,7 @@
         <div class="col-md-3">
             @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
-                @Html.TextBox("fromdate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @onchange = "RefreshSaleDetailTable()", @Value = ViewBag.fromdate })
+                @Html.TextBox("fromdate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @onchange = "RefreshOtherExpenseSummaryTable()", @Value = ViewBag.fromdate })
 
 
             </div>
@@ -48,13 +48,13 @@
         <div class="col-md-3">
             @Html.Label("To Date", htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
-                @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @onchange = "RefreshSaleDetailTable()", @Value = ViewBag.todate })
+                @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @onchange = "RefreshOtherExpenseSummaryTable()", @Value = ViewBag.todate })
             </div>
         </div>
         <div class="col-md-3">
             @Html.LabelFor(model => model.CompanyCode, htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
-                @Html.DropDownListFor(model => model.CompanyCode, Model.CompanyList, "-- Select Company --", new { @class = "form-control BlockEnter", @onchange = "RefreshSaleDetailTable()", value = -1, style = "padding:4px 12px;", @id = "CompanyCode" })
+                @Html.DropDownListFor(model => model.CompanyCode, Model.CompanyList, "-- Select Company --", new { @class = "form-control BlockEnter", @onchange = "RefreshOtherExpenseSummaryTable()", value = -1, style = "padding:4px 12px;", @id = "CompanyCode" })
                 @Html.ValidationMessageFor(model => model.CompanyCode, "", new { @class = "text-danger" })
 
             </div>
@@ -90,19 +90,13 @@
     </div>
     <div class="row tableContainer">
         <div class="col-md-12">
-            <table id="saleDetailTable" class="table stripe" cellspacing="0" width="100%">
+            <table id="otherExpenseSummaryTable" class="table stripe" cellspacing="0" width="100%">
                 <thead>
                     <tr class="text-center TableHead">
-                        <th>Invoice No.</th>
-                        <th>Date</th>
-                        <th>Payment Due Date</th>
-                        <th>Invoice Amount</th>
-                        <th>Paid Amount</th>
-                        <th>Balance Due</th>
-                        <th>Credit</th>
-                        <th>General Notes</th>
-                        <th>Originated Company</th>
-                  </tr>
+                        <th>Account Head/Sub Type</th>
+                        <th>Sub Type Desc</th>
+                        <th>Amount</th>
+                    </tr>
                 </thead>
             </table>
         </div>
@@ -120,10 +114,8 @@
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/SalesDetailReport")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/OtherExpenseSummaryReport")
 }
-
-
 
 
 
