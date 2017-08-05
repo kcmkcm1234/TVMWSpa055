@@ -256,6 +256,17 @@ namespace UserInterface.Controllers
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
             }
         }
+
+        #region GetSupplierAdvancesByID
+        [AuthSecurityFilter(ProjectObject = "SupplierInvoices", Mode = "D")]
+        [HttpGet]
+        public string GetSupplierAdvances(string ID)
+        {
+            SupplierInvoicesViewModel Advlist =Mapper.Map<SupplierInvoices, SupplierInvoicesViewModel>(_supplierInvoicesBusiness.GetSupplierAdvances(ID));
+            return JsonConvert.SerializeObject(new { Result = "OK", Records = Advlist });
+        }
+        #endregion GetSupplierAdvancesByID
+
         #region ButtonStyling
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "SupplierInvoices", Mode = "R")]
