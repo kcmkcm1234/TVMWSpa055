@@ -138,5 +138,10 @@ namespace SPAccounts.BusinessService.Services
         {
             return _supplierInvoicesRepository.GetOutStandingInvoicesBySupplier(PaymentID, supplierID);
         }
+
+        public SupplierInvoices GetSupplierAdvances(string ID)
+        {
+            return _supplierInvoicesRepository.GetSupplierAdvances(ID);
+        }
     }
 }

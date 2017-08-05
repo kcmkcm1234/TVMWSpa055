@@ -16,5 +16,6 @@ namespace SPAccounts.BusinessService.Contracts
         List<SupplierInvoices> GetOutStandingInvoicesBySupplier(Guid PaymentID,Guid supplierID);
         SupplierSummaryforMobile GetOpeningSupplierInvoices();
         object DeleteSupplierInvoice(Guid ID, string userName);
+        SupplierInvoices GetSupplierAdvances(string ID);
     }
 }

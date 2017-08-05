@@ -65,6 +65,75 @@ $(document).ready(function () {
         });
         showLoader();
         List();
+
+
+        //------------------------Modal Popup Advance Adujustment-------------------------------------//
+        DataTables.OutStandingInvoices = $('#tblOutStandingDetails').DataTable({
+            dom: '<"pull-left"f>rt<"bottom"ip><"clear">',
+            order: [],
+            searching: false,
+            paging: false,
+            data: null,
+            columns: [
+                 { "data": "ID", "defaultContent": "<i>-</i>" },
+                 { "data": null, "defaultContent": "" },
+                 {
+                     "data": "Description", 'render': function (data, type, row) {
+                         return ' Invoice # ' + row.InvoiceNo + '(Date:' + row.InvoiceDateFormatted + ')'
+                     }, "width": "30%"
+                 },
+                 { "data": "PaymentDueDateFormatted", "defaultContent": "<i>-</i>", "width": "10%" },
+                 {
+                     "data": "TotalInvoiceAmount", "defaultContent": "<i>-</i>", "width": "15%",
+                     'render': function (data, type, row) {
+                         return roundoff(row.TotalInvoiceAmount)
+                     }
+                 },
+                 {
+                     "data": "OtherPayments", "defaultContent": "<i>-</i>", "width": "15%",
+                     'render': function (data, type, row) {
+                         return roundoff(row.OtherPayments)
+                     }
+                 },
+                 {
+                     "data": "BalanceDue", "defaultContent": "<i>-</i>", "width": "10%",
+                     'render': function (data, type, row) {
+                         return roundoff(row.BalanceDue)
+                     }
+                 },
+                 {
+                     "data": "SuppPaymentObj.supplierPaymentsDetailObj.PaidAmount", 'render': function (data, type, row) {
+                         return '<input class="form-control text-right paymentAmount" name="Markup" value="' + roundoff(data) + '" onfocus="this.select();" onchange="PaymentAmountChanged(this);" id="PaymentValue" type="text">';
+                     }, "width": "15%"
+                 },
+                 { "data": "SuppPaymentObj.supplierPaymentsDetailObj.ID", "defaultContent": "<i>-</i>" }
+            ],
+            columnDefs: [{ orderable: false, className: 'select-checkbox', "targets": 1 }
+                , { className: "text-right", "targets": [4, 5, 6] }
+                , { "targets": [0, 8], "visible": false, "searchable": false }
+                , { "targets": [2, 3, 4, 5, 6, 7], "bSortable": false }],
+
+            select: { style: 'multi', selector: 'td:first-child' }
+        });
+
+        $('#tblOutStandingDetails tbody').on('click', 'td:first-child', function (e) {
+            debugger;
+            var rt = DataTables.OutStandingInvoices.row($(this).parent()).index()
+            var table = $('#tblOutStandingDetails').DataTable();
+            var allData = table.rows().data();
+            if ((allData[rt].CustPaymentObj.CustPaymentDetailObj.PaidAmount) > 0) {
+                allData[rt].CustPaymentObj.CustPaymentDetailObj.PaidAmount = roundoff(0)
+                DataTables.OutStandingInvoices.clear().rows.add(allData).draw(false);
+                var sum = 0;
+                AmountReceived = parseFloat($('#AdvanceAmount').text());
+                for (var i = 0; i < allData.length; i++) {
+                    sum = sum + parseFloat(allData[i].CustPaymentObj.CustPaymentDetailObj.PaidAmount);
+                }
+                $('#lblPaymentApplied').text(roundoff(sum));
+                $('#lblCredit').text(roundoff(AmountReceived - sum));
+                Selectcheckbox();
+            }
+        });
     }
     catch (e) {
 
@@ -159,6 +228,8 @@ function SaveSuccess(data, status) {
     var JsonResult = JSON.parse(data)
     switch (JsonResult.Result) {
         case "OK":
+            if ($('#ID').val() == "")
+                Advanceadjustment(); //calling advance adjustment popup if inserting
             $('#ID').val(JsonResult.Records.ID);
             PaintInvoiceDetails()
             List();
@@ -172,6 +243,203 @@ function SaveSuccess(data, status) {
             break;
     }
 }
+//------------------------Modal Popup Advance Adujustment-------------------------------------//
+function Advanceadjustment() {
+    debugger;
+    var SupplierId = $('#ddlSupplier').val();
+    //get advances of Supplier
+    var thisitem = GetSupplierAdvances(SupplierId);
+    if (thisitem != null) {
+        $('#AdvanceAmount').text(roundoff(thisitem.suppliersObj.AdvanceAmount));
+        $('#AdvAdjustmentModel').modal('show');
+        DataTables.OutStandingInvoices.clear().rows.add(GetOutStandingInvoices(SupplierId)).draw(false);
+        AmountChanged();
+    }
+}
+function SaveAdvanceAdujust() {
+    debugger;
+    var SelectedRows = DataTables.OutStandingInvoices.rows(".selected").data();
+    if ((SelectedRows) && (SelectedRows.length > 0)) {
+        var SupplierPaymentsViewModel = new Object();
+        SupplierPaymentsViewModel.SupplierPaymentsDetail = []
+        for (var r = 0; r < SelectedRows.length; r++) {
+            var PaymentDetailViewModel = new Object();
+
+            PaymentDetailViewModel.InvoiceID = SelectedRows[r].ID;//Invoice ID
+            PaymentDetailViewModel.ID = SelectedRows[r].SuppPaymentObj.supplierPaymentsDetailObj.ID//Detail ID
+            PaymentDetailViewModel.PaidAmount = SelectedRows[r].SuppPaymentObj.supplierPaymentsDetailObj.PaidAmount;
+            SupplierPaymentsViewModel.SupplierPaymentsDetail.push(PaymentDetailViewModel)
+        }
+        var SupplierViewModel = new Object();
+        SupplierViewModel.ID = $('#ddlSupplier').val();
+        SupplierPaymentsViewModel.supplierObj = SupplierViewModel;
+        //PostDataToServer
+        try {
+            var data = "{'_supplierpayObj':" + JSON.stringify(SupplierPaymentsViewModel) + "}";
+            PostDataToServer("SupplierPayments/InsertPaymentAdjustment/", data, function (JsonResult) {
+                if (JsonResult != '') {
+                    switch (JsonResult.Result) {
+                        case "OK":
+                            notyAlert('success', JsonResult.Message);
+                            break;
+                        case "ERROR":
+                            notyAlert('error', JsonResult.Message);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            });
+        }
+        catch (e) {
+            notyAlert('error', e.message);
+        }
+    }
+    $('#AdvAdjustmentModel').modal('hide');
+}
+
+function AmountChanged() {
+    debugger;
+    var sum = 0;
+    DataTables.OutStandingInvoices.rows().deselect();
+    AmountReceived = parseFloat($('#AdvanceAmount').text()) 
+    if (!isNaN(AmountReceived)) {
+        var table = $('#tblOutStandingDetails').DataTable();
+        var allData = table.rows().data();
+        var RemainingAmount = AmountReceived;
+        for (var i = 0; i < allData.length; i++) {
+            var SuppPaymentObj = new Object;
+            var supplierPaymentsDetailObj = new Object;
+            SuppPaymentObj.supplierPaymentsDetailObj = supplierPaymentsDetailObj;
+            if (RemainingAmount != 0) {
+                if (parseFloat(allData[i].BalanceDue) < RemainingAmount) {
+                    allData[i].SuppPaymentObj.supplierPaymentsDetailObj.PaidAmount = parseFloat(allData[i].BalanceDue)
+                    RemainingAmount = RemainingAmount - parseFloat(allData[i].BalanceDue);
+                    sum = sum + parseFloat(allData[i].BalanceDue);
+                }
+                else {
+                    allData[i].SuppPaymentObj.supplierPaymentsDetailObj.PaidAmount = RemainingAmount
+                    sum = sum + RemainingAmount;
+                    RemainingAmount = 0
+                }
+            }
+            else {
+                allData[i].SuppPaymentObj.supplierPaymentsDetailObj.PaidAmount = 0;
+            }
+        }
+        DataTables.OutStandingInvoices.clear().rows.add(allData).draw(false);
+        Selectcheckbox();
+        $('#lblPaymentApplied').text(roundoff(sum));
+        $('#lblCredit').text(roundoff(AmountReceived - sum));
+    }
+}
+
+function PaymentAmountChanged(this_Obj) {
+    debugger;
+    AmountReceived = parseFloat($('#TotalPaidAmt').val())
+    sum = 0;
+    var allData = DataTables.OutStandingInvoices.rows().data();
+    var table = DataTables.OutStandingInvoices;
+    var rowtable = table.row($(this_Obj).parents('tr')).data();
+    for (var i = 0; i < allData.length; i++) {
+        if (allData[i].ID == rowtable.ID) {
+            var oldamount = parseFloat(allData[i].SuppPaymentObj.supplierPaymentsDetailObj.PaidAmount)
+            var credit = parseFloat($("#lblCredit").text())
+            if (credit > 0) {
+                var currenttotal = AmountReceived + parseFloat(this_Obj.value) - (credit + oldamount)
+            }
+            else {
+                var currenttotal = AmountReceived + parseFloat(this_Obj.value) - oldamount
+            }
+            if (parseFloat(allData[i].BalanceDue) < parseFloat(this_Obj.value)) {
+                if (currenttotal < AmountReceived) {
+                    allData[i].SuppPaymentObj.supplierPaymentsDetailObj.PaidAmount = parseFloat(allData[i].BalanceDue)
+                    sum = sum + parseFloat(allData[i].BalanceDue);
+                }
+                else {
+                    allData[i].SuppPaymentObj.supplierPaymentsDetailObj.PaidAmount = oldamount
+                    sum = sum + oldamount
+                }
+            }
+            else {
+                if (currenttotal > AmountReceived) {
+                    allData[i].SuppPaymentObj.supplierPaymentsDetailObj.PaidAmount = oldamount
+                    sum = sum + oldamount;
+                }
+                else {
+                    allData[i].SuppPaymentObj.supplierPaymentsDetailObj.PaidAmount = this_Obj.value;
+                    sum = sum + parseFloat(this_Obj.value);
+                }
+            }
+        }
+        else {
+            sum = sum + parseFloat(allData[i].SuppPaymentObj.supplierPaymentsDetailObj.PaidAmount);
+        }
+    }
+    DataTables.OutStandingInvoices.clear().rows.add(allData).draw(false);
+    $('#lblPaymentApplied').text(roundoff(sum));
+    $('#lblCredit').text(roundoff(AmountReceived - sum));
+    Selectcheckbox();
+}
+
+function Selectcheckbox() {
+    debugger;
+    var table = $('#tblOutStandingDetails').DataTable();
+    var allData = table.rows().data();
+    for (var i = 0; i < allData.length; i++) {
+        if (allData[i].SuppPaymentObj.supplierPaymentsDetailObj.PaidAmount == "" || allData[i].SuppPaymentObj.supplierPaymentsDetailObj.PaidAmount == roundoff(0)) {
+            DataTables.OutStandingInvoices.rows(i).deselect();
+        }
+        else {
+            DataTables.OutStandingInvoices.rows(i).select();
+        }
+    }
+}
+
+
+function GetSupplierAdvances(ID) {
+    try {
+        var data = { "ID": ID };
+        var ds = {};
+        ds = GetDataFromServer("SupplierInvoices/GetSupplierAdvances/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            alert(ds.Message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+function GetOutStandingInvoices(supplierID) {
+    try {
+        debugger;
+        var PaymentID = emptyGUID;
+        var data = { "supplierID": supplierID, "PaymentID": PaymentID };
+        var ds = {};
+        ds = GetDataFromServer("SupplierPayments/GetOutStandingInvoices/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            notyAlert('error', ds.Message);
+            var emptyarr = [];
+            return emptyarr;
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+//------------------------Modal Popup Advance Adujustment functions Ends-------------------------------------//
 function AddNew() {
     ResetForm();
     $('#lblinvoicedAmt').text("₹ 0.00");

@@ -58,6 +58,8 @@ namespace UserInterface.Models
         public string PANNO { get; set; }
         [Display(Name = "General Notes")]
         public string GeneralNotes { get; set; }
+        [Display(Name = "Available Advance Amount:")]
+        public decimal AdvanceAmount { get; set; }
         public decimal OutStanding { get; set; }
         public decimal PaidAmount { get; set; }
         public CommonViewModel commonObj { get; set; }
