@@ -48,6 +48,12 @@ namespace UserInterface.Controllers
                     Value = "ALL",
                     Selected = true
                 });
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "Company wise",
+                    Value = "Company",
+                    Selected = false
+                });
                 foreach (CompaniesViewModel cvm in SaleSummary.companiesList)
                 {
                     selectListItem.Add(new SelectListItem
