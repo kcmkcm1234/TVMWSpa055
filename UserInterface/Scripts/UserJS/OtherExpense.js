@@ -2,7 +2,8 @@
 var emptyGUID = '00000000-0000-0000-0000-000000000000'
 $(document).ready(function () {
     try {
-
+        $("#DefaultDate").val("");
+       
         DataTables.expenseDetailTable = $('#expenseDetailTable').DataTable(
          {
 
@@ -55,6 +56,7 @@ function GetAllExpenseDetails(expDate, DefaultDate) {
     try {
       
         if (expDate == undefined && DefaultDate == undefined) {
+            expDate = $("#ExpDate").val();
             DefaultDate = $("#DefaultDate").val();
         }
         var data = { "ExpenseDate": expDate, "DefaultDate": DefaultDate };

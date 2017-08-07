@@ -52,27 +52,36 @@
         </div>
         <div class="col-md-4">
             <div class="form-group col-md-12">
-                <div class="col-md-12">
-                    @Html.LabelFor(model => model.DefaultDate, htmlAttributes: new { @class = "control-label" })
-                </div>
-                <div class="col-md-12">
-                    <div class="col-md-10">
-                        @{
-                            List<SelectListItem> listDefaultDate = new List<SelectListItem>();
-                            listDefaultDate.Add(new SelectListItem
-                            { Text = "Last 30 Days", Value = "30" });
-                            listDefaultDate.Add(new SelectListItem
-                            { Text = "Last 60 Days", Value = "60" });
-                            listDefaultDate.Add(new SelectListItem
-                            { Text = "All", Value = "0" });
-                        }
-                        @Html.DropDownListFor(model => model.DefaultDate, listDefaultDate, new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "DefaultDate", @onchange = "ExpenseDefaultDateOnchange()" })
-                        @Html.ValidationMessageFor(model => model.DefaultDate, "", new { @class = "text-danger" })
-
+                @if (Model.ShowDaysFilter == true)
+                {
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.DefaultDate, htmlAttributes: new { @class = "control-label" })
                     </div>
-                    <div class="col-md-1"></div>
-                    <div class="col-md-1"></div>
-                </div>
+                    <div class="col-md-12">
+
+
+                        <div class="col-md-10">
+                            @{
+                                List<SelectListItem> listDefaultDate = new List<SelectListItem>();
+                                listDefaultDate.Add(new SelectListItem
+                                { Text = "Last 30 Days", Value = "30" });
+                                listDefaultDate.Add(new SelectListItem
+                                { Text = "Last 60 Days", Value = "60" });
+                                listDefaultDate.Add(new SelectListItem
+                                { Text = "All", Value = "0" });
+                            }
+                            @Html.DropDownListFor(model => model.DefaultDate, listDefaultDate, new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "DefaultDate", @onchange = "ExpenseDefaultDateOnchange()" })
+                            @Html.ValidationMessageFor(model => model.DefaultDate, "", new { @class = "text-danger" })
+
+                        </div>
+
+
+                        <div class="col-md-1"></div>
+                        <div class="col-md-1"></div>
+                    </div>
+
+                                }
+              
             </div>
         </div>
         <div class="col-md-4" style="padding-top:2%;border-left:1px solid #64e564;white-space:nowrap;">

@@ -21,6 +21,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal TaxPercApplied { get; set; }
         public decimal TaxAmount { get; set; }
         public decimal TotalInvoiceAmount { get; set; }
+        public int DueDays { get; set; }
         public String Notes { get; set; }
 
         public string hdfCustomerID { get; set; }

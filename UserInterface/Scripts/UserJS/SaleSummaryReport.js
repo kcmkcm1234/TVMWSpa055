@@ -29,16 +29,17 @@ $(document).ready(function () {
                { "data": "OpeningBalance",render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                { "data": "Invoiced",render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                { "data": "Paid", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+                 { "data": "Credit", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
               { "data": "Balance", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                { "data": "NetDue", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
-               { "data": "Credit", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+             
                
               { "data": "OriginCompany", "defaultContent": "<i>-</i>" },
 
              ],
              columnDefs: [{ "targets": [7], "visible": false, "searchable": false },
                   { className: "text-left", "targets": [0] },
-                  { className: "text-right", "targets": [1, 2, 3, 4, 5] }],
+                  { className: "text-right", "targets": [1, 2, 3, 4, 5,6] }],
              drawCallback: function (settings) {
                  var api = this.api();
                  var rows = api.rows({ page: 'current' }).nodes();
