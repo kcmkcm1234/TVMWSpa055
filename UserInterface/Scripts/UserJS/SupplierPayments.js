@@ -230,12 +230,12 @@ function Edit(currentObj) {
     }
 }
 
-function GetSupplierPaymentsByID(ID) {
+function GetSupplierPaymentsByID(PaymentID) {
     ChangeButtonPatchView('SupplierPayments', 'btnPatchAdd', 'Edit');
-    var thisitem = GetSupplierPayments(ID)
+    var thisitem = GetSupplierPayments(PaymentID)
     $('#lblheader').text('Entry No: ' + thisitem.EntryNo);
-    $('#ID').val(ID);
-    $('#deleteId').val(ID);
+    $('#ID').val(PaymentID);
+    $('#deleteId').val(PaymentID);
     $('#Supplier').val(thisitem.supplierObj.ID);
     $('#hdfSupplierID').val(thisitem.supplierObj.ID);
     $('#Supplier').prop('disabled', true);
@@ -258,7 +258,7 @@ function GetSupplierPaymentsByID(ID) {
         $("#CreditID").html("");
         //Get Available Credit and Add with  TotalPaidAmt
         debugger;
-        var thisObj = GetCreditNoteBySupplier(thisitem.supplierObj.ID)
+        var thisObj = GetCreditNoteByPaymentID(thisitem.supplierObj.ID, PaymentID)
         if (thisObj.length>0)
             var CreditAmount = parseFloat(thisitem.TotalPaidAmt) + parseFloat(thisObj[0].AvailableCredit);
         else
@@ -364,6 +364,28 @@ function GetCreditNoteAmount(ID, SupplierID) {
         var data = { "CreditID": ID, "SupplierID": SupplierID };
         var ds = {};
         ds = GetDataFromServer("SupplierPayments/GetCreditNoteAmount/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            notyAlert('error', ds.Message);
+            var emptyarr = [];
+            return emptyarr;
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
+function GetCreditNoteByPaymentID(ID, PaymentID) {
+    try {
+        var data = { "ID": ID, "PaymentID": PaymentID };
+        var ds = {};
+        ds = GetDataFromServer("SupplierPayments/GetCreditNoteByPaymentID/", data);
         if (ds != '') {
             ds = JSON.parse(ds);
         }

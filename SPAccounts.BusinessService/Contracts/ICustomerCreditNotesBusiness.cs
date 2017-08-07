@@ -11,6 +11,7 @@ namespace SPAccounts.BusinessService.Contracts
     {
         List<CustomerCreditNotes> GetAllCustomerCreditNotes();
         List<CustomerCreditNotes> GetCreditNoteByCustomer(Guid ID);
+        List<CustomerCreditNotes> GetCreditNoteByPaymentID(Guid ID, Guid PaymentID);
         CustomerCreditNotes GetCreditNoteAmount(Guid CreditID, Guid CustomerID);
         CustomerCreditNotes GetCustomerCreditNoteDetails(Guid ID);
         object InsertUpdateCustomerCreditNote(CustomerCreditNotes _customerCreditNoteObj);
