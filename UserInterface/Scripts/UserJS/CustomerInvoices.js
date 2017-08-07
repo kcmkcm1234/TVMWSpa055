@@ -184,7 +184,7 @@ function SaveSuccess(data, status) {
     switch (JsonResult.Result) {
         case "OK":
             if(  $('#ID').val()=="")
-                 Advanceadjustment(); //calling advance adjustment popup
+                 Advanceadjustment(); //calling advance adjustment popup if inserting
             $('#ID').val(JsonResult.Records.ID);
             PaintInvoiceDetails()
             List();

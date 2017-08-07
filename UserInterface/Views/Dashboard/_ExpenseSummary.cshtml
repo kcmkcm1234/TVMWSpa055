@@ -17,15 +17,15 @@
         <!-- /.box-header -->
         <div class="box-body">
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-7">
                     <div class="chart-responsive">
                         <canvas id="pieChartM" height="170" width="205" style="width: 205px; height: 170px;"></canvas>
                     </div>
                     <!-- ./chart-responsive -->
                 </div>
                 <!-- /.col -->
-                <div class="col-md-12">
-                    <div class="col-md-6">
+                <div class="col-md-5" style="max-height:450px; overflow-y:scroll">
+                    @*<div class="col-md-6">
 
                         <ul class="chart-legend clearfix">
                             @for (int i = 0; i < h; i++)
@@ -44,11 +44,11 @@
                             }
 
                         </ul>
-                    </div>
-                    <div class="col-md-6">
+                    </div>*@
+                    <div class="col-md-12">
 
                         <ul class="chart-legend clearfix">
-                            @for (int i = h; i < OEList.Count; i++)
+                            @for (int i =0; i < OEList.Count; i++)
                             {
                                 <li title="@OEList[i].Head">
                                     <i class="fa fa-circle" style="color:@OEList[i].color"></i>@if (OEList[i].Head.Length > 15)

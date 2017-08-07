@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Newtonsoft.Json;
+using SAMTool.DataAccessObject.DTO;
 using SPAccounts.BusinessService.Contracts;
 using SPAccounts.DataAccessObject.DTO;
 using SPAccounts.UserInterface.SecurityFilter;
@@ -114,6 +115,18 @@ namespace UserInterface.Controllers
                     });
                 }
                 otherExpenseViewModelObj.EmployeeTypeList = selectListItem;
+
+
+
+                Permission _permission = Session["UserRights"] as Permission;
+                string p = _permission.SubPermissionList.Where(li => li.Name == "DaysFilter").First().AccessCode;
+                if (p.Contains("R") || p.Contains("W")) {
+                    otherExpenseViewModelObj.ShowDaysFilter = true;
+                }
+                else{
+                    otherExpenseViewModelObj.ShowDaysFilter = false;
+                }
+               
 
             }
             catch (Exception ex)

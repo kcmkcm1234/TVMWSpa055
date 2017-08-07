@@ -48,6 +48,12 @@ namespace UserInterface.Controllers
                     Value = "ALL",
                     Selected = true
                 });
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "Company wise",
+                    Value = "Company",
+                    Selected = false
+                });
                 foreach (CompaniesViewModel cvm in SaleSummary.companiesList)
                 {
                     selectListItem.Add(new SelectListItem
@@ -137,6 +143,68 @@ namespace UserInterface.Controllers
             saleDetailReportViewModel.CompanyList = selectListItem;
             return View(saleDetailReportViewModel);
         }
+
+
+        [HttpGet]
+        public ActionResult OtherExpenseSummary()
+        {
+
+            DateTime dt = DateTime.Now;
+            ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+            ViewBag.todate = dt.ToString("dd-MMM-yyyy");
+            OtherExpenseSummaryReportViewModel otherExpenseSummaryReportViewModel = new OtherExpenseSummaryReportViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            otherExpenseSummaryReportViewModel.companiesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_companiesBusiness.GetAllCompanies());
+            if (otherExpenseSummaryReportViewModel.companiesList != null)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "All",
+                    Value = "ALL",
+                    Selected = true
+                });
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "Company Wise",
+                    Value = "companywise",
+                    Selected = false
+                });
+                foreach (CompaniesViewModel cvm in otherExpenseSummaryReportViewModel.companiesList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = cvm.Name,
+                        Value = cvm.Code.ToString(),
+                        Selected = false
+                    });
+                }
+            }
+
+            otherExpenseSummaryReportViewModel.CompanyList = selectListItem;
+            return View(otherExpenseSummaryReportViewModel);
+        }
+
+        [HttpGet]
+        public string GetOtherExpenseSummary(string FromDate, string ToDate, string CompanyCode)
+        {
+            if (!string.IsNullOrEmpty(CompanyCode))
+            {
+                try
+                {
+                    DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
+                    DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
+                    List<OtherExpenseSummaryReportViewModel> otherExpenseSummaryReportList = Mapper.Map<List<OtherExpenseSummaryReport>, List<OtherExpenseSummaryReportViewModel>>(_reportBusiness.GetOtherExpenseSummary(FDate, TDate, CompanyCode));
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = otherExpenseSummaryReportList });
+                }
+                catch (Exception ex)
+                {
+                    return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+                }
+
+            }
+            return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
+        }
+
 
         #region ButtonStyling
         [HttpGet]

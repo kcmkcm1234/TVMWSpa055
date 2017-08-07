@@ -259,7 +259,11 @@ function GetSupplierPaymentsByID(ID) {
         //Get Available Credit and Add with  TotalPaidAmt
         debugger;
         var thisObj = GetCreditNoteBySupplier(thisitem.supplierObj.ID)
-        var CreditAmount = parseFloat(thisitem.TotalPaidAmt) + parseFloat(thisObj[0].AvailableCredit);
+        if (thisObj.length>0)
+            var CreditAmount = parseFloat(thisitem.TotalPaidAmt) + parseFloat(thisObj[0].AvailableCredit);
+        else
+            var CreditAmount = parseFloat(thisitem.TotalPaidAmt);
+
         $('#TotalPaidAmt').val(roundoff(CreditAmount))
         $('#lblTotalPaidAmt').text(roundoff(CreditAmount))
         $('#paidAmt').text(roundoff(CreditAmount));

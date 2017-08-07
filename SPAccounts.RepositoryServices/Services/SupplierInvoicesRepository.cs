@@ -555,5 +555,46 @@ namespace SPAccounts.RepositoryServices.Services
             return SupplierInvoicesList;
         }
 
+        public SupplierInvoices GetSupplierAdvances(string ID)
+        {
+            SupplierInvoices SIList = null;
+            Settings settings = new Settings();
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetSupplierAdvances]";
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = Guid.Parse(ID);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                if (sdr.Read())
+                                {
+                                    SIList = new SupplierInvoices();
+                                    SIList.suppliersObj = new Supplier();
+                                    SIList.suppliersObj.AdvanceAmount = decimal.Parse(sdr["AdvanceAmount"].ToString());
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return SIList;
+        }
     }
 }
