@@ -32,6 +32,7 @@ namespace UserInterface.Controllers
             return View(systemReportList);
         }
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
         public ActionResult SaleSummary()
         {
             DateTime dt = DateTime.Now;
@@ -70,6 +71,7 @@ namespace UserInterface.Controllers
         }
 
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
         public string GetSaleSummary(string FromDate,string ToDate,string CompanyCode)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
@@ -91,6 +93,7 @@ namespace UserInterface.Controllers
         }
 
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
         public string GetSaleDetail(string FromDate, string ToDate, string CompanyCode)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
@@ -112,6 +115,7 @@ namespace UserInterface.Controllers
         }
 
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
         public ActionResult SalesDetail()
         {
             
@@ -146,6 +150,7 @@ namespace UserInterface.Controllers
 
 
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
         public ActionResult OtherExpenseSummary()
         {
 
@@ -185,6 +190,7 @@ namespace UserInterface.Controllers
         }
 
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
         public string GetOtherExpenseSummary(string FromDate, string ToDate, string CompanyCode)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
