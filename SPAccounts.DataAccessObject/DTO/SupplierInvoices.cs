@@ -30,6 +30,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public TaxTypes TaxTypeObj { get; set; }
         public decimal PaidAmount { get; set; }
         public decimal OtherPayments { get; set; }
+        public int DueDate { get; set; }
         public SupplierPayments SuppPaymentObj { get; set; }
 
         public decimal BalanceDue { get; set; }

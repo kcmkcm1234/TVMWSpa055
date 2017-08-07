@@ -40,6 +40,7 @@ namespace UserInterface.Models
         [Display(Name = "Payment Term")]
         [Required(ErrorMessage = "Payment Term is missing")]
         public string PayCode { get; set; }
+        public int DueDate { get; set; }
         public PaymentTermsViewModel paymentTermsObj { get; set; }
         public CommonViewModel commonObj { get; set; }
 
