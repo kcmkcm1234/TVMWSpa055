@@ -31,12 +31,13 @@ $(document).ready(function () {
                { "data": "TotalInvoiceAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                { "data": "BalanceDue", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },          
                { "data": "LastPaymentDateFormatted", "defaultContent": "<i>-</i>" },
+               { "data": "companiesObj.Name", "defaultContent": "<i>-</i>" },
                { "data": "Status", "defaultContent": "<i>-</i>" },
                { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                   { className: "text-right", "targets": [5,6] },
-             { className: "text-center", "targets": [1,2, 3, 4, 7,8,9] }
+             { className: "text-center", "targets": [1,2, 3, 4, 7,8,9,10] }
 
              ]
          });
@@ -154,9 +155,25 @@ function DeleteInvoices() {
     notyConfirm('Are you sure to delete?', 'Delete()', '', "Yes, delete it!");
 }
 
+function CheckAmount() {
+    debugger;
+    if($("#txtDiscount").val() == "")
+    $("#txtDiscount").val(roundoff(0));
+}
+
 function Delete()
 { 
     $('#btnFormDelete').trigger('click'); 
+}
+
+function saveInvoices() {
+    debugger;
+    if ($('#txtTotalInvAmt').val() == 0) {
+        notyAlert('error', 'Please Enter Amount');
+  }
+  else {
+      $('#btnSave').trigger('click');
+  }
 }
 
 function DeleteSuccess(data, status) {
@@ -183,13 +200,16 @@ function SaveSuccess(data, status) {
     var JsonResult = JSON.parse(data)
     switch (JsonResult.Result) {
         case "OK":
-            if(  $('#ID').val()=="")
-                 Advanceadjustment(); //calling advance adjustment popup if inserting
+            if ($('#ID').val() == "") {
+                Advanceadjustment(); //calling advance adjustment popup if inserting
+            }
+            else {
+                var res = notyAlert('success', JsonResult.Message);
+            }
             $('#ID').val(JsonResult.Records.ID);
+            $('#deleteId').val(JsonResult.Records.ID);
             PaintInvoiceDetails()
-            List();
-            var res = notyAlert('success', JsonResult.Message);
-           
+            List(); 
             break;
         case "ERROR":
             notyAlert('error', JsonResult.Message);
@@ -237,7 +257,8 @@ function SaveAdvanceAdujust() {
                 if (JsonResult != '') {
                     switch (JsonResult.Result) {
                         case "OK":
-                            notyAlert('success', JsonResult.Message); 
+                            notyAlert('success', JsonResult.Message);
+                            List();
                             break;
                         case "ERROR":
                             notyAlert('error', JsonResult.Message);

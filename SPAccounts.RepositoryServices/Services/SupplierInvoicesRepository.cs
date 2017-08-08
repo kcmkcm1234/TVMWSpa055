@@ -53,6 +53,8 @@ namespace SPAccounts.RepositoryServices.Services
                                         SIList.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : SIList.ID);
                                         SIList.InvoiceDate = (sdr["InvoiceDate"].ToString() != "" ? DateTime.Parse(sdr["InvoiceDate"].ToString()) : SIList.InvoiceDate);
                                         SIList.InvoiceNo = sdr["InvoiceNo"].ToString();
+                                        SIList.companiesObj = new Companies();
+                                        SIList.companiesObj.Name= sdr["OrginCompany"].ToString();
                                         SIList.suppliersObj = new Supplier();
                                         SIList.suppliersObj.ID = Guid.Parse(sdr["SupplierID"].ToString());
                                         SIList.suppliersObj.CompanyName = sdr["CompanyName"].ToString();
@@ -222,7 +224,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandText = "[Accounts].[InsertSupplierInvoice]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@CompanyCode", SqlDbType.VarChar, 10).Value = _supplierInvoicesObj.CompanyCode;
-                        cmd.Parameters.Add("@InvoiceNo", SqlDbType.VarChar, 10).Value = _supplierInvoicesObj.InvoiceNo;
+                        cmd.Parameters.Add("@InvoiceNo", SqlDbType.VarChar, 20).Value = _supplierInvoicesObj.InvoiceNo;
                         cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = _supplierInvoicesObj.SupplierID;
                         cmd.Parameters.Add("@PaymentTerm", SqlDbType.VarChar, 10).Value = _supplierInvoicesObj.PayCode;
                         cmd.Parameters.Add("@InvoiceDate", SqlDbType.DateTime).Value = _supplierInvoicesObj.InvoiceDateFormatted;
@@ -288,7 +290,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = _supplierInvoicesObj.ID;
                         cmd.Parameters.Add("@CompanyCode", SqlDbType.VarChar, 10).Value = _supplierInvoicesObj.CompanyCode;
-                        cmd.Parameters.Add("@InvoiceNo", SqlDbType.VarChar, 10).Value = _supplierInvoicesObj.InvoiceNo;
+                        cmd.Parameters.Add("@InvoiceNo", SqlDbType.VarChar, 20).Value = _supplierInvoicesObj.InvoiceNo;
                         cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = _supplierInvoicesObj.SupplierID;
                         cmd.Parameters.Add("@PaymentTerm", SqlDbType.VarChar, 10).Value = _supplierInvoicesObj.PayCode;
                         cmd.Parameters.Add("@InvoiceDate", SqlDbType.DateTime).Value = _supplierInvoicesObj.InvoiceDateFormatted;

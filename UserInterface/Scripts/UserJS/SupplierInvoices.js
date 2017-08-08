@@ -23,12 +23,13 @@ $(document).ready(function () {
               { "data": "TotalInvoiceAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
               { "data": "BalanceDue", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
               { "data": "LastPaymentDateFormatted", "defaultContent": "<i>-</i>" },
+              { "data": "companiesObj.Name", "defaultContent": "<i>-</i>" },
               { "data": "Status", "defaultContent": "<i>-</i>" },
               { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
             ],
             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                  { className: "text-right", "targets": [5, 6] },
-            { className: "text-center", "targets": [1, 2, 3, 4, 7, 8, 9] }
+            { className: "text-center", "targets": [1, 2, 3, 4, 7, 8, 9,10] }
 
             ]
         });
@@ -224,16 +225,30 @@ function GetAllInvoicesAndSummary() {
         notyAlert('error', e.message);
     }
 }
+
+function saveInvoices() {
+    debugger;
+    if ($('#txtTotalInvAmt').val() == 0) {
+        notyAlert('error', 'Please Enter Amount');
+    }
+    else {
+        $('#btnSave').trigger('click');
+    }
+}
+
 function SaveSuccess(data, status) {
     var JsonResult = JSON.parse(data)
     switch (JsonResult.Result) {
         case "OK":
-            if ($('#ID').val() == "")
+            if ($('#ID').val() == "") {
                 Advanceadjustment(); //calling advance adjustment popup if inserting
+            }
+            else {
+                notyAlert('success', JsonResult.Message);
+            }
             $('#ID').val(JsonResult.Records.ID);
             PaintInvoiceDetails()
             List();
-            notyAlert('success', JsonResult.Message);
             break;
         case "ERROR":
             notyAlert('error', JsonResult.Message);
@@ -281,6 +296,7 @@ function SaveAdvanceAdujust() {
                     switch (JsonResult.Result) {
                         case "OK":
                             notyAlert('success', JsonResult.Message);
+                            List();
                             break;
                         case "ERROR":
                             notyAlert('error', JsonResult.Message);
@@ -460,6 +476,12 @@ function Reset() {
         PaintInvoiceDetails();
     }
    
+}
+
+function CheckAmount() {
+    debugger;
+    if($("#txtDiscount").val() == "")
+    $("#txtDiscount").val(roundoff(0));
 }
 
 
