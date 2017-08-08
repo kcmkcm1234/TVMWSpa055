@@ -224,16 +224,30 @@ function GetAllInvoicesAndSummary() {
         notyAlert('error', e.message);
     }
 }
+
+function saveInvoices() {
+    debugger;
+    if ($('#txtTotalInvAmt').val() == 0) {
+        notyAlert('error', 'Please Enter Amount');
+    }
+    else {
+        $('#btnSave').trigger('click');
+    }
+}
+
 function SaveSuccess(data, status) {
     var JsonResult = JSON.parse(data)
     switch (JsonResult.Result) {
         case "OK":
-            if ($('#ID').val() == "")
+            if ($('#ID').val() == "") {
                 Advanceadjustment(); //calling advance adjustment popup if inserting
+            }
+            else {
+                notyAlert('success', JsonResult.Message);
+            }
             $('#ID').val(JsonResult.Records.ID);
             PaintInvoiceDetails()
             List();
-            notyAlert('success', JsonResult.Message);
             break;
         case "ERROR":
             notyAlert('error', JsonResult.Message);
@@ -281,6 +295,7 @@ function SaveAdvanceAdujust() {
                     switch (JsonResult.Result) {
                         case "OK":
                             notyAlert('success', JsonResult.Message);
+                            List();
                             break;
                         case "ERROR":
                             notyAlert('error', JsonResult.Message);
@@ -460,6 +475,12 @@ function Reset() {
         PaintInvoiceDetails();
     }
    
+}
+
+function CheckAmount() {
+    debugger;
+    if($("#txtDiscount").val() == "")
+    $("#txtDiscount").val(roundoff(0));
 }
 
 

@@ -154,9 +154,25 @@ function DeleteInvoices() {
     notyConfirm('Are you sure to delete?', 'Delete()', '', "Yes, delete it!");
 }
 
+function CheckAmount() {
+    debugger;
+    if($("#txtDiscount").val() == "")
+    $("#txtDiscount").val(roundoff(0));
+}
+
 function Delete()
 { 
     $('#btnFormDelete').trigger('click'); 
+}
+
+function saveInvoices() {
+    debugger;
+    if ($('#txtTotalInvAmt').val() == 0) {
+        notyAlert('error', 'Please Enter Amount');
+  }
+  else {
+      $('#btnSave').trigger('click');
+  }
 }
 
 function DeleteSuccess(data, status) {
@@ -183,13 +199,16 @@ function SaveSuccess(data, status) {
     var JsonResult = JSON.parse(data)
     switch (JsonResult.Result) {
         case "OK":
-            if(  $('#ID').val()=="")
-                 Advanceadjustment(); //calling advance adjustment popup if inserting
+            if ($('#ID').val() == "") {
+                Advanceadjustment(); //calling advance adjustment popup if inserting
+            }
+            else {
+                var res = notyAlert('success', JsonResult.Message);
+            }
             $('#ID').val(JsonResult.Records.ID);
+            $('#deleteId').val(JsonResult.Records.ID);
             PaintInvoiceDetails()
-            List();
-            var res = notyAlert('success', JsonResult.Message);
-           
+            List(); 
             break;
         case "ERROR":
             notyAlert('error', JsonResult.Message);
@@ -237,7 +256,8 @@ function SaveAdvanceAdujust() {
                 if (JsonResult != '') {
                     switch (JsonResult.Result) {
                         case "OK":
-                            notyAlert('success', JsonResult.Message); 
+                            notyAlert('success', JsonResult.Message);
+                            List();
                             break;
                         case "ERROR":
                             notyAlert('error', JsonResult.Message);

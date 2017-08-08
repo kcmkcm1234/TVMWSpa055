@@ -306,8 +306,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="col-md-10">
-                                        @Html.EditorFor(model => model.Discount, new { htmlAttributes = new { @class = "form-control HeaderBox Roundoff Amount", onkeypress = "return isNumber(event)", @id = "txtDiscount" } })
-                                        @Html.ValidationMessageFor(model => model.Discount, "", new { @class = "text-danger" })
+                                        @Html.EditorFor(model => model.Discount, new { htmlAttributes = new { @class = "form-control HeaderBox Roundoff Amount", onkeypress = "return isNumber(event)", onblur = "CheckAmount()", @id = "txtDiscount" } })
                                     </div>
                                     <div class="col-md-1"></div>
                                     <div class="col-md-1"></div>
@@ -482,7 +481,16 @@
                     <div class="col-md-3" style="padding-right: 4px;">
                         <a class="close" data-dismiss="modal" aria-label="Close"><i style="font-size: 33px;" class="fa fa-times-circle" aria-hidden="true"></i></a>
                     </div>
-
+                </div>
+            </div>
+            <div class="col-md-12" style="height: 20px;padding:3px;">
+                <div class="container-fluid" style="padding-right: 0px;">
+                    <div class="col-md-12">
+                        <div class="col-md-6"></div>
+                        <div class="col-md-6"style="text-align:right;font-weight:500;color:#0da20d">
+                                <span> Invoice Saved Successfully.</span>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-body">

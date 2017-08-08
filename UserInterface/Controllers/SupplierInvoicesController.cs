@@ -221,7 +221,6 @@ namespace UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject = "SupplierInvoices", Mode = "D")]
         public string DeleteSupplierInvoice(string ID)
         {
-
             try
             {
                 object result = null;
@@ -292,7 +291,7 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.savebtn.Visible = true;
                     ToolboxViewModelObj.savebtn.Text = "Save";
                     ToolboxViewModelObj.savebtn.Title = "Save";
-                    ToolboxViewModelObj.savebtn.Event = "$('#btnSave').click();";
+                    ToolboxViewModelObj.savebtn.Event = "saveInvoices();";
 
                     ToolboxViewModelObj.deletebtn.Visible = true;
                     ToolboxViewModelObj.deletebtn.Text = "Delete";
@@ -316,7 +315,7 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.savebtn.Visible = true;
                     ToolboxViewModelObj.savebtn.Text = "Save";
                     ToolboxViewModelObj.savebtn.Title = "Save";
-                    ToolboxViewModelObj.savebtn.Event = "$('#btnSave').click();";
+                    ToolboxViewModelObj.savebtn.Event = "saveInvoices();";
 
                     ToolboxViewModelObj.CloseBtn.Visible = true;
                     ToolboxViewModelObj.CloseBtn.Text = "Close";

@@ -222,7 +222,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandText = "[Accounts].[InsertSupplierInvoice]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@CompanyCode", SqlDbType.VarChar, 10).Value = _supplierInvoicesObj.CompanyCode;
-                        cmd.Parameters.Add("@InvoiceNo", SqlDbType.VarChar, 10).Value = _supplierInvoicesObj.InvoiceNo;
+                        cmd.Parameters.Add("@InvoiceNo", SqlDbType.VarChar, 20).Value = _supplierInvoicesObj.InvoiceNo;
                         cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = _supplierInvoicesObj.SupplierID;
                         cmd.Parameters.Add("@PaymentTerm", SqlDbType.VarChar, 10).Value = _supplierInvoicesObj.PayCode;
                         cmd.Parameters.Add("@InvoiceDate", SqlDbType.DateTime).Value = _supplierInvoicesObj.InvoiceDateFormatted;
@@ -288,7 +288,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = _supplierInvoicesObj.ID;
                         cmd.Parameters.Add("@CompanyCode", SqlDbType.VarChar, 10).Value = _supplierInvoicesObj.CompanyCode;
-                        cmd.Parameters.Add("@InvoiceNo", SqlDbType.VarChar, 10).Value = _supplierInvoicesObj.InvoiceNo;
+                        cmd.Parameters.Add("@InvoiceNo", SqlDbType.VarChar, 20).Value = _supplierInvoicesObj.InvoiceNo;
                         cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = _supplierInvoicesObj.SupplierID;
                         cmd.Parameters.Add("@PaymentTerm", SqlDbType.VarChar, 10).Value = _supplierInvoicesObj.PayCode;
                         cmd.Parameters.Add("@InvoiceDate", SqlDbType.DateTime).Value = _supplierInvoicesObj.InvoiceDateFormatted;
