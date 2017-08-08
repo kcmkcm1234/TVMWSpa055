@@ -3,6 +3,7 @@ $(document).ready(function () {
     try {
         DataTables.otherExpenseDetailsReportTable = $('#otherExpenseDetailsTable').DataTable(
          {
+             //
             // dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
              dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
              buttons: [{
