@@ -23,12 +23,13 @@ $(document).ready(function () {
               { "data": "TotalInvoiceAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
               { "data": "BalanceDue", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
               { "data": "LastPaymentDateFormatted", "defaultContent": "<i>-</i>" },
+              { "data": "companiesObj.Name", "defaultContent": "<i>-</i>" },
               { "data": "Status", "defaultContent": "<i>-</i>" },
               { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
             ],
             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                  { className: "text-right", "targets": [5, 6] },
-            { className: "text-center", "targets": [1, 2, 3, 4, 7, 8, 9] }
+            { className: "text-center", "targets": [1, 2, 3, 4, 7, 8, 9,10] }
 
             ]
         });
