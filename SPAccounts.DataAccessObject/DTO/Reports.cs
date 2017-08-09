@@ -53,4 +53,14 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal Amount { get; set; }
         public string OriginCompany { get; set; }
     }
+    public class OtherExpenseDetailsReport
+    {
+        public string AccountHead { get; set; }
+        public string SubType { get; set; }
+        public string PaymentMode { get; set; }
+        public string PaymentReference { get; set; }
+        public string Description { get; set; }
+        public decimal Amount { get; set; }
+        public string OriginCompany { get; set; }
+    }
 }
