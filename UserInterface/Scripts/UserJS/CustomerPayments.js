@@ -116,6 +116,7 @@ try{
         $(this).select();
     }); 
     $('#tblOutStandingDetails tbody').on('click', 'td:first-child', function (e) {
+        debugger;
         var rt = DataTables.OutStandingInvoices.row($(this).parent()).index()       
         var table = $('#tblOutStandingDetails').DataTable();
         var allData = table.rows().data();
