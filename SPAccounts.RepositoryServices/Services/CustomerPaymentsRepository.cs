@@ -369,6 +369,11 @@ namespace SPAccounts.RepositoryServices.Services
                                 while (sdr.Read())
                                 {
                                     CustPaymentsObj.OutstandingAmount = (sdr["OutstandingAmount"].ToString() != "" ?sdr["OutstandingAmount"].ToString() : CustPaymentsObj.OutstandingAmount);
+                                    CustPaymentsObj.PaymentOutstanding = (sdr["PaymentOutstanding"].ToString() != "" ? sdr["PaymentOutstanding"].ToString() : CustPaymentsObj.PaymentOutstanding);
+                                    CustPaymentsObj.InvoiceOutstanding = (sdr["InvoiceOutstanding"].ToString() != "" ? sdr["InvoiceOutstanding"].ToString() : CustPaymentsObj.InvoiceOutstanding);
+                                    CustPaymentsObj.CreditOutstanding = (sdr["CreditOutstanding"].ToString() != "" ? sdr["CreditOutstanding"].ToString() : CustPaymentsObj.CreditOutstanding);
+                                    CustPaymentsObj.AdvOutstanding = (sdr["AdvOutstanding"].ToString() != "" ? sdr["AdvOutstanding"].ToString() : CustPaymentsObj.AdvOutstanding);
+
                                 }
                             }
                         }

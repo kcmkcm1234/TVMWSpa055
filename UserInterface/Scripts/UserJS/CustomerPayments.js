@@ -555,8 +555,12 @@ function CustomerChange() {
 }
 
 function BindOutstandingAmount() {
-    var thisitem = GetOutstandingAmountByCustomer($('#Customer').val()) 
-    $('#invoicedAmt').text(thisitem.OutstandingAmount == null ? "₹ 0.00" : thisitem.OutstandingAmount);
+    var thisitem = GetOutstandingAmountByCustomer($('#Customer').val())
+    if (thisitem != null) {
+        $('#invoicedAmt').text(thisitem.OutstandingAmount == null ? "₹ 0.00" : thisitem.OutstandingAmount);
+        $('#lblOutstandingdetails').text("(Inv: " + thisitem.InvoiceOutstanding + ", Pay: " + thisitem.PaymentOutstanding +
+                                         ", Cr: " + thisitem.CreditOutstanding + "& Adv: " + thisitem.AdvOutstanding + ")");
+    }    
 }
 function BindOutstanding() {
     index = 0; 
