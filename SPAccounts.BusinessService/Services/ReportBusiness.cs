@@ -29,12 +29,26 @@ namespace SPAccounts.BusinessService.Services
             return systemReportList;
         }
 
-        public List<OtherExpenseSummaryReport> GetOtherExpenseSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode)
+        public List<OtherExpenseSummaryReport> GetOtherExpenseSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string OrderBy)
         {
             List<OtherExpenseSummaryReport> otherExpenseSummaryList = null;
             try
             {
                 otherExpenseSummaryList = _reportRepository.GetOtherExpenseSummary(FromDate, ToDate, CompanyCode);
+                if (otherExpenseSummaryList != null)
+                {
+                    switch (OrderBy)
+                    {
+                        case "AH":
+                            otherExpenseSummaryList = otherExpenseSummaryList.OrderBy(OE => OE.AccountHeadORSubtype).ToList();
+                            break;
+
+                        case "ST":
+                            otherExpenseSummaryList = otherExpenseSummaryList.OrderByDescending(OE => OE.SubTypeDesc).ToList();
+                            break;
+                    }
+
+                }
             }
             catch (Exception ex)
             {
@@ -63,6 +77,8 @@ namespace SPAccounts.BusinessService.Services
             try
             {
                 saleSummaryList = _reportRepository.GetSaleSummary(FromDate, ToDate, CompanyCode);
+
+                
             }
             catch (Exception ex)
             {
