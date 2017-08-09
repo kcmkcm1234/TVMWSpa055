@@ -30,7 +30,7 @@ namespace UserInterface.Models
 
         public Guid DepWithdID { get; set; }
 
-        [Display(Name = "Deposit To")]
+        [Display(Name = "Withdrawal From")]
         public string BankCode { get; set; }
 
         [Display(Name = "Reference No.")]

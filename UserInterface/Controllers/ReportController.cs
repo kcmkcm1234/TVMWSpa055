@@ -197,7 +197,7 @@ namespace UserInterface.Controllers
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
-        public string GetOtherExpenseSummary(string FromDate, string ToDate, string CompanyCode)
+        public string GetOtherExpenseSummary(string FromDate, string ToDate, string CompanyCode, string OrderBy)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
             {
@@ -205,7 +205,7 @@ namespace UserInterface.Controllers
                 {
                     DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                    List<OtherExpenseSummaryReportViewModel> otherExpenseSummaryReportList = Mapper.Map<List<OtherExpenseSummaryReport>, List<OtherExpenseSummaryReportViewModel>>(_reportBusiness.GetOtherExpenseSummary(FDate, TDate, CompanyCode));
+                    List<OtherExpenseSummaryReportViewModel> otherExpenseSummaryReportList = Mapper.Map<List<OtherExpenseSummaryReport>, List<OtherExpenseSummaryReportViewModel>>(_reportBusiness.GetOtherExpenseSummary(FDate, TDate, CompanyCode, OrderBy));
                     return JsonConvert.SerializeObject(new { Result = "OK", Records = otherExpenseSummaryReportList });
                 }
                 catch (Exception ex)

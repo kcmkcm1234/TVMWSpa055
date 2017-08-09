@@ -14,5 +14,13 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal Amount { get; set; }
         public string BankCode { get; set; }
         public string GeneralNotes { get; set; }
+        public string DateFormatted { get; set; }
+        public string AmountFormatted { get; set; }
+        public string BankName { get; set; }
+        public Common commonObj { get; set; }
+        public string DepositRowValues { get; set; }
+        public List<DepositAndWithdrawals> CheckedRows { get; set; }
+        public string DepositMode { get; set; }
+        public string ChequeStatus { get; set; }
     }
 }
