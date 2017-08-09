@@ -150,4 +150,65 @@
 
     }
 
+    @if (Model.DepositBtn.Visible)
+    {
+        if (Model.DepositBtn.Disable)
+        {
+
+            <a class="thr_disbtn" title="@Model.DepositBtn.Title-@Model.DepositBtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/deposit.png")">
+                <span class="btnText">@Model.DepositBtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.DepositBtn.Title" class="thr_btn" onclick=@Model.DepositBtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/deposit.png")">
+                <span class="btnText">@Model.DepositBtn.Text</span>
+            </a>
+        }
+
+    }
+
+    @if (Model.WithdrawBtn.Visible)
+    {
+        if (Model.WithdrawBtn.Disable)
+        {
+
+            <a class="thr_disbtn" title="@Model.WithdrawBtn.Title-@Model.WithdrawBtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/withdraw.png")">
+                <span class="btnText">@Model.WithdrawBtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.WithdrawBtn.Title" class="thr_btn" onclick=@Model.WithdrawBtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/withdraw.png")">
+                <span class="btnText">@Model.WithdrawBtn.Text</span>
+            </a>
+        }
+
+    }
+    @if (Model.ClearBtn.Visible)
+    {
+        if (Model.ClearBtn.Disable)
+        {
+
+            <a class="thr_disbtn" title="@Model.ClearBtn.Title-@Model.ClearBtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/save.PNG")">
+                <span class="btnText">@Model.ClearBtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.ClearBtn.Title" class="thr_btn" onclick=@Model.ClearBtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/save.PNG")">
+                <span class="btnText">@Model.ClearBtn.Text</span>
+            </a>
+        }
+
+    }
 </div>
