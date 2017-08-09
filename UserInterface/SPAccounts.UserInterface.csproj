@@ -1282,6 +1282,7 @@
     <Content Include="Content\images\circle.png" />
     <Content Include="Content\images\close.png" />
     <Content Include="Content\images\delete.png" />
+    <Content Include="Content\images\deposit.png" />
     <Content Include="Content\images\helmet.png" />
     <Content Include="Content\images\listdlt.png" />
     <Content Include="Content\images\loading.gif" />
@@ -1291,6 +1292,7 @@
     <Content Include="Content\images\printer.png" />
     <Content Include="Content\images\reset.png" />
     <Content Include="Content\images\save.png" />
+    <Content Include="Content\images\withdraw.png" />
     <Content Include="Content\sweetalert.css" />
     <Content Include="Content\UserCSS\Login.css" />
     <Content Include="fonts\fontawesome-webfont.svg" />
