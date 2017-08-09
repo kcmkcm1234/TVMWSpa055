@@ -247,7 +247,7 @@ function Add()
     $("#DepositwithdrawalEntry").show();
     $(".modal-footer").show();
     ClearFields();
-}
+} 
 function List()
 {
     $("#DepositwithdrawalList").show();
