@@ -479,6 +479,11 @@ function AddNew()
     ChangeButtonPatchView('CustomerInvoices', 'btnPatchAdd', 'Add');
     openNav();
 }
+
+function Reset() {
+    debugger; 
+        PaintInvoiceDetails(); 
+}
 function PaintInvoiceDetails()
 {
     debugger;
