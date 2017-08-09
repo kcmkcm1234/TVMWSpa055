@@ -16,6 +16,9 @@ namespace UserInterface.Models
         public ToolBoxStructure calculateBtn;
         public ToolBoxStructure CloseBtn;
         public ToolBoxStructure PrintBtn;
+        public ToolBoxStructure DepositBtn;
+        public ToolBoxStructure WithdrawBtn;
+        public ToolBoxStructure ClearBtn;
     }
 
     public struct ToolBoxStructure

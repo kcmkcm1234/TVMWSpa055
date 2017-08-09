@@ -23,7 +23,7 @@ namespace UserInterface.Models
         [Display(Name = "End Date")]
         public string ToDate { get; set; }
         public decimal Amount { get; set; }
-        [Display(Name = "Bank")]
+        [Display(Name = "Deposit To")]
         [Required(ErrorMessage = "Bank Missing")]
         public string BankCode { get; set; }
         public string GeneralNotes { get; set; }

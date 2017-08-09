@@ -187,20 +187,20 @@ namespace UserInterface.Controllers
             switch (ActionType)
             {
                 case "List":
-                    ToolboxViewModelObj.addbtn.Visible = true;
-                    ToolboxViewModelObj.addbtn.Text = "Deposit";
-                    ToolboxViewModelObj.addbtn.Title = "Deposit";
-                    ToolboxViewModelObj.addbtn.Event = "ShowDepositModal();";
+                    ToolboxViewModelObj.DepositBtn.Visible = true;
+                    ToolboxViewModelObj.DepositBtn.Text = "Deposit";
+                    ToolboxViewModelObj.DepositBtn.Title = "Deposit";
+                    ToolboxViewModelObj.DepositBtn.Event = "ShowDepositModal();";
 
-                    ToolboxViewModelObj.savebtn.Visible = true;
-                    ToolboxViewModelObj.savebtn.Text = "WDL";
-                    ToolboxViewModelObj.savebtn.Title = "WithDrawal";
-                    ToolboxViewModelObj.savebtn.Event = "ShowWithDrawal();";
+                    ToolboxViewModelObj.WithdrawBtn.Visible = true;
+                    ToolboxViewModelObj.WithdrawBtn.Text = "WDL";
+                    ToolboxViewModelObj.WithdrawBtn.Title = "WithDrawal";
+                    ToolboxViewModelObj.WithdrawBtn.Event = "ShowWithDrawal();";
 
-                    ToolboxViewModelObj.resetbtn.Visible = true;
-                    ToolboxViewModelObj.resetbtn.Text = "ChqClr";
-                    ToolboxViewModelObj.resetbtn.Title = "ChqClr";
-                    ToolboxViewModelObj.resetbtn.Event = "ShowChequeClear();";
+                    ToolboxViewModelObj.ClearBtn.Visible = true;
+                    ToolboxViewModelObj.ClearBtn.Text = "ChqClr";
+                    ToolboxViewModelObj.ClearBtn.Title = "ChqClr";
+                    ToolboxViewModelObj.ClearBtn.Event = "ShowChequeClear();";
 
                     break;
                 case "Edit":
