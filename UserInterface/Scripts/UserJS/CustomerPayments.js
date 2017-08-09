@@ -335,6 +335,7 @@ function TypeOnChange() {
         $('#BankCode').prop('disabled', true); 
         $('#TotalRecdAmt').val(0);
         $('#TotalRecdAmt').prop('disabled', false);
+        $('#CreditID').val(emptyGUID);
         CaptionChangePayment()
         AmountChanged();
     }
@@ -357,10 +358,12 @@ function ddlCreditOnChange(event) {
     debugger;
     var creditID = $("#CreditID").val();
     var CustomerID = $("#Customer").val();
-    var ds = GetCreditNoteAmount(creditID, CustomerID);
-    $('#TotalRecdAmt').val(ds.AvailableCredit);
-    $('#TotalRecdAmt').prop('disabled', true);
-    AmountChanged();
+    if (creditID != emptyGUID) {
+        var ds = GetCreditNoteAmount(creditID, CustomerID);
+        $('#TotalRecdAmt').val(ds.AvailableCredit);
+        $('#TotalRecdAmt').prop('disabled', true);
+        AmountChanged();
+    }
 
 }
 

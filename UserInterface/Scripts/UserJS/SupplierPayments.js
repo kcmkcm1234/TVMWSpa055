@@ -328,8 +328,10 @@ function TypeOnChange() {
     else {
         $("#ddlCreditDiv").css("visibility", "hidden");
         $('#PaymentMode').prop('disabled', false);
-        $('#BankCode').prop('disabled', true);
-     //   $('#TotalPaidAmt').val(0);
+        $('#BankCode').prop('disabled', true); 
+        $('#TotalPaidAmt').val(0);
+        $('#TotalPaidAmt').prop('disabled', false);
+        $('#CreditID').val(emptyGUID);
         CaptionChangePayment()
         AmountChanged();
     }
@@ -352,11 +354,12 @@ function ddlCreditOnChange(event) {
     debugger;
     var creditID = $("#CreditID").val();
     var SupplierID = $("#Supplier").val();
-    var ds = GetCreditNoteAmount(creditID, SupplierID);
-    $('#TotalPaidAmt').val(ds.AvailableCredit);
-    $('#TotalPaidAmt').prop('disabled', true);
-    AmountChanged();
-
+    if (creditID != emptyGUID) {
+        var ds = GetCreditNoteAmount(creditID, SupplierID);
+        $('#TotalPaidAmt').val(ds.AvailableCredit);
+        $('#TotalPaidAmt').prop('disabled', true);
+        AmountChanged();
+    } 
 }
 
 function GetCreditNoteAmount(ID, SupplierID) {
