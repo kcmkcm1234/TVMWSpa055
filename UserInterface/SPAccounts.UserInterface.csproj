@@ -1533,6 +1533,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BankController.cs" />
+    <Compile Include="Controllers\ChartOfAccountsController.cs" />
     <Compile Include="Controllers\CustomerCreditNoteController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\CustomerPaymentsController.cs" />
@@ -1646,6 +1647,7 @@
     <Content Include="Views\DepositAndWithdrawals\Index.cshtml" />
     <Content Include="Views\Report\OtherExpenseSummary.cshtml" />
     <Content Include="Views\Report\OtherExpenseDetails.cshtml" />
+    <Content Include="Views\ChartOfAccounts\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

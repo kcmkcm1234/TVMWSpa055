@@ -246,6 +246,7 @@ function Add()
     $("#DepositwithdrawalList").hide();
     $("#DepositwithdrawalEntry").show();
     $(".modal-footer").show();
+    $("#tabDepositwithdrawalEntry").text("Deposit Entry");
     ClearFields();
 } 
 function List()
@@ -253,6 +254,7 @@ function List()
     $("#DepositwithdrawalList").show();
     $("#DepositwithdrawalEntry").hide();
     $(".modal-footer").hide();
+    $("#tabDepositwithdrawalList").text("Undeposited Cheques");
 }
 
 function BindDepositAndWithdrawals() {
@@ -265,12 +267,32 @@ function BindDepositAndWithdrawals() {
     }
 }
 
+function FillDates()
+{
+    debugger;
+    var m_names = new Array("Jan", "Feb", "Mar",
+"Apr", "May", "Jun", "Jul", "Aug", "Sep",
+"Oct", "Nov", "Dec");
+    var today = new Date()
+    var priorDate = new Date().setDate(today.getDate() - 30);
+    var date = new Date(priorDate);
+    var fromDate = (date.getDate()) + '-' + m_names[(date.getMonth())] + '-' + date.getFullYear();
+    $("#txtDateFrom").val(fromDate);
+    var toDate = (today.getDate()) + '-' + m_names[(today.getMonth())] + '-' + today.getFullYear();
+    $("#txtDateTo").val(toDate);
+}
+
+
+
 function GetAllDepositAndWithdrawals(DepositOrWithdrawal, chqclr) {
     try {
         debugger;
+        if ($("#txtDateFrom").val() == "" && $("#txtDateTo").val() == "") {
+            FillDates();
+        }
         var FromDate = $("#txtDateFrom").val();
         var ToDate = $("#txtDateTo").val();
-              
+       
         var data = { "FromDate": FromDate, "ToDate": ToDate, "DepositOrWithdrawal": DepositOrWithdrawal, "chqclr": chqclr };
         var ds = {};
         ds = GetDataFromServer("DepositAndWithdrawals/GetAllDepositAndWithdrawals/", data);
@@ -328,6 +350,11 @@ function ShowDepositModal() {
     $(".chqHeader").show();
     $("#BankCode").show();
     $(".modal-footer").hide();
+    $("#tabDepositwithdrawalList").text("Undeposited Cheques");
+    $("#tabDepositwithdrawalEntry").text("Deposit Entry");
+    $("#lblBankCode").text("Deposit To");
+    $("#lblBankDiv").css('display', '');
+   
 }
 
 function ShowDepositEdit()
@@ -444,6 +471,9 @@ function ShowWithDrawal()
     $("#editCheckBox").hide();
     $("#btnDepositSave").hide();
     $(".modal-footer").show();
+    $("#tabDepositwithdrawalEntry").text("Withdrawal Entry");
+    $("#lblBankCode").text("Withdrawal From");
+    $("#lblBankDiv").css('display', '');
 }
 function ShowChequeClear()
 {
@@ -464,6 +494,9 @@ function ShowChequeClear()
     $(".chqHeader").hide();
     $("#BankCode").hide();
     $(".modal-footer").hide();
+    $("#tabDepositwithdrawalList").text("Deposited Cheques");
+    $("#lblBankDiv").css('display', 'none');
+    
 }
 function SaveCheckedDeposit()
 {
