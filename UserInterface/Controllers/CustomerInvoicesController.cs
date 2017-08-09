@@ -293,11 +293,11 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.addbtn.Title = "Add New";
                     ToolboxViewModelObj.addbtn.Event = "AddNew();";
                      
-                    ToolboxViewModelObj.backbtn.Visible = true;
-                    ToolboxViewModelObj.backbtn.Disable = true;
-                    ToolboxViewModelObj.backbtn.Text = "Back";
-                    ToolboxViewModelObj.backbtn.DisableReason = "Not applicable";
-                    ToolboxViewModelObj.backbtn.Event = "Back();";  
+                    //ToolboxViewModelObj.backbtn.Visible = true;
+                    //ToolboxViewModelObj.backbtn.Disable = true;
+                    //ToolboxViewModelObj.backbtn.Text = "Back";
+                    //ToolboxViewModelObj.backbtn.DisableReason = "Not applicable";
+                    //ToolboxViewModelObj.backbtn.Event = "Back();";  
                     break;
                 case "Edit": 
                     ToolboxViewModelObj.addbtn.Visible = true;
@@ -314,6 +314,11 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.savebtn.Text = "Save";
                     ToolboxViewModelObj.savebtn.Title = "Save";
                     ToolboxViewModelObj.savebtn.Event = "saveInvoices();";
+
+                    ToolboxViewModelObj.resetbtn.Visible = true;
+                    ToolboxViewModelObj.resetbtn.Text = "Reset";
+                    ToolboxViewModelObj.resetbtn.Title = "Reset";
+                    ToolboxViewModelObj.resetbtn.Event = "Reset();";
 
                     ToolboxViewModelObj.CloseBtn.Visible = true;
                     ToolboxViewModelObj.CloseBtn.Text = "Close";

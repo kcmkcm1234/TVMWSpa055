@@ -116,6 +116,7 @@ try{
         $(this).select();
     }); 
     $('#tblOutStandingDetails tbody').on('click', 'td:first-child', function (e) {
+        debugger;
         var rt = DataTables.OutStandingInvoices.row($(this).parent()).index()       
         var table = $('#tblOutStandingDetails').DataTable();
         var allData = table.rows().data();
@@ -335,6 +336,7 @@ function TypeOnChange() {
         $('#BankCode').prop('disabled', true); 
         $('#TotalRecdAmt').val(0);
         $('#TotalRecdAmt').prop('disabled', false);
+        $('#CreditID').val(emptyGUID);
         CaptionChangePayment()
         AmountChanged();
     }
@@ -357,10 +359,12 @@ function ddlCreditOnChange(event) {
     debugger;
     var creditID = $("#CreditID").val();
     var CustomerID = $("#Customer").val();
-    var ds = GetCreditNoteAmount(creditID, CustomerID);
-    $('#TotalRecdAmt').val(ds.AvailableCredit);
-    $('#TotalRecdAmt').prop('disabled', true);
-    AmountChanged();
+    if (creditID != emptyGUID) {
+        var ds = GetCreditNoteAmount(creditID, CustomerID);
+        $('#TotalRecdAmt').val(ds.AvailableCredit);
+        $('#TotalRecdAmt').prop('disabled', true);
+        AmountChanged();
+    }
 
 }
 

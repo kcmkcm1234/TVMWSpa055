@@ -97,8 +97,8 @@ namespace SPAccounts.BusinessService.Services
         public SupplierPayments GetOutstandingAmountBySupplier(string SupplierID)
         {
             SupplierPayments PayObj = _supplierPaymentsRepository.GetOutstandingAmountBySupplier(SupplierID);
-            //decimal temp = Decimal.Parse(PayObj.OutstandingAmount);
-            //PayObj.OutstandingAmount= _commonBusiness.ConvertCurrency(temp,0);
+            decimal temp = Decimal.Parse(PayObj.OutstandingAmount);
+            PayObj.OutstandingAmount= _commonBusiness.ConvertCurrency(temp,0);
             return PayObj;
         }
     }

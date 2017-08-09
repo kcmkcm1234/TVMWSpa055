@@ -93,8 +93,8 @@ namespace SPAccounts.BusinessService.Services
         public CustomerPayments GetOutstandingAmountByCustomer(string CustomerID)
         {
             CustomerPayments CustomerPayObj = _customerPaymentsRepository.GetOutstandingAmountByCustomer(CustomerID);
-            //decimal temp = Decimal.Parse(CustomerPayObj.OutstandingAmount);
-            //CustomerPayObj.OutstandingAmount= _commonBusiness.ConvertCurrency(temp,0);
+            decimal temp = Decimal.Parse(CustomerPayObj.OutstandingAmount);
+            CustomerPayObj.OutstandingAmount= _commonBusiness.ConvertCurrency(temp,0);
             return CustomerPayObj;
         }
     }
