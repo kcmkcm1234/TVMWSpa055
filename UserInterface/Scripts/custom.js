@@ -66,10 +66,12 @@ $(document).ready(function () {
         var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
         if (key == 13) {
             e.preventDefault();
-            var inputs = $(this).closest('form').find(':input:visible');
+            var inputs = $(this).closest('form').find(':input');
             inputs.eq(inputs.index(this) + 1).focus();
         }
     });
+
+    $('input,textarea').attr('autocomplete', 'off');
    
     //menu submenu popup on click 3rd level menus
     $('.navbar a.dropdown-toggle').on('click', function (e) {
