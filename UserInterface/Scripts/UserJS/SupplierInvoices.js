@@ -470,7 +470,7 @@ function AddNew() {
 function Reset() {
     debugger;
     if ($("#ID").val() == "0") {
-        ResetForm();
+        ResetFrm();
     }
     else {
         PaintInvoiceDetails();

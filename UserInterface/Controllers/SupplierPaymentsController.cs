@@ -291,11 +291,11 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.addbtn.Title = "Add New";
                     ToolboxViewModelObj.addbtn.Event = "openNavClick();";
 
-                    ToolboxViewModelObj.backbtn.Visible = true;
-                    ToolboxViewModelObj.backbtn.Disable = true;
-                    ToolboxViewModelObj.backbtn.Text = "Back";
-                    ToolboxViewModelObj.backbtn.DisableReason = "Not applicable";
-                    ToolboxViewModelObj.backbtn.Event = "Back();";
+                    //ToolboxViewModelObj.backbtn.Visible = true;
+                    //ToolboxViewModelObj.backbtn.Disable = true;
+                    //ToolboxViewModelObj.backbtn.Text = "Back";
+                    //ToolboxViewModelObj.backbtn.DisableReason = "Not applicable";
+                    //ToolboxViewModelObj.backbtn.Event = "Back();";
 
                     break;
                 case "Edit":
