@@ -2,7 +2,8 @@
 var emptyGUID = '00000000-0000-0000-0000-000000000000'
 $(document).ready(function () {
     try {
-
+        $("#DefaultDate").val("");
+       
         DataTables.expenseDetailTable = $('#expenseDetailTable').DataTable(
          {
 
@@ -55,6 +56,7 @@ function GetAllExpenseDetails(expDate, DefaultDate) {
     try {
       
         if (expDate == undefined && DefaultDate == undefined) {
+            expDate = $("#ExpDate").val();
             DefaultDate = $("#DefaultDate").val();
         }
         var data = { "ExpenseDate": expDate, "DefaultDate": DefaultDate };
@@ -362,11 +364,17 @@ function FillOtherExpenseDetails(ID) {
 
 function AddEmployee()
 {
-    $("#EmployeeDiv").show();
+    debugger;
+    if ($("#EmpTypeCode").val() != "") $("#sbtyp").html($("#EmpTypeCode option:selected").text());
+    if ($("#CompanyCode").val() != "") $("#cmpny").html($("#CompanyCode option:selected").text());
+    $("#EmployeeDiv").fadeIn();
 }
 
 function CancelEmployee()
 {
+    $("#sbtyp").html("Not Selected");
+    $("#cmpny").html("Not Selected");
+
     $("#EmpName").val("");
     $("#EmployeeDiv").hide();
     }
@@ -603,9 +611,16 @@ function EmployeeTypeOnchange(curobj)
     if(emptypeselected)
     {
         BindEmployeeDropDown(emptypeselected);
+        if ($("#EmpTypeCode").val() != "") $("#sbtyp").html($("#EmpTypeCode option:selected").text());
     }
 }
-
+function companyChange(curobj) {
+    var emptypeselected = $(curobj).val();
+    if (emptypeselected) {
+      
+        if ($("#CompanyCode").val() != "") $("#cmpny").html($("#CompanyCode option:selected").text());
+    }
+}
 
 function BindEmployeeDropDown(type)
 {

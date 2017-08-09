@@ -18,6 +18,7 @@ namespace UserInterface.Models
 
         [Display(Name = "Expense Date")]
         public string ExpenseDateFormatted { get; set; }
+        [Display(Name = "Filter")]
         public string DefaultDate { get; set; }
         public string creditAmountFormatted { get; set; }
 
@@ -62,6 +63,7 @@ namespace UserInterface.Models
         public string EmpTypeCode { get; set; }
         public List<SelectListItem> EmployeeTypeList { get; set; }
         public CommonViewModel commonObj { get; set; }
+        public bool ShowDaysFilter { get; set; }
     }
 
 

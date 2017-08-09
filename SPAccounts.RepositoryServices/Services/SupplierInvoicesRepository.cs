@@ -53,6 +53,8 @@ namespace SPAccounts.RepositoryServices.Services
                                         SIList.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : SIList.ID);
                                         SIList.InvoiceDate = (sdr["InvoiceDate"].ToString() != "" ? DateTime.Parse(sdr["InvoiceDate"].ToString()) : SIList.InvoiceDate);
                                         SIList.InvoiceNo = sdr["InvoiceNo"].ToString();
+                                        SIList.companiesObj = new Companies();
+                                        SIList.companiesObj.Name= sdr["OrginCompany"].ToString();
                                         SIList.suppliersObj = new Supplier();
                                         SIList.suppliersObj.ID = Guid.Parse(sdr["SupplierID"].ToString());
                                         SIList.suppliersObj.CompanyName = sdr["CompanyName"].ToString();
@@ -222,7 +224,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandText = "[Accounts].[InsertSupplierInvoice]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@CompanyCode", SqlDbType.VarChar, 10).Value = _supplierInvoicesObj.CompanyCode;
-                        cmd.Parameters.Add("@InvoiceNo", SqlDbType.VarChar, 10).Value = _supplierInvoicesObj.InvoiceNo;
+                        cmd.Parameters.Add("@InvoiceNo", SqlDbType.VarChar, 20).Value = _supplierInvoicesObj.InvoiceNo;
                         cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = _supplierInvoicesObj.SupplierID;
                         cmd.Parameters.Add("@PaymentTerm", SqlDbType.VarChar, 10).Value = _supplierInvoicesObj.PayCode;
                         cmd.Parameters.Add("@InvoiceDate", SqlDbType.DateTime).Value = _supplierInvoicesObj.InvoiceDateFormatted;
@@ -288,7 +290,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = _supplierInvoicesObj.ID;
                         cmd.Parameters.Add("@CompanyCode", SqlDbType.VarChar, 10).Value = _supplierInvoicesObj.CompanyCode;
-                        cmd.Parameters.Add("@InvoiceNo", SqlDbType.VarChar, 10).Value = _supplierInvoicesObj.InvoiceNo;
+                        cmd.Parameters.Add("@InvoiceNo", SqlDbType.VarChar, 20).Value = _supplierInvoicesObj.InvoiceNo;
                         cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = _supplierInvoicesObj.SupplierID;
                         cmd.Parameters.Add("@PaymentTerm", SqlDbType.VarChar, 10).Value = _supplierInvoicesObj.PayCode;
                         cmd.Parameters.Add("@InvoiceDate", SqlDbType.DateTime).Value = _supplierInvoicesObj.InvoiceDateFormatted;
@@ -333,7 +335,7 @@ namespace SPAccounts.RepositoryServices.Services
             return _supplierInvoicesObj;
         }
 
-        public List<SupplierInvoices> GetOutstandingSupplierInvoices()
+        public List<SupplierInvoices> GetOutstandingSupplierInvoices(SupplierInvoices SupplierInvoiceObj)
         {
             List<SupplierInvoices> SupplierInvoicesList = null;
             Settings settings = new Settings();
@@ -350,6 +352,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[GetAllSupplierOutStandingInvoices]";
                         cmd.CommandType = CommandType.StoredProcedure;
+                        if(SupplierInvoiceObj!=null)
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = SupplierInvoiceObj.suppliersObj.ID;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
                             if ((sdr != null) && (sdr.HasRows))
@@ -367,6 +371,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         CIList.PaymentDueDate = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()) : CIList.PaymentDueDate);
                                         CIList.BalanceDue = (sdr["BalanceDue"].ToString() != "" ? Decimal.Parse(sdr["BalanceDue"].ToString()) : CIList.BalanceDue);
                                         CIList.PaidAmount = (sdr["PaidAmount"].ToString() != "" ? Decimal.Parse(sdr["PaidAmount"].ToString()) : CIList.PaidAmount);
+                                        CIList.DueDays = (sdr["DueDays"].ToString() != "" ? int.Parse(sdr["DueDays"].ToString()) : CIList.DueDays);
                                         CIList.PaymentDueDateFormatted = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString(settings.dateformat) : CIList.PaymentDueDateFormatted);
 
                                     }
@@ -553,5 +558,46 @@ namespace SPAccounts.RepositoryServices.Services
             return SupplierInvoicesList;
         }
 
+        public SupplierInvoices GetSupplierAdvances(string ID)
+        {
+            SupplierInvoices SIList = null;
+            Settings settings = new Settings();
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetSupplierAdvances]";
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = Guid.Parse(ID);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                if (sdr.Read())
+                                {
+                                    SIList = new SupplierInvoices();
+                                    SIList.suppliersObj = new Supplier();
+                                    SIList.suppliersObj.AdvanceAmount = decimal.Parse(sdr["AdvanceAmount"].ToString());
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return SIList;
+        }
     }
 }

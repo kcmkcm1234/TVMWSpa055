@@ -24,7 +24,17 @@ namespace SPAccounts.BusinessService.Services
         }
         public SupplierInvoiceSummary GetSupplierInvoicesSummary()
         {
-            return _supplierInvoicesRepository.GetSupplierInvoicesSummary();
+            SupplierInvoiceSummary result = new SupplierInvoiceSummary();
+            result = _supplierInvoicesRepository.GetSupplierInvoicesSummary();
+            if (result != null)
+            {
+
+                result.OpenAmountFormatted = _commonBusiness.ConvertCurrency(result.OpenAmount, 2);
+                result.PaidAmountFormatted = _commonBusiness.ConvertCurrency(result.PaidAmount, 2);
+                result.OverdueAmountFormatted = _commonBusiness.ConvertCurrency(result.OverdueAmount, 2);
+
+            }
+            return result;
         }
         public SupplierInvoices InsertUpdateInvoice(SupplierInvoices _supplierInvoicesObj)
         {
@@ -42,14 +52,14 @@ namespace SPAccounts.BusinessService.Services
             return _supplierInvoicesRepository.GetSupplierInvoiceDetails(ID);
         }
 
-        public SupplierSummaryforMobile GetOutstandingSupplierInvoices()
+        public SupplierSummaryforMobile GetOutstandingSupplierInvoices(SupplierInvoices SupObj)
         {
             SupplierSummaryforMobile supObj= new SupplierSummaryforMobile();
             supObj.supInvSumObj = new SupplierInvoiceSummaryformobile();
             try
             {
                 decimal tmp = 0;
-                supObj.SupInv=_supplierInvoicesRepository.GetOutstandingSupplierInvoices();
+                supObj.SupInv=_supplierInvoicesRepository.GetOutstandingSupplierInvoices(SupObj);
                 if (supObj.SupInv == null)
                 {
                     supObj.supInvSumObj.Amount = 0;
@@ -127,6 +137,11 @@ namespace SPAccounts.BusinessService.Services
         public List<SupplierInvoices> GetOutStandingInvoicesBySupplier(Guid PaymentID, Guid supplierID)
         {
             return _supplierInvoicesRepository.GetOutStandingInvoicesBySupplier(PaymentID, supplierID);
+        }
+
+        public SupplierInvoices GetSupplierAdvances(string ID)
+        {
+            return _supplierInvoicesRepository.GetSupplierAdvances(ID);
         }
     }
 }

@@ -221,7 +221,6 @@ namespace UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject = "SupplierInvoices", Mode = "D")]
         public string DeleteSupplierInvoice(string ID)
         {
-
             try
             {
                 object result = null;
@@ -256,6 +255,17 @@ namespace UserInterface.Controllers
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
             }
         }
+
+        #region GetSupplierAdvancesByID
+        [AuthSecurityFilter(ProjectObject = "SupplierInvoices", Mode = "D")]
+        [HttpGet]
+        public string GetSupplierAdvances(string ID)
+        {
+            SupplierInvoicesViewModel Advlist =Mapper.Map<SupplierInvoices, SupplierInvoicesViewModel>(_supplierInvoicesBusiness.GetSupplierAdvances(ID));
+            return JsonConvert.SerializeObject(new { Result = "OK", Records = Advlist });
+        }
+        #endregion GetSupplierAdvancesByID
+
         #region ButtonStyling
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "SupplierInvoices", Mode = "R")]
@@ -281,7 +291,7 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.savebtn.Visible = true;
                     ToolboxViewModelObj.savebtn.Text = "Save";
                     ToolboxViewModelObj.savebtn.Title = "Save";
-                    ToolboxViewModelObj.savebtn.Event = "$('#btnSave').click();";
+                    ToolboxViewModelObj.savebtn.Event = "saveInvoices();";
 
                     ToolboxViewModelObj.deletebtn.Visible = true;
                     ToolboxViewModelObj.deletebtn.Text = "Delete";
@@ -305,7 +315,7 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.savebtn.Visible = true;
                     ToolboxViewModelObj.savebtn.Text = "Save";
                     ToolboxViewModelObj.savebtn.Title = "Save";
-                    ToolboxViewModelObj.savebtn.Event = "$('#btnSave').click();";
+                    ToolboxViewModelObj.savebtn.Event = "saveInvoices();";
 
                     ToolboxViewModelObj.CloseBtn.Visible = true;
                     ToolboxViewModelObj.CloseBtn.Text = "Close";

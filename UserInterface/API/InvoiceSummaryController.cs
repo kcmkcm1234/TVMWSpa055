@@ -28,11 +28,11 @@ namespace UserInterface.API
 
         #region GetOutstandingInvoices
         [HttpPost]
-        public string GetOutstandingInvoicesForMobile()
+        public string GetOutstandingInvoicesForMobile(CustomerInvoice CusObj)
         {
             try
             {
-                CustomerInvoicesSummaryForMobileViewModel invoiceObj = Mapper.Map<CustomerInvoicesSummaryForMobile, CustomerInvoicesSummaryForMobileViewModel>(_customerInvoicesBusiness.GetOutstandingCustomerInvoices());
+                CustomerInvoicesSummaryForMobileViewModel invoiceObj = Mapper.Map<CustomerInvoicesSummaryForMobile, CustomerInvoicesSummaryForMobileViewModel>(_customerInvoicesBusiness.GetOutstandingCustomerInvoices(CusObj));
                   return JsonConvert.SerializeObject(new { Result = true, Records = new {OutstandingList= invoiceObj.CustInv, Summary = invoiceObj.CustInvSumObj } });
                 
             }

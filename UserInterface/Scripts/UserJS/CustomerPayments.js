@@ -237,12 +237,12 @@ function Edit(currentObj)
     } 
 }
 
-function GetCustomerPaymentsByID(ID) {
+function GetCustomerPaymentsByID(PaymentID) {
     ChangeButtonPatchView('CustomerPayments', 'btnPatchAdd', 'Edit');
-    var thisitem = GetCustomerPayments(ID)
+    var thisitem = GetCustomerPayments(PaymentID)
     $('#lblheader').text('Entry No: ' + thisitem.EntryNo);
-    $('#ID').val(ID);
-    $('#deleteId').val(ID); 
+    $('#ID').val(PaymentID);
+    $('#deleteId').val(PaymentID);
     $('#Customer').val(thisitem.customerObj.ID);
     $('#hdfCustomerID').val(thisitem.customerObj.ID);
     $('#Customer').prop('disabled', true);
@@ -265,8 +265,12 @@ function GetCustomerPaymentsByID(ID) {
         $("#CreditID").html("");
         //Get Available Credit and Add with  TotalRecdAmt
         debugger;
-        var thisObj = GetCreditNoteByCustomer(thisitem.customerObj.ID)
-        var CreditAmount = parseFloat(thisitem.TotalRecdAmt) + parseFloat(thisObj[0].AvailableCredit);
+        var thisObj = GetCreditNoteByPaymentID(thisitem.customerObj.ID, PaymentID)
+        if (thisObj.length > 0)
+            var CreditAmount = parseFloat(thisitem.TotalRecdAmt) + parseFloat(thisObj[0].AvailableCredit);
+        else
+            var CreditAmount = parseFloat(thisitem.TotalRecdAmt);
+
         $('#TotalRecdAmt').val(roundoff(CreditAmount))
         $('#lblTotalRecdAmt').text(roundoff(CreditAmount))
         $('#paidAmt').text(roundoff(CreditAmount));
@@ -332,6 +336,7 @@ function TypeOnChange() {
         $('#BankCode').prop('disabled', true); 
         $('#TotalRecdAmt').val(0);
         $('#TotalRecdAmt').prop('disabled', false);
+        $('#CreditID').val(emptyGUID);
         CaptionChangePayment()
         AmountChanged();
     }
@@ -354,10 +359,12 @@ function ddlCreditOnChange(event) {
     debugger;
     var creditID = $("#CreditID").val();
     var CustomerID = $("#Customer").val();
-    var ds = GetCreditNoteAmount(creditID, CustomerID);
-    $('#TotalRecdAmt').val(ds.AvailableCredit);
-    $('#TotalRecdAmt').prop('disabled', true);
-    AmountChanged();
+    if (creditID != emptyGUID) {
+        var ds = GetCreditNoteAmount(creditID, CustomerID);
+        $('#TotalRecdAmt').val(ds.AvailableCredit);
+        $('#TotalRecdAmt').prop('disabled', true);
+        AmountChanged();
+    }
 
 }
 
@@ -404,6 +411,28 @@ function BindCreditDropDown() {
     }
 }
 
+function GetCreditNoteByPaymentID (ID, PaymentID) {
+    try {
+        var data = { "ID": ID, "PaymentID": PaymentID };
+        var ds = {};
+        ds = GetDataFromServer("CustomerPayments/GetCreditNoteByPaymentID/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            notyAlert('error', ds.Message);
+            var emptyarr = [];
+            return emptyarr;
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
 function GetCreditNoteByCustomer(ID) {
     try {
         var data = { "ID": ID };
@@ -445,6 +474,7 @@ function savePayments() {
                 PaymentDetailViewModel.InvoiceID = SelectedRows[r].ID;//Invoice ID
                 PaymentDetailViewModel.ID = SelectedRows[r].CustPaymentObj.CustPaymentDetailObj.ID//Detail ID
                 PaymentDetailViewModel.PaidAmount = SelectedRows[r].CustPaymentObj.CustPaymentDetailObj.PaidAmount;
+//
                 ar.push(PaymentDetailViewModel);
             }
             $('#paymentDetailhdf').val(JSON.stringify(ar));

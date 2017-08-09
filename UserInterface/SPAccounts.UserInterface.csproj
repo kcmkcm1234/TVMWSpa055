@@ -1490,6 +1490,8 @@
     <Content Include="Scripts\UserJS\Login.js" />
     <Content Include="Scripts\UserJS\ManageAccess.js" />
     <Content Include="Scripts\UserJS\ManageSubObjectAccess.js" />
+    <Content Include="Scripts\UserJS\OtherExpenseDetailsReport.js" />
+    <Content Include="Scripts\UserJS\OtherExpenseSummaryReport.js" />
     <Content Include="Scripts\UserJS\OtherIncome.js" />
     <Content Include="Scripts\UserJS\OtherExpense.js" />
     <Content Include="Scripts\UserJS\Outstanding.js" />
@@ -1642,6 +1644,8 @@
     <Content Include="Views\Report\SaleSummary.cshtml" />
     <Content Include="Views\Report\SalesDetail.cshtml" />
     <Content Include="Views\DepositAndWithdrawals\Index.cshtml" />
+    <Content Include="Views\Report\OtherExpenseSummary.cshtml" />
+    <Content Include="Views\Report\OtherExpenseDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -241,6 +241,17 @@ namespace UserInterface.Controllers
         }
         #endregion GetCreditNoteByCustomer
 
+        #region GetCreditNoteByPaymentID
+        [AuthSecurityFilter(ProjectObject = "CustomerPayments", Mode = "R")]
+        [HttpGet]
+        public string GetCreditNoteByPaymentID(string ID,string PaymentID)
+        {
+            List<CustomerCreditNoteViewModel> CreditList = Mapper.Map<List<CustomerCreditNotes>, List<CustomerCreditNoteViewModel>>(_customerCreditNotesBusiness.GetCreditNoteByPaymentID(Guid.Parse(ID), Guid.Parse(PaymentID)));
+
+            return JsonConvert.SerializeObject(new { Result = "OK", Records = CreditList });
+        }
+        #endregion GetCreditNoteByPaymentID
+
         #region GetCreditNoteAmount
         [AuthSecurityFilter(ProjectObject = "CustomerPayments", Mode = "R")]
         [HttpGet]

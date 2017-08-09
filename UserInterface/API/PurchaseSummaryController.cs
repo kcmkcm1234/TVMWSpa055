@@ -31,12 +31,12 @@ namespace UserInterface.API
 
         #region GetSupplierOutstandingInvoices
         [HttpPost]
-        public string GetSupplierOutstandingInvoicesForMobile()
+        public string GetSupplierOutstandingInvoicesForMobile(SupplierInvoices SupObj)
         {
             try
             {
-                SupplierSummaryforMobileViewModel invoiceObj = Mapper.Map<SupplierSummaryforMobile, SupplierSummaryforMobileViewModel>(_supplierInvoicesBusiness.GetOutstandingSupplierInvoices());
-                return JsonConvert.SerializeObject(new { Result = true, Records = new { OutStandingList = invoiceObj.SupInv, Summary = invoiceObj.supInvSumObj } });
+                SupplierSummaryforMobileViewModel invoiceObj = Mapper.Map<SupplierSummaryforMobile, SupplierSummaryforMobileViewModel>(_supplierInvoicesBusiness.GetOutstandingSupplierInvoices(SupObj));
+                return JsonConvert.SerializeObject(new { Result = true, Records = new { OutstandingList = invoiceObj.SupInv, Summary = invoiceObj.supInvSumObj } });
             }
             catch (Exception ex)
             {

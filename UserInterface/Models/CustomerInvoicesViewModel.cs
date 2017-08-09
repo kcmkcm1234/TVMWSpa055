@@ -26,7 +26,7 @@ namespace UserInterface.Models
         [Display(Name = "Invoice Number")]
         [MaxLength(20)]
         public String InvoiceNo { get; set; }
-
+        public int DueDays { get; set; }
         public string hdfCustomerID { get; set; }
         public CompaniesViewModel companiesObj { get; set; }
         public CustomerViewModel customerObj { get; set; }        

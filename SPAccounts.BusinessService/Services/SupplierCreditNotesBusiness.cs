@@ -98,5 +98,10 @@ namespace SPAccounts.BusinessService.Services
             return creditnote;
 
         }
+
+        public List<CustomerCreditNotes> GetCreditNoteByPaymentID(Guid SupplierID, Guid PaymentID)
+        {
+            return _supplierCreditRepository.GetCreditNoteByPaymentID(SupplierID, PaymentID);
+        }
     }
 }

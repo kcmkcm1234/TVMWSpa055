@@ -48,6 +48,8 @@ namespace SPAccounts.RepositoryServices.Services
                                         CIList.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : CIList.ID);
                                         CIList.InvoiceDate = (sdr["InvoiceDate"].ToString() != "" ? DateTime.Parse(sdr["InvoiceDate"].ToString()) : CIList.InvoiceDate);
                                         CIList.InvoiceNo = sdr["InvoiceNo"].ToString();
+                                        CIList.companiesObj = new Companies();
+                                        CIList.companiesObj.Name = sdr["OrginCompany"].ToString();
                                         CIList.customerObj = new Customer();
                                         CIList.customerObj.ID = Guid.Parse(sdr["CustomerID"].ToString());
                                         CIList.customerObj.CompanyName = sdr["CompanyName"].ToString();
@@ -214,7 +216,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandText = "[Accounts].[InsertCustomerInvoice]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@OriginCompanyCode", SqlDbType.VarChar, 10).Value =_customerInvoicesObj.companiesObj.Code;
-                        cmd.Parameters.Add("@InvoiceNo", SqlDbType.VarChar, 10).Value = _customerInvoicesObj.InvoiceNo;
+                        cmd.Parameters.Add("@InvoiceNo", SqlDbType.VarChar, 20).Value = _customerInvoicesObj.InvoiceNo;
                         cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = _customerInvoicesObj.customerObj.ID;
                         cmd.Parameters.Add("@PaymentTerm", SqlDbType.VarChar, 10).Value = _customerInvoicesObj.paymentTermsObj.Code;
                         cmd.Parameters.Add("@InvoiceDate", SqlDbType.DateTime).Value =_customerInvoicesObj.InvoiceDateFormatted;
@@ -280,7 +282,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = _customerInvoicesObj.ID;
                         cmd.Parameters.Add("@OriginCompanyCode", SqlDbType.VarChar, 10).Value = _customerInvoicesObj.companiesObj.Code;
-                        cmd.Parameters.Add("@InvoiceNo", SqlDbType.VarChar, 10).Value = _customerInvoicesObj.InvoiceNo;
+                        cmd.Parameters.Add("@InvoiceNo", SqlDbType.VarChar, 20).Value = _customerInvoicesObj.InvoiceNo;
                         cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = Guid.Parse(_customerInvoicesObj.hdfCustomerID);
                         cmd.Parameters.Add("@PaymentTerm", SqlDbType.VarChar, 10).Value = _customerInvoicesObj.paymentTermsObj.Code;
                         cmd.Parameters.Add("@InvoiceDate", SqlDbType.DateTime).Value = _customerInvoicesObj.InvoiceDateFormatted;
@@ -477,7 +479,7 @@ namespace SPAccounts.RepositoryServices.Services
 
 
 
-        public List<CustomerInvoice> GetOutstandingCustomerInvoices()
+        public List<CustomerInvoice> GetOutstandingCustomerInvoices(CustomerInvoice CustomerInvoiceObj)
         {
             List<CustomerInvoice> CustomerInvoicesList = null;
             Settings settings = new Settings();
@@ -494,6 +496,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[GetAllOutStandingInvoices]";
                         cmd.CommandType = CommandType.StoredProcedure;
+                        if(CustomerInvoiceObj!=null)
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = CustomerInvoiceObj.customerObj.ID;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
                             if ((sdr != null) && (sdr.HasRows))
@@ -511,6 +515,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         CIList.PaymentDueDate = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()) : CIList.PaymentDueDate);
                                         CIList.BalanceDue = (sdr["BalanceDue"].ToString() != "" ? Decimal.Parse(sdr["BalanceDue"].ToString()) : CIList.BalanceDue);
                                         CIList.PaidAmount=(sdr["PaidAmount"].ToString()!=""?Decimal.Parse(sdr["PaidAmount"].ToString()):CIList.PaidAmount);
+                                        CIList.DueDays = (sdr["DueDays"].ToString() != "" ? int.Parse(sdr["DueDays"].ToString()) : CIList.DueDays);
                                         CIList.PaymentDueDateFormatted = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString(settings.dateformat) : CIList.PaymentDueDateFormatted);
                                       
                                     }
