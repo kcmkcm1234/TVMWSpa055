@@ -557,7 +557,7 @@ function BindOutstandingAmount() {
     if (thisitem != null) {
         $('#invoicedAmt').text(thisitem.OutstandingAmount == null ? "₹ 0.00" : thisitem.OutstandingAmount);
         $('#lblOutstandingdetails').text("(Inv: " + thisitem.InvoiceOutstanding + ", Pay: " + thisitem.PaymentOutstanding +
-                                         ", Cr: " + thisitem.CreditOutstanding + "& Adv: " + thisitem.AdvOutstanding + ")");
+                                         ", Cr: " + thisitem.CreditOutstanding + ", Adv: " + thisitem.AdvOutstanding + ")");
     }
 }
 function BindOutstanding() {
