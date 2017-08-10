@@ -74,6 +74,13 @@ namespace SPAccounts.BusinessService.Services
             custcreditlist = _customerCreditNotesRepository.GetCreditNoteByCustomer(ID);
             return custcreditlist;
         }
+
+        public List<CustomerCreditNotes> GetCreditNoteByPaymentID(Guid ID, Guid PaymentID)
+        {
+            return _customerCreditNotesRepository.GetCreditNoteByPaymentID(ID,PaymentID);
+            
+        }
+
         public CustomerCreditNotes GetCreditNoteAmount(Guid CreditID,Guid CustomerID)
         {
             CustomerCreditNotes creditnote = new CustomerCreditNotes();
@@ -83,5 +90,7 @@ namespace SPAccounts.BusinessService.Services
             creditnote = custcreditlist[0];
             return creditnote;
         }
+
+        
     }
 }

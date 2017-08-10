@@ -94,8 +94,9 @@
                             <th>Invoice Amount(₹)</th>
                             <th>Balance Due(₹)</th>
                             <th>Last Payment Date</th>
+                            <th>Orgin Company</th>
                             <th>Status</th>
-                            <th>...</th>
+                            <th>...</th> 
 
                         </tr>
                     </thead>
@@ -311,8 +312,7 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Discount, new { htmlAttributes = new { @class = "form-control HeaderBox Amount Roundoff", onkeypress = "return isNumber(event)", @id = "txtDiscount" } })
-                                    @Html.ValidationMessageFor(model => model.Discount, "", new { @class = "text-danger" })
+                                    @Html.EditorFor(model => model.Discount, new { htmlAttributes = new { @class = "form-control HeaderBox Amount Roundoff", onkeypress = "return isNumber(event)", onblur = "CheckAmount()", @id = "txtDiscount" } })
                                 </div>
                                 <div class="col-md-1"></div>
                                 <div class="col-md-1"></div>
@@ -484,6 +484,16 @@
 
                 </div>
             </div> 
+            <div class="col-md-12" style="height: 20px;padding:3px;">
+                <div class="container-fluid" style="padding-right: 0px;">
+                    <div class="col-md-12">
+                        <div class="col-md-6"></div>
+                        <div class="col-md-6" style="text-align:right;font-weight:500;color:#0da20d">
+                            <span> Invoice Saved Successfully.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="modal-body">
                 <div class="container-fluid">
                     <div class="col-md-12  ">
@@ -504,11 +514,11 @@
                                         <th>ID</th>
                                         <th></th>
                                         <th>Description</th>
-                                        <th>Due Date</th>
-                                        <th>Total Inv Amount (₹)</th>
-                                        <th>Other Payments (₹)</th>
+                                        <th>Payment Due Date</th>
+                                        <th>Invoiced (₹)</th>
+                                        <th>Paid (₹)</th>
                                         <th>Balance Due (₹)</th>
-                                        <th>Payment (₹)</th>
+                                        <th>Current Payment (₹)</th>
                                         <th>PaymentDetailID</th>
                                     </tr>
                                 </thead>

@@ -10,6 +10,10 @@ namespace SPAccounts.RepositoryServices.Contracts
    public interface IChartOfAccountsRepository
     {
         List<ChartOfAccounts> GetChartOfAccountsByType(string type);
-     
+        List<ChartOfAccounts> GetAllChartOfAccounts();
+        ChartOfAccounts GetChartOfAccountDetails(string Code);
+        ChartOfAccounts InsertChartOfAccounts(ChartOfAccounts _chartOfAccountsObj);
+        object UpdateChartOfAccounts(ChartOfAccounts _chartOfAccountsObj);
+        object DeleteChartOfAccounts(string code);
     }
 }

@@ -1,14 +1,14 @@
-﻿@model UserInterface.Models.OtherExpenseSummaryReportViewModel
+﻿@model UserInterface.Models.OtherExpenseDetailsViewModel
 @using UserInterface.App_Start
 @{
-    ViewBag.Title = "Other Expense Summary";
+    ViewBag.Title = "OtherExpenseDetails";
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
 
 @section styles {
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableButtons")
-    }
+}
 
 <div style="width:100%;">
     <ol class="breadcrumb">
@@ -40,7 +40,7 @@
         <div class="col-md-3">
             @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
-                @Html.TextBox("fromdate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @onchange = "OnChangeCall()", @Value = ViewBag.fromdate })
+                @Html.TextBox("fromdate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @onchange = "RefreshOtherExpenseSummaryTable()", @Value = ViewBag.fromdate })
 
 
             </div>
@@ -48,13 +48,13 @@
         <div class="col-md-3">
             @Html.Label("To Date", htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
-                @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @onchange = "OnChangeCall()", @Value = ViewBag.todate })
+                @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @onchange = "RefreshOtherExpenseSummaryTable()", @Value = ViewBag.todate })
             </div>
         </div>
         <div class="col-md-3">
             @Html.LabelFor(model => model.CompanyCode, htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
-                @Html.DropDownListFor(model => model.CompanyCode, Model.CompanyList, "-- Select Company --", new { @class = "form-control BlockEnter", @onchange = "OnChangeCall()", value = -1, style = "padding:4px 12px;", @id = "CompanyCode" })
+                @Html.DropDownListFor(model => model.CompanyCode, Model.CompanyList, "-- Select Company --", new { @class = "form-control BlockEnter", @onchange = "RefreshOtherExpenseSummaryTable()", value = -1, style = "padding:4px 12px;", @id = "CompanyCode" })
                 @Html.ValidationMessageFor(model => model.CompanyCode, "", new { @class = "text-danger" })
 
             </div>
@@ -70,14 +70,11 @@
                 <div class="radio">
                     <label>
                         <input type="radio" name="GroupSelect" onchange="RadioOnChange(this)" id="ST" value="ST">
-                       Sub type wise
-                     </label>
-                </div>
+                        Sub type wise
+                    </label>
                 </div>
             </div>
-     
-       
-       
+        </div>
 
 
         @*<div class="col-md-12 filterHead">Filter</div>
@@ -107,25 +104,17 @@
         &nbsp;
     </div>
     <div class="row tableContainer">
-        <div class="col-md-12" id="AHContainer">
-            <table id="otherExpenseSummaryAHTable" class="table stripe" cellspacing="0" width="100%">
+        <div class="col-md-12">
+            <table id="otherExpenseDetailsTable" class="table stripe" cellspacing="0" width="100%">
                 <thead>
                     <tr class="text-center TableHead">
-                        <th>Origin Company</th>
                         <th>Account Head</th>
+                        <th>Sub Type</th>
                         <th>Sub Type Desc</th>
-                        <th>Amount</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
-        <div class="col-md-12" id="STContainer">
-            <table id="otherExpenseSummarySTTable" class="table stripe" cellspacing="0" width="100%">
-                <thead>
-                    <tr class="text-center TableHead">
                         <th>Origin Company</th>
-                        <th>Sub Type Desc</th>
-                        <th>Account Head</th>
+                        <th>Payment Mode</th>
+                        <th>Payment Reference</th>
+                        <th>Description</th>
                         <th>Amount</th>
                     </tr>
                 </thead>
@@ -134,20 +123,11 @@
     </div>
 
 </div>
-
-
-
-
-
-
-
 @section Scripts {
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/OtherExpenseSummaryReport")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/OtherExpenseDetailsReport")
 }
-
-
 
 

@@ -21,7 +21,51 @@ namespace SPAccounts.BusinessService.Services
         {
             return _chartOfAccountsRepository.GetChartOfAccountsByType(type);
         }
+        public List<ChartOfAccounts> GetAllChartOfAccounts()
+        {
+            return _chartOfAccountsRepository.GetAllChartOfAccounts();
+        }
 
-       
+        public ChartOfAccounts GetChartOfAccountDetails(string Code)
+        {
+            return _chartOfAccountsRepository.GetChartOfAccountDetails(Code);
+        }
+
+        public object InsertUpdateChartOfAccounts(ChartOfAccounts chartOfAccountsObj)
+        {
+            object result = null;
+            try
+            {
+                if ((chartOfAccountsObj.isUpdate) == "0")
+                {
+                    result = _chartOfAccountsRepository.InsertChartOfAccounts(chartOfAccountsObj);
+                }
+                else
+                {
+                    result = _chartOfAccountsRepository.UpdateChartOfAccounts(chartOfAccountsObj);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+
+        public object DeleteChartOfAccounts(string Code)
+        {
+            object result = null;
+            try
+            {
+                result = _chartOfAccountsRepository.DeleteChartOfAccounts(Code);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+
     }
 }

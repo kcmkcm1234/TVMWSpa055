@@ -32,6 +32,7 @@ namespace UserInterface.Controllers
             return View(systemReportList);
         }
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
         public ActionResult SaleSummary()
         {
             DateTime dt = DateTime.Now;
@@ -51,7 +52,7 @@ namespace UserInterface.Controllers
                 selectListItem.Add(new SelectListItem
                 {
                     Text = "Company wise",
-                    Value = "Company",
+                    Value = "companywise",
                     Selected = false
                 });
                 foreach (CompaniesViewModel cvm in SaleSummary.companiesList)
@@ -70,6 +71,7 @@ namespace UserInterface.Controllers
         }
 
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
         public string GetSaleSummary(string FromDate,string ToDate,string CompanyCode)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
@@ -91,6 +93,7 @@ namespace UserInterface.Controllers
         }
 
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
         public string GetSaleDetail(string FromDate, string ToDate, string CompanyCode)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
@@ -112,6 +115,7 @@ namespace UserInterface.Controllers
         }
 
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
         public ActionResult SalesDetail()
         {
             
@@ -128,6 +132,12 @@ namespace UserInterface.Controllers
                     Text = "All",
                     Value = "ALL",
                     Selected = true
+                });
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "Company wise",
+                    Value = "companywise",
+                    Selected = false
                 });
                 foreach (CompaniesViewModel cvm in saleDetailReportViewModel.companiesList)
                 {
@@ -146,6 +156,7 @@ namespace UserInterface.Controllers
 
 
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
         public ActionResult OtherExpenseSummary()
         {
 
@@ -156,7 +167,7 @@ namespace UserInterface.Controllers
             List<SelectListItem> selectListItem = new List<SelectListItem>();
             otherExpenseSummaryReportViewModel.companiesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_companiesBusiness.GetAllCompanies());
             if (otherExpenseSummaryReportViewModel.companiesList != null)
-            {
+            { 
                 selectListItem.Add(new SelectListItem
                 {
                     Text = "All",
@@ -185,7 +196,8 @@ namespace UserInterface.Controllers
         }
 
         [HttpGet]
-        public string GetOtherExpenseSummary(string FromDate, string ToDate, string CompanyCode)
+        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        public string GetOtherExpenseSummary(string FromDate, string ToDate, string CompanyCode, string OrderBy)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
             {
@@ -193,7 +205,7 @@ namespace UserInterface.Controllers
                 {
                     DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                    List<OtherExpenseSummaryReportViewModel> otherExpenseSummaryReportList = Mapper.Map<List<OtherExpenseSummaryReport>, List<OtherExpenseSummaryReportViewModel>>(_reportBusiness.GetOtherExpenseSummary(FDate, TDate, CompanyCode));
+                    List<OtherExpenseSummaryReportViewModel> otherExpenseSummaryReportList = Mapper.Map<List<OtherExpenseSummaryReport>, List<OtherExpenseSummaryReportViewModel>>(_reportBusiness.GetOtherExpenseSummary(FDate, TDate, CompanyCode, OrderBy));
                     return JsonConvert.SerializeObject(new { Result = "OK", Records = otherExpenseSummaryReportList });
                 }
                 catch (Exception ex)
@@ -204,6 +216,70 @@ namespace UserInterface.Controllers
             }
             return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
         }
+
+
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        public ActionResult OtherExpenseDetails()
+        {
+
+            DateTime dt = DateTime.Now;
+            ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+            ViewBag.todate = dt.ToString("dd-MMM-yyyy");
+            OtherExpenseDetailsViewModel otherExpenseDetailsViewModel = new OtherExpenseDetailsViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            otherExpenseDetailsViewModel.companiesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_companiesBusiness.GetAllCompanies());
+            if (otherExpenseDetailsViewModel.companiesList != null)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "All",
+                    Value = "ALL",
+                    Selected = true
+                });
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "Company Wise",
+                    Value = "companywise",
+                    Selected = false
+                });
+                foreach (CompaniesViewModel cvm in otherExpenseDetailsViewModel.companiesList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = cvm.Name,
+                        Value = cvm.Code.ToString(),
+                        Selected = false
+                    });
+                }
+            }
+
+            otherExpenseDetailsViewModel.CompanyList = selectListItem;
+            return View(otherExpenseDetailsViewModel);
+        }
+
+        //[HttpGet]
+        //[AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        //public string GetOtherExpenseSummary(string FromDate, string ToDate, string CompanyCode)
+        //{
+        //    if (!string.IsNullOrEmpty(CompanyCode))
+        //    {
+        //        try
+        //        {
+        //            DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
+        //            DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
+        //            List<OtherExpenseSummaryReportViewModel> otherExpenseSummaryReportList = Mapper.Map<List<OtherExpenseSummaryReport>, List<OtherExpenseSummaryReportViewModel>>(_reportBusiness.GetOtherExpenseSummary(FDate, TDate, CompanyCode));
+        //            return JsonConvert.SerializeObject(new { Result = "OK", Records = otherExpenseSummaryReportList });
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+        //        }
+
+        //    }
+        //    return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
+        //}
 
 
         #region ButtonStyling

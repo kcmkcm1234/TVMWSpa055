@@ -15,6 +15,7 @@ namespace SPAccounts.BusinessService.Contracts
         object InsertUpdateSupplierCreditNote(SupplierCreditNote _supplierCreditNoteObj);
         object DeleteSupplierCreditNote(Guid ID, string userName);
         List<SupplierCreditNote> GetCreditNoteBySupplier(Guid SupplierID);
+        List<CustomerCreditNotes> GetCreditNoteByPaymentID(Guid ID, Guid PaymentID);
         SupplierCreditNote GetCreditNoteAmount(Guid CreditID, Guid SupplierID);
 
     }

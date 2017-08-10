@@ -1282,6 +1282,7 @@
     <Content Include="Content\images\circle.png" />
     <Content Include="Content\images\close.png" />
     <Content Include="Content\images\delete.png" />
+    <Content Include="Content\images\deposit.png" />
     <Content Include="Content\images\helmet.png" />
     <Content Include="Content\images\listdlt.png" />
     <Content Include="Content\images\loading.gif" />
@@ -1291,6 +1292,7 @@
     <Content Include="Content\images\printer.png" />
     <Content Include="Content\images\reset.png" />
     <Content Include="Content\images\save.png" />
+    <Content Include="Content\images\withdraw.png" />
     <Content Include="Content\sweetalert.css" />
     <Content Include="Content\UserCSS\Login.css" />
     <Content Include="fonts\fontawesome-webfont.svg" />
@@ -1483,12 +1485,14 @@
     <Content Include="Scripts\UserJS\CustomerInvoices.js" />
     <Content Include="Scripts\UserJS\CustomerPayments.js" />
     <Content Include="Scripts\UserJS\Customers.js" />
+    <Content Include="Scripts\UserJS\DepositAndWithdrawals.js" />
     <Content Include="Scripts\UserJS\Employee.js" />
     <Content Include="Scripts\UserJS\ExpenseSummary.js" />
     <Content Include="Scripts\UserJS\MonthlyRecap.js" />
     <Content Include="Scripts\UserJS\Login.js" />
     <Content Include="Scripts\UserJS\ManageAccess.js" />
     <Content Include="Scripts\UserJS\ManageSubObjectAccess.js" />
+    <Content Include="Scripts\UserJS\OtherExpenseDetailsReport.js" />
     <Content Include="Scripts\UserJS\OtherExpenseSummaryReport.js" />
     <Content Include="Scripts\UserJS\OtherIncome.js" />
     <Content Include="Scripts\UserJS\OtherExpense.js" />
@@ -1531,12 +1535,14 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BankController.cs" />
+    <Compile Include="Controllers\ChartOfAccountsController.cs" />
     <Compile Include="Controllers\CustomerCreditNoteController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\CustomerPaymentsController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
     <Compile Include="Controllers\AppObjectController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\DepositAndWithdrawalsController.cs" />
     <Compile Include="Controllers\DynamicUIController.cs" />
     <Compile Include="Controllers\CustomerInvoicesController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
@@ -1640,7 +1646,10 @@
     <Content Include="Views\SupplierPayments\Index.cshtml" />
     <Content Include="Views\Report\SaleSummary.cshtml" />
     <Content Include="Views\Report\SalesDetail.cshtml" />
+    <Content Include="Views\DepositAndWithdrawals\Index.cshtml" />
     <Content Include="Views\Report\OtherExpenseSummary.cshtml" />
+    <Content Include="Views\Report\OtherExpenseDetails.cshtml" />
+    <Content Include="Views\ChartOfAccounts\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

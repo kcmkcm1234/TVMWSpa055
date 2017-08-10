@@ -11,6 +11,7 @@ namespace SPAccounts.RepositoryServices.Contracts
     {
         List<CustomerCreditNotes> GetAllCustomerCreditNotes();
         List<CustomerCreditNotes> GetCreditNoteByCustomer(Guid ID);
+        List<CustomerCreditNotes> GetCreditNoteByPaymentID(Guid ID, Guid PaymentID);
         CustomerCreditNotes InsertCustomerCreditNotes(CustomerCreditNotes _customerCreditNotesObj);
         object UpdateCustomerCreditNotes(CustomerCreditNotes _customerCreditNotesObj);
         object DeleteCustomerCreditNotes(Guid ID, string userName);

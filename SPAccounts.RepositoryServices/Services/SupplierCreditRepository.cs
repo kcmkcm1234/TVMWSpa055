@@ -356,5 +356,54 @@ namespace SPAccounts.RepositoryServices.Services
             return CreditNotesList;
         }
 
+        public List<CustomerCreditNotes> GetCreditNoteByPaymentID(Guid SupplierID, Guid PaymentID)
+        {
+            List<CustomerCreditNotes> customerCreditNotesList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetCreditNotesBySupplierPaymentID]";
+                        cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = SupplierID;
+                        cmd.Parameters.Add("@PaymentID", SqlDbType.UniqueIdentifier).Value = PaymentID;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                customerCreditNotesList = new List<CustomerCreditNotes>();
+                                while (sdr.Read())
+                                {
+                                    CustomerCreditNotes _customerCreditNotesObj = new CustomerCreditNotes();
+                                    {
+                                        _customerCreditNotesObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : _customerCreditNotesObj.ID);
+                                        _customerCreditNotesObj.CreditNoteNo = (sdr["CRNRefNo"].ToString() != "" ? sdr["CRNRefNo"].ToString() : _customerCreditNotesObj.CreditNoteNo);
+                                        _customerCreditNotesObj.CreditNoteDate = (sdr["CRNDate"].ToString() != "" ? DateTime.Parse(sdr["CRNDate"].ToString()) : _customerCreditNotesObj.CreditNoteDate);
+                                        _customerCreditNotesObj.CreditAmount = (sdr["CreditAmount"].ToString() != "" ? decimal.Parse(sdr["CreditAmount"].ToString()) : _customerCreditNotesObj.CreditAmount);
+                                        _customerCreditNotesObj.AvailableCredit = (sdr["AvailableCredit"].ToString() != "" ? decimal.Parse(sdr["AvailableCredit"].ToString()) : _customerCreditNotesObj.AvailableCredit);
+                                        _customerCreditNotesObj.CreditNoteDateFormatted = (sdr["CRNDate"].ToString() != "" ? DateTime.Parse(sdr["CRNDate"].ToString()).ToString(settings.dateformat) : _customerCreditNotesObj.CreditNoteDateFormatted);
+                                    }
+                                    customerCreditNotesList.Add(_customerCreditNotesObj);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return customerCreditNotesList;
+        }
     }
 }

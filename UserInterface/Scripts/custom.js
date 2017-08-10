@@ -48,8 +48,10 @@ $(document).ready(function () {
     wrap.on("scroll", function (e) {
         if (this.scrollTop > 147) {
             $('#CommonFigure').addClass("fix-search");
+            $("#outstandingdetailsdiv").hide();
         } else {
             $('#CommonFigure').removeClass("fix-search");
+            $("#outstandingdetailsdiv").show();
         }
     });
 
@@ -66,10 +68,12 @@ $(document).ready(function () {
         var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
         if (key == 13) {
             e.preventDefault();
-            var inputs = $(this).closest('form').find(':input:visible');
+            var inputs = $(this).closest('form').find(':input');
             inputs.eq(inputs.index(this) + 1).focus();
         }
     });
+
+    $('input,textarea').attr('autocomplete', 'off');
    
     //menu submenu popup on click 3rd level menus
     $('.navbar a.dropdown-toggle').on('click', function (e) {
@@ -231,7 +235,7 @@ function ClearFields() {
 //only number validation
 function isNumber(e) {
     var unicode = e.charCode ? e.charCode : e.keyCode
-    if (unicode != 8) { //if the key isn't the backspace key (which we should allow)
+    if (unicode != 8 && unicode!=46) { //if the key isn't the backspace key (which we should allow)
         if (unicode < 48 || unicode > 57) //if not a number
             return false //disable key press
     }
