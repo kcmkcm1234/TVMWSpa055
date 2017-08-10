@@ -25,6 +25,15 @@ namespace SPAccounts.BusinessService.Services
         {
             return _employeeRepository.GetAllEmployeeTypes();
         }
+        public List<EmployeeType> GetAllDepartment()
+        {
+            return _employeeRepository.GetAllDepartment();
+        }
+
+        public List<EmployeeType> GetAllCategory()
+        {
+            return _employeeRepository.GetAllCategory();
+        }
 
         public Employee GetEmployeeDetails(Guid ID)
         {

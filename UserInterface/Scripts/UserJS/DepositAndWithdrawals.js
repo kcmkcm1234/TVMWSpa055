@@ -21,18 +21,18 @@ $(document).ready(function () {
                { "data": "ReferenceNo", "defaultContent": "<i>-</i>" },
                { "data": "DateFormatted", "defaultContent": "<i>-</i>" },
                { "data": "BankName", "defaultContent": "<i>-</i>" },
-                { "data": "DepositMode", "defaultContent": "<i>-</i>" },
+                { "data": "PaymentMode", "defaultContent": "<i>-</i>" },
                  { "data": "ChequeStatus", "defaultContent": "<i>-</i>" },
                { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                { "data": null, "orderable": false, "defaultContent": '<a href="#" title="Edit DepositWithdrawal" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }              
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                   { className: "text-right", "targets": [7] },
-                    { className: "text-left", "targets": [] },
-             { className: "text-center", "targets": [1, 2, 3, 4,5,8, 6] },
+                    { className: "text-left", "targets": [1,2,4,5,6] },
+             { className: "text-center", "targets": [3,8] },
                           {
                               "render": function (data, type, row) {
-                                  return (data == "Cleared" ? "Cleared " : "Not Cleared");
+                                  return (data == "Cleared" ? "Cleared " : "-", data == "NotCleared" ? "Not Cleared " : "-");
                               },
                               "targets": 6
 
@@ -86,7 +86,7 @@ $(document).ready(function () {
        });
 
         $("#PaymentMode option[value=ONLINE]").remove();
-
+        $("#ChequeStatus").prop('disabled', true);
     } catch (x) {
 
         notyAlert('error', x.message);
@@ -179,6 +179,7 @@ function FillDepositWithdrawalDetails(ID) {
     $("#BankCodeModal").val(thisItem.BankCode);
     $("#GeneralNotes").val(thisItem.GeneralNotes);
     $("#ChequeStatus").val(thisItem.ChequeStatus);
+    $("#PaymentMode").val(thisItem.PaymentMode);
     $("#PaymentMode option[value=ONLINE]").remove();
     DepositModeOnchange();
 }
@@ -229,6 +230,7 @@ function ClearFields() {
     $("#PaymentMode").val("");
     ResetForm();
     $("#PaymentMode option[value=ONLINE]").remove();
+    $("#ChequeStatus").prop('disabled', true);
 }
 
 //-----------------------------------------Reset Validation Messages--------------------------------------//

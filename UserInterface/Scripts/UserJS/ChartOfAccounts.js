@@ -3,33 +3,48 @@ var emptyGUID = '00000000-0000-0000-0000-000000000000'
 $(document).ready(function () {
     try {
 
-        DataTables.BankTable = $('#BankTable').DataTable(
+        DataTables.ChartOfAccounts = $('#ChartOfAccountsTable').DataTable(
          {
              dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
              order: [],
              searching: true,
              paging: true,
-             data: GetAllBanks(),
-             pageLength: 15,
+             data: GetAllChartOfAccounts(),
+             pageLength: 10,
              language: {
                  search: "_INPUT_",
                  searchPlaceholder: "Search"
              },
              columns: [
                { "data": "Code", "defaultContent": "<i>-</i>" },
-               { "data": "Name", "defaultContent": "<i>-</i>" },
-               { "data": "Company.Name", "defaultContent": "<i>-</i>" },
+               { "data": "Type", "defaultContent": "<i>-</i>" },
+                { "data": "TypeDesc", "defaultContent": "<i>-</i>" },
+               { "data": "ISEmploy", "defaultContent": "<i>-</i>" },
+                { "data": "IsReverse", "defaultContent": "<i>-</i>" },
                { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
              ],
              columnDefs: [{ "targets": [], "visible": false, "searchable": false },
-                  { className: "text-right", "targets": [] },
-                   { className: "text-left", "targets": [1,2] },
-             { className: "text-center", "targets": [0] }
+                  { className: "text-left", "targets": [0, 1, 2, 3, 4] },
+             { className: "text-center", "targets": [5] },
+               {
+                   "render": function (data, type, row) {
+                       return (data == false ? "No " : "Yes");
+                   },
+                   "targets": 3
+
+               },
+                  {
+                      "render": function (data, type, row) {
+                          return (data == false ? "No " : "Yes");
+                      },
+                      "targets": 4
+
+                  }
 
              ]
          });
 
-        $('#BankTable tbody').on('dblclick', 'td', function () {
+        $('#ChartOfAccountsTable tbody').on('dblclick', 'td', function () {
 
             Edit(this);
         });
@@ -48,25 +63,24 @@ $(document).ready(function () {
 });
 
 
-//---------------------------------------Edit Bank--------------------------------------------------//
+//---------------------------------------Edit ChartOfAccounts--------------------------------------------------//
 function Edit(currentObj) {
     //Tab Change on edit click
     debugger;
     openNav("0");
     ResetForm();
 
-    
-    var rowData = DataTables.BankTable.row($(currentObj).parents('tr')).data();
+
+    var rowData = DataTables.ChartOfAccounts.row($(currentObj).parents('tr')).data();
     if ((rowData != null) && (rowData.Code != null)) {
-        FillBankDetails(rowData.Code);
+        FillChartOfAccountDetails(rowData.Code);
     }
 }
 
-function openNav(id)
-{
+function openNav(id) {
     var left = $(".main-sidebar").width();
     var total = $(document).width();
-  
+
     $('.main').fadeOut();
     document.getElementById("myNav").style.left = "3%";
     $('#main').fadeOut();
@@ -77,41 +91,52 @@ function openNav(id)
     else {
         $(".sidebar-toggle").trigger("click");
     }
-    if(id!="0")
-    {
+    if (id != "0") {
         ClearFields();
     }
 }
 
-function goBack()
-{
+function goBack() {
     ClearFields();
     closeNav();
-    BindAllBanks();
+    BindAllChartOfAccounts();
 }
 
-//---------------------------------------Fill Bank Details--------------------------------------------------//
-function FillBankDetails(Code) {
+//---------------------------------------Fill Chart Of Account Details--------------------------------------------------//
+function FillChartOfAccountDetails(Code) {
     debugger;
-    ChangeButtonPatchView("Bank", "btnPatchAdd", "Edit"); //ControllerName,id of the container div,Name of the action
-    var thisItem = GetBankDetailsByCode(Code); //Binding Data
+    ChangeButtonPatchView("ChartOfAccounts", "btnPatchAdd", "Edit"); //ControllerName,id of the container div,Name of the action
+    var thisItem = GetChartOfAccountDetailsByCode(Code); //Binding Data
     //Hidden
     debugger;
     $("#Code").val(thisItem.Code);
-    $("#Name").val(thisItem.Name);
-    $("#CompanyCode").val(thisItem.CompanyCode)    
-   // $("#deleteId").val(thisItem[0].Code);
+    $("#Type").val(thisItem.Type);
+    $("#TypeDesc").val(thisItem.TypeDesc);
+    if (thisItem.ISEmploy == true)
+    {
+        $('#ISEmploy').attr('checked', true);
+    }
+    else
+    {
+        $('#ISEmploy').attr('checked', false);
+    }
+    if (thisItem.IsReverse == true) {
+        $('#IsReverse').attr('checked', true);
+    }
+    else {
+        $('#IsReverse').attr('checked', false);
+    }
     $("#isUpdate").val("1");
-    $("#hdnCode").val(thisItem.Code);
     $("#Code").prop('disabled', true);
+    $("#hdnCode").val(thisItem.Code);
 }
 
-function GetBankDetailsByCode(Code) {
+function GetChartOfAccountDetailsByCode(Code) {
     try {
 
-        var data = {"Code":Code};
+        var data = { "Code": Code };
         var ds = {};
-        ds = GetDataFromServer("Bank/GetBankDetailsByCode/", data);
+        ds = GetDataFromServer("ChartOfAccounts/GetChartOfAccountDetails/", data);
         debugger;
         if (ds != '') {
             ds = JSON.parse(ds);
@@ -129,35 +154,32 @@ function GetBankDetailsByCode(Code) {
 }
 
 
-function Reset()
-{
-    if($("#isUpdate").val()=="0")
-    {
+function Reset() {
+    if ($("#isUpdate").val() == "0") {
         ClearFields();
     }
-    else
-    {
-        FillBankDetails($("#hdnCode").val());
+    else {
+        FillChartOfAccountDetails($("#hdnCode").val());
     }
 }
 
 //-----------------------------------------Reset Validation Messages--------------------------------------//
 function ResetForm() {
 
-    var validator = $("#BankForm").validate();
-    $('#BankForm').find('.field-validation-error span').each(function () {
+    var validator = $("#ChartOfAccountsForm").validate();
+    $('#ChartOfAccountsForm').find('.field-validation-error span').each(function () {
         validator.settings.success($(this));
     });
     validator.resetForm();
 }
 
 
-function GetAllBanks() {
+function GetAllChartOfAccounts() {
     try {
 
         var data = {};
         var ds = {};
-        ds = GetDataFromServer("Bank/GetAllBanks/", data);
+        ds = GetDataFromServer("ChartOfAccounts/GetAllChartOfAccounts/", data);
         debugger;
         if (ds != '') {
             ds = JSON.parse(ds);
@@ -174,16 +196,18 @@ function GetAllBanks() {
     }
 }
 
-function ClearFields()
-{
+function ClearFields() {
+    debugger;
     $("#isUpdate").val("0");
+    $('#ISEmploy').prop('checked', false);
+    $('#IsReverse').prop('checked', false);
     $("#Code").val("");
-    $("#Name").val("");
-    $("#CompanyCode").val("");
+    $("#Type").val("");
+    $("#TypeDesc").val("");
     $("#Code").prop('disabled', false);
     $("#hdnCode").val("");
     ResetForm();
-    ChangeButtonPatchView("Bank", "btnPatchAdd", "Add"); //ControllerName,id of the container div,Name of the action
+    ChangeButtonPatchView("ChartOfAccounts", "btnPatchAdd", "Add"); //ControllerName,id of the container div,Name of the action
 }
 
 
@@ -192,16 +216,14 @@ function SaveSuccess(data, status) {
     var JsonResult = JSON.parse(data)
     switch (JsonResult.Result) {
         case "OK":
-            BindAllBanks();
+            BindAllChartOfAccounts();
             notyAlert('success', JsonResult.Message);
             debugger;
-            if ($("#hdnCode").val() != "")
-            {
-                FillBankDetails($("#hdnCode").val());
+            if ($("#hdnCode").val() != "") {
+                FillChartOfAccountDetails($("#hdnCode").val());
             }
-            else
-            {
-                FillBankDetails(JsonResult.Records.Code);
+            else {
+                FillChartOfAccountDetails(JsonResult.Records.Code);
             }
             break;
         case "ERROR":
@@ -213,20 +235,18 @@ function SaveSuccess(data, status) {
     }
 }
 
-function BindAllBanks() {
+function BindAllChartOfAccounts() {
     try {
-        DataTables.BankTable.clear().rows.add(GetAllBanks()).draw(false);
+        DataTables.ChartOfAccounts.clear().rows.add(GetAllChartOfAccounts()).draw(false);
     }
     catch (e) {
         notyAlert('error', e.message);
     }
 }
 
-function Save()
-{
-    try
-    {
-        $("#btnInsertUpdateBank").trigger('click');
+function Save() {
+    try {
+        $("#btnInsertUpdateChartOfAccounts").trigger('click');
     }
     catch (e) {
         notyAlert('error', e.message);
@@ -234,19 +254,17 @@ function Save()
     }
 }
 
-function Delete()
-{
-    notyConfirm('Are you sure to delete?', 'DeleteBank()', '', "Yes, delete it!");
+function Delete() {
+    notyConfirm('Are you sure to delete?', 'DeleteChartOfAccounts()', '', "Yes, delete it!");
 }
 
-function DeleteBank()
-{
+function DeleteChartOfAccounts() {
     try {
         var code = $('#hdnCode').val();
         if (code != '' && code != null) {
             var data = { "code": code };
             var ds = {};
-            ds = GetDataFromServer("Bank/DeleteBank/", data);
+            ds = GetDataFromServer("ChartOfAccounts/DeleteChartOfAccounts/", data);
             debugger;
             if (ds != '') {
                 ds = JSON.parse(ds);

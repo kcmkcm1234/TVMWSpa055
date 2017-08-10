@@ -63,6 +63,34 @@ namespace UserInterface.Controllers
                     });
                 }
                 evm.EmployeeTypeList = selectListItem;
+
+                evm.DepartmentList = new List<SelectListItem>();
+                selectListItem = new List<SelectListItem>();
+                List<EmployeeTypeViewModel> departmentList = Mapper.Map<List<EmployeeType>, List<EmployeeTypeViewModel>>(_employeeBusiness.GetAllDepartment());
+                foreach (EmployeeTypeViewModel dpm in departmentList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = dpm.Name,
+                        Value = dpm.Code.ToString(),
+                        Selected = false
+                    });
+                }
+                evm.DepartmentList = selectListItem;
+
+                evm.CategoryList = new List<SelectListItem>();
+                selectListItem = new List<SelectListItem>();
+                List<EmployeeTypeViewModel> categoryTypeList = Mapper.Map<List<EmployeeType>, List<EmployeeTypeViewModel>>(_employeeBusiness.GetAllCategory());
+                foreach (EmployeeTypeViewModel ctvm in categoryTypeList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = ctvm.Name,
+                        Value = ctvm.Code.ToString(),
+                        Selected = false
+                    });
+                }
+                evm.CategoryList = selectListItem;
             }
             catch(Exception ex)
             {
