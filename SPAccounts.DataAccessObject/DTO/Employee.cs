@@ -17,6 +17,8 @@ namespace SPAccounts.DataAccessObject.DTO
          public string ImageURL { get; set; }
          public Companies companies { get; set; }
          public string companyID { get; set; }
+         public string Department { get; set; }
+         public string EmployeeCategory { get; set; }
          public string GeneralNotes { get; set; }
          public Common commonObj { get; set; }
     }
