@@ -212,6 +212,7 @@ function SaveOtherIncome()
 {
     try {
         $("#btnOtherIncomeSave").trigger('click');
+        $('#AddOtherIncomeModel').modal('hide');
     }
     catch (e) {
         notyAlert('error', e.message);

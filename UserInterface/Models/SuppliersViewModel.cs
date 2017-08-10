@@ -34,6 +34,7 @@ namespace UserInterface.Models
         [StringLength(50, MinimumLength = 5)]
         public string LandLine { get; set; }
         [Display(Name = "Mobile")]
+       
         [StringLength(50, MinimumLength = 5)]
         public string Mobile { get; set; }
         [Display(Name = "Fax")]

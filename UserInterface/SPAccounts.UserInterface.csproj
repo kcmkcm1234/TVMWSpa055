@@ -1478,6 +1478,7 @@
     <Content Include="Scripts\lightbox.min.js" />
     <Content Include="Scripts\sweetalert.min.js" />
     <Content Include="Scripts\UserJS\Bank.js" />
+    <Content Include="Scripts\UserJS\ChartOfAccounts.js" />
     <Content Include="Scripts\UserJS\CustomerCreditNote.js" />
     <Content Include="Scripts\UserJS\Application.js" />
     <Content Include="Scripts\UserJS\AppObject.js" />
