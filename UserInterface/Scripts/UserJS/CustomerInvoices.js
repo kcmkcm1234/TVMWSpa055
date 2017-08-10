@@ -36,8 +36,9 @@ $(document).ready(function () {
                { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                  { className: "text-right", "targets": [5,6] },
-             { className: "text-center", "targets": [1,2, 3, 4, 7,8,9,10] }
+                  { className: "text-right", "targets": [5, 6] },
+                   { className: "text-left", "targets": [1,3,8,9] },
+             { className: "text-center", "targets": [2,4,7,10] }
 
              ]
          });
