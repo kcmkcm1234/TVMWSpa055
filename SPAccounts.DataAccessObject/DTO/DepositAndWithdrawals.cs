@@ -22,5 +22,6 @@ namespace SPAccounts.DataAccessObject.DTO
         public List<DepositAndWithdrawals> CheckedRows { get; set; }
         public string DepositMode { get; set; }
         public string ChequeStatus { get; set; }
+        public string PaymentMode { get; set; }
     }
 }

@@ -187,16 +187,16 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@Code", SqlDbType.VarChar, 10).Value = _chartOfAccountsObj.Code;
                         cmd.Parameters.Add("@Type", SqlDbType.VarChar, 50).Value = _chartOfAccountsObj.Type;
                         cmd.Parameters.Add("@TypeDesc", SqlDbType.VarChar, 200).Value = _chartOfAccountsObj.TypeDesc;
-                        cmd.Parameters.Add("@OpeningPaymentMode", SqlDbType.VarChar, 10).Value = _chartOfAccountsObj.OpeningPaymentMode;
-                        cmd.Parameters.Add("@OpeningBalance", SqlDbType.Decimal).Value = _chartOfAccountsObj.OpeningBalance;
-                        cmd.Parameters.Add("@OpeningAsOfDate", SqlDbType.DateTime).Value = _chartOfAccountsObj.OpeningAsOfDate;
+                        //cmd.Parameters.Add("@OpeningPaymentMode", SqlDbType.VarChar, 10).Value = _chartOfAccountsObj.OpeningPaymentMode;
+                        //cmd.Parameters.Add("@OpeningBalance", SqlDbType.Decimal).Value = _chartOfAccountsObj.OpeningBalance;
+                        //cmd.Parameters.Add("@OpeningAsOfDate", SqlDbType.DateTime).Value = _chartOfAccountsObj.OpeningAsOfDate;
                         cmd.Parameters.Add("@ISEmpApplicable", SqlDbType.Bit).Value = _chartOfAccountsObj.ISEmploy;
                         cmd.Parameters.Add("@IsReverse", SqlDbType.Bit).Value = _chartOfAccountsObj.IsReverse;
                         cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = _chartOfAccountsObj.commonObj.CreatedBy;
                         cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = _chartOfAccountsObj.commonObj.CreatedDate;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
-                        outputCode = cmd.Parameters.Add("@CodeOut", SqlDbType.VarChar, 5);
+                        outputCode = cmd.Parameters.Add("@CodeOut", SqlDbType.VarChar, 10);
                         outputCode.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();
 
@@ -247,9 +247,9 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@Code", SqlDbType.VarChar, 10).Value = _chartOfAccountsObj.Code;
                         cmd.Parameters.Add("@Type", SqlDbType.VarChar, 50).Value = _chartOfAccountsObj.Type;
                         cmd.Parameters.Add("@TypeDesc", SqlDbType.VarChar, 200).Value = _chartOfAccountsObj.TypeDesc;
-                        cmd.Parameters.Add("@OpeningPaymentMode", SqlDbType.VarChar, 10).Value = _chartOfAccountsObj.OpeningPaymentMode;
-                        cmd.Parameters.Add("@OpeningBalance", SqlDbType.Decimal).Value = _chartOfAccountsObj.OpeningBalance;
-                        cmd.Parameters.Add("@OpeningAsOfDate", SqlDbType.DateTime).Value = _chartOfAccountsObj.OpeningAsOfDate;
+                        //cmd.Parameters.Add("@OpeningPaymentMode", SqlDbType.VarChar, 10).Value = _chartOfAccountsObj.OpeningPaymentMode;
+                        //cmd.Parameters.Add("@OpeningBalance", SqlDbType.Decimal).Value = _chartOfAccountsObj.OpeningBalance;
+                        //cmd.Parameters.Add("@OpeningAsOfDate", SqlDbType.DateTime).Value = _chartOfAccountsObj.OpeningAsOfDate;
                         cmd.Parameters.Add("@ISEmpApplicable", SqlDbType.Bit).Value = _chartOfAccountsObj.ISEmploy;
                         cmd.Parameters.Add("@IsReverse", SqlDbType.Bit).Value = _chartOfAccountsObj.IsReverse;
                         cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = _chartOfAccountsObj.commonObj.UpdatedBy;
