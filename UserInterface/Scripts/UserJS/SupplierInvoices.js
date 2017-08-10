@@ -36,21 +36,22 @@ $(document).ready(function () {
         
         $('.Roundoff').on('change', function () {
             debugger;
-            var SupplierInvoiceViewModel = new Object();
-            SupplierInvoiceViewModel.GrossAmount = $('#txtGrossAmt').val();
-            SupplierInvoiceViewModel.Discount = ((parseInt($('#txtDiscount').val())) > (parseInt($('#txtGrossAmt').val()))) ? "0.00" : $('#txtDiscount').val();
-            SupplierInvoiceViewModel.NetTaxableAmount = (SupplierInvoiceViewModel.GrossAmount - SupplierInvoiceViewModel.Discount)
-            SupplierInvoiceViewModel.TaxType = $('#ddlTaxType').val() != "" ? GetTaxRate($('#ddlTaxType').val()) : $('#txtTaxPercApp').val();
-            SupplierInvoiceViewModel.TaxPercentage = SupplierInvoiceViewModel.TaxType
-            SupplierInvoiceViewModel.TaxAmount = (SupplierInvoiceViewModel.NetTaxableAmount * SupplierInvoiceViewModel.TaxPercentage) / 100
-            SupplierInvoiceViewModel.TotalInvoiceAmount = (SupplierInvoiceViewModel.NetTaxableAmount + SupplierInvoiceViewModel.TaxAmount)
-            $('#txtNetTaxableAmt').val(SupplierInvoiceViewModel.NetTaxableAmount);
-            $('#txtTaxPercApp').val(SupplierInvoiceViewModel.TaxPercentage);
-            $('#txtTaxAmt').val(SupplierInvoiceViewModel.TaxAmount);
-            $('#txtTotalInvAmt').val(SupplierInvoiceViewModel.TotalInvoiceAmount);
-            if ((parseInt($('#txtDiscount').val())) > (parseInt($('#txtGrossAmt').val()))) {
+            if ((parseFloat($('#txtDiscount').val())) > (parseFloat($('#txtGrossAmt').val())) || $("#txtDiscount").val() == "") {
                 $('#txtDiscount').val("0.00");
             }
+            var SupplierInvoiceViewModel = new Object();
+            SupplierInvoiceViewModel.GrossAmount = parseFloat($('#txtGrossAmt').val());
+            SupplierInvoiceViewModel.Discount = parseFloat($('#txtDiscount').val());
+            SupplierInvoiceViewModel.NetTaxableAmount = (SupplierInvoiceViewModel.GrossAmount - SupplierInvoiceViewModel.Discount)
+            SupplierInvoiceViewModel.TaxAmount = parseFloat($('#txtTaxAmt').val() == "" ? "0.00" : $('#txtTaxAmt').val());
+            SupplierInvoiceViewModel.ShippingCharge = parseFloat($('#ShippingCharge').val() == "" ? "0.00" : $('#ShippingCharge').val());
+            SupplierInvoiceViewModel.TotalInvoiceAmount = (SupplierInvoiceViewModel.NetTaxableAmount + SupplierInvoiceViewModel.ShippingCharge
+                                                            + SupplierInvoiceViewModel.TaxAmount);
+            $('#txtNetTaxableAmt').val(SupplierInvoiceViewModel.NetTaxableAmount);
+            $('#ShippingCharge').val(roundoff(SupplierInvoiceViewModel.ShippingCharge));
+            $('#txtTaxAmt').val(roundoff(SupplierInvoiceViewModel.TaxAmount));
+            $('#txtTotalInvAmt').val(SupplierInvoiceViewModel.TotalInvoiceAmount);
+           
 
         });
         $('#txtTaxPercApp').on('keypress', function () {
@@ -172,8 +173,9 @@ function PaintInvoiceDetails() {
     $('#txtGrossAmt').val(SupplierInvoiceViewModel.GrossAmount);
     $('#txtDiscount').val(SupplierInvoiceViewModel.Discount);
     $('#txtNetTaxableAmt').val(SupplierInvoiceViewModel.GrossAmount - SupplierInvoiceViewModel.Discount);
-    $('#ddlTaxType').val(SupplierInvoiceViewModel.TaxTypeObj.Code);
-    $('#txtTaxPercApp').val(SupplierInvoiceViewModel.TaxPercApplied);
+    $('#ShippingCharge').val(SupplierInvoiceViewModel.ShippingCharge);
+   // $('#ddlTaxType').val(SupplierInvoiceViewModel.TaxTypeObj.Code);
+  //  $('#txtTaxPercApp').val(SupplierInvoiceViewModel.TaxPercApplied);
     $('#txtTaxAmt').val(SupplierInvoiceViewModel.TaxAmount);
     $('#txtTotalInvAmt').val(SupplierInvoiceViewModel.TotalInvoiceAmount);
     $('#txtNotes').val(SupplierInvoiceViewModel.Notes);
@@ -240,10 +242,12 @@ function SaveSuccess(data, status) {
     var JsonResult = JSON.parse(data)
     switch (JsonResult.Result) {
         case "OK":
+            var res;
             if ($('#ID').val() == "") {
-                Advanceadjustment(); //calling advance adjustment popup if inserting
+                debugger;
+              res = Advanceadjustment(); //calling advance adjustment popup if inserting
             }
-            else {
+            if(!res){
                 notyAlert('success', JsonResult.Message);
             }
             $('#ID').val(JsonResult.Records.ID);
@@ -264,11 +268,15 @@ function Advanceadjustment() {
     var SupplierId = $('#ddlSupplier').val();
     //get advances of Supplier
     var thisitem = GetSupplierAdvances(SupplierId);
-    if (thisitem != null) {
+    if (thisitem != null && thisitem.suppliersObj.AdvanceAmount>0) {
         $('#AdvanceAmount').text(roundoff(thisitem.suppliersObj.AdvanceAmount));
         $('#AdvAdjustmentModel').modal('show');
         DataTables.OutStandingInvoices.clear().rows.add(GetOutStandingInvoices(SupplierId)).draw(false);
         AmountChanged();
+        return true;
+    }
+    else {
+        return false;
     }
 }
 function SaveAdvanceAdujust() {
@@ -478,11 +486,6 @@ function Reset() {
    
 }
 
-function CheckAmount() {
-    debugger;
-    if($("#txtDiscount").val() == "")
-    $("#txtDiscount").val(roundoff(0));
-}
 
 
 function FillCustomerDefault(this_Obj) {
