@@ -24,7 +24,7 @@ $(document).ready(function () {
                { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
              ],
              columnDefs: [{ "targets": [], "visible": false, "searchable": false },
-                  { className: "text-left", "targets": [0, 1, 2, 3, 4, ] },
+                  { className: "text-left", "targets": [0, 1, 2, 3, 4] },
              { className: "text-center", "targets": [5] },
                {
                    "render": function (data, type, row) {
