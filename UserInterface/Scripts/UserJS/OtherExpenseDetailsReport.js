@@ -16,7 +16,7 @@ $(document).ready(function () {
              order: [],
              searching: true,
              paging: true,
-             data: GetExpenseSummaryReport(),
+             data: null,
              pageLength: 10,
              language: {
                  search: "_INPUT_",

@@ -11,6 +11,8 @@ namespace SPAccounts.RepositoryServices.Contracts
     {
         List<Employee> GetAllEmployees();
         List<EmployeeType> GetAllEmployeeTypes();
+        List<EmployeeType> GetAllDepartment();
+        List<EmployeeType> GetAllCategory();
         Employee InsertEmployee(Employee _employeeObj);
         object UpdateEmployee(Employee _employeeObj);
         object DeleteEmployee(Guid ID);

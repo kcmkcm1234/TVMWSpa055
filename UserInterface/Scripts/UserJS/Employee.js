@@ -19,14 +19,17 @@ $(document).ready(function () {
                { "data": "ID" },
                { "data": "Code", "defaultContent": "<i>-</i>" },
                { "data": "Name", "defaultContent": "<i>-</i>" },
+     
                { "data": "employeeTypeObj.Name", "defaultContent": "<i>-</i>" },
-               { "data": "companies.Name", "defaultContent": "<i>-</i>" },                 
+               { "data": "companies.Name", "defaultContent": "<i>-</i>" },
+                  { "data": "Department", "defaultContent": "<i>-</i>" },
+                 { "data": "EmployeeCategory", "defaultContent": "<i>-</i>" },
                { "data": null, "orderable": false, "defaultContent": '<a href="#" title="Edit OtherIncome" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                  
-                    
-             { className: "text-center", "targets": [1,2,3, 4, 5] }
+               { className: "text-left", "targets": [2,4] },
+             { className: "text-center", "targets": [1,3,5,6,7] }
 
              ]
          });
@@ -95,6 +98,7 @@ function goBack() {
 
 function Save() {
     try {
+        $('#EmployeeType').val("EMP");
         $("#btnInsertUpdateEmployee").trigger('click');
     }
     catch (e) {
@@ -142,6 +146,8 @@ function ClearFields() {
     $("#Name").val("");
     $("#MobileNo").val("");
     $("#Company").val("");
+    $("#Department").val("");
+    $("#EmployeeCategory").val("");
     $("#EmployeeType").val("");
     $("#Address").val("");
     $("#GeneralNotes").val("");
@@ -235,7 +241,10 @@ function FillEmployeeDetails(ID) {
     $("#ID").val(thisItem.ID);
     $("#Code").val(thisItem.Code);
     $("#Name").val(thisItem.Name);
-    $("#MobileNo").val(thisItem.MobileNo);    
+    $("#MobileNo").val(thisItem.MobileNo);
+    $("#Department").val(thisItem.Department);
+    $('#EmployeeType').attr('disabled', true);
+    $("#EmployeeCategory").val(thisItem.EmployeeCategory);
     $("#Company").val(thisItem.companyID);
     $("#EmployeeType").val(thisItem.EmployeeType);   
     $("#Address").val(thisItem.Address);

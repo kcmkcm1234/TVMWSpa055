@@ -28,8 +28,8 @@ $(document).ready(function () {
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                   { className: "text-right", "targets": [7] },
-                    { className: "text-left", "targets": [] },
-             { className: "text-center", "targets": [1, 2, 3, 4,5,8, 6] },
+                    { className: "text-left", "targets": [1,2,4,5,6] },
+             { className: "text-center", "targets": [3,8] },
                           {
                               "render": function (data, type, row) {
                                   return (data == "Cleared" ? "Cleared " : "-", data == "NotCleared" ? "Not Cleared " : "-");

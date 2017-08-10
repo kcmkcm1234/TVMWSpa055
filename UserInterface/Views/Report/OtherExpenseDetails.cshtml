@@ -36,7 +36,7 @@
 </div>
 <div class="form-horizontal">
 
-    <div class="col-md-8" style="margin-top:10px;">
+    <div class="col-md-9" style="margin-top:10px;">
         <div class="col-md-3">
             @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
@@ -59,7 +59,22 @@
 
             </div>
         </div>
-
+        <div class="col-md-3">
+            <div class="row">
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="GroupSelect" id="AH" onchange="RadioOnChange(this)" value="AH" checked>
+                        Account head wise
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="GroupSelect" onchange="RadioOnChange(this)" id="ST" value="ST">
+                        Sub type wise
+                    </label>
+                </div>
+            </div>
+        </div>
 
 
         @*<div class="col-md-12 filterHead">Filter</div>
@@ -72,7 +87,7 @@
 
 
     </div>
-    <div class="col-md-4" style="min-height:25px">
+    <div class="col-md-3" style="min-height:25px">
         @{
             var data = new { ActionType = "List" };
             @Html.Action("ChangeButtonStyle", "Report", data);

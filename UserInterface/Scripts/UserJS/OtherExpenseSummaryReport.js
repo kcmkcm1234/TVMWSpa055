@@ -13,7 +13,7 @@ $(document).ready(function () {
                  extend: 'excel',
                  exportOptions:
                               {
-                                  columns: [0, 1, 2]
+                                  columns: [0, 1, 2,3]
                               }
              }],
              order: [],
@@ -26,20 +26,21 @@ $(document).ready(function () {
                  searchPlaceholder: "Search"
              },
              columns: [
+               { "data": "OriginCompany", "defaultContent": "<i>-</i>" },
                { "data": "AccountHeadORSubtype", "defaultContent": "<i>-</i>" },
                { "data": "SubTypeDesc", "defaultContent": "<i>-</i>" },
                { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
-               { "data": "OriginCompany", "defaultContent": "<i>-</i>" },
+             
              ],
-             columnDefs: [{ "targets": [3], "visible": false, "searchable": false },
-                  { className: "text-left", "targets": [0,1] },
-                  { className: "text-right", "targets": [2] }],
+             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
+                  { className: "text-left", "targets": [1,2] },
+                  { className: "text-right", "targets": [3] }],
              drawCallback: function (settings) {
                  var api = this.api();
                  var rows = api.rows({ page: 'current' }).nodes();
                  var last = null;
 
-                 api.column(3, { page: 'current' }).data().each(function (group, i) {
+                 api.column(0, { page: 'current' }).data().each(function (group, i) {
                      if (last !== group) {
                          $(rows).eq(i).before('<tr class="group "><td colspan="3" class="rptGrp">' + '<b>Company</b> : ' + group + '</td></tr>');
                          last = group;
@@ -67,7 +68,7 @@ $(document).ready(function () {
               extend: 'excel',
               exportOptions:
                            {
-                               columns: [0, 1, 2]
+                               columns: [0, 1, 2,3]
                            }
           }],
           order: [],
@@ -80,20 +81,21 @@ $(document).ready(function () {
               searchPlaceholder: "Search"
           },
           columns: [
+              { "data": "OriginCompany", "defaultContent": "<i>-</i>" },
             { "data": "SubTypeDesc", "defaultContent": "<i>-</i>" },
             { "data": "AccountHeadORSubtype", "defaultContent": "<i>-</i>" },
             { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
-            { "data": "OriginCompany", "defaultContent": "<i>-</i>" },
+            
           ],
-          columnDefs: [{ "targets": [3], "visible": false, "searchable": false },
-               { className: "text-left", "targets": [0, 1] },
-               { className: "text-right", "targets": [2] }],
-          drawCallback: function (settings) {
+          columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
+               { className: "text-left", "targets": [1,2] },
+               { className: "text-right", "targets": [3] }],
+              drawCallback: function (settings) {
               var api = this.api();
               var rows = api.rows({ page: 'current' }).nodes();
               var last = null;
 
-              api.column(3, { page: 'current' }).data().each(function (group, i) {
+              api.column(0, { page: 'current' }).data().each(function (group, i) {
                   if (last !== group) {
                       $(rows).eq(i).before('<tr class="group "><td colspan="3" class="rptGrp">' + '<b>Company</b> : ' + group + '</td></tr>');
                       last = group;

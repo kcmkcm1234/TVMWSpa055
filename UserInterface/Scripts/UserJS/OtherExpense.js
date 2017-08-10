@@ -47,9 +47,11 @@ $(document).ready(function () {
         notyAlert('error', x.message);
 
     }
-
+    $('#expenseDetailTable tbody').on('dblclick', 'td', function () {
+        Edit(this)
+    });
 });
-
+    List();
 
 
 function GetAllExpenseDetails(expDate, DefaultDate) {
@@ -85,7 +87,9 @@ function GetAllExpenseDetails(expDate, DefaultDate) {
 
 function Save() {
     try {
+        //$('#myModal').modal('hide')
         $("#btnSaveOtherExpense").trigger('click');
+        $('#AddOtherexpenseModel').modal('hide')
     }
     catch (e) {
         notyAlert('error', e.message);

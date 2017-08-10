@@ -92,7 +92,7 @@
                                         @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control BlockEnter", @autofocus = true } })
                                         @Html.ValidationMessageFor(model => model.CompanyName, "", new { @class = "text-danger" })
                                     </div>
-                                    <div class="col-md-1"></div>
+                                    <div class="col-md-1 mandatory"></div>
                                     <div class="col-md-1"></div>
                                 </div>
 
@@ -205,7 +205,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="col-md-12">
-                                        @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { @class = "form-control BlockEnter", onkeypress = "return isNumber(event)" } })
+                                        @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { @class = "form-control BlockEnter" } })
                                     </div>
 
                                 </div>

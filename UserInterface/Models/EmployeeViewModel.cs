@@ -37,8 +37,12 @@ namespace UserInterface.Models
         public string companyID { get; set; }
         [Display(Name = "General Notes")]
         public string GeneralNotes { get; set; }
+        public string Department { get; set; }
+        public string EmployeeCategory { get; set; }
         public CommonViewModel commonObj { get; set; }
         public List<SelectListItem> CompaniesList { get; set; }
+        public List<SelectListItem> DepartmentList { get; set; }
+        public List<SelectListItem> CategoryList { get; set; }
         public List<SelectListItem> EmployeeTypeList { get; set; }
     }
     public class EmployeeTypeViewModel

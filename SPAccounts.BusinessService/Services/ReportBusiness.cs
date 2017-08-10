@@ -29,6 +29,34 @@ namespace SPAccounts.BusinessService.Services
             return systemReportList;
         }
 
+        public List<OtherExpenseDetailsReport> GetOtherExpenseDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string OrderBy)
+        {
+            List<OtherExpenseDetailsReport> otherExpenseDetailsList = null;
+            try
+            {
+                otherExpenseDetailsList = _reportRepository.GetOtherExpenseDetails(FromDate, ToDate, CompanyCode);
+                if (otherExpenseDetailsList != null)
+                {
+                    switch (OrderBy)
+                    {
+                        case "AH":
+                            otherExpenseDetailsList = otherExpenseDetailsList.OrderBy(OE => OE.AccountHead).ToList();
+                            break;
+
+                        case "ST":
+                            otherExpenseDetailsList = otherExpenseDetailsList.OrderByDescending(OE => OE.SubType).ToList();
+                            break;
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return otherExpenseDetailsList;
+        }
+
         public List<OtherExpenseSummaryReport> GetOtherExpenseSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string OrderBy)
         {
             List<OtherExpenseSummaryReport> otherExpenseSummaryList = null;

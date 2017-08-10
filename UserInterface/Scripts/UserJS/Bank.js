@@ -23,7 +23,8 @@ $(document).ready(function () {
              ],
              columnDefs: [{ "targets": [], "visible": false, "searchable": false },
                   { className: "text-right", "targets": [] },
-             { className: "text-center", "targets": [0,1, 2] }
+                   { className: "text-left", "targets": [1,2] },
+             { className: "text-center", "targets": [0] }
 
              ]
          });

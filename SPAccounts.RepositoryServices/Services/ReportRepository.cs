@@ -124,6 +124,58 @@ namespace SPAccounts.RepositoryServices.Services
             return otherExpenseSummaryList;
         }
 
+
+        public List<OtherExpenseDetailsReport> GetOtherExpenseDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode)
+        {
+            List<OtherExpenseDetailsReport> otherExpenseDetailList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
+                        cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = CompanyCode;
+                        cmd.CommandText = "[Accounts].[RPT_GetOtherExpenseDetails]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                otherExpenseDetailList = new List<OtherExpenseDetailsReport>();
+                                while (sdr.Read())
+                                {
+                                    OtherExpenseDetailsReport otherExpenseDetails = new OtherExpenseDetailsReport();
+                                    {
+                                        otherExpenseDetails.AccountHead = (sdr["AccountHead"].ToString() != "" ? sdr["AccountHead"].ToString() : otherExpenseDetails.AccountHead);
+                                        otherExpenseDetails.SubType = (sdr["Subtype"].ToString() != "" ? sdr["Subtype"].ToString() : otherExpenseDetails.SubType);
+                                        otherExpenseDetails.OriginCompany = (sdr["OriginCompany"].ToString() != "" ? sdr["OriginCompany"].ToString() : otherExpenseDetails.OriginCompany);
+                                        otherExpenseDetails.PaymentMode= (sdr["PaymentMode"].ToString() != "" ? sdr["PaymentMode"].ToString() : otherExpenseDetails.PaymentMode);
+                                       
+                                        otherExpenseDetails.PaymentReference= (sdr["PaymentReference"].ToString() != "" ? sdr["PaymentReference"].ToString() : otherExpenseDetails.PaymentReference);
+                                        otherExpenseDetails.Description= (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : otherExpenseDetails.Description);
+                                        otherExpenseDetails.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : otherExpenseDetails.Amount);
+                                    }
+                                    otherExpenseDetailList.Add(otherExpenseDetails);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return otherExpenseDetailList;
+        }
+
         public List<SaleDetailReport> GetSaleDetail(DateTime? FromDate, DateTime? ToDate, string CompanyCode)
         {
             List<SaleDetailReport> SaleDetailList = null;
