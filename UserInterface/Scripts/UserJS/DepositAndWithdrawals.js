@@ -367,7 +367,7 @@ function ShowDepositModal() {
     $("#tabDepositwithdrawalEntry").text("Deposit Entry");
     $("#lblBankCode").text("Deposit To");
     $("#lblBankDiv").css('display', '');
-   
+    $("#BankCode").val("");
 }
 
 function ShowDepositEdit()
