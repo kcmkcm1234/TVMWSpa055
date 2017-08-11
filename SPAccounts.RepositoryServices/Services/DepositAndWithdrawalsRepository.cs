@@ -69,6 +69,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         _depositAndWithdrawalsObj.BankName = (sdr["BankName"].ToString() != "" ? (sdr["BankName"].ToString()) : _depositAndWithdrawalsObj.BankName);
 
                                         _depositAndWithdrawalsObj.PaymentMode = (sdr["DepositMode"].ToString() != "" ? (sdr["DepositMode"].ToString()) : _depositAndWithdrawalsObj.PaymentMode);
+                                       
                                         if(sdr["TransactionType"].ToString()=="W")
                                         {
                                             _depositAndWithdrawalsObj.ChequeStatus = "";
@@ -81,7 +82,10 @@ namespace SPAccounts.RepositoryServices.Services
                                         {
                                             _depositAndWithdrawalsObj.ChequeStatus = "NotCleared";
                                         }
-                                        
+                                        if (sdr["DepositMode"].ToString() == "ONLINE")
+                                        {
+                                            _depositAndWithdrawalsObj.ChequeStatus = "";
+                                        }
                                     }
                                     depositAndWithdrawalsList.Add(_depositAndWithdrawalsObj);
                                    

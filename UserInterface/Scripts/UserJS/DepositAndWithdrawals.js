@@ -49,7 +49,8 @@ $(document).ready(function () {
 
                           },
                          {
-                            "render": function (data, type, row) {
+                             "render": function (data, type, row) {
+                               
                               return (data == "D" ? "Deposit " : "Withdrawal");
                             },
                             "targets": 1
