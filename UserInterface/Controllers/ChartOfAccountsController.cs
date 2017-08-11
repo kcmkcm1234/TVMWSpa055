@@ -26,6 +26,8 @@ namespace UserInterface.Controllers
         #endregion Constructor_Injection 
 
         // GET: ChartOfAccounts
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "ChartOfAccounts", Mode = "R")]
         public ActionResult Index()
         {
             return View();
@@ -34,6 +36,7 @@ namespace UserInterface.Controllers
 
         #region GetAllChartOfAccounts
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "ChartOfAccounts", Mode = "R")]
         public string GetAllChartOfAccounts()
         {
             try
@@ -52,6 +55,7 @@ namespace UserInterface.Controllers
 
         #region GetChartOfAccountDetails
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "ChartOfAccounts", Mode = "R")]
         public string GetChartOfAccountDetails(string Code)
         {
             try
@@ -72,6 +76,7 @@ namespace UserInterface.Controllers
         #region InsertUpdateChartOfAccounts
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthSecurityFilter(ProjectObject = "ChartOfAccounts", Mode = "W")]
         public string InsertUpdateChartOfAccounts(ChartOfAccountsViewModel _chartOfAccountsObj)
         {
             try
@@ -105,6 +110,7 @@ namespace UserInterface.Controllers
 
         #region DeleteChartOfAccounts
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "ChartOfAccounts", Mode = "D")]
         public string DeleteChartOfAccounts(string code)
         {
 
@@ -128,7 +134,7 @@ namespace UserInterface.Controllers
 
         #region ButtonStyling
         [HttpGet]
-        //[AuthSecurityFilter(ProjectObject = "ChartOfAccounts", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "ChartOfAccounts", Mode = "R")]
         public ActionResult ChangeButtonStyle(string ActionType)
         {
             ToolboxViewModel ToolboxViewModelObj = new ToolboxViewModel();
