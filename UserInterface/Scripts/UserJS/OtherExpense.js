@@ -613,6 +613,7 @@ function AccountCodeOnchange(curobj)
 
 function EmployeeTypeOnchange(curobj)
 {
+    debugger;
     var emptypeselected = $(curobj).val();
     if(emptypeselected)
     {
@@ -630,6 +631,7 @@ function companyChange(curobj) {
 
 function BindEmployeeDropDown(type)
 {
+    debugger;
     try
     {
         var employees = GetAllEmployeesByType(type);
@@ -655,6 +657,7 @@ function BindEmployeeDropDown(type)
 function GetAllEmployeesByType(type)
 {
     try {
+        debugger;
         var data = { "Type": type };
         var ds = {};
         ds = GetDataFromServer("OtherExpenses/GetAllEmployeesByType/", data);
