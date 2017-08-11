@@ -30,5 +30,6 @@ namespace UserInterface.Models
         public CommonViewModel commonObj { get; set; }
         public string isUpdate { get; set; }
         public string hdnCode { get; set; }
+        public string hdnType { get; set; }
     }
 }

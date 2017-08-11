@@ -136,6 +136,7 @@ function FillChartOfAccountDetails(Code) {
     }
     $("#isUpdate").val("1");
     $("#Code").prop('disabled', true);
+    $("#hdnType").val(thisItem.Type);
     $("#hdnCode").val(thisItem.Code);
 }
 
@@ -215,6 +216,7 @@ function ClearFields() {
     $("#Code").prop('disabled', false);
     $("#Type").prop('disabled', false);
     $("#hdnCode").val("");
+    $("#hdnType").val("");
     ResetForm();
     ChangeButtonPatchView("ChartOfAccounts", "btnPatchAdd", "Add"); //ControllerName,id of the container div,Name of the action
 }
