@@ -21,18 +21,20 @@ $(document).ready(function () {
                { "data": null },
                { "data": "chartOfAccountsObj.TypeDesc", "defaultContent": "<i>-</i>" },
                { "data": "PaymentMode", "defaultContent": "<i>-</i>" },
+                
                { "data": "Description", "defaultContent": "<i>-</i>" },
                { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                 { "data": "ExpenseDate", "defaultContent": "<i>-</i>" },
+                 { "data": "companies.Name", "defaultContent": "<i>-</i>" },
                { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' },
                { "data": null, "orderable": false, "defaultContent": '<a data-toggle="tp" data-placement="top" data-delay={"show":2000, "hide":3000} title="Delete" href="#" class="DeleteLink" onclick="Delete(this)"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' },
                { "data": "ID" }
 
              ],
-             columnDefs: [{ "targets": [8], "visible": false, "searchable": false },
-                  { className: "text-left", "targets": [1, 2,3] },
+             columnDefs: [{ "targets": [9], "visible": false, "searchable": false },
+                  { className: "text-left", "targets": [1, 2,3,6] },
              { className: "text-right", "targets": [4] },
-             { className: "text-center", "targets": [5,6,7] }
+             { className: "text-center", "targets": [5,8,7] }
 
              ]
          });
@@ -611,6 +613,7 @@ function AccountCodeOnchange(curobj)
 
 function EmployeeTypeOnchange(curobj)
 {
+    debugger;
     var emptypeselected = $(curobj).val();
     if(emptypeselected)
     {
@@ -628,6 +631,7 @@ function companyChange(curobj) {
 
 function BindEmployeeDropDown(type)
 {
+    debugger;
     try
     {
         var employees = GetAllEmployeesByType(type);
@@ -653,6 +657,7 @@ function BindEmployeeDropDown(type)
 function GetAllEmployeesByType(type)
 {
     try {
+        debugger;
         var data = { "Type": type };
         var ds = {};
         ds = GetDataFromServer("OtherExpenses/GetAllEmployeesByType/", data);

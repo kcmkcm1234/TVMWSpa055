@@ -66,6 +66,9 @@ namespace UserInterface.Models
         [Display(Name = "Tax Amount")]
         public decimal TaxAmount { get; set; }
 
+        [Display(Name = "Shipping and Handling Charges")]
+        public decimal ShippingCharge { get; set; }
+
         [Display(Name = "Net Taxable Amount")]
         public decimal NetTaxableAmount { get; set; }
 

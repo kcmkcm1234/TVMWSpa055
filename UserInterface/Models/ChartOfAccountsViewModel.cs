@@ -11,6 +11,7 @@ namespace UserInterface.Models
     {
         [Required(ErrorMessage = "Code is missing")]
         public string Code { get; set; }
+        [Required(ErrorMessage = "Type is missing")]
         public string Type { get; set; }
         [Display(Name = "Type Description")]
         public string TypeDesc { get; set; }

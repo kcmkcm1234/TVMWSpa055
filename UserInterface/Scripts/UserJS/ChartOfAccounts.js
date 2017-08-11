@@ -39,7 +39,14 @@ $(document).ready(function () {
                       },
                       "targets": 4
 
-                  }
+                  },
+                    {
+                        "render": function (data, type, row) {
+                            return (data == "OE" ? "Other Expense" : "Other Income");
+                        },
+                        "targets": 1
+
+                    }
 
              ]
          });

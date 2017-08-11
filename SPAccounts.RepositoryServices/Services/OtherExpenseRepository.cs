@@ -110,7 +110,8 @@ namespace SPAccounts.RepositoryServices.Services
                                         _otherExpense.companies = new Companies()
                                         {
                                             Code = (sdr["PaidFromComanyCode"].ToString() != "" ? (sdr["PaidFromComanyCode"].ToString()) : string.Empty),
-                                            Name = (sdr["EmpName"].ToString() != "" ? sdr["EmpName"].ToString() : string.Empty)
+                                            Name = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : string.Empty)
+                                            
                                         };
                                         _otherExpense.employee = new Employee()
                                         {
