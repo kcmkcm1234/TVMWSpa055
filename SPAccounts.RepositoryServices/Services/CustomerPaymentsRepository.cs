@@ -49,6 +49,7 @@ namespace SPAccounts.RepositoryServices.Services
                                     {
                                         CustPaymentsObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : CustPaymentsObj.ID);
                                         CustPaymentsObj.PaymentDateFormatted = (sdr["PaymentDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDate"].ToString()).ToString("dd-MMM-yyyy").ToString() : CustPaymentsObj.PaymentDateFormatted);
+                                        CustPaymentsObj.ChequeDate = (sdr["ChequeDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeDate"].ToString()).ToString("dd-MMM-yyyy").ToString() : CustPaymentsObj.ChequeDate);
                                         CustPaymentsObj.PaymentRef = (sdr["PaymentRef"].ToString() != "" ? sdr["PaymentRef"].ToString() : CustPaymentsObj.PaymentRef);
                                         CustPaymentsObj.EntryNo = (sdr["EntryNo"].ToString() != "" ? sdr["EntryNo"].ToString() : CustPaymentsObj.EntryNo);
                                         CustPaymentsObj.PaymentMode = (sdr["PaymentMode"].ToString() != "" ? sdr["PaymentMode"].ToString() : CustPaymentsObj.PaymentMode);
@@ -104,6 +105,7 @@ namespace SPAccounts.RepositoryServices.Services
                                     CustPaymentsObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : CustPaymentsObj.ID);
                                     CustPaymentsObj.RecdToComanyCode = (sdr["RecdToComanyCode"].ToString() != "" ? sdr["RecdToComanyCode"].ToString() : CustPaymentsObj.RecdToComanyCode);
                                     CustPaymentsObj.PaymentDateFormatted = (sdr["PaymentDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDate"].ToString()).ToString("dd-MMM-yyyy").ToString() : CustPaymentsObj.PaymentDateFormatted);
+                                    CustPaymentsObj.ChequeDate = (sdr["ChequeDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeDate"].ToString()).ToString("dd-MMM-yyyy").ToString() : CustPaymentsObj.ChequeDate);
                                     CustPaymentsObj.PaymentRef = (sdr["PaymentRef"].ToString() != "" ? sdr["PaymentRef"].ToString() : CustPaymentsObj.PaymentRef);
                                     CustPaymentsObj.EntryNo = (sdr["EntryNo"].ToString() != "" ? sdr["EntryNo"].ToString() : CustPaymentsObj.EntryNo);
                                     CustPaymentsObj.PaymentMode = (sdr["PaymentMode"].ToString() != "" ? sdr["PaymentMode"].ToString() : CustPaymentsObj.PaymentMode);
@@ -149,6 +151,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = _custPayObj.customerObj.ID;
                         cmd.Parameters.Add("@PaymentDate", SqlDbType.DateTime).Value = _custPayObj.PaymentDate;
+                        cmd.Parameters.Add("@ChequeDate", SqlDbType.DateTime).Value = _custPayObj.ChequeDate;
                         cmd.Parameters.Add("@PaymentMode", SqlDbType.VarChar, 10).Value = _custPayObj.PaymentMode;
                         cmd.Parameters.Add("@BankCode", SqlDbType.VarChar, 10).Value = _custPayObj.BankCode;
                         cmd.Parameters.Add("@PaymentRef", SqlDbType.VarChar, 10).Value = _custPayObj.PaymentRef;
@@ -212,6 +215,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = _custPayObj.ID;
                         cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = Guid.Parse(_custPayObj.hdfCustomerID);
                         cmd.Parameters.Add("@PaymentDate", SqlDbType.DateTime).Value = _custPayObj.PaymentDate;
+                        cmd.Parameters.Add("@ChequeDate", SqlDbType.DateTime).Value = _custPayObj.ChequeDate; 
                         cmd.Parameters.Add("@PaymentMode", SqlDbType.VarChar, 10).Value = _custPayObj.PaymentMode;
                         cmd.Parameters.Add("@Type", SqlDbType.VarChar, 1).Value = _custPayObj.hdfType;
                         cmd.Parameters.Add("@CreditID", SqlDbType.UniqueIdentifier).Value = _custPayObj.hdfCreditID;

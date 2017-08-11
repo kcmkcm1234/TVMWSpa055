@@ -50,6 +50,7 @@ namespace SPAccounts.RepositoryServices.Services
                                     {
                                         PaymentsObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : PaymentsObj.ID);
                                         PaymentsObj.PaymentDateFormatted = (sdr["PaymentDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDate"].ToString()).ToString("dd-MMM-yyyy").ToString() : PaymentsObj.PaymentDateFormatted);
+                                        PaymentsObj.ChequeDate = (sdr["ChequeDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeDate"].ToString()).ToString("dd-MMM-yyyy").ToString() : PaymentsObj.ChequeDate);
                                         PaymentsObj.PaymentRef = (sdr["PaymentRef"].ToString() != "" ? sdr["PaymentRef"].ToString() : PaymentsObj.PaymentRef);
                                         PaymentsObj.EntryNo = (sdr["EntryNo"].ToString() != "" ? sdr["EntryNo"].ToString() : PaymentsObj.EntryNo);
                                         PaymentsObj.PaymentMode = (sdr["PaymentMode"].ToString() != "" ? sdr["PaymentMode"].ToString() : PaymentsObj.PaymentMode);
@@ -102,6 +103,7 @@ namespace SPAccounts.RepositoryServices.Services
                                     PaymentsObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : PaymentsObj.ID);
                                     PaymentsObj.PaidFromComanyCode = (sdr["PaidFromComanyCode"].ToString() != "" ? sdr["PaidFromComanyCode"].ToString() : PaymentsObj.PaidFromComanyCode);
                                     PaymentsObj.PaymentDateFormatted = (sdr["PaymentDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDate"].ToString()).ToString("dd-MMM-yyyy").ToString() : PaymentsObj.PaymentDateFormatted);
+                                    PaymentsObj.ChequeDate = (sdr["ChequeDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeDate"].ToString()).ToString("dd-MMM-yyyy").ToString() : PaymentsObj.ChequeDate);
                                     PaymentsObj.PaymentRef = (sdr["PaymentRef"].ToString() != "" ? sdr["PaymentRef"].ToString() : PaymentsObj.PaymentRef);
                                     PaymentsObj.EntryNo = (sdr["EntryNo"].ToString() != "" ? sdr["EntryNo"].ToString() : PaymentsObj.EntryNo);
                                     PaymentsObj.PaymentMode = (sdr["PaymentMode"].ToString() != "" ? sdr["PaymentMode"].ToString() : PaymentsObj.PaymentMode);
@@ -147,6 +149,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = _supplierPayObj.supplierObj.ID;
                         cmd.Parameters.Add("@PaymentDate", SqlDbType.DateTime).Value = _supplierPayObj.PaymentDate;
+                        cmd.Parameters.Add("@ChequeDate", SqlDbType.DateTime).Value = _supplierPayObj.ChequeDate;
                         cmd.Parameters.Add("@PaymentMode", SqlDbType.VarChar, 10).Value = _supplierPayObj.PaymentMode;
                         cmd.Parameters.Add("@BankCode", SqlDbType.VarChar, 10).Value = _supplierPayObj.BankCode;
                         cmd.Parameters.Add("@PaymentRef", SqlDbType.VarChar, 10).Value = _supplierPayObj.PaymentRef;
@@ -208,6 +211,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = _supplierPayObj.ID;
                         cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = Guid.Parse(_supplierPayObj.hdfSupplierID);
+                        cmd.Parameters.Add("@ChequeDate", SqlDbType.DateTime).Value = _supplierPayObj.ChequeDate;
                         cmd.Parameters.Add("@PaymentDate", SqlDbType.DateTime).Value = _supplierPayObj.PaymentDate;
                         cmd.Parameters.Add("@PaymentMode", SqlDbType.VarChar, 10).Value = _supplierPayObj.PaymentMode;
                         cmd.Parameters.Add("@Type", SqlDbType.VarChar, 1).Value = _supplierPayObj.hdfType;

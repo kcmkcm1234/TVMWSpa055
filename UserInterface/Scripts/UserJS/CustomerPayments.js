@@ -247,6 +247,7 @@ function GetCustomerPaymentsByID(PaymentID) {
     $('#hdfCustomerID').val(thisitem.customerObj.ID);
     $('#Customer').prop('disabled', true);
     $('#PaymentDate').val(thisitem.PaymentDateFormatted);
+    $('#ChequeDate').val(thisitem.ChequeDate);
     $('#PaymentRef').val(thisitem.PaymentRef);
     $('#RecdToComanyCode').val(thisitem.RecdToComanyCode);
     $('#PaymentMode').val(thisitem.PaymentMode);
@@ -315,6 +316,7 @@ function openNavClick() {
     ChangeButtonPatchView('CustomerPayments', 'btnPatchAdd', 'Add');
     $('#Customer').prop('disabled', false);
     $('#BankCode').prop('disabled', true);
+    $('#ChequeDate').prop('disabled', true);
     $('#Type').prop('disabled', false);
     $('#PaymentMode').prop('disabled', false);
     openNav();
@@ -327,6 +329,7 @@ function TypeOnChange() {
         $('#BankCode').val('');
         $('#PaymentMode').prop('disabled', true);
         $('#BankCode').prop('disabled', true);
+        $('#ChequeDate').prop('disabled', true);
         $('#CreditID').prop('disabled', false);
         CaptionChangeCredit()
     }
@@ -581,6 +584,15 @@ function PaymentModeChanged() {
         $("#BankCode").val('');
         $('#BankCode').prop('disabled', true);
     }
+    if ($('#PaymentMode').val() == "CHEQUE") {
+        $('#ChequeDate').prop('disabled', false);
+    }
+    else {
+        $("#BankCode").val('');
+        $('#ChequeDate').prop('disabled', true);
+    }
+
+
 }
 
 function GetCustomerPayments(ID) {
