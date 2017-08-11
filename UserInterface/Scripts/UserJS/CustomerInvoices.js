@@ -45,8 +45,9 @@ $(document).ready(function () {
                { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                  { className: "text-right", "targets": [5,6] },
-             { className: "text-center", "targets": [1,2, 3, 4, 7,8,9,10] }
+                  { className: "text-right", "targets": [5, 6] },
+                   { className: "text-left", "targets": [1,3,8,9] },
+             { className: "text-center", "targets": [2,4,7,10] }
 
              ]
          });
@@ -209,11 +210,12 @@ function SaveSuccess(data, status) {
     var JsonResult = JSON.parse(data)
     switch (JsonResult.Result) {
         case "OK":
+            var res;
             if ($('#ID').val() == "") {
-                Advanceadjustment(); //calling advance adjustment popup if inserting
+                res = Advanceadjustment(); //calling advance adjustment popup if inserting
             }
-            else {
-                var res = notyAlert('success', JsonResult.Message);
+            if (!res) {
+                notyAlert('success', JsonResult.Message);
             }
             $('#ID').val(JsonResult.Records.ID);
             $('#deleteId').val(JsonResult.Records.ID);
@@ -235,11 +237,15 @@ function Advanceadjustment() {
     var customerId= $('#ddlCustomer').val();
     //get advances of customer
     var thisitem = GetCustomerAdvances(customerId);
-    if (thisitem != null) {
+    if (thisitem != null && thisitem.customerObj.AdvanceAmount > 0) {
         $('#AdvanceAmount').text(roundoff(thisitem.customerObj.AdvanceAmount));
         $('#AdvAdjustmentModel').modal('show');
         DataTables.OutStandingInvoices.clear().rows.add(GetOutStandingInvoices(customerId)).draw(false);
         AmountChanged();
+        return true;
+    }
+    else {
+        return false;
     }
 }
 function SaveAdvanceAdujust() {

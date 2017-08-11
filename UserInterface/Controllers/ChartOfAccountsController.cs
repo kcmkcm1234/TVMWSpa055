@@ -1,4 +1,8 @@
-﻿using SPAccounts.UserInterface.SecurityFilter;
+﻿using AutoMapper;
+using Newtonsoft.Json;
+using SPAccounts.BusinessService.Contracts;
+using SPAccounts.DataAccessObject.DTO;
+using SPAccounts.UserInterface.SecurityFilter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +14,123 @@ namespace UserInterface.Controllers
 {
     public class ChartOfAccountsController : Controller
     {
+        #region Constructor_Injection 
+
+        AppConst c = new AppConst();
+        IChartOfAccountsBusiness _chartOfAccountsBusiness;
+       
+        public ChartOfAccountsController(IChartOfAccountsBusiness chartOfAccountsBusiness)
+        {
+            _chartOfAccountsBusiness = chartOfAccountsBusiness;           
+        }
+        #endregion Constructor_Injection 
+
         // GET: ChartOfAccounts
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "ChartOfAccounts", Mode = "R")]
         public ActionResult Index()
         {
             return View();
         }
+
+
+        #region GetAllChartOfAccounts
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "ChartOfAccounts", Mode = "R")]
+        public string GetAllChartOfAccounts()
+        {
+            try
+            {
+
+                List<ChartOfAccountsViewModel> ChartOfAccountsList = Mapper.Map<List<ChartOfAccounts>, List<ChartOfAccountsViewModel>>(_chartOfAccountsBusiness.GetAllChartOfAccounts());
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = ChartOfAccountsList });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion  GetAllChartOfAccounts
+
+        #region GetChartOfAccountDetails
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "ChartOfAccounts", Mode = "R")]
+        public string GetChartOfAccountDetails(string Code)
+        {
+            try
+            {
+
+                ChartOfAccountsViewModel ChartOfAccountsList = Mapper.Map<ChartOfAccounts, ChartOfAccountsViewModel>(_chartOfAccountsBusiness.GetChartOfAccountDetails(Code));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = ChartOfAccountsList });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion  GetChartOfAccountDetails
+
+
+        #region InsertUpdateChartOfAccounts
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AuthSecurityFilter(ProjectObject = "ChartOfAccounts", Mode = "W")]
+        public string InsertUpdateChartOfAccounts(ChartOfAccountsViewModel _chartOfAccountsObj)
+        {
+            try
+            {
+
+                object result = null;
+                AppUA _appUA = Session["AppUA"] as AppUA;
+                _chartOfAccountsObj.commonObj = new CommonViewModel();
+                _chartOfAccountsObj.commonObj.CreatedBy = _appUA.UserName;
+                _chartOfAccountsObj.commonObj.CreatedDate = _appUA.DateTime;
+                _chartOfAccountsObj.commonObj.UpdatedBy = _appUA.UserName;
+                _chartOfAccountsObj.commonObj.UpdatedDate = _appUA.DateTime;
+                if (!string.IsNullOrEmpty(_chartOfAccountsObj.hdnCode))
+                {
+                    _chartOfAccountsObj.Code = _chartOfAccountsObj.hdnCode;
+                    _chartOfAccountsObj.Type = _chartOfAccountsObj.hdnType;
+                }
+
+                result = _chartOfAccountsBusiness.InsertUpdateChartOfAccounts(Mapper.Map<ChartOfAccountsViewModel, ChartOfAccounts>(_chartOfAccountsObj));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+
+            }
+            catch (Exception ex)
+            {
+
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion InsertUpdateChartOfAccounts
+
+        #region DeleteChartOfAccounts
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "ChartOfAccounts", Mode = "D")]
+        public string DeleteChartOfAccounts(string code)
+        {
+
+            try
+            {
+                object result = null;
+
+                result = _chartOfAccountsBusiness.DeleteChartOfAccounts(code);
+                return JsonConvert.SerializeObject(new { Result = "OK", Message = result });
+
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+
+
+        }
+        #endregion DeleteChartOfAccounts 
 
         #region ButtonStyling
         [HttpGet]

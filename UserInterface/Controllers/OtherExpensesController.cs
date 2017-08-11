@@ -158,6 +158,20 @@ namespace UserInterface.Controllers
         }
         #endregion  GetAllEmployeeTypes
 
+        public string GetEmployeeCompanyDetails(string ID)
+        {
+            try
+            {
+                List<EmployeeViewModel> employeeViewModelList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_otherExpenseBusiness.GetCompanybyEmployee(Guid.Parse(ID)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = employeeViewModelList });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+
         #region GetAllOtherExpenses
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "OtherExpense", Mode = "R")]

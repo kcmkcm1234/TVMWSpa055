@@ -227,7 +227,7 @@ namespace UserInterface.Controllers
             DateTime dt = DateTime.Now;
             ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
-            OtherExpenseDetailsViewModel otherExpenseDetailsViewModel = new OtherExpenseDetailsViewModel();
+            OtherExpenseDetailsReportViewModel otherExpenseDetailsViewModel = new OtherExpenseDetailsReportViewModel();
             List<SelectListItem> selectListItem = new List<SelectListItem>();
             otherExpenseDetailsViewModel.companiesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_companiesBusiness.GetAllCompanies());
             if (otherExpenseDetailsViewModel.companiesList != null)
@@ -259,27 +259,27 @@ namespace UserInterface.Controllers
             return View(otherExpenseDetailsViewModel);
         }
 
-        //[HttpGet]
-        //[AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
-        //public string GetOtherExpenseSummary(string FromDate, string ToDate, string CompanyCode)
-        //{
-        //    if (!string.IsNullOrEmpty(CompanyCode))
-        //    {
-        //        try
-        //        {
-        //            DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
-        //            DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-        //            List<OtherExpenseSummaryReportViewModel> otherExpenseSummaryReportList = Mapper.Map<List<OtherExpenseSummaryReport>, List<OtherExpenseSummaryReportViewModel>>(_reportBusiness.GetOtherExpenseSummary(FDate, TDate, CompanyCode));
-        //            return JsonConvert.SerializeObject(new { Result = "OK", Records = otherExpenseSummaryReportList });
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
-        //        }
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        public string GetOtherExpenseDetails(string FromDate, string ToDate, string CompanyCode, string OrderBy)
+        {
+            if (!string.IsNullOrEmpty(CompanyCode))
+            {
+                try
+                {
+                    DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
+                    DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
+                    List<OtherExpenseDetailsReportViewModel> otherExpenseDetailsReportList = Mapper.Map<List<OtherExpenseDetailsReport>, List<OtherExpenseDetailsReportViewModel>>(_reportBusiness.GetOtherExpenseDetails(FDate, TDate, CompanyCode,OrderBy));
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = otherExpenseDetailsReportList });
+                }
+                catch (Exception ex)
+                {
+                    return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+                }
 
-        //    }
-        //    return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
-        //}
+            }
+            return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
+        }
 
 
         #region ButtonStyling

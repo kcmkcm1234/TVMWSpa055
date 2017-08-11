@@ -178,6 +178,7 @@ namespace SPAccounts.RepositoryServices.Services
                                     SIList.GrossAmount = (sdr["GrossAmount"].ToString() != "" ? Decimal.Parse(sdr["GrossAmount"].ToString()) : SIList.GrossAmount);
                                     SIList.Discount = (sdr["Discount"].ToString() != "" ? Decimal.Parse(sdr["Discount"].ToString()) : SIList.Discount);
                                     SIList.TaxAmount = (sdr["TaxAmount"].ToString() != "" ? Decimal.Parse(sdr["TaxAmount"].ToString()) : SIList.TaxAmount);
+                                    SIList.ShippingCharge = (sdr["ShippingCharge"].ToString() != "" ? Decimal.Parse(sdr["ShippingCharge"].ToString()) : SIList.ShippingCharge);
                                     SIList.TaxPercApplied = (sdr["TaxPercApplied"].ToString() != "" ? Decimal.Parse(sdr["TaxPercApplied"].ToString()) : SIList.TaxPercApplied);
                                     SIList.Notes = (sdr["GeneralNotes"].ToString() != "" ? (sdr["GeneralNotes"].ToString()) : SIList.Notes);
                                     SIList.TaxTypeObj = new TaxTypes();
@@ -235,6 +236,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@TaxTypeCode", SqlDbType.VarChar, 10).Value = _supplierInvoicesObj.TaxCode != "" ? _supplierInvoicesObj.TaxCode : null;
                         cmd.Parameters.Add("@TaxPreApplied", SqlDbType.Decimal).Value = _supplierInvoicesObj.TaxPercApplied;
                         cmd.Parameters.Add("@TaxAmount", SqlDbType.Decimal).Value = _supplierInvoicesObj.TaxAmount;                       
+                        cmd.Parameters.Add("@ShippingCharge", SqlDbType.Decimal).Value = _supplierInvoicesObj.ShippingCharge;
                         cmd.Parameters.Add("@GeneralNotes", SqlDbType.NVarChar, -1).Value = _supplierInvoicesObj.Notes;
                         cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = _supplierInvoicesObj.commonObj.CreatedBy;
                         cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = _supplierInvoicesObj.commonObj.CreatedDate;
@@ -300,6 +302,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@Discount", SqlDbType.Decimal).Value = _supplierInvoicesObj.Discount;
                         cmd.Parameters.Add("@TaxTypeCode", SqlDbType.VarChar, 10).Value = _supplierInvoicesObj.TaxCode != "" ? _supplierInvoicesObj.TaxCode : null;
                         cmd.Parameters.Add("@TaxPreApplied", SqlDbType.Decimal).Value = _supplierInvoicesObj.TaxPercApplied;
+                        cmd.Parameters.Add("@ShippingCharge", SqlDbType.Decimal).Value = _supplierInvoicesObj.ShippingCharge;
                         cmd.Parameters.Add("@TaxAmount", SqlDbType.Decimal).Value = _supplierInvoicesObj.TaxAmount;                       
                         cmd.Parameters.Add("@GeneralNotes", SqlDbType.NVarChar, -1).Value = _supplierInvoicesObj.Notes;
                         cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = _supplierInvoicesObj.commonObj.UpdatedBy;

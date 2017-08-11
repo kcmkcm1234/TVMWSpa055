@@ -36,7 +36,8 @@ $(document).ready(function () {
             ],
             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                 { className: "text-right", "targets": [8, 9] },
-                { className: "text-center", "targets": [1, 2, 3, 4, 5, 6, 7, 10] }
+                 { className: "text-Left", "targets": [4, 5, 6, 7] },
+                { className: "text-center", "targets": [1, 2, 3,10] }
             ]
         });
     }
@@ -240,6 +241,7 @@ function GetSupplierPaymentsByID(PaymentID) {
     $('#hdfSupplierID').val(thisitem.supplierObj.ID);
     $('#Supplier').prop('disabled', true);
     $('#PaymentDate').val(thisitem.PaymentDateFormatted);
+    $('#ChequeDate').val(thisitem.ChequeDate);
     $('#PaymentRef').val(thisitem.PaymentRef);
     $('#PaidFromComanyCode').val(thisitem.PaidFromComanyCode);
     $('#PaymentMode').val(thisitem.PaymentMode);
@@ -310,6 +312,7 @@ function openNavClick() {
     ChangeButtonPatchView('SupplierPayments', 'btnPatchAdd', 'Add');
     $('#Supplier').prop('disabled', false);
     $('#BankCode').prop('disabled', true);
+    $('#ChequeDate').prop('disabled', true);
     $('#Type').prop('disabled', false);
     $('#PaymentMode').prop('disabled', false);
     openNav();
@@ -322,6 +325,7 @@ function TypeOnChange() {
         $('#BankCode').val('');
         $('#PaymentMode').prop('disabled', true);
         $('#BankCode').prop('disabled', true);
+        $('#ChequeDate').prop('disabled', true);
         $('#CreditID').prop('disabled', false);
         CaptionChangeCredit()
     }
@@ -576,6 +580,13 @@ function PaymentModeChanged() {
     else {
         $("#BankCode").val('');
         $('#BankCode').prop('disabled', true);
+    }
+    if ($('#PaymentMode').val() == "CHEQUE") {
+        $('#ChequeDate').prop('disabled', false);
+    }
+    else {
+        $("#BankCode").val('');
+        $('#ChequeDate').prop('disabled', true);
     }
 }
 

@@ -20,7 +20,7 @@ $(document).ready(function () {
                { "data": "Code", "defaultContent": "<i>-</i>" },
                { "data": "Name", "defaultContent": "<i>-</i>" },
      
-               { "data": "employeeTypeObj.Name", "defaultContent": "<i>-</i>" },
+               //{ "data": "employeeTypeObj.Name", "defaultContent": "<i>-</i>" },
                { "data": "companies.Name", "defaultContent": "<i>-</i>" },
                   { "data": "Department", "defaultContent": "<i>-</i>" },
                  { "data": "EmployeeCategory", "defaultContent": "<i>-</i>" },
@@ -28,8 +28,8 @@ $(document).ready(function () {
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                  
-                    
-             { className: "text-center", "targets": [1,2,3, 4, 5,6,7] }
+               { className: "text-left", "targets": [2] },
+             { className: "text-center", "targets": [1,3,5,6] }
 
              ]
          });

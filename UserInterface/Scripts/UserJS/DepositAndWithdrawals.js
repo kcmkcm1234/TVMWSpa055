@@ -21,24 +21,36 @@ $(document).ready(function () {
                { "data": "ReferenceNo", "defaultContent": "<i>-</i>" },
                { "data": "DateFormatted", "defaultContent": "<i>-</i>" },
                { "data": "BankName", "defaultContent": "<i>-</i>" },
-                { "data": "DepositMode", "defaultContent": "<i>-</i>" },
+                { "data": "PaymentMode", "defaultContent": "<i>-</i>" },
                  { "data": "ChequeStatus", "defaultContent": "<i>-</i>" },
                { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                { "data": null, "orderable": false, "defaultContent": '<a href="#" title="Edit DepositWithdrawal" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }              
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                   { className: "text-right", "targets": [7] },
-                    { className: "text-left", "targets": [] },
-             { className: "text-center", "targets": [1, 2, 3, 4,5,8, 6] },
+                    { className: "text-left", "targets": [1,2,4,5,6] },
+             { className: "text-center", "targets": [3,8] },
                           {
                               "render": function (data, type, row) {
-                                  return (data == "Cleared" ? "Cleared " : "Not Cleared");
+                                  if (data == "Cleared")
+                                  {
+                                      return "Cleared";
+                                  }
+                                  else if (data == "NotCleared")
+                                  {
+                                      return "Not Cleared ";
+                                  }
+                                  else
+                                  {
+                                      return "NA";
+                                  }
                               },
                               "targets": 6
 
                           },
                          {
-                            "render": function (data, type, row) {
+                             "render": function (data, type, row) {
+                               
                               return (data == "D" ? "Deposit " : "Withdrawal");
                             },
                             "targets": 1
@@ -86,7 +98,7 @@ $(document).ready(function () {
        });
 
         $("#PaymentMode option[value=ONLINE]").remove();
-
+        $("#ChequeStatus").prop('disabled', true);
     } catch (x) {
 
         notyAlert('error', x.message);
@@ -179,7 +191,16 @@ function FillDepositWithdrawalDetails(ID) {
     $("#BankCodeModal").val(thisItem.BankCode);
     $("#GeneralNotes").val(thisItem.GeneralNotes);
     $("#ChequeStatus").val(thisItem.ChequeStatus);
+    $("#PaymentMode").val(thisItem.PaymentMode);
     $("#PaymentMode option[value=ONLINE]").remove();
+    if (thisItem.TransactionType == "D")
+    {
+        $("#lblPaymentMode").text("Deposit Mode");
+    }
+    else
+    {
+        $("#lblPaymentMode").text("Withdrawal Mode");
+    }
     DepositModeOnchange();
 }
 
@@ -227,8 +248,10 @@ function ClearFields() {
     $("#ChequeStatus").val("");
     $("#BankCodeModal").val("");
     $("#PaymentMode").val("");
+    $("#lblPaymentMode").text("Deposit Mode");
     ResetForm();
     $("#PaymentMode option[value=ONLINE]").remove();
+    $("#ChequeStatus").prop('disabled', true);
 }
 
 //-----------------------------------------Reset Validation Messages--------------------------------------//
@@ -354,7 +377,8 @@ function ShowDepositModal() {
     $("#tabDepositwithdrawalEntry").text("Deposit Entry");
     $("#lblBankCode").text("Deposit To");
     $("#lblBankDiv").css('display', '');
-   
+    $("#BankCode").val("");
+    $("#lblPaymentMode").text("Deposit Mode");
 }
 
 function ShowDepositEdit()
@@ -406,6 +430,7 @@ function ClearCheque()
                         $("#AddDepositAndWithdrawalModel").modal('hide');
                         notyAlert('success', "Success");
                         CheckedIDs.length = 0;
+                        BindDepositAndWithdrawals();
                         break;
                     case "ERROR":
                         notyAlert('error', JsonResult.Message.Message);
@@ -425,7 +450,7 @@ function SaveDeposit()
     try {
         if ($("#TransactionType").val() == "")
         {
-            if ($("#AddOrEditSpan").text() == "") {
+            if ($("#AddOrEditSpan").text() == "Deposit") {
                 $("#TransactionType").val('D');
             }
             else
@@ -474,6 +499,7 @@ function ShowWithDrawal()
     $("#tabDepositwithdrawalEntry").text("Withdrawal Entry");
     $("#lblBankCode").text("Withdrawal From");
     $("#lblBankDiv").css('display', '');
+    $("#lblPaymentMode").text("Withdrawal Mode");
 }
 function ShowChequeClear()
 {
@@ -522,12 +548,13 @@ function SaveCheckedDeposit()
                     DepositAndWithdrwalViewModel.ReferenceNo = SelectedRows[r].ReferenceNo;
                     DepositAndWithdrwalViewModel.Amount = SelectedRows[r].Amount;
                     DepositAndWithdrwalViewModel.BankCode = $("#BankCode").val();
-                    DepositAndWithdrwalViewModel.DepositMode = $("#PaymentMode").val();
-                    if ($("#ChequeStatus").val() == "")
-                    {
+                    //DepositAndWithdrwalViewModel.DepositMode = $("#PaymentMode").val();
+                    DepositAndWithdrwalViewModel.PaymentMode = "CHEQUE";
+                    //if ($("#ChequeStatus").val() == "")
+                    //{
                         DepositAndWithdrwalViewModel.ChequeStatus = "NotCleared";
-                    }
-                    DepositAndWithdrwalViewModel.ChequeStatus = $("#ChequeStatus").val();
+                    //}
+                    //DepositAndWithdrwalViewModel.ChequeStatus = $("#ChequeStatus").val();
                     ar.push(DepositAndWithdrwalViewModel);
                 }
                 $("#DepositRowValues").val(JSON.stringify(ar));

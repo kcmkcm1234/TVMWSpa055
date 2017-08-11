@@ -21,18 +21,20 @@ $(document).ready(function () {
                { "data": null },
                { "data": "chartOfAccountsObj.TypeDesc", "defaultContent": "<i>-</i>" },
                { "data": "PaymentMode", "defaultContent": "<i>-</i>" },
+                
                { "data": "Description", "defaultContent": "<i>-</i>" },
                { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                 { "data": "ExpenseDate", "defaultContent": "<i>-</i>" },
+                 { "data": "companies.Name", "defaultContent": "<i>-</i>" },
                { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' },
                { "data": null, "orderable": false, "defaultContent": '<a data-toggle="tp" data-placement="top" data-delay={"show":2000, "hide":3000} title="Delete" href="#" class="DeleteLink" onclick="Delete(this)"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' },
                { "data": "ID" }
 
              ],
-             columnDefs: [{ "targets": [8], "visible": false, "searchable": false },
-                  { className: "text-left", "targets": [1, 2,3] },
+             columnDefs: [{ "targets": [9], "visible": false, "searchable": false },
+                  { className: "text-left", "targets": [1, 2,3,6] },
              { className: "text-right", "targets": [4] },
-             { className: "text-center", "targets": [5,6,7] }
+             { className: "text-center", "targets": [5,8,7] }
 
              ]
          });
@@ -51,7 +53,8 @@ $(document).ready(function () {
         Edit(this)
     });
 });
-    List();
+
+
 
 
 function GetAllExpenseDetails(expDate, DefaultDate) {
@@ -611,11 +614,28 @@ function AccountCodeOnchange(curobj)
 
 function EmployeeTypeOnchange(curobj)
 {
+    
     var emptypeselected = $(curobj).val();
     if(emptypeselected)
     {
         BindEmployeeDropDown(emptypeselected);
         if ($("#EmpTypeCode").val() != "") $("#sbtyp").html($("#EmpTypeCode option:selected").text());
+    }
+}
+
+function SelectEmployeeCompanyOnchange(curObj)
+{
+    try {
+        debugger;
+        var ID = curObj.value;
+        var OtherExpenseViewModel = GetEmployeesCompany(ID);
+        debugger;
+
+        $('#CompanyCode').val(OtherExpenseViewModel[0].companies.Code);
+       
+    }
+    catch (e) {
+
     }
 }
 function companyChange(curobj) {
@@ -628,6 +648,7 @@ function companyChange(curobj) {
 
 function BindEmployeeDropDown(type)
 {
+    debugger;
     try
     {
         var employees = GetAllEmployeesByType(type);
@@ -641,6 +662,7 @@ function BindEmployeeDropDown(type)
 
             }
         }
+
        
 
     }
@@ -653,6 +675,7 @@ function BindEmployeeDropDown(type)
 function GetAllEmployeesByType(type)
 {
     try {
+        debugger;
         var data = { "Type": type };
         var ds = {};
         ds = GetDataFromServer("OtherExpenses/GetAllEmployeesByType/", data);
@@ -664,6 +687,26 @@ function GetAllEmployeesByType(type)
         }
         if (ds.Result == "ERROR") {
             notyAlert('error', ds.Message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
+function GetEmployeesCompany(ID) {
+    try {
+        var data = { "ID": ID };
+        var ds = {};
+        ds = GetDataFromServer("OtherExpenses/GetEmployeeCompanyDetails/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            alert(ds.Message);
         }
     }
     catch (e) {

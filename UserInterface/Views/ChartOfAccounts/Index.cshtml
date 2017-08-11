@@ -44,10 +44,9 @@
                     <tr class="text-center TableHead">
                         <th>Code</th>
                         <th>Type</th>
-                        <th>Payment Mode</th>
-                        <th>Balance</th>
-                        <th>Date</th>
-                        <th>Is Employee</th>
+                        <th>Type Description</th>                        
+                        <th>Is Subtype Applicable</th>
+                        <th>Is Reverse</th>
                         <th>...</th>
 
                     </tr>
@@ -86,6 +85,7 @@
                     @Html.AntiForgeryToken()
                     @Html.HiddenFor(model => model.isUpdate, htmlAttributes: new { @class = "", Value = "0" })
                     @Html.HiddenFor(model => model.hdnCode, htmlAttributes: new { @class = "", Value = "" })
+                    @Html.HiddenFor(model => model.hdnType, htmlAttributes: new { @class = "", Value = "" })
                     @*<div class="col-md-12 headSeperator"><i class="fa fa-th ig-yellow" aria-hidden="true"></i> Basic Details</div>*@
                     <div class="col-md-12">
                         <div class="col-md-4">
@@ -115,7 +115,14 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="col-md-10">
-                                        @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter", @id = "Type" } })
+                                       @{
+                                           List<SelectListItem> listType = new List<SelectListItem>();
+                                           listType.Add(new SelectListItem
+                                           { Text = "Other Expense", Value = "OE" });
+                                           listType.Add(new SelectListItem
+                                           { Text = "Other Income", Value = "OI" });
+                                    }
+                                    @Html.DropDownListFor(model => model.Type, listType, "-- Select Type --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "Type" })
                                         @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
                                     </div>
                                     <div class="col-md-1"></div>
@@ -143,14 +150,31 @@
 
                             <div class="form-group col-md-12">
                                 <div class="col-md-12">
-                                    @Html.LabelFor(model => model.OpeningPaymentMode, htmlAttributes: new { @class = "control-label" })
+                                    @Html.LabelFor(model => model.ISEmploy, htmlAttributes: new { @class = "control-label" })
 
 
                                 </div>
                                 <div class="col-md-12">
                                     <div class="col-md-10">
-                                        @Html.EditorFor(model => model.OpeningPaymentMode, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter" } })
-                                        @Html.ValidationMessageFor(model => model.OpeningPaymentMode, "", new { @class = "text-danger" })
+                                        @Html.CheckBoxFor(model => model.ISEmploy, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter" } })
+                                        @Html.ValidationMessageFor(model => model.ISEmploy, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-1"></div>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group col-md-12">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => model.IsReverse, htmlAttributes: new { @class = "control-label" })
+
+
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-10">
+                                        @Html.CheckBoxFor(model => model.IsReverse, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter" } })
+                                        @Html.ValidationMessageFor(model => model.IsReverse, "", new { @class = "text-danger" })
                                     </div>
                                     <div class="col-md-1"></div>
                                     <div class="col-md-1"></div>
@@ -175,7 +199,7 @@
 
                     <div class="form-group" hidden="hidden">
                         <div class="col-md-offset-2 col-md-10">
-                            <input id="btnInsertUpdateBank" type="submit" value="Create" class="btn btn-default" />
+                            <input id="btnInsertUpdateChartOfAccounts" type="submit" value="Create" class="btn btn-default" />
                         </div>
                     </div>
 
@@ -192,4 +216,11 @@
 
     </div>
 </section>
+
+
+@section Scripts {
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/ChartOfAccounts")
+}
 

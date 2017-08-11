@@ -36,8 +36,9 @@ try{
              { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink" onclick="Edit(this)"><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
         ],
         columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-            { className: "text-right", "targets": [8,9] },
-            { className: "text-center", "targets": [1, 2, 3,4,5,6,7,10] } 
+            { className: "text-right", "targets": [8, 9] },
+              { className: "text-Left", "targets": [1, 4, 3, 5, 6, 7] },
+            { className: "text-center", "targets": [2,10] } 
         ]
     });        
 }
@@ -246,6 +247,7 @@ function GetCustomerPaymentsByID(PaymentID) {
     $('#hdfCustomerID').val(thisitem.customerObj.ID);
     $('#Customer').prop('disabled', true);
     $('#PaymentDate').val(thisitem.PaymentDateFormatted);
+    $('#ChequeDate').val(thisitem.ChequeDate);
     $('#PaymentRef').val(thisitem.PaymentRef);
     $('#RecdToComanyCode').val(thisitem.RecdToComanyCode);
     $('#PaymentMode').val(thisitem.PaymentMode);
@@ -314,6 +316,7 @@ function openNavClick() {
     ChangeButtonPatchView('CustomerPayments', 'btnPatchAdd', 'Add');
     $('#Customer').prop('disabled', false);
     $('#BankCode').prop('disabled', true);
+    $('#ChequeDate').prop('disabled', true);
     $('#Type').prop('disabled', false);
     $('#PaymentMode').prop('disabled', false);
     openNav();
@@ -326,6 +329,7 @@ function TypeOnChange() {
         $('#BankCode').val('');
         $('#PaymentMode').prop('disabled', true);
         $('#BankCode').prop('disabled', true);
+        $('#ChequeDate').prop('disabled', true);
         $('#CreditID').prop('disabled', false);
         CaptionChangeCredit()
     }
@@ -580,6 +584,15 @@ function PaymentModeChanged() {
         $("#BankCode").val('');
         $('#BankCode').prop('disabled', true);
     }
+    if ($('#PaymentMode').val() == "CHEQUE") {
+        $('#ChequeDate').prop('disabled', false);
+    }
+    else {
+        $("#BankCode").val('');
+        $('#ChequeDate').prop('disabled', true);
+    }
+
+
 }
 
 function GetCustomerPayments(ID) {

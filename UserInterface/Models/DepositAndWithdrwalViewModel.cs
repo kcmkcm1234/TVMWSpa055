@@ -35,8 +35,10 @@ namespace UserInterface.Models
         public List<DepositAndWithdrwalViewModel> CheckedRows { get; set; }
         public string DepositMode { get; set; }
         [Display(Name = "Cheque Status")]
+        [Required(ErrorMessage = "Cheque Status is missing")]
         public string ChequeStatus { get; set; }
         [Display(Name = "Deposit Mode")]
+        [Required(ErrorMessage = "Deposit Mode is missing")]
         public string PaymentMode { get; set; }
         public List<SelectListItem> paymentModeList { get; set; }
     }
