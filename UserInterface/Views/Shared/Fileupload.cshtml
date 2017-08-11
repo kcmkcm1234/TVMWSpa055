@@ -4,18 +4,18 @@
         <div class="form-group col-md-12">
             <div class="col-md-12">
                 <div class="col-md-12">
-                    <div class="col-md-6" style="min-height:250px;border:1px solid #ccc;border-right:none;color:dimgrey;background-color:#f9f9f9;margin-top:1%">
+                    <div class="col-md-6" style="min-height:250px;max-height:250px;border:1px solid #ccc;border-right:none;color:dimgrey;background-color:#f9f9f9;margin-top:1%">
                         New attachments
-                        <div class="col-md-12" id="UploadPreview" style="margin-top:2%;max-height:240px;background-color:#f9f9f9;overflow-x:auto">
+                        <div class="col-md-12" id="UploadPreview" style="margin-top:2%;max-height:222px;background-color:#f9f9f9;overflow-x:auto">
                             
                         </div>
                        
                     </div>
-                    <div class="col-md-6" style="min-height:250px;border:1px solid #ccc;border-left:none;color:dimgrey;margin-top:1%">
+                    <div class="col-md-6" style="min-height:250px;max-height:250px;border:1px solid #ccc;border-left:none;color:dimgrey;margin-top:1%">
                         Existing attachments
-                        <div class="col-md-12" id="ExistingPreview" style="margin-top:2%;max-height:240px;overflow-x:auto">
+                        <div class="col-md-12" id="ExistingPreview" style="margin-top:2%;max-height:222px;overflow-x:auto">
                             @*<div class="file-drop-zone">*@
-                                <div class="file-preview-thumbnails">
+                                @*<div class="file-preview-thumbnails">
 
                                     <div class="file-preview-frame krajee-default  kv-preview-thumb">
                                         <div class="kv-file-content">
@@ -94,7 +94,7 @@
 
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>*@
 
                             @*</div>*@
                             
@@ -105,6 +105,7 @@
                 </div>
             <div class="col-md-12">
                 <div class="col-md-8" style="max-height:50px;margin-top:1%;">
+                    <input type="hidden" id="hdnFileSizebytes" value=0 />
                     <input type="file" multiple id="FileUpload1" style="display:none;" onchange="BindFiles()"/>
                     <input type="button"  id="btnUpload" value="Upload Files" class="btn uploadbtn" />
                     <input type="button" id="btnCancel" value="Cancel All" onclick="cancelAll()" class="btn" style="color:#000000;font-weight:500;"/>
@@ -117,77 +118,28 @@
         </div>
     </div>
 <script>
-    function validateType(ext)
-    {
-        if(ext.match(/(doc|docx)$/i))
-        {
-            //doc
-            return '<i class="fa fa-file-word-o text-primary"></i>';
-        }
-        if(ext.match(/(xls|xlsx)$/i))
-        {
-            //xls
-            return '<i class="fa fa-file-excel-o text-success"></i>';
-        }
-        if(ext.match(/(ppt|pptx)$/i))
-        {
-            //ppt
-            return '<i class="fa fa-file-powerpoint-o text-danger"></i>';
-        }
-        if(ext.match(/(zip|rar|tar|gzip|gz|7z)$/i))
-        {
-            //zip
-            return '<i class="fa fa-file-archive-o text-muted"></i>';
-        }
-        if(ext.match(/(php|js|css|htm|html)$/i))
-        {
-            //htm
-            return '<i class="fa fa-file-code-o text-info"></i>';
-        }
-        if(ext.match(/(txt|ini|md)$/i))
-        {
-            //txt
-            return '<i class="fa fa-file-text-o text-info"></i>';
-        }
-        if(ext.match(/(avi|mpg|mkv|mov|mp4|3gp|webm|wmv)$/i))
-        {
-            //mov
-            return '<i class="fa fa-file-movie-o text-warning"></i>';
-        }
-        if(ext.match(/(mp3|wav)$/i))
-        {
-            //mp3
-            return '<i class="fa fa-file-audio-o text-warning"></i>';
-        }
-        if(ext.match(/(jpg|png|jpeg)$/i))
-        {
-            return '<i class="fa fa-file-photo-o text-warning"></i>';
-        }
-        if(ext.match(/(pdf)$/i))
-        {
-            return '<i class="fa fa-file-pdf-o text-danger"></i>';
-        }
-    }
+    
     function cancelAll()
     {
         $('#UploadPreview').empty();
         $('#UploadPreview').append('New attachments');
         var file = document.getElementById('FileUpload1');
         file.value = '';
+        $('#hdnFileSizebytes').val(0);
+        if ($('#ID').val()!="")
+        PaintImages($('#ID').val());
     }
 function BindFiles()
-{
+    {
+    debugger;
     var fileUpload = $("#FileUpload1").get(0);
     var files = fileUpload.files;
-
-    // Create FormData object  
-    //var fileData = new FormData();
 
     // Looping over all files and add it to FormData object  
     $('#UploadPreview').empty();
     for (var i = 0; i < files.length; i++) {
 
-        var html = '<div class="col-md-12 list"><img src="/Content/images/circle.png"/><span>' + (files[i].name).substring(0, 25) + '</span><a href="javascript:void(0)" onclick="Attachment_Remove(this)" style="float:right;"><img src="/Content/images/listdlt.png"/></a></div>'
+        var html = '<div class="col-md-12 list"><img src="/Content/images/circle.png"/><span>' + (files[i].name).substring(0, 25) + '</span><a href="javascript:void(0)" fileguid="'+files[i].lastModified+'" onclick="Attachment_Remove(this)" style="float:right;"><img src="/Content/images/listdlt.png"/></a></div>'
         $('#UploadPreview').append(html);
     }
 }

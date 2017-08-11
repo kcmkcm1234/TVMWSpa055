@@ -1,4 +1,7 @@
-﻿using SPAccounts.BusinessService.Contracts;
+﻿using AutoMapper;
+using Newtonsoft.Json;
+using SPAccounts.BusinessService.Contracts;
+using SPAccounts.DataAccessObject.DTO;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,18 +29,17 @@ namespace UserInterface.Controllers
             // Checking no of files injected in Request object  
             if (Request.Files.Count > 0)
             {
+                Guid FileID = Guid.NewGuid();
+                FileUpload _fileObj = new FileUpload();
                 try
                 {
                     //  Get all files from Request object  
                     HttpFileCollectionBase files = Request.Files;
                     for (int i = 0; i < files.Count; i++)
                     {
-                        //string path = AppDomain.CurrentDomain.BaseDirectory + "Uploads/";  
-                        //string filename = Path.GetFileName(Request.Files[i].FileName);  
-
+                        FileUpload fileuploadObj = new FileUpload();
                         HttpPostedFileBase file = files[i];
                         string fname;
-
                         // Checking for Internet Explorer  
                         if (Request.Browser.Browser.ToUpper() == "IE" || Request.Browser.Browser.ToUpper() == "INTERNETEXPLORER")
                         {
@@ -47,23 +49,57 @@ namespace UserInterface.Controllers
                         else
                         {
                             fname = file.FileName;
-                        }
-
-                        // Get the complete folder path and store the file inside it.  
+                        } 
+                        fileuploadObj.AttachmentURL = "/Content/Uploads/" + fname;
+                        fileuploadObj.FileSize = file.ContentLength.ToString();
+                        fileuploadObj.FileType = file.ContentType;
+                        fileuploadObj.FileName = fname;
+                        fileuploadObj.ParentID = Request["ParentID"].ToString()!=""?Guid.Parse(Request["ParentID"].ToString()):FileID;
+                        fileuploadObj.ParentType = Request["ParentID"].ToString() != "" ? Request["ParentType"]:null;
+                        fileuploadObj.commonObj = new Common();
+                        fileuploadObj.commonObj.CreatedBy = "Thomson";
+                        fileuploadObj.commonObj.CreatedDate = DateTime.Now;
+                        fileuploadObj.commonObj.UpdatedBy = "Thomson";
+                        fileuploadObj.commonObj.UpdatedDate = DateTime.Now;
+                        _fileObj = _fileUploadBusiness.InsertAttachment(fileuploadObj);
                         fname = Path.Combine(Server.MapPath("~/Content/Uploads/"), fname);
                         file.SaveAs(fname);
                     }
-                    // Returns message that successfully uploaded  
-                    return Json("File Uploaded Successfully!");
+                    if(_fileObj.ParentID==FileID)
+                    {
+                        return Json(new { Result = "OK", Message = "File Uploaded Successfully!", Records = _fileObj });
+                    }
+                    else
+                    {
+                       // _fileObj.ParentID = Guid.Empty;
+                        return Json(new { Result = "OK", Message = "File Uploaded Successfully!", Records = _fileObj });
+                    }
+                    
                 }
                 catch (Exception ex)
                 {
-                    return Json("Error occurred. Error details: " + ex.Message);
+                    return Json(new { Result = "Error", Message = "Error occurred. Error details: " + ex.Message });
                 }
             }
             else
             {
-                return Json("No files selected.");
+                return Json(new { Result = "Error", Message = "No files selected." });
+            }
+        }
+        [HttpGet]
+        public string GetAttachments(string ID)
+        {
+            try
+            {
+
+                List<FileUpload> AttachmentList = new List<FileUpload>();
+                AttachmentList = _fileUploadBusiness.GetAttachments(Guid.Parse(ID));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = AttachmentList });
+            }
+            catch (Exception ex)
+            {
+                //AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
             }
         }
     }

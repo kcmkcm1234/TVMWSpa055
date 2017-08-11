@@ -2,10 +2,19 @@
 var emptyGUID = '00000000-0000-0000-0000-000000000000'
 $(document).ready(function () {
     try {
+        debugger;
         $('#btnUpload').click(function () {
             //Pass the controller name
             var FileObject = new Object;
-            FileObject.ParentID = $('#ID').val();
+            if ($('#hdnFileDupID').val() != emptyGUID)
+            {
+                FileObject.ParentID = (($('#ID').val()) != "" ? ($('#ID').val()) : $('#hdnFileDupID').val());
+            }
+            else
+            {
+                FileObject.ParentID = $('#ID').val();
+            }
+            
             FileObject.ParentType = "CusInvoice";
             FileObject.Controller = "FileUpload";
             UploadFile(FileObject);
@@ -478,6 +487,7 @@ function AddNew()
     $('#ddlCustomer').prop('disabled', false);
     ChangeButtonPatchView('CustomerInvoices', 'btnPatchAdd', 'Add');
     openNav();
+    clearUploadControl();
 }
 
 function Reset() {
@@ -512,7 +522,8 @@ function PaintInvoiceDetails()
     $('#lblinvoicedAmt').text(CustomerInvoicesViewModel.TotalInvoiceAmountstring);
     $('#lblpaidAmt').text(CustomerInvoicesViewModel.PaidAmountstring);
     $('#lblbalalnceAmt').text(CustomerInvoicesViewModel.BalanceDuestring);
-
+    clearUploadControl();
+    PaintImages(InvoiceID);
 
 }
 //---------------Bind logics-------------------

@@ -1,0 +1,23 @@
+CREATE OR REPLACE FUNCTION public.get_dashboard_counts(
+	)
+    RETURNS TABLE(role_count bigint, account_count bigint, user_count bigint, unit_count bigint) 
+    LANGUAGE 'plpgsql'
+
+AS $BODY$
+
+Declare l_role_count bigint;
+Declare l_account_count bigint;
+Declare l_user_count bigint;
+Declare l_unit_count bigint;
+BEGIN
+
+Select Count(*) INTO l_role_count From public.user_role;
+select Count(*) INTO l_account_count From public.account;
+Select Count(*) INTO l_user_count From public.user;
+select Count(*) INTO l_unit_count From public.asset;
+
+RETURN QUERY select l_role_count,l_account_count,l_user_count,l_unit_count;
+
+END;
+
+$BODY$;

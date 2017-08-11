@@ -25,6 +25,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public String Notes { get; set; }
 
         public string hdfCustomerID { get; set; }
+        public Guid hdnFileID { get; set; }
 
         public Companies companiesObj { get; set; }
         public Customer customerObj { get; set; }

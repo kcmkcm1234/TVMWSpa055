@@ -9,5 +9,6 @@ namespace SPAccounts.RepositoryServices.Contracts
     public interface IFileUploadRepository
     {
         FileUpload InsertAttachment(FileUpload fileUploadObj);
+        List<FileUpload> GetAttachments(Guid ID);
     }
 }

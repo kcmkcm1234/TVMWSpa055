@@ -40,11 +40,13 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@AttachmentURL", SqlDbType.NVarChar, -1).Value = fileUploadObj.AttachmentURL;
                         cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = fileUploadObj.commonObj.CreatedBy;
                         cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = fileUploadObj.commonObj.CreatedDate;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = fileUploadObj.commonObj.UpdatedBy;
+                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = fileUploadObj.commonObj.UpdatedDate;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         outputID = cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier);
                         outputID.Direction = ParameterDirection.Output;
-                        outputParentID = cmd.Parameters.Add("@ParentID", SqlDbType.UniqueIdentifier);
+                        outputParentID = cmd.Parameters.Add("@DemoID", SqlDbType.UniqueIdentifier);
                         outputParentID.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();
 
@@ -75,6 +77,55 @@ namespace SPAccounts.RepositoryServices.Services
                 throw ex;
             }
             return fileUploadObj;
+        }
+        public List<FileUpload> GetAttachments(Guid ID)
+        {
+            List<FileUpload> AttachmentList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetAttachments]";
+                        cmd.Parameters.Add("@ParentID", SqlDbType.UniqueIdentifier).Value = ID;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                AttachmentList = new List<FileUpload>();
+                                while (sdr.Read())
+                                {
+                                    FileUpload FileObj = new FileUpload();
+                                    {
+                                        FileObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : FileObj.ID);
+                                        FileObj.ParentID= (sdr["ParentID"].ToString() != "" ? Guid.Parse(sdr["ParentID"].ToString()) : FileObj.ParentID);
+                                        FileObj.ParentType =(sdr["ParentType"].ToString());
+                                        FileObj.FileName = sdr["FileName"].ToString();
+                                        FileObj.FileType = sdr["FileType"].ToString();
+                                        FileObj.FileSize = sdr["FileSize"].ToString() ;
+                                        FileObj.AttachmentURL = sdr["AttachmentURL"].ToString();
+                                    }
+                                    AttachmentList.Add(FileObj);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return AttachmentList;
         }
     }
 }

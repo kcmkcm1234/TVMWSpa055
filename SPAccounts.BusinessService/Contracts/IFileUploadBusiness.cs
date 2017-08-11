@@ -9,5 +9,6 @@ namespace SPAccounts.BusinessService.Contracts
     public interface IFileUploadBusiness
     {
         FileUpload InsertAttachment(FileUpload fileUploadObj);
+        List<FileUpload> GetAttachments(Guid ID);
     }
 }

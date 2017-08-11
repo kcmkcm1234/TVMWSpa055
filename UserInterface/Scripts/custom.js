@@ -311,11 +311,8 @@ function showLoader() {
         $(".preloader").show();
     } catch (e) {
 
-    }
-   
-   
+    }   
 }
-
  
 function hideLoader() {
     try {
@@ -323,10 +320,7 @@ function hideLoader() {
     } catch (e) {
 
     }
-   
-   
 }
-
 
 function roundoff(num) {
     return (Math.round(num * 100) / 100).toFixed(2);
@@ -341,15 +335,11 @@ function roundoff(num, opt) {
 var Messages = {
      
 }
-
 //DATE FORMAT
 function IsVaildDateFormat(date) {
     var regExp = /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]|(?:Jan|Mar|May|Jul|Aug|Oct|Dec)))\1|(?:(?:29|30)(\/|-|\.)(?:0?[1,3-9]|1[0-2]|(?:Jan|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec))\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)(?:0?2|(?:Feb))\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9]|(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep))|(?:1[0-2]|(?:Oct|Nov|Dec)))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/;
     return regExp.test(date);
 }
-
-
-
 function openNav() {
    
     var left = $(".main-sidebar").width();
@@ -373,13 +363,10 @@ function openNav() {
 
     
 }
-
 function closeNav() {
     document.getElementById("myNav").style.left = "100%";
     $('#main').fadeIn();
 }
-
-
 $('.EntryForms').scroll(function () {
     var scroll = $('.EntryForms').scrollTop();
 
@@ -392,7 +379,6 @@ $('.EntryForms').scroll(function () {
         $("#OverlayHeader").removeClass("OverlayHeader");
     }
 });
-
 function UploadFile(FileObject)
 {
     debugger;
@@ -400,7 +386,7 @@ function UploadFile(FileObject)
 
         // Checking whether FormData is available in browser  
         if (window.FormData !== undefined) {
-
+            debugger;
             var fileUpload = $("#FileUpload1").get(0);
             var files = fileUpload.files;
             if (files.length > 0)
@@ -410,7 +396,15 @@ function UploadFile(FileObject)
 
                 // Looping over all files and add it to FormData object  
                 for (var i = 0; i < files.length; i++) {
+                    debugger;
                     fileData.append(files[i].name, files[i]);
+                    var filesize = (parseInt($('#hdnFileSizebytes').val())) + files[i].size;
+                    $('#hdnFileSizebytes').val(filesize);
+                    if(parseInt($('#hdnFileSizebytes').val())>10485760)
+                    {
+                        notyAlert('error', "File size exceeds the limit 10 MB");
+                        return false;
+                    }
                 }
 
                 // Adding one more key to FormData object  
@@ -423,7 +417,17 @@ function UploadFile(FileObject)
                     processData: false, // Not to process data  
                     data: fileData,
                     success: function (result) {
-                        alert(result);
+                        if (result.Result == "OK")
+                        {
+                            $('#hdnFileDupID').val(result.Records.ParentID);
+                            notyAlert('success', result.Message);
+                            PaintImages(result.Records.ParentID);
+                        }
+                        else if(result.Result=="ERROR")
+                        {
+                            notyAlert('error', result.Message);
+                        }
+
                     },
                     error: function (err) {
                         alert(err.statusText);
@@ -432,12 +436,121 @@ function UploadFile(FileObject)
             }
             
         } else {
-            alert("FormData is not supported.");
+            notyAlert('error', 'FormData is not supported.');
         }
    // });
 }
+function PaintImages(ID)
+{
+    try {
+        debugger;
+        var data = { "ID": ID };
+        var ds = {};
+        ds = GetDataFromServer("FileUpload/GetAttachments/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            //ds.Records
+            debugger;
+            if (ds.Records != null)
+            {
+                $('#ExistingPreview').empty();
+                var filesize = 0;
+                for (var i = 0; i < ds.Records.length; i++) {
+                    var html = "";
+                    html = '<div class="file-preview-thumbnails">'
+                                        + '  <div class="file-preview-frame krajee-default  kv-preview-thumb">'
+                                             + ' <div class="kv-file-content">'
+                                                 + ' <div class="kv-preview-data file-preview-other-frame">'
+                                                     + ' <div class="file-preview-other">'
+                                                        + '  <span class="file-other-icon">' + validateType(ds.Records[i].FileName) + '</span>'
+                                                     + ' </div>'
+                                                  + '</div>'
+                                              + '</div>'
+                                            + '  <div class="file-thumbnail-footer">'
+                                                 + ' <div class="file-footer-caption" title="' + ds.Records[i].FileName + '">' + ds.Records[i].FileName + '<br> <samp>(' + bytesToSize(ds.Records[i].FileSize) + ')</samp></div>'
 
-
+                                           + '   </div>'
+                                       + '   </div>'
+                                      + '</div>'
+                    $('#ExistingPreview').append(html);
+                    filesize = filesize + parseInt(ds.Records[i].FileSize);
+                }
+                $('#hdnFileSizebytes').val(filesize);
+            }
+            
+        }
+        if (ds.Result == "ERROR") {
+            notyAlert('error', ds.Message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+function clearUploadControl()
+{
+    $('#UploadPreview').empty();
+    $('#UploadPreview').append('New attachments');
+    var file = document.getElementById('FileUpload1');
+    file.value = '';
+    $('#hdnFileSizebytes').val(0);
+    $('#hdnFileDupID').val('00000000-0000-0000-0000-000000000000');
+    $('#ExistingPreview').empty();
+}
+function validateType(ext) {
+    debugger;
+    if (ext.match(/(doc|docx)$/i)) {
+        //doc
+        return '<i class="fa fa-file-word-o text-primary"></i>';
+    }
+    if (ext.match(/(xls|xlsx)$/i)) {
+        //xls
+        return '<i class="fa fa-file-excel-o text-success"></i>';
+    }
+    if (ext.match(/(ppt|pptx)$/i)) {
+        //ppt
+        return '<i class="fa fa-file-powerpoint-o text-danger"></i>';
+    }
+    if (ext.match(/(zip|rar|tar|gzip|gz|7z)$/i)) {
+        //zip
+        return '<i class="fa fa-file-archive-o text-muted"></i>';
+    }
+    if (ext.match(/(php|js|css|htm|html)$/i)) {
+        //htm
+        return '<i class="fa fa-file-code-o text-info"></i>';
+    }
+    if (ext.match(/(txt|ini|md)$/i)) {
+        //txt
+        return '<i class="fa fa-file-text-o text-info"></i>';
+    }
+    if (ext.match(/(avi|mpg|mkv|mov|mp4|3gp|webm|wmv)$/i)) {
+        //mov
+        return '<i class="fa fa-file-movie-o text-warning"></i>';
+    }
+    if (ext.match(/(mp3|wav)$/i)) {
+        //mp3
+        return '<i class="fa fa-file-audio-o text-warning"></i>';
+    }
+    if (ext.match(/(jpg|png|jpeg)$/i)) {
+        return '<i class="fa fa-file-photo-o text-warning"></i>';
+    }
+    if (ext.match(/(pdf)$/i)) {
+        return '<i class="fa fa-file-pdf-o text-danger"></i>';
+    }
+    else
+    {
+        return '<i class="fa fa-file-text-o text-danger"></i>';
+    }
+}
+function bytesToSize(bytes) {
+    debugger;
+    var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    if (bytes == 0) return '0 Byte';
+    var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+    return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+}
 function ShowAttachmentsTable() {
     var table = document.getElementById("filelist");
     while (table.firstChild) table.removeChild(table.firstChild);
@@ -445,7 +558,7 @@ function ShowAttachmentsTable() {
     AppendToFileList(fileArray);
 }
 function AppendToFileList(list) {
-    var table = document.getElementById("filelist");
+    var table = document.getElementById("FileUpload1");
 
     for (var i = 0; i < list.length; i++) {
         var item = list[i];
@@ -460,32 +573,31 @@ function AppendToFileList(list) {
         td4.innerHTML = "[<a href='javascript:void(0)' onclick='Attachment_Remove(this)'>remove</a>]";
     }
 }
-
 function Attachment_FindRow(element) {
+    debugger;
     while (true) {
-        if (element.nodeName == "TR")
+        if (element.nodeName == "A")
             return element;
         element = element.parentNode;
     }
 }
 
 function Attachment_Remove(link) {
+    debugger;
+    return;
     var row = Attachment_FindRow(link);
     if (!confirm("Are you sure you want to delete '" + row.getAttribute("filename") + "'?"))
         return;
-
     var guid = row.getAttribute("fileguid");
-
-    var table = document.getElementById("filelist");
+    var table = document.getElementById("FileUpload1");
     table.deleteRow(row.rowIndex);
-
-    for (var i = 0; i < fileArray.length; i++) {
-        if (fileArray[i].FileID == guid) {
-            fileArray.splice(i, 1);
-            break;
-        }
-    }
-    CheckFileCount();
+    //for (var i = 0; i < fileArray.length; i++) {
+    //    if (fileArray[i].FileID == guid) {
+    //        fileArray.splice(i, 1);
+    //        break;
+    //    }
+    //}
+   // CheckFileCount();
 }
 
 function CuteWebUI_AjaxUploader_OnPostback() {

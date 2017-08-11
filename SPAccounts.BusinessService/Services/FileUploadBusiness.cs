@@ -19,5 +19,9 @@ namespace SPAccounts.BusinessService.Services
         {
             return _fileRepository.InsertAttachment(fileUploadObj);
         }
+        public List<FileUpload> GetAttachments(Guid ID)
+        {
+            return _fileRepository.GetAttachments(ID);
+        }
     }
 }
