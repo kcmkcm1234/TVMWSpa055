@@ -39,7 +39,14 @@ $(document).ready(function () {
                       },
                       "targets": 4
 
-                  }
+                  },
+                    {
+                        "render": function (data, type, row) {
+                            return (data == "OE" ? "Other Expense" : "Other Income");
+                        },
+                        "targets": 1
+
+                    }
 
              ]
          });
@@ -111,6 +118,7 @@ function FillChartOfAccountDetails(Code) {
     debugger;
     $("#Code").val(thisItem.Code);
     $("#Type").val(thisItem.Type);
+    $("#Type").prop('disabled', true);
     $("#TypeDesc").val(thisItem.TypeDesc);
     if (thisItem.ISEmploy == true)
     {
@@ -128,6 +136,7 @@ function FillChartOfAccountDetails(Code) {
     }
     $("#isUpdate").val("1");
     $("#Code").prop('disabled', true);
+    $("#hdnType").val(thisItem.Type);
     $("#hdnCode").val(thisItem.Code);
 }
 
@@ -205,7 +214,9 @@ function ClearFields() {
     $("#Type").val("");
     $("#TypeDesc").val("");
     $("#Code").prop('disabled', false);
+    $("#Type").prop('disabled', false);
     $("#hdnCode").val("");
+    $("#hdnType").val("");
     ResetForm();
     ChangeButtonPatchView("ChartOfAccounts", "btnPatchAdd", "Add"); //ControllerName,id of the container div,Name of the action
 }

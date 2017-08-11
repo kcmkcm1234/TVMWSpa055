@@ -47,7 +47,6 @@ $(document).ready(function () {
                    
                      if (last !== group) {
                          $(rows).eq(i).before('<tr class="group "><td colspan="7" class="rptGrp">' + '<b>Company</b> : ' + group + '</td></tr>');
-                         
                          last = group;
                      }
                      //if (api.column(6, { page: 'current' }).data().count() === i)

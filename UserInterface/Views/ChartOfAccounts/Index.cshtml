@@ -85,6 +85,7 @@
                     @Html.AntiForgeryToken()
                     @Html.HiddenFor(model => model.isUpdate, htmlAttributes: new { @class = "", Value = "0" })
                     @Html.HiddenFor(model => model.hdnCode, htmlAttributes: new { @class = "", Value = "" })
+                    @Html.HiddenFor(model => model.hdnType, htmlAttributes: new { @class = "", Value = "" })
                     @*<div class="col-md-12 headSeperator"><i class="fa fa-th ig-yellow" aria-hidden="true"></i> Basic Details</div>*@
                     <div class="col-md-12">
                         <div class="col-md-4">

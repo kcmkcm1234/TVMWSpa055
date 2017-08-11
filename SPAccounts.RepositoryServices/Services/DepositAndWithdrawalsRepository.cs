@@ -67,8 +67,21 @@ namespace SPAccounts.RepositoryServices.Services
                                         _depositAndWithdrawalsObj.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : _depositAndWithdrawalsObj.Amount);
                                         _depositAndWithdrawalsObj.DateFormatted = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(s.dateformat) : _depositAndWithdrawalsObj.DateFormatted);
                                         _depositAndWithdrawalsObj.BankName = (sdr["BankName"].ToString() != "" ? (sdr["BankName"].ToString()) : _depositAndWithdrawalsObj.BankName);
+
                                         _depositAndWithdrawalsObj.PaymentMode = (sdr["DepositMode"].ToString() != "" ? (sdr["DepositMode"].ToString()) : _depositAndWithdrawalsObj.PaymentMode);
-                                        _depositAndWithdrawalsObj.ChequeStatus = (sdr["ChequeStatus"].ToString() != "" ? (sdr["ChequeStatus"].ToString()) : _depositAndWithdrawalsObj.ChequeStatus);
+                                        if(sdr["TransactionType"].ToString()=="W")
+                                        {
+                                            _depositAndWithdrawalsObj.ChequeStatus = "";
+                                        }
+                                        else
+                                        {
+                                            _depositAndWithdrawalsObj.ChequeStatus = (sdr["ChequeStatus"].ToString() != "" ? (sdr["ChequeStatus"].ToString()) : _depositAndWithdrawalsObj.ChequeStatus);
+                                        }
+                                        if(sdr["TransactionType"].ToString() == "D" && sdr["DepositMode"].ToString()=="CHEQUE" && sdr["ChequeStatus"].ToString()=="")
+                                        {
+                                            _depositAndWithdrawalsObj.ChequeStatus = "NotCleared";
+                                        }
+                                        
                                     }
                                     depositAndWithdrawalsList.Add(_depositAndWithdrawalsObj);
                                    
@@ -152,7 +165,14 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[InsertDepositAndWithdrawals]";
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = _depositAndWithdrawalsObj.Date;
+                        if(_depositAndWithdrawalsObj.Date!=default(DateTime))
+                        {
+                            cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = _depositAndWithdrawalsObj.Date;
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = null;
+                        }                       
                         cmd.Parameters.Add("@TransactionType", SqlDbType.Char, 1).Value = _depositAndWithdrawalsObj.TransactionType;
                         cmd.Parameters.Add("@ReferenceNo", SqlDbType.VarChar, 20).Value = _depositAndWithdrawalsObj.ReferenceNo;                                     
                         cmd.Parameters.Add("@BankCode", SqlDbType.VarChar, 5).Value = _depositAndWithdrawalsObj.BankCode;                       

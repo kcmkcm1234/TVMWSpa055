@@ -87,6 +87,7 @@ namespace UserInterface.Controllers
                 if (!string.IsNullOrEmpty(_chartOfAccountsObj.hdnCode))
                 {
                     _chartOfAccountsObj.Code = _chartOfAccountsObj.hdnCode;
+                    _chartOfAccountsObj.Type = _chartOfAccountsObj.hdnType;
                 }
 
                 result = _chartOfAccountsBusiness.InsertUpdateChartOfAccounts(Mapper.Map<ChartOfAccountsViewModel, ChartOfAccounts>(_chartOfAccountsObj));
