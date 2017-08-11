@@ -201,11 +201,12 @@ function SaveSuccess(data, status) {
     var JsonResult = JSON.parse(data)
     switch (JsonResult.Result) {
         case "OK":
+            var res;
             if ($('#ID').val() == "") {
-                Advanceadjustment(); //calling advance adjustment popup if inserting
+                res = Advanceadjustment(); //calling advance adjustment popup if inserting
             }
-            else {
-                var res = notyAlert('success', JsonResult.Message);
+            if (!res) {
+                notyAlert('success', JsonResult.Message);
             }
             $('#ID').val(JsonResult.Records.ID);
             $('#deleteId').val(JsonResult.Records.ID);
@@ -227,11 +228,15 @@ function Advanceadjustment() {
     var customerId= $('#ddlCustomer').val();
     //get advances of customer
     var thisitem = GetCustomerAdvances(customerId);
-    if (thisitem != null) {
+    if (thisitem != null && thisitem.customerObj.AdvanceAmount > 0) {
         $('#AdvanceAmount').text(roundoff(thisitem.customerObj.AdvanceAmount));
         $('#AdvAdjustmentModel').modal('show');
         DataTables.OutStandingInvoices.clear().rows.add(GetOutStandingInvoices(customerId)).draw(false);
         AmountChanged();
+        return true;
+    }
+    else {
+        return false;
     }
 }
 function SaveAdvanceAdujust() {

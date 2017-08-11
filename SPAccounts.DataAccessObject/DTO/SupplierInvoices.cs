@@ -18,6 +18,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal Discount { get; set; }
         public decimal TaxPercApplied { get; set; }
         public decimal TaxAmount { get; set; }
+        public decimal ShippingCharge { get; set; }
         public int DueDays { get; set; }
         public decimal TotalInvoiceAmount { get; set; }
         public String Notes { get; set; }

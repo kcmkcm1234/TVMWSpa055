@@ -67,7 +67,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         _depositAndWithdrawalsObj.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : _depositAndWithdrawalsObj.Amount);
                                         _depositAndWithdrawalsObj.DateFormatted = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(s.dateformat) : _depositAndWithdrawalsObj.DateFormatted);
                                         _depositAndWithdrawalsObj.BankName = (sdr["BankName"].ToString() != "" ? (sdr["BankName"].ToString()) : _depositAndWithdrawalsObj.BankName);
-                                        _depositAndWithdrawalsObj.DepositMode = (sdr["DepositMode"].ToString() != "" ? (sdr["DepositMode"].ToString()) : _depositAndWithdrawalsObj.DepositMode);
+                                        _depositAndWithdrawalsObj.PaymentMode = (sdr["DepositMode"].ToString() != "" ? (sdr["DepositMode"].ToString()) : _depositAndWithdrawalsObj.PaymentMode);
                                         _depositAndWithdrawalsObj.ChequeStatus = (sdr["ChequeStatus"].ToString() != "" ? (sdr["ChequeStatus"].ToString()) : _depositAndWithdrawalsObj.ChequeStatus);
                                     }
                                     depositAndWithdrawalsList.Add(_depositAndWithdrawalsObj);
@@ -119,7 +119,7 @@ namespace SPAccounts.RepositoryServices.Services
                                     _depositAndWithdrawalsObj.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : _depositAndWithdrawalsObj.Amount);
                                     _depositAndWithdrawalsObj.DateFormatted = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(s.dateformat) : _depositAndWithdrawalsObj.DateFormatted);
                                     _depositAndWithdrawalsObj.ChequeStatus = (sdr["ChequeStatus"].ToString() != "" ? (sdr["ChequeStatus"].ToString()) : _depositAndWithdrawalsObj.ChequeStatus);
-                                    _depositAndWithdrawalsObj.DepositMode = (sdr["DepositMode"].ToString() != "" ? (sdr["DepositMode"].ToString()) : _depositAndWithdrawalsObj.DepositMode);
+                                    _depositAndWithdrawalsObj.PaymentMode = (sdr["DepositMode"].ToString() != "" ? (sdr["DepositMode"].ToString()) : _depositAndWithdrawalsObj.PaymentMode);
                                 }
                         }
                     }
@@ -158,7 +158,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@BankCode", SqlDbType.VarChar, 5).Value = _depositAndWithdrawalsObj.BankCode;                       
                         cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = _depositAndWithdrawalsObj.Amount;
                         cmd.Parameters.Add("@ChequeStatus", SqlDbType.NVarChar, 10).Value = _depositAndWithdrawalsObj.ChequeStatus;
-                        cmd.Parameters.Add("@DepositMode", SqlDbType.NVarChar, 10).Value = _depositAndWithdrawalsObj.DepositMode;
+                        cmd.Parameters.Add("@DepositMode", SqlDbType.NVarChar, 10).Value = _depositAndWithdrawalsObj.PaymentMode;
                         cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = _depositAndWithdrawalsObj.commonObj.CreatedBy;
                         cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = _depositAndWithdrawalsObj.commonObj.CreatedDate;
                         cmd.Parameters.Add("@GeneralNotes", SqlDbType.VarChar, -1).Value = _depositAndWithdrawalsObj.GeneralNotes;
@@ -219,7 +219,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@BankCode", SqlDbType.VarChar, 5).Value = _depositAndWithdrawalsObj.BankCode;
                         cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = _depositAndWithdrawalsObj.Amount;
                         cmd.Parameters.Add("@ChequeStatus", SqlDbType.NVarChar, 10).Value = _depositAndWithdrawalsObj.ChequeStatus;
-                        cmd.Parameters.Add("@DepositMode", SqlDbType.NVarChar, 10).Value = _depositAndWithdrawalsObj.DepositMode;
+                        cmd.Parameters.Add("@DepositMode", SqlDbType.NVarChar, 10).Value = _depositAndWithdrawalsObj.PaymentMode;
                         cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = _depositAndWithdrawalsObj.commonObj.UpdatedBy;
                         cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = _depositAndWithdrawalsObj.commonObj.UpdatedDate;
                         cmd.Parameters.Add("@GeneralNotes", SqlDbType.VarChar, -1).Value = _depositAndWithdrawalsObj.GeneralNotes;
