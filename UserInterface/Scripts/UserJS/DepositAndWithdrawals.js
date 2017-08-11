@@ -32,7 +32,18 @@ $(document).ready(function () {
              { className: "text-center", "targets": [3,8] },
                           {
                               "render": function (data, type, row) {
-                                  return (data == "Cleared" ? "Cleared " : "-", data == "NotCleared" ? "Not Cleared " : "-");
+                                  if (data == "Cleared")
+                                  {
+                                      return "Cleared";
+                                  }
+                                  else if (data == "NotCleared")
+                                  {
+                                      return "Not Cleared ";
+                                  }
+                                  else
+                                  {
+                                      return "-";
+                                  }
                               },
                               "targets": 6
 
@@ -524,12 +535,13 @@ function SaveCheckedDeposit()
                     DepositAndWithdrwalViewModel.ReferenceNo = SelectedRows[r].ReferenceNo;
                     DepositAndWithdrwalViewModel.Amount = SelectedRows[r].Amount;
                     DepositAndWithdrwalViewModel.BankCode = $("#BankCode").val();
-                    DepositAndWithdrwalViewModel.DepositMode = $("#PaymentMode").val();
-                    if ($("#ChequeStatus").val() == "")
-                    {
+                    //DepositAndWithdrwalViewModel.DepositMode = $("#PaymentMode").val();
+                    DepositAndWithdrwalViewModel.PaymentMode = "CHEQUE";
+                    //if ($("#ChequeStatus").val() == "")
+                    //{
                         DepositAndWithdrwalViewModel.ChequeStatus = "NotCleared";
-                    }
-                    DepositAndWithdrwalViewModel.ChequeStatus = $("#ChequeStatus").val();
+                    //}
+                    //DepositAndWithdrwalViewModel.ChequeStatus = $("#ChequeStatus").val();
                     ar.push(DepositAndWithdrwalViewModel);
                 }
                 $("#DepositRowValues").val(JSON.stringify(ar));
