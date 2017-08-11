@@ -61,6 +61,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string PaymentReference { get; set; }
         public string Description { get; set; }
         public decimal Amount { get; set; }
+        public string Company { get; set; }
         public string OriginCompany { get; set; }
     }
 }

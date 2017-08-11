@@ -25,7 +25,8 @@ $(document).ready(function () {
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                   { className: "text-right", "targets": [4] },
-             { className: "text-center", "targets": [1, 2, 3, 5] }
+                   { className: "text-Left", "targets": [1,2] },
+             { className: "text-center", "targets": [3,5] }
 
              ]
          });

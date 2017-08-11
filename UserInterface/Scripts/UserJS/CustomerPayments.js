@@ -36,8 +36,9 @@ try{
              { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink" onclick="Edit(this)"><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
         ],
         columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-            { className: "text-right", "targets": [8,9] },
-            { className: "text-center", "targets": [1, 2, 3,4,5,6,7,10] } 
+            { className: "text-right", "targets": [8, 9] },
+              { className: "text-Left", "targets": [1, 4, 3, 5, 6, 7] },
+            { className: "text-center", "targets": [2,10] } 
         ]
     });        
 }
