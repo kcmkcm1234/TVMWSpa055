@@ -67,8 +67,21 @@ namespace SPAccounts.RepositoryServices.Services
                                         _depositAndWithdrawalsObj.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : _depositAndWithdrawalsObj.Amount);
                                         _depositAndWithdrawalsObj.DateFormatted = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(s.dateformat) : _depositAndWithdrawalsObj.DateFormatted);
                                         _depositAndWithdrawalsObj.BankName = (sdr["BankName"].ToString() != "" ? (sdr["BankName"].ToString()) : _depositAndWithdrawalsObj.BankName);
+
                                         _depositAndWithdrawalsObj.PaymentMode = (sdr["DepositMode"].ToString() != "" ? (sdr["DepositMode"].ToString()) : _depositAndWithdrawalsObj.PaymentMode);
-                                        _depositAndWithdrawalsObj.ChequeStatus = (sdr["ChequeStatus"].ToString() != "" ? (sdr["ChequeStatus"].ToString()) : _depositAndWithdrawalsObj.ChequeStatus);
+                                        if(sdr["TransactionType"].ToString()=="W")
+                                        {
+                                            _depositAndWithdrawalsObj.ChequeStatus = "";
+                                        }
+                                        else
+                                        {
+                                            _depositAndWithdrawalsObj.ChequeStatus = (sdr["ChequeStatus"].ToString() != "" ? (sdr["ChequeStatus"].ToString()) : _depositAndWithdrawalsObj.ChequeStatus);
+                                        }
+                                        if(sdr["TransactionType"].ToString() == "D" && sdr["DepositMode"].ToString()=="CHEQUE" && sdr["ChequeStatus"].ToString()=="")
+                                        {
+                                            _depositAndWithdrawalsObj.ChequeStatus = "NotCleared";
+                                        }
+                                        
                                     }
                                     depositAndWithdrawalsList.Add(_depositAndWithdrawalsObj);
                                    

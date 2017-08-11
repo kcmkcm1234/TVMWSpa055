@@ -42,7 +42,7 @@ $(document).ready(function () {
                                   }
                                   else
                                   {
-                                      return "-";
+                                      return "NA";
                                   }
                               },
                               "targets": 6
@@ -192,6 +192,14 @@ function FillDepositWithdrawalDetails(ID) {
     $("#ChequeStatus").val(thisItem.ChequeStatus);
     $("#PaymentMode").val(thisItem.PaymentMode);
     $("#PaymentMode option[value=ONLINE]").remove();
+    if (thisItem.TransactionType == "D")
+    {
+        $("#lblPaymentMode").text("Deposit Mode");
+    }
+    else
+    {
+        $("#lblPaymentMode").text("Withdrawal Mode");
+    }
     DepositModeOnchange();
 }
 
@@ -239,6 +247,7 @@ function ClearFields() {
     $("#ChequeStatus").val("");
     $("#BankCodeModal").val("");
     $("#PaymentMode").val("");
+    $("#lblPaymentMode").text("Deposit Mode");
     ResetForm();
     $("#PaymentMode option[value=ONLINE]").remove();
     $("#ChequeStatus").prop('disabled', true);
@@ -368,6 +377,7 @@ function ShowDepositModal() {
     $("#lblBankCode").text("Deposit To");
     $("#lblBankDiv").css('display', '');
     $("#BankCode").val("");
+    $("#lblPaymentMode").text("Deposit Mode");
 }
 
 function ShowDepositEdit()
@@ -419,6 +429,7 @@ function ClearCheque()
                         $("#AddDepositAndWithdrawalModel").modal('hide');
                         notyAlert('success', "Success");
                         CheckedIDs.length = 0;
+                        BindDepositAndWithdrawals();
                         break;
                     case "ERROR":
                         notyAlert('error', JsonResult.Message.Message);
@@ -438,7 +449,7 @@ function SaveDeposit()
     try {
         if ($("#TransactionType").val() == "")
         {
-            if ($("#AddOrEditSpan").text() == "") {
+            if ($("#AddOrEditSpan").text() == "Deposit") {
                 $("#TransactionType").val('D');
             }
             else
@@ -487,6 +498,7 @@ function ShowWithDrawal()
     $("#tabDepositwithdrawalEntry").text("Withdrawal Entry");
     $("#lblBankCode").text("Withdrawal From");
     $("#lblBankDiv").css('display', '');
+    $("#lblPaymentMode").text("Withdrawal Mode");
 }
 function ShowChequeClear()
 {
