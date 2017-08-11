@@ -53,7 +53,8 @@ $(document).ready(function () {
         Edit(this)
     });
 });
-    List();
+
+
 
 
 function GetAllExpenseDetails(expDate, DefaultDate) {
@@ -613,12 +614,28 @@ function AccountCodeOnchange(curobj)
 
 function EmployeeTypeOnchange(curobj)
 {
-    debugger;
+    
     var emptypeselected = $(curobj).val();
     if(emptypeselected)
     {
         BindEmployeeDropDown(emptypeselected);
         if ($("#EmpTypeCode").val() != "") $("#sbtyp").html($("#EmpTypeCode option:selected").text());
+    }
+}
+
+function SelectEmployeeCompanyOnchange(curObj)
+{
+    try {
+        debugger;
+        var ID = curObj.value;
+        var OtherExpenseViewModel = GetEmployeesCompany(ID);
+        debugger;
+
+        $('#CompanyCode').val(OtherExpenseViewModel[0].companies.Code);
+       
+    }
+    catch (e) {
+
     }
 }
 function companyChange(curobj) {
@@ -645,6 +662,7 @@ function BindEmployeeDropDown(type)
 
             }
         }
+
        
 
     }
@@ -669,6 +687,26 @@ function GetAllEmployeesByType(type)
         }
         if (ds.Result == "ERROR") {
             notyAlert('error', ds.Message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
+function GetEmployeesCompany(ID) {
+    try {
+        var data = { "ID": ID };
+        var ds = {};
+        ds = GetDataFromServer("OtherExpenses/GetEmployeeCompanyDetails/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            alert(ds.Message);
         }
     }
     catch (e) {

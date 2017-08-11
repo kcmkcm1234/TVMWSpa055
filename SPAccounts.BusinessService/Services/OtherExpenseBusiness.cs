@@ -177,7 +177,6 @@ namespace SPAccounts.BusinessService.Services
         }
 
 
-
         public OtherExpSummary GetOtherExpSummary(int month, int year, string Company) {
 
             OtherExpSummary result= _otherExpenseRepository.GetOtherExpSummary(month, year, Company);
@@ -226,6 +225,23 @@ namespace SPAccounts.BusinessService.Services
         public List<OtherExpense> GetExpenseTypeDetails(OtherExpense expObj)
         {
             return _otherExpenseRepository.GetExpenseTypeDetails(expObj);
+        }
+
+        public List<Employee> GetCompanybyEmployee(Guid ID)
+        {
+            List<Employee> empList = null;
+            try
+            {
+                empList = GetAllEmployees();
+                empList = empList != null ? empList.Where(e => e.ID==ID).ToList() : null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return empList;
+
         }
     }
 }

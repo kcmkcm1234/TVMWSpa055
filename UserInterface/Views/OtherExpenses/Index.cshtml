@@ -220,7 +220,7 @@
 
                                  <div class="col-md-12">
                                     
-                                         @Html.DropDownListFor(model => model.EmpID, new List<SelectListItem>(), "-- Select Employee --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;" })
+                                         @Html.DropDownListFor(model => model.EmpID, new List<SelectListItem>(), "-- Select Employee --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;",@onchange= "SelectEmployeeCompanyOnchange(this)" })
 
                                          @Html.ValidationMessageFor(model => model.EmpID, "", new { @class = "text-danger" })
                                     
