@@ -33,6 +33,8 @@ namespace UserInterface.Controllers
         #endregion Constructor_Injection 
 
         // GET: DepositAndWithdrawals
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "DepositAndWithdrawals", Mode = "R")]
         public ActionResult Index()
         {
             DepositAndWithdrwalViewModel    depositAndWithdrwalViewModelObj = null;
@@ -81,7 +83,7 @@ namespace UserInterface.Controllers
 
         #region GetAllDepositAndWithdrawals
         [HttpGet]
-        //[AuthSecurityFilter(ProjectObject = "OtherIncome", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "DepositAndWithdrawals", Mode = "R")]
         public string GetAllDepositAndWithdrawals(string FromDate, string ToDate, string DepositOrWithdrawal,string chqclr)
         {
             try
@@ -102,7 +104,7 @@ namespace UserInterface.Controllers
 
         #region GetDepositAndWithdrawalDetails
         [HttpGet]
-        //[AuthSecurityFilter(ProjectObject = "OtherIncome", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "DepositAndWithdrawals", Mode = "R")]
         public string GetDepositAndWithdrawalDetails(string ID)
         {
             try
@@ -122,7 +124,7 @@ namespace UserInterface.Controllers
         #region InsertUpdateDepositAndWithdrawals
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [AuthSecurityFilter(ProjectObject = "OtherIncome", Mode = "W")]
+        [AuthSecurityFilter(ProjectObject = "DepositAndWithdrawals", Mode = "W")]
         public string InsertUpdateDepositAndWithdrawals(DepositAndWithdrwalViewModel _depositAndWithdrwalObj)
         {
             try
@@ -180,7 +182,7 @@ namespace UserInterface.Controllers
 
         #region ButtonStyling
         [HttpGet]
-        //[AuthSecurityFilter(ProjectObject = "OtherIncome", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "DepositAndWithdrawals", Mode = "R")]
         public ActionResult ChangeButtonStyle(string ActionType)
         {
             ToolboxViewModel ToolboxViewModelObj = new ToolboxViewModel();
