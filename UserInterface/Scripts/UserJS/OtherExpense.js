@@ -206,6 +206,10 @@ function ClearFields() {
     $("#Amount").val('');
     $("#Description").val('');
     $("#ChequeDate").val('');
+    $("#EmpID").prop('disabled', true);
+    $("#EmpTypeCode").prop('disabled', true);
+    $("#BankCode").prop('disabled', true);
+    $("#ChequeDate").prop('disabled', true);
     $('#EmpID').empty();
     $('#EmpID').append(new Option('-- Select Employee --', -1));
     $('#EmpID').val("-1");
@@ -406,10 +410,10 @@ function AddOtherExpense() {
         $("#expenseDateModal").val($("#ExpDate").val());
         $("#AddOtherexpenseModel").modal('show');
         $("#AddOrEditSpan").text("Add New");
-        $("#EmpID").prop('disabled', true);
-        $("#EmpTypeCode").prop('disabled', true);
-        $("#BankCode").prop('disabled', true);
-        $("#ChequeDate").prop('disabled', true);
+        //$("#EmpID").prop('disabled', true);
+        //$("#EmpTypeCode").prop('disabled', true);
+        //$("#BankCode").prop('disabled', true);
+        //$("#ChequeDate").prop('disabled', true);
         $("#btnAddEmployee").css("pointer-events", "none");
         $("#EmployeeDiv").hide();
         
