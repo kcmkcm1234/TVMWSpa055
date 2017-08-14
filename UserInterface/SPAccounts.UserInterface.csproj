@@ -1479,6 +1479,7 @@
     <Content Include="Scripts\sweetalert.min.js" />
     <Content Include="Scripts\UserJS\Bank.js" />
     <Content Include="Scripts\UserJS\ChartOfAccounts.js" />
+    <Content Include="Scripts\UserJS\CustomerContactDetailsReport.js" />
     <Content Include="Scripts\UserJS\CustomerCreditNote.js" />
     <Content Include="Scripts\UserJS\Application.js" />
     <Content Include="Scripts\UserJS\AppObject.js" />
@@ -1651,6 +1652,7 @@
     <Content Include="Views\Report\OtherExpenseSummary.cshtml" />
     <Content Include="Views\Report\OtherExpenseDetails.cshtml" />
     <Content Include="Views\ChartOfAccounts\Index.cshtml" />
+    <Content Include="Views\Report\CustomerContactDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

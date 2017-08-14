@@ -1,14 +1,16 @@
-﻿@model UserInterface.Models.OtherExpenseSummaryReportViewModel
+﻿@model UserInterface.Models.CustomerContactDetailsReportViewModel
 @using UserInterface.App_Start
 @{
-    ViewBag.Title = "Other Expense Summary";
+    ViewBag.Title = "Customer Contact Details";
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
+
+
 
 @section styles {
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableButtons")
-    }
+}
 
 <div style="width:100%;">
     <ol class="breadcrumb">
@@ -36,11 +38,11 @@
 </div>
 <div class="form-horizontal">
 
-    <div class="col-md-9" style="margin-top:10px;">
+    <div class="col-md-8" style="margin-top:10px;">
         <div class="col-md-3">
             @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
-                @Html.TextBox("fromdate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @onchange = "OnChangeCall()", @Value = ViewBag.fromdate })
+                @Html.TextBox("fromdate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @onchange = "RefreshCustomerContactDetailTable()", @Value = ViewBag.fromdate })
 
 
             </div>
@@ -48,36 +50,18 @@
         <div class="col-md-3">
             @Html.Label("To Date", htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
-                @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @onchange = "OnChangeCall()", @Value = ViewBag.todate })
+                @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @onchange = "RefreshCustomerContactDetailTable()", @Value = ViewBag.todate })
             </div>
         </div>
         <div class="col-md-3">
             @Html.LabelFor(model => model.CompanyCode, htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
-                @Html.DropDownListFor(model => model.CompanyCode, Model.CompanyList, "-- Select Company --", new { @class = "form-control BlockEnter", @onchange = "OnChangeCall()", value = -1, style = "padding:4px 12px;", @id = "CompanyCode" })
+                @Html.DropDownListFor(model => model.CompanyCode, Model.CompanyList, "-- Select Company --", new { @class = "form-control BlockEnter", @onchange = "RefreshCustomerContactDetailTable()", value = -1, style = "padding:4px 12px;", @id = "CompanyCode" })
                 @Html.ValidationMessageFor(model => model.CompanyCode, "", new { @class = "text-danger" })
 
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="row">
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="GroupSelect" id="AH" onchange="RadioOnChange(this)" value="AH" checked>
-                        Account head wise
-                    </label>
-                </div>
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="GroupSelect" onchange="RadioOnChange(this)" id="ST" value="ST">
-                        Sub type wise(Employer,Other,etc)
-                     </label>
-                </div>
-                </div>
-            </div>
-     
-       
-       
+
 
 
         @*<div class="col-md-12 filterHead">Filter</div>
@@ -90,7 +74,7 @@
 
 
     </div>
-    <div class="col-md-3" style="min-height:25px">
+    <div class="col-md-4" style="min-height:25px">
         @{
             var data = new { ActionType = "List" };
             @Html.Action("ChangeButtonStyle", "Report", data);
@@ -107,26 +91,17 @@
         &nbsp;
     </div>
     <div class="row tableContainer">
-        <div class="col-md-12" id="AHContainer">
-            <table id="otherExpenseSummaryAHTable" class="table stripe" cellspacing="0" width="100%">
+        <div class="col-md-12">
+            <table id="CustomerContactDetailTable" class="table stripe" cellspacing="0" width="100%">
                 <thead>
                     <tr class="text-center TableHead">
-                        <th>Origin Company</th>
-                        <th>Account Head</th>
-                        <th>Sub Type Desc</th>
-                        <th>Amount</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
-        <div class="col-md-12" id="STContainer">
-            <table id="otherExpenseSummarySTTable" class="table stripe" cellspacing="0" width="100%">
-                <thead>
-                    <tr class="text-center TableHead">
-                        <th>Origin Company</th>
-                        <th>Sub Type Desc</th>
-                        <th>Account Head</th>
-                        <th>Amount</th>
+                        <th>Customer Name</th>
+                        <th>Phone Number</th>
+                        <th>Email</th>
+                        <th>Contact Name</th>
+                        <th>Billing Address</th>
+                        <th>Shipping Address</th>
+                     
                     </tr>
                 </thead>
             </table>
@@ -145,8 +120,14 @@
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/OtherExpenseSummaryReport")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/CustomerContactDetailsReport")
 }
+
+
+
+
+
+
 
 
 

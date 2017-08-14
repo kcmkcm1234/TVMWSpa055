@@ -85,4 +85,19 @@ namespace UserInterface.Models
         public List<SelectListItem> CompanyList { get; set; }
         public List<CompaniesViewModel> companiesList;
     }
+
+    public class CustomerContactDetailsReportViewModel
+    {
+        [Required(ErrorMessage = "Company required")]
+        [Display(Name = "Company")]
+        public string CompanyCode { get; set; }
+        public string CustomerName { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Email { get; set; }
+        public string ContactName { get; set; }
+        public string BillingAddress { get; set; }
+        public string ShippingAddress { get; set; }
+        public List<SelectListItem> CompanyList { get; set; }
+        public List<CompaniesViewModel> companiesList;
+    }
 }
