@@ -33,14 +33,14 @@ $(document).ready(function () {
                { "data": "PaidAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                { "data": "BalanceDue", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
               { "data": "Credit", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
-                { "data": "GeneralNotes", "defaultContent": "<i>-</i>" },
+                { "data": "GeneralNotes", "defaultContent": "<i></i>" },
              { "data": "OriginCompany", "defaultContent": "<i>-</i>" }
 
              ],
-             columnDefs: [{ "targets": [8], "visible": false, "searchable": false },
-                  { className: "text-left", "targets": [0,8] },
+             columnDefs: [{ "targets": [8,6], "visible": false, "searchable": false },
+                  { className: "text-left", "targets": [0,7,8] },
                    { className: "text-center", "targets": [1,2,3] },
-                  { className: "text-right", "targets": [ 4, 5,6,7,] }],
+                  { className: "text-right", "targets": [ 4, 5,6] }],
              drawCallback: function (settings) {
                  var api = this.api();
                  var rows = api.rows({ page: 'current' }).nodes();

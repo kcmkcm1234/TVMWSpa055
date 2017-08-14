@@ -86,6 +86,7 @@ namespace UserInterface.App_Start
                 config.CreateMap<SaleDetailReportViewModel, SaleDetailReport>().ReverseMap();
                 config.CreateMap<OtherExpenseSummaryReportViewModel, OtherExpenseSummaryReport>().ReverseMap();
                 config.CreateMap<OtherExpenseDetailsReportViewModel, OtherExpenseDetailsReport>().ReverseMap();
+                config.CreateMap<CustomerContactDetailsReportViewModel, CustomerContactDetailsReport>().ReverseMap();
             });
         }
     }

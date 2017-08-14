@@ -29,26 +29,40 @@ namespace SPAccounts.BusinessService.Services
             return systemReportList;
         }
 
+        public List<CustomerContactDetailsReport> GetCustomerContactDetailsReport(DateTime? FromDate, DateTime? ToDate, string CompanyCode)
+        {
+            List<CustomerContactDetailsReport> CustomerContactDetailsList = null;
+            try
+            {
+                CustomerContactDetailsList = _reportRepository.GetCustomerContactDetailsReport(FromDate, ToDate, CompanyCode);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return CustomerContactDetailsList;
+        }
+
         public List<OtherExpenseDetailsReport> GetOtherExpenseDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string OrderBy)
         {
             List<OtherExpenseDetailsReport> otherExpenseDetailsList = null;
             try
             {
                 otherExpenseDetailsList = _reportRepository.GetOtherExpenseDetails(FromDate, ToDate, CompanyCode);
-                //if (otherExpenseDetailsList != null)
-                //{
-                //    switch (OrderBy)
-                //    {
-                //        case "AH":
-                //            otherExpenseDetailsList = otherExpenseDetailsList.OrderBy(OE => OE.AccountHead).ToList();
-                //            break;
+                if (otherExpenseDetailsList != null)
+                {
+                    switch (OrderBy)
+                    {
+                        case "AH":
+                            otherExpenseDetailsList = otherExpenseDetailsList.OrderBy(OE => OE.Company).ThenBy(OE=>OE.AccountHead).ToList();
+                            break;
 
-                //        case "ST":
-                //            otherExpenseDetailsList = otherExpenseDetailsList.OrderByDescending(OE => OE.SubType).ToList();
-                //            break;
-                //    }
+                        case "ST":
+                            otherExpenseDetailsList = otherExpenseDetailsList.OrderBy(OE => OE.Company).ThenBy(OE => OE.SubType).ToList();
+                            break;
+                    }
 
-                //}
+                }
             }
             catch (Exception ex)
             {
