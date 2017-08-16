@@ -194,7 +194,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="col-md-12">
-                                        @Html.EditorFor(model => model.LandLine, new { htmlAttributes = new { @class = "form-control BlockEnter" , onkeypress = "return isNumber(event)" } })
+                                        @Html.EditorFor(model => model.LandLine, new { htmlAttributes = new { @class = "form-control BlockEnter" } })
                                         @Html.ValidationMessageFor(model => model.LandLine, "", new { @class = "text-danger" })
 
                                     </div>

@@ -212,7 +212,7 @@ function SaveOtherIncome()
 {
     try {
         $("#btnOtherIncomeSave").trigger('click');
-        $('#AddOtherIncomeModel').modal('hide');
+       
     }
     catch (e) {
         notyAlert('error', e.message);
@@ -340,6 +340,7 @@ function SaveSuccess(data, status)
             }
             //IncomeDateOnchange();
             notyAlert('success', JsonResult.Message);
+            $('#AddOtherIncomeModel').modal('hide');
             debugger;
             if ($("#ID").val() != "" && $("#ID").val() != "0") {
                 FillOtherIncomeDetails($("#ID").val());
