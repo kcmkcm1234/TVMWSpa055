@@ -83,6 +83,7 @@
              {
                 @Html.AntiForgeryToken()
                 @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "", Value = "0" })
+                @Html.HiddenFor(model => model.EmployeeType, htmlAttributes: new { @class = "", Value = "EMP" })
 
                 <div class="col-md-12 headSeperator"><i class="fa fa-th ig-yellow" aria-hidden="true"></i> Basic Details</div>
                 <div class="col-md-12">
@@ -146,7 +147,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group col-md-12" style="visibility:hidden">
+                        @*<div class="form-group col-md-12" >
                             <div class="col-md-12">
                                 @Html.LabelFor(model => model.EmployeeType, htmlAttributes: new { @class = "control-label" })
                             </div>
@@ -159,7 +160,7 @@
                                 <div class="col-md-1"></div>
                                 <div class="col-md-1"></div>
                             </div>
-                        </div>              
+                        </div>*@              
                        
                         <div class="col-md-12  ">&nbsp;</div>
                         <div class="col-md-12  ">&nbsp;</div>

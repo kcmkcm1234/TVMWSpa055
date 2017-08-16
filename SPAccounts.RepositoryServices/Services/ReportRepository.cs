@@ -280,5 +280,52 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return SaleSummaryList;
         }
+
+        public List<CustomerContactDetailsReport> GetCustomerContactDetailsReport()
+        {
+            List<CustomerContactDetailsReport> CustomerContactList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[RPT_GetCustomerContactDetails]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                CustomerContactList = new List<CustomerContactDetailsReport>();
+                                while (sdr.Read())
+                                {
+                                  CustomerContactDetailsReport CustomerContactDetailsReport = new CustomerContactDetailsReport();
+                                    {
+                                        CustomerContactDetailsReport.CustomerName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : CustomerContactDetailsReport.CustomerName);
+                                        CustomerContactDetailsReport.PhoneNumber = (sdr["Mobile"].ToString() != "" ? sdr["Mobile"].ToString() : CustomerContactDetailsReport.PhoneNumber);
+                                        CustomerContactDetailsReport.Email = (sdr["ContactEmail"].ToString() != "" ? sdr["ContactEmail"].ToString() : CustomerContactDetailsReport.Email);
+                                        CustomerContactDetailsReport.ContactName = (sdr["ContactPerson"].ToString() != "" ? sdr["ContactPerson"].ToString() : CustomerContactDetailsReport.ContactName);
+                                        CustomerContactDetailsReport.BillingAddress = (sdr["BillingAddress"].ToString() != "" ? sdr["BillingAddress"].ToString() : CustomerContactDetailsReport.BillingAddress);
+                                        CustomerContactDetailsReport.ShippingAddress = (sdr["ShippingAddress"].ToString() != "" ? sdr["ShippingAddress"].ToString() : CustomerContactDetailsReport.ShippingAddress);
+                                      
+                                    }
+                                    CustomerContactList.Add(CustomerContactDetailsReport);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return CustomerContactList;
+        }
     }
 }

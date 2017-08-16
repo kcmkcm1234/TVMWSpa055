@@ -281,7 +281,67 @@ namespace UserInterface.Controllers
             return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
         }
 
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        public ActionResult CustomerContactDetails()
+        {
 
+            DateTime dt = DateTime.Now;
+            ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+            ViewBag.todate = dt.ToString("dd-MMM-yyyy");
+            CustomerContactDetailsReportViewModel customerContactDetailsReportViewModel = new CustomerContactDetailsReportViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            customerContactDetailsReportViewModel.companiesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_companiesBusiness.GetAllCompanies());
+            if (customerContactDetailsReportViewModel.companiesList != null)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "All",
+                    Value = "ALL",
+                    Selected = true
+                });
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "Company Wise",
+                    Value = "companywise",
+                    Selected = false
+                });
+                foreach (CompaniesViewModel cvm in customerContactDetailsReportViewModel.companiesList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = cvm.Name,
+                        Value = cvm.Code.ToString(),
+                        Selected = false
+                    });
+                }
+            }
+
+            customerContactDetailsReportViewModel.CompanyList = selectListItem;
+            return View(customerContactDetailsReportViewModel);
+        }
+
+
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        public string GetCustomerContactDetails()
+        {
+           
+                try
+                {
+                  
+                    List<CustomerContactDetailsReportViewModel> CustomerContactDetailsReportList = Mapper.Map<List<CustomerContactDetailsReport>, List<CustomerContactDetailsReportViewModel>>(_reportBusiness.GetCustomerContactDetailsReport());
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = CustomerContactDetailsReportList });
+                }
+                catch (Exception ex)
+                {
+                    return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+                }
+
+         
+          
+        }
         #region ButtonStyling
         [HttpGet]
         public ActionResult ChangeButtonStyle(string ActionType)

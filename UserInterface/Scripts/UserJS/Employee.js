@@ -97,8 +97,9 @@ function goBack() {
 }
 
 function Save() {
+    debugger;
     try {
-        $('#EmployeeType').val("EMP");
+    //    $('#EmployeeType').val("EMP");
         $("#btnInsertUpdateEmployee").trigger('click');
     }
     catch (e) {
@@ -148,7 +149,7 @@ function ClearFields() {
     $("#Company").val("");
     $("#Department").val("");
     $("#EmployeeCategory").val("");
-    $("#EmployeeType").val("");
+  //  $("#EmployeeType").val("");
     $("#Address").val("");
     $("#GeneralNotes").val("");
     ResetForm();
@@ -243,10 +244,10 @@ function FillEmployeeDetails(ID) {
     $("#Name").val(thisItem.Name);
     $("#MobileNo").val(thisItem.MobileNo);
     $("#Department").val(thisItem.Department);
-    $('#EmployeeType').attr('disabled', true);
+//    $('#EmployeeType').attr('disabled', true);
     $("#EmployeeCategory").val(thisItem.EmployeeCategory);
     $("#Company").val(thisItem.companyID);
-    $("#EmployeeType").val(thisItem.EmployeeType);   
+//    $("#EmployeeType").val(thisItem.EmployeeType);   
     $("#Address").val(thisItem.Address);
     $("#GeneralNotes").val(thisItem.GeneralNotes);
 }
