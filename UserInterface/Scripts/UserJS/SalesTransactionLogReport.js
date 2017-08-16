@@ -50,6 +50,7 @@ $(document).ready(function () {
                      if (last !== group) {
                          $(rows).eq(i).before('<tr class="group "><td colspan="4" class="rptGrp">' + '<b>Company</b> : ' + group + '</td></tr>');
                          last = group;
+
                      }
                     
                  });
