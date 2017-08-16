@@ -281,7 +281,7 @@ namespace SPAccounts.RepositoryServices.Services
             return SaleSummaryList;
         }
 
-        public List<CustomerContactDetailsReport> GetCustomerContactDetailsReport(DateTime? FromDate, DateTime? ToDate, string CompanyCode)
+        public List<CustomerContactDetailsReport> GetCustomerContactDetailsReport()
         {
             List<CustomerContactDetailsReport> CustomerContactList = null;
             try
@@ -295,9 +295,6 @@ namespace SPAccounts.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                       // cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
-                      //  cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
-                      //  cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = CompanyCode;
                         cmd.CommandText = "[Accounts].[RPT_GetCustomerContactDetails]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())

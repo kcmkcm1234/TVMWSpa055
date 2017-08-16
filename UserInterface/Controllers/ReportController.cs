@@ -325,15 +325,13 @@ namespace UserInterface.Controllers
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
-        public string GetCustomerContactDetails(string FromDate, string ToDate, string CompanyCode)
+        public string GetCustomerContactDetails()
         {
-            if (!string.IsNullOrEmpty(CompanyCode))
-            {
+           
                 try
                 {
-                    DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
-                    DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                    List<CustomerContactDetailsReportViewModel> CustomerContactDetailsReportList = Mapper.Map<List<CustomerContactDetailsReport>, List<CustomerContactDetailsReportViewModel>>(_reportBusiness.GetCustomerContactDetailsReport(FDate, TDate, CompanyCode));
+                  
+                    List<CustomerContactDetailsReportViewModel> CustomerContactDetailsReportList = Mapper.Map<List<CustomerContactDetailsReport>, List<CustomerContactDetailsReportViewModel>>(_reportBusiness.GetCustomerContactDetailsReport());
                     return JsonConvert.SerializeObject(new { Result = "OK", Records = CustomerContactDetailsReportList });
                 }
                 catch (Exception ex)
@@ -341,8 +339,8 @@ namespace UserInterface.Controllers
                     return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
                 }
 
-            }
-            return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
+         
+          
         }
         #region ButtonStyling
         [HttpGet]

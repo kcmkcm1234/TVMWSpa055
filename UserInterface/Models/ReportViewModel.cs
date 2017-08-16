@@ -100,4 +100,14 @@ namespace UserInterface.Models
         public List<SelectListItem> CompanyList { get; set; }
         public List<CompaniesViewModel> companiesList;
     }
+
+    public class SalesTransactionLogReportViewModel
+    {
+        public string OriginatedCompany { get; set; }
+        public string Date { get; set; }
+        public string TransactionType { get; set; }
+        public string DocNo { get; set; }
+        public decimal Amount { get; set; }
+    }
+
 }

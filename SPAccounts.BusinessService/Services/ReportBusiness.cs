@@ -29,12 +29,12 @@ namespace SPAccounts.BusinessService.Services
             return systemReportList;
         }
 
-        public List<CustomerContactDetailsReport> GetCustomerContactDetailsReport(DateTime? FromDate, DateTime? ToDate, string CompanyCode)
+        public List<CustomerContactDetailsReport> GetCustomerContactDetailsReport()
         {
             List<CustomerContactDetailsReport> CustomerContactDetailsList = null;
             try
             {
-                CustomerContactDetailsList = _reportRepository.GetCustomerContactDetailsReport(FromDate, ToDate, CompanyCode);
+                CustomerContactDetailsList = _reportRepository.GetCustomerContactDetailsReport();
             }
             catch (Exception ex)
             {
