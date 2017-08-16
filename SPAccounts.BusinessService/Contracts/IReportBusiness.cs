@@ -15,5 +15,6 @@ namespace SPAccounts.BusinessService.Contracts
         List<OtherExpenseSummaryReport> GetOtherExpenseSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string OrderBy);
         List<OtherExpenseDetailsReport> GetOtherExpenseDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string OrderBy);
         List<CustomerContactDetailsReport> GetCustomerContactDetailsReport();
+        List<SalesTransactionLogReport> GetSalesTransactionLogDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode);
     }
 }
