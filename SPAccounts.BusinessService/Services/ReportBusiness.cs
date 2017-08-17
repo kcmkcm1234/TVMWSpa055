@@ -113,6 +113,20 @@ namespace SPAccounts.BusinessService.Services
             return saleDetailList;
         }
 
+        public List<SalesTransactionLogReport> GetSalesTransactionLogDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode)
+        {
+            List<SalesTransactionLogReport> salesTransactionLogReportList = null;
+            try
+            {
+                salesTransactionLogReportList = _reportRepository.GetSalesTransactionLogDetails(FromDate, ToDate, CompanyCode);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return salesTransactionLogReportList;
+        }
+
         public List<SaleSummary> GetSaleSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode)
         {
             List<SaleSummary> saleSummaryList = null;

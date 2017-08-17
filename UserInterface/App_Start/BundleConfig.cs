@@ -77,6 +77,8 @@ namespace UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/OtherExpenseSummaryReport").Include("~/Scripts/UserJS/OtherExpenseSummaryReport.js"));
             bundles.Add(new ScriptBundle("~/bundles/OtherExpenseDetailsReport").Include("~/Scripts/UserJS/OtherExpenseDetailsReport.js"));
             bundles.Add(new ScriptBundle("~/bundles/CustomerContactDetailsReport").Include("~/Scripts/UserJS/CustomerContactDetailsReport.js"));
+            bundles.Add(new ScriptBundle("~/bundles/SalesTransactionLogReport").Include("~/Scripts/UserJS/SalesTransactionLogReport.js"));
+            
             bundles.Add(new ScriptBundle("~/bundles/DepositAndWithdrawals").Include("~/Scripts/UserJS/DepositAndWithdrawals.js"));
             bundles.Add(new ScriptBundle("~/bundles/ChartOfAccounts").Include("~/Scripts/UserJS/ChartOfAccounts.js"));
 

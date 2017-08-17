@@ -1,5 +1,4 @@
-﻿@model UserInterface.Models.CustomerContactDetailsReportViewModel
-@using UserInterface.App_Start
+﻿@using UserInterface.App_Start
 @{
     ViewBag.Title = "Customer Contact Details";
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
@@ -39,36 +38,7 @@
 <div class="form-horizontal">
 
     <div class="col-md-8" style="margin-top:10px;">
-        @*<div class="col-md-3">
-            @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })
-            <div class="col-md-12">
-                @Html.TextBox("fromdate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @onchange = "RefreshCustomerContactDetailTable()", @Value = ViewBag.fromdate })
-
-
-            </div>
-        </div>
-        <div class="col-md-3">
-            @Html.Label("To Date", htmlAttributes: new { @class = "control-label" })
-            <div class="col-md-12">
-                @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @onchange = "RefreshCustomerContactDetailTable()", @Value = ViewBag.todate })
-            </div>
-        </div>
-        <div class="col-md-3">
-            @Html.LabelFor(model => model.CompanyCode, htmlAttributes: new { @class = "control-label" })
-            <div class="col-md-12">
-                @Html.DropDownListFor(model => model.CompanyCode, Model.CompanyList, "-- Select Company --", new { @class = "form-control BlockEnter", @onchange = "RefreshCustomerContactDetailTable()", value = -1, style = "padding:4px 12px;", @id = "CompanyCode" })
-                @Html.ValidationMessageFor(model => model.CompanyCode, "", new { @class = "text-danger" })
-
-            </div>
-        </div>*@
-
-
-
-        @*<div class="col-md-12 filterHead">Filter</div>
-            <div class="col-md-12">
-
-
-            </div>*@
+      
 
 
 

@@ -1,7 +1,7 @@
-﻿@model UserInterface.Models.OtherExpenseDetailsReportViewModel
+﻿@model UserInterface.Models.SalesTransactionLogReportViewModel
 @using UserInterface.App_Start
 @{
-    ViewBag.Title = "Other Expense Details";
+    ViewBag.Title = "Sales Transaction Log";
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
 
@@ -35,12 +35,12 @@
     &nbsp;
 </div>
 <div class="form-horizontal">
-    
+
     <div class="col-md-9" style="margin-top:10px;">
         <div class="col-md-3">
             @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
-                @Html.TextBox("fromdate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @onchange = "OnChangeCall()", @Value = ViewBag.fromdate })
+                @Html.TextBox("fromdate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @onchange = "RefreshSalesTransactionLogTable()", @Value = ViewBag.fromdate })
 
 
             </div>
@@ -48,34 +48,19 @@
         <div class="col-md-3">
             @Html.Label("To Date", htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
-                @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @onchange = "OnChangeCall()", @Value = ViewBag.todate })
+                @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @onchange = "RefreshSalesTransactionLogTable()", @Value = ViewBag.todate })
             </div>
         </div>
         <div class="col-md-3">
             @Html.LabelFor(model => model.CompanyCode, htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
-                @Html.DropDownListFor(model => model.CompanyCode, Model.CompanyList, "-- Select Company --", new { @class = "form-control BlockEnter", @onchange = "OnChangeCall()", value = -1, style = "padding:4px 12px;", @id = "CompanyCode" })
+                @Html.DropDownListFor(model => model.CompanyCode, Model.CompanyList, "-- Select Company --", new { @class = "form-control BlockEnter", @onchange = "RefreshSalesTransactionLogTable()", value = -1, style = "padding:4px 12px;", @id = "CompanyCode" })
                 @Html.ValidationMessageFor(model => model.CompanyCode, "", new { @class = "text-danger" })
 
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="row">
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="GroupSelect" id="AH" onchange="RadioOnChange(this)" value="AH" checked>
-                        Account head wise
-                    </label>
-                </div>
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="GroupSelect" onchange="RadioOnChange(this)" id="ST" value="ST">
-                        Sub type wise(Employer,Other,etc)
-                    </label>
-                </div>
-            </div>
-        </div>
-   </div>
+     
+    </div>
     <div class="col-md-3" style="min-height:25px">
         @{
             var data = new { ActionType = "List" };
@@ -94,37 +79,20 @@
     </div>
     <div class="row tableContainer">
         <div class="col-md-12" id="AHContainer">
-            <table id="otherExpenseDetailsAHTable" class="table stripe" cellspacing="0" width="100%">
+            <table id="salesTransactionTable" class="table stripe" cellspacing="0" width="100%">
                 <thead>
                     <tr class="text-center TableHead">
-                        <th>Company</th>
-                        <th>Account Head</th>
-                        <th>Sub Type</th>
-                        <th>Payment Mode</th>
-                        <th>Payment Reference</th>
-                        <th>Description</th>
+                        <th>OriginatedCompany</th>
+                        <th>Date</th>
+                        <th>Transaction Type</th>
+                        <th>Doc No.</th>
                         <th>Amount</th>
                         <th>Origin Company</th>
                     </tr>
                 </thead>
             </table>
         </div>
-        <div class="col-md-12" id="STContainer">
-            <table id="otherExpenseDetailsSTTable" class="table stripe" cellspacing="0" width="100%">
-                <thead>
-                    <tr class="text-center TableHead">
-                        <th>Company</th>
-                        <th>Sub Type</th>
-                        <th>Account Head</th>
-                        <th>Payment Mode</th>
-                        <th>Payment Reference</th>
-                        <th>Description</th>
-                        <th>Amount</th>
-                        <th>Origin Company</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
+    
     </div>
 
 </div>
@@ -132,7 +100,11 @@
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/OtherExpenseDetailsReport")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/SalesTransactionLogReport")
 }
+
+
+
+
 
 

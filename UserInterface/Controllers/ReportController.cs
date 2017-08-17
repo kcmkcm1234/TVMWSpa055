@@ -286,39 +286,7 @@ namespace UserInterface.Controllers
         public ActionResult CustomerContactDetails()
         {
 
-            DateTime dt = DateTime.Now;
-            ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
-            ViewBag.todate = dt.ToString("dd-MMM-yyyy");
-            CustomerContactDetailsReportViewModel customerContactDetailsReportViewModel = new CustomerContactDetailsReportViewModel();
-            List<SelectListItem> selectListItem = new List<SelectListItem>();
-            customerContactDetailsReportViewModel.companiesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_companiesBusiness.GetAllCompanies());
-            if (customerContactDetailsReportViewModel.companiesList != null)
-            {
-                selectListItem.Add(new SelectListItem
-                {
-                    Text = "All",
-                    Value = "ALL",
-                    Selected = true
-                });
-                selectListItem.Add(new SelectListItem
-                {
-                    Text = "Company Wise",
-                    Value = "companywise",
-                    Selected = false
-                });
-                foreach (CompaniesViewModel cvm in customerContactDetailsReportViewModel.companiesList)
-                {
-                    selectListItem.Add(new SelectListItem
-                    {
-                        Text = cvm.Name,
-                        Value = cvm.Code.ToString(),
-                        Selected = false
-                    });
-                }
-            }
-
-            customerContactDetailsReportViewModel.CompanyList = selectListItem;
-            return View(customerContactDetailsReportViewModel);
+            return View();
         }
 
 
@@ -342,6 +310,69 @@ namespace UserInterface.Controllers
          
           
         }
+
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        public ActionResult SalesTransactionLog()
+        {
+            DateTime dt = DateTime.Now;
+            ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+            ViewBag.todate = dt.ToString("dd-MMM-yyyy");
+            SalesTransactionLogReportViewModel salesTransactionLogReportViewModel = new SalesTransactionLogReportViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            salesTransactionLogReportViewModel.companiesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_companiesBusiness.GetAllCompanies());
+            if (salesTransactionLogReportViewModel.companiesList != null)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "All",
+                    Value = "ALL",
+                    Selected = true
+                });
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "Company Wise",
+                    Value = "companywise",
+                    Selected = false
+                });
+                foreach (CompaniesViewModel cvm in salesTransactionLogReportViewModel.companiesList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = cvm.Name,
+                        Value = cvm.Code.ToString(),
+                        Selected = false
+                    });
+                }
+            }
+            salesTransactionLogReportViewModel.CompanyList = selectListItem;
+            return View(salesTransactionLogReportViewModel);
+        }
+
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        public string GetsalesTransactionLog(string FromDate, string ToDate, string CompanyCode)
+        {
+            if (!string.IsNullOrEmpty(CompanyCode))
+            {
+                try
+                {
+                    DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
+                    DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
+                    List<SalesTransactionLogReportViewModel> salesTransactionLogReportViewModelList = Mapper.Map<List<SalesTransactionLogReport>, List<SalesTransactionLogReportViewModel>>(_reportBusiness.GetSalesTransactionLogDetails(FDate, TDate, CompanyCode));
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = salesTransactionLogReportViewModelList });
+                }
+                catch (Exception ex)
+                {
+                    return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+                }
+            }
+
+            return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
+        }
+
         #region ButtonStyling
         [HttpGet]
         public ActionResult ChangeButtonStyle(string ActionType)
