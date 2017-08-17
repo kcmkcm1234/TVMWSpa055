@@ -5,7 +5,22 @@ var index = 0;
 var AmountReceived=0;
 
 $(document).ready(function () {
-try{
+    try {
+        $('#btnUpload').click(function () {
+            //Pass the controller name
+            debugger;
+            var FileObject = new Object;
+            if ($('#hdnFileDupID').val() != emptyGUID) {
+                FileObject.ParentID = (($('#ID').val()) != emptyGUID ? ($('#ID').val()) : $('#hdnFileDupID').val());
+            }
+            else {
+                FileObject.ParentID = ($('#ID').val() == emptyGUID) ? "" : $('#ID').val();
+            }
+
+            FileObject.ParentType = "CusPayment";
+            FileObject.Controller = "FileUpload";
+            UploadFile(FileObject);
+        });
     DataTables.CustomerPaymentTable = $('#CustPayTable').DataTable(
     {
         dom: '<"pull-left"f>rt<"bottom"ip><"clear">',
@@ -306,7 +321,8 @@ function GetCustomerPaymentsByID(PaymentID) {
     $('#lblPaymentApplied').text(roundoff(sum));
     $('#lblCredit').text(roundoff(AmountReceived - sum));
         // $('#lblPaymentApplied').text(roundoff(thisitem.TotalRecdAmt));
-    Selectcheckbox(); 
+    Selectcheckbox();
+    PaintImages(PaymentID);
 }
 
 function openNavClick() {

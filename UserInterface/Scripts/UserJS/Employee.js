@@ -28,8 +28,8 @@ $(document).ready(function () {
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                  
-               { className: "text-left", "targets": [2] },
-             { className: "text-center", "targets": [1,3,5,6] }
+               { className: "text-left", "targets": [2, 3, 5, 6] },
+             { className: "text-center", "targets": [1] }
 
              ]
          });

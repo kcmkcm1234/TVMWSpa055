@@ -92,7 +92,7 @@ function Save() {
     try {
         //$('#myModal').modal('hide')
         $("#btnSaveOtherExpense").trigger('click');
-        $('#AddOtherexpenseModel').modal('hide')
+      
     }
     catch (e) {
         notyAlert('error', e.message);
@@ -244,9 +244,11 @@ function SaveSuccess(data, status) {
             BindAllExpenseDetails();
             //$("#AddOtherexpenseModel").modal('hide');
             notyAlert('success', JsonResult.Message);
+            $('#AddOtherexpenseModel').modal('hide');
             debugger;
             if ($("#ID").val() != "" && $("#ID").val() != "0" && $("#ID").val()!=emptyGUID) {
                 FillOtherExpenseDetails($("#ID").val());
+               
             }
             else
             {
@@ -604,16 +606,25 @@ function AccountCodeOnchange(curobj)
         {
             $("#EmpTypeCode").val('');
             $('#EmpID').empty();
-            $('#EmpID').append(new Option('-- Select Employee --', -1));
-            $('#EmpID').val("-1");
+            $('#EmpID').append(new Option('-- Select Employee --'));
+            //$('#EmpID').val("-1");
             $("#EmpTypeCode").prop('disabled', true);
             $("#EmpID").prop('disabled', true);
             $("#btnAddEmployee").css("pointer-events", "none");
             $("#EmployeeDiv").hide();
         }
+        
     }
-    $('span[data-valmsg-for="EmpTypeCode"]').empty();
-    $('span[data-valmsg-for="EmpID"]').empty();
+    //$('span[data-valmsg-for="EmpTypeCode"]').empty();
+    //$('span[data-valmsg-for="EmpID"]').empty();
+    if(AcodeCombined=="")
+    {
+        $("#EmpTypeCode").val('');
+        $('#EmpID').empty();
+        $('#EmpID').append(new Option('-- Select Employee --'));
+        $("#EmpTypeCode").prop('disabled', true);
+        $("#EmpID").prop('disabled', true);
+    }
 }
 
 function EmployeeTypeOnchange(curobj)
@@ -631,12 +642,13 @@ function SelectEmployeeCompanyOnchange(curObj)
 {
     try {
         debugger;
-        var ID = curObj.value;
-        var OtherExpenseViewModel = GetEmployeesCompany(ID);
-        debugger;
+        if (curObj.value != "-1") {
+            var ID = curObj.value;
+            var OtherExpenseViewModel = GetEmployeesCompany(ID);
+            debugger;
 
-        $('#CompanyCode').val(OtherExpenseViewModel[0].companies.Code);
-       
+            $('#CompanyCode').val(OtherExpenseViewModel[0].companies.Code);
+        }
     }
     catch (e) {
 

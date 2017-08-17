@@ -14,7 +14,7 @@ namespace UserInterface.Models
         public string AccountDesc { get; set; }
         public DateTime? IncomeDate { get; set; }
         [Display(Name = "Account Head")]
-        [Required(ErrorMessage ="Please Select Account")]
+        [Required(ErrorMessage = "Please Select Account")]
         public string AccountCode { get; set; }
         [Display(Name = "Payment Received Company")]
         [Required(ErrorMessage = "Please Select Payment Received Company")]
