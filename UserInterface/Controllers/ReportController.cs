@@ -373,6 +373,69 @@ namespace UserInterface.Controllers
             return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
         }
 
+
+
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        public ActionResult PurchaseSummaryReport()
+        {
+            DateTime dt = DateTime.Now;
+            ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+            ViewBag.todate = dt.ToString("dd-MMM-yyyy");
+            PurchaseSummaryReportViewModel purchaseSummaryReportViewModel = new PurchaseSummaryReportViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            purchaseSummaryReportViewModel.companiesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_companiesBusiness.GetAllCompanies());
+            if (purchaseSummaryReportViewModel.companiesList != null)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "All",
+                    Value = "ALL",
+                    Selected = true
+                });
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "Company Wise",
+                    Value = "companywise",
+                    Selected = false
+                });
+                foreach (CompaniesViewModel cvm in purchaseSummaryReportViewModel.companiesList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = cvm.Name,
+                        Value = cvm.Code.ToString(),
+                        Selected = false
+                    });
+                }
+            }
+            purchaseSummaryReportViewModel.CompanyList = selectListItem;
+            return View(purchaseSummaryReportViewModel);
+        }
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        public string GetPurchaseSummaryDetails(string FromDate, string ToDate, string CompanyCode)
+        {
+            if (!string.IsNullOrEmpty(CompanyCode))
+            {
+                try
+                {
+                    DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
+                    DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
+                    List<PurchaseSummaryReportViewModel> purchaseSummaryReportViewModelList = Mapper.Map<List<PurchaseSummaryReport>, List<PurchaseSummaryReportViewModel>>(_reportBusiness.GetPurchaseSummary(FDate, TDate, CompanyCode));
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = purchaseSummaryReportViewModelList });
+                }
+                catch (Exception ex)
+                {
+                    return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+                }
+            }
+
+            return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
+        }
+
         #region ButtonStyling
         [HttpGet]
         public ActionResult ChangeButtonStyle(string ActionType)

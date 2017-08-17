@@ -114,5 +114,22 @@ namespace UserInterface.Models
         public List<SelectListItem> CompanyList { get; set; }
         public List<CompaniesViewModel> companiesList;
     }
+    public class PurchaseSummaryReportViewModel
+    {
+        [Required(ErrorMessage = "Company required")]
+        [Display(Name = "Company")]
+        public string CompanyCode { get; set; }
+        public string SupplierName { get; set; }
+        public decimal OpeningBalance { get; set; }
+        public decimal Invoiced { get; set; }
+        public decimal Credit { get; set; }
+        public decimal Paid { get; set; }
+        public decimal Balance { get; set; }
+        public decimal NetDue { get; set; }
+        public List<SelectListItem> CompanyList { get; set; }
+        public List<CompaniesViewModel> companiesList;
+        public string OriginCompany { get; set; }
+
+    }
 
 }

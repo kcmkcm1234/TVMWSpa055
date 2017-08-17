@@ -377,5 +377,56 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return salesTransactionLogReportList;
         }
+
+        public List<PurchaseSummaryReport> GetPurchaseSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode)
+        {
+            List<PurchaseSummaryReport> purchaseSummaryReportList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
+                        cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = CompanyCode;
+                        cmd.CommandText = "[Accounts].[RPT_GetPurchaseSummary]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                purchaseSummaryReportList = new List<PurchaseSummaryReport>();
+                                while (sdr.Read())
+                                {
+                                    PurchaseSummaryReport purchaseSummaryReport = new PurchaseSummaryReport();
+                                    {
+                                        purchaseSummaryReport.SupplierName = (sdr["SupplierName"].ToString() != "" ? sdr["SupplierName"].ToString() : purchaseSummaryReport.SupplierName);
+                                        purchaseSummaryReport.OpeningBalance = (sdr["OpeningBalance"].ToString() != "" ? decimal.Parse(sdr["OpeningBalance"].ToString()) : purchaseSummaryReport.OpeningBalance);
+                                        purchaseSummaryReport.Invoiced = (sdr["Invoiced"].ToString() != "" ? decimal.Parse(sdr["Invoiced"].ToString()) : purchaseSummaryReport.Invoiced);
+                                        purchaseSummaryReport.Paid = (sdr["Paid"].ToString() != "" ? decimal.Parse(sdr["Paid"].ToString()) : purchaseSummaryReport.Paid);
+                                        purchaseSummaryReport.NetDue = (sdr["NetDue"].ToString() != "" ? decimal.Parse(sdr["NetDue"].ToString()) : purchaseSummaryReport.NetDue);
+                                        purchaseSummaryReport.Credit = (sdr["Credit"].ToString() != "" ? decimal.Parse(sdr["Credit"].ToString()) : purchaseSummaryReport.Credit);
+                                        purchaseSummaryReport.OriginCompany = (sdr["OriginCompany"].ToString() != "" ? (sdr["OriginCompany"].ToString()) : purchaseSummaryReport.OriginCompany);
+                                        purchaseSummaryReport.Balance = (sdr["Balance"].ToString() != "" ? decimal.Parse(sdr["Balance"].ToString()) : purchaseSummaryReport.Balance);
+                                    }
+                                    purchaseSummaryReportList.Add(purchaseSummaryReport);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return purchaseSummaryReportList;
+        }
     }
 }

@@ -29,7 +29,7 @@ namespace UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/jqueryform").Include("~/Scripts/jquery.form.js"));
             bundles.Add(new ScriptBundle("~/bundles/AdminLTE").Include("~/Scripts/AdminLTE/fastclick.min.js", "~/Scripts/AdminLTE/adminlte.min.js", "~/Scripts/AdminLTE/jquery.sparkline.min.js", "~/Scripts/AdminLTE/jquery.slimscroll.min.js", "~/Scripts/AdminLTE/Chart.min.js"));
             bundles.Add(new ScriptBundle("~/bundles/AdminLTEDash").Include("~/Scripts/AdminLTE/dashboard2.js"));
-          bundles.Add(new ScriptBundle("~/bundles/jqueryunobtrusiveajaxvalidate").Include("~/Scripts/jquery.validate.min.js", "~/Scripts/jquery.validate.unobtrusive.min.js", "~/Scripts/jquery.unobtrusive-ajax.min.js"));
+            bundles.Add(new ScriptBundle("~/bundles/jqueryunobtrusiveajaxvalidate").Include("~/Scripts/jquery.validate.min.js", "~/Scripts/jquery.validate.unobtrusive.min.js", "~/Scripts/jquery.unobtrusive-ajax.min.js"));
             bundles.Add(new ScriptBundle("~/bundles/datatable").Include("~/Scripts/DataTables/jquery.dataTables.min.js", "~/Scripts/DataTables/dataTables.bootstrap.min.js", "~/Scripts/DataTables/dataTables.responsive.min.js", "~/Scripts/DataTables/responsive.bootstrap.min.js"));
             bundles.Add(new ScriptBundle("~/bundles/datatableSelect").Include("~/Scripts/DataTables/dataTables.select.min.js"));
             bundles.Add(new ScriptBundle("~/bundles/datatablecheckbox").Include("~/Scripts/DataTables/dataTables.checkboxes.js"));
@@ -78,7 +78,7 @@ namespace UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/OtherExpenseDetailsReport").Include("~/Scripts/UserJS/OtherExpenseDetailsReport.js"));
             bundles.Add(new ScriptBundle("~/bundles/CustomerContactDetailsReport").Include("~/Scripts/UserJS/CustomerContactDetailsReport.js"));
             bundles.Add(new ScriptBundle("~/bundles/SalesTransactionLogReport").Include("~/Scripts/UserJS/SalesTransactionLogReport.js"));
-            
+            bundles.Add(new ScriptBundle("~/bundles/PurchaseSummaryReport").Include("~/Scripts/UserJS/PurchaseSummaryReport.js"));
             bundles.Add(new ScriptBundle("~/bundles/DepositAndWithdrawals").Include("~/Scripts/UserJS/DepositAndWithdrawals.js"));
             bundles.Add(new ScriptBundle("~/bundles/ChartOfAccounts").Include("~/Scripts/UserJS/ChartOfAccounts.js"));
 

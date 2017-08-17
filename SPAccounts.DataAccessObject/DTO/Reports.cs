@@ -88,4 +88,19 @@ namespace SPAccounts.DataAccessObject.DTO
         public string Remarks { get; set; }
        
     }
+
+    public class PurchaseSummaryReport
+    {
+      
+        public string CompanyCode { get; set; }
+        public string SupplierName { get; set; }
+        public decimal OpeningBalance { get; set; }
+        public decimal Invoiced { get; set; }
+        public decimal Credit { get; set; }
+        public decimal Paid { get; set; }
+        public decimal Balance { get; set; }
+        public decimal NetDue { get; set; }
+        public string OriginCompany { get; set; }
+
+    }
 }
