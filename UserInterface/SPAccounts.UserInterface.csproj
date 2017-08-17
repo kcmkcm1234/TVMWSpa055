@@ -1501,6 +1501,7 @@
     <Content Include="Scripts\UserJS\Outstanding.js" />
     <Content Include="Scripts\UserJS\Privileges.js" />
     <Content Include="Scripts\UserJS\PrivilegesView.js" />
+    <Content Include="Scripts\UserJS\PurchaseDetailReport.js" />
     <Content Include="Scripts\UserJS\PurchaseSummaryReport.js" />
     <Content Include="Scripts\UserJS\Roles.js" />
     <Content Include="Scripts\UserJS\SalesDetailReport.js" />
@@ -1657,6 +1658,7 @@
     <Content Include="Views\Report\CustomerContactDetails.cshtml" />
     <Content Include="Views\Report\SalesTransactionLog.cshtml" />
     <Content Include="Views\Report\PurchaseSummaryReport.cshtml" />
+    <Content Include="Views\Report\PurchaseDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
