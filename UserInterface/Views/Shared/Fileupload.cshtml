@@ -138,8 +138,8 @@ function BindFiles()
     // Looping over all files and add it to FormData object  
     $('#UploadPreview').empty();
     for (var i = 0; i < files.length; i++) {
-
-        var html = '<div class="col-md-12 list"><img src="/Content/images/circle.png"/><span>' + (files[i].name).substring(0, 25) + '</span><a href="javascript:void(0)" fileguid="'+files[i].lastModified+'" onclick="Attachment_Remove(this)" style="float:right;"><img src="/Content/images/listdlt.png"/></a></div>'
+        //<img src="/Content/images/listdlt.png"/>
+        var html = '<div class="col-md-12 list"><img src="/Content/images/circle.png"/><span>' + (files[i].name).substring(0, 25) + '</span><a href="javascript:void(0)" fileguid="'+files[i].lastModified+'" onclick="Attachment_Remove(this)" style="float:right;"></a></div>'
         $('#UploadPreview').append(html);
     }
 }

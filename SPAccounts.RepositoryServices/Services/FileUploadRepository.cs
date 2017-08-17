@@ -127,5 +127,52 @@ namespace SPAccounts.RepositoryServices.Services
 
             return AttachmentList;
         }
+        public object DeleteFile(Guid ID)
+        {
+            AppConst Cobj = new AppConst();
+            try
+            {
+                SqlParameter outputStatus = null;
+                SqlParameter OutparameterURL = null;
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[DeleteFile]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = ID;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        OutparameterURL = cmd.Parameters.Add("@AttacmentURL", SqlDbType.NVarChar,-1);
+                        OutparameterURL.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "1":
+                        if (OutparameterURL.Value.ToString() != "")
+                        {
+                            System.IO.File.Delete(HttpContext.Current.Server.MapPath(OutparameterURL.Value.ToString()));
+                        }
+                        break;
+                    case "0":
+                        throw new Exception(Cobj.InsertFailure);
+                    default:
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return new { Message = Cobj.DeleteSuccess };
+        }
     }
 }

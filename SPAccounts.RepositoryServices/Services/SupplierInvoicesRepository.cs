@@ -240,6 +240,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@GeneralNotes", SqlDbType.NVarChar, -1).Value = _supplierInvoicesObj.Notes;
                         cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = _supplierInvoicesObj.commonObj.CreatedBy;
                         cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = _supplierInvoicesObj.commonObj.CreatedDate;
+                        cmd.Parameters.Add("@FileDupID", SqlDbType.UniqueIdentifier).Value = _supplierInvoicesObj.hdnFileID;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         outputID = cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier);

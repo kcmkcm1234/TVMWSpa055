@@ -4,7 +4,22 @@ var sum = 0;
 var AmountReceived = 0;
 
 $(document).ready(function () {
-    try { 
+    try {
+        $('#btnUpload').click(function () {
+            //Pass the controller name
+            debugger;
+            var FileObject = new Object;
+            if ($('#hdnFileDupID').val() != emptyGUID) {
+                FileObject.ParentID = (($('#ID').val()) != emptyGUID ? ($('#ID').val()) : $('#hdnFileDupID').val());
+            }
+            else {
+                FileObject.ParentID = ($('#ID').val() == emptyGUID) ? "" : $('#ID').val();
+            }
+
+            FileObject.ParentType = "SuppPayment";
+            FileObject.Controller = "FileUpload";
+            UploadFile(FileObject);
+        });
         DataTables.SupplierPaymentTable = $('#SupPayTable').DataTable(
         {
             dom: '<"pull-left"f>rt<"bottom"ip><"clear">',
@@ -302,6 +317,8 @@ function GetSupplierPaymentsByID(PaymentID) {
     $('#lblCredit').text(roundoff(AmountReceived - sum));
     // $('#lblPaymentApplied').text(roundoff(thisitem.TotalPaidAmt));
     Selectcheckbox();
+    clearUploadControl();
+    PaintImages(PaymentID);
 }
 
 function openNavClick() {
@@ -316,6 +333,7 @@ function openNavClick() {
     $('#Type').prop('disabled', false);
     $('#PaymentMode').prop('disabled', false);
     openNav();
+    clearUploadControl();
 }
 
 function TypeOnChange() {

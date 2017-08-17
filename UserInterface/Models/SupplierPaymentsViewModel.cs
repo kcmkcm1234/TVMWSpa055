@@ -50,7 +50,7 @@ namespace UserInterface.Models
         [Display(Name = "Amount Paid")]
         public decimal TotalPaidAmt { get; set; }
         public decimal AdvanceAmount { get; set; }
-
+        public Guid hdnFileID { get; set; }
         public string PaymentDateFormatted { get; set; }
         public List<SupplierPaymentsDetailViewModel> supplierPaymentsDetail { get; set; }
         public SupplierPaymentsDetailViewModel supplierPaymentsDetailObj { get; set; }

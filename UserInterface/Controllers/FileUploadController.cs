@@ -4,8 +4,10 @@ using SPAccounts.BusinessService.Contracts;
 using SPAccounts.DataAccessObject.DTO;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -100,6 +102,39 @@ namespace UserInterface.Controllers
             {
                 //AppConstMessage cm = c.GetMessage(ex.Message);
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+            }
+        }
+        [HttpGet]
+        public FileResult DownloadFile(string token)
+        {
+            if(token!="")
+            {
+                string[] Filess = token.Split('/');
+                string filename = Server.MapPath(token);
+                //string contentType = "application/image";
+                string contentType = MimeMapping.GetMimeMapping(Filess[3]);
+                //Parameters to file are
+                //1. The File Path on the File Server
+                //2. The content type MIME type
+                //3. The parameter for the file save by the browser
+                return File(filename, contentType, Filess[3]);
+            }
+            return null;
+        }
+        [HttpGet]
+        public string DeleteFile(string id)
+        {
+            AppConst c = new AppConst();
+            object result = null;
+          try
+            {
+                result = _fileUploadBusiness.DeleteFile(Guid.Parse(id));
+                return JsonConvert.SerializeObject(new { Result = "OK", Message = c.DeleteSuccess, Records = result });
+            }
+            catch(Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
             }
         }
     }

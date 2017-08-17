@@ -178,12 +178,12 @@ function Delete()
 
 function saveInvoices() {
     debugger;
-    if ($('#txtTotalInvAmt').val() == 0) {
-        notyAlert('error', 'Please Enter Amount');
-  }
-  else {
+  //  if ($('#txtTotalInvAmt').val() == 0) {
+  //      notyAlert('error', 'Please Enter Amount');
+  //}
+  //else {
       $('#btnSave').trigger('click');
-  }
+  //}
 }
 
 function DeleteSuccess(data, status) {

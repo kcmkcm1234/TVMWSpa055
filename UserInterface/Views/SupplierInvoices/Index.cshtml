@@ -136,6 +136,7 @@
                                 <div class="col-md-12">
                                     @Html.LabelFor(model => model.InvoiceNo, htmlAttributes: new { @class = "control-label" })
                                     @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "" })
+                                    @Html.HiddenFor(model => model.hdnFileID, htmlAttributes: new { @class = "", @id = "hdnFileDupID", @value = Guid.Empty })
 
                                 </div>
                                 <div class="col-md-12">
@@ -436,27 +437,10 @@
                         <div class="col-md-1"></div>
                         <div class="col-md-1"></div>
                     </div>
-
-                    <div class="col-md-12  ">
-                        <div class="col-md-10">
-                            <div class="form-group col-md-12">
-                                <div class="col-md-12">
-
-
-
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="col-md-10">
-                                        attachment controll here
-                                    </div>
-                                    <div class="col-md-1"></div>
-                                    <div class="col-md-1"></div>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="col-md-1"></div>
-                        <div class="col-md-1"></div>
+                    <div class="col-md-12  ">&nbsp;</div>
+                    <div class="col-md-12  ">&nbsp;</div>
+                    <div>
+                        @Html.Partial("Fileupload");
                     </div>
 
                     <div class="col-md-12  ">&nbsp;</div>

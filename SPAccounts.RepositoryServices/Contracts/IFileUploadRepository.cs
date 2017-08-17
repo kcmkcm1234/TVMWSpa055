@@ -10,5 +10,6 @@ namespace SPAccounts.RepositoryServices.Contracts
     {
         FileUpload InsertAttachment(FileUpload fileUploadObj);
         List<FileUpload> GetAttachments(Guid ID);
+        object DeleteFile(Guid ID);
     }
 }

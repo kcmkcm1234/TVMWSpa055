@@ -88,7 +88,7 @@ namespace UserInterface.Models
         public string BalanceDuestring { get; set; }
         public string TotalInvoiceAmountstring { get; set; }
         public string PaidAmountstring { get; set; }
-
+        public Guid hdnFileID { get; set; }
         public decimal BalanceDue { get; set; }
         public DateTime LastPaymentDate { get; set; }
         public String LastPaymentDateFormatted { get; set; }

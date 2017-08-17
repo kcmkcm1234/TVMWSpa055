@@ -54,7 +54,6 @@ $(document).ready(function () {
             $("#outstandingdetailsdiv").show();
         }
     });
-
     $('input.datepicker').datepicker({
         format: "dd-M-yyyy",//",
         maxViewMode: 0,
@@ -440,6 +439,44 @@ function UploadFile(FileObject)
         }
    // });
 }
+
+function DeleteFile(this_Obj)
+{
+    debugger;
+    try
+    {
+
+        notyConfirm('Are you sure to delete?', 'DeleteNow("' + this_Obj.attributes.token.value + '")', '', "Yes, delete it!");
+        
+    }
+    catch(e)
+    {
+
+    }
+}
+function DeleteNow(this_Obj)
+{
+    try
+    {
+        var data = { "id": this_Obj };
+        var ds = {};
+        ds = GetDataFromServer("FileUpload/DeleteFile/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            notyAlert('success', ds.Message);
+            PaintImages($('#ID').val());
+        }
+        if (ds.Result == "ERROR") {
+            notyAlert('error', ds.Message);
+        }
+    }
+    catch(e)
+    {
+
+    }    
+}
 function PaintImages(ID)
 {
     try {
@@ -462,6 +499,8 @@ function PaintImages(ID)
                     html = '<div class="file-preview-thumbnails">'
                                         + '  <div class="file-preview-frame krajee-default  kv-preview-thumb">'
                                              + ' <div class="kv-file-content">'
+                                             + '<a href="/FileUpload/DownloadFile?token=' + ds.Records[i].AttachmentURL + '" style="position: absolute;left: 7%;cursor:pointer;z-index: 900;color: #26a026;"><i class="fa fa-download" aria-hidden="true" ></i></a>'
+                                             + '<a style="position: absolute;right: 0%;cursor:pointer;z-index: 900;color: #dc3939;" ><i class="fa fa-trash-o" aria-hidden="true" onclick="DeleteFile(this);" token="' + ds.Records[i].ID + '"></i></a>'
                                                  + ' <div class="kv-preview-data file-preview-other-frame">'
                                                      + ' <div class="file-preview-other">'
                                                         + '  <span class="file-other-icon">' + validateType(ds.Records[i].FileName) + '</span>'
