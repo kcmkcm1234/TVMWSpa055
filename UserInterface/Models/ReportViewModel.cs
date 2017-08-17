@@ -166,4 +166,19 @@ namespace UserInterface.Models
 
     }
 
+    public class PurchaseTransactionLogReportViewModel
+    {
+        [Required(ErrorMessage = "Company required")]
+        [Display(Name = "Company")]
+        public string CompanyCode { get; set; }
+        public string OriginatedCompany { get; set; }
+        public string Date { get; set; }
+        public string TransactionType { get; set; }
+        public string DocNo { get; set; }
+        public decimal Amount { get; set; }
+        public string Remarks { get; set; }
+        public List<SelectListItem> CompanyList { get; set; }
+        public List<CompaniesViewModel> companiesList;
+    }
+
 }

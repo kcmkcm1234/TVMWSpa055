@@ -529,5 +529,54 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return SupplierContactDetailsReportList;
         }
+
+        public List<PurchaseTransactionLogReport> GetPurchaseTransactionLogDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode)
+        {
+            List<PurchaseTransactionLogReport> purchaseTransactionLogReportList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
+                        cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = CompanyCode;
+                        cmd.CommandText = "[Accounts].[RPT_GetPurchaseTransactionLog]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                purchaseTransactionLogReportList = new List<PurchaseTransactionLogReport>();
+                                while (sdr.Read())
+                                {
+                                    PurchaseTransactionLogReport purchaseTransactionLogReport = new PurchaseTransactionLogReport();
+                                    {
+                                        purchaseTransactionLogReport.CompanyCode = (sdr["CompanyCode"].ToString() != "" ? sdr["CompanyCode"].ToString() : purchaseTransactionLogReport.CompanyCode);
+                                        purchaseTransactionLogReport.OriginatedCompany = (sdr["OriginatedCompany"].ToString() != "" ? sdr["OriginatedCompany"].ToString() : purchaseTransactionLogReport.OriginatedCompany);
+                                        purchaseTransactionLogReport.Date = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(settings.dateformat) : purchaseTransactionLogReport.Date);
+                                        purchaseTransactionLogReport.TransactionType = (sdr["TransactionType"].ToString() != "" ? sdr["TransactionType"].ToString() : purchaseTransactionLogReport.TransactionType);
+                                        purchaseTransactionLogReport.DocNo = (sdr["DocNo"].ToString() != "" ? sdr["DocNo"].ToString() : purchaseTransactionLogReport.DocNo);
+                                        purchaseTransactionLogReport.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : purchaseTransactionLogReport.Amount);
+                                    }
+                                    purchaseTransactionLogReportList.Add(purchaseTransactionLogReport);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return purchaseTransactionLogReportList;
+        }
     }
 }

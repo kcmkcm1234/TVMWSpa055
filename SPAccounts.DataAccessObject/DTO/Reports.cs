@@ -131,4 +131,16 @@ namespace SPAccounts.DataAccessObject.DTO
         public string ShippingAddress { get; set; }
 
     }
+    public class PurchaseTransactionLogReport
+    {
+       
+        public string CompanyCode { get; set; }
+        public string OriginatedCompany { get; set; }
+        public string Date { get; set; }
+        public string TransactionType { get; set; }
+        public string DocNo { get; set; }
+        public decimal Amount { get; set; }
+        public string Remarks { get; set; }
+       
+    }
 }

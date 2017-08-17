@@ -1503,6 +1503,7 @@
     <Content Include="Scripts\UserJS\PrivilegesView.js" />
     <Content Include="Scripts\UserJS\PurchaseDetailReport.js" />
     <Content Include="Scripts\UserJS\PurchaseSummaryReport.js" />
+    <Content Include="Scripts\UserJS\PurchaseTransactionLogReport.js" />
     <Content Include="Scripts\UserJS\Roles.js" />
     <Content Include="Scripts\UserJS\SalesDetailReport.js" />
     <Content Include="Scripts\UserJS\SalesTransactionLogReport.js" />
@@ -1661,6 +1662,7 @@
     <Content Include="Views\Report\PurchaseSummaryReport.cshtml" />
     <Content Include="Views\Report\PurchaseDetails.cshtml" />
     <Content Include="Views\Report\SupplierContactDetails.cshtml" />
+    <Content Include="Views\Report\PurchaseTransactionLog.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
