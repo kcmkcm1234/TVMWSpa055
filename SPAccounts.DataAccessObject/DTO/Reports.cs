@@ -67,13 +67,25 @@ namespace SPAccounts.DataAccessObject.DTO
 
     public class CustomerContactDetailsReport
     {
-       
         public string CustomerName { get; set; }
         public string PhoneNumber { get; set; }
+        public string OtherPhoneNos { get; set; }
         public string Email { get; set; }
         public string ContactName { get; set; }
         public string BillingAddress { get; set; }
         public string ShippingAddress { get; set; }
-     
+    }
+
+    public class SalesTransactionLogReport
+    {
+        
+        public string CompanyCode { get; set; }
+        public string OriginatedCompany { get; set; }
+        public string Date { get; set; }
+        public string TransactionType { get; set; }
+        public string DocNo { get; set; }
+        public decimal Amount { get; set; }
+        public string Remarks { get; set; }
+       
     }
 }

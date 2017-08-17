@@ -77,20 +77,20 @@ namespace SPAccounts.BusinessService.Services
             try
             {
                 otherExpenseSummaryList = _reportRepository.GetOtherExpenseSummary(FromDate, ToDate, CompanyCode);
-                if (otherExpenseSummaryList != null)
-                {
-                    switch (OrderBy)
-                    {
-                        case "AH":
-                            otherExpenseSummaryList = otherExpenseSummaryList.OrderBy(OE => OE.AccountHeadORSubtype).ToList();
-                            break;
+                //if (otherExpenseSummaryList != null)
+                //{
+                //    switch (OrderBy)
+                //    {
+                //        case "AH":
+                //          //  otherExpenseSummaryList = otherExpenseSummaryList.OrderBy(OE => OE.AccountHeadORSubtype).ToList();
+                //            break;
 
-                        case "ST":
-                            otherExpenseSummaryList = otherExpenseSummaryList.OrderByDescending(OE => OE.SubTypeDesc).ToList();
-                            break;
-                    }
+                //        case "ST":
+                //          //  otherExpenseSummaryList = otherExpenseSummaryList.OrderByDescending(OE => OE.SubTypeDesc).ToList();
+                //            break;
+                //    }
 
-                }
+                //}
             }
             catch (Exception ex)
             {
@@ -111,6 +111,20 @@ namespace SPAccounts.BusinessService.Services
                 throw ex;
             }
             return saleDetailList;
+        }
+
+        public List<SalesTransactionLogReport> GetSalesTransactionLogDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode)
+        {
+            List<SalesTransactionLogReport> salesTransactionLogReportList = null;
+            try
+            {
+                salesTransactionLogReportList = _reportRepository.GetSalesTransactionLogDetails(FromDate, ToDate, CompanyCode);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return salesTransactionLogReportList;
         }
 
         public List<SaleSummary> GetSaleSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode)

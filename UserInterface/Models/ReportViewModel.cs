@@ -88,26 +88,31 @@ namespace UserInterface.Models
 
     public class CustomerContactDetailsReportViewModel
     {
-        [Required(ErrorMessage = "Company required")]
-        [Display(Name = "Company")]
+      
         public string CompanyCode { get; set; }
         public string CustomerName { get; set; }
         public string PhoneNumber { get; set; }
+        public string OtherPhoneNos { get; set; }
         public string Email { get; set; }
         public string ContactName { get; set; }
         public string BillingAddress { get; set; }
         public string ShippingAddress { get; set; }
-        public List<SelectListItem> CompanyList { get; set; }
-        public List<CompaniesViewModel> companiesList;
+     
     }
 
     public class SalesTransactionLogReportViewModel
     {
+        [Required(ErrorMessage = "Company required")]
+        [Display(Name = "Company")]
+        public string CompanyCode { get; set; }
         public string OriginatedCompany { get; set; }
         public string Date { get; set; }
         public string TransactionType { get; set; }
         public string DocNo { get; set; }
         public decimal Amount { get; set; }
+        public string Remarks { get; set; }
+        public List<SelectListItem> CompanyList { get; set; }
+        public List<CompaniesViewModel> companiesList;
     }
 
 }
