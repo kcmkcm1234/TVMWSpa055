@@ -2,6 +2,20 @@
 var emptyGUID = '00000000-0000-0000-0000-000000000000'
 $(document).ready(function () {
     try {
+        $('#btnUpload').click(function () {
+            //Pass the controller name
+            var FileObject = new Object;
+            if ($('#hdnFileDupID').val() != emptyGUID) {
+                FileObject.ParentID = (($('#ID').val()) != "" ? ($('#ID').val()) : $('#hdnFileDupID').val());
+            }
+            else {
+                FileObject.ParentID = $('#ID').val();
+            }
+
+            FileObject.ParentType = "SuppInvoice";
+            FileObject.Controller = "FileUpload";
+            UploadFile(FileObject);
+        });
         DataTables.SupplInvTable = $('#SuppInvTable').DataTable(
         {
             dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
@@ -184,8 +198,8 @@ function PaintInvoiceDetails() {
     $('#lblinvoicedAmt').text(SupplierInvoiceViewModel.TotalInvoiceAmountstring);
     $('#lblpaidAmt').text(SupplierInvoiceViewModel.PaidAmountstring);
     $('#lblbalalnceAmt').text(SupplierInvoiceViewModel.BalanceDuestring);
-
-
+    clearUploadControl();
+    PaintImages(InvoiceID);
 }
 function List() {
     debugger;
@@ -231,12 +245,12 @@ function GetAllInvoicesAndSummary() {
 
 function saveInvoices() {
     debugger;
-    if ($('#txtTotalInvAmt').val() == 0) {
-        notyAlert('error', 'Please Enter Amount');
-    }
-    else {
+    //if ($('#txtTotalInvAmt').val() == 0) {
+    //    notyAlert('error', 'Please Enter Amount');
+    //}
+    //else {
         $('#btnSave').trigger('click');
-    }
+   // }
 }
 
 function SaveSuccess(data, status) {
@@ -474,6 +488,7 @@ function AddNew() {
     $('#lblInvoiceNo').text("New Invoice");
     openNav();
     ChangeButtonPatchView("SupplierInvoices", "btnPatchAdd", "Add"); //ControllerName,id of the container div,Name of the action
+    clearUploadControl();
 }
 
 function Reset() {

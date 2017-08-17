@@ -322,6 +322,7 @@ function GetCustomerPaymentsByID(PaymentID) {
     $('#lblCredit').text(roundoff(AmountReceived - sum));
         // $('#lblPaymentApplied').text(roundoff(thisitem.TotalRecdAmt));
     Selectcheckbox();
+    clearUploadControl();
     PaintImages(PaymentID);
 }
 
@@ -336,6 +337,7 @@ function openNavClick() {
     $('#Type').prop('disabled', false);
     $('#PaymentMode').prop('disabled', false);
     openNav();
+    clearUploadControl();
 }
  
 function TypeOnChange() {

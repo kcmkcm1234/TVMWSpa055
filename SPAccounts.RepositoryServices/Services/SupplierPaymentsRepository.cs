@@ -162,6 +162,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@DetailXml", SqlDbType.NVarChar, -1).Value = _supplierPayObj.DetailXml;
                         cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = _supplierPayObj.CommonObj.CreatedBy;
                         cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = _supplierPayObj.CommonObj.CreatedDate;
+                        cmd.Parameters.Add("@FileDupID", SqlDbType.UniqueIdentifier).Value = _supplierPayObj.hdnFileID;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         outputID = cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier);

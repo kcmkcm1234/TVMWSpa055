@@ -23,5 +23,9 @@ namespace SPAccounts.BusinessService.Services
         {
             return _fileRepository.GetAttachments(ID);
         }
+        public object DeleteFile(Guid ID)
+        {
+            return _fileRepository.DeleteFile(ID);
+        }
     }
 }

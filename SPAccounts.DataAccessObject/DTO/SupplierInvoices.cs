@@ -34,7 +34,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal OtherPayments { get; set; }
        
         public SupplierPayments SuppPaymentObj { get; set; }
-
+        public Guid hdnFileID { get; set; }
         public decimal BalanceDue { get; set; }
         public DateTime LastPaymentDate { get; set; }
         public String LastPaymentDateFormatted { get; set; }

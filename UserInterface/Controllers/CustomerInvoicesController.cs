@@ -225,6 +225,10 @@ namespace UserInterface.Controllers
         {
             try
             {
+                if(_customerInvoicesObj.TotalInvoiceAmount==0)
+                {
+                    throw new Exception("Please Enter Amount");
+                }
                 AppUA _appUA = Session["AppUA"] as AppUA;
                 _customerInvoicesObj.commonObj = new CommonViewModel();
                 _customerInvoicesObj.commonObj.CreatedBy = _appUA.UserName;
