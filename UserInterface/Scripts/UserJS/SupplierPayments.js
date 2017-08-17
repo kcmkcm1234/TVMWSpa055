@@ -325,6 +325,7 @@ function openNavClick() {
     debugger;
     fieldsclear();
     BindOutstanding();
+    $('#lblOutstandingdetails').text('');
     $('#lblheader').text('New Payment');
     ChangeButtonPatchView('SupplierPayments', 'btnPatchAdd', 'Add');
     $('#Supplier').prop('disabled', false);
@@ -512,8 +513,9 @@ function DeleteSuccess(data, status) {
     var JsonResult = JSON.parse(data)
     switch (JsonResult.Result) {
         case "OK":
-            openNavClick()
+            closeNav();
             BindSupplierPaymentsHeader()
+            $('#lblOutstandingdetails').text('');
             notyAlert('success', JsonResult.Message);
             List();
             break;

@@ -97,7 +97,7 @@ $(document).ready(function () {
            select: { style: 'multi', selector: 'td:first-child' }
        });
 
-        $("#PaymentMode option[value=ONLINE]").remove();
+        $("#PaymentMode option[value=ONLINE]").prop('disabled', true); 
         $("#ChequeStatus").prop('disabled', true);
     } catch (x) {
 
@@ -120,7 +120,6 @@ function Edit(currentObj) {
 }
 function EditDeposit(currentObj)
 {
-    $("#PaymentMode option[value=ONLINE]").remove();
     ShowDepositEdit();
     ResetForm();
     debugger;
@@ -174,34 +173,31 @@ function DepositModeOnchange()
     }
     else {
         $("#ChequeStatus").prop('disabled', true);
-        $("#ChequeStatus").val("");
+      //  $("#ChequeStatus").val("");
     }
 }
 
 function FillDepositWithdrawalDetails(ID) {
     var thisItem = GetDepositWithdrawalDetailsByID(ID); //Binding Data
     //Hidden
-    debugger;
-
-    $("#ID").val(thisItem.ID);
-    $("#TransactionType").val(thisItem.TransactionType);
-    $("#ReferenceNo").val(thisItem.ReferenceNo);
-    $("#Date").val(thisItem.DateFormatted);
-    $("#Amount").val(roundoff(thisItem.Amount));
-    $("#BankCodeModal").val(thisItem.BankCode);
-    $("#GeneralNotes").val(thisItem.GeneralNotes);
-    $("#ChequeStatus").val(thisItem.ChequeStatus);
-    $("#PaymentMode").val(thisItem.PaymentMode);
-    $("#PaymentMode option[value=ONLINE]").remove();
-    if (thisItem.TransactionType == "D")
-    {
-        $("#lblPaymentMode").text("Deposit Mode");
-    }
-    else
-    {
-        $("#lblPaymentMode").text("Withdrawal Mode");
-    }
-    DepositModeOnchange();
+    debugger; 
+        $("#ID").val(thisItem.ID);
+        $("#TransactionType").val(thisItem.TransactionType);
+        $("#ReferenceNo").val(thisItem.ReferenceNo);
+        $("#Date").val(thisItem.DateFormatted);
+        $("#Amount").val(roundoff(thisItem.Amount));
+        $("#BankCodeModal").val(thisItem.BankCode);
+        $("#GeneralNotes").val(thisItem.GeneralNotes);
+        $("#ChequeStatus").val(thisItem.ChequeStatus);
+        $("#PaymentMode").val(thisItem.PaymentMode);
+        $("#PaymentMode").prop('disabled', true);
+        if (thisItem.TransactionType == "D") {
+            $("#lblPaymentMode").text("Deposit Mode");
+        }
+        else {
+            $("#lblPaymentMode").text("Withdrawal Mode");
+        }
+        DepositModeOnchange(); 
 }
 
 function GetDepositWithdrawalDetailsByID(ID) {
@@ -227,7 +223,8 @@ function GetDepositWithdrawalDetailsByID(ID) {
 }
 function Reset()
 {
-    if ($("#ID").val() == "0") {
+    debugger;
+    if ($("#ID").val() == "") {
         ClearFields();       
     }
     else {
@@ -250,7 +247,6 @@ function ClearFields() {
     $("#PaymentMode").val("");
     $("#lblPaymentMode").text("Deposit Mode");
     ResetForm();
-    $("#PaymentMode option[value=ONLINE]").remove();
     $("#ChequeStatus").prop('disabled', true);
 }
 
@@ -354,6 +350,7 @@ function BindDepositWithdrawals(DepositOrWithdrawal,chqclr)
 
 function ShowDepositModal() {
     debugger;
+    $("#PaymentMode").prop('disabled', false);
     $("#tabs").css('display', '');
     $("#AddDepositAndWithdrawalModel").modal('show');
     $("#tabDepositwithdrawalEntry").css('display', '');
@@ -478,6 +475,7 @@ function Validation()
 
 function ShowWithDrawal()
 {
+    $("#PaymentMode").prop('disabled', false);
     $("#tabs").css('display', '');
     $("#AddDepositAndWithdrawalModel").modal('show');
     $("#tabDepositwithdrawalEntry").css('display', '');
