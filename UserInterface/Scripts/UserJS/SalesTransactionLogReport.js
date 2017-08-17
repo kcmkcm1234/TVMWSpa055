@@ -28,9 +28,9 @@ $(document).ready(function () {
              columns: [
               
                { "data": "OriginatedCompany", "defaultContent": "<i>-</i>" },
+               { "data": "DocNo", "defaultContent": "<i>-</i>" },
                { "data": "Date", "defaultContent": "<i>-</i>" },
                { "data": "TransactionType", "defaultContent": "<i>-</i>" },
-               { "data": "DocNo", "defaultContent": "<i>-</i>" },
                { "data": "Amount",render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                { "data": "Remarks", "defaultContent": "<i>-</i>" },
                { "data": "CompanyCode", "defaultContent": "<i>-</i>" }

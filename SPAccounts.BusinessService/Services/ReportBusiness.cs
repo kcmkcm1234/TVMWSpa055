@@ -77,20 +77,20 @@ namespace SPAccounts.BusinessService.Services
             try
             {
                 otherExpenseSummaryList = _reportRepository.GetOtherExpenseSummary(FromDate, ToDate, CompanyCode);
-                if (otherExpenseSummaryList != null)
-                {
-                    switch (OrderBy)
-                    {
-                        case "AH":
-                            otherExpenseSummaryList = otherExpenseSummaryList.OrderBy(OE => OE.AccountHeadORSubtype).ToList();
-                            break;
+                //if (otherExpenseSummaryList != null)
+                //{
+                //    switch (OrderBy)
+                //    {
+                //        case "AH":
+                //          //  otherExpenseSummaryList = otherExpenseSummaryList.OrderBy(OE => OE.AccountHeadORSubtype).ToList();
+                //            break;
 
-                        case "ST":
-                            otherExpenseSummaryList = otherExpenseSummaryList.OrderByDescending(OE => OE.SubTypeDesc).ToList();
-                            break;
-                    }
+                //        case "ST":
+                //          //  otherExpenseSummaryList = otherExpenseSummaryList.OrderByDescending(OE => OE.SubTypeDesc).ToList();
+                //            break;
+                //    }
 
-                }
+                //}
             }
             catch (Exception ex)
             {
