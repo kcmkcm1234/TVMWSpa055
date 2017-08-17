@@ -244,8 +244,8 @@ function GetAllCustomerPayments() {
 }
 
 function Edit(currentObj)
-{
-    openNav();
+{ 
+    openNav(); 
        var rowData = DataTables.CustomerPaymentTable.row($(currentObj).parents('tr')).data();
     if ((rowData != null) && (rowData.ID != null)) {
         GetCustomerPaymentsByID(rowData.ID)
@@ -328,6 +328,7 @@ function GetCustomerPaymentsByID(PaymentID) {
 
 function openNavClick() {
     fieldsclear();
+    $('#lblOutstandingdetails').text('');
     BindOutstanding();
     $('#lblheader').text('New Payment');
     ChangeButtonPatchView('CustomerPayments', 'btnPatchAdd', 'Add');
@@ -518,9 +519,10 @@ function DeleteSuccess(data, status) {
     var JsonResult = JSON.parse(data)
     switch (JsonResult.Result) {
         case "OK":
-            openNavClick()
+            closeNav();
             BindCustomerPaymentsHeader()
             notyAlert('success', JsonResult.Message);
+            $('#lblOutstandingdetails').text('');
             List();
             break;
         case "Error":
