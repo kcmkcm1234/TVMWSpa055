@@ -18,5 +18,6 @@ namespace SPAccounts.RepositoryServices.Contracts
         List<SalesTransactionLogReport> GetSalesTransactionLogDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode);
         List<PurchaseSummaryReport> GetPurchaseSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode);
         List<PurchaseDetailReport> GetPurchaseDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode);
+        List<SupplierContactDetailsReport> GetSupplierContactDetailsReport();
     }
 }

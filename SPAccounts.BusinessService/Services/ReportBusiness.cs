@@ -170,5 +170,19 @@ namespace SPAccounts.BusinessService.Services
             }
             return saleSummaryList;
         }
+
+        public List<SupplierContactDetailsReport> GetSupplierContactDetailsReport()
+        {
+            List<SupplierContactDetailsReport> supplierContactDetailsReportList = null;
+            try
+            {
+                supplierContactDetailsReportList = _reportRepository.GetSupplierContactDetailsReport();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return supplierContactDetailsReportList;
+        }
     }
 }

@@ -1507,6 +1507,7 @@
     <Content Include="Scripts\UserJS\SalesDetailReport.js" />
     <Content Include="Scripts\UserJS\SalesTransactionLogReport.js" />
     <Content Include="Scripts\UserJS\SaleSummaryReport.js" />
+    <Content Include="Scripts\UserJS\SupplierContactDetailsReport.js" />
     <Content Include="Scripts\UserJS\SupplierCreditNotes.js" />
     <Content Include="Scripts\UserJS\SupplierInvoices.js" />
     <Content Include="Scripts\UserJS\SupplierPayments.js" />
@@ -1659,6 +1660,7 @@
     <Content Include="Views\Report\SalesTransactionLog.cshtml" />
     <Content Include="Views\Report\PurchaseSummaryReport.cshtml" />
     <Content Include="Views\Report\PurchaseDetails.cshtml" />
+    <Content Include="Views\Report\SupplierContactDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

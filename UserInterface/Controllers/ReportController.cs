@@ -500,6 +500,29 @@ namespace UserInterface.Controllers
             return View(purchaseDetailReportViewModel);
         }
 
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        public ActionResult SupplierContactDetails()
+        {
+            return View();
+        }
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        public string GetSupplierContactDetails()
+        {
+            try
+            {
+                List<SupplierContactDetailsReportViewModel> supplierContactDetailsReportList = Mapper.Map<List<SupplierContactDetailsReport>, List<SupplierContactDetailsReportViewModel>>(_reportBusiness.GetSupplierContactDetailsReport());
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = supplierContactDetailsReportList });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+            }
+        }
+
+
         #region ButtonStyling
         [HttpGet]
         public ActionResult ChangeButtonStyle(string ActionType)

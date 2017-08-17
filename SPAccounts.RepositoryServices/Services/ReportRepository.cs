@@ -481,5 +481,53 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return purchaseDetailReportList;
         }
+
+        public List<SupplierContactDetailsReport> GetSupplierContactDetailsReport()
+        {
+            List<SupplierContactDetailsReport> SupplierContactDetailsReportList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[RPT_GetSupplierContactDetails]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                SupplierContactDetailsReportList = new List<SupplierContactDetailsReport>();
+                                while (sdr.Read())
+                                {
+                                    SupplierContactDetailsReport supplierContactDetailsReport = new SupplierContactDetailsReport();
+                                    {
+                                        supplierContactDetailsReport.SupplierName = (sdr["SupplierName"].ToString() != "" ? sdr["SupplierName"].ToString() : supplierContactDetailsReport.SupplierName);
+                                        supplierContactDetailsReport.PhoneNumber = (sdr["Mobile"].ToString() != "" ? sdr["Mobile"].ToString() : supplierContactDetailsReport.PhoneNumber);
+                                        supplierContactDetailsReport.OtherPhoneNos = (sdr["OtherPhoneNos"].ToString() != "" ? sdr["OtherPhoneNos"].ToString() : supplierContactDetailsReport.OtherPhoneNos);
+                                        supplierContactDetailsReport.Email = (sdr["ContactEmail"].ToString() != "" ? sdr["ContactEmail"].ToString() : supplierContactDetailsReport.Email);
+                                        supplierContactDetailsReport.ContactName = (sdr["ContactPerson"].ToString() != "" ? sdr["ContactPerson"].ToString() : supplierContactDetailsReport.ContactName);
+                                        supplierContactDetailsReport.BillingAddress = (sdr["BillingAddress"].ToString() != "" ? sdr["BillingAddress"].ToString() : supplierContactDetailsReport.BillingAddress);
+                                        supplierContactDetailsReport.ShippingAddress = (sdr["ShippingAddress"].ToString() != "" ? sdr["ShippingAddress"].ToString() : supplierContactDetailsReport.ShippingAddress);
+
+                                    }
+                                    SupplierContactDetailsReportList.Add(supplierContactDetailsReport);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return SupplierContactDetailsReportList;
+        }
     }
 }
