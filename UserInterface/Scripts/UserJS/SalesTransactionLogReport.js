@@ -13,7 +13,7 @@ $(document).ready(function () {
                  extend: 'excel',
                  exportOptions:
                               {
-                                  columns: [0, 1, 2]
+                                  columns: [0, 1, 2,3,4]
                               }
              }],
              order: [],
@@ -45,12 +45,11 @@ $(document).ready(function () {
                  var rows = api.rows({ page: 'current' }).nodes();
                  var last = null;
 
-                 api.column(6, { page: 'current' }).data().each(function (group, i) {
+                 api.column(0, { page: 'current' }).data().each(function (group, i) {
 
                      if (last !== group) {
-                         $(rows).eq(i).before('<tr class="group "><td colspan="4" class="rptGrp">' + '<b>Company</b> : ' + group + '</td></tr>');
+                         $(rows).eq(i).before('<tr class="group "><td colspan="5" class="rptGrp">' + '<b>Company</b> : ' + group + '</td></tr>');
                          last = group;
-
 
                      }
                     
