@@ -132,4 +132,38 @@ namespace UserInterface.Models
 
     }
 
+    public class PurchaseDetailReportViewModel
+    {
+        [Required(ErrorMessage = "Company required")]
+        [Display(Name = "Company")]
+        public string CompanyCode { get; set; }
+        public string InvoiceNo { get; set; }
+        public string Date { get; set; }
+        public string PaymentDueDate { get; set; }
+        public decimal PaidAmount { get; set; }
+        public decimal InvoiceAmount { get; set; }
+        public decimal BalanceDue { get; set; }
+        public string OriginCompany { get; set; }
+        public string GeneralNotes { get; set; }
+        public string SupplierName { get; set; }
+        public decimal Credit { get; set; }
+        public List<SelectListItem> CompanyList { get; set; }
+        public List<CompaniesViewModel> companiesList;
+
+    }
+
+    public class SupplierContactDetailsReportViewModel
+    {
+
+        public string CompanyCode { get; set; }
+        public string SupplierName { get; set; }
+        public string PhoneNumber { get; set; }
+        public string OtherPhoneNos { get; set; }
+        public string Email { get; set; }
+        public string ContactName { get; set; }
+        public string BillingAddress { get; set; }
+        public string ShippingAddress { get; set; }
+
+    }
+
 }
