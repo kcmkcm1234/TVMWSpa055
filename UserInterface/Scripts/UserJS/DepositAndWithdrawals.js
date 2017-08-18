@@ -168,12 +168,12 @@ function SaveSuccess(data, status) {
 function DepositModeOnchange()
 {
     debugger;
-    if ($("#PaymentMode").val() == "CHEQUE") {
+    if ($("#PaymentMode").val() == "CHEQUE" && $("#ChequeStatus").val() != "Cleared") {
         $("#ChequeStatus").prop('disabled', false);
     }
     else {
         $("#ChequeStatus").prop('disabled', true);
-      //  $("#ChequeStatus").val("");
+        //$("#ChequeStatus").val("");
     }
 }
 
@@ -442,8 +442,9 @@ function ClearCheque()
     }
 
 function SaveDeposit()
-{
+{ 
     debugger;
+    $("#DepositRowValues").val('');
     try {
         if ($("#TransactionType").val() == "")
         {
@@ -453,14 +454,9 @@ function SaveDeposit()
             else
             {
                 $("#TransactionType").val('W');
-            }
-           
-        }
-        
-       
+            } 
+        } 
             $("#btnDepositWithdrawalSave").trigger('click');
-      
-       
     }
     catch (e) {
         notyAlert('error', e.message);
@@ -542,7 +538,7 @@ function SaveCheckedDeposit()
                 for (var r = 0; r < SelectedRows.length; r++) {
                     var DepositAndWithdrwalViewModel = new Object();
                     DepositAndWithdrwalViewModel.Date = SelectedRows[r].DateFormatted;
-                    DepositAndWithdrwalViewModel.TransactionType = 'W';
+                    DepositAndWithdrwalViewModel.TransactionType = 'D';
                     DepositAndWithdrwalViewModel.ReferenceNo = SelectedRows[r].ReferenceNo;
                     DepositAndWithdrwalViewModel.Amount = SelectedRows[r].Amount;
                     DepositAndWithdrwalViewModel.BankCode = $("#BankCode").val();
