@@ -337,6 +337,7 @@ function openNavClick() {
     $('#ChequeDate').prop('disabled', true);
     $('#Type').prop('disabled', false);
     $('#PaymentMode').prop('disabled', false);
+    $('#TotalRecdAmt').prop('disabled', false);
     openNav();
     clearUploadControl();
 }
