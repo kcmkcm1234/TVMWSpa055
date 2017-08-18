@@ -20,5 +20,6 @@ namespace SPAccounts.RepositoryServices.Contracts
         List<PurchaseDetailReport> GetPurchaseDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode);
         List<SupplierContactDetailsReport> GetSupplierContactDetailsReport();
         List<PurchaseTransactionLogReport> GetPurchaseTransactionLogDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode);
+        List<AccountsReceivableAgeingReport> GetAccountsReceivableAgeingReport(DateTime? FromDate, DateTime? ToDate, string CompanyCode);
     }
 }

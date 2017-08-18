@@ -578,5 +578,59 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return purchaseTransactionLogReportList;
         }
+
+        public List<AccountsReceivableAgeingReport> GetAccountsReceivableAgeingReport(DateTime? FromDate, DateTime? ToDate, string CompanyCode)
+        {
+            List<AccountsReceivableAgeingReport> accountsReceivableAgeingReportList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
+                        cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = CompanyCode;
+                        cmd.CommandText = "[Accounts].[RPT_GetAccountsReceivableAgeingDetail]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                accountsReceivableAgeingReportList = new List<AccountsReceivableAgeingReport>();
+                                while (sdr.Read())
+                                {
+                                    AccountsReceivableAgeingReport accountsReceivableAgeingReport = new AccountsReceivableAgeingReport();
+                                    {
+                                        accountsReceivableAgeingReport.CompanyCode = (sdr["CompanyCode"].ToString() != "" ? sdr["CompanyCode"].ToString() : accountsReceivableAgeingReport.CompanyCode);
+                                        accountsReceivableAgeingReport.CustomerName= (sdr["CustomerName"].ToString() != "" ? sdr["CustomerName"].ToString() : accountsReceivableAgeingReport.CustomerName);
+                                        accountsReceivableAgeingReport.OriginatedCompany = (sdr["OriginCompany"].ToString() != "" ? sdr["OriginCompany"].ToString() : accountsReceivableAgeingReport.OriginatedCompany);
+                                        accountsReceivableAgeingReport.DueDate = (sdr["DueDate"].ToString() != "" ? DateTime.Parse(sdr["DueDate"].ToString()).ToString(settings.dateformat) : accountsReceivableAgeingReport.DueDate);
+                                        accountsReceivableAgeingReport.TransactionDate = (sdr["TransactionDate"].ToString() != "" ? DateTime.Parse(sdr["TransactionDate"].ToString()).ToString(settings.dateformat) : accountsReceivableAgeingReport.TransactionDate);
+                                        accountsReceivableAgeingReport.DaysPastDue= (sdr["DaysPastDue"].ToString() != "" ? sdr["DaysPastDue"].ToString() : accountsReceivableAgeingReport.DaysPastDue);
+                                        accountsReceivableAgeingReport.DocNo = (sdr["DocNo"].ToString() != "" ? sdr["DocNo"].ToString() : accountsReceivableAgeingReport.DocNo);
+                                        accountsReceivableAgeingReport.Invoiced = (sdr["Invoiced"].ToString() != "" ? decimal.Parse(sdr["Invoiced"].ToString()) : accountsReceivableAgeingReport.Invoiced);
+                                        accountsReceivableAgeingReport.Paid = (sdr["Paid"].ToString() != "" ? decimal.Parse(sdr["Paid"].ToString()) : accountsReceivableAgeingReport.Paid);
+                                        accountsReceivableAgeingReport.Balance= (sdr["Balance"].ToString() != "" ? decimal.Parse(sdr["Balance"].ToString()) : accountsReceivableAgeingReport.Balance);
+                                        accountsReceivableAgeingReport.Group= (sdr["Group"].ToString() != "" ? sdr["Group"].ToString() : accountsReceivableAgeingReport.Group);
+                                    }
+                                    accountsReceivableAgeingReportList.Add(accountsReceivableAgeingReport);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return accountsReceivableAgeingReportList;
+        }
     }
 }

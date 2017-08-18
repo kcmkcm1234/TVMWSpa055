@@ -181,4 +181,23 @@ namespace UserInterface.Models
         public List<CompaniesViewModel> companiesList;
     }
 
+    public class AccountsReceivableAgeingReportViewModel
+    {
+        [Required(ErrorMessage = "Company required")]
+        [Display(Name = "Company")]
+        public string CompanyCode { get; set; }
+        public string OriginatedCompany { get; set; }
+        public string TransactionDate { get; set; }
+        public string DocNo { get; set; }
+        public string CustomerName { get; set; }
+        public string DueDate { get; set; }
+        public string DaysPastDue { get; set; }
+        public decimal Invoiced { get; set; }
+        public decimal Paid { get; set; }
+        public decimal Balance { get; set; }
+        public string Group { get; set; }
+        public List<SelectListItem> CompanyList { get; set; }
+        public List<CompaniesViewModel> companiesList;
+    }
+
 }
