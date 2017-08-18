@@ -168,12 +168,12 @@ function SaveSuccess(data, status) {
 function DepositModeOnchange()
 {
     debugger;
-    if ($("#PaymentMode").val() == "CHEQUE") {
+    if ($("#PaymentMode").val() == "CHEQUE" && $("#ChequeStatus").val() != "Cleared") {
         $("#ChequeStatus").prop('disabled', false);
     }
     else {
         $("#ChequeStatus").prop('disabled', true);
-      //  $("#ChequeStatus").val("");
+        //$("#ChequeStatus").val("");
     }
 }
 
