@@ -585,6 +585,63 @@ namespace UserInterface.Controllers
         }
 
 
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        public ActionResult AccountsReceivableAgeingDetails()
+        {
+            DateTime dt = DateTime.Now;
+            ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+            ViewBag.todate = dt.ToString("dd-MMM-yyyy");
+            AccountsReceivableAgeingReportViewModel accountsReceivableAgeingReportViewModel = new AccountsReceivableAgeingReportViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            accountsReceivableAgeingReportViewModel.companiesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_companiesBusiness.GetAllCompanies());
+            if (accountsReceivableAgeingReportViewModel.companiesList != null)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "All",
+                    Value = "ALL",
+                    Selected = true
+                });
+               
+                foreach (CompaniesViewModel cvm in accountsReceivableAgeingReportViewModel.companiesList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = cvm.Name,
+                        Value = cvm.Code.ToString(),
+                        Selected = false
+                    });
+                }
+            }
+            accountsReceivableAgeingReportViewModel.CompanyList = selectListItem;
+            return View(accountsReceivableAgeingReportViewModel);
+        }
+
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        public string GetAccountsReceivableAgeingDetails(string FromDate, string ToDate, string CompanyCode)
+        {
+            if (!string.IsNullOrEmpty(CompanyCode))
+            {
+                try
+                {
+                    DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
+                    DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
+                    List<AccountsReceivableAgeingReportViewModel> accountsReceivableAgeingReportList = Mapper.Map<List<AccountsReceivableAgeingReport>, List<AccountsReceivableAgeingReportViewModel>>(_reportBusiness.GetAccountsReceivableAgeingReport(FDate, TDate, CompanyCode));
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = accountsReceivableAgeingReportList });
+                }
+                catch (Exception ex)
+                {
+                    return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+                }
+            }
+
+            return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
+        }
+
+
 
         #region ButtonStyling
         [HttpGet]

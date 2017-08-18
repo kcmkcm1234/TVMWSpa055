@@ -15,6 +15,9 @@ namespace SPAccounts.BusinessService.Services
         {
             _reportRepository = reportRepository;
         }
+
+   
+
         public List<SystemReport> GetAllSysReports(AppUA appUA)
         {
             List<SystemReport> systemReportList = null;
@@ -197,6 +200,19 @@ namespace SPAccounts.BusinessService.Services
                 throw ex;
             }
             return supplierContactDetailsReportList;
+        }
+        public List<AccountsReceivableAgeingReport> GetAccountsReceivableAgeingReport(DateTime? FromDate, DateTime? ToDate, string CompanyCode)
+        {
+            List<AccountsReceivableAgeingReport> accountsReceivableAgeingReportList = null;
+            try
+            {
+                accountsReceivableAgeingReportList = _reportRepository.GetAccountsReceivableAgeingReport(FromDate, ToDate, CompanyCode);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return accountsReceivableAgeingReportList;
         }
     }
 }
