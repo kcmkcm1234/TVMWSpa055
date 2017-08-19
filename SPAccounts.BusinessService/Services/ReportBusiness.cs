@@ -214,5 +214,19 @@ namespace SPAccounts.BusinessService.Services
             }
             return accountsReceivableAgeingReportList;
         }
+
+        public List<AccountsReceivableAgeingSummaryReport> GetAccountsReceivableAgeingSummaryReport(DateTime? FromDate, DateTime? ToDate, string CompanyCode)
+        {
+            List<AccountsReceivableAgeingSummaryReport> accountsReceivableAgeingSummaryReportList = null;
+            try
+            {
+                accountsReceivableAgeingSummaryReportList = _reportRepository.GetAccountsReceivableAgeingSummaryReport(FromDate, ToDate, CompanyCode);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return accountsReceivableAgeingSummaryReportList;
+        }
     }
 }

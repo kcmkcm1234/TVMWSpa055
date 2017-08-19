@@ -632,5 +632,56 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return accountsReceivableAgeingReportList;
         }
+
+        public List<AccountsReceivableAgeingSummaryReport> GetAccountsReceivableAgeingSummaryReport(DateTime? FromDate, DateTime? ToDate, string CompanyCode)
+        {
+            List<AccountsReceivableAgeingSummaryReport> accountsReceivableAgeingSummaryReportList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
+                        cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = CompanyCode;
+                        cmd.CommandText = "[Accounts].[RPT_GetAccountsReceivableAgeingSummary]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                accountsReceivableAgeingSummaryReportList = new List<AccountsReceivableAgeingSummaryReport>();
+                                while (sdr.Read())
+                                {
+                                    AccountsReceivableAgeingSummaryReport accountsReceivableAgeingSummaryReport = new AccountsReceivableAgeingSummaryReport();
+                                    {
+
+                                        accountsReceivableAgeingSummaryReport.Customer = (sdr["CustomerName"].ToString() != "" ? sdr["CustomerName"].ToString() : accountsReceivableAgeingSummaryReport.Customer);
+                                        accountsReceivableAgeingSummaryReport.Current= (sdr["Current"].ToString() != "" ? int.Parse(sdr["Current"].ToString()) : accountsReceivableAgeingSummaryReport.Current);
+                                        accountsReceivableAgeingSummaryReport.OneToThirty = (sdr["1-30"].ToString() != "" ? int.Parse(sdr["1-30"].ToString()) : accountsReceivableAgeingSummaryReport.OneToThirty);
+                                        accountsReceivableAgeingSummaryReport.ThirtyOneToSixty = (sdr["31-60"].ToString() != "" ? int.Parse(sdr["31-60"].ToString()) : accountsReceivableAgeingSummaryReport.ThirtyOneToSixty);
+                                        accountsReceivableAgeingSummaryReport.SixtyOneToNinety = (sdr["61-90"].ToString() != "" ? int.Parse(sdr["61-90"].ToString()) : accountsReceivableAgeingSummaryReport.SixtyOneToNinety);
+                                        accountsReceivableAgeingSummaryReport.NinetyOneAndOver = (sdr["91 And Over"].ToString() != "" ? int.Parse(sdr["91 And Over"].ToString()) : accountsReceivableAgeingSummaryReport.NinetyOneAndOver);
+                                       
+                                    }
+                                    accountsReceivableAgeingSummaryReportList.Add(accountsReceivableAgeingSummaryReport);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return accountsReceivableAgeingSummaryReportList;
+        }
     }
 }

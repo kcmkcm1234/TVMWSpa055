@@ -158,4 +158,17 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal Balance { get; set; }
         public string Group { get; set; }
     }
+    public class AccountsReceivableAgeingSummaryReport
+    {
+      
+        public string CompanyCode { get; set; }
+        public string OriginatedCompany { get; set; }
+        public string Customer { get; set; }
+        public int Current { get; set; }
+        public int OneToThirty { get; set; }
+        public int ThirtyOneToSixty { get; set; }
+        public int SixtyOneToNinety { get; set; }
+        public int NinetyOneAndOver { get; set; }
+       
+    }
 }
