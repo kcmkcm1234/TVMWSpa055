@@ -18,7 +18,7 @@ $(document).ready(function () {
              searching: true,
              paging: true,
              data: GetSaleDetail(),
-             pageLength: 10,
+             pageLength: 50,
              language: {
                  search: "_INPUT_",
                  searchPlaceholder: "Search"

@@ -12,7 +12,7 @@
 
 <div style="width:100%;">
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-truck"></i> Reports</a></li>
+        <li><a href=@Url.Action("Index","Report")><i class="fa fa-truck"></i> Reports</a></li>
         <li class="active">@ViewBag.Title</li>
     </ol>
 </div>
@@ -37,7 +37,7 @@
 <div class="form-horizontal">
 
     <div class="col-md-9" style="margin-top:10px;">
-        <div class="col-md-3">
+        <div class="col-md-3" hidden>
             @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
                 @Html.TextBox("fromdate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @onchange = "RefreshReceivableAgeingReportTable()", @Value = ViewBag.fromdate })
@@ -45,7 +45,7 @@
 
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3" hidden>
             @Html.Label("To Date", htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
                 @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @onchange = "RefreshReceivableAgeingReportTable()", @Value = ViewBag.todate })
@@ -84,7 +84,7 @@
                     <tr class="text-center TableHead">
                         <th>Transaction Date</th>
                         <th>Doc No.</th>
-                        <th>CustomerName</th>
+                        <th>Customer</th>
                         <th>Due Date</th>
                         <th>Days Past Due</th>
                         <th>Invoiced(A)</th>

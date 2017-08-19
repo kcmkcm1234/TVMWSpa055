@@ -1,14 +1,14 @@
-﻿@model UserInterface.Models.PurchaseSummaryReportViewModel
+﻿@model UserInterface.Models.AccountsPayableAgeingSummaryReportViewModel
 @using UserInterface.App_Start
 @{
-    ViewBag.Title = "Purchase Summary Report";
+    ViewBag.Title = "Accounts Payable Ageing Summary";
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
-
 @section styles {
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableButtons")
 }
+
 <div style="width:100%;">
     <ol class="breadcrumb">
         <li><a href=@Url.Action("Index","Report")><i class="fa fa-truck"></i> Reports</a></li>
@@ -35,43 +35,32 @@
 </div>
 <div class="form-horizontal">
 
-    <div class="col-md-8" style="margin-top:10px;">
-        <div class="col-md-3">
+    <div class="col-md-9" style="margin-top:10px;">
+        <div class="col-md-3" hidden>
             @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
-                @Html.TextBox("fromdate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @onchange = "RefreshPurchaseSummaryTable()", @Value = ViewBag.fromdate })
+                @Html.TextBox("fromdate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @onchange = "RefreshPayableAgeingSummaryReportTable()", @Value = ViewBag.fromdate })
 
 
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3" hidden>
             @Html.Label("To Date", htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
-                @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @onchange = "RefreshPurchaseSummaryTable()", @Value = ViewBag.todate })
+                @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @onchange = "RefreshPayableAgeingSummaryReportTable()", @Value = ViewBag.todate })
             </div>
         </div>
         <div class="col-md-3">
             @Html.LabelFor(model => model.CompanyCode, htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
-                @Html.DropDownListFor(model => model.CompanyCode, Model.CompanyList, "-- Select Company --", new { @class = "form-control BlockEnter", @onchange = "RefreshPurchaseSummaryTable()", value = -1, style = "padding:4px 12px;", @id = "CompanyCode" })
+                @Html.DropDownListFor(model => model.CompanyCode, Model.CompanyList, "-- Select Company --", new { @class = "form-control BlockEnter", @onchange = "RefreshPayableAgeingSummaryReportTable()", value = -1, style = "padding:4px 12px;", @id = "CompanyCode" })
                 @Html.ValidationMessageFor(model => model.CompanyCode, "", new { @class = "text-danger" })
 
             </div>
         </div>
 
-
-
-        @*<div class="col-md-12 filterHead">Filter</div>
-            <div class="col-md-12">
-
-
-            </div>*@
-
-
-
-
     </div>
-    <div class="col-md-4" id="btnPatchAttributeSettab" style="min-height:25px">
+    <div class="col-md-3" style="min-height:25px">
         @{
             var data = new { ActionType = "List" };
             @Html.Action("ChangeButtonStyle", "Report", data);
@@ -88,33 +77,39 @@
         &nbsp;
     </div>
     <div class="row tableContainer">
-        <div class="col-md-12">
-            <table id="purchaseSummaryTable" class="table stripe" cellspacing="0" width="100%">
+        <div class="col-md-12" id="AHContainer">
+            <table id="PayableAgeingSummaryTable" class="table stripe" cellspacing="0" width="100%">
                 <thead>
                     <tr class="text-center TableHead">
-                        <th>Supplier Name</th>
-                        <th>Opening Balance(A)</th>
-                        <th>Invoiced (B)</th>
-                        <th>Paid (C)</th>
-                        <th>Credit(D)</th>
-                        <th>Balance (E = B-C-D)</th>
-                        <th>Net Due(F=A+E)</th>
-                        <th>Company</th>
-
+                        <th>Supplier</th>
+                        <th>Current</th>
+                        <th>1-30 Days</th>
+                        <th>31-60 Days</th>
+                        <th>61-90 Days</th>
+                        <th>91 And Over</th>
                     </tr>
                 </thead>
             </table>
         </div>
+
     </div>
 
 </div>
-
 @section Scripts {
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/PurchaseSummaryReport")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/AccountPayableAgeingSummaryReport")
 }
+
+
+
+
+
+
+
+
+
 
 
 

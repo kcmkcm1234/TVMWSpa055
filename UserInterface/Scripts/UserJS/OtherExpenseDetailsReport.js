@@ -20,7 +20,7 @@ $(document).ready(function () {
              searching: true,
              paging: true,
              data: GetOtherExpenseDetailsReport(),
-             pageLength: 10,
+             pageLength: 50,
              language: {
                  search: "_INPUT_",
                  searchPlaceholder: "Search"
@@ -83,7 +83,7 @@ $(document).ready(function () {
           searching: true,
           paging: true,
           data: null,
-          pageLength: 10,
+          pageLength: 50,
           language: {
               search: "_INPUT_",
               searchPlaceholder: "Search"

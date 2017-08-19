@@ -4,7 +4,7 @@ $(document).ready(function () {
 
     try {
 
-        DataTables.ReceivableAgeingReportTable = $('#ReceivableAgeingTable').DataTable(
+        DataTables.PayableAgeingReportTable = $('#PayableAgeingTable').DataTable(
          {
 
              // dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
@@ -13,13 +13,13 @@ $(document).ready(function () {
                  extend: 'excel',
                  exportOptions:
                               {
-                                  columns: [0, 1, 2, 3, 4,5,6,7,8]
+                                  columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
                               }
              }],
              order: [],
              searching: true,
              paging: true,
-             data: GetReceivableAgeingReport(),
+             data: GetPayableAgeingReport(),
              pageLength: 50,
              language: {
                  search: "_INPUT_",
@@ -39,8 +39,8 @@ $(document).ready(function () {
                { "data": "Group", "defaultContent": "<i>-</i>" }
              ],
              columnDefs: [{ "targets": [9], "visible": false, "searchable": false },
-             { className: "text-left", "targets": [0, 1, 2, 3,8] },
-             { className: "text-right", "targets": [5,6,7] },
+             { className: "text-left", "targets": [0, 1, 2, 3, 8] },
+             { className: "text-right", "targets": [5, 6, 7] },
              { className: "text-center", "targets": [4] }],
              drawCallback: function (settings) {
                  var api = this.api();
@@ -67,7 +67,7 @@ $(document).ready(function () {
 });
 
 
-function GetReceivableAgeingReport() {
+function GetPayableAgeingReport() {
     try {
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
@@ -75,7 +75,7 @@ function GetReceivableAgeingReport() {
         if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
             var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode };
             var ds = {};
-            ds = GetDataFromServer("Report/GetAccountsReceivableAgeingDetails/", data);
+            ds = GetDataFromServer("Report/GetAccountsPayableAgeingDetails/", data);
             if (ds != '') {
                 ds = JSON.parse(ds);
             }
@@ -95,13 +95,13 @@ function GetReceivableAgeingReport() {
     }
 }
 
-function RefreshReceivableAgeingReportTable() {
+function RefreshPayableAgeingReportTable() {
     try {
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
         var companycode = $("#CompanyCode").val();
-        if (DataTables.ReceivableAgeingReportTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            DataTables.ReceivableAgeingReportTable.clear().rows.add(GetReceivableAgeingReport()).draw(false);
+        if (DataTables.PayableAgeingReportTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
+            DataTables.PayableAgeingReportTable.clear().rows.add(GetPayableAgeingReport()).draw(false);
         }
     }
     catch (e) {

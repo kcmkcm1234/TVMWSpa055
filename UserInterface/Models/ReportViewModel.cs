@@ -200,4 +200,55 @@ namespace UserInterface.Models
         public List<CompaniesViewModel> companiesList;
     }
 
+    public class AccountsReceivableAgeingSummaryReportViewModel
+    {
+        [Required(ErrorMessage = "Company required")]
+        [Display(Name = "Company")]
+        public string CompanyCode { get; set; }
+        public string OriginatedCompany { get; set; }
+        public string Customer { get; set; }
+        public string Current { get; set; }
+        public string OneToThirty { get; set; }
+        public string ThirtyOneToSixty { get; set; }
+        public string SixtyOneToNinety { get; set; }
+        public string NinetyOneAndOver { get; set; }
+        public List<SelectListItem> CompanyList { get; set; }
+        public List<CompaniesViewModel> companiesList;
+    }
+
+    public class AccountsPayableAgeingReportViewModel
+    {
+        [Required(ErrorMessage = "Company required")]
+        [Display(Name = "Company")]
+        public string CompanyCode { get; set; }
+        public string OriginatedCompany { get; set; }
+        public string TransactionDate { get; set; }
+        public string DocNo { get; set; }
+        public string CustomerName { get; set; }
+        public string DueDate { get; set; }
+        public string DaysPastDue { get; set; }
+        public decimal Invoiced { get; set; }
+        public decimal Paid { get; set; }
+        public decimal Balance { get; set; }
+        public string Group { get; set; }
+        public List<SelectListItem> CompanyList { get; set; }
+        public List<CompaniesViewModel> companiesList;
+    }
+
+    public class AccountsPayableAgeingSummaryReportViewModel
+    {
+        [Required(ErrorMessage = "Company required")]
+        [Display(Name = "Company")]
+        public string CompanyCode {get;set;}
+        public string OriginatedCompany {get;set;}
+        public string Supplier {get;set;}
+        public string Current {get;set;}
+        public string OneToThirty {get;set;}
+        public string ThirtyOneToSixty {get;set;}
+        public string SixtyOneToNinety {get;set;}
+        public string NinetyOneAndOver {get;set;}
+        public List<SelectListItem> CompanyList{get;set;}
+        public List<CompaniesViewModel> companiesList;
+    }
+
 }
