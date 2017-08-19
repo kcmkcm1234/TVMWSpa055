@@ -1477,6 +1477,8 @@
     <Content Include="Scripts\jszip.min.js" />
     <Content Include="Scripts\lightbox.min.js" />
     <Content Include="Scripts\sweetalert.min.js" />
+    <Content Include="Scripts\UserJS\AccountPayableAgeingReport.js" />
+    <Content Include="Scripts\UserJS\AccountPayableAgeingSummaryReport.js" />
     <Content Include="Scripts\UserJS\AccountReceivableAgeingReport.js" />
     <Content Include="Scripts\UserJS\AccountReceivableAgeingSummaryReport.js" />
     <Content Include="Scripts\UserJS\Bank.js" />
@@ -1667,6 +1669,8 @@
     <Content Include="Views\Report\PurchaseTransactionLog.cshtml" />
     <Content Include="Views\Report\AccountsReceivableAgeingDetails.cshtml" />
     <Content Include="Views\Report\AccountsReceivableAgeingSummary.cshtml" />
+    <Content Include="Views\Report\AccountsPayableAgeingDetails.cshtml" />
+    <Content Include="Views\Report\AccountsPayableAgeingSummary.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

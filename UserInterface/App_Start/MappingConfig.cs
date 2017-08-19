@@ -91,6 +91,8 @@ namespace UserInterface.App_Start
                 config.CreateMap<PurchaseTransactionLogReportViewModel, PurchaseTransactionLogReport>().ReverseMap();
                 config.CreateMap<AccountsReceivableAgeingReportViewModel, AccountsReceivableAgeingReport>().ReverseMap();
                 config.CreateMap<AccountsReceivableAgeingSummaryReportViewModel, AccountsReceivableAgeingSummaryReport>().ReverseMap();
+                config.CreateMap<AccountsPayableAgeingReportViewModel, AccountsPayableAgeingReport>().ReverseMap();
+                config.CreateMap<AccountsPayableAgeingSummaryReportViewModel, AccountsPayableAgeingSummaryReport>().ReverseMap();
                 
              });
         }

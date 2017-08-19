@@ -171,4 +171,31 @@ namespace SPAccounts.DataAccessObject.DTO
         public int NinetyOneAndOver { get; set; }
        
     }
+    public class AccountsPayableAgeingReport
+    {
+        public string CompanyCode { get; set; }
+        public string OriginatedCompany { get; set; }
+        public string TransactionDate { get; set; }
+        public string DocNo { get; set; }
+        public string CustomerName { get; set; }
+        public string DueDate { get; set; }
+        public string DaysPastDue { get; set; }
+        public decimal Invoiced { get; set; }
+        public decimal Paid { get; set; }
+        public decimal Balance { get; set; }
+        public string Group { get; set; }
+    }
+    public class AccountsPayableAgeingSummaryReport
+    {
+
+        public string CompanyCode { get; set; }
+        public string OriginatedCompany { get; set; }
+        public string Supplier { get; set; }
+        public int Current { get; set; }
+        public int OneToThirty { get; set; }
+        public int ThirtyOneToSixty { get; set; }
+        public int SixtyOneToNinety { get; set; }
+        public int NinetyOneAndOver { get; set; }
+
+    }
 }

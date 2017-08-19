@@ -683,5 +683,110 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return accountsReceivableAgeingSummaryReportList;
         }
+
+        public List<AccountsPayableAgeingReport> GetAccountsPayableAgeingReport(DateTime? FromDate, DateTime? ToDate, string CompanyCode)
+        {
+            List<AccountsPayableAgeingReport> accountsPayableAgeingReportList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
+                        cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = CompanyCode;
+                        cmd.CommandText = "[Accounts].[RPT_GetAccountsPayableAgeingDetail]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                accountsPayableAgeingReportList = new List<AccountsPayableAgeingReport>();
+                                while (sdr.Read())
+                                {
+                                    AccountsPayableAgeingReport accountsPayableAgeingReport = new AccountsPayableAgeingReport();
+                                    {
+                                        accountsPayableAgeingReport.CompanyCode = (sdr["CompanyCode"].ToString() != "" ? sdr["CompanyCode"].ToString() : accountsPayableAgeingReport.CompanyCode);
+                                        accountsPayableAgeingReport.CustomerName = (sdr["CustomerName"].ToString() != "" ? sdr["CustomerName"].ToString() : accountsPayableAgeingReport.CustomerName);
+                                        accountsPayableAgeingReport.OriginatedCompany = (sdr["OriginCompany"].ToString() != "" ? sdr["OriginCompany"].ToString() : accountsPayableAgeingReport.OriginatedCompany);
+                                        accountsPayableAgeingReport.DueDate = (sdr["DueDate"].ToString() != "" ? DateTime.Parse(sdr["DueDate"].ToString()).ToString(settings.dateformat) : accountsPayableAgeingReport.DueDate);
+                                        accountsPayableAgeingReport.TransactionDate = (sdr["TransactionDate"].ToString() != "" ? DateTime.Parse(sdr["TransactionDate"].ToString()).ToString(settings.dateformat) : accountsPayableAgeingReport.TransactionDate);
+                                        accountsPayableAgeingReport.DaysPastDue = (sdr["DaysPastDue"].ToString() != "" ? sdr["DaysPastDue"].ToString() : accountsPayableAgeingReport.DaysPastDue);
+                                        accountsPayableAgeingReport.DocNo = (sdr["DocNo"].ToString() != "" ? sdr["DocNo"].ToString() : accountsPayableAgeingReport.DocNo);
+                                        accountsPayableAgeingReport.Invoiced = (sdr["Invoiced"].ToString() != "" ? decimal.Parse(sdr["Invoiced"].ToString()) : accountsPayableAgeingReport.Invoiced);
+                                        accountsPayableAgeingReport.Paid = (sdr["Paid"].ToString() != "" ? decimal.Parse(sdr["Paid"].ToString()) : accountsPayableAgeingReport.Paid);
+                                        accountsPayableAgeingReport.Balance = (sdr["Balance"].ToString() != "" ? decimal.Parse(sdr["Balance"].ToString()) : accountsPayableAgeingReport.Balance);
+                                        accountsPayableAgeingReport.Group = (sdr["Group"].ToString() != "" ? sdr["Group"].ToString() : accountsPayableAgeingReport.Group);
+                                    }
+                                    accountsPayableAgeingReportList.Add(accountsPayableAgeingReport);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return accountsPayableAgeingReportList;
+        }
+
+        public List<AccountsPayableAgeingSummaryReport> GetAccountsPayableAgeingSummaryReport(DateTime? FromDate, DateTime? ToDate, string CompanyCode)
+        {
+            List<AccountsPayableAgeingSummaryReport> accountsPayableAgeingSummaryReportList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
+                        cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = CompanyCode;
+                        cmd.CommandText = "[Accounts].[RPT_GetAccountsPayableAgeingSummary]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                accountsPayableAgeingSummaryReportList = new List<AccountsPayableAgeingSummaryReport>();
+                                while (sdr.Read())
+                                {
+                                    AccountsPayableAgeingSummaryReport AccountsPayableAgeingSummaryReport = new AccountsPayableAgeingSummaryReport();
+                                    {
+
+                                        AccountsPayableAgeingSummaryReport.Supplier = (sdr["SupplierName"].ToString() != "" ? sdr["SupplierName"].ToString() : AccountsPayableAgeingSummaryReport.Supplier);
+                                        AccountsPayableAgeingSummaryReport.Current = (sdr["Current"].ToString() != "" ? int.Parse(sdr["Current"].ToString()) : AccountsPayableAgeingSummaryReport.Current);
+                                        AccountsPayableAgeingSummaryReport.OneToThirty = (sdr["1-30"].ToString() != "" ? int.Parse(sdr["1-30"].ToString()) : AccountsPayableAgeingSummaryReport.OneToThirty);
+                                        AccountsPayableAgeingSummaryReport.ThirtyOneToSixty = (sdr["31-60"].ToString() != "" ? int.Parse(sdr["31-60"].ToString()) : AccountsPayableAgeingSummaryReport.ThirtyOneToSixty);
+                                        AccountsPayableAgeingSummaryReport.SixtyOneToNinety = (sdr["61-90"].ToString() != "" ? int.Parse(sdr["61-90"].ToString()) : AccountsPayableAgeingSummaryReport.SixtyOneToNinety);
+                                        AccountsPayableAgeingSummaryReport.NinetyOneAndOver = (sdr["91 And Over"].ToString() != "" ? int.Parse(sdr["91 And Over"].ToString()) : AccountsPayableAgeingSummaryReport.NinetyOneAndOver);
+
+                                    }
+                                    accountsPayableAgeingSummaryReportList.Add(AccountsPayableAgeingSummaryReport);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return accountsPayableAgeingSummaryReportList;
+        }
     }
 }

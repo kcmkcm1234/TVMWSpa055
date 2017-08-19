@@ -216,4 +216,39 @@ namespace UserInterface.Models
         public List<CompaniesViewModel> companiesList;
     }
 
+    public class AccountsPayableAgeingReportViewModel
+    {
+        [Required(ErrorMessage = "Company required")]
+        [Display(Name = "Company")]
+        public string CompanyCode { get; set; }
+        public string OriginatedCompany { get; set; }
+        public string TransactionDate { get; set; }
+        public string DocNo { get; set; }
+        public string CustomerName { get; set; }
+        public string DueDate { get; set; }
+        public string DaysPastDue { get; set; }
+        public decimal Invoiced { get; set; }
+        public decimal Paid { get; set; }
+        public decimal Balance { get; set; }
+        public string Group { get; set; }
+        public List<SelectListItem> CompanyList { get; set; }
+        public List<CompaniesViewModel> companiesList;
+    }
+
+    public class AccountsPayableAgeingSummaryReportViewModel
+    {
+        [Required(ErrorMessage = "Company required")]
+        [Display(Name = "Company")]
+        public string CompanyCode {get;set;}
+        public string OriginatedCompany {get;set;}
+        public string Supplier {get;set;}
+        public int Current {get;set;}
+        public int OneToThirty {get;set;}
+        public int ThirtyOneToSixty {get;set;}
+        public int SixtyOneToNinety {get;set;}
+        public int NinetyOneAndOver {get;set;}
+        public List<SelectListItem> CompanyList{get;set;}
+        public List<CompaniesViewModel> companiesList;
+    }
+
 }
