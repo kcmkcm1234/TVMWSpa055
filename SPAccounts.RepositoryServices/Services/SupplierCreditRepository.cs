@@ -56,8 +56,9 @@ namespace SPAccounts.RepositoryServices.Services
                                         _supplierCreditNote.CRNRefNo = (sdr["CRNRefNo"].ToString() != "" ? sdr["CRNRefNo"].ToString() : _supplierCreditNote.CRNRefNo);
                                         _supplierCreditNote.CRNDate = (sdr["CRNDate"].ToString() != "" ? DateTime.Parse(sdr["CRNDate"].ToString()).ToString(settings.dateformat) : _supplierCreditNote.CRNDate);
                                         _supplierCreditNote.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : _supplierCreditNote.Amount);
-                                        _supplierCreditNote.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : _supplierCreditNote.Type);
-                                        _supplierCreditNote.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : _supplierCreditNote.GeneralNotes);
+                                        _supplierCreditNote.AvailableCredit = (sdr["AvailableCredit"].ToString() != "" ? decimal.Parse(sdr["AvailableCredit"].ToString()) : _supplierCreditNote.AvailableCredit);
+                                        //  _supplierCreditNote.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : _supplierCreditNote.Type);
+                                        // _supplierCreditNote.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : _supplierCreditNote.GeneralNotes);
 
                                     }
                                     supplierCreditNotelist.Add(_supplierCreditNote);

@@ -21,12 +21,23 @@ $(document).ready(function () {
                { "data": "CustomerName", "defaultContent": "<i>-</i>" },
                { "data": "CreditNoteDateFormatted", "defaultContent": "<i>-</i>" },
                { "data": "CreditAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+               {
+                   "data": "", render: function (data, type, row) {
+                       debugger;
+                       var CreditUsed = row.CreditAmount - row.AvailableCredit
+                       return roundoff(CreditUsed);
+                    }, "defaultContent": "<i>-</i>"
+                },
+               { "data": "AvailableCredit", render: function (data, type, row) {
+                       return roundoff(data);
+                   }, "defaultContent": "<i>-</i>"
+                },
                { "data": null, "orderable": false, "defaultContent": '<a href="#" title="Edit Credit Note" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                  { className: "text-right", "targets": [4] },
+                  { className: "text-right", "targets": [4,5,6] },
                    { className: "text-Left", "targets": [1,2] },
-             { className: "text-center", "targets": [3,5] }
+             { className: "text-center", "targets": [3,7] }
 
              ]
          });

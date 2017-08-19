@@ -17,18 +17,29 @@ $(document).ready(function () {
              },
              columns: [
                { "data": "ID" },
+               { "data": "CRNRefNo", "defaultContent": "<i>-</i>" },
                { "data": "supplier.CompanyName", "defaultContent": "<i>-</i>" },
                { "data": "Company.Name", "defaultContent": "<i>-</i>" },
-               { "data": "CRNRefNo", "defaultContent": "<i>-</i>" },
-               { "data": "Amount",render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                { "data": "CRNDate", "defaultContent": "<i>-</i>" },
-                //{ "data": "Type", "defaultContent": "<i>-</i>" },
+               { "data": "Amount",render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+                {
+                    "data": "", render: function (data, type, row) {
+                        debugger;
+                        var CreditUsed = row.Amount - row.AvailableCredit
+                        return roundoff(CreditUsed);
+                    }, "defaultContent": "<i>-</i>"
+                },
+               {
+                   "data": "AvailableCredit", render: function (data, type, row) {
+                       return roundoff(data);
+                   }, "defaultContent": "<i>-</i>"
+               },
                { "data": null, "orderable": false, "defaultContent": '<a href="#" title="Edit Credit Note" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false },                 
-                   { className: "text-right", "targets": [4] },
+                   { className: "text-right", "targets": [5,6] },
                    { className: "text-Left", "targets": [1, 2, 3] },
-             { className: "text-center", "targets": [5, 6] }
+             { className: "text-center", "targets": [4] }
 
              ]
          });
