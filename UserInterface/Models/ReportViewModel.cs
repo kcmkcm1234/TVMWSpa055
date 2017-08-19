@@ -207,11 +207,11 @@ namespace UserInterface.Models
         public string CompanyCode { get; set; }
         public string OriginatedCompany { get; set; }
         public string Customer { get; set; }
-        public int Current { get; set; }
-        public int  OneToThirty { get; set; }
-        public int ThirtyOneToSixty { get; set; }
-        public int SixtyOneToNinety { get; set; }
-        public int NinetyOneAndOver { get; set; }
+        public string Current { get; set; }
+        public string OneToThirty { get; set; }
+        public string ThirtyOneToSixty { get; set; }
+        public string SixtyOneToNinety { get; set; }
+        public string NinetyOneAndOver { get; set; }
         public List<SelectListItem> CompanyList { get; set; }
         public List<CompaniesViewModel> companiesList;
     }
@@ -242,11 +242,11 @@ namespace UserInterface.Models
         public string CompanyCode {get;set;}
         public string OriginatedCompany {get;set;}
         public string Supplier {get;set;}
-        public int Current {get;set;}
-        public int OneToThirty {get;set;}
-        public int ThirtyOneToSixty {get;set;}
-        public int SixtyOneToNinety {get;set;}
-        public int NinetyOneAndOver {get;set;}
+        public string Current {get;set;}
+        public string OneToThirty {get;set;}
+        public string ThirtyOneToSixty {get;set;}
+        public string SixtyOneToNinety {get;set;}
+        public string NinetyOneAndOver {get;set;}
         public List<SelectListItem> CompanyList{get;set;}
         public List<CompaniesViewModel> companiesList;
     }

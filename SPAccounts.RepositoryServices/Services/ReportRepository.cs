@@ -663,11 +663,11 @@ namespace SPAccounts.RepositoryServices.Services
                                     {
 
                                         accountsReceivableAgeingSummaryReport.Customer = (sdr["CustomerName"].ToString() != "" ? sdr["CustomerName"].ToString() : accountsReceivableAgeingSummaryReport.Customer);
-                                        accountsReceivableAgeingSummaryReport.Current= (sdr["Current"].ToString() != "" ? int.Parse(sdr["Current"].ToString()) : accountsReceivableAgeingSummaryReport.Current);
-                                        accountsReceivableAgeingSummaryReport.OneToThirty = (sdr["1-30"].ToString() != "" ? int.Parse(sdr["1-30"].ToString()) : accountsReceivableAgeingSummaryReport.OneToThirty);
-                                        accountsReceivableAgeingSummaryReport.ThirtyOneToSixty = (sdr["31-60"].ToString() != "" ? int.Parse(sdr["31-60"].ToString()) : accountsReceivableAgeingSummaryReport.ThirtyOneToSixty);
-                                        accountsReceivableAgeingSummaryReport.SixtyOneToNinety = (sdr["61-90"].ToString() != "" ? int.Parse(sdr["61-90"].ToString()) : accountsReceivableAgeingSummaryReport.SixtyOneToNinety);
-                                        accountsReceivableAgeingSummaryReport.NinetyOneAndOver = (sdr["91 And Over"].ToString() != "" ? int.Parse(sdr["91 And Over"].ToString()) : accountsReceivableAgeingSummaryReport.NinetyOneAndOver);
+                                        accountsReceivableAgeingSummaryReport.Current= (sdr["Current"].ToString() != "" ? sdr["Current"].ToString() : accountsReceivableAgeingSummaryReport.Current);
+                                        accountsReceivableAgeingSummaryReport.OneToThirty = (sdr["1-30"].ToString() != "" ? sdr["1-30"].ToString() : accountsReceivableAgeingSummaryReport.OneToThirty);
+                                        accountsReceivableAgeingSummaryReport.ThirtyOneToSixty = (sdr["31-60"].ToString() != "" ? sdr["31-60"].ToString() : accountsReceivableAgeingSummaryReport.ThirtyOneToSixty);
+                                        accountsReceivableAgeingSummaryReport.SixtyOneToNinety = (sdr["61-90"].ToString() != "" ? sdr["61-90"].ToString() : accountsReceivableAgeingSummaryReport.SixtyOneToNinety);
+                                        accountsReceivableAgeingSummaryReport.NinetyOneAndOver = (sdr["91 And Over"].ToString() != "" ? sdr["91 And Over"].ToString() : accountsReceivableAgeingSummaryReport.NinetyOneAndOver);
                                        
                                     }
                                     accountsReceivableAgeingSummaryReportList.Add(accountsReceivableAgeingSummaryReport);
@@ -768,11 +768,11 @@ namespace SPAccounts.RepositoryServices.Services
                                     {
 
                                         AccountsPayableAgeingSummaryReport.Supplier = (sdr["SupplierName"].ToString() != "" ? sdr["SupplierName"].ToString() : AccountsPayableAgeingSummaryReport.Supplier);
-                                        AccountsPayableAgeingSummaryReport.Current = (sdr["Current"].ToString() != "" ? int.Parse(sdr["Current"].ToString()) : AccountsPayableAgeingSummaryReport.Current);
-                                        AccountsPayableAgeingSummaryReport.OneToThirty = (sdr["1-30"].ToString() != "" ? int.Parse(sdr["1-30"].ToString()) : AccountsPayableAgeingSummaryReport.OneToThirty);
-                                        AccountsPayableAgeingSummaryReport.ThirtyOneToSixty = (sdr["31-60"].ToString() != "" ? int.Parse(sdr["31-60"].ToString()) : AccountsPayableAgeingSummaryReport.ThirtyOneToSixty);
-                                        AccountsPayableAgeingSummaryReport.SixtyOneToNinety = (sdr["61-90"].ToString() != "" ? int.Parse(sdr["61-90"].ToString()) : AccountsPayableAgeingSummaryReport.SixtyOneToNinety);
-                                        AccountsPayableAgeingSummaryReport.NinetyOneAndOver = (sdr["91 And Over"].ToString() != "" ? int.Parse(sdr["91 And Over"].ToString()) : AccountsPayableAgeingSummaryReport.NinetyOneAndOver);
+                                        AccountsPayableAgeingSummaryReport.Current = (sdr["Current"].ToString() != "" ? sdr["Current"].ToString() : AccountsPayableAgeingSummaryReport.Current);
+                                        AccountsPayableAgeingSummaryReport.OneToThirty = (sdr["1-30"].ToString() != "" ? sdr["1-30"].ToString() : AccountsPayableAgeingSummaryReport.OneToThirty);
+                                        AccountsPayableAgeingSummaryReport.ThirtyOneToSixty = (sdr["31-60"].ToString() != "" ? sdr["31-60"].ToString() : AccountsPayableAgeingSummaryReport.ThirtyOneToSixty);
+                                        AccountsPayableAgeingSummaryReport.SixtyOneToNinety = (sdr["61-90"].ToString() != "" ? sdr["61-90"].ToString() : AccountsPayableAgeingSummaryReport.SixtyOneToNinety);
+                                        AccountsPayableAgeingSummaryReport.NinetyOneAndOver = (sdr["91 And Over"].ToString() != "" ? sdr["91 And Over"].ToString() : AccountsPayableAgeingSummaryReport.NinetyOneAndOver);
 
                                     }
                                     accountsPayableAgeingSummaryReportList.Add(AccountsPayableAgeingSummaryReport);
