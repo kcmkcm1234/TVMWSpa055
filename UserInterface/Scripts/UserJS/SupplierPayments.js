@@ -249,6 +249,7 @@ function Edit(currentObj) {
 function GetSupplierPaymentsByID(PaymentID) {
     ChangeButtonPatchView('SupplierPayments', 'btnPatchAdd', 'Edit');
     var thisitem = GetSupplierPayments(PaymentID)
+    debugger;
     $('#lblheader').text('Entry No: ' + thisitem.EntryNo);
     $('#ID').val(PaymentID);
     $('#deleteId').val(PaymentID);
@@ -605,7 +606,7 @@ function PaymentModeChanged() {
         $('#ChequeDate').prop('disabled', false);
     }
     else {
-        $("#BankCode").val('');
+        $("#ChequeDate").val('');
         $('#ChequeDate').prop('disabled', true);
     }
 }

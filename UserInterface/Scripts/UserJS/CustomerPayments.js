@@ -609,7 +609,7 @@ function PaymentModeChanged() {
         $('#ChequeDate').prop('disabled', false);
     }
     else {
-        $("#BankCode").val('');
+        $("#ChequeDate").val('');
         $('#ChequeDate').prop('disabled', true);
     }
 
