@@ -1565,6 +1565,7 @@
     <Compile Include="Controllers\ManageAccessController.cs" />
     <Compile Include="Controllers\PrivilegesController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
+    <Compile Include="Controllers\SubTypeNarrationController.cs" />
     <Compile Include="Controllers\SupplierCreditNoteController.cs" />
     <Compile Include="Controllers\SupplierInvoicesController.cs" />
     <Compile Include="Controllers\SupplierPaymentsController.cs" />
@@ -1671,6 +1672,7 @@
     <Content Include="Views\Report\AccountsReceivableAgeingSummary.cshtml" />
     <Content Include="Views\Report\AccountsPayableAgeingDetails.cshtml" />
     <Content Include="Views\Report\AccountsPayableAgeingSummary.cshtml" />
+    <Content Include="Views\SubTypeNarration\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
