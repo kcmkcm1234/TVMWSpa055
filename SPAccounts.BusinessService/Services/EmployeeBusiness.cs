@@ -86,6 +86,52 @@ namespace SPAccounts.BusinessService.Services
             return result;
         }
 
+        public List<EmployeeCategory> GetAllEmployeeCategories()
+        {
+            List<EmployeeCategory> EmployeeCategoryList = null;
+            try
+            {
+                EmployeeCategoryList = _employeeRepository.GetAllEmployeeCategories();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return EmployeeCategoryList;
+        }
+
+        public EmployeeCategory GetEmployeeCategoryDetails(string Code)
+        {
+            List<EmployeeCategory> EmployeeCategoryList = null;
+            EmployeeCategory employeeCategory = null;
+            try
+            {
+                EmployeeCategoryList = GetAllEmployeeCategories();
+                employeeCategory = EmployeeCategoryList != null ? EmployeeCategoryList.Where(D => D.Code == Code).SingleOrDefault() : null;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return employeeCategory;
+        }
+
+        public object InsertEmployeeCategory(EmployeeCategory employeeCategory)
+        {
+            return _employeeRepository.InsertEmployeeCategory(employeeCategory);
+        }
+
+        public object UpdateEmployeeCategory(EmployeeCategory employeeCategory)
+        {
+            return _employeeRepository.UpdateEmployeeCategory(employeeCategory);
+        }
+
+        public object DeleteEmployeeCategory(string Code)
+        {
+            return _employeeRepository.DeleteEmployeeCategory(Code);
+        }
+
        
     }
 }

@@ -451,6 +451,220 @@ namespace SPAccounts.RepositoryServices.Services
                 Message = Cobj.DeleteSuccess
             };
         }
+
+
         #endregion DeleteEmployee
+
+
+        public List<EmployeeCategory> GetAllEmployeeCategories()
+        {
+            List<EmployeeCategory> employeeCategoryList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetEmployeeCategory]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                employeeCategoryList = new List<EmployeeCategory>();
+                                while (sdr.Read())
+                                {
+                                    EmployeeCategory employeeCategory = new EmployeeCategory();
+                                    {
+                                        employeeCategory.Code = (sdr["Code"].ToString() != "" ? sdr["Code"].ToString() : employeeCategory.Code);
+                                        employeeCategory.Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : employeeCategory.Name);
+                                        employeeCategory.commonObj = new Common();
+                                        {
+                                            employeeCategory.commonObj.CreatedBy = (sdr["CreatedBy"].ToString() != "" ? sdr["CreatedBy"].ToString() : employeeCategory.commonObj.CreatedBy);
+                                            employeeCategory.commonObj.CreatedDate = (sdr["CreatedDate"].ToString() != "" ? DateTime.Parse(sdr["CreatedDate"].ToString()) : employeeCategory.commonObj.CreatedDate);
+                                            employeeCategory.commonObj.CreatedDateString = (sdr["CreatedDate"].ToString() != "" ? DateTime.Parse(sdr["CreatedDate"].ToString()).ToString(settings.dateformat) : string.Empty);
+                                        }
+                                    }
+                                    employeeCategoryList.Add(employeeCategory);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return employeeCategoryList;
+        }
+
+        public object InsertEmployeeCategory(EmployeeCategory employeeCategory)
+        {
+            try
+            {
+                SqlParameter outputStatus;
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[InsertEmployeeCategory]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@Code", SqlDbType.VarChar, 10).Value = employeeCategory.Code;
+                        cmd.Parameters.Add("@Name", SqlDbType.VarChar, 100).Value = employeeCategory.Name;
+                        cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = employeeCategory.commonObj.CreatedBy;
+                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = employeeCategory.commonObj.CreatedDate;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                AppConst Cobj = new AppConst();
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+
+                        throw new Exception(Cobj.InsertFailure);
+                    case "1":
+                        //success
+
+                        return new
+                        {
+                            Status = outputStatus.Value.ToString(),
+                            Message = Cobj.InsertSuccess
+                        };
+
+                    default:
+                        break;
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return employeeCategory;
+        }
+
+        public object UpdateEmployeeCategory(EmployeeCategory employeeCategory)
+        {
+            SqlParameter outputStatus = null;
+            try
+            {
+
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[UpdateEmployeeCategory]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@Code", SqlDbType.VarChar, 10).Value = employeeCategory.Code;
+                        cmd.Parameters.Add("@Name", SqlDbType.VarChar, 100).Value = employeeCategory.Name;
+
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = employeeCategory.commonObj.UpdatedBy;
+                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = employeeCategory.commonObj.UpdatedDate;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+
+
+                    }
+                }
+                AppConst Cobj = new AppConst();
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+
+                        throw new Exception(Cobj.UpdateFailure);
+
+                    case "1":
+
+                        return new
+                        {
+                            Status = outputStatus.Value.ToString(),
+                            Message = Cobj.UpdateSuccess
+                        };
+                    default:
+                        break;
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return new
+            {
+                Status = outputStatus.Value.ToString(),
+                Message = Cobj.UpdateSuccess
+            };
+        }
+
+        public object DeleteEmployeeCategory(string Code)
+        {
+            SqlParameter outputStatus = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[DeleteEmployeeCategory]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@Code", SqlDbType.NVarChar).Value = Code;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+
+                        throw new Exception(Cobj.DeleteFailure);
+
+                    default:
+                        break;
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return new
+            {
+                Status = outputStatus.Value.ToString(),
+                Message = Cobj.DeleteSuccess
+            };
+        }
+
+       
     }
 }

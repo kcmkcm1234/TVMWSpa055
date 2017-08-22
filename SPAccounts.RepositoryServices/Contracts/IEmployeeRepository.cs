@@ -17,5 +17,10 @@ namespace SPAccounts.RepositoryServices.Contracts
         object UpdateEmployee(Employee _employeeObj);
         object DeleteEmployee(Guid ID);
         Employee GetEmployeeDetails(Guid ID);
+
+        List<EmployeeCategory> GetAllEmployeeCategories();
+        object InsertEmployeeCategory(EmployeeCategory employeeCategory);
+        object UpdateEmployeeCategory(EmployeeCategory employeeCategory);
+        object DeleteEmployeeCategory(string Code);
     }
 }
