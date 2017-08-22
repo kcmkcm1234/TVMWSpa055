@@ -106,7 +106,7 @@ namespace UserInterface.Controllers
             try
             {
 
-                List<EmployeeViewModel> employeesList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_employeeBusiness.GetAllEmployees());
+                List<EmployeeViewModel> employeesList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_employeeBusiness.GetAllOtherEmployees());
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = employeesList });
             }
             catch (Exception ex)
@@ -140,7 +140,7 @@ namespace UserInterface.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //[AuthSecurityFilter(ProjectObject = "Employee", Mode = "W")]
-        public string InsertUpdateEmployee(EmployeeViewModel _employeeObj)
+        public string InsertUpdateEmployee(SubTypeNarrationViewModel _employeeObj)
         {
             object result = null;
             try
@@ -151,7 +151,7 @@ namespace UserInterface.Controllers
                 _employeeObj.commonObj.CreatedDate = _appUA.DateTime;
                 _employeeObj.commonObj.UpdatedBy = _appUA.UserName;
                 _employeeObj.commonObj.UpdatedDate = _appUA.DateTime;
-                result = _employeeBusiness.InsertUpdateEmployee(Mapper.Map<EmployeeViewModel, Employee>(_employeeObj));
+                result = _employeeBusiness.InsertUpdateEmployee(Mapper.Map<SubTypeNarrationViewModel, Employee>(_employeeObj));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
             }
             catch (Exception ex)

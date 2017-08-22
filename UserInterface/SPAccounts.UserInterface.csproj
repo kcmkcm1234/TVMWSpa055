@@ -1512,6 +1512,7 @@
     <Content Include="Scripts\UserJS\SalesDetailReport.js" />
     <Content Include="Scripts\UserJS\SalesTransactionLogReport.js" />
     <Content Include="Scripts\UserJS\SaleSummaryReport.js" />
+    <Content Include="Scripts\UserJS\SubType.js" />
     <Content Include="Scripts\UserJS\SupplierContactDetailsReport.js" />
     <Content Include="Scripts\UserJS\SupplierCreditNotes.js" />
     <Content Include="Scripts\UserJS\SupplierInvoices.js" />

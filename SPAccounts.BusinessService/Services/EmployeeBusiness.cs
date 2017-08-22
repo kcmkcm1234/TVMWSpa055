@@ -24,6 +24,14 @@ namespace SPAccounts.BusinessService.Services
             return empList;
         }
 
+        public List<Employee> GetAllOtherEmployees()
+        {
+            List<Employee> empList = new List<Employee>();
+            empList = _employeeRepository.GetAllEmployees();
+            empList = empList != null ? empList.Where(e => e.employeeTypeObj.Code != "EMP").ToList() : null;
+            return empList;
+        }
+
         public List<EmployeeType> GetAllEmployeeTypes()
         {
             return _employeeRepository.GetAllEmployeeTypes();
@@ -77,5 +85,7 @@ namespace SPAccounts.BusinessService.Services
             }
             return result;
         }
+
+       
     }
 }

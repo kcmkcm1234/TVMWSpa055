@@ -24,7 +24,7 @@
 
             @{
                 var data = new { ActionType = "List" };
-                @Html.Action("ChangeButtonStyle", "Bank", data);
+                @Html.Action("ChangeButtonStyle", "SubType", data);
             }
         </div>
     </div>
@@ -68,23 +68,23 @@
 
             <div class="row" id="OverlayHeader">
                 <div class="col-md-6" style="text-align:left">
-                    <span id="lblInvoiceNo" class="SCHeader">Bank</span>
+                    <span id="lblInvoiceNo" class="SCHeader">Sub Type</span>
                 </div>
                 <div class="col-md-6" id="btnPatchAdd" style="min-height:25px; padding-right:25px;">
 
                     @{
                         var data1 = new { ActionType = "Add" };
-                        @Html.Action("ChangeButtonStyle", "Employee", data1);
+                        @Html.Action("ChangeButtonStyle", "SubType", data1);
                     }
                 </div>
             </div>
 
             <div class="EntryForms">
-                @using (Ajax.BeginForm("InsertUpdateEmployee", "Employee", new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccess", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", @id = "EmployeeForm" }))
+                @using (Ajax.BeginForm("InsertUpdateEmployee", "SubType", new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccess", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", @id = "EmployeeForm" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "", Value = "0" })
-                    @Html.HiddenFor(model => model.EmployeeType, htmlAttributes: new { @class = "", Value = "EMP" })
+                    @Html.HiddenFor(model => model.EmployeeType, htmlAttributes: new { @class = "", Value = "OTH" })
 
                     <div class="col-md-12 headSeperator"><i class="fa fa-th ig-yellow" aria-hidden="true"></i> Basic Details</div>
                     <div class="col-md-12">
@@ -286,7 +286,7 @@
 @section Scripts {
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/Employee")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/SubType")
 }
 
 
