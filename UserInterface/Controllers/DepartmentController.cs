@@ -61,6 +61,65 @@ namespace UserInterface.Controllers
             }
         }
         #endregion  GetDepartmentDetails
+
+        #region InsertUpdateDepartment
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        //[AuthSecurityFilter(ProjectObject = "Employee", Mode = "W")]
+        public string InsertUpdateDepartment(DepartmentViewModel departmentViewModel)
+        {
+            object result = null;
+            try
+            {
+                //AppUA _appUA = Session["AppUA"] as AppUA;
+                departmentViewModel.commonObj = new CommonViewModel();
+                departmentViewModel.commonObj.CreatedBy ="Albert Thomson";
+                departmentViewModel.commonObj.CreatedDate = DateTime.Now;
+                departmentViewModel.commonObj.UpdatedBy = departmentViewModel.commonObj.CreatedBy;
+                departmentViewModel.commonObj.UpdatedDate = departmentViewModel.commonObj.CreatedDate;
+                switch(departmentViewModel.Operation)
+                {
+                    case "Insert":
+                        result = _departmentBusiness.InsertDepartment(Mapper.Map<DepartmentViewModel, Department>(departmentViewModel));
+                        break;
+                    case "Update":
+                        result = _departmentBusiness.UpdateDepartment(Mapper.Map<DepartmentViewModel, Department>(departmentViewModel));
+                        break;
+                }
+              
+                return JsonConvert.SerializeObject(new { Result = "OK", Record = result });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion InsertUpdateDepartment
+
+        #region DeleteEmployee
+        [HttpGet]
+        // [AuthSecurityFilter(ProjectObject = "Employee", Mode = "D")]
+        public string DeleteDepartment(string Code)
+        {
+
+            try
+            {
+                object result = null;
+
+                result = _departmentBusiness.DeleteDepartment(Code);
+                return JsonConvert.SerializeObject(new { Result = "OK", Message = result });
+
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+
+
+        }
+        #endregion DeleteEmployee
         #region ButtonStyling
         [HttpGet]
         // [AuthSecurityFilter(ProjectObject = "Employee", Mode = "R")]

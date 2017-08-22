@@ -11,5 +11,9 @@ namespace SPAccounts.BusinessService.Contracts
     {
         List<Department> GetAllDetpartments();
         Department GetDepartmentDetails(string Code);
+   
+        object InsertDepartment(Department department);
+        object UpdateDepartment(Department department);
+        object DeleteDepartment(string Code);
     }
 }

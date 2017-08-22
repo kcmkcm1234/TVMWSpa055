@@ -82,7 +82,9 @@ function openNav(id) {
     }
     if (id != "0") {
         ClearFields();
+        $("#Operation").val('Insert');
     }
+   
 }
 
 function goBack() {
@@ -99,7 +101,7 @@ function Save() {
     }
     catch (e) {
         notyAlert('error', e.message);
-        return 0;
+       
     }
 }
 
@@ -109,9 +111,9 @@ function Delete() {
 
 function DeleteDepartment() {
     try {
-        var id = $('#ID').val();
+        var id = $('#Code').val();
         if (id != '' && id != null) {
-            var data = { "ID": id };
+            var data = { "Code": id };
             var ds = {};
             ds = GetDataFromServer("Department/DeleteDepartment/", data);
          
@@ -137,16 +139,11 @@ function DeleteDepartment() {
 }
 
 function ClearFields() {
-    $("#ID").val("");
+   
     $("#Code").val("");
     $("#Name").val("");
-    $("#MobileNo").val("");
-    $("#Company").val("");
-    $("#Department").val("");
-    $("#EmployeeCategory").val("");
-    //  $("#EmployeeType").val("");
-    $("#Address").val("");
-    $("#GeneralNotes").val("");
+    $("#Code").prop("readonly", false);
+   
     ResetForm();
     ChangeButtonPatchView("Department", "btnPatchAdd", "Add"); //ControllerName,id of the container div,Name of the action
 }
@@ -175,15 +172,10 @@ function SaveSuccess(data, status) {
     var JsonResult = JSON.parse(data)
     switch (JsonResult.Result) {
         case "OK":
-            BindAllEmployee();
-            notyAlert('success', JsonResult.Message);
-            debugger;
-            if ($("#ID").val() != "") {
-                FillDepartmentDetails($("#ID").val());
-            }
-            else {
-                FillDepartmentDetails(JsonResult.Records.ID);
-            }
+            BindAllDepartments();
+            $("#Operation").val('Update');
+            $("#Code").prop("readonly", true);
+            notyAlert('success', JsonResult.Record.Message);
             break;
         case "ERROR":
             notyAlert('error', JsonResult.Message);
@@ -195,11 +187,11 @@ function SaveSuccess(data, status) {
 }
 
 function Reset() {
-    if ($("#ID").val() == "0") {
+    if ($("#Code").val() == "") {
         ClearFields();
     }
     else {
-        FillDepartmentDetails($("#ID").val());
+        FillDepartmentDetails($("#Code").val());
     }
     ResetForm();
 }
@@ -228,7 +220,7 @@ function GetDepartmentByID(Code) {
 
 //---------------------------------------Fill Customer Details--------------------------------------------------//
 function FillDepartmentDetails(Code) {
-    debugger;
+   
     ChangeButtonPatchView("Department", "btnPatchAdd", "Edit"); //ControllerName,id of the container div,Name of the action
     var thisItem = GetDepartmentByID(Code); //Binding Data
     //Hidden
@@ -243,7 +235,8 @@ function Edit(currentObj) {
    
     openNav("0");
     ResetForm();
-
+    $("#Code").prop("readonly", true);
+    $("#Operation").val('Update');
     var rowData = DataTables.DepartmentTable.row($(currentObj).parents('tr')).data();
     if ((rowData != null) && (rowData.Code != null)) {
         FillDepartmentDetails(rowData.Code);

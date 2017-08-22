@@ -15,6 +15,12 @@ namespace SPAccounts.BusinessService.Services
         {
             _departmentRepository = departmentRepository;
         }
+
+        public object DeleteDepartment(string Code)
+        {
+           return  _departmentRepository.DeleteDepartment(Code);
+        }
+
         public List<Department> GetAllDetpartments()
         {
             List<Department> DepartmentList = null;
@@ -44,6 +50,16 @@ namespace SPAccounts.BusinessService.Services
                 throw ex;
             }
             return department;
+        }
+
+        public object InsertDepartment(Department department)
+        {
+           return _departmentRepository.InsertDepartment(department);
+        }
+
+        public object UpdateDepartment(Department department)
+        {
+            return _departmentRepository.UpdateDepartment(department);
         }
     }
 }

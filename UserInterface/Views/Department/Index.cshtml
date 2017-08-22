@@ -81,11 +81,11 @@
                 
                    
 
-                    <div class="col-md-12 headSeperator"><i class="fa fa-th ig-yellow" aria-hidden="true"></i> Basic Details</div>
+                  
                     <div class="col-md-12">
                         <div class="col-md-4">
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
+                            @Html.HiddenFor(model=>model.Operation, htmlAttributes: new { @Value = "Insert" })
                             <div class="form-group col-md-12">
                                 <div class="col-md-12">
                                     @Html.LabelFor(model => model.Code, htmlAttributes: new { @class = "control-label" })
