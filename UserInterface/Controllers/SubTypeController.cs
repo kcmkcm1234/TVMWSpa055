@@ -11,20 +11,23 @@ using UserInterface.Models;
 
 namespace UserInterface.Controllers
 {
-    public class SubTypeNarrationController : Controller
+    public class SubTypeController : Controller
     {
+        // GET: SubType
         #region Constructor_Injection 
 
         AppConst c = new AppConst();
         IEmployeeBusiness _employeeBusiness;
         ICompaniesBusiness _companiesBusiness;
 
-        public SubTypeNarrationController(IEmployeeBusiness employeeBusiness, ICompaniesBusiness companiesBusiness)
+        public SubTypeController(IEmployeeBusiness employeeBusiness, ICompaniesBusiness companiesBusiness)
         {
             _employeeBusiness = employeeBusiness;
             _companiesBusiness = companiesBusiness;
         }
         #endregion Constructor_Injection 
+
+
         [HttpGet]
         // GET: SubTypeNarration
         public ActionResult Index()
@@ -97,7 +100,7 @@ namespace UserInterface.Controllers
 
         #region GetAllEmployees
         [HttpGet]
-       // [AuthSecurityFilter(ProjectObject = "Employee", Mode = "R")]
+        // [AuthSecurityFilter(ProjectObject = "Employee", Mode = "R")]
         public string GetAllEmployees()
         {
             try
@@ -140,36 +143,28 @@ namespace UserInterface.Controllers
         public string InsertUpdateEmployee(EmployeeViewModel _employeeObj)
         {
             object result = null;
-
             try
             {
-
-
                 AppUA _appUA = Session["AppUA"] as AppUA;
                 _employeeObj.commonObj = new CommonViewModel();
                 _employeeObj.commonObj.CreatedBy = _appUA.UserName;
                 _employeeObj.commonObj.CreatedDate = _appUA.DateTime;
                 _employeeObj.commonObj.UpdatedBy = _appUA.UserName;
                 _employeeObj.commonObj.UpdatedDate = _appUA.DateTime;
-
                 result = _employeeBusiness.InsertUpdateEmployee(Mapper.Map<EmployeeViewModel, Employee>(_employeeObj));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
-
             }
             catch (Exception ex)
             {
-
                 AppConstMessage cm = c.GetMessage(ex.Message);
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
             }
-
-
         }
         #endregion InsertUpdateEmployee
 
         #region DeleteEmployee
         [HttpGet]
-       // [AuthSecurityFilter(ProjectObject = "Employee", Mode = "D")]
+        // [AuthSecurityFilter(ProjectObject = "Employee", Mode = "D")]
         public string DeleteEmployee(string ID)
         {
 
@@ -193,7 +188,7 @@ namespace UserInterface.Controllers
 
         #region ButtonStyling
         [HttpGet]
-       // [AuthSecurityFilter(ProjectObject = "Employee", Mode = "R")]
+        // [AuthSecurityFilter(ProjectObject = "Employee", Mode = "R")]
         public ActionResult ChangeButtonStyle(string ActionType)
         {
             ToolboxViewModel ToolboxViewModelObj = new ToolboxViewModel();
@@ -277,7 +272,6 @@ namespace UserInterface.Controllers
             }
             return PartialView("ToolboxView", ToolboxViewModelObj);
         }
-
-        #endregion
+        #endregion ButtonStyling
     }
 }

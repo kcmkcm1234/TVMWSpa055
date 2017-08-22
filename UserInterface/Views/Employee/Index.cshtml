@@ -78,7 +78,7 @@
                 </div>
             </div>
 
-            <div class="EntryForms" style="height:550px">
+            <div class="EntryForms">
              @using (Ajax.BeginForm("InsertUpdateEmployee", "Employee", new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccess", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", @id = "EmployeeForm" }))
              {
                 @Html.AntiForgeryToken()
