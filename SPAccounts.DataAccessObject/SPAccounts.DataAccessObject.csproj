@@ -103,6 +103,7 @@
     <Compile Include="DTO\CustomerInvoices.cs" />
     <Compile Include="DTO\CustomerPayments.cs" />
     <Compile Include="DTO\Dashboard.cs" />
+    <Compile Include="DTO\Department.cs" />
     <Compile Include="DTO\DepositAndWithdrawals.cs" />
     <Compile Include="DTO\Employee.cs" />
     <Compile Include="DTO\Menu.cs" />

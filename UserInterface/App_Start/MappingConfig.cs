@@ -79,6 +79,7 @@ namespace UserInterface.App_Start
                 config.CreateMap<TopDocsVewModel, TopDocs>().ReverseMap();
                 config.CreateMap<TopDocsItemVewModel, TopDocsItem>().ReverseMap();
                 config.CreateMap<SalesSummaryViewModel, SalesSummary>().ReverseMap();
+                config.CreateMap<DepartmentViewModel, Department>().ReverseMap();
                 //Report purpose
                 config.CreateMap<SaleSummaryViewModel, SaleSummary>().ReverseMap();
                 config.CreateMap<SaleDetailReportViewModel, SaleDetailReport>().ReverseMap();
