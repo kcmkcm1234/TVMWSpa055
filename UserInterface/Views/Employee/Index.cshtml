@@ -78,7 +78,7 @@
                 </div>
             </div>
 
-            <div class="EntryForms" style="height:550px">
+            <div class="EntryForms">
              @using (Ajax.BeginForm("InsertUpdateEmployee", "Employee", new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccess", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", @id = "EmployeeForm" }))
              {
                 @Html.AntiForgeryToken()
@@ -204,7 +204,7 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="col-md-10">
-                                    @Html.TextAreaFor(model => model.Address, 6, 50, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter" } })
+                                    @Html.TextAreaFor(model => model.Address, 6, 50,  htmlAttributes:new { @class = "form-control HeaderBox BlockEnter"  })
 
                                     @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
                                 </div>

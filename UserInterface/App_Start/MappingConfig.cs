@@ -59,6 +59,7 @@ namespace UserInterface.App_Start
                 config.CreateMap<SupplierCreditNoteViewModel, SupplierCreditNote>().ReverseMap();
                 config.CreateMap<OtherExpenseViewModel, OtherExpense>().ReverseMap();
                 config.CreateMap<EmployeeViewModel, Employee>().ReverseMap();
+                config.CreateMap<SubTypeNarrationViewModel, Employee>().ReverseMap();
                 config.CreateMap<DepositAndWithdrwalViewModel, DepositAndWithdrawals>().ReverseMap();
                 config.CreateMap<OtherIncomeViewModel, OtherIncome>().ReverseMap();
                 config.CreateMap<ChartOfAccountsViewModel, ChartOfAccounts>().ReverseMap();
@@ -78,6 +79,7 @@ namespace UserInterface.App_Start
                 config.CreateMap<TopDocsVewModel, TopDocs>().ReverseMap();
                 config.CreateMap<TopDocsItemVewModel, TopDocsItem>().ReverseMap();
                 config.CreateMap<SalesSummaryViewModel, SalesSummary>().ReverseMap();
+                config.CreateMap<DepartmentViewModel, Department>().ReverseMap();
                 //Report purpose
                 config.CreateMap<SaleSummaryViewModel, SaleSummary>().ReverseMap();
                 config.CreateMap<SaleDetailReportViewModel, SaleDetailReport>().ReverseMap();

@@ -10,6 +10,7 @@ namespace SPAccounts.BusinessService.Contracts
    public interface IEmployeeBusiness
     {
         List<Employee> GetAllEmployees();
+        List<Employee> GetAllOtherEmployees();
         List<EmployeeType> GetAllEmployeeTypes();
         List<EmployeeType> GetAllDepartment();
         List<EmployeeType> GetAllCategory();

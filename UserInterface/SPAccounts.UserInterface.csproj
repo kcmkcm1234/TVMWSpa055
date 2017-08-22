@@ -1491,6 +1491,7 @@
     <Content Include="Scripts\UserJS\CustomerInvoices.js" />
     <Content Include="Scripts\UserJS\CustomerPayments.js" />
     <Content Include="Scripts\UserJS\Customers.js" />
+    <Content Include="Scripts\UserJS\Department.js" />
     <Content Include="Scripts\UserJS\DepositAndWithdrawals.js" />
     <Content Include="Scripts\UserJS\Employee.js" />
     <Content Include="Scripts\UserJS\ExpenseSummary.js" />
@@ -1512,6 +1513,7 @@
     <Content Include="Scripts\UserJS\SalesDetailReport.js" />
     <Content Include="Scripts\UserJS\SalesTransactionLogReport.js" />
     <Content Include="Scripts\UserJS\SaleSummaryReport.js" />
+    <Content Include="Scripts\UserJS\SubType.js" />
     <Content Include="Scripts\UserJS\SupplierContactDetailsReport.js" />
     <Content Include="Scripts\UserJS\SupplierCreditNotes.js" />
     <Content Include="Scripts\UserJS\SupplierInvoices.js" />
@@ -1553,6 +1555,7 @@
     <Compile Include="Controllers\ApplicationController.cs" />
     <Compile Include="Controllers\AppObjectController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\DepositAndWithdrawalsController.cs" />
     <Compile Include="Controllers\DynamicUIController.cs" />
     <Compile Include="Controllers\CustomerInvoicesController.cs" />
@@ -1565,6 +1568,7 @@
     <Compile Include="Controllers\ManageAccessController.cs" />
     <Compile Include="Controllers\PrivilegesController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
+    <Compile Include="Controllers\SubTypeController.cs" />
     <Compile Include="Controllers\SupplierCreditNoteController.cs" />
     <Compile Include="Controllers\SupplierInvoicesController.cs" />
     <Compile Include="Controllers\SupplierPaymentsController.cs" />
@@ -1578,6 +1582,7 @@
     <Compile Include="Models\AppObjectViewModel.cs" />
     <Compile Include="Models\BankViewModel.cs" />
     <Compile Include="Models\DashboardViewModel.cs" />
+    <Compile Include="Models\DepartmentViewModel.cs" />
     <Compile Include="Models\DepositAndWithdrwalViewModel.cs" />
     <Compile Include="Models\EmployeeViewModel.cs" />
     <Compile Include="Models\ChartOfAccountsViewModel.cs" />
@@ -1671,6 +1676,8 @@
     <Content Include="Views\Report\AccountsReceivableAgeingSummary.cshtml" />
     <Content Include="Views\Report\AccountsPayableAgeingDetails.cshtml" />
     <Content Include="Views\Report\AccountsPayableAgeingSummary.cshtml" />
+    <Content Include="Views\SubType\Index.cshtml" />
+    <Content Include="Views\Department\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
