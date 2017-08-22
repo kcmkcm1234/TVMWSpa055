@@ -107,6 +107,9 @@ namespace SPAccounts.RepositoryServices.Services
                                 {
                                     CIList = new CustomerInvoice();
                                     CIList.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : CIList.ID);
+                                    CIList.RefInvoice = (sdr["RefInvoice"].ToString() != "" ? Guid.Parse(sdr["RefInvoice"].ToString()) : CIList.RefInvoice);
+                                    CIList.InvoiceType = sdr["InvoiceType"].ToString();
+
                                     CIList.InvoiceDate = (sdr["InvoiceDate"].ToString() != "" ? DateTime.Parse(sdr["InvoiceDate"].ToString()) : CIList.InvoiceDate);
                                     CIList.InvoiceNo = sdr["InvoiceNo"].ToString();
                                     CIList.companiesObj = new Companies();
@@ -218,6 +221,9 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@OriginCompanyCode", SqlDbType.VarChar, 10).Value =_customerInvoicesObj.companiesObj.Code;
                         cmd.Parameters.Add("@InvoiceNo", SqlDbType.VarChar, 20).Value = _customerInvoicesObj.InvoiceNo;
                         cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = _customerInvoicesObj.customerObj.ID;
+                        cmd.Parameters.Add("@RefInvoice", SqlDbType.UniqueIdentifier).Value = _customerInvoicesObj.RefInvoice;
+                        cmd.Parameters.Add("@InvoiceType", SqlDbType.VarChar, 2).Value = _customerInvoicesObj.InvoiceType;
+
                         cmd.Parameters.Add("@PaymentTerm", SqlDbType.VarChar, 10).Value = _customerInvoicesObj.paymentTermsObj.Code;
                         cmd.Parameters.Add("@InvoiceDate", SqlDbType.DateTime).Value =_customerInvoicesObj.InvoiceDateFormatted;
                         cmd.Parameters.Add("@PaymentDueDate", SqlDbType.DateTime).Value =_customerInvoicesObj.PaymentDueDateFormatted;
@@ -285,6 +291,9 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@OriginCompanyCode", SqlDbType.VarChar, 10).Value = _customerInvoicesObj.companiesObj.Code;
                         cmd.Parameters.Add("@InvoiceNo", SqlDbType.VarChar, 20).Value = _customerInvoicesObj.InvoiceNo;
                         cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = Guid.Parse(_customerInvoicesObj.hdfCustomerID);
+                        cmd.Parameters.Add("@RefInvoice", SqlDbType.UniqueIdentifier).Value = _customerInvoicesObj.RefInvoice;
+                        cmd.Parameters.Add("@InvoiceType", SqlDbType.VarChar, 2).Value = _customerInvoicesObj.InvoiceType;
+
                         cmd.Parameters.Add("@PaymentTerm", SqlDbType.VarChar, 10).Value = _customerInvoicesObj.paymentTermsObj.Code;
                         cmd.Parameters.Add("@InvoiceDate", SqlDbType.DateTime).Value = _customerInvoicesObj.InvoiceDateFormatted;
                         cmd.Parameters.Add("@PaymentDueDate", SqlDbType.DateTime).Value = _customerInvoicesObj.PaymentDueDateFormatted;

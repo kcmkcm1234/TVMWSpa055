@@ -3,6 +3,7 @@ using SPAccounts.DataAccessObject.DTO;
 using SPAccounts.RepositoryServices.Contracts;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SPAccounts.BusinessService.Services
 {
@@ -27,6 +28,23 @@ namespace SPAccounts.BusinessService.Services
             {
 
                 throw;
+            }
+
+        }
+
+        public List<CustomerInvoice> GetAllCustomerInvociesByCustomerID(Guid CustomerID)
+        {
+            try
+            {
+                List<CustomerInvoice> result = new List<CustomerInvoice>();
+                result= _customerInvoicesRepository.GetAllCustomerInvoices();
+                if (result!=null)
+                    result = result.Where(c => c.customerObj.ID == CustomerID).ToList(); 
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
 
         }

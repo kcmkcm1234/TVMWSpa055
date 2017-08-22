@@ -283,7 +283,27 @@ namespace UserInterface.Controllers
             return JsonConvert.SerializeObject(new { Result = "OK", Records = custAdvlist });
         }
         #endregion GetCustomerAdvancesByID
-        
+
+
+        #region GetAllCustomerInvociesByCustomerID
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoices", Mode = "R")]
+        [HttpGet]
+        public string GetAllCustomerInvociesByCustomerID(string CustomerID)
+        {
+            try
+            {
+                List < CustomerInvoicesViewModel > CustomerInvoicesList = new List<CustomerInvoicesViewModel>();
+                CustomerInvoicesList = Mapper.Map<List<CustomerInvoice>, List<CustomerInvoicesViewModel>>(_customerInvoicesBusiness.GetAllCustomerInvociesByCustomerID(Guid.Parse(CustomerID)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = CustomerInvoicesList });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion  GetAllCustomerInvociesByCustomerID
+
         #region ButtonStyling
         [HttpGet]      
         public ActionResult ChangeButtonStyle(string ActionType)
