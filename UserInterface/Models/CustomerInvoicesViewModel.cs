@@ -16,7 +16,7 @@ namespace UserInterface.Models
     public class CustomerInvoicesViewModel
     {
         public Guid ID { get; set; }
-        public DateTime InvoiceDate { get; set; }
+        public DateTime InvoiceDate { get; set; } 
 
         [Required(ErrorMessage = "Invoice Date is missing")]
         [Display(Name = "Invoice Date")]
@@ -82,6 +82,13 @@ namespace UserInterface.Models
         public String LastPaymentDateFormatted { get; set; }
         public String Status { get; set; }
         public decimal TotalAmount { get; set; }
+
+        [Display(Name = "Invoice Type")]
+        public string InvoiceType { get; set; }
+
+        [Display(Name = "Invoice Reference")]
+        public Guid RefInvoice { get; set; }
+        public List<SelectListItem> InvoiceList { get; set; }
 
     }
     public class CustomerInvoiceSummaryViewModel

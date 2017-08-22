@@ -7,6 +7,7 @@ namespace SPAccounts.BusinessService.Contracts
     public interface ICustomerInvoicesBusiness
     {
         List<CustomerInvoice> GetAllCustomerInvoices();
+        List<CustomerInvoice> GetAllCustomerInvociesByCustomerID(Guid CustomerID);
         CustomerInvoice GetCustomerInvoiceDetails(Guid ID);
         CustomerInvoiceSummary GetCustomerInvoicesSummary();
         CustomerInvoice InsertUpdateInvoice(CustomerInvoice _customerInvoicesObj, AppUA ua);

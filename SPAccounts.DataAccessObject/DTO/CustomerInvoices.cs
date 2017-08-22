@@ -41,6 +41,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public Common commonObj { get; set; }
         public decimal TotalAmount { get; set; }
 
+        public string InvoiceType { get; set; }
+        public Guid RefInvoice { get; set; }
     }
 
     public class CustomerInvoiceSummary

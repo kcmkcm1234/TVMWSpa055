@@ -137,6 +137,28 @@
                         <div class="col-md-8">
                             <div class="form-group col-md-6">
                                 <div class="col-md-12">
+                                    @Html.LabelFor(model => model.InvoiceType, htmlAttributes: new { @class = "control-label " })
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-10">
+                                        @{
+                                            List<SelectListItem> InvoiceTypeList = new List<SelectListItem>();
+                                            InvoiceTypeList.Add(new SelectListItem
+                                            { Text = "Regular Invoice", Value = "RB", Selected = true });
+                                            InvoiceTypeList.Add(new SelectListItem
+                                            { Text = "WB Invoice", Value = "WB" });
+                                            InvoiceTypeList.Add(new SelectListItem
+                                            { Text = "PB Invoice", Value = "PB" });
+                                        }
+                                        @Html.DropDownListFor(model => model.InvoiceType, InvoiceTypeList, new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "ddlInvoiceType", @onchange = "InvoicesTypeChange();" })
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-1"></div>
+                                </div>
+
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="col-md-12">
                                     @Html.LabelFor(model => model.InvoiceNo, htmlAttributes: new { @class = "control-label" })
                                     @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "" })
                                     @Html.HiddenFor(model => model.hdfCustomerID, htmlAttributes: new { @class = "" })
@@ -151,25 +173,9 @@
                                     <div class="col-md-1"></div>
                                     <div class="col-md-1"></div>
                                 </div>
-
                             </div>
-                            <div class="form-group col-md-6">
-                                <div class="col-md-12">
-                                    @Html.LabelFor(model => model.InvoiceDateFormatted, htmlAttributes: new { @class = "control-label" })
-
-
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.InvoiceDateFormatted, new { htmlAttributes = new { @class = "form-control HeaderBox datepicker", @id = "txtInvDate" } })
-                                        @Html.ValidationMessageFor(model => model.InvoiceDateFormatted, "", new { @class = "text-danger" })
-                                    </div>
-                                    <div class="col-md-1"></div>
-                                    <div class="col-md-1"></div>
-                                </div>
-
-                            </div>
-                            <div class="form-group col-md-12"></div>
+                            <div class="form-group col-md-12"></div>  
+                           
                             <div class="form-group col-md-6">
                                 <div class="col-md-12">
                                     @Html.LabelFor(model => model.customerObj.ID, htmlAttributes: new { @class = "control-label " })
@@ -186,22 +192,42 @@
                                 </div>
 
                             </div>
+
                             <div class="form-group col-md-6">
                                 <div class="col-md-12">
-                                    @Html.LabelFor(model => model.BillingAddress, htmlAttributes: new { @class = "control-label " })
+                                    @Html.LabelFor(model => model.RefInvoice, htmlAttributes: new { @class = "control-label " })
+
 
                                 </div>
                                 <div class="col-md-12">
                                     <div class="col-md-10">
-                                        @Html.EditorFor(model => model.BillingAddress, new { htmlAttributes = new { @class = "form-control", @id = "txtBillingAddress" } })
-
+                                        @Html.DropDownListFor(model => model.RefInvoice, new List<SelectListItem>(), "-- Select Invoice --", new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "ddlRefInvoice" })
                                     </div>
                                     <div class="col-md-1"></div>
                                     <div class="col-md-1"></div>
                                 </div>
 
                             </div>
+
                             <div class="form-group col-md-12"></div>
+
+                            <div class="form-group col-md-6">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => model.InvoiceDateFormatted, htmlAttributes: new { @class = "control-label" })
+
+
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.InvoiceDateFormatted, new { htmlAttributes = new { @class = "form-control HeaderBox datepicker", @id = "txtInvDate" } })
+                                        @Html.ValidationMessageFor(model => model.InvoiceDateFormatted, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-1"></div>
+                                </div>
+
+                            </div> 
+
                             <div class="form-group col-md-6">
                                 <div class="col-md-12">
                                     @Html.LabelFor(model => model.paymentTermsObj.Code, htmlAttributes: new { @class = "control-label " })
@@ -218,6 +244,9 @@
                                 </div>
 
                             </div>
+
+                            <div class="form-group col-md-12"></div>
+
                             <div class="form-group col-md-6">
                                 <div class="col-md-12">
                                     @Html.LabelFor(model => model.PaymentDueDateFormatted, htmlAttributes: new { @class = "control-label" })
@@ -234,7 +263,7 @@
                                 </div>
 
                             </div>
-                            <div class="form-group col-md-12"></div>
+
                             <div class="form-group col-md-6">
                                 <div class="col-md-12">
                                     @Html.LabelFor(model => model.companiesObj.Code, htmlAttributes: new { @class = "control-label " })
@@ -251,6 +280,25 @@
                                 </div>
 
                             </div>
+
+                            <div class="form-group col-md-12"></div>
+                            <div class="form-group col-md-6">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => model.BillingAddress, htmlAttributes: new { @class = "control-label " })
+
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.BillingAddress, new { htmlAttributes = new { @class = "form-control", @id = "txtBillingAddress" } })
+
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-1"></div>
+                                </div>
+
+                            </div>
+                            <div class="form-group col-md-12"></div>
+
 
                         </div>
                         <div class="col-md-4" id="CommonFigure" style="padding-top:2%;border-left:1px solid #64e564;white-space:nowrap;">

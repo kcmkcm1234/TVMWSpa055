@@ -2,7 +2,7 @@
 var emptyGUID = '00000000-0000-0000-0000-000000000000'
 $(document).ready(function () {
     try {
-        debugger;
+        debugger; 
         $('#btnUpload').click(function () {
             //Pass the controller name
             var FileObject = new Object;
@@ -491,6 +491,8 @@ function AddNew()
     $('#ID').val('');
     $('#lblInvoiceNo').text("New Invoice");
     $('#ddlCustomer').prop('disabled', false);
+    $('#ddlRefInvoice').prop('disabled', true);
+    $('#ddlInvoiceType').prop('disabled', false);
     ChangeButtonPatchView('CustomerInvoices', 'btnPatchAdd', 'Add');
     openNav();
     clearUploadControl();
@@ -513,6 +515,20 @@ function PaintInvoiceDetails()
     $('#ddlCustomer').val(CustomerInvoicesViewModel.customerObj.ID);
     $('#hdfCustomerID').val(CustomerInvoicesViewModel.customerObj.ID);
     $('#ddlCustomer').prop('disabled', true);
+    //------------------------------------------------
+    $('#ddlInvoiceType').prop('disabled', true);
+ 
+    debugger;
+    $('#ddlInvoiceType').val(CustomerInvoicesViewModel.InvoiceType);
+   
+    BindInvocieReferenceDropDown(CustomerInvoicesViewModel.customerObj.ID);//dropdownbinding
+    if ($('#ddlInvoiceType').val() == 'PB')
+        $('#ddlRefInvoice').val(CustomerInvoicesViewModel.RefInvoice);
+    else
+        $('#ddlRefInvoice').val(-1);
+    InvoicesTypeChange();
+
+    //------------------------------------------------
     $('#txtBillingAddress').val(CustomerInvoicesViewModel.BillingAddress);
     $('#ddlPaymentTerm').val(CustomerInvoicesViewModel.paymentTermsObj.Code);
     $('#txtPayDueDate').val(CustomerInvoicesViewModel.PaymentDueDateFormatted);
@@ -558,17 +574,22 @@ function FillCustomerDefault(this_Obj)
 {
     try
     {
+        debugger;
         var ID = this_Obj.value;
         var CustomerViewModel = GetCustomerDetails(ID);
         $('#txtBillingAddress').val(CustomerViewModel.BillingAddress);
         $('#ddlPaymentTerm').val(CustomerViewModel.PaymentTermCode);
         $('#ddlPaymentTerm').trigger('change');
+        if ($('#ddlInvoiceType').val() == "PB") {
+            //Bind only if invoice type is PB 
+            BindInvocieReferenceDropDown(ID);
+        }
     }
     catch(e)
     {
 
     }
-}
+} 
 function GetCustomerDetails(ID)
 {
     try {
@@ -631,6 +652,67 @@ function GetCustomerInvoiceDetails()
         var data = {"ID":InvoiceID};
         var ds = {};
         ds = GetDataFromServer("CustomerInvoices/GetCustomerInvoiceDetails/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            alert(ds.Message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
+
+//-----------------------------------------------------------------------------------------------------------------//
+
+function InvoicesTypeChange() {
+    debugger;
+    if ($('#ddlInvoiceType').val() == "PB" ) {
+        $('#ddlRefInvoice').prop('disabled', false);
+        $('#txtInvNo').prop('disabled', true);
+    }
+    else if ($('#ddlInvoiceType').val() == "WB") {
+        $('#ddlRefInvoice').prop('disabled', true);
+        $('#txtInvNo').prop('disabled', true);
+    }
+    else {
+        $('#ddlRefInvoice').prop('disabled', true);
+        $('#txtInvNo').prop('disabled', false);
+    }
+     
+    
+}
+
+function BindInvocieReferenceDropDown(ID) {
+    debugger;
+    try {
+        var item = GetAllCustomerInvociesByID(ID);
+        if (item) {
+            $('#ddlRefInvoice').empty();
+            $('#ddlRefInvoice').append(new Option('-- Select Invoice --', -1));
+            for (var i = 0; i < item.length; i++) {
+                var opt = new Option(item[i].InvoiceNo + '-' + item[i].companiesObj.Name, item[i].ID);
+                $('#ddlRefInvoice').append(opt);
+            }
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
+function GetAllCustomerInvociesByID(CustomerID) {
+    try {
+        debugger;
+        
+        var data = { "CustomerID": CustomerID };
+        var ds = {};
+        ds = GetDataFromServer("CustomerInvoices/GetAllCustomerInvociesByCustomerID/", data);
         if (ds != '') {
             ds = JSON.parse(ds);
         }
