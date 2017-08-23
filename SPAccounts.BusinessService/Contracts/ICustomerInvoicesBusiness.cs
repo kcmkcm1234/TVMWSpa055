@@ -17,5 +17,9 @@ namespace SPAccounts.BusinessService.Contracts
         CustomerInvoicesSummaryForMobile GetOutstandingCustomerInvoices(CustomerInvoice CusObj);
         CustomerInvoicesSummaryForMobile GetOpeningCustomerInvoices();
 
+        //special Permission SAdmin and CEO case
+        List<CustomerInvoice> GetAllCustomerInvoicesForSA();
+        CustomerInvoiceSummary GetCustomerInvoicesSummaryForSA();
+
     }
 }

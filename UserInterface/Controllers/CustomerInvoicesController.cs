@@ -9,6 +9,7 @@ using AutoMapper;
 using System.Web;
 using System.IO;
 using SPAccounts.UserInterface.SecurityFilter;
+using System.Linq;
 
 namespace UserInterface.Controllers
 {
@@ -138,11 +139,20 @@ namespace UserInterface.Controllers
         {
             try
             {
-
+                AppUA _appUA = Session["AppUA"] as AppUA;
                 CustomerInvoiceBundleViewModel Result = new CustomerInvoiceBundleViewModel();
 
-                Result.CustomerInvoiceSummary= Mapper.Map<CustomerInvoiceSummary,CustomerInvoiceSummaryViewModel>(_customerInvoicesBusiness.GetCustomerInvoicesSummary());
-                Result.CustomerInvoices = Mapper.Map<List<CustomerInvoice>, List<CustomerInvoicesViewModel>>(_customerInvoicesBusiness.GetAllCustomerInvoices());
+                string[] arr = _appUA.RolesCSV.Split(',');
+                if (arr.Contains("SAdmin")|| arr.Contains("CEO"))
+                {
+                    Result.CustomerInvoiceSummary = Mapper.Map<CustomerInvoiceSummary, CustomerInvoiceSummaryViewModel>(_customerInvoicesBusiness.GetCustomerInvoicesSummaryForSA());
+                    Result.CustomerInvoices = Mapper.Map<List<CustomerInvoice>, List<CustomerInvoicesViewModel>>(_customerInvoicesBusiness.GetAllCustomerInvoicesForSA());
+                } 
+                else
+                {
+                    Result.CustomerInvoiceSummary = Mapper.Map<CustomerInvoiceSummary, CustomerInvoiceSummaryViewModel>(_customerInvoicesBusiness.GetCustomerInvoicesSummary());
+                    Result.CustomerInvoices = Mapper.Map<List<CustomerInvoice>, List<CustomerInvoicesViewModel>>(_customerInvoicesBusiness.GetAllCustomerInvoices());
+                } 
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = Result });
             }
             catch (Exception ex)
@@ -287,7 +297,6 @@ namespace UserInterface.Controllers
             return JsonConvert.SerializeObject(new { Result = "OK", Records = custAdvlist });
         }
         #endregion GetCustomerAdvancesByID
-
 
         #region GetAllCustomerInvociesByCustomerID
         [AuthSecurityFilter(ProjectObject = "CustomerInvoices", Mode = "R")]
