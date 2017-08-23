@@ -28,4 +28,10 @@ namespace SPAccounts.DataAccessObject.DTO
         public string Name { get; set; }
 
     }
+    public class EmployeeCategory
+    {
+        public string Code { get; set; }
+        public string Name { get; set; }
+        public Common commonObj { get; set; }
+    }
 }

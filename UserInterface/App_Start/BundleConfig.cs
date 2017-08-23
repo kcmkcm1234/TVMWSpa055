@@ -91,7 +91,8 @@ namespace UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/ChartOfAccounts").Include("~/Scripts/UserJS/ChartOfAccounts.js"));
             bundles.Add(new ScriptBundle("~/bundles/SubType").Include("~/Scripts/UserJS/SubType.js"));
             bundles.Add(new ScriptBundle("~/bundles/Department").Include("~/Scripts/UserJS/Department.js"));
-
+            bundles.Add(new ScriptBundle("~/bundles/EmployeeCategory").Include("~/Scripts/UserJS/EmployeeCategory.js"));
+            
         }
           
         }

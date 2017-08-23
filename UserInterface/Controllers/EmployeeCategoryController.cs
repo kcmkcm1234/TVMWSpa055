@@ -12,31 +12,33 @@ using UserInterface.Models;
 
 namespace UserInterface.Controllers
 {
-    public class DepartmentController : Controller
+    public class EmployeeCategoryController : Controller
     {
-        AppConst c = new AppConst();
-        IDepartmentBusiness _departmentBusiness;
-        public DepartmentController(IDepartmentBusiness departmentBusiness)
+
+        
+        // GET: EmployeeCategory
+         AppConst c = new AppConst();
+        IEmployeeBusiness _employeeBusiness;
+        public EmployeeCategoryController(IEmployeeBusiness employeeBusiness)
         {
-            _departmentBusiness = departmentBusiness;
+            _employeeBusiness = employeeBusiness;
         }
 
-        //GET: Department
-        [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Department", Mode = "R")]
+     
         public ActionResult Index()
         {
             return View();
         }
-        #region GetAllDepartments
+        #region GetAllEmployeeCategories
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Department", Mode = "R")]
-        public string GetAllDepartments()
+
+         [AuthSecurityFilter(ProjectObject = "EmployeeCategory", Mode = "R")]
+        public string GetAllEmployeeCategories()
         {
             try
             {
-                List<DepartmentViewModel> departmentList = Mapper.Map<List<Department>, List<DepartmentViewModel>>(_departmentBusiness.GetAllDetpartments());
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = departmentList });
+                List<EmployeeCategoryViewModel> empCategoryList = Mapper.Map<List<EmployeeCategory>, List<EmployeeCategoryViewModel>>(_employeeBusiness.GetAllEmployeeCategories());
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = empCategoryList });
             }
             catch (Exception ex)
             {
@@ -44,18 +46,18 @@ namespace UserInterface.Controllers
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
             }
         }
-        #endregion  GetAllDepartments
+        #endregion  GetAllEmployeeCategories
 
-        #region GetDepartmentDetails
+        #region GetEmployeeCategories
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Department", Mode = "R")]
-        public string GetDepartmentDetails(string Code)
+        [AuthSecurityFilter(ProjectObject = "EmployeeCategory", Mode = "R")]
+        public string GetEmployeeCategories(string Code)
         {
             try
             {
 
-                DepartmentViewModel departmentObj = Mapper.Map<Department, DepartmentViewModel>(_departmentBusiness.GetDepartmentDetails(Code));
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = departmentObj });
+                EmployeeCategoryViewModel EmployeeCategoryObj = Mapper.Map<EmployeeCategory, EmployeeCategoryViewModel>(_employeeBusiness.GetEmployeeCategoryDetails(Code));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = EmployeeCategoryObj });
             }
             catch (Exception ex)
             {
@@ -63,33 +65,33 @@ namespace UserInterface.Controllers
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
             }
         }
-        #endregion  GetDepartmentDetails
+        #endregion  GetEmployeeCategories
 
-        #region InsertUpdateDepartment
+        #region InsertUpdateEmployeeCategory
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [AuthSecurityFilter(ProjectObject = "Department", Mode = "W")]
-        public string InsertUpdateDepartment(DepartmentViewModel departmentViewModel)
+        [AuthSecurityFilter(ProjectObject = "EmployeeCategory", Mode = "W")]
+        public string InsertUpdateEmployeeCategory(EmployeeCategoryViewModel employeeCategoryViewModel)
         {
             object result = null;
             try
             {
                 //AppUA _appUA = Session["AppUA"] as AppUA;
-                departmentViewModel.commonObj = new CommonViewModel();
-                departmentViewModel.commonObj.CreatedBy ="Albert Thomson";
-                departmentViewModel.commonObj.CreatedDate = DateTime.Now;
-                departmentViewModel.commonObj.UpdatedBy = departmentViewModel.commonObj.CreatedBy;
-                departmentViewModel.commonObj.UpdatedDate = departmentViewModel.commonObj.CreatedDate;
-                switch(departmentViewModel.Operation)
+                employeeCategoryViewModel.commonObj = new CommonViewModel();
+                employeeCategoryViewModel.commonObj.CreatedBy = "Albert Thomson";
+                employeeCategoryViewModel.commonObj.CreatedDate = DateTime.Now;
+                employeeCategoryViewModel.commonObj.UpdatedBy = employeeCategoryViewModel.commonObj.CreatedBy;
+                employeeCategoryViewModel.commonObj.UpdatedDate = employeeCategoryViewModel.commonObj.CreatedDate;
+                switch (employeeCategoryViewModel.Operation)
                 {
                     case "Insert":
-                        result = _departmentBusiness.InsertDepartment(Mapper.Map<DepartmentViewModel, Department>(departmentViewModel));
+                        result = _employeeBusiness.InsertEmployeeCategory(Mapper.Map<EmployeeCategoryViewModel, EmployeeCategory>(employeeCategoryViewModel));
                         break;
                     case "Update":
-                        result = _departmentBusiness.UpdateDepartment(Mapper.Map<DepartmentViewModel, Department>(departmentViewModel));
+                        result = _employeeBusiness.UpdateEmployeeCategory(Mapper.Map<EmployeeCategoryViewModel, EmployeeCategory>(employeeCategoryViewModel));
                         break;
                 }
-              
+
                 return JsonConvert.SerializeObject(new { Result = "OK", Record = result });
             }
             catch (Exception ex)
@@ -98,19 +100,19 @@ namespace UserInterface.Controllers
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
             }
         }
-        #endregion InsertUpdateDepartment
+        #endregion InsertUpdateEmployeeCategory
 
-        #region DeleteEmployee
+        #region DeleteEmployeeCategory
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Department", Mode = "D")]
-        public string DeleteDepartment(string Code)
+        [AuthSecurityFilter(ProjectObject = "EmployeeCategory", Mode = "D")]
+        public string DeleteEmployeeCategory(string Code)
         {
 
             try
             {
                 object result = null;
 
-                result = _departmentBusiness.DeleteDepartment(Code);
+                result = _employeeBusiness.DeleteEmployeeCategory(Code);
                 return JsonConvert.SerializeObject(new { Result = "OK", Message = result });
 
             }
@@ -122,10 +124,10 @@ namespace UserInterface.Controllers
 
 
         }
-        #endregion DeleteEmployee
+        #endregion DeleteEmployeeCategory
         #region ButtonStyling
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Department", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "EmployeeCategory", Mode = "R")]
         public ActionResult ChangeButtonStyle(string ActionType)
         {
             ToolboxViewModel ToolboxViewModelObj = new ToolboxViewModel();
@@ -148,12 +150,12 @@ namespace UserInterface.Controllers
 
                     ToolboxViewModelObj.savebtn.Visible = true;
                     ToolboxViewModelObj.savebtn.Text = "Save";
-                    ToolboxViewModelObj.savebtn.Title = "Save Department";
+                    ToolboxViewModelObj.savebtn.Title = "Save Category";
                     ToolboxViewModelObj.savebtn.Event = "Save();";
 
                     ToolboxViewModelObj.deletebtn.Visible = true;
                     ToolboxViewModelObj.deletebtn.Text = "Delete";
-                    ToolboxViewModelObj.deletebtn.Title = "Delete Department";
+                    ToolboxViewModelObj.deletebtn.Title = "Delete Category";
                     ToolboxViewModelObj.deletebtn.Event = "Delete()";
 
                     ToolboxViewModelObj.resetbtn.Visible = true;
@@ -186,7 +188,7 @@ namespace UserInterface.Controllers
 
                     ToolboxViewModelObj.deletebtn.Visible = false;
                     ToolboxViewModelObj.deletebtn.Text = "Delete";
-                    ToolboxViewModelObj.deletebtn.Title = "Delete Department";
+                    ToolboxViewModelObj.deletebtn.Title = "Delete Category";
                     ToolboxViewModelObj.deletebtn.Event = "Delete()";
 
                     ToolboxViewModelObj.addbtn.Visible = false;

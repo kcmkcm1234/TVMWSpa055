@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using SPAccounts.BusinessService.Contracts;
 using SPAccounts.DataAccessObject.DTO;
+using SPAccounts.UserInterface.SecurityFilter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,7 @@ namespace UserInterface.Controllers
 
         [HttpGet]
         // GET: SubTypeNarration
+        [AuthSecurityFilter(ProjectObject = "SubType", Mode = "R")]
         public ActionResult Index()
         {
             SubTypeNarrationViewModel evm = null;
@@ -100,7 +102,7 @@ namespace UserInterface.Controllers
 
         #region GetAllEmployees
         [HttpGet]
-        // [AuthSecurityFilter(ProjectObject = "Employee", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "SubType", Mode = "R")]
         public string GetAllEmployees()
         {
             try
@@ -119,7 +121,7 @@ namespace UserInterface.Controllers
 
         #region GetEmployeeDetails
         [HttpGet]
-        //[AuthSecurityFilter(ProjectObject = "Employee", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "SubType", Mode = "R")]
         public string GetEmployeeDetails(string ID)
         {
             try
@@ -139,7 +141,7 @@ namespace UserInterface.Controllers
         #region InsertUpdateEmployee
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //[AuthSecurityFilter(ProjectObject = "Employee", Mode = "W")]
+        [AuthSecurityFilter(ProjectObject = "SubType", Mode = "W")]
         public string InsertUpdateEmployee(SubTypeNarrationViewModel _employeeObj)
         {
             object result = null;
@@ -164,7 +166,7 @@ namespace UserInterface.Controllers
 
         #region DeleteEmployee
         [HttpGet]
-        // [AuthSecurityFilter(ProjectObject = "Employee", Mode = "D")]
+        [AuthSecurityFilter(ProjectObject = "SubType", Mode = "D")]
         public string DeleteEmployee(string ID)
         {
 
@@ -188,7 +190,7 @@ namespace UserInterface.Controllers
 
         #region ButtonStyling
         [HttpGet]
-        // [AuthSecurityFilter(ProjectObject = "Employee", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "SubType", Mode = "R")]
         public ActionResult ChangeButtonStyle(string ActionType)
         {
             ToolboxViewModel ToolboxViewModelObj = new ToolboxViewModel();

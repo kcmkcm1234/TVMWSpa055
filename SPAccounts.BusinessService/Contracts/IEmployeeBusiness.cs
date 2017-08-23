@@ -17,5 +17,12 @@ namespace SPAccounts.BusinessService.Contracts
         Employee GetEmployeeDetails(Guid ID);
         object InsertUpdateEmployee(Employee _employeeObj);
         object DeleteEmployee(Guid ID);
+
+
+        List<EmployeeCategory> GetAllEmployeeCategories();
+        EmployeeCategory GetEmployeeCategoryDetails(string Code);
+        object InsertEmployeeCategory(EmployeeCategory employeeCategory);
+        object UpdateEmployeeCategory(EmployeeCategory employeeCategory);
+        object DeleteEmployeeCategory(string Code);
     }
 }
