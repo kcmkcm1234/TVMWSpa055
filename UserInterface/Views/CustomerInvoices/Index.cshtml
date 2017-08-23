@@ -202,6 +202,7 @@
                                 <div class="col-md-12">
                                     <div class="col-md-10">
                                         @Html.DropDownListFor(model => model.RefInvoice, new List<SelectListItem>(), "-- Select Invoice --", new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "ddlRefInvoice" })
+                                        @Html.ValidationMessageFor(model => model.RefInvoice, "", new { @class = "text-danger" })
                                     </div>
                                     <div class="col-md-1"></div>
                                     <div class="col-md-1"></div>

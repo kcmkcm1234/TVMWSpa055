@@ -484,6 +484,7 @@ function Edit(Obj) {
 }
 function AddNew()
 {
+    debugger;
     $('#CustomerInvoiceForm')[0].reset();
     $('#lblinvoicedAmt').text("₹ 0.00");
     $('#lblpaidAmt').text("₹ 0.00");
@@ -491,6 +492,7 @@ function AddNew()
     $('#ID').val('');
     $('#lblInvoiceNo').text("New Invoice");
     $('#ddlCustomer').prop('disabled', false);
+    $('#txtInvNo').prop('disabled', false);
     $('#ddlRefInvoice').prop('disabled', true);
     $('#ddlInvoiceType').prop('disabled', false);
     ChangeButtonPatchView('CustomerInvoices', 'btnPatchAdd', 'Add');

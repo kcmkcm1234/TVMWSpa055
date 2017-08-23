@@ -39,7 +39,7 @@ namespace SPAccounts.BusinessService.Services
                 List<CustomerInvoice> result = new List<CustomerInvoice>();
                 result= _customerInvoicesRepository.GetAllCustomerInvoices();
                 if (result!=null)
-                    result = result.Where(c => c.customerObj.ID == CustomerID).ToList(); 
+                    result = result.Where(c => c.customerObj.ID == CustomerID && c.InvoiceType == "RB").ToList(); 
                 return result;
             }
             catch (Exception ex)

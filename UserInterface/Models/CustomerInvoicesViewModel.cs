@@ -86,8 +86,9 @@ namespace UserInterface.Models
         [Display(Name = "Invoice Type")]
         public string InvoiceType { get; set; }
 
+        [Required(ErrorMessage = "Discount Amount is missing")]
         [Display(Name = "Invoice Reference")]
-        public Guid RefInvoice { get; set; }
+        public Guid? RefInvoice { get; set; }
         public List<SelectListItem> InvoiceList { get; set; }
 
     }
