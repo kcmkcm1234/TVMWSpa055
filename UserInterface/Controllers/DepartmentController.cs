@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using SPAccounts.BusinessService.Contracts;
 using SPAccounts.DataAccessObject.DTO;
+using SPAccounts.UserInterface.SecurityFilter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,13 +22,15 @@ namespace UserInterface.Controllers
         }
 
         //GET: Department
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Department", Mode = "R")]
         public ActionResult Index()
         {
             return View();
         }
         #region GetAllDepartments
         [HttpGet]
-        // [AuthSecurityFilter(ProjectObject = "Employee", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "Department", Mode = "R")]
         public string GetAllDepartments()
         {
             try
@@ -45,7 +48,7 @@ namespace UserInterface.Controllers
 
         #region GetDepartmentDetails
         [HttpGet]
-        //[AuthSecurityFilter(ProjectObject = "Employee", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "Department", Mode = "R")]
         public string GetDepartmentDetails(string Code)
         {
             try
@@ -65,7 +68,7 @@ namespace UserInterface.Controllers
         #region InsertUpdateDepartment
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //[AuthSecurityFilter(ProjectObject = "Employee", Mode = "W")]
+        [AuthSecurityFilter(ProjectObject = "Department", Mode = "W")]
         public string InsertUpdateDepartment(DepartmentViewModel departmentViewModel)
         {
             object result = null;
@@ -99,7 +102,7 @@ namespace UserInterface.Controllers
 
         #region DeleteEmployee
         [HttpGet]
-        // [AuthSecurityFilter(ProjectObject = "Employee", Mode = "D")]
+        [AuthSecurityFilter(ProjectObject = "Department", Mode = "D")]
         public string DeleteDepartment(string Code)
         {
 
@@ -122,7 +125,7 @@ namespace UserInterface.Controllers
         #endregion DeleteEmployee
         #region ButtonStyling
         [HttpGet]
-        // [AuthSecurityFilter(ProjectObject = "Employee", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "Department", Mode = "R")]
         public ActionResult ChangeButtonStyle(string ActionType)
         {
             ToolboxViewModel ToolboxViewModelObj = new ToolboxViewModel();

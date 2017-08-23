@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using SPAccounts.BusinessService.Contracts;
 using SPAccounts.DataAccessObject.DTO;
+using SPAccounts.UserInterface.SecurityFilter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,8 @@ namespace UserInterface.Controllers
         }
         #region GetAllEmployeeCategories
         [HttpGet]
-        // [AuthSecurityFilter(ProjectObject = "Employee", Mode = "R")]
+
+         [AuthSecurityFilter(ProjectObject = "EmployeeCategory", Mode = "R")]
         public string GetAllEmployeeCategories()
         {
             try
@@ -48,7 +50,7 @@ namespace UserInterface.Controllers
 
         #region GetEmployeeCategories
         [HttpGet]
-        //[AuthSecurityFilter(ProjectObject = "Employee", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "EmployeeCategory", Mode = "R")]
         public string GetEmployeeCategories(string Code)
         {
             try
@@ -68,7 +70,7 @@ namespace UserInterface.Controllers
         #region InsertUpdateEmployeeCategory
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //[AuthSecurityFilter(ProjectObject = "Employee", Mode = "W")]
+        [AuthSecurityFilter(ProjectObject = "EmployeeCategory", Mode = "W")]
         public string InsertUpdateEmployeeCategory(EmployeeCategoryViewModel employeeCategoryViewModel)
         {
             object result = null;
@@ -102,7 +104,7 @@ namespace UserInterface.Controllers
 
         #region DeleteEmployeeCategory
         [HttpGet]
-        // [AuthSecurityFilter(ProjectObject = "Employee", Mode = "D")]
+        [AuthSecurityFilter(ProjectObject = "EmployeeCategory", Mode = "D")]
         public string DeleteEmployeeCategory(string Code)
         {
 
@@ -125,7 +127,7 @@ namespace UserInterface.Controllers
         #endregion DeleteEmployeeCategory
         #region ButtonStyling
         [HttpGet]
-        // [AuthSecurityFilter(ProjectObject = "Employee", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "EmployeeCategory", Mode = "R")]
         public ActionResult ChangeButtonStyle(string ActionType)
         {
             ToolboxViewModel ToolboxViewModelObj = new ToolboxViewModel();
