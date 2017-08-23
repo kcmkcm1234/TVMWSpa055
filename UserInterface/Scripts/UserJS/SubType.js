@@ -22,13 +22,12 @@ $(document).ready(function () {
 
                //{ "data": "employeeTypeObj.Name", "defaultContent": "<i>-</i>" },
                { "data": "companies.Name", "defaultContent": "<i>-</i>" },
-                  { "data": "Department", "defaultContent": "<i>-</i>" },
-                 { "data": "EmployeeCategory", "defaultContent": "<i>-</i>" },
+                 
                { "data": null, "orderable": false, "defaultContent": '<a href="#" title="Edit OtherIncome" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
 
-               { className: "text-left", "targets": [2, 3, 5, 6] },
+               { className: "text-left", "targets": [2, 3] },
              { className: "text-center", "targets": [1] }
 
              ]
@@ -147,8 +146,7 @@ function ClearFields() {
     $("#Name").val("");
     $("#MobileNo").val("");
     $("#Company").val("");
-    $("#Department").val("");
-    $("#EmployeeCategory").val("");
+   
     //  $("#EmployeeType").val("");
     $("#Address").val("");
     $("#GeneralNotes").val("");
@@ -243,9 +241,7 @@ function FillEmployeeDetails(ID) {
     $("#Code").val(thisItem.Code);
     $("#Name").val(thisItem.Name);
     $("#MobileNo").val(thisItem.MobileNo);
-    $("#Department").val(thisItem.Department);
-    //    $('#EmployeeType').attr('disabled', true);
-    $("#EmployeeCategory").val(thisItem.EmployeeCategory);
+ 
     $("#Company").val(thisItem.companyID);
     //    $("#EmployeeType").val(thisItem.EmployeeType);   
     $("#Address").val(thisItem.Address);
