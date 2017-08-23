@@ -22,14 +22,27 @@ namespace SPAccounts.BusinessService.Services
         {
             try
             {
+                List<CustomerInvoice> custlist = new List<CustomerInvoice>();
+                custlist= _customerInvoicesRepository.GetAllCustomerInvoices();
+                custlist = custlist.Where(C => C.InvoiceType == "RB").ToList();
+                return custlist;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<CustomerInvoice> GetAllCustomerInvoicesForSA()
+        {
+            try
+            {
                 return _customerInvoicesRepository.GetAllCustomerInvoices();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
-            }
-
+                throw ex;
+            } 
         }
 
         public List<CustomerInvoice> GetAllCustomerInvociesByCustomerID(Guid CustomerID)
@@ -45,34 +58,50 @@ namespace SPAccounts.BusinessService.Services
             catch (Exception ex)
             {
                 throw ex;
-            }
-
+            } 
         }
 
         public CustomerInvoice GetCustomerInvoiceDetails(Guid ID)
         {
             return _customerInvoicesRepository.GetCustomerInvoiceDetails(ID);
         }
-        public CustomerInvoiceSummary GetCustomerInvoicesSummary() {
+        public CustomerInvoiceSummary GetCustomerInvoicesSummaryForSA() {
             try
             {
                 CustomerInvoiceSummary result= new CustomerInvoiceSummary();
-                result= _customerInvoicesRepository.GetCustomerInvoicesSummary();
+                result= _customerInvoicesRepository.GetCustomerInvoicesSummaryForSA();
                 if (result != null) {
 
                     result.OpenAmountFormatted = _commonBusiness.ConvertCurrency(result.OpenAmount, 2);
                     result.PaidAmountFormatted = _commonBusiness.ConvertCurrency(result.PaidAmount, 2);
                     result.OverdueAmountFormatted = _commonBusiness.ConvertCurrency(result.OverdueAmount, 2);
-
                 }
-
                 return result;
-
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                throw ex;
+            }
 
-                throw;
+        }
+        public CustomerInvoiceSummary GetCustomerInvoicesSummary()
+        {
+            try
+            {
+                CustomerInvoiceSummary result = new CustomerInvoiceSummary();
+                result = _customerInvoicesRepository.GetCustomerInvoicesSummary();
+                if (result != null)
+                {
+
+                    result.OpenAmountFormatted = _commonBusiness.ConvertCurrency(result.OpenAmount, 2);
+                    result.PaidAmountFormatted = _commonBusiness.ConvertCurrency(result.PaidAmount, 2);
+                    result.OverdueAmountFormatted = _commonBusiness.ConvertCurrency(result.OverdueAmount, 2);
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
 
         }

@@ -153,7 +153,9 @@ namespace SPAccounts.RepositoryServices.Services
 
             return CIList;
         }
-        public CustomerInvoiceSummary GetCustomerInvoicesSummary()
+        //GetCustomerInvoicesSummaryForSA
+
+        public CustomerInvoiceSummary GetCustomerInvoicesSummaryForSA()
         {
             CustomerInvoiceSummary CustomerInvoiceSummary = null;
           
@@ -168,7 +170,7 @@ namespace SPAccounts.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[Accounts].[GetCustomerInvoiceSummary]";
+                        cmd.CommandText = "[Accounts].[GetCustomerInvoiceSummaryForSA]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
@@ -204,6 +206,59 @@ namespace SPAccounts.RepositoryServices.Services
 
             return CustomerInvoiceSummary;
         }
+
+        public CustomerInvoiceSummary GetCustomerInvoicesSummary()
+        {
+            CustomerInvoiceSummary CustomerInvoiceSummary = null;
+
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetCustomerInvoiceSummary]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                CustomerInvoiceSummary = new CustomerInvoiceSummary();
+                                if (sdr.Read())
+                                {
+
+                                    {
+                                        CustomerInvoiceSummary.OverdueAmount = (sdr["Overdueamt"].ToString() != "" ? Decimal.Parse(sdr["Overdueamt"].ToString()) : CustomerInvoiceSummary.OverdueAmount);
+                                        CustomerInvoiceSummary.OverdueInvoices = (sdr["OverdueInvoices"].ToString() != "" ? int.Parse(sdr["OverdueInvoices"].ToString()) : CustomerInvoiceSummary.OverdueInvoices);
+
+                                        CustomerInvoiceSummary.OpenAmount = (sdr["Openamt"].ToString() != "" ? Decimal.Parse(sdr["Openamt"].ToString()) : CustomerInvoiceSummary.OpenAmount);
+                                        CustomerInvoiceSummary.OpenInvoices = (sdr["OpenInvoices"].ToString() != "" ? int.Parse(sdr["OpenInvoices"].ToString()) : CustomerInvoiceSummary.OpenInvoices);
+
+                                        CustomerInvoiceSummary.PaidAmount = (sdr["Paidamt"].ToString() != "" ? Decimal.Parse(sdr["Paidamt"].ToString()) : CustomerInvoiceSummary.PaidAmount);
+                                        CustomerInvoiceSummary.PaidInvoices = (sdr["PaidInvoices"].ToString() != "" ? int.Parse(sdr["PaidInvoices"].ToString()) : CustomerInvoiceSummary.PaidInvoices);
+
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return CustomerInvoiceSummary;
+        }
+
         public CustomerInvoice InsertInvoice(CustomerInvoice _customerInvoicesObj, AppUA ua)
         {
             try
