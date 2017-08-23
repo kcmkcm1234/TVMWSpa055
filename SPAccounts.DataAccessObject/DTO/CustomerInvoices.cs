@@ -42,7 +42,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal TotalAmount { get; set; }
 
         public string InvoiceType { get; set; }
-        public Guid RefInvoice { get; set; }
+        public Guid? RefInvoice { get; set; }
     }
 
     public class CustomerInvoiceSummary

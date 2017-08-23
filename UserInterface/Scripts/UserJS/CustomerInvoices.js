@@ -177,13 +177,8 @@ function Delete()
 }
 
 function saveInvoices() {
-    debugger;
-  //  if ($('#txtTotalInvAmt').val() == 0) {
-  //      notyAlert('error', 'Please Enter Amount');
-  //}
-  //else {
+    debugger; 
       $('#btnSave').trigger('click');
-  //}
 }
 
 function DeleteSuccess(data, status) {
@@ -484,6 +479,7 @@ function Edit(Obj) {
 }
 function AddNew()
 {
+    debugger;
     $('#CustomerInvoiceForm')[0].reset();
     $('#lblinvoicedAmt').text("₹ 0.00");
     $('#lblpaidAmt').text("₹ 0.00");
@@ -491,6 +487,7 @@ function AddNew()
     $('#ID').val('');
     $('#lblInvoiceNo').text("New Invoice");
     $('#ddlCustomer').prop('disabled', false);
+    $('#txtInvNo').prop('disabled', false);
     $('#ddlRefInvoice').prop('disabled', true);
     $('#ddlInvoiceType').prop('disabled', false);
     ChangeButtonPatchView('CustomerInvoices', 'btnPatchAdd', 'Add');
@@ -580,10 +577,11 @@ function FillCustomerDefault(this_Obj)
         $('#txtBillingAddress').val(CustomerViewModel.BillingAddress);
         $('#ddlPaymentTerm').val(CustomerViewModel.PaymentTermCode);
         $('#ddlPaymentTerm').trigger('change');
-        if ($('#ddlInvoiceType').val() == "PB") {
+        //if ($('#ddlInvoiceType').val() == "PB") {
             //Bind only if invoice type is PB 
             BindInvocieReferenceDropDown(ID);
-        }
+       // }
+       
     }
     catch(e)
     {
@@ -675,13 +673,17 @@ function InvoicesTypeChange() {
     if ($('#ddlInvoiceType').val() == "PB" ) {
         $('#ddlRefInvoice').prop('disabled', false);
         $('#txtInvNo').prop('disabled', true);
+        $('#txtInvNo').val('');
     }
     else if ($('#ddlInvoiceType').val() == "WB") {
         $('#ddlRefInvoice').prop('disabled', true);
         $('#txtInvNo').prop('disabled', true);
+        $('#txtInvNo').val('');
+        $('#ddlRefInvoice').val(-1);
     }
     else {
         $('#ddlRefInvoice').prop('disabled', true);
+        $('#ddlRefInvoice').val(-1);
         $('#txtInvNo').prop('disabled', false);
     }
      

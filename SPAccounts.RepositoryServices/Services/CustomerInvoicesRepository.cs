@@ -48,6 +48,8 @@ namespace SPAccounts.RepositoryServices.Services
                                         CIList.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : CIList.ID);
                                         CIList.InvoiceDate = (sdr["InvoiceDate"].ToString() != "" ? DateTime.Parse(sdr["InvoiceDate"].ToString()) : CIList.InvoiceDate);
                                         CIList.InvoiceNo = sdr["InvoiceNo"].ToString();
+                                        CIList.InvoiceType = sdr["InvoiceType"].ToString();
+
                                         CIList.companiesObj = new Companies();
                                         CIList.companiesObj.Name = sdr["OrginCompany"].ToString();
                                         CIList.customerObj = new Customer();

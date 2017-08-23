@@ -229,6 +229,10 @@ namespace UserInterface.Controllers
                 {
                     throw new Exception("Please Enter Amount");
                 }
+                if (_customerInvoicesObj.RefInvoice == null && _customerInvoicesObj.InvoiceType == "PB")
+                {
+                    throw new Exception("Please Enter Reference Invoice");
+                }
                 AppUA _appUA = Session["AppUA"] as AppUA;
                 _customerInvoicesObj.commonObj = new CommonViewModel();
                 _customerInvoicesObj.commonObj.CreatedBy = _appUA.UserName;
