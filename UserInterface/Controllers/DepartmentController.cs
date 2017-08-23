@@ -74,10 +74,10 @@ namespace UserInterface.Controllers
             object result = null;
             try
             {
-                //AppUA _appUA = Session["AppUA"] as AppUA;
+                AppUA _appUA = Session["AppUA"] as AppUA;
                 departmentViewModel.commonObj = new CommonViewModel();
-                departmentViewModel.commonObj.CreatedBy ="Albert Thomson";
-                departmentViewModel.commonObj.CreatedDate = DateTime.Now;
+                departmentViewModel.commonObj.CreatedBy = _appUA.UserName;
+                departmentViewModel.commonObj.CreatedDate = _appUA.DateTime;
                 departmentViewModel.commonObj.UpdatedBy = departmentViewModel.commonObj.CreatedBy;
                 departmentViewModel.commonObj.UpdatedDate = departmentViewModel.commonObj.CreatedDate;
                 switch(departmentViewModel.Operation)
