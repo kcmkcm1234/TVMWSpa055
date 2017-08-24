@@ -505,8 +505,7 @@ function PaintInvoiceDetails()
     ChangeButtonPatchView('CustomerInvoices', 'btnPatchAdd', 'Edit');
     var InvoiceID = $('#ID').val();
     var CustomerInvoicesViewModel = GetCustomerInvoiceDetails(InvoiceID);
-    $('#lblInvoiceNo').text(CustomerInvoicesViewModel.InvoiceNo);
-    $('#txtInvNo').val(CustomerInvoicesViewModel.InvoiceNo);
+    $('#lblInvoiceNo').text(CustomerInvoicesViewModel.InvoiceNo); 
     $('#txtInvDate').val(CustomerInvoicesViewModel.InvoiceDateFormatted);
     $('#ddlCompany').val(CustomerInvoicesViewModel.companiesObj.Code);
     $('#ddlCustomer').val(CustomerInvoicesViewModel.customerObj.ID);
@@ -524,7 +523,7 @@ function PaintInvoiceDetails()
     else
         $('#ddlRefInvoice').val(-1);
     InvoicesTypeChange();
-
+    $('#txtInvNo').val(CustomerInvoicesViewModel.InvoiceNo);
     //------------------------------------------------
     $('#txtBillingAddress').val(CustomerInvoicesViewModel.BillingAddress);
     $('#ddlPaymentTerm').val(CustomerInvoicesViewModel.paymentTermsObj.Code);
