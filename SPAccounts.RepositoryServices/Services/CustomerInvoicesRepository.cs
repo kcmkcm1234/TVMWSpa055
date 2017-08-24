@@ -349,7 +349,6 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@InvoiceNo", SqlDbType.VarChar, 20).Value = _customerInvoicesObj.InvoiceNo;
                         cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = Guid.Parse(_customerInvoicesObj.hdfCustomerID);
                         cmd.Parameters.Add("@RefInvoice", SqlDbType.UniqueIdentifier).Value = _customerInvoicesObj.RefInvoice;
-                        //cmd.Parameters.Add("@InvoiceType", SqlDbType.VarChar, 2).Value = _customerInvoicesObj.InvoiceType;
 
                         cmd.Parameters.Add("@PaymentTerm", SqlDbType.VarChar, 10).Value = _customerInvoicesObj.paymentTermsObj.Code;
                         cmd.Parameters.Add("@InvoiceDate", SqlDbType.DateTime).Value = _customerInvoicesObj.InvoiceDateFormatted;
