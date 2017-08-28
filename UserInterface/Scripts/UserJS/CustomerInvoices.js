@@ -155,6 +155,33 @@ $(document).ready(function () {
                 Selectcheckbox();
             }
         });
+
+
+        //------------------------Modal Popup Special Payment-------------------------------------//
+        DataTables.SpecialPayments = $('#tblSpecialPayments').DataTable({
+            dom: '<"pull-left"f>rt<"bottom"ip><"clear">',
+            order: [],
+            searching: false,
+            paging: true,
+            pageLength: 7,
+            data: null,
+            columns: [
+                 { "data": "SpecialPayObj.ID", "defaultContent": "<i>-</i>" },
+                 { "data": "InvoiceNo", "defaultContent": "<i>-</i>" },
+                 { "data": "SpecialPayObj.SpecialPaymentDate", "defaultContent": "<i>-</i>" },
+                 { "data": "SpecialPayObj.Remarks", "defaultContent": "<i>-</i>" },
+                 { "data": "SpecialPayObj.SpecialPaidAmount", "defaultContent": "<i>-</i>" },
+                 { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="EditSpecialPayment(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' },
+                 { "data": null, "orderable": false, "defaultContent": '<a data-toggle="tp" data-placement="top" data-delay={"show":2000, "hide":3000} title="Delete Payment" href="#" class="DeleteLink" onclick="DeleteSpecialPayment(this)"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' }
+
+            ],
+            columnDefs: [
+                { className: "text-right", "targets": [4] },
+                { className: "text-center", "targets": [2] },
+                { className: "text-left", "targets": [1,3] },
+                { "targets": [0], "visible": false, "searchable": false }]
+
+        });
     }
     catch (x) {
         notyAlert('error', e.message);
@@ -214,6 +241,8 @@ function SaveSuccess(data, status) {
             }
             $('#ID').val(JsonResult.Records.ID);
             $('#deleteId').val(JsonResult.Records.ID);
+            $('#InvoiceId').val(JsonResult.Records.ID);
+
             PaintInvoiceDetails()
             List(); 
             break;
@@ -473,7 +502,8 @@ function Edit(Obj) {
     $('#CustomerInvoiceForm')[0].reset();
     var rowData = DataTables.CustInvTable.row($(Obj).parents('tr')).data();
     $('#ID').val(rowData.ID);
-    $('#deleteId').val(rowData.ID);
+    $('#deleteId').val(rowData.ID); 
+    $('#InvoiceId').val(rowData.ID);
     PaintInvoiceDetails();
     openNav();
 }
@@ -490,6 +520,7 @@ function AddNew()
     $('#txtInvNo').prop('disabled', false);
     $('#ddlRefInvoice').prop('disabled', true);
     $('#ddlInvoiceType').prop('disabled', false);
+    $('#paymentStatus').hide();
     ChangeButtonPatchView('CustomerInvoices', 'btnPatchAdd', 'Add');
     openNav();
     clearUploadControl();
@@ -518,11 +549,18 @@ function PaintInvoiceDetails()
     $('#ddlInvoiceType').val(CustomerInvoicesViewModel.InvoiceType);
    
     BindInvocieReferenceDropDown(CustomerInvoicesViewModel.customerObj.ID);//dropdownbinding
-    if ($('#ddlInvoiceType').val() == 'PB')
+    if ($('#ddlInvoiceType').val() == 'PB') 
         $('#ddlRefInvoice').val(CustomerInvoicesViewModel.RefInvoice);
     else
         $('#ddlRefInvoice').val(-1);
+    if ($('#ddlInvoiceType').val() == 'PB' || $('#ddlInvoiceType').val() == 'WB')
+        $('#paymentStatus').show();
+    else
+        $('#paymentStatus').hide();
+
     InvoicesTypeChange();
+    $('#ddlSpecialPayStatus').val(CustomerInvoicesViewModel.SpecialPayStatus);    
+    
     $('#txtInvNo').val(CustomerInvoicesViewModel.InvoiceNo);
     //------------------------------------------------
     $('#txtBillingAddress').val(CustomerInvoicesViewModel.BillingAddress);
@@ -726,5 +764,150 @@ function GetAllCustomerInvociesByID(CustomerID) {
     }
     catch (e) {
         notyAlert('error', e.message);
+    }
+}
+//--------------------------------------Special Payments--------------------------------------------//
+function SpecialPayments() {
+    debugger
+    $('#SpecialPaymentModel').modal('show');
+    BindSpecialPaymnetsTable();
+}
+
+function BindSpecialPaymnetsTable() {
+    DataTables.SpecialPayments.clear().rows.add(GetSpecialPayments()).draw(false);
+
+}
+
+function GetSpecialPayments() {
+    try {
+        debugger;
+        var InvoiceID = $('#ID').val();
+        var data = { "InvoiceID": InvoiceID };
+        var ds = {};
+        ds = GetDataFromServer("CustomerInvoices/GetAllSpecialPayments/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            notyAlert('error', ds.Message);
+            var emptyarr = [];
+            return emptyarr;
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
+function EditSpecialPayment(this_obj)
+{
+    debugger;
+    var rowDataSplPay = DataTables.SpecialPayments.row($(this_obj).parents('tr')).data();
+    BindSpecialPayment(rowDataSplPay.SpecialPayObj.ID)
+}
+
+function BindSpecialPayment(ID) {
+    debugger;
+    var itemsdetails = GetSpecialPaymentsDetails(ID)
+    $('#PaymentID').val(ID);
+    $('#txtRemarks').val(itemsdetails.SpecialPayObj.Remarks);
+    $('#txtSpecialPaidAmount').val(itemsdetails.SpecialPayObj.SpecialPaidAmount);
+    $('#txtSplPaymentDate').val(itemsdetails.SpecialPayObj.SpecialPaymentDate);
+}
+
+function GetSpecialPaymentsDetails(ID) {
+    try {
+        var data = { "ID": ID };
+        var ds = {};
+        ds = GetDataFromServer("CustomerInvoices/GetSpecialPaymentsDetails/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            notyAlert('error', ds.Message);
+            var emptyarr = [];
+            return emptyarr;
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
+
+function SaveSpecialPayments() {
+    debugger;
+    $('#btnSaveSpecialPayments').trigger('click');
+}
+
+
+function NewSpecialPayments() {
+    debugger;
+    $('#txtRemarks').val('');
+    $('#PaymentID').val('');
+    $('#txtSpecialPaidAmount').val('');
+    $('#txtSplPaymentDate').val('');    
+}
+
+
+function SuccessSpecialPayments(data, status) {
+    debugger;
+    var JsonResult = JSON.parse(data)
+    switch (JsonResult.Result) {
+        case "OK":
+            BindSpecialPaymnetsTable();
+            BindSpecialPayment(JsonResult.Records.SpecialPayObj.ID);
+            notyAlert('success', JsonResult.Message);
+            break;
+        case "ERROR":
+            notyAlert('error', JsonResult.Message);
+            break;
+        default:
+            notyAlert('error', JsonResult.Message);
+            break;
+    }
+}
+
+
+
+function DeleteSpecialPayment(currObj) {
+    debugger;
+    var rowData = DataTables.SpecialPayments.row($(currObj).parents('tr')).data();
+    if ((rowData != null) && (rowData.ID != null)) {
+        notyConfirm('Are you sure to delete?', 'DeleteSpecialPay("'+ rowData.SpecialPayObj.ID +'")', '', "Yes, delete it!");
+    } 
+}
+function DeleteSpecialPay(ID) {
+    try {
+        debugger;
+        if (ID) {
+            var data = { "SpecialPayObj.ID": ID };
+            var ds = {};
+            ds = GetDataFromServer("CustomerInvoices/DeleteSpecialPayments/", data);
+            if (ds != '') {
+                ds = JSON.parse(ds);
+            }
+            if (ds.Result == "OK") {
+                notyAlert('success', ds.Message.Message);
+                BindSpecialPaymnetsTable();
+                NewSpecialPayments();
+            }
+            if (ds.Result == "ERROR") {
+                notyAlert('error', ds.Message);
+                return 0;
+            }
+            return 1;
+        }
+
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+        return 0;
     }
 }

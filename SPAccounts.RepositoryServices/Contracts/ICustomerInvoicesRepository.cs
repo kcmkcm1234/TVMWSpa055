@@ -18,5 +18,12 @@ namespace SPAccounts.RepositoryServices.Contracts
         List<CustomerInvoice> GetOpeningCustomerInvoices();
 
         CustomerInvoiceSummary GetCustomerInvoicesSummaryForSA();
+
+        //SpecialPayments
+        List<CustomerInvoice> GetAllSpecialPayments(Guid InvoiceID);
+        CustomerInvoice GetSpecialPaymentsDetails(Guid ID);
+        CustomerInvoice InsertSpecialPayments(CustomerInvoice _customerInvoicesObj, AppUA ua);
+        CustomerInvoice UpdateSpecialPayments(CustomerInvoice _customerInvoicesObj, AppUA ua);
+        object DeleteSpecialPayments(Guid ID);
     }
 }

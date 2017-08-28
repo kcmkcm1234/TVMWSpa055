@@ -11,14 +11,17 @@ namespace SPAccounts.RepositoryServices.Services
     {
 
         private IDatabaseFactory _databaseFactory;
+        
         /// <summary>
         /// Constructor Injection:-Getting IDatabaseFactory implementing object
         /// </summary>
         /// <param name="databaseFactory"></param>
+
         public CustomerInvoicesRepository(IDatabaseFactory databaseFactory)
         {
             _databaseFactory = databaseFactory;
         }
+
         public List<CustomerInvoice> GetAllCustomerInvoices()
         {
             List<CustomerInvoice> CustomerInvoicesList = null;
@@ -83,6 +86,7 @@ namespace SPAccounts.RepositoryServices.Services
 
             return CustomerInvoicesList;
         }
+
         public CustomerInvoice GetCustomerInvoiceDetails(Guid ID)
         {
             CustomerInvoice CIList = null;
@@ -111,6 +115,7 @@ namespace SPAccounts.RepositoryServices.Services
                                     CIList.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : CIList.ID);
                                     CIList.RefInvoice = (sdr["RefInvoice"].ToString() != "" ? Guid.Parse(sdr["RefInvoice"].ToString()) : CIList.RefInvoice);
                                     CIList.InvoiceType = sdr["InvoiceType"].ToString();
+                                    CIList.SpecialPayStatus = sdr["SpecialPayStatus"].ToString();
 
                                     CIList.InvoiceDate = (sdr["InvoiceDate"].ToString() != "" ? DateTime.Parse(sdr["InvoiceDate"].ToString()) : CIList.InvoiceDate);
                                     CIList.InvoiceNo = sdr["InvoiceNo"].ToString();
@@ -153,7 +158,6 @@ namespace SPAccounts.RepositoryServices.Services
 
             return CIList;
         }
-        //GetCustomerInvoicesSummaryForSA
 
         public CustomerInvoiceSummary GetCustomerInvoicesSummaryForSA()
         {
@@ -280,6 +284,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = _customerInvoicesObj.customerObj.ID;
                         cmd.Parameters.Add("@RefInvoice", SqlDbType.UniqueIdentifier).Value = _customerInvoicesObj.RefInvoice;
                         cmd.Parameters.Add("@InvoiceType", SqlDbType.VarChar, 2).Value = _customerInvoicesObj.InvoiceType;
+                        cmd.Parameters.Add("@SpecialPayStatus", SqlDbType.VarChar, 2).Value = _customerInvoicesObj.SpecialPayStatus;
+
 
                         cmd.Parameters.Add("@PaymentTerm", SqlDbType.VarChar, 10).Value = _customerInvoicesObj.paymentTermsObj.Code;
                         cmd.Parameters.Add("@InvoiceDate", SqlDbType.DateTime).Value =_customerInvoicesObj.InvoiceDateFormatted;
@@ -328,6 +334,7 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return _customerInvoicesObj;
         }
+
         public CustomerInvoice UpdateInvoice(CustomerInvoice _customerInvoicesObj, AppUA ua)
         {
             try
@@ -349,6 +356,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@InvoiceNo", SqlDbType.VarChar, 20).Value = _customerInvoicesObj.InvoiceNo;
                         cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = Guid.Parse(_customerInvoicesObj.hdfCustomerID);
                         cmd.Parameters.Add("@RefInvoice", SqlDbType.UniqueIdentifier).Value = _customerInvoicesObj.RefInvoice;
+                        cmd.Parameters.Add("@SpecialPayStatus", SqlDbType.VarChar, 2).Value = _customerInvoicesObj.SpecialPayStatus;
 
                         cmd.Parameters.Add("@PaymentTerm", SqlDbType.VarChar, 10).Value = _customerInvoicesObj.paymentTermsObj.Code;
                         cmd.Parameters.Add("@InvoiceDate", SqlDbType.DateTime).Value = _customerInvoicesObj.InvoiceDateFormatted;
@@ -393,6 +401,7 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return _customerInvoicesObj;
         }
+
         public List<CustomerInvoice> GetOutStandingInvoices(Guid PaymentID, Guid CustID)
         {
             List<CustomerInvoice> CustomerInvoicesList = null;
@@ -531,7 +540,7 @@ namespace SPAccounts.RepositoryServices.Services
                 switch (outputStatus.Value.ToString())
                 {
                     case "0":
-                        throw new Exception(Cobj.InsertFailure);
+                        throw new Exception(Cobj.DeleteFailure);
                     default:
                         break;
                 }
@@ -542,8 +551,6 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return new { Message = Cobj.DeleteSuccess };
         }
-
-
 
         public List<CustomerInvoice> GetOutstandingCustomerInvoices(CustomerInvoice CustomerInvoiceObj)
         {
@@ -601,7 +608,6 @@ namespace SPAccounts.RepositoryServices.Services
             return CustomerInvoicesList;
         }
 
-
         public List<CustomerInvoice> GetOpeningCustomerInvoices()
         {
             List<CustomerInvoice> CustomerInvoicesList = null;
@@ -654,5 +660,248 @@ namespace SPAccounts.RepositoryServices.Services
 
             return CustomerInvoicesList;
         }
+
+        public List<CustomerInvoice> GetAllSpecialPayments(Guid InvoiceID)
+        {
+            List<CustomerInvoice> CustomerInvoicesList = null;
+            Settings settings = new Settings();
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetAllSpecialPayments]";
+                        cmd.Parameters.Add("@InvoiceID", SqlDbType.UniqueIdentifier).Value = InvoiceID;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                CustomerInvoicesList = new List<CustomerInvoice>();
+                                while (sdr.Read())
+                                {
+                                    CustomerInvoice CIList = new CustomerInvoice();
+                                    {
+                                        CIList.InvoiceNo = sdr["InvoiceNo"].ToString();
+                                        CIList.SpecialPayObj = new SpecialPayment();
+                                        CIList.SpecialPayObj.ID = (sdr["PaymentID"].ToString() != "" ? Guid.Parse(sdr["PaymentID"].ToString()) : CIList.SpecialPayObj.ID);
+                                        CIList.SpecialPayObj.Remarks = sdr["Remarks"].ToString();
+                                        CIList.SpecialPayObj.SpecialPaidAmount = (sdr["Amount"].ToString() != "" ? Decimal.Parse(sdr["Amount"].ToString()) : CIList.SpecialPayObj.SpecialPaidAmount);
+                                        CIList.SpecialPayObj.SpecialPaymentDate = (sdr["PayDate"].ToString() != "" ? DateTime.Parse(sdr["PayDate"].ToString()).ToString(settings.dateformat) : CIList.SpecialPayObj.SpecialPaymentDate);
+
+                                    }
+                                    CustomerInvoicesList.Add(CIList);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return CustomerInvoicesList;
+        }
+
+        public CustomerInvoice GetSpecialPaymentsDetails(Guid ID)
+        {
+            CustomerInvoice CIList = null;
+            Settings settings = new Settings();
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetSpecialPaymentDetails]";
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = ID;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                if (sdr.Read())
+                                {
+                                    CIList = new CustomerInvoice();
+                                    CIList.SpecialPayObj = new SpecialPayment();
+                                    CIList.SpecialPayObj.Remarks = sdr["Remarks"].ToString();
+                                    CIList.SpecialPayObj.SpecialPaidAmount = (sdr["Amount"].ToString() != "" ? Decimal.Parse(sdr["Amount"].ToString()) : CIList.SpecialPayObj.SpecialPaidAmount);
+                                    CIList.SpecialPayObj.SpecialPaymentDate = (sdr["PayDate"].ToString() != "" ? DateTime.Parse(sdr["PayDate"].ToString()).ToString(settings.dateformat) : CIList.SpecialPayObj.SpecialPaymentDate);
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return CIList;
+
+        }
+
+        public CustomerInvoice InsertSpecialPayments(CustomerInvoice _customerInvoicesObj, AppUA ua)
+        {
+            try
+            {
+                SqlParameter outputStatus, outputID = null;
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[InsertSpecialPayments]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@InvoiceID", SqlDbType.UniqueIdentifier).Value = _customerInvoicesObj.ID;
+                        cmd.Parameters.Add("@PaymentDate", SqlDbType.DateTime).Value = _customerInvoicesObj.SpecialPayObj.SpecialPaymentDate;
+                        cmd.Parameters.Add("@PaidAmount", SqlDbType.Decimal).Value = _customerInvoicesObj.SpecialPayObj.SpecialPaidAmount;
+                        cmd.Parameters.Add("@Remarks", SqlDbType.NVarChar, 250).Value = _customerInvoicesObj.SpecialPayObj.Remarks;
+                        cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = ua.UserName;
+                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = _customerInvoicesObj.commonObj.CreatedDate;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        outputID = cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier);
+                        outputID.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        AppConst Cobj = new AppConst();
+                        throw new Exception(Cobj.InsertFailure);
+                    case "1":
+                        _customerInvoicesObj.SpecialPayObj.ID = Guid.Parse(outputID.Value.ToString());
+                        break;
+                    case "2":
+                        AppConst Cobj1 = new AppConst();
+                        throw new Exception(Cobj1.Duplicate);
+                    default:
+                        break;
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return _customerInvoicesObj;
+        }
+
+        public CustomerInvoice UpdateSpecialPayments(CustomerInvoice _customerInvoicesObj, AppUA ua)
+        {
+            try
+            {
+                SqlParameter outputStatus = null;
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[UpdateSpecialPayments]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = _customerInvoicesObj.SpecialPayObj.ID;
+                        cmd.Parameters.Add("@PaymentDate", SqlDbType.DateTime).Value = _customerInvoicesObj.SpecialPayObj.SpecialPaymentDate;
+                        cmd.Parameters.Add("@PaidAmount", SqlDbType.Decimal).Value = _customerInvoicesObj.SpecialPayObj.SpecialPaidAmount;
+                        cmd.Parameters.Add("@Remarks", SqlDbType.NVarChar, 250).Value = _customerInvoicesObj.SpecialPayObj.Remarks;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = _customerInvoicesObj.commonObj.UpdatedBy;
+                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = _customerInvoicesObj.commonObj.UpdatedDate;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+
+
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        AppConst Cobj = new AppConst();
+                        throw new Exception(Cobj.InsertFailure);
+                    case "1":
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return _customerInvoicesObj;
+        }
+
+        public object DeleteSpecialPayments(Guid ID)
+        {
+            AppConst Cobj = new AppConst();
+            try
+            {
+                SqlParameter outputStatus = null;
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[DeleteSpecialPayments]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = ID;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        throw new Exception(Cobj.DeleteFailure);
+                    default:
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return new { Message = Cobj.DeleteSuccess };
+        }
+
     }
+    
 }
