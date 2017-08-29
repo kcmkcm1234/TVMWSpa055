@@ -207,6 +207,20 @@ namespace SPAccounts.BusinessService.Services
             try
             {
                 accountsReceivableAgeingReportList = _reportRepository.GetAccountsReceivableAgeingReport(FromDate, ToDate, CompanyCode);
+                accountsReceivableAgeingReportList=accountsReceivableAgeingReportList.Where(C => C.InvoiceType == "RB").ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return accountsReceivableAgeingReportList;
+        }
+        public List<AccountsReceivableAgeingReport> GetAccountsReceivableAgeingReportForSA(DateTime? FromDate, DateTime? ToDate, string CompanyCode)
+        {
+            List<AccountsReceivableAgeingReport> accountsReceivableAgeingReportList = null;
+            try
+            {
+                accountsReceivableAgeingReportList = _reportRepository.GetAccountsReceivableAgeingReport(FromDate, ToDate, CompanyCode);
             }
             catch (Exception ex)
             {
@@ -221,6 +235,19 @@ namespace SPAccounts.BusinessService.Services
             try
             {
                 accountsReceivableAgeingSummaryReportList = _reportRepository.GetAccountsReceivableAgeingSummaryReport(FromDate, ToDate, CompanyCode);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return accountsReceivableAgeingSummaryReportList;
+        }
+        public List<AccountsReceivableAgeingSummaryReport> GetAccountsReceivableAgeingSummaryReportForSA(DateTime? FromDate, DateTime? ToDate, string CompanyCode)
+        {
+            List<AccountsReceivableAgeingSummaryReport> accountsReceivableAgeingSummaryReportList = null;
+            try
+            {
+                accountsReceivableAgeingSummaryReportList = _reportRepository.GetAccountsReceivableAgeingSummaryReportForSA(FromDate, ToDate, CompanyCode);
             }
             catch (Exception ex)
             {
