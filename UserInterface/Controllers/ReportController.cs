@@ -32,7 +32,7 @@ namespace UserInterface.Controllers
             return View(systemReportList);
         }
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "SalesReport", Mode = "R")]
         public ActionResult SaleSummary()
         {
             DateTime dt = DateTime.Now;
@@ -71,7 +71,7 @@ namespace UserInterface.Controllers
         }
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "SalesReport", Mode = "R")]
         public string GetSaleSummary(string FromDate,string ToDate,string CompanyCode)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
@@ -93,7 +93,7 @@ namespace UserInterface.Controllers
         }
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "SalesReport", Mode = "R")]
         public string GetSaleDetail(string FromDate, string ToDate, string CompanyCode)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
@@ -115,7 +115,7 @@ namespace UserInterface.Controllers
         }
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "SalesReport", Mode = "R")]
         public ActionResult SalesDetail()
         {
             
@@ -156,7 +156,7 @@ namespace UserInterface.Controllers
 
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "OEReport", Mode = "R")]
         public ActionResult OtherExpenseSummary()
         {
 
@@ -196,7 +196,7 @@ namespace UserInterface.Controllers
         }
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "OEReport", Mode = "R")]
         public string GetOtherExpenseSummary(string FromDate, string ToDate, string CompanyCode, string OrderBy)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
@@ -220,7 +220,7 @@ namespace UserInterface.Controllers
 
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "OEReport", Mode = "R")]
         public ActionResult OtherExpenseDetails()
         {
 
@@ -260,7 +260,7 @@ namespace UserInterface.Controllers
         }
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "OEReport", Mode = "R")]
         public string GetOtherExpenseDetails(string FromDate, string ToDate, string CompanyCode, string OrderBy)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
@@ -282,7 +282,7 @@ namespace UserInterface.Controllers
         }
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "CustomerReport", Mode = "R")]
         public ActionResult CustomerContactDetails()
         {
 
@@ -292,7 +292,7 @@ namespace UserInterface.Controllers
 
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "CustomerReport", Mode = "R")]
         public string GetCustomerContactDetails()
         {
            
@@ -313,7 +313,7 @@ namespace UserInterface.Controllers
 
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "SalesReport", Mode = "R")]
         public ActionResult SalesTransactionLog()
         {
             DateTime dt = DateTime.Now;
@@ -352,7 +352,7 @@ namespace UserInterface.Controllers
 
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "SalesReport", Mode = "R")]
         public string GetsalesTransactionLog(string FromDate, string ToDate, string CompanyCode)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
@@ -377,7 +377,7 @@ namespace UserInterface.Controllers
 
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "PurchaseReport", Mode = "R")]
         public ActionResult PurchaseSummaryReport()
         {
             DateTime dt = DateTime.Now;
@@ -415,7 +415,7 @@ namespace UserInterface.Controllers
         }
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "PurchaseReport", Mode = "R")]
         public string GetPurchaseSummaryDetails(string FromDate, string ToDate, string CompanyCode)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
@@ -439,7 +439,7 @@ namespace UserInterface.Controllers
 
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "PurchaseReport", Mode = "R")]
         public string GetPurchaseDetails(string FromDate, string ToDate, string CompanyCode)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
@@ -461,7 +461,7 @@ namespace UserInterface.Controllers
         }
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "PurchaseReport", Mode = "R")]
         public ActionResult PurchaseDetails()
         {
 
@@ -502,13 +502,13 @@ namespace UserInterface.Controllers
 
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "SupplierReport", Mode = "R")]
         public ActionResult SupplierContactDetails()
         {
             return View();
         }
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "SupplierReport", Mode = "R")]
         public string GetSupplierContactDetails()
         {
             try
@@ -524,7 +524,7 @@ namespace UserInterface.Controllers
 
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "PurchaseReport", Mode = "R")]
         public ActionResult PurchaseTransactionLog()
         {
             DateTime dt = DateTime.Now;
@@ -563,7 +563,7 @@ namespace UserInterface.Controllers
 
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "PurchaseReport", Mode = "R")]
         public string GetPurchaseTransactionLog(string FromDate, string ToDate, string CompanyCode)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
@@ -586,7 +586,7 @@ namespace UserInterface.Controllers
 
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
         public ActionResult AccountsReceivableAgeingDetails()
         {
             DateTime dt = DateTime.Now;
@@ -620,7 +620,7 @@ namespace UserInterface.Controllers
 
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
         public string GetAccountsReceivableAgeingDetails(string FromDate, string ToDate, string CompanyCode)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
@@ -642,7 +642,7 @@ namespace UserInterface.Controllers
         }
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
         public ActionResult AccountsReceivableAgeingSummary()
         {
             DateTime dt = DateTime.Now;
@@ -676,7 +676,7 @@ namespace UserInterface.Controllers
 
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
         public string GetAccountsReceivableAgeingSummary(string FromDate, string ToDate, string CompanyCode)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
@@ -699,7 +699,7 @@ namespace UserInterface.Controllers
 
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
         public ActionResult AccountsPayableAgeingDetails()
         {
             DateTime dt = DateTime.Now;
@@ -733,7 +733,7 @@ namespace UserInterface.Controllers
 
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
         public string GetAccountsPayableAgeingDetails(string FromDate, string ToDate, string CompanyCode)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
@@ -756,7 +756,7 @@ namespace UserInterface.Controllers
 
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
         public ActionResult AccountsPayableAgeingSummary()
         {
             DateTime dt = DateTime.Now;
@@ -790,7 +790,7 @@ namespace UserInterface.Controllers
 
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
         public string GetAccountsPayableAgeingSummary(string FromDate, string ToDate, string CompanyCode)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
