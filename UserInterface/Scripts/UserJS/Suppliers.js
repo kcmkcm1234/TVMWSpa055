@@ -22,6 +22,7 @@ $(document).ready(function () {
                { "data": "Mobile", "defaultContent": "<i>-</i>" },
                { "data": "TaxRegNo", "defaultContent": "<i>-</i>" },
                { "data": "PANNO", "defaultContent": "<i>-</i>" },
+                { "data": "OutStanding", "defaultContent": "<i>-</i>" },
                { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false },

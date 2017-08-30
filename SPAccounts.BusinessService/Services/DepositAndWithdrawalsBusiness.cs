@@ -70,20 +70,22 @@ namespace SPAccounts.BusinessService.Services
             return result;
         }
 
-        public object ClearCheque(List<Guid> data)
+        public object ClearCheque(string IDS,string date)
         {
             object result = null;
             try
             {
-                
-                int len = data.Count;
-                
-                for(int i=0;i<len;i++)
-                {                    
-                    result = _depositAndWithdrawalsRepository.ClearCheque(data[i]);
+
+                string[] data = IDS.Split(',');
+                int len = data.Length;
+
+                for (int i = 0; i < len; i++)
+                {
+                    if(data[i].Trim()!=string.Empty)
+                    result = _depositAndWithdrawalsRepository.ClearCheque(Guid.Parse(data[i]), date);
                 }
-                    
-                
+
+
             }
             catch (Exception ex)
             {

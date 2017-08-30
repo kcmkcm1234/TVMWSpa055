@@ -18,6 +18,9 @@ namespace UserInterface.Models
         public string ReferenceNo { get; set; }
         [Required(ErrorMessage = "Date is missing")]
         public string Date { get; set; }
+        [Display(Name = "Cheque Clear Date")]
+        [Required(ErrorMessage = "Cheque Clear Date is missing")]
+        public string ChequeClearDate { get; set; }
         [Display(Name = "Start Date")]
         public string FromDate { get; set; }
         [Display(Name = "End Date")]
@@ -28,6 +31,7 @@ namespace UserInterface.Models
         public string BankCode { get; set; }
         public string GeneralNotes { get; set; }
         public string DateFormatted { get; set; }
+        public string ChequeFormatted { get; set; }
         public CommonViewModel CommonObj { get; set; }
         public List<SelectListItem> bankList { get; set; }
         public string BankName { get; set; }

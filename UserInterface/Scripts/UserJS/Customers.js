@@ -22,12 +22,13 @@ $(document).ready(function () {
                { "data": "Mobile", "defaultContent": "<i>-</i>" },
                { "data": "TaxRegNo", "defaultContent": "<i>-</i>" },
                { "data": "PANNO", "defaultContent": "<i>-</i>" },
+                { "data": "OutStanding", "defaultContent": "<i>-</i>" },
                { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                   { className: "text-right", "targets": [] },
                    { className: "text-left", "targets": [1,2] },
-             { className: "text-center", "targets": [3,4,5, 6] }
+             { className: "text-center", "targets": [3,4,5,6,7] }
 
              ]
          });
@@ -54,7 +55,7 @@ $(document).ready(function () {
 
 function GetAllCustomers() {
     try {
-
+        debugger;
         var data = {};
         var ds = {};
         ds = GetDataFromServer("Customers/GetAllCustomers/", data);

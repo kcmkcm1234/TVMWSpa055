@@ -13,6 +13,6 @@ namespace SPAccounts.RepositoryServices.Contracts
         DepositAndWithdrawals GetDepositAndWithdrawalDetails(Guid ID);
         DepositAndWithdrawals InsertDepositAndWithdrawals(DepositAndWithdrawals _depositAndWithdrawalsObj);
         object UpdateDepositAndWithdrawals(DepositAndWithdrawals _depositAndWithdrawalsObj);
-        object ClearCheque(Guid ID);
+        object ClearCheque(Guid ID,string date);
     }
 }

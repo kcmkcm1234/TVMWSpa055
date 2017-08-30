@@ -65,6 +65,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         _SupplierObj.PaymentTermCode = (sdr["PaymentTermCode"].ToString() != "" ? sdr["PaymentTermCode"].ToString() : _SupplierObj.PaymentTermCode);
                                         _SupplierObj.TaxRegNo = (sdr["TaxRegNo"].ToString() != "" ? sdr["TaxRegNo"].ToString() : _SupplierObj.TaxRegNo);
                                         _SupplierObj.PANNO = (sdr["PANNo"].ToString() != "" ? sdr["PANNo"].ToString() : _SupplierObj.PANNO);
+                                        _SupplierObj.OutStanding = (sdr["OutStanding"].ToString() != "" ? decimal.Parse(sdr["OutStanding"].ToString()) : _SupplierObj.OutStanding);
                                         _SupplierObj.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : _SupplierObj.GeneralNotes);
                                     }
                                     suppliersList.Add(_SupplierObj);

@@ -157,17 +157,15 @@ namespace UserInterface.Controllers
         #endregion InsertUpdateDepositAndWithdrawals
 
         #region ClearCheque
-        [HttpPost]
-        //[ValidateAntiForgeryToken]
-        //[AuthSecurityFilter(ProjectObject = "OtherIncome", Mode = "W")]
-        public string ClearCheque(List<Guid> data)
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "DepositAndWithdrawals", Mode = "W")]
+        public string ClearCheque(string ID,string Date)
         {
             try
             {
-
                 object result = null;
-             
-                result = _depositAndWithdrawalsBusiness.ClearCheque(data);
+                 
+                result = _depositAndWithdrawalsBusiness.ClearCheque(ID, Date);
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
 
             }

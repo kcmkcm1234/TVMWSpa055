@@ -63,7 +63,7 @@ $(document).ready(function () {
         todayHighlight: true
     });
    
-    $('input,textarea').keydown(function (e) {
+    $('input').keydown(function (e) {
         var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
         if (key == 13) {
             e.preventDefault();
@@ -142,6 +142,7 @@ function SelectAllValue(e) {
 }
 function PostDataToServer(page, formData, callback)
 {
+    debugger;
    $.ajax({
         type: "POST",
         url: appAddress+page,

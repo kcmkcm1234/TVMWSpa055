@@ -11,10 +11,12 @@ namespace SPAccounts.DataAccessObject.DTO
         public string TransactionType { get; set; }
         public string ReferenceNo { get; set; }
         public DateTime Date { get; set; }
+        public DateTime ChequeClearDate { get; set; }
         public decimal Amount { get; set; }
         public string BankCode { get; set; }
         public string GeneralNotes { get; set; }
         public string DateFormatted { get; set; }
+        public string ChequeFormatted { get; set; }
         public string AmountFormatted { get; set; }
         public string BankName { get; set; }
         public Common commonObj { get; set; }

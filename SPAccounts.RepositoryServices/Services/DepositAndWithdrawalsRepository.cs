@@ -66,6 +66,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         _depositAndWithdrawalsObj.BankCode = (sdr["BankCode"].ToString() != "" ? (sdr["BankCode"].ToString()) : _depositAndWithdrawalsObj.BankCode);                                      
                                         _depositAndWithdrawalsObj.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : _depositAndWithdrawalsObj.Amount);
                                         _depositAndWithdrawalsObj.DateFormatted = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(s.dateformat) : _depositAndWithdrawalsObj.DateFormatted);
+                                        _depositAndWithdrawalsObj.ChequeFormatted = (sdr["ChequeClearDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeClearDate"].ToString()).ToString(s.dateformat) : _depositAndWithdrawalsObj.ChequeFormatted);
                                         _depositAndWithdrawalsObj.BankName = (sdr["BankName"].ToString() != "" ? (sdr["BankName"].ToString()) : _depositAndWithdrawalsObj.BankName);
 
                                         _depositAndWithdrawalsObj.PaymentMode = (sdr["DepositMode"].ToString() != "" ? (sdr["DepositMode"].ToString()) : _depositAndWithdrawalsObj.PaymentMode);
@@ -135,6 +136,7 @@ namespace SPAccounts.RepositoryServices.Services
                                     _depositAndWithdrawalsObj.BankCode = (sdr["BankCode"].ToString() != "" ? (sdr["BankCode"].ToString()) : _depositAndWithdrawalsObj.BankCode);
                                     _depositAndWithdrawalsObj.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : _depositAndWithdrawalsObj.Amount);
                                     _depositAndWithdrawalsObj.DateFormatted = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(s.dateformat) : _depositAndWithdrawalsObj.DateFormatted);
+                                    _depositAndWithdrawalsObj.ChequeFormatted = (sdr["ChequeClearDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeClearDate"].ToString()).ToString(s.dateformat) : _depositAndWithdrawalsObj.ChequeFormatted);
                                     _depositAndWithdrawalsObj.ChequeStatus = (sdr["ChequeStatus"].ToString() != "" ? (sdr["ChequeStatus"].ToString()) : _depositAndWithdrawalsObj.ChequeStatus);
                                     _depositAndWithdrawalsObj.PaymentMode = (sdr["DepositMode"].ToString() != "" ? (sdr["DepositMode"].ToString()) : _depositAndWithdrawalsObj.PaymentMode);
                                 }
@@ -177,12 +179,16 @@ namespace SPAccounts.RepositoryServices.Services
                         {
                             cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = null;
                         }                       
-                        cmd.Parameters.Add("@TransactionType", SqlDbType.Char, 1).Value = _depositAndWithdrawalsObj.TransactionType;
+                         cmd.Parameters.Add("@TransactionType", SqlDbType.Char, 1).Value = _depositAndWithdrawalsObj.TransactionType;
                         cmd.Parameters.Add("@ReferenceNo", SqlDbType.VarChar, 20).Value = _depositAndWithdrawalsObj.ReferenceNo;                                     
                         cmd.Parameters.Add("@BankCode", SqlDbType.VarChar, 5).Value = _depositAndWithdrawalsObj.BankCode;                       
                         cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = _depositAndWithdrawalsObj.Amount;
                         cmd.Parameters.Add("@ChequeStatus", SqlDbType.NVarChar, 10).Value = _depositAndWithdrawalsObj.ChequeStatus;
                         cmd.Parameters.Add("@DepositMode", SqlDbType.NVarChar, 10).Value = _depositAndWithdrawalsObj.PaymentMode;
+                        if (_depositAndWithdrawalsObj.ChequeClearDate != default(DateTime))
+                        {
+                            cmd.Parameters.Add("@ChequeClearDate", SqlDbType.DateTime).Value = _depositAndWithdrawalsObj.ChequeClearDate;
+                        } 
                         cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = _depositAndWithdrawalsObj.commonObj.CreatedBy;
                         cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = _depositAndWithdrawalsObj.commonObj.CreatedDate;
                         cmd.Parameters.Add("@GeneralNotes", SqlDbType.VarChar, -1).Value = _depositAndWithdrawalsObj.GeneralNotes;
@@ -243,6 +249,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@BankCode", SqlDbType.VarChar, 5).Value = _depositAndWithdrawalsObj.BankCode;
                         cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = _depositAndWithdrawalsObj.Amount;
                         cmd.Parameters.Add("@ChequeStatus", SqlDbType.NVarChar, 10).Value = _depositAndWithdrawalsObj.ChequeStatus;
+                        cmd.Parameters.Add("@ChequeClearDate", SqlDbType.DateTime).Value = _depositAndWithdrawalsObj.ChequeClearDate;
                         cmd.Parameters.Add("@DepositMode", SqlDbType.NVarChar, 10).Value = _depositAndWithdrawalsObj.PaymentMode;
                         cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = _depositAndWithdrawalsObj.commonObj.UpdatedBy;
                         cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = _depositAndWithdrawalsObj.commonObj.UpdatedDate;
@@ -280,7 +287,7 @@ namespace SPAccounts.RepositoryServices.Services
         #endregion UpdateDepositAndWithdrawals
 
         #region ClearCheque
-        public object ClearCheque(Guid ID)
+        public object ClearCheque(Guid ID,string date)
         {
             try
             {
@@ -297,6 +304,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandText = "[Accounts].[ClearCheque]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value =ID;
+                        cmd.Parameters.Add("@ChequeClearDate", SqlDbType.Date).Value = date;
                         cmd.ExecuteNonQuery();
 
 
