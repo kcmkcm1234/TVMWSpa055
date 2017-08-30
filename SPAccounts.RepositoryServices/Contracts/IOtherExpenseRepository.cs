@@ -10,6 +10,7 @@ namespace SPAccounts.RepositoryServices.Contracts
     public interface IOtherExpenseRepository
     {
         List<OtherExpense> GetAllOtherExpenses();
+        OtherExpense GetOpeningBalance(string OpeningDate);
         OtherExpense InsertOtherExpense(OtherExpense otherExpense);
         OtherExpense UpdateOtherExpense(OtherExpense otherExpense);
         object DeleteOtherExpense(Guid ID, string UserName);

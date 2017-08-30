@@ -65,6 +65,10 @@ namespace UserInterface.Models
         public List<SelectListItem> EmployeeTypeList { get; set; }
         public CommonViewModel commonObj { get; set; }
         public bool ShowDaysFilter { get; set; }
+
+        public string OpeningBank { get; set; }
+        public string OpeningNCBank { get; set; }
+        public string OpeningCash { get; set; }
     }
 
 

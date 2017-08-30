@@ -70,6 +70,7 @@ namespace SPAccounts.RepositoryServices.Services
             };
         }
         #endregion DeleteOtherExpense
+        
         #region GetAllOtherExpenses
         public List<OtherExpense> GetAllOtherExpenses()
         {
@@ -151,7 +152,6 @@ namespace SPAccounts.RepositoryServices.Services
         }
        #endregion GetAllOtherExpenses
 
-
         #region InsertOtherExpense
         public OtherExpense InsertOtherExpense(OtherExpense otherExpense)
         {
@@ -217,6 +217,7 @@ namespace SPAccounts.RepositoryServices.Services
             return otherExpense;
         }
         #endregion InsertOtherExpense
+        
         #region UpdateOtherExpense
         public OtherExpense UpdateOtherExpense(OtherExpense otherExpense)
         {
@@ -281,9 +282,6 @@ namespace SPAccounts.RepositoryServices.Services
         }
         #endregion UpdateOtherExpense
 
-
-
-
         #region summary
         public OtherExpSummary GetOtherExpSummary(int month,int year,string Company)
         {
@@ -337,10 +335,7 @@ namespace SPAccounts.RepositoryServices.Services
 
             return OES;
         }
-
-
         #endregion summary
-
 
         #region GetExpenseDetailsByValue
         public List<OtherExpense> GetExpenseTypeDetails(OtherExpense expObj)
@@ -393,6 +388,52 @@ namespace SPAccounts.RepositoryServices.Services
             return chartofAccountsList;
         }
         #endregion GetExpenseDetailsByValue
+
+        public OtherExpense GetOpeningBalance(string OpeningDate)
+        {
+            OtherExpense OtherExpenseObj = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetOpeningBalance]";
+                        cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = OpeningDate;
+                     
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                OtherExpenseObj = new OtherExpense();
+                                while (sdr.Read())
+                                {
+                                    OtherExpenseObj.OpeningBank = (sdr["BankOpening"].ToString() != "" ? (sdr["BankOpening"].ToString()) : OtherExpenseObj.OpeningBank);
+                                    OtherExpenseObj.OpeningNCBank = (sdr["BankNCOpening"].ToString() != "" ?(sdr["BankNCOpening"].ToString()) : OtherExpenseObj.OpeningNCBank); 
+                                    OtherExpenseObj.OpeningCash = (sdr["CashOpening"].ToString() != "" ? (sdr["CashOpening"].ToString()) : OtherExpenseObj.OpeningCash);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+
+
+
+
+            return OtherExpenseObj;
+        }
+
     }
 
 }

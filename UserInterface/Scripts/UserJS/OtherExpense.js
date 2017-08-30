@@ -49,11 +49,49 @@ $(document).ready(function () {
         notyAlert('error', x.message);
 
     }
+
     $('#expenseDetailTable tbody').on('dblclick', 'td', function () {
         Edit(this)
     });
+
+    BindOpeningBalance()
 });
 
+function BindOpeningBalance() {
+    debugger;
+    var items = GetOpeningBalance();
+    $('#OpeningDate').text('');
+    $('#OpeningDate').append('Opening as on : <b>' + $("#ExpDate").val()+'</b>')
+    $('#OpeningBalance').text('');
+    $('#OpeningBalance').append('<span>Bank:<b> ' + items.OpeningBank + '</b></span> Cash:<b> ' + items.OpeningCash + '</b> Bank Not Cleared:<b> ' + items.OpeningNCBank + '</b>');
+    //....
+    //OpeningBalance...
+    //Opening as on 21/Aug/2017:
+    //Opening Bank:₹ 0.00,Opening Bank:₹ 0.00,Opening Bank:₹ 0.00
+
+}
+
+function GetOpeningBalance() {
+    try {
+        debugger;
+        var OpeningDate = $("#ExpDate").val();
+     
+        var data = { "OpeningDate": OpeningDate };
+        var ds = {};
+        ds = GetDataFromServer("OtherExpenses/GetOpeningBalance/", data);
+        ds = JSON.parse(ds);
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            alert(ds.Message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+
+}
 
 
 
@@ -467,6 +505,7 @@ function DeleteOtherExpense(ID) {
 
 function ExpenseDateOnchange()
 {
+    BindOpeningBalance();
     if (DataTables.expenseDetailTable != undefined)
     {
       $("#DefaultDate").val("");

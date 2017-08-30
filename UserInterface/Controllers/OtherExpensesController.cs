@@ -158,6 +158,24 @@ namespace UserInterface.Controllers
         }
         #endregion  GetAllEmployeeTypes
 
+        #region GetOpeningBalance
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "OtherExpense", Mode = "R")]
+        public string GetOpeningBalance(string OpeningDate)
+        {
+            try
+            {
+                 OtherExpenseViewModel otherExpenseObj = Mapper.Map<OtherExpense,OtherExpenseViewModel>(_otherExpenseBusiness.GetOpeningBalance(OpeningDate));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = otherExpenseObj });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion  GetAllEmployeeTypes
+
         public string GetEmployeeCompanyDetails(string ID)
         {
             try

@@ -176,7 +176,6 @@ namespace SPAccounts.BusinessService.Services
             return empList;
         }
 
-
         public OtherExpSummary GetOtherExpSummary(int month, int year, string Company) {
 
             OtherExpSummary result= _otherExpenseRepository.GetOtherExpSummary(month, year, Company);
@@ -242,6 +241,24 @@ namespace SPAccounts.BusinessService.Services
 
             return empList;
 
+        }
+
+        public OtherExpense GetOpeningBalance(string OpeningDate)
+        {
+            try
+            {
+                OtherExpense OtherExpenseObj = null;
+
+                OtherExpenseObj= _otherExpenseRepository.GetOpeningBalance(OpeningDate);
+                OtherExpenseObj.OpeningBank = _commonBusiness.ConvertCurrency(decimal.Parse(OtherExpenseObj.OpeningBank));
+                OtherExpenseObj.OpeningCash = _commonBusiness.ConvertCurrency(decimal.Parse(OtherExpenseObj.OpeningCash));
+                OtherExpenseObj.OpeningNCBank = _commonBusiness.ConvertCurrency(decimal.Parse(OtherExpenseObj.OpeningNCBank));
+                return OtherExpenseObj;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

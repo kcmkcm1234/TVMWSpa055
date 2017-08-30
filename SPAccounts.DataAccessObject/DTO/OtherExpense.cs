@@ -26,6 +26,10 @@ namespace SPAccounts.DataAccessObject.DTO
         public Common commonObj { get; set; }
         public string ChequeDate { get; set; }
         public string creditAmountFormatted { get; set; }
+
+        public string OpeningBank { get; set; }
+        public string OpeningNCBank { get; set; }
+        public string OpeningCash { get; set; }
     }
 
     public class OtherExpSummary {
