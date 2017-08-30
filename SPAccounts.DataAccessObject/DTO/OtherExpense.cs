@@ -30,6 +30,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public string OpeningBank { get; set; }
         public string OpeningNCBank { get; set; }
         public string OpeningCash { get; set; }
+        public bool IsReverse { get; set; }
+
     }
 
     public class OtherExpSummary {

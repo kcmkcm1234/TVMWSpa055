@@ -49,6 +49,10 @@ namespace UserInterface.Models
         [Required(ErrorMessage = "Account Head required")]
         [Display(Name = "Account Head")]
         public string AccountCode { get; set; }
+
+        [Display(Name = "Is Reverse")]
+        public bool IsReverse { get; set; }
+        
         public ChartOfAccountsViewModel chartOfAccountsObj { get; set; }
         public List<SelectListItem> AccountTypes { get; set; }
 

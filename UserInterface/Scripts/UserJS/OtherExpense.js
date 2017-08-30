@@ -63,12 +63,8 @@ function BindOpeningBalance() {
     $('#OpeningDate').text('');
     $('#OpeningDate').append('Opening as on : <b>' + $("#ExpDate").val()+'</b>')
     $('#OpeningBalance').text('');
-    $('#OpeningBalance').append('<span>Bank:<b> ' + items.OpeningBank + '</b></span> Cash:<b> ' + items.OpeningCash + '</b> Bank Not Cleared:<b> ' + items.OpeningNCBank + '</b>');
-    //....
-    //OpeningBalance...
-    //Opening as on 21/Aug/2017:
-    //Opening Bank:₹ 0.00,Opening Bank:₹ 0.00,Opening Bank:₹ 0.00
-
+    $('#OpeningBalance').append('<span>Bank:<b> ' + items.OpeningBank + '</b></span><span style="padding-left:20px">Cash:<b> ' + items.OpeningCash + '</b></span><span style="padding-left:20px">Bank Not Cleared:<b> ' + items.OpeningNCBank + '</b></span>');
+    
 }
 
 function GetOpeningBalance() {
@@ -244,6 +240,7 @@ function ClearFields() {
     $("#Amount").val('');
     $("#Description").val('');
     $("#ChequeDate").val('');
+    $("#IsReverse").val('false');
     $("#EmpID").prop('disabled', true);
     $("#EmpTypeCode").prop('disabled', true);
     $("#BankCode").prop('disabled', true);
@@ -384,6 +381,11 @@ function FillOtherExpenseDetails(ID) {
         $("#BankCode").val(thisItem.BankCode);
         $("#ExpenseRef").val(thisItem.ExpenseRef);
         $("#Amount").val(thisItem.Amount);
+        if (thisItem.Amount < 0)
+            $("#IsReverse").val('true');
+            else
+            $("#IsReverse").val('false');
+
         $("#Description").val(thisItem.Description);
         $("#AddOrEditSpan").text("Edit");
 

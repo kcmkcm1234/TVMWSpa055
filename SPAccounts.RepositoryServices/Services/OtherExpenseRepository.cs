@@ -182,6 +182,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@ExpneseRef", SqlDbType.VarChar, 20).Value = otherExpense.ExpenseRef;
                         cmd.Parameters.Add("@Description", SqlDbType.NVarChar, -1).Value = otherExpense.Description;
                         cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = otherExpense.Amount;
+                        cmd.Parameters.Add("@IsReverse", SqlDbType.Bit).Value = otherExpense.IsReverse; 
                         cmd.Parameters.Add("@ChequeDate", SqlDbType.DateTime).Value =otherExpense.ChequeDate;
                         cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = otherExpense.commonObj.CreatedBy;
                         cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = otherExpense.commonObj.CreatedDate;
@@ -248,6 +249,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@BankCode", SqlDbType.VarChar, 5).Value = otherExpense.BankCode;
                         cmd.Parameters.Add("@ExpneseRef", SqlDbType.VarChar, 20).Value = otherExpense.ExpenseRef;
                         cmd.Parameters.Add("@Description", SqlDbType.NVarChar, -1).Value = otherExpense.Description;
+                        cmd.Parameters.Add("@IsReverse", SqlDbType.Bit).Value = otherExpense.IsReverse;
                         cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = otherExpense.Amount;
                         cmd.Parameters.Add("@ChequeDate", SqlDbType.DateTime).Value = otherExpense.ChequeDate;
                         cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = otherExpense.commonObj.UpdatedBy;
