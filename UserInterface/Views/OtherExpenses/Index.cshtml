@@ -85,23 +85,28 @@
             </div>
         </div>
         <div class="col-md-4" style="padding-top:2%;border-left:1px solid #64e564;white-space:nowrap;">
-            <div class="form-group col-md-12">
-                <div class="col-md-12 text-right">
-                    <div class="rightAmtCaption">Total Amount</div>
-                </div>
-                <div class="col-md-12 text-right">
-                    <div class="rightAmt" id="TotalAmt">₹ 0.00</div>
-                </div>
-            </div>
 
+            <div class="col-md-12">
+                <div class="col-md-5 text-right">Opening As On : </div>
+                <div class="col-md-6" id="OpeningDate"></div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-5 text-right">Cash : </div>
+                <div class="col-md-6" id="OpeningCash"></div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-5 text-right">Bank : </div>
+                <div class="col-md-6" id="OpeningBank"></div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-5 text-right">Bank(Not Cleared): </div>
+                <div class="col-md-6" id="OpeningNCBank"></div>
+            </div>  
 
         </div>
 
     </div>
-     <div class="col-md-12"> 
-                 <div class="rightAmtCaption" id="OpeningDate"></div>
-                 <div class="rightAmtCaption" id="OpeningBalance"> </div>
-     </div>
+  
 
     <div class="row summaryboxes">
 
@@ -131,7 +136,21 @@
                     </tr>
                 </thead>
             </table>
-</div>
+        </div>
+    </div>
+    <div class="form-group col-md-12">
+        <div class="form-group col-md-12">
+            <div class="col-md-4"></div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <div class="col-md-12 text-right">
+                    <div class="rightAmtCaption">Net Expense</div>
+                </div>
+                <div class="col-md-12 text-right">
+                    <div class="rightAmt" id="TotalAmt">₹ 0.00</div>
+                </div>
+            </div>
+        </div> 
     </div>
 
 </div>
@@ -202,9 +221,9 @@
                                         @{
                                             List<SelectListItem> listIsReverse = new List<SelectListItem>();
                                             listIsReverse.Add(new SelectListItem
-                                            { Text = "Normal", Value = "false" });
+                                            { Text = "Regular", Value = "false" });
                                             listIsReverse.Add(new SelectListItem
-                                            { Text = "Reverse", Value = "true" }); 
+                                            { Text = "Reversal", Value = "true" }); 
                                         }
                                         @Html.DropDownListFor(model => model.IsReverse, listIsReverse, new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "IsReverse" })
                                     </div>

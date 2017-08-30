@@ -50,7 +50,7 @@ namespace UserInterface.Models
         [Display(Name = "Account Head")]
         public string AccountCode { get; set; }
 
-        [Display(Name = "Is Reverse")]
+        [Display(Name = "Regular/Reversal")]
         public bool IsReverse { get; set; }
         
         public ChartOfAccountsViewModel chartOfAccountsObj { get; set; }

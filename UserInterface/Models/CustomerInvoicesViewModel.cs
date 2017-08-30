@@ -109,6 +109,7 @@ namespace UserInterface.Models
         [Required(ErrorMessage = "Payment Date is missing")]
         [Display(Name = "Payment Date")]
         public string SpecialPaymentDate { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Remarks { get; set; }
 
         public List<SelectListItem> SpecialPaymentList { get; set; }

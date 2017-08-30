@@ -77,15 +77,23 @@
                 </div>
             </div>
                 <div class="col-md-4" style="padding-top:2%;border-left:1px solid #64e564;white-space:nowrap;">
-                    <div class="form-group col-md-12">
-                        <div class="col-md-12 text-right">
-                            <div class="rightAmtCaption">Total Amount</div>
-                        </div>
-                        <div class="col-md-12 text-right" >
-                            <div class="rightAmt" id="TotalAmt">₹ 0.00</div>
-                        </div>
+                   
+                    <div class="col-md-12">
+                        <div class="col-md-5 text-right">Opening As On : </div>
+                        <div class="col-md-6" id="OpeningDate"></div>
                     </div>
-
+                    <div class="col-md-12">
+                        <div class="col-md-5 text-right">Cash : </div>
+                        <div class="col-md-6" id="OpeningCash"></div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-5 text-right">Bank : </div>
+                        <div class="col-md-6" id="OpeningBank"></div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-5 text-right">Bank(Not Cleared): </div>
+                        <div class="col-md-6" id="OpeningNCBank"></div>
+                    </div>  
 
                 </div>
 
@@ -121,8 +129,20 @@
                 </table>
             </div>
         </div>
+         <div class="form-group col-md-12">
+             <div class="col-md-4"></div>
+             <div class="col-md-4"></div>
+             <div class="col-md-4">
+                 <div class="col-md-12 text-right">
+                         <div class="rightAmtCaption">Net Income</div>
+                 </div>
+                 <div class="col-md-12 text-right">
+                         <div class="rightAmt" id="TotalAmt">₹ 0.00</div>
+                 </div>
+             </div>
+          </div>
 
-        </div>
+     </div>
 
 
 <div class="modal fade" id="AddOtherIncomeModel" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true" style="overflow-y:hidden !important;">

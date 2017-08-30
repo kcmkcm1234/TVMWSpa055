@@ -54,12 +54,50 @@ $(document).ready(function () {
 
         notyAlert('error', x.message);
 
-    }
+    } 
 
 });
 
+function BindOpeningBalance() {
+    debugger;
+    var items = GetOpeningBalance();
+    if (items != undefined) {
+        $('#OpeningDate').text('');
+        $('#OpeningDate').append('<b>' + $("#IncomeDate").val() + '</b>')
+        $('#OpeningBank').text('');
+        $('#OpeningBank').append('<span><b> ' + items.OpeningBank + '</b></span>');
+        $('#OpeningCash').text('');
+        $('#OpeningCash').append('<span><b> ' + items.OpeningCash + '</b></span>');
+        $('#OpeningNCBank').text('');
+        $('#OpeningNCBank').append('<span><b> ' + items.OpeningNCBank + '</b></span>');
+    } 
+}
+function GetOpeningBalance() {
+    try {
+        debugger;
+        var OpeningDate = $("#IncomeDate").val();
+        if (OpeningDate != "") {
+            var data = { "OpeningDate": OpeningDate };
+            var ds = {};
+            ds = GetDataFromServer("OtherExpenses/GetOpeningBalance/", data);
+            ds = JSON.parse(ds);
+            if (ds.Result == "OK") {
+                return ds.Records;
+            }
+            if (ds.Result == "ERROR") {
+                alert(ds.Message);
+            }
+        }
+       
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+
+}
+
 function IncomeDefaultDateOnchange()
-{
+{ 
     $("#IncomeDate").val("");
     var IncomeDefaultDate = $("#DefaultDate").val();
     if (DataTables.OtherIncomeTable != undefined) {
@@ -72,6 +110,7 @@ function IncomeDefaultDateOnchange()
 function IncomeDateOnchange()
 {
     debugger;
+    BindOpeningBalance();
     if (DataTables.OtherIncomeTable != undefined)
     {
         $("#DefaultDate").val("");

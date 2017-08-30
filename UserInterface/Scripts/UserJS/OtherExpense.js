@@ -61,9 +61,13 @@ function BindOpeningBalance() {
     debugger;
     var items = GetOpeningBalance();
     $('#OpeningDate').text('');
-    $('#OpeningDate').append('Opening as on : <b>' + $("#ExpDate").val()+'</b>')
-    $('#OpeningBalance').text('');
-    $('#OpeningBalance').append('<span>Bank:<b> ' + items.OpeningBank + '</b></span><span style="padding-left:20px">Cash:<b> ' + items.OpeningCash + '</b></span><span style="padding-left:20px">Bank Not Cleared:<b> ' + items.OpeningNCBank + '</b></span>');
+    $('#OpeningDate').append('<b>' + $("#ExpDate").val()+'</b>')
+    $('#OpeningBank').text('');
+    $('#OpeningBank').append('<span><b> ' + items.OpeningBank + '</b></span>');
+    $('#OpeningCash').text('');
+    $('#OpeningCash').append('<span><b> ' + items.OpeningCash + '</b></span>');
+    $('#OpeningNCBank').text('');
+    $('#OpeningNCBank').append('<span><b> ' + items.OpeningNCBank + '</b></span>');
     
 }
 

@@ -263,7 +263,7 @@ function ClearFields() {
     $("#ChequeClearDate").val("");
     $("#BankCodeModal").val("");
     $("#PaymentMode").val("");
-    $("#lblPaymentMode").text("Deposit Mode");
+ //   $("#lblPaymentMode").text("Deposit Mode");
     ResetForm();
     $("#ChequeStatus").prop('disabled', true);
     $("#ChequeClearDate").prop('disabled', true);
@@ -284,7 +284,7 @@ function Add()
     $("#DepositwithdrawalList").hide();
     $("#DepositwithdrawalEntry").show();
     $(".modal-footer").show();
-    $("#tabDepositwithdrawalEntry").text("Deposit Entry");
+   // $("#tabDepositwithdrawalEntry").text("Deposit Entry");
     ClearFields();
 } 
 function List()
