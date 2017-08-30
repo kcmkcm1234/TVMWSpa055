@@ -204,5 +204,35 @@ namespace SPAccounts.BusinessService.Services
             return cusumObj;
 
         }
+
+
+        public List<CustomerInvoice> GetAllSpecialPayments(Guid InvoiceID)
+        {
+            return _customerInvoicesRepository.GetAllSpecialPayments(InvoiceID);
+        }
+
+        public CustomerInvoice GetSpecialPaymentsDetails(Guid ID)
+        {
+            return _customerInvoicesRepository.GetSpecialPaymentsDetails(ID);
+        }
+
+        public CustomerInvoice InsertUpdateSpecialPayments(CustomerInvoice _customerInvoicesObj, AppUA ua)
+        {
+
+            if (_customerInvoicesObj.SpecialPayObj.ID != null && _customerInvoicesObj.SpecialPayObj.ID != Guid.Empty)
+            {
+                return _customerInvoicesRepository.UpdateSpecialPayments(_customerInvoicesObj, ua);
+            }
+            else
+            {
+                return _customerInvoicesRepository.InsertSpecialPayments(_customerInvoicesObj, ua);
+            }
+
+        }
+
+        public object DeleteSpecialPayments(Guid ID)
+        {
+            return _customerInvoicesRepository.DeleteSpecialPayments(ID);
+        }
     }
 }

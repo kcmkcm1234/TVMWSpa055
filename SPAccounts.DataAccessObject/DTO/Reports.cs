@@ -157,6 +157,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal Paid { get; set; }
         public decimal Balance { get; set; }
         public string Group { get; set; }
+        public string InvoiceType { get; set; }
+
     }
     public class AccountsReceivableAgeingSummaryReport
     {

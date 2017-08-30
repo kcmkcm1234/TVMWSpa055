@@ -86,12 +86,34 @@ namespace UserInterface.Models
         [Display(Name = "Invoice Type")]
         public string InvoiceType { get; set; }
 
+
+        [Display(Name = "Payment Status")]
+        public string SpecialPayStatus { get; set; }
+        
+
         [Required(ErrorMessage = "Discount Amount is missing")]
         [Display(Name = "Invoice Reference")]
         public Guid? RefInvoice { get; set; }
         public List<SelectListItem> InvoiceList { get; set; }
 
+        public SpecialPaymentViewModel SpecialPayObj { get; set; }
+
     }
+
+    public class SpecialPaymentViewModel
+    {
+        public Guid ID { get; set; }
+        [Required(ErrorMessage = "Paid Amount is missing")]
+        [Display(Name = "Paid Amount")]
+        public decimal SpecialPaidAmount { get; set; }
+        [Required(ErrorMessage = "Payment Date is missing")]
+        [Display(Name = "Payment Date")]
+        public string SpecialPaymentDate { get; set; }
+        public string Remarks { get; set; }
+
+        public List<SelectListItem> SpecialPaymentList { get; set; }
+    }
+
     public class CustomerInvoiceSummaryViewModel
     {
         public decimal OverdueAmount { get; set; }

@@ -317,6 +317,95 @@ namespace UserInterface.Controllers
         }
         #endregion  GetAllCustomerInvociesByCustomerID
 
+
+        #region SpecialPayments
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoices", Mode = "W")]
+        [HttpPost]
+        public string SpecialPayments(CustomerInvoicesViewModel _customerInvoicesObj)
+        {
+            try
+            {
+                AppUA _appUA = Session["AppUA"] as AppUA;
+                _customerInvoicesObj.commonObj = new CommonViewModel();
+                _customerInvoicesObj.commonObj.CreatedBy = _appUA.UserName;
+                _customerInvoicesObj.commonObj.CreatedDate = DateTime.Now;
+                _customerInvoicesObj.commonObj.UpdatedBy = _appUA.UserName;
+                _customerInvoicesObj.commonObj.UpdatedDate = DateTime.Now;
+                CustomerInvoicesViewModel CIVM = Mapper.Map<CustomerInvoice, CustomerInvoicesViewModel>(_customerInvoicesBusiness.InsertUpdateSpecialPayments(Mapper.Map<CustomerInvoicesViewModel, CustomerInvoice>(_customerInvoicesObj), _appUA));
+                if ((_customerInvoicesObj.SpecialPayObj.ID != null )&& (_customerInvoicesObj.SpecialPayObj.ID != Guid.Empty))
+                {
+                    return JsonConvert.SerializeObject(new { Result = "OK", Message = c.UpdateSuccess, Records = CIVM });
+                }
+                else
+                {
+                    return JsonConvert.SerializeObject(new { Result = "OK", Message = c.InsertSuccess, Records = CIVM });
+                }
+            }
+            catch (Exception ex)
+            {
+
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoices", Mode = "R")]
+        [HttpGet]
+        public string GetAllSpecialPayments(string InvoiceID)
+        {
+            try
+            {
+                List<CustomerInvoicesViewModel> CustomerInvoicesList = new List<CustomerInvoicesViewModel>();
+                 CustomerInvoicesList = Mapper.Map<List<CustomerInvoice>, List<CustomerInvoicesViewModel>>(_customerInvoicesBusiness.GetAllSpecialPayments(InvoiceID != null && InvoiceID != "" ? Guid.Parse(InvoiceID) : Guid.Empty));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = CustomerInvoicesList });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+
+
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoices", Mode = "R")]
+        [HttpGet]
+        public string GetSpecialPaymentsDetails(string ID)
+        {
+            try
+            {
+                CustomerInvoicesViewModel InvoiceObj = Mapper.Map<CustomerInvoice, CustomerInvoicesViewModel>(_customerInvoicesBusiness.GetSpecialPaymentsDetails(ID != null && ID != "" ? Guid.Parse(ID) : Guid.Empty));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = InvoiceObj });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoices", Mode = "D")]
+        [HttpGet]
+        public string DeleteSpecialPayments(CustomerInvoicesViewModel _customerinvObj)
+        {
+            object result = null;
+            try
+            {
+                result = _customerInvoicesBusiness.DeleteSpecialPayments(_customerinvObj.SpecialPayObj.ID);
+                return JsonConvert.SerializeObject(new { Result = "OK", Message = c.DeleteSuccess, Records = result });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+
+
+
+
+
+        #endregion SpecialPayments
+
         #region ButtonStyling
         [HttpGet]      
         public ActionResult ChangeButtonStyle(string ActionType)

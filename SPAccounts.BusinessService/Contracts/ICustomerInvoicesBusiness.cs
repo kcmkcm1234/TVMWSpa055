@@ -20,6 +20,14 @@ namespace SPAccounts.BusinessService.Contracts
         //special Permission SAdmin and CEO case
         List<CustomerInvoice> GetAllCustomerInvoicesForSA();
         CustomerInvoiceSummary GetCustomerInvoicesSummaryForSA();
+        //SpecialPayments
+        List<CustomerInvoice> GetAllSpecialPayments(Guid InvoiceID);
+        CustomerInvoice GetSpecialPaymentsDetails(Guid ID);
+        CustomerInvoice InsertUpdateSpecialPayments(CustomerInvoice _customerInvoicesObj, AppUA ua);
+        object DeleteSpecialPayments(Guid ID);
+
+
+
 
     }
 }

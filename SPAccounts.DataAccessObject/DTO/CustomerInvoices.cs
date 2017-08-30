@@ -43,6 +43,19 @@ namespace SPAccounts.DataAccessObject.DTO
 
         public string InvoiceType { get; set; }
         public Guid? RefInvoice { get; set; }
+        public string SpecialPayStatus { get; set; }
+        public SpecialPayment SpecialPayObj { get; set; }
+
+    }
+    public class SpecialPayment
+    {
+        public Guid ID { get; set; }
+        public decimal SpecialPaidAmount { get; set; }
+        public string SpecialPaymentDate { get; set; }
+        public string Remarks { get; set; }
+        public List<SpecialPayment> SpecialPaymentList { get; set; }
+
+
     }
 
     public class CustomerInvoiceSummary
