@@ -292,7 +292,7 @@ function List()
     $("#DepositwithdrawalList").show();
     $("#DepositwithdrawalEntry").hide();
     $(".modal-footer").hide();
-    $("#tabDepositwithdrawalList").text("Undeposited Cheques");
+            //$("#tabDepositwithdrawalList").text("Undeposited Cheques");
 }
 
 function BindDepositAndWithdrawals() {
@@ -538,6 +538,7 @@ function ShowWithDrawal()
 function ShowChequeClear()
 {
     $("#tabs").css('display', '');
+    $("#tabDepositwithdrawalList").css('display', 'block');
     $("#AddDepositAndWithdrawalModel").modal('show');
     $("#tabDepositwithdrawalEntry").css('display', 'none');
     $("#DepositwithdrawalEntry").css('display', 'none');
