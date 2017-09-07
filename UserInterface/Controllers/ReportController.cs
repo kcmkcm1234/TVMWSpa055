@@ -16,10 +16,12 @@ namespace UserInterface.Controllers
     {
         IReportBusiness _reportBusiness;
         ICompaniesBusiness _companiesBusiness;
-        public ReportController(IReportBusiness reportBusiness, ICompaniesBusiness companiesBusiness)
+        IEmployeeBusiness _employeeBusiness;
+        public ReportController(IReportBusiness reportBusiness, ICompaniesBusiness companiesBusiness,IEmployeeBusiness employeeBusiness)
         {
             _reportBusiness = reportBusiness;
             _companiesBusiness = companiesBusiness;
+            _employeeBusiness = employeeBusiness;
         }
         // GET: Report
         [HttpGet]
@@ -174,12 +176,12 @@ namespace UserInterface.Controllers
                     Value = "ALL",
                     Selected = true
                 });
-                selectListItem.Add(new SelectListItem
-                {
-                    Text = "Company Wise",
-                    Value = "companywise",
-                    Selected = false
-                });
+                //selectListItem.Add(new SelectListItem
+                //{
+                //    Text = "Company Wise",
+                //    Value = "companywise",
+                //    Selected = false
+                //});
                 foreach (CompaniesViewModel cvm in otherExpenseSummaryReportViewModel.companiesList)
                 {
                     selectListItem.Add(new SelectListItem
@@ -832,6 +834,73 @@ namespace UserInterface.Controllers
 
             return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
         }
+
+
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "OEReport", Mode = "R")]
+        public ActionResult EmployeeExpenseSummary()
+        {
+
+            DateTime dt = DateTime.Now;
+            ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+            ViewBag.todate = dt.ToString("dd-MMM-yyyy");
+            EmployeeExpenseSummaryReportViewModel employeeExpenseSummaryReportViewModel = new EmployeeExpenseSummaryReportViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            employeeExpenseSummaryReportViewModel.employeesList = Mapper.Map<List<EmployeeType>, List<EmployeeTypeViewModel>>(_employeeBusiness.GetAllEmployeeTypes());
+            if (employeeExpenseSummaryReportViewModel.employeesList != null)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "All",
+                    Value = "ALL",
+                    Selected = true
+                });
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "Employee Wise",
+                    Value = "employeewise",
+                    Selected = false
+                });
+                foreach (EmployeeTypeViewModel evm in employeeExpenseSummaryReportViewModel.employeesList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = evm.Name,
+                        Value = evm.Code.ToString(),
+                        Selected = false
+                    });
+                }
+            }
+
+            employeeExpenseSummaryReportViewModel.EmployeeList = selectListItem;
+            return View(employeeExpenseSummaryReportViewModel);
+        }
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "OEReport", Mode = "R")]
+        public string GetEmployeeExpenseSummary(string FromDate, string ToDate, string EmployeeCode, string OrderBy)
+        {
+            if (!string.IsNullOrEmpty(EmployeeCode))
+            {
+                try
+                {
+                    DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
+                    DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
+                    List<EmployeeExpenseSummaryReportViewModel> employeeExpenseSummaryReportList = Mapper.Map<List<EmployeeExpenseSummaryReport>, List<EmployeeExpenseSummaryReportViewModel>>(_reportBusiness.GetEmployeeExpenseSummary(FDate, TDate, EmployeeCode, OrderBy));
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = employeeExpenseSummaryReportList });
+                }
+                catch (Exception ex)
+                {
+                    return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+                }
+
+            }
+            return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "EmployeeCode is required" });
+        }
+
+
+
 
         #region ButtonStyling
         [HttpGet]

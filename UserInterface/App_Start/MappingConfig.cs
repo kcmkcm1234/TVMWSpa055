@@ -27,7 +27,8 @@ namespace UserInterface.App_Start
                 config.CreateMap<ManageAccessViewModel, SAMTool.DataAccessObject.DTO.ManageAccess>().ReverseMap();
                 config.CreateMap<ManageSubObjectAccessViewModel, SAMTool.DataAccessObject.DTO.ManageSubObjectAccess > ().ReverseMap();
                 config.CreateMap<PrivilegesViewModel, SAMTool.DataAccessObject.DTO.Privileges>().ReverseMap();
-                
+               
+
                 //****SAMTOOL MODELS 
 
 
@@ -97,8 +98,9 @@ namespace UserInterface.App_Start
                 config.CreateMap<AccountsReceivableAgeingSummaryReportViewModel, AccountsReceivableAgeingSummaryReport>().ReverseMap();
                 config.CreateMap<AccountsPayableAgeingReportViewModel, AccountsPayableAgeingReport>().ReverseMap();
                 config.CreateMap<AccountsPayableAgeingSummaryReportViewModel, AccountsPayableAgeingSummaryReport>().ReverseMap();
-                
-             });
+                config.CreateMap<EmployeeExpenseSummaryReport, EmployeeExpenseSummaryReportViewModel>().ReverseMap();
+
+            });
         }
     }
 }

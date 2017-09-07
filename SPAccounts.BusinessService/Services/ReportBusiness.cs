@@ -283,5 +283,22 @@ namespace SPAccounts.BusinessService.Services
             }
             return accountsPayableAgeingSummaryReportList;
         }
+
+
+
+        public List<EmployeeExpenseSummaryReport> GetEmployeeExpenseSummary(DateTime? FromDate, DateTime? ToDate, string EmployeeCode, string OrderBy)
+        {
+            List<EmployeeExpenseSummaryReport> employeeExpenseSummaryList = null;
+            try
+            {
+                employeeExpenseSummaryList = _reportRepository.GetEmployeeExpenseSummary(FromDate, ToDate, EmployeeCode);
+               
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return employeeExpenseSummaryList;
+        }
     }
 }

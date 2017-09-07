@@ -200,4 +200,27 @@ namespace SPAccounts.DataAccessObject.DTO
         public string NinetyOneAndOver { get; set; }
 
     }
+
+    public class EmployeeExpenseSummaryReport
+    {
+        public string EmployeeCode { get; set; }
+        public Guid EmployeeID { get; set; }
+        public string EmployeeName { get; set; }
+        public string EmployeeCompany { get; set; }
+        public string AccountHead { get; set; }
+        public decimal Amount { get; set; }
+    }
+
+    public class EmployeeExpenseDetailReport
+    {
+        public string EmployeeCode { get; set; }
+        public Guid EmployeeID { get; set; }
+        public string EmployeeName { get; set; }
+        public string EmployeeCompany { get; set; }
+        public string OriginCompany { get; set; }
+        public string PaymentMode { get; set; }
+        public string Description { get; set; }
+        public string AccountHead { get; set; }
+        public decimal Amount { get; set; }
+    }
 }

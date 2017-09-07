@@ -839,5 +839,53 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return accountsPayableAgeingSummaryReportList;
         }
+
+        public List<EmployeeExpenseSummaryReport> GetEmployeeExpenseSummary(DateTime? FromDate, DateTime? ToDate, string EmployeeCode)
+        {
+            List<EmployeeExpenseSummaryReport> employeeExpenseSummaryList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
+                        cmd.Parameters.Add("@EmployeeCode", SqlDbType.NVarChar, 50).Value = EmployeeCode;
+                        cmd.CommandText = " [Accounts].[RPT_GetOtherExpenseSummaryByEmployee]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                employeeExpenseSummaryList = new List<EmployeeExpenseSummaryReport>();
+                                while (sdr.Read())
+                                {
+                                    EmployeeExpenseSummaryReport employeeExpenseSummary = new EmployeeExpenseSummaryReport();
+                                    {
+                                        employeeExpenseSummary.AccountHead = (sdr["AccountHead"].ToString() != "" ? sdr["AccountHead"].ToString() : employeeExpenseSummary.AccountHead);
+                                        employeeExpenseSummary.EmployeeCode = (sdr["EmployeeCode"].ToString() != "" ? sdr["EmployeeCode"].ToString() : employeeExpenseSummary.EmployeeCode);
+                                        employeeExpenseSummary.EmployeeCompany = (sdr["EmployeeCompany"].ToString() != "" ? sdr["EmployeeCompany"].ToString() : employeeExpenseSummary.EmployeeCompany);
+                                        employeeExpenseSummary.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : employeeExpenseSummary.Amount);
+                                        employeeExpenseSummary.EmployeeName = (sdr["EmployeeName"].ToString() != "" ? sdr["EmployeeName"].ToString() : employeeExpenseSummary.EmployeeName);
+                                    }
+                                    employeeExpenseSummaryList.Add(employeeExpenseSummary);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return employeeExpenseSummaryList;
+        }
     }
 }

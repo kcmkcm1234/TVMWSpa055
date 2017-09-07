@@ -251,4 +251,33 @@ namespace UserInterface.Models
         public List<CompaniesViewModel> companiesList;
     }
 
+
+
+    public class EmployeeExpenseSummaryReportViewModel
+    {
+        public string EmployeeCode { get; set; }
+        public Guid EmployeeID { get; set; }
+        public string EmployeeName { get; set; }
+        public string EmployeeCompany { get; set; }
+        public string AccountHead { get; set; }
+        public decimal Amount { get; set; }
+        public List<SelectListItem> EmployeeList { get; set; }
+        public List<EmployeeTypeViewModel> employeesList;
+    }
+
+    public class EmployeeExpenseDetailReportViewModel
+    {
+        public string EmployeeCode { get; set; }
+        public Guid EmployeeID { get; set; }
+        public string EmployeeName { get; set; }
+        public string EmployeeCompany { get; set; }
+        public string OriginCompany { get; set; }
+        public string PaymentMode { get; set; }
+        public string Description { get; set; }
+        public string AccountHead { get; set; }
+        public decimal Amount { get; set; }
+        public List<SelectListItem> EmployeeList { get; set; }
+        public List<EmployeeTypeViewModel> employeesList;
+    }
+
 }
