@@ -234,5 +234,13 @@ namespace SPAccounts.BusinessService.Services
         {
             return _customerInvoicesRepository.DeleteSpecialPayments(ID);
         }
+
+        public CustomerInvoice SpecialPaymentSummary(Guid InvoiceID)
+        {
+            CustomerInvoice CI = new CustomerInvoice();
+            CI= _customerInvoicesRepository.SpecialPaymentSummary(InvoiceID);
+            
+            return CI;
+        }
     }
 }

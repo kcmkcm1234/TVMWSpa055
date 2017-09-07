@@ -769,11 +769,49 @@ function GetAllCustomerInvociesByID(CustomerID) {
 //--------------------------------------Special Payments--------------------------------------------//
 function SpecialPayments() {
     debugger
-    $('#SpecialPaymentModel').modal('show');
-    BindSpecialPaymnetsTable();
+    $('#SpecialPaymentModel').modal('show');//
+    NewSpecialPayments() 
+    BindSpecialPaymentsTable();
 }
 
-function BindSpecialPaymnetsTable() {
+function BindSpecialPaymentSummary() {
+    debugger;
+    var items = SpecialPaymentSummary();
+    $('#SplInvAmount').text('');
+    $('#SplInvAmount').append('<b>' + items.TotalInvoiceAmountstring + '</b>');
+    $('#SplAmountReceived').text('');
+    $('#SplAmountReceived').append('<b>' + items.PaidAmountstring + '</b>');
+    $('#SplBalDue').text('');
+    $('#SplBalDue').append('<b>' + items.BalanceDuestring + '</b>');
+    $('#hdfBalanceDue').val(items.BalanceDue);
+
+}
+function SpecialPaymentSummary() {
+    debugger;
+    try {
+        debugger;
+        var InvoiceID = $('#ID').val();
+        var data = { "InvoiceID": InvoiceID };
+        var ds = {};
+        ds = GetDataFromServer("CustomerInvoices/SpecialPaymentSummary/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            notyAlert('error', ds.Message);
+            var emptyarr = [];
+            return emptyarr;
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
+function BindSpecialPaymentsTable() {
     DataTables.SpecialPayments.clear().rows.add(GetSpecialPayments()).draw(false);
 
 }
@@ -805,7 +843,7 @@ function GetSpecialPayments() {
 function EditSpecialPayment(this_obj)
 {
     debugger;
-    var rowDataSplPay = DataTables.SpecialPayments.row($(this_obj).parents('tr')).data();
+    var rowDataSplPay = DataTables.SpecialPayments.row($(this_obj).parents('tr')).data(); 
     BindSpecialPayment(rowDataSplPay.SpecialPayObj.ID)
 }
 
@@ -816,6 +854,9 @@ function BindSpecialPayment(ID) {
     $('#txtRemarks').val(itemsdetails.SpecialPayObj.Remarks);
     $('#txtSpecialPaidAmount').val(itemsdetails.SpecialPayObj.SpecialPaidAmount);
     $('#txtSplPaymentDate').val(itemsdetails.SpecialPayObj.SpecialPaymentDate);
+    BindSpecialPaymentSummary(); //resetting Balance due Amount 
+    $('#hdfBalanceDue').val(parseInt($('#hdfBalanceDue').val())+parseInt($('#txtSpecialPaidAmount').val()));
+
 }
 
 function GetSpecialPaymentsDetails(ID) {
@@ -849,6 +890,7 @@ function SaveSpecialPayments() {
 
 function NewSpecialPayments() {
     debugger;
+    BindSpecialPaymentSummary();
     $('#txtRemarks').val('');
     $('#PaymentID').val('');
     $('#txtSpecialPaidAmount').val('');
@@ -861,7 +903,9 @@ function SuccessSpecialPayments(data, status) {
     var JsonResult = JSON.parse(data)
     switch (JsonResult.Result) {
         case "OK":
-            BindSpecialPaymnetsTable();
+            BindSpecialPaymentsTable();
+            BindSpecialPaymentSummary();
+            PaintInvoiceDetails()
             BindSpecialPayment(JsonResult.Records.SpecialPayObj.ID);
             notyAlert('success', JsonResult.Message);
             break;
@@ -895,7 +939,8 @@ function DeleteSpecialPay(ID) {
             }
             if (ds.Result == "OK") {
                 notyAlert('success', ds.Message.Message);
-                BindSpecialPaymnetsTable();
+                BindSpecialPaymentsTable(); 
+                PaintInvoiceDetails()
                 NewSpecialPayments();
             }
             if (ds.Result == "ERROR") {
@@ -910,4 +955,14 @@ function DeleteSpecialPay(ID) {
         notyAlert('error', e.message);
         return 0;
     }
+}
+
+function PaidAmountonblur(thisObj) {
+    debugger;
+    if (thisObj.value!="")
+        if (parseInt($('#hdfBalanceDue').val()) < parseInt(thisObj.value))
+        {
+            notyAlert('error', "Amount should be less than Balance due");
+            $('#txtSpecialPaidAmount').val($('#hdfBalanceDue').val());
+        } 
 }

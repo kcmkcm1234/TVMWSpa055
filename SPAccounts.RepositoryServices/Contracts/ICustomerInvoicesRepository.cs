@@ -21,6 +21,7 @@ namespace SPAccounts.RepositoryServices.Contracts
 
         //SpecialPayments
         List<CustomerInvoice> GetAllSpecialPayments(Guid InvoiceID);
+        CustomerInvoice SpecialPaymentSummary(Guid InvoiceID);
         CustomerInvoice GetSpecialPaymentsDetails(Guid ID);
         CustomerInvoice InsertSpecialPayments(CustomerInvoice _customerInvoicesObj, AppUA ua);
         CustomerInvoice UpdateSpecialPayments(CustomerInvoice _customerInvoicesObj, AppUA ua);

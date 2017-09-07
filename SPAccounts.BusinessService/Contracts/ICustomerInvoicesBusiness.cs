@@ -21,6 +21,8 @@ namespace SPAccounts.BusinessService.Contracts
         List<CustomerInvoice> GetAllCustomerInvoicesForSA();
         CustomerInvoiceSummary GetCustomerInvoicesSummaryForSA();
         //SpecialPayments
+        
+        CustomerInvoice SpecialPaymentSummary(Guid InvoiceID); 
         List<CustomerInvoice> GetAllSpecialPayments(Guid InvoiceID);
         CustomerInvoice GetSpecialPaymentsDetails(Guid ID);
         CustomerInvoice InsertUpdateSpecialPayments(CustomerInvoice _customerInvoicesObj, AppUA ua);

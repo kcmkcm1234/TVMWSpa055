@@ -365,8 +365,7 @@ namespace UserInterface.Controllers
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
             }
         }
-
-
+        
         [AuthSecurityFilter(ProjectObject = "CustomerInvoices", Mode = "R")]
         [HttpGet]
         public string GetSpecialPaymentsDetails(string ID)
@@ -392,6 +391,27 @@ namespace UserInterface.Controllers
             {
                 result = _customerInvoicesBusiness.DeleteSpecialPayments(_customerinvObj.SpecialPayObj.ID);
                 return JsonConvert.SerializeObject(new { Result = "OK", Message = c.DeleteSuccess, Records = result });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoices", Mode = "R")]
+        [HttpGet]
+        public string SpecialPaymentSummary(string InvoiceID)
+        {
+            try
+            {
+                CustomerInvoicesViewModel CustomerInv = new CustomerInvoicesViewModel();
+                CustomerInv = Mapper.Map<CustomerInvoice,CustomerInvoicesViewModel>(_customerInvoicesBusiness.SpecialPaymentSummary(InvoiceID != null && InvoiceID != "" ? Guid.Parse(InvoiceID) : Guid.Empty));
+                CustomerInv.TotalInvoiceAmountstring = _commonBusiness.ConvertCurrency(CustomerInv.TotalInvoiceAmount, 0);
+                CustomerInv.BalanceDuestring = _commonBusiness.ConvertCurrency(CustomerInv.BalanceDue, 0);
+                CustomerInv.PaidAmountstring = _commonBusiness.ConvertCurrency((CustomerInv.PaidAmount), 0);
+
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = CustomerInv });
             }
             catch (Exception ex)
             {
