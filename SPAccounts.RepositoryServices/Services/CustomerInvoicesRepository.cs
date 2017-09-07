@@ -828,6 +828,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[UpdateSpecialPayments]";
                         cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@InvoiceID", SqlDbType.UniqueIdentifier).Value = _customerInvoicesObj.ID;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = _customerInvoicesObj.SpecialPayObj.ID;
                         cmd.Parameters.Add("@PaymentDate", SqlDbType.DateTime).Value = _customerInvoicesObj.SpecialPayObj.SpecialPaymentDate;
                         cmd.Parameters.Add("@PaidAmount", SqlDbType.Decimal).Value = _customerInvoicesObj.SpecialPayObj.SpecialPaidAmount;
@@ -902,6 +903,48 @@ namespace SPAccounts.RepositoryServices.Services
             return new { Message = Cobj.DeleteSuccess };
         }
 
+        public CustomerInvoice SpecialPaymentSummary(Guid InvoiceID)
+        {
+            CustomerInvoice CIList = null;
+            Settings settings = new Settings();
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetSpecialPaymentsSummary]";
+                        cmd.Parameters.Add("@InvoiceID", SqlDbType.UniqueIdentifier).Value = InvoiceID;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                if (sdr.Read())
+                                {
+                                    CIList = new CustomerInvoice();
+                                    CIList.BalanceDue = (sdr["BalanceDue"].ToString() != "" ? Decimal.Parse(sdr["BalanceDue"].ToString()) : CIList.BalanceDue);
+                                    CIList.PaidAmount = (sdr["PaidAmount"].ToString() != "" ? Decimal.Parse(sdr["PaidAmount"].ToString()) : CIList.PaidAmount);
+                                    CIList.TotalInvoiceAmount = (sdr["TotalInvoiceAmount"].ToString() != "" ? Decimal.Parse(sdr["TotalInvoiceAmount"].ToString()) : CIList.TotalInvoiceAmount);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return CIList;
+        }
     }
     
 }
