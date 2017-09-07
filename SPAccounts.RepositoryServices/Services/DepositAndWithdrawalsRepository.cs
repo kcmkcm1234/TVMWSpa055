@@ -249,7 +249,11 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@BankCode", SqlDbType.VarChar, 5).Value = _depositAndWithdrawalsObj.BankCode;
                         cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = _depositAndWithdrawalsObj.Amount;
                         cmd.Parameters.Add("@ChequeStatus", SqlDbType.NVarChar, 10).Value = _depositAndWithdrawalsObj.ChequeStatus;
-                        cmd.Parameters.Add("@ChequeClearDate", SqlDbType.DateTime).Value = _depositAndWithdrawalsObj.ChequeClearDate;
+                        if (_depositAndWithdrawalsObj.ChequeClearDate != default(DateTime))
+                        {
+                            cmd.Parameters.Add("@ChequeClearDate", SqlDbType.DateTime).Value = _depositAndWithdrawalsObj.ChequeClearDate;
+                        }
+                        //cmd.Parameters.Add("@ChequeClearDate", SqlDbType.DateTime).Value = _depositAndWithdrawalsObj.ChequeClearDate;
                         cmd.Parameters.Add("@DepositMode", SqlDbType.NVarChar, 10).Value = _depositAndWithdrawalsObj.PaymentMode;
                         cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = _depositAndWithdrawalsObj.commonObj.UpdatedBy;
                         cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = _depositAndWithdrawalsObj.commonObj.UpdatedDate;
