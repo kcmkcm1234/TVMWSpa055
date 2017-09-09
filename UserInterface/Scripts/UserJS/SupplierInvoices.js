@@ -166,7 +166,7 @@ function ResetForm() {
 }
 function Edit(Obj) {
     debugger;
-    ResetForm();
+    ResetForm(); 
     var rowData = DataTables.SupplInvTable.row($(Obj).parents('tr')).data();
     $('#ID').val(rowData.ID);
     PaintInvoiceDetails();
@@ -177,6 +177,10 @@ function PaintInvoiceDetails() {
     ChangeButtonPatchView("SupplierInvoices", "btnPatchAdd", "Edit"); //ControllerName,id of the container div,Name of the action
     var InvoiceID = $('#ID').val();
     var SupplierInvoiceViewModel = GetSupplierInvoiceDetails(InvoiceID);
+    $('#ddlInvoiceType').val(SupplierInvoiceViewModel.InvoiceType);
+    $('#ddlInvoiceType').prop('disabled', true);
+    InvoicesTypeChange();
+
     $('#lblInvoiceNo').text(SupplierInvoiceViewModel.InvoiceNo);
     $('#txtInvNo').val(SupplierInvoiceViewModel.InvoiceNo);
     $('#txtInvDate').val(SupplierInvoiceViewModel.InvoiceDateFormatted);
@@ -480,7 +484,11 @@ function GetOutStandingInvoices(supplierID) {
 }
 //------------------------Modal Popup Advance Adujustment functions Ends-------------------------------------//
 function AddNew() {
+ 
     ResetForm();
+    InvoicesTypeChange()
+    $('#ddlInvoiceType').prop('disabled', false);
+
     $('#lblinvoicedAmt').text("₹ 0.00");
     $('#lblpaidAmt').text("₹ 0.00");
     $('#lblbalalnceAmt').text("₹ 0.00");
@@ -643,4 +651,17 @@ function goBack() {
     ResetForm();
     closeNav();
     List();
+}
+
+
+function InvoicesTypeChange() {
+    debugger;
+    if ($('#ddlInvoiceType').val() == "WB") {
+        $('#txtInvNo').prop('disabled', true);
+        $('#txtInvNo').val('');
+    } 
+    else {
+        $('#txtInvNo').prop('disabled', false);  
+    }
+
 }
