@@ -499,7 +499,8 @@ function Summary(Records) {
 
 function Edit(Obj) {
     debugger;
-    $('#CustomerInvoiceForm')[0].reset();
+
+    Resetform();
     var rowData = DataTables.CustInvTable.row($(Obj).parents('tr')).data();
     $('#ID').val(rowData.ID);
     $('#deleteId').val(rowData.ID); 
@@ -507,10 +508,18 @@ function Edit(Obj) {
     PaintInvoiceDetails();
     openNav();
 }
+
+function Resetform() {
+    var validator = $("#CustomerInvoiceForm").validate();
+    $('#CustomerInvoiceForm').find('.field-validation-error span').each(function () {
+        validator.settings.success($(this));
+    });
+    $('#CustomerInvoiceForm')[0].reset();
+}
 function AddNew()
 {
     debugger;
-    $('#CustomerInvoiceForm')[0].reset();
+    Resetform();
     $('#lblinvoicedAmt').text("₹ 0.00");
     $('#lblpaidAmt').text("₹ 0.00");
     $('#lblbalalnceAmt').text("₹ 0.00");
