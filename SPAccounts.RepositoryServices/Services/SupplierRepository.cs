@@ -55,6 +55,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         _SupplierObj.ContactPerson = (sdr["ContactPerson"].ToString() != "" ? sdr["ContactPerson"].ToString() : _SupplierObj.ContactPerson);
                                         _SupplierObj.ContactEmail = (sdr["ContactEmail"].ToString() != "" ? sdr["ContactEmail"].ToString() : _SupplierObj.ContactEmail);
                                         _SupplierObj.ContactTitle = (sdr["ContactTitle"].ToString() != "" ? sdr["ContactTitle"].ToString() : _SupplierObj.ContactTitle);
+                                        _SupplierObj.Product = (sdr["Product"].ToString() != "" ? sdr["Product"].ToString() : _SupplierObj.Product);
                                         _SupplierObj.Website = (sdr["Website"].ToString() != "" ? sdr["Website"].ToString() : _SupplierObj.Website);
                                         _SupplierObj.LandLine = (sdr["LandLine"].ToString() != "" ? sdr["LandLine"].ToString() : _SupplierObj.LandLine);
                                         _SupplierObj.Mobile = (sdr["Mobile"].ToString() != "" ? sdr["Mobile"].ToString() : _SupplierObj.Mobile);
@@ -215,6 +216,7 @@ namespace SPAccounts.RepositoryServices.Services
                                     _supplierObj.ContactPerson = (sdr["ContactPerson"].ToString() != "" ? sdr["ContactPerson"].ToString() : _supplierObj.ContactPerson);
                                     _supplierObj.ContactEmail = (sdr["ContactEmail"].ToString() != "" ? sdr["ContactEmail"].ToString() : _supplierObj.ContactEmail);
                                     _supplierObj.ContactTitle = (sdr["ContactTitle"].ToString() != "" ? sdr["ContactTitle"].ToString() : _supplierObj.ContactTitle);
+                                    _supplierObj.Product = (sdr["Product"].ToString() != "" ? sdr["Product"].ToString() : _supplierObj.Product);
                                     _supplierObj.Website = (sdr["Website"].ToString() != "" ? sdr["Website"].ToString() : _supplierObj.Website);
                                     _supplierObj.LandLine = (sdr["LandLine"].ToString() != "" ? sdr["LandLine"].ToString() : _supplierObj.LandLine);
                                     _supplierObj.Mobile = (sdr["Mobile"].ToString() != "" ? sdr["Mobile"].ToString() : _supplierObj.Mobile);
@@ -269,6 +271,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@ContactPerson", SqlDbType.VarChar, 100).Value = _supplierObj.ContactPerson;
                         cmd.Parameters.Add("@ContactEmail", SqlDbType.VarChar, 150).Value = _supplierObj.ContactEmail;
                         cmd.Parameters.Add("@ContactTitle", SqlDbType.VarChar, 10).Value = _supplierObj.ContactTitle;
+                        cmd.Parameters.Add("@Product", SqlDbType.VarChar, 250).Value = _supplierObj.Product;
                         cmd.Parameters.Add("@Website", SqlDbType.NVarChar, 500).Value = _supplierObj.Website;
                         cmd.Parameters.Add("@LandLine", SqlDbType.VarChar, 50).Value = _supplierObj.LandLine;
                         cmd.Parameters.Add("@Mobile", SqlDbType.VarChar, 50).Value = _supplierObj.Mobile;
@@ -336,6 +339,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@ContactPerson", SqlDbType.VarChar, 100).Value = _supplierObj.ContactPerson;
                         cmd.Parameters.Add("@ContactEmail", SqlDbType.VarChar, 150).Value = _supplierObj.ContactEmail;
                         cmd.Parameters.Add("@ContactTitle", SqlDbType.VarChar, 10).Value = _supplierObj.ContactTitle;
+                        cmd.Parameters.Add("@Product", SqlDbType.VarChar, 250).Value = _supplierObj.Product;
                         cmd.Parameters.Add("@Website", SqlDbType.NVarChar, 500).Value = _supplierObj.Website;
                         cmd.Parameters.Add("@LandLine", SqlDbType.VarChar, 50).Value = _supplierObj.LandLine;
                         cmd.Parameters.Add("@Mobile", SqlDbType.VarChar, 50).Value = _supplierObj.Mobile;

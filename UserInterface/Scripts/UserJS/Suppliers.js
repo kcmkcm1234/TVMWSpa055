@@ -19,6 +19,7 @@ $(document).ready(function () {
                { "data": "ID" },
                { "data": "CompanyName", "defaultContent": "<i>-</i>" },
                { "data": "ContactPerson", "defaultContent": "<i>-</i>" },
+               { "data": "Product", "defaultContent": "<i>-</i>" }, 
                { "data": "Mobile", "defaultContent": "<i>-</i>" },
                { "data": "TaxRegNo", "defaultContent": "<i>-</i>" },
                { "data": "PANNO", "defaultContent": "<i>-</i>" },
@@ -26,9 +27,9 @@ $(document).ready(function () {
                { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                  { className: "text-right", "targets": [6] },
-                   { className: "text-left", "targets": [1, 2] },
-             { className: "text-center", "targets": [3,4,5] }
+                  { className: "text-right", "targets": [7] },
+                   { className: "text-left", "targets": [1, 2,3] },
+             { className: "text-center", "targets": [4,5,6] }
 
              ]
          });
@@ -36,17 +37,10 @@ $(document).ready(function () {
         $('#SupplierTable tbody').on('dblclick', 'td', function () {
 
             Edit(this);
-        });
-
-
-
-
-
+        });  
 
     } catch (x) {
-
         notyAlert('error', x.message);
-
     }
 
 });
@@ -148,6 +142,7 @@ function ClearFields() {
     $("#ContactPerson").val("");
     //$("#CompanyName").prop('disabled', false);
     $("#ContactEmail").val("");
+    $('#Product').val("");
     $("#Website").val("");
     $("#LandLine").val("");
     $("#Mobile").val("");
@@ -251,6 +246,7 @@ function FillSupplierDetails(ID) {
     $("#ContactPerson").val(thisItem.ContactPerson);
     //$("#CompanyName").prop('disabled', true);
     $("#ContactEmail").val(thisItem.ContactEmail);
+    $('#Product').val(thisItem.Product);
     $("#Website").val(thisItem.Website);
     $("#LandLine").val(thisItem.LandLine);
     $("#Mobile").val(thisItem.Mobile);

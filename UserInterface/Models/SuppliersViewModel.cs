@@ -24,6 +24,11 @@ namespace UserInterface.Models
         [RegularExpression(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$", ErrorMessage = "Entered email is not valid.")]
         [MaxLength(150)]
         public string ContactEmail { get; set; }
+
+        [Display(Name = "Product Name")]
+        [MaxLength(250)]
+        public string Product { get; set; }
+
         [Display(Name = "Title")]
         [MaxLength(10)]
         public string ContactTitle { get; set; }
