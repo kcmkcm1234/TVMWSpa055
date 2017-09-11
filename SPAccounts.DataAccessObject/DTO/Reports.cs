@@ -52,7 +52,17 @@ namespace SPAccounts.DataAccessObject.DTO
         public string SubTypeDesc { get; set; }
         public decimal Amount { get; set; }
         public string OriginCompany { get; set; }
+        public string Employee { get; set; }
+        public string Search { get; set; }
+        public string Subtype { get; set; }
+        public string AccountHead { get; set; }
+        public string EmployeeOrOther { get; set; }
+        public decimal TotalAmount { get; set; }
+        public string Description { get; set; }
+
     }
+
+    
     public class OtherExpenseDetailsReport
     {
         public string AccountHead { get; set; }

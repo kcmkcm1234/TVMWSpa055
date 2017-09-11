@@ -77,7 +77,7 @@ namespace SPAccounts.RepositoryServices.Services
         /// <param name="ToDate"></param>
         /// <param name="CompanyCode"></param>
         /// <returns>List<OtherExpenseSummaryReport></returns>
-        public List<OtherExpenseSummaryReport> GetOtherExpenseSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode)
+        public List<OtherExpenseSummaryReport> GetOtherExpenseSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode,string accounthead, string subtype, string employeeorother,string search)
         {
             List<OtherExpenseSummaryReport> otherExpenseSummaryList = null;
             try
@@ -94,6 +94,10 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
                         cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
                         cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = CompanyCode;
+                        cmd.Parameters.Add("@accounthead", SqlDbType.NVarChar, 50).Value = accounthead!=""?accounthead:null;
+                        cmd.Parameters.Add("@subtype", SqlDbType.NVarChar, 50).Value = subtype!=""?subtype:null;
+                        cmd.Parameters.Add("@employeeorother", SqlDbType.NVarChar, 50).Value = employeeorother!=""?employeeorother:null;
+                        cmd.Parameters.Add("@search", SqlDbType.NVarChar, 250).Value = search!=""?search:null;
                         cmd.CommandText = "[Accounts].[RPT_GetOtherExpenseSummary]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -109,6 +113,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         otherExpenseSummary.SubTypeDesc = (sdr["SubTypeDesc"].ToString() != "" ? sdr["SubTypeDesc"].ToString() : otherExpenseSummary.SubTypeDesc);
                                         otherExpenseSummary.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : otherExpenseSummary.Amount);
                                         otherExpenseSummary.OriginCompany = (sdr["OriginCompany"].ToString() != "" ? sdr["OriginCompany"].ToString() : otherExpenseSummary.OriginCompany);
+                                        otherExpenseSummary.Description = (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : otherExpenseSummary.Description);
                                     }
                                     otherExpenseSummaryList.Add(otherExpenseSummary);
                                 }

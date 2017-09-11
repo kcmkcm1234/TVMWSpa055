@@ -74,27 +74,15 @@ namespace SPAccounts.BusinessService.Services
             return otherExpenseDetailsList;
         }
 
-        public List<OtherExpenseSummaryReport> GetOtherExpenseSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string OrderBy)
+        public List<OtherExpenseSummaryReport> GetOtherExpenseSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string OrderBy, string accounthead, string subtype, string employeeorother,string search)
         {
             List<OtherExpenseSummaryReport> otherExpenseSummaryList = null;
+           
             try
             {
-                otherExpenseSummaryList = _reportRepository.GetOtherExpenseSummary(FromDate, ToDate, CompanyCode);
-                //if (otherExpenseSummaryList != null)
-                //{
-                //    switch (OrderBy)
-                //    {
-                //        case "AH":
-                //          //  otherExpenseSummaryList = otherExpenseSummaryList.OrderBy(OE => OE.AccountHeadORSubtype).ToList();
-                //            break;
-
-                //        case "ST":
-                //          //  otherExpenseSummaryList = otherExpenseSummaryList.OrderByDescending(OE => OE.SubTypeDesc).ToList();
-                //            break;
-                //    }
-
-                //}
-            }
+                otherExpenseSummaryList = _reportRepository.GetOtherExpenseSummary(FromDate, ToDate, CompanyCode, accounthead, subtype, employeeorother, search);
+                
+                }
             catch (Exception ex)
             {
                 throw ex;
