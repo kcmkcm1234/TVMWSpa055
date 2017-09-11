@@ -13,6 +13,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string ContactEmail { get; set; }
         public string ContactTitle { get; set; }
         public string Website { get; set; }
+        public string Product { get; set; }
         public string LandLine { get; set; }
         public string Mobile { get; set; }
         public string Fax { get; set; }

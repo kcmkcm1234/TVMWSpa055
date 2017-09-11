@@ -43,7 +43,7 @@
                         <th>ID</th>
                         <th>Company Name</th>
                         <th>Contact Person</th>
-                        @*<th>Contact Title</th>*@
+                        <th>Product Name</th>
                         <th>Mobile</th>
                         <th>Tax Reg No</th>
                         <th>Pan No</th>
@@ -108,7 +108,7 @@
                 <div class="col-md-10">
                     <div class="col-md-12  ">
                         <div class="form-group col-md-12">
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="col-md-12">
                                     @Html.LabelFor(model => model.ContactTitle, htmlAttributes: new { @class = "control-label" })
 
@@ -116,7 +116,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="col-md-12">
-                                        @Html.DropDownListFor(model => model.ContactTitle, Model.TitlesList, "-- Select Title --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;" })                                        
+                                        @Html.DropDownListFor(model => model.ContactTitle, Model.TitlesList, "-Select-", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;" })                                        
                                         @Html.ValidationMessageFor(model => model.ContactTitle, "", new { @class = "text-danger" })
 
                                     </div>
@@ -136,7 +136,7 @@
                                 </div>
 
                             </div>
-                            <div class="col-md-5">
+                            <div class="col-md-6">
                                 <div class="col-md-12">
                                     @Html.LabelFor(model => model.ContactEmail, htmlAttributes: new { @class = "control-label" })
 
@@ -159,20 +159,26 @@
                 <div class="col-md-10">
                     <div class="col-md-12  ">
                         <div class="form-group col-md-12">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="col-md-12">
                                     @Html.LabelFor(model => model.Website, htmlAttributes: new { @class = "control-label" })
-
-
                                 </div>
                                 <div class="col-md-12">
                                     <div class="col-md-12">
                                         @Html.EditorFor(model => model.Website, new { htmlAttributes = new { @class = "form-control BlockEnter" } })
                                         @Html.ValidationMessageFor(model => model.Website, "", new { @class = "text-danger" })
                                     </div>
-
                                 </div>
-
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => model.Product, htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-12">
+                                        @Html.EditorFor(model => model.Product, new { htmlAttributes = new { @class = "form-control BlockEnter" } })
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-1"></div>
@@ -187,36 +193,27 @@
                             <div class="col-md-3">
                                 <div class="col-md-12">
                                     @Html.LabelFor(model => model.LandLine, htmlAttributes: new { @class = "control-label" })
-
-
                                 </div>
                                 <div class="col-md-12">
                                     <div class="col-md-12">
                                         @Html.EditorFor(model => model.LandLine, new { htmlAttributes = new { @class = "form-control BlockEnter" } })
                                         @Html.ValidationMessageFor(model => model.LandLine, "", new { @class = "text-danger" })
-
                                     </div>
                                 </div>
-
                             </div>
                             <div class="col-md-3">
                                 <div class="col-md-12">
                                     @Html.LabelFor(model => model.Mobile, htmlAttributes: new { @class = "control-label " })
-
                                 </div>
                                 <div class="col-md-12">
                                     <div class="col-md-12">
                                         @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { @class = "form-control BlockEnter" } })
                                     </div>
-
                                 </div>
-
                             </div>
                             <div class="col-md-3">
                                 <div class="col-md-12">
                                     @Html.LabelFor(model => model.Fax, htmlAttributes: new { @class = "control-label" })
-
-
                                 </div>
                                 <div class="col-md-12">
                                     <div class="col-md-12">

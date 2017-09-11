@@ -245,11 +245,20 @@ function GetAllCustomerPayments() {
 
 function Edit(currentObj)
 { 
-    openNav(); 
+    openNav();
+    Resetform();
        var rowData = DataTables.CustomerPaymentTable.row($(currentObj).parents('tr')).data();
     if ((rowData != null) && (rowData.ID != null)) {
         GetCustomerPaymentsByID(rowData.ID)
     } 
+}
+
+function Resetform() {
+    var validator = $("#CustomerPaymentForm").validate();
+    $('#CustomerPaymentForm').find('.field-validation-error span').each(function () {
+        validator.settings.success($(this));
+    });
+    $('#CustomerPaymentForm')[0].reset();
 }
 
 function GetCustomerPaymentsByID(PaymentID) {
@@ -483,11 +492,10 @@ function savePayments() {
     if ($('#PaymentMode').val() == "ONLINE" &&  $("#BankCode").val()=="" ) {
 
         notyAlert('error', 'Please Select Bank');
-    }
-
-    else if ($('#TotalRecdAmt').val()==0) {
-        notyAlert('error', 'Please Enter Amount');
-    }
+    } 
+    //else if ($('#TotalRecdAmt').val()==0) {
+    //    notyAlert('error', 'Please Enter Amount');
+    //}
     else {
         var SelectedRows = DataTables.OutStandingInvoices.rows(".selected").data();
         if ((SelectedRows) && (SelectedRows.length > 0)) {
@@ -558,7 +566,7 @@ function SaveSuccess(data, status) {
 }
 
 function fieldsclear() { 
-    $('#CustomerPaymentForm')[0].reset();
+    Resetform();
     $('#lblTotalRecdAmt').text('0');
     $('#lblPaymentApplied').text('0');
     $('#lblCredit').text('0');

@@ -9,6 +9,8 @@ namespace SPAccounts.DataAccessObject.DTO
     {
         public Guid ID { get; set; }
         public String InvoiceNo { get; set; }
+        public string InvoiceType { get; set; }
+
         public DateTime InvoiceDate { get; set; }
         public String InvoiceDateFormatted { get; set; }
         public DateTime PaymentDueDate { get; set; }

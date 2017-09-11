@@ -27,6 +27,9 @@ namespace UserInterface.Models
         [MaxLength(20)]
         public String InvoiceNo { get; set; }
 
+        [Display(Name = "Invoice Type")]
+        public string InvoiceType { get; set; }
+
         [Display(Name = "Invoice To Company")]
         [Required(ErrorMessage = "Company is missing")]
         public string CompanyCode { get; set; }
