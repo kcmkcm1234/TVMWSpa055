@@ -60,15 +60,27 @@ namespace UserInterface.Models
         [Required(ErrorMessage = "Company required")]
         [Display(Name = "Company")]
         public string CompanyCode { get; set; }
+        public string AccountHead { get; set; }
+        public string Subtype { get; set; }
+        public string EmployeeOrOther { get; set; }
+        public List<SelectListItem> AccountHeadList { get; set; }
+        public List<SelectListItem> SubtypeList { get; set; }
         public string AccountHeadORSubtype { get; set; }
+        public string Employee { get; set; }
         public string SubTypeDesc { get; set; }
         public decimal Amount { get; set; }
         public string OriginCompany { get; set; }
         public List<SelectListItem> CompanyList { get; set; }
         public List<CompaniesViewModel> companiesList;
+        public List<SelectListItem> EmployeeTypeList { get; set; }
+        public List<SelectListItem> EmployeeList { get; set; }
+        public string Search { get; set; }
+        public decimal TotalAmount { get; set; }
+        public string Description { get; set; }
+       
     }
 
-   
+
     public class OtherExpenseDetailsReportViewModel
     {
         [Required(ErrorMessage = "Company required")]

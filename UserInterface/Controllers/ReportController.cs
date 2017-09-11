@@ -17,11 +17,15 @@ namespace UserInterface.Controllers
         IReportBusiness _reportBusiness;
         ICompaniesBusiness _companiesBusiness;
         IEmployeeBusiness _employeeBusiness;
-        public ReportController(IReportBusiness reportBusiness, ICompaniesBusiness companiesBusiness,IEmployeeBusiness employeeBusiness)
+        IOtherExpenseBusiness _otherExpenseBusiness;
+        ICommonBusiness _commonBusiness;
+        public ReportController(IReportBusiness reportBusiness, ICompaniesBusiness companiesBusiness,IEmployeeBusiness employeeBusiness, IOtherExpenseBusiness otherExpenseBusiness, ICommonBusiness commonBusiness)
         {
             _reportBusiness = reportBusiness;
             _companiesBusiness = companiesBusiness;
             _employeeBusiness = employeeBusiness;
+            _otherExpenseBusiness = otherExpenseBusiness;
+            _commonBusiness = commonBusiness;
         }
         // GET: Report
         [HttpGet]
@@ -161,12 +165,14 @@ namespace UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject = "OEReport", Mode = "R")]
         public ActionResult OtherExpenseSummary()
         {
-
+           
             DateTime dt = DateTime.Now;
             ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
             OtherExpenseSummaryReportViewModel otherExpenseSummaryReportViewModel = new OtherExpenseSummaryReportViewModel();
+
             List<SelectListItem> selectListItem = new List<SelectListItem>();
+
             otherExpenseSummaryReportViewModel.companiesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_companiesBusiness.GetAllCompanies());
             if (otherExpenseSummaryReportViewModel.companiesList != null)
             { 
@@ -176,12 +182,7 @@ namespace UserInterface.Controllers
                     Value = "ALL",
                     Selected = true
                 });
-                //selectListItem.Add(new SelectListItem
-                //{
-                //    Text = "Company Wise",
-                //    Value = "companywise",
-                //    Selected = false
-                //});
+               
                 foreach (CompaniesViewModel cvm in otherExpenseSummaryReportViewModel.companiesList)
                 {
                     selectListItem.Add(new SelectListItem
@@ -194,12 +195,57 @@ namespace UserInterface.Controllers
             }
 
             otherExpenseSummaryReportViewModel.CompanyList = selectListItem;
+            selectListItem = null;
+            selectListItem = new List<SelectListItem>();
+            List<ChartOfAccountsViewModel> chartOfAccountList = Mapper.Map<List<ChartOfAccounts>, List<ChartOfAccountsViewModel>>(_otherExpenseBusiness.GetAllAccountTypes("OE"));
+            foreach (ChartOfAccountsViewModel cav in chartOfAccountList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = cav.TypeDesc,
+                    Value = cav.Code ,
+                    Selected = false,
+
+
+                });
+            }
+            otherExpenseSummaryReportViewModel.AccountHeadList = selectListItem;
+            selectListItem = null;
+
+            selectListItem = null;
+            selectListItem = new List<SelectListItem>();
+            List<EmployeeTypeViewModel> empTypeList = Mapper.Map<List<EmployeeType>, List<EmployeeTypeViewModel>>(_otherExpenseBusiness.GetAllEmployeeTypes());
+            foreach (EmployeeTypeViewModel etvm in empTypeList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = etvm.Name,
+                    Value = etvm.Code,
+                    Selected = false
+                });
+            }
+            otherExpenseSummaryReportViewModel.EmployeeTypeList = selectListItem;
+
+
+            selectListItem = new List<SelectListItem>();
+            List<EmployeeViewModel> empList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_otherExpenseBusiness.GetAllEmployees());
+            foreach (EmployeeViewModel evm in empList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = evm.Name,
+                    Value = evm.ID.ToString(),
+                    Selected = false
+                });
+            }
+            otherExpenseSummaryReportViewModel.EmployeeList = selectListItem;
+
             return View(otherExpenseSummaryReportViewModel);
         }
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "OEReport", Mode = "R")]
-        public string GetOtherExpenseSummary(string FromDate, string ToDate, string CompanyCode, string OrderBy)
+        public string GetOtherExpenseSummary(string FromDate, string ToDate, string CompanyCode, string OrderBy,string accounthead, string subtype,string employeeorother,string search)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
             {
@@ -207,8 +253,13 @@ namespace UserInterface.Controllers
                 {
                     DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                    List<OtherExpenseSummaryReportViewModel> otherExpenseSummaryReportList = Mapper.Map<List<OtherExpenseSummaryReport>, List<OtherExpenseSummaryReportViewModel>>(_reportBusiness.GetOtherExpenseSummary(FDate, TDate, CompanyCode, OrderBy));
-                    return JsonConvert.SerializeObject(new { Result = "OK", Records = otherExpenseSummaryReportList });
+                    List<OtherExpenseSummaryReportViewModel> otherExpenseSummaryReportList = Mapper.Map<List<OtherExpenseSummaryReport>, List<OtherExpenseSummaryReportViewModel>>(_reportBusiness.GetOtherExpenseSummary(FDate, TDate, CompanyCode, OrderBy, accounthead, subtype, employeeorother, search));
+                   
+                    decimal otherExpenseSum = otherExpenseSummaryReportList.Sum(OE => OE.Amount);
+                    string otherExpenseSumFormatted=_commonBusiness.ConvertCurrency(otherExpenseSum, 2);
+
+
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = otherExpenseSummaryReportList, TotalAmount= otherExpenseSumFormatted });
                 }
                 catch (Exception ex)
                 {
@@ -575,6 +626,7 @@ namespace UserInterface.Controllers
                     DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
                     List<PurchaseTransactionLogReportViewModel> purchaseTransactionLogReportList = Mapper.Map<List<PurchaseTransactionLogReport>, List<PurchaseTransactionLogReportViewModel>>(_reportBusiness.GetPurchaseTransactionLogDetails(FDate, TDate, CompanyCode));
+                   
                     return JsonConvert.SerializeObject(new { Result = "OK", Records = purchaseTransactionLogReportList });
                 }
                 catch (Exception ex)
