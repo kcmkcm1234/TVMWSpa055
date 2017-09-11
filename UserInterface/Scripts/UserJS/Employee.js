@@ -5,7 +5,15 @@ $(document).ready(function () {
 
         DataTables.EmployeeTable = $('#EmployeeTable').DataTable(
          {
-             dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
+            // dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
+             dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
+             buttons: [{
+                 extend: 'excel',
+                 exportOptions:
+                              {
+                                  columns: [0, 1, 2, 3, 4, 5]
+                              }
+             }],
              order: [],
              searching: true,
              paging: true,
@@ -38,7 +46,8 @@ $(document).ready(function () {
 
             Edit(this);
         });
-            
+           
+        $(".buttons-excel").hide();
 
 
     } catch (x) {
@@ -48,6 +57,19 @@ $(document).ready(function () {
     }
 
 });
+
+function PrintReport() {
+    try {
+        debugger;
+
+        $(".buttons-excel").trigger('click');
+
+
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
 
 function GetAllEmployee() {
     try {
