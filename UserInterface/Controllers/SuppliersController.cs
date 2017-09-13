@@ -31,9 +31,10 @@ namespace UserInterface.Controllers
         // GET: Suppliers
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "Suppliers", Mode = "R")]
-        public ActionResult Index()
+        public ActionResult Index(string id)
         {
             SuppliersViewModel supplierViewModel = null;
+            ViewBag.value = id;
             try
             {
                 supplierViewModel = new SuppliersViewModel();

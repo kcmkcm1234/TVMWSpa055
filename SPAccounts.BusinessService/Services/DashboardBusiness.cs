@@ -69,7 +69,7 @@ namespace SPAccounts.BusinessService.Services
                 foreach (TopDocsItem m in Result.DocItems)
                 {
                     m.ValueFormatted = _commonBusiness.ConvertCurrency(m.Value, 2);
-                    m.URL = BaseURL;
+                    m.URL = BaseURL+m.ID;
                 }
 
             }

@@ -39,7 +39,7 @@
                 <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
 
                 <div class="info-box-content">
-                    <span class="info-box-text">Overdue <b><span id="overdueamt">₹ 0.00</span></b></span>
+                    <span class="info-box-text">Overdue <b><span class="info-box-more" id="overdueamt">₹0.00</span></b></span>
                     <span class="info-box-more">Invoices <small><span id="overdueinvoice">0</span></small></span>
                 </div>
                 <!-- /.info-box-content -->
@@ -51,7 +51,7 @@
                 <span class="info-box-icon bg-aqua"></span>
 
                 <div class="info-box-content">
-                    <span class="info-box-text">Open Invoices <b><span id="openamt">₹ 0.00</span></b></span>
+                    <span class="info-box-text">Open Invoices <b><span class="info-box-more" id="openamt">₹0.00</span></b></span>
                     <span class="info-box-more">Invoices <small><span id="openinvoice">0</span></small></span>
                 </div>
                 <!-- /.info-box-content -->
@@ -68,7 +68,7 @@
                 <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
 
                 <div class="info-box-content">
-                    <span class="info-box-text">Fully Paid <b><span id="paidamt">₹ 0.00</span></b></span>
+                    <span class="info-box-text">Fully Paid <b><span class="info-box-more" id="paidamt">₹0.00</span></b></span>
                     <span class="info-box-more">Invoices <small><span id="paidinvoice">0</span></small></span>
                 </div>
                 <!-- /.info-box-content -->
@@ -132,6 +132,7 @@
                     @using (Ajax.BeginForm("InsertUpdateInvoice", "CustomerInvoices", new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccess", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", @id = "CustomerInvoiceForm" }))
                     {
                         @Html.AntiForgeryToken()
+                        @Html.Hidden("BindValue", "", htmlAttributes: new { @class = "", Value = ViewBag.value });
                     <div class="col-md-12 headSeperator"><i  class="fa fa-th ig-yellow" aria-hidden="true"></i> Basic Details</div> 
                     <div class="col-md-12">
                         <div class="col-md-8">

@@ -45,10 +45,11 @@ namespace UserInterface.Controllers
         // GET: CustomerPayments
         [AuthSecurityFilter(ProjectObject = "CustomerPayments", Mode = "R")]
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(string id)
         {
             AppUA _appUA = Session["AppUA"] as AppUA;
             ViewBag.Currentdate = _appUA.DateTime.ToString("dd-MMM-yyyy");
+            ViewBag.value = id;
 
             List<SelectListItem> selectListItem = new List<SelectListItem>();
             CustomerPaymentsViewModel CP = new CustomerPaymentsViewModel();

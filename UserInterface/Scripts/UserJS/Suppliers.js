@@ -37,7 +37,12 @@ $(document).ready(function () {
         $('#SupplierTable tbody').on('dblclick', 'td', function () {
 
             Edit(this);
-        });  
+        });
+
+        debugger;
+        if ($('#BindValue').val() != '') {
+            dashboardBind($('#BindValue').val())
+        }
 
     } catch (x) {
         notyAlert('error', x.message);
@@ -270,4 +275,10 @@ function Edit(currentObj) {
     if ((rowData != null) && (rowData.ID != null)) {
         FillSupplierDetails(rowData.ID);
     }
+}
+
+function dashboardBind(ID) {
+    openNav("0");
+    ResetForm();
+    FillSupplierDetails(ID);
 }

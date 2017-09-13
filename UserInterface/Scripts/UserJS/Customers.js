@@ -38,9 +38,13 @@ $(document).ready(function () {
             Edit(this);
         });
 
+        debugger;
+        if ($('#BindValue').val() != '') {
+            dashboardBind($('#BindValue').val())
+        }
+
       
      
-
 
 
     } catch (x) {
@@ -278,4 +282,10 @@ function Edit(currentObj) {
     if ((rowData != null) && (rowData.ID != null)) {
         FillCustomerDetails(rowData.ID);
     }
+}
+
+function dashboardBind(ID) {
+    openNav("0");
+    ResetForm();
+    FillCustomerDetails(ID);
 }
