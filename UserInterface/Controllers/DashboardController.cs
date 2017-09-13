@@ -132,7 +132,7 @@ namespace UserInterface.Controllers
             data.DocType = "CINV";
             data.Title = "Recent Customer Invoices";
             data.Color = "bg-yellow";
-            data.BaseURL =  "../CustomerInvoices/Index";
+            data.BaseURL =  "../CustomerInvoices/Index/";
             data.Docs = Mapper.Map<TopDocs, TopDocsVewModel>(_dashboardBusiness.GetTopDocs(data.DocType,"ALL", data.BaseURL));
 
 
@@ -149,7 +149,7 @@ namespace UserInterface.Controllers
             data.DocType = "CPAY";
             data.Title = "Recent Customer Payments";
             data.Color = "bg-yellow";
-            data.BaseURL = "../CustomerPayments/Index";
+            data.BaseURL = "../CustomerPayments/Index/";
             data.Docs = Mapper.Map<TopDocs, TopDocsVewModel>(_dashboardBusiness.GetTopDocs(data.DocType, "ALL", data.BaseURL));
 
             return PartialView("_RecentDocs", data);
@@ -161,7 +161,7 @@ namespace UserInterface.Controllers
             data.DocType = "SINV";
             data.Title = "Recent Supplier Invoices";
             data.Color = "bg-green";
-            data.BaseURL = "../SupplierInvoices/Index";
+            data.BaseURL = "../SupplierInvoices/Index/";
             data.Docs = Mapper.Map<TopDocs, TopDocsVewModel>(_dashboardBusiness.GetTopDocs(data.DocType, "ALL", data.BaseURL));
             return PartialView("_RecentDocs", data);
         }
@@ -173,7 +173,7 @@ namespace UserInterface.Controllers
             data.DocType = "SPAY";
             data.Title = "Recent Supplier Payments";
             data.Color = "bg-green";
-            data.BaseURL = "../SupplierPayments/Index";
+            data.BaseURL = "../SupplierPayments/Index/";
             data.Docs = Mapper.Map<TopDocs, TopDocsVewModel>(_dashboardBusiness.GetTopDocs(data.DocType, "ALL", data.BaseURL));
             return PartialView("_RecentDocs", data);
         }
@@ -186,7 +186,7 @@ namespace UserInterface.Controllers
             data.DocType = "OI";
             data.Title = "Recent Other Income";
             data.Color = "bg-yellow";
-            data.BaseURL = "../OtherIncome/Index";
+            data.BaseURL = "../OtherIncome/Index/";
             data.Docs = Mapper.Map<TopDocs, TopDocsVewModel>(_dashboardBusiness.GetTopDocs(data.DocType, "ALL", data.BaseURL));
             return PartialView("_RecentDocs", data);
         }
@@ -199,7 +199,7 @@ namespace UserInterface.Controllers
             data.DocType = "OE";
             data.Title = "Recent Other Expense";
             data.Color = "bg-green";
-            data.BaseURL = "../OtherExpenses/Index";
+            data.BaseURL = "../OtherExpenses/Index/";
             data.Docs = Mapper.Map<TopDocs, TopDocsVewModel>(_dashboardBusiness.GetTopDocs(data.DocType, "ALL", data.BaseURL));
             return PartialView("_RecentDocs", data);
         }

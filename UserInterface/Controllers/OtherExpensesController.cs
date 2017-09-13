@@ -28,9 +28,10 @@ namespace UserInterface.Controllers
         }
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "OtherExpense", Mode = "R")]
-        public ActionResult Index()
+        public ActionResult Index(string id)
         {
             OtherExpenseViewModel otherExpenseViewModelObj = null;
+            ViewBag.value = id;
             Settings s = new Settings();
             try
             {

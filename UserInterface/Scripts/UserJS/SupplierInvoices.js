@@ -155,7 +155,20 @@ $(document).ready(function () {
     catch (e) {
 
     }
+
+    if ($('#BindValue').val() != '') {
+        dashboardBind($('#BindValue').val())
+    }
+
 });
+function dashboardBind(ID){
+    ResetForm(); 
+    $('#ID').val(ID);
+    PaintInvoiceDetails();
+    openNav();
+}
+
+
 function ResetForm() {
     var validator = $("#SupplierInvoiceForm").validate();
     $('#SupplierInvoiceForm').find('.field-validation-error span').each(function () {

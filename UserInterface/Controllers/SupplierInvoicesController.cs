@@ -33,9 +33,9 @@ namespace UserInterface.Controllers
         // GET: SupplierInvoices
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "SupplierInvoices", Mode = "R")]
-        public ActionResult Index()
+        public ActionResult Index(string id)
         {
-
+            ViewBag.value = id;
             List<SelectListItem> selectListItem = new List<SelectListItem>();
             SupplierInvoicesViewModel SI = new SupplierInvoicesViewModel();
             

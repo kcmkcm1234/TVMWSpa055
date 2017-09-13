@@ -45,8 +45,9 @@ namespace UserInterface.Controllers
         // GET: SupplierPayments
         [AuthSecurityFilter(ProjectObject = "SupplierPayments", Mode = "R")]
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(string id)
         {
+            ViewBag.value = id;
             AppUA _appUA = Session["AppUA"] as AppUA;
             ViewBag.Currentdate = _appUA.DateTime.ToString("dd-MMM-yyyy");
 

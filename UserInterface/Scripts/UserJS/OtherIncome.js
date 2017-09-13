@@ -49,14 +49,25 @@ $(document).ready(function () {
      
         $("#BankCode").prop('disabled', true);
 
-
-    } catch (x) {
+        debugger;
+        if ($('#BindValue').val() != '') {
+            dashboardBind($('#BindValue').val())
+        }
+    }
+    catch (x) {
 
         notyAlert('error', x.message);
-
     } 
 
 });
+
+function dashboardBind(ID) {
+    debugger;
+    ShowModal();
+    ResetForm();
+    FillOtherIncomeDetails(ID)
+   
+}
 
 function BindOpeningBalance() {
     debugger;

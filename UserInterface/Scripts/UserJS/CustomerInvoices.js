@@ -182,11 +182,26 @@ $(document).ready(function () {
                 { "targets": [0], "visible": false, "searchable": false }]
 
         });
+        debugger;
+        if ($('#BindValue').val() != '') {
+            dashboardBind($('#BindValue').val())
+        } 
+
     }
     catch (x) {
         notyAlert('error', e.message);
     }
 });
+
+
+function dashboardBind(ID) {
+    Resetform();
+    $('#ID').val(ID);
+    $('#deleteId').val(ID);
+    $('#InvoiceId').val(ID);
+    PaintInvoiceDetails();
+    openNav();
+}
 
 function DeleteInvoices() {
     notyConfirm('Are you sure to delete?', 'Delete()', '', "Yes, delete it!");

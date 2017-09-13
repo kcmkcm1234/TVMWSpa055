@@ -149,7 +149,17 @@ $(document).ready(function () {
     catch (e) {
         notyAlert('error', e.message);
     }
+
+    if ($('#BindValue').val() != '') {
+        dashboardBind($('#BindValue').val())
+    }
+
 });
+
+function dashboardBind(ID) {
+    openNav();
+    GetSupplierPaymentsByID(ID)
+}
 
 function paymentAmountFocus(event) {
     event.select();
