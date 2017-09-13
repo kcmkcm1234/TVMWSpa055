@@ -20,7 +20,7 @@ namespace UserInterface.Models
         [MaxLength(100)]
         public string ContactPerson { get; set; }
         [Display(Name = "Email")]
-        [RegularExpression(@"^((\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)\s*[;,.]{0,1}\s*)+$ ", ErrorMessage = "Entered email is not valid.")]
+        [RegularExpression(@"^((\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)\s*[;,.]{0,1}\s*)+$", ErrorMessage = "Please enter a valid e-mail adress")]
         [MaxLength(150)]
         public string ContactEmail { get; set; }
         [Display(Name = "Title")]

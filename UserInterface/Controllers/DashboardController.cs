@@ -108,7 +108,7 @@ namespace UserInterface.Controllers
         {
             TopCustomersViewModel data = new TopCustomersViewModel();
             data.CompanyName = Company;
-            data.BaseURL = "../Customers/Index";
+            data.BaseURL = "../Customers/Index/";
             data.Docs = Mapper.Map<TopDocs, TopDocsVewModel>(_dashboardBusiness.GetTopDocs("CUST", "ALL", data.BaseURL));
             return PartialView("_TopCustomers", data);
         }
@@ -118,7 +118,7 @@ namespace UserInterface.Controllers
         {
             TopSuppliersViewModel data = new TopSuppliersViewModel();
             data.CompanyName = Company;
-            data.BaseURL = "../Suppliers/Index";
+            data.BaseURL = "../Suppliers/Index/";
             data.Docs = Mapper.Map<TopDocs, TopDocsVewModel>(_dashboardBusiness.GetTopDocs("SUPP", "ALL", data.BaseURL));
             return PartialView("_TopSuppliers", data);
         }
