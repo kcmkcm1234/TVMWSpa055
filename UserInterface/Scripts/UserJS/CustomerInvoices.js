@@ -931,6 +931,7 @@ function SuccessSpecialPayments(data, status) {
             BindSpecialPaymentSummary();
             PaintInvoiceDetails()
             BindSpecialPayment(JsonResult.Records.SpecialPayObj.ID);
+            List();
             notyAlert('success', JsonResult.Message);
             break;
         case "ERROR":
@@ -966,6 +967,7 @@ function DeleteSpecialPay(ID) {
                 BindSpecialPaymentsTable(); 
                 PaintInvoiceDetails()
                 NewSpecialPayments();
+                List();
             }
             if (ds.Result == "ERROR") {
                 notyAlert('error', ds.Message);
