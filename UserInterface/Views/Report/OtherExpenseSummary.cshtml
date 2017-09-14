@@ -9,6 +9,11 @@
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableButtons")
      @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/select2")
+<style>
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: 20px !important;
+    }
+</style>
     }
 
 <div style="width:100%;">
@@ -72,7 +77,7 @@
             <div class="col-md-3">
                 @Html.LabelFor(model => model.Subtype, htmlAttributes: new { @class = "control-label" })
                 <div class="col-md-12">
-                    @Html.DropDownListFor(model => model.Subtype, Model.EmployeeTypeList, "-- Select--", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "Subtype", @onchange = "EmployeeTypeOnchange(this)" })
+                    @Html.DropDownListFor(model => model.Subtype, Model.EmployeeTypeList, new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "Subtype", @onchange = "EmployeeTypeOnchange(this)" })
                     @Html.ValidationMessageFor(model => model.Subtype, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -123,7 +128,7 @@
 </div>
             <div class="col-md-3" style="min-height:25px">
                 @{
-                    var data = new { ActionType = "List" };
+                    var data = new { ActionType = "ListWithReset" };
                     @Html.Action("ChangeButtonStyle", "Report", data);
                 }
             </div>
@@ -149,7 +154,7 @@
                             <tr class="text-center TableHead">
                                 <th>Origin Company</th>
                                 <th>Account Head</th>
-                                <th>EmployeeOrOther</th>
+                                <th>Employee/Other</th>
                                 <th>Amount</th>
                             </tr>
                         </thead>

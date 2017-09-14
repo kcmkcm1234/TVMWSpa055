@@ -60,8 +60,10 @@ namespace UserInterface.Models
         [Required(ErrorMessage = "Company required")]
         [Display(Name = "Company")]
         public string CompanyCode { get; set; }
+        [Display(Name = "Account Head")]
         public string AccountHead { get; set; }
         public string Subtype { get; set; }
+        [Display(Name = "Employee/Other")]
         public string EmployeeOrOther { get; set; }
         public List<SelectListItem> AccountHeadList { get; set; }
         public List<SelectListItem> SubtypeList { get; set; }
@@ -86,8 +88,12 @@ namespace UserInterface.Models
         [Required(ErrorMessage = "Company required")]
         [Display(Name = "Company")]
         public string CompanyCode { get; set; }
+        [Display(Name = "Employee/Other")]
+        public string EmployeeOrOther { get; set; }
+        [Display(Name = "Account Head")]
         public string AccountHead { get; set; }
         public string SubType { get; set; }
+        public string Date { get; set; }
         public string PaymentMode { get; set; }
         public string PaymentReference { get; set; }
         public string Description { get; set; }
@@ -102,7 +108,7 @@ namespace UserInterface.Models
         public List<SelectListItem> SubtypeList { get; set; }
         public string Search { get; set; }
         public decimal TotalAmount { get; set; }
-        public string EmployeeOrOther { get; set; }
+       
     }
 
     public class CustomerContactDetailsReportViewModel

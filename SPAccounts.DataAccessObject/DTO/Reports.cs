@@ -76,6 +76,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string OriginCompany { get; set; }
         public string EmployeeOrOther { get; set; }
         public decimal TotalAmount { get; set; }
+        public string Date { get; set; }
     }
 
     public class CustomerContactDetailsReport
