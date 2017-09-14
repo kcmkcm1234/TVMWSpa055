@@ -96,6 +96,13 @@ namespace UserInterface.Models
         public string Company { get; set; }
         public List<SelectListItem> CompanyList { get; set; }
         public List<CompaniesViewModel> companiesList;
+        public List<SelectListItem> EmployeeTypeList { get; set; }
+        public List<SelectListItem> EmployeeList { get; set; }
+        public List<SelectListItem> AccountHeadList { get; set; }
+        public List<SelectListItem> SubtypeList { get; set; }
+        public string Search { get; set; }
+        public decimal TotalAmount { get; set; }
+        public string EmployeeOrOther { get; set; }
     }
 
     public class CustomerContactDetailsReportViewModel

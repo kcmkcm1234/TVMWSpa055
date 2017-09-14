@@ -1,6 +1,7 @@
 ﻿var DataTables = {};
 $(document).ready(function () {
-    
+    $("#CompanyCode,#AccountCode,#Subtype,#Employee").select2({
+    });
     $("#STContainer").hide();
     try {
 
@@ -29,13 +30,13 @@ $(document).ready(function () {
                { "data": "OriginCompany", "defaultContent": "<i>-</i>" },
                { "data": "AccountHeadORSubtype", "defaultContent": "<i>-</i>" },
                { "data": "SubTypeDesc", "defaultContent": "<i>-</i>" },
-               { "data": "Description", "defaultContent": "<i>-</i>" },
+               //{ "data": "Description", "defaultContent": "<i>-</i>" },
                { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
              
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                  { className: "text-left", "targets": [1,2,3] },
-                  { className: "text-right", "targets": [4] }],
+                  { className: "text-left", "targets": [1,2] },
+                  { className: "text-right", "targets": [3] }],
              drawCallback: function (settings) {
                  var api = this.api();
                  var rows = api.rows({ page: 'current' }).nodes();
@@ -217,13 +218,8 @@ function Back() {
 
 function OnChangeCall()
 {
-    //if ($("#AH").prop('checked')) {
     RefreshOtherExpenseSummaryAHTable();
    
-    //}
-    //else {
-       // RefreshOtherExpenseSummarySTTable();
-   // }
 }
 
 //function RadioOnChange(curobj)
@@ -343,4 +339,3 @@ function GetAllEmployeesByType(type) {
         notyAlert('error', e.message);
     }
 }
-

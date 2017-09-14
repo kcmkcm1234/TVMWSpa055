@@ -243,6 +243,8 @@ namespace UserInterface.Controllers
             return View(otherExpenseSummaryReportViewModel);
         }
 
+
+
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "OEReport", Mode = "R")]
         public string GetOtherExpenseSummary(string FromDate, string ToDate, string CompanyCode, string OrderBy,string accounthead, string subtype,string employeeorother,string search)
@@ -309,6 +311,50 @@ namespace UserInterface.Controllers
             }
 
             otherExpenseDetailsViewModel.CompanyList = selectListItem;
+            selectListItem = null;
+            selectListItem = new List<SelectListItem>();
+            List<ChartOfAccountsViewModel> chartOfAccountList = Mapper.Map<List<ChartOfAccounts>, List<ChartOfAccountsViewModel>>(_otherExpenseBusiness.GetAllAccountTypes("OE"));
+            foreach (ChartOfAccountsViewModel cav in chartOfAccountList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = cav.TypeDesc,
+                    Value = cav.Code,
+                    Selected = false,
+
+
+                });
+            }
+            otherExpenseDetailsViewModel.AccountHeadList = selectListItem;
+            selectListItem = null;
+
+            selectListItem = null;
+            selectListItem = new List<SelectListItem>();
+            List<EmployeeTypeViewModel> empTypeList = Mapper.Map<List<EmployeeType>, List<EmployeeTypeViewModel>>(_otherExpenseBusiness.GetAllEmployeeTypes());
+            foreach (EmployeeTypeViewModel etvm in empTypeList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = etvm.Name,
+                    Value = etvm.Code,
+                    Selected = false
+                });
+            }
+            otherExpenseDetailsViewModel.EmployeeTypeList = selectListItem;
+
+
+            selectListItem = new List<SelectListItem>();
+            List<EmployeeViewModel> empList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_otherExpenseBusiness.GetAllEmployees());
+            foreach (EmployeeViewModel evm in empList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = evm.Name,
+                    Value = evm.ID.ToString(),
+                    Selected = false
+                });
+            }
+            otherExpenseDetailsViewModel.EmployeeList = selectListItem;
             return View(otherExpenseDetailsViewModel);
         }
 
