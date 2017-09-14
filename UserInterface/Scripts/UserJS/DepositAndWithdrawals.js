@@ -339,8 +339,10 @@ function GetAllDepositAndWithdrawals(DepositOrWithdrawal, chqclr) {
             ds = JSON.parse(ds);
             if (DepositOrWithdrawal == undefined && chqclr == undefined)
             {
-                $("#TotalAmt").text("");
-                $("#TotalAmt").text(ds.TotalAmt);
+                $("#TotalDpt").text("");
+                $("#TotalDpt").text(ds.totalDpt);
+                $("#TotalWdl").text("");
+                $("#TotalWdl").text(ds.totalWdl);
             }
            
         }

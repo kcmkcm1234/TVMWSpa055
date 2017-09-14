@@ -11,7 +11,7 @@ $(document).ready(function () {
                  extend: 'excel',
                  exportOptions:
                               {
-                                  columns: [0, 1, 2, 3, 4, 5]
+                                  columns: [1, 2, 3, 4, 5]
                               }
              }],
              order: [],
@@ -36,8 +36,8 @@ $(document).ready(function () {
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                  
-               { className: "text-left", "targets": [2, 3, 5, 6] },
-             { className: "text-center", "targets": [1] }
+               { className: "text-left", "targets": [1,2, 3, 5, 6] },
+             { className: "text-center", "targets": [] }
 
              ]
          });

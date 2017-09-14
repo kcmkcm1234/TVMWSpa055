@@ -90,9 +90,11 @@ namespace UserInterface.Controllers
             {
 
                 List<DepositAndWithdrwalViewModel> depositAndWithdrwalsList = Mapper.Map<List<DepositAndWithdrawals>, List<DepositAndWithdrwalViewModel>>(_depositAndWithdrawalsBusiness.GetAllDepositAndWithdrawals(FromDate, ToDate, DepositOrWithdrawal, chqclr));
-                var totalAmt = depositAndWithdrwalsList.Sum(amt => amt.Amount);
-                string totalAmtFormatted = _commonBusiness.ConvertCurrency(totalAmt, 2);
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = depositAndWithdrwalsList, TotalAmt = totalAmtFormatted });
+                var totalWdl = depositAndWithdrwalsList.Where(amt => amt.TransactionType == "W").Sum(amt => amt.Amount);
+                var totalDpt = depositAndWithdrwalsList.Where(amt => amt.TransactionType == "D").Sum(amt => amt.Amount);
+                string totalWdlFormatted = _commonBusiness.ConvertCurrency(totalWdl, 2);
+                string totalDptFormatted = _commonBusiness.ConvertCurrency(totalDpt, 2);
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = depositAndWithdrwalsList, totalWdl = totalWdlFormatted, totalDpt= totalDptFormatted });
             }
             catch (Exception ex)
             {
