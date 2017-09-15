@@ -293,12 +293,12 @@ namespace UserInterface.Controllers
                     Value = "ALL",
                     Selected = true
                 });
-                selectListItem.Add(new SelectListItem
-                {
-                    Text = "Company Wise",
-                    Value = "companywise",
-                    Selected = false
-                });
+                //selectListItem.Add(new SelectListItem
+                //{
+                //    Text = "Company Wise",
+                //    Value = "companywise",
+                //    Selected = false
+                //});
                 foreach (CompaniesViewModel cvm in otherExpenseDetailsViewModel.companiesList)
                 {
                     selectListItem.Add(new SelectListItem
@@ -360,7 +360,7 @@ namespace UserInterface.Controllers
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "OEReport", Mode = "R")]
-        public string GetOtherExpenseDetails(string FromDate, string ToDate, string CompanyCode, string OrderBy)
+        public string GetOtherExpenseDetails(string FromDate, string ToDate, string CompanyCode, string OrderBy, string accounthead, string subtype, string employeeorother, string search)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
             {
@@ -368,8 +368,10 @@ namespace UserInterface.Controllers
                 {
                     DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                    List<OtherExpenseDetailsReportViewModel> otherExpenseDetailsReportList = Mapper.Map<List<OtherExpenseDetailsReport>, List<OtherExpenseDetailsReportViewModel>>(_reportBusiness.GetOtherExpenseDetails(FDate, TDate, CompanyCode,OrderBy));
-                    return JsonConvert.SerializeObject(new { Result = "OK", Records = otherExpenseDetailsReportList });
+                    List<OtherExpenseDetailsReportViewModel> otherExpenseDetailsReportList = Mapper.Map<List<OtherExpenseDetailsReport>, List<OtherExpenseDetailsReportViewModel>>(_reportBusiness.GetOtherExpenseDetails(FDate, TDate, CompanyCode,OrderBy, accounthead, subtype, employeeorother,search));
+                    decimal otherExpenseDetailsSum = otherExpenseDetailsReportList.Sum(OE => OE.Amount);
+                    string otherExpenseDetailsSumFormatted = _commonBusiness.ConvertCurrency(otherExpenseDetailsSum, 2);
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = otherExpenseDetailsReportList, TotalAmount = otherExpenseDetailsSumFormatted });
                 }
                 catch (Exception ex)
                 {
@@ -1019,7 +1021,24 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.PrintBtn.Event = "PrintReport();";
 
                     break;
-              
+
+                case "ListWithReset":
+                    ToolboxViewModelObj.backbtn.Visible = true;
+                    ToolboxViewModelObj.backbtn.Disable = false;
+                    ToolboxViewModelObj.backbtn.Text = "Back";
+                    ToolboxViewModelObj.backbtn.DisableReason = "Not applicable";
+                    ToolboxViewModelObj.backbtn.Event = "Back();";
+
+                    ToolboxViewModelObj.PrintBtn.Visible = true;
+                    ToolboxViewModelObj.PrintBtn.Text = "Export";
+                    ToolboxViewModelObj.PrintBtn.Event = "PrintReport();";
+
+                    ToolboxViewModelObj.resetbtn.Visible = true;
+                    ToolboxViewModelObj.resetbtn.Text = "Reset";
+                    ToolboxViewModelObj.resetbtn.Event = "Reset();";
+
+                    break;
+
                 default:
                     return Content("Nochange");
             }
