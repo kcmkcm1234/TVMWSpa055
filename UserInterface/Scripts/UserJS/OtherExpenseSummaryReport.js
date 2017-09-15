@@ -255,7 +255,7 @@ function AccountCodeOnchange(curobj) {
     debugger;
     var accountcode = $(curobj).val();
    
-        if(accountcode=="OEX"|| accountcode=="PTY"||accountcode=="PTYR")
+    if (accountcode == "OEX" || accountcode == "PTY" || accountcode == "PTYR")
         {
             $("#Subtype").prop('disabled', true);
              $("#Employee").prop('disabled', true);

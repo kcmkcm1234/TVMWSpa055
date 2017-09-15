@@ -1,5 +1,6 @@
 ﻿var DataTables = {};
 $(document).ready(function () {
+    
   
     $("#CompanyCode,#AccountCode,#Subtype,#Employee").select2({
        
