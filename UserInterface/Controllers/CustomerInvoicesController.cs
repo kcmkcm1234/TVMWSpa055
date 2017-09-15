@@ -38,8 +38,9 @@ namespace UserInterface.Controllers
         #region Index
         // GET: Invoices
         [AuthSecurityFilter(ProjectObject = "CustomerInvoices", Mode = "R")]
-        public ActionResult Index()
+        public ActionResult Index(string id)
         {
+            ViewBag.value = id;
             List<SelectListItem> selectListItem = new List<SelectListItem>();
             CustomerInvoicesViewModel CI = new CustomerInvoicesViewModel();
 

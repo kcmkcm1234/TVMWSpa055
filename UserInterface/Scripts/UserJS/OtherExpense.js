@@ -55,7 +55,18 @@ $(document).ready(function () {
     });
 
     BindOpeningBalance()
+
+    debugger;
+    if ($('#BindValue').val() != '') {
+        dashboardBind($('#BindValue').val())
+    }
 });
+
+function dashboardBind(ID) {
+    ClearFields();
+    FillOtherExpenseDetails(ID);
+    $("#AddOtherexpenseModel").modal('show');
+}
 
 function BindOpeningBalance() {
     debugger;

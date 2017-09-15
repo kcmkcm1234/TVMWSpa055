@@ -65,6 +65,7 @@ namespace SPAccounts.DataAccessObject.DTO
     
     public class OtherExpenseDetailsReport
     {
+        public string AccountHeadORSubtype { get; set; }
         public string AccountHead { get; set; }
         public string SubType { get; set; }
         public string PaymentMode { get; set; }
@@ -73,6 +74,9 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal Amount { get; set; }
         public string Company { get; set; }
         public string OriginCompany { get; set; }
+        public string EmployeeOrOther { get; set; }
+        public decimal TotalAmount { get; set; }
+        public string Date { get; set; }
     }
 
     public class CustomerContactDetailsReport

@@ -55,7 +55,7 @@ $(document).ready(function () {
               { className: "text-Left", "targets": [1, 4, 3, 5, 6, 7] },
             { className: "text-center", "targets": [2,10] } 
         ]
-    });        
+    }); 
 }
     catch (e) {
         notyAlert('error', e.message);
@@ -153,7 +153,20 @@ try{
     catch (e) {
         notyAlert('error', e.message);
     }
+
+debugger;
+if ($('#BindValue').val() != '') {
+    dashboardBind($('#BindValue').val())
+}
+
 });
+
+
+function dashboardBind(ID){
+    ShowModal();
+    ResetForm();
+    FillOtherIncomeDetails(ID);
+}
 
 function paymentAmountFocus(event)
 {

@@ -1,6 +1,7 @@
 ﻿var DataTables = {};
 $(document).ready(function () {
-    
+    $("#CompanyCode,#AccountCode,#Subtype,#Employee").select2({
+    });
     $("#STContainer").hide();
     try {
 
@@ -29,13 +30,13 @@ $(document).ready(function () {
                { "data": "OriginCompany", "defaultContent": "<i>-</i>" },
                { "data": "AccountHeadORSubtype", "defaultContent": "<i>-</i>" },
                { "data": "SubTypeDesc", "defaultContent": "<i>-</i>" },
-               { "data": "Description", "defaultContent": "<i>-</i>" },
+               //{ "data": "Description", "defaultContent": "<i>-</i>" },
                { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
              
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                  { className: "text-left", "targets": [1,2,3] },
-                  { className: "text-right", "targets": [4] }],
+                  { className: "text-left", "targets": [1,2] },
+                  { className: "text-right", "targets": [3] }],
              drawCallback: function (settings) {
                  var api = this.api();
                  var rows = api.rows({ page: 'current' }).nodes();
@@ -217,13 +218,8 @@ function Back() {
 
 function OnChangeCall()
 {
-    //if ($("#AH").prop('checked')) {
     RefreshOtherExpenseSummaryAHTable();
    
-    //}
-    //else {
-       // RefreshOtherExpenseSummarySTTable();
-   // }
 }
 
 //function RadioOnChange(curobj)
@@ -259,7 +255,7 @@ function AccountCodeOnchange(curobj) {
     debugger;
     var accountcode = $(curobj).val();
    
-        if(accountcode=="OEX"|| accountcode=="PTY"||accountcode=="PTYR")
+    if (accountcode == "OEX" || accountcode == "PTY" || accountcode == "PTYR")
         {
             $("#Subtype").prop('disabled', true);
              $("#Employee").prop('disabled', true);
@@ -296,7 +292,7 @@ function BindEmployeeDropDown(type)
         var employees = GetAllEmployeesByType(type);
         if (employees) {
             $('#Employee').empty();
-            $('#Employee').append(new Option('-- Select Employee --',''));
+            $('#Employee').append(new Option('-- Select--',''));
             for (var i = 0; i < employees.length; i++) {
                 var opt = new Option(employees[i].Name, employees[i].ID);
                 $('#Employee').append(opt);
@@ -318,8 +314,8 @@ function EmployeeTypeOnchange(curobj) {
     var emptypeselected = $(curobj).val();
     if (emptypeselected) {
         BindEmployeeDropDown(emptypeselected);
-        //if ($("#Subtype").val() != "") $("#sbtyp").html($("#Subtype option:selected").text());
-    }
+       //if ($("#Subtype").val() != "") $("#sbtyp").html($("#Subtype option:selected").text());
+    }   
     OnChangeCall();
 }
 
@@ -343,4 +339,13 @@ function GetAllEmployeesByType(type) {
         notyAlert('error', e.message);
     }
 }
+function Reset() {
+    debugger;
 
+    $("#CompanyCode").val('ALL').trigger('change')
+    $("#AccountCode").val('').trigger('change')
+    $("#Subtype").val('EMP').trigger('change')
+    $("#Employee").val('').trigger('change')
+    $("#Search").val('').trigger('change')
+    RefreshOtherExpenseDetailsAHTable();
+}

@@ -41,9 +41,10 @@ namespace UserInterface.Controllers
         // GET: OtherIncome
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "OtherIncome", Mode = "R")]
-        public ActionResult Index()
+        public ActionResult Index(string id)
         {
             OtherIncomeViewModel otherIncomeViewModalObj = null;
+            ViewBag.value = id;
             try
             {
                 otherIncomeViewModalObj = new OtherIncomeViewModel();
