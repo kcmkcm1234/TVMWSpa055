@@ -32,7 +32,7 @@
     </div>
     <div class="row summaryboxes">
         <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box">
+            <div class="info-box" style="cursor:pointer" onclick="Gridfilter('OD');">
                 <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
 
                 <div class="info-box-content">
@@ -44,7 +44,7 @@
             <!-- /.info-box -->
         </div>
         <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box">
+            <div class="info-box" style="cursor:pointer" onclick="Gridfilter('OI');">
                 <span class="info-box-icon bg-aqua"></span>
 
                 <div class="info-box-content">
@@ -61,7 +61,7 @@
         <div class="clearfix visible-sm-block"></div>
 
         <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box">
+            <div class="info-box" style="cursor:pointer" onclick="Gridfilter('FP');">
                 <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
 
                 <div class="info-box-content">
@@ -74,6 +74,16 @@
         </div>
         <!-- /.col -->
         <!-- /.col -->
+    </div>
+
+    <div class="col-md-12">
+        <div id="filter" hidden="hidden" style="position:absolute;padding-top:20px;font-size:medium">
+            <b>Filter:</b>
+            <p id="ODfilter" style="padding-right:20px;font-size:medium" class="fa fa-th ig-yellow">Over Due</p>
+            <p id="OIfilter" style="padding-right:20px;font-size:medium" class="fa fa-th ig-aqua">Open Invoices</p>
+            <p id="FPfilter" style="padding-right:20px;font-size:medium" class="fa fa-th ig-green">Fully Paid</p>
+        </div>
+
     </div>
     <div class="row">
         &nbsp;

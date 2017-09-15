@@ -220,6 +220,7 @@ function PaintInvoiceDetails() {
 }
 function List() {
     debugger;
+    $('#filter').hide();
     var result = GetAllInvoicesAndSummary();
     if (result != null) {
         if (result.SupplierInvoices != null)
@@ -239,10 +240,10 @@ function Summary(Records) {
     $('#paidinvoice').html(Records.PaidInvoices);
 }
 //---------------Bind logics-------------------
-function GetAllInvoicesAndSummary() {
+function GetAllInvoicesAndSummary(filter) {
     try {
 
-        var data = {};
+        var data = { "filter": filter };
         var ds = {};
         ds = GetDataFromServer("SupplierInvoices/GetInvoicesAndSummary/", data);
         if (ds != '') {
@@ -677,4 +678,34 @@ function InvoicesTypeChange() {
         $('#txtInvNo').prop('disabled', false);  
     }
 
+}
+
+
+//------------------------------------------------Summary Filter clicks------------------------------------------------------------//
+
+function Gridfilter(thisobj) {
+    debugger;
+    $('#filter').show();
+
+    $('#ODfilter').hide();
+    $('#OIfilter').hide();
+    $('#FPfilter').hide();
+
+    if (thisobj == 'OD') {
+        $('#ODfilter').show();
+    }
+    else if (thisobj == 'OI') {
+        $('#OIfilter').show();
+    }
+    else if (thisobj == 'FP') {
+        $('#FPfilter').show();
+    }
+    var result = GetAllInvoicesAndSummary(thisobj);
+    if (result != null) {
+        if (result.SupplierInvoices != null)
+            DataTables.SupplInvTable.clear().rows.add(result.SupplierInvoices).draw(false);
+        if (result.SupplierInvoiceSummary != null) {
+            Summary(result.SupplierInvoiceSummary);
+        }
+    }
 }

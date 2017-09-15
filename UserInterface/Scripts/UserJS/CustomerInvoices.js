@@ -492,6 +492,7 @@ function GetTaxRate(Code)
     }
 }
 function List() {
+    $('#filter').hide();
     var result = GetAllInvoicesAndSummary();
     if (result != null) {
         if (result.CustomerInvoices!=null)
@@ -607,10 +608,9 @@ function PaintInvoiceDetails()
 
 }
 //---------------Bind logics-------------------
-function GetAllInvoicesAndSummary() {
+function GetAllInvoicesAndSummary(filter) {
     try {
-
-        var data = {};
+        var data = { "filter": filter };
         var ds = {};
         ds = GetDataFromServer("CustomerInvoices/GetInvoicesAndSummary/", data);
         if (ds != '') {
@@ -991,4 +991,33 @@ function PaidAmountonblur(thisObj) {
             notyAlert('error', "Amount should be less than Balance due");
             $('#txtSpecialPaidAmount').val($('#hdfBalanceDue').val());
         } 
+}
+
+//------------------------------------------------Summary Filter clicks------------------------------------------------------------//
+
+function Gridfilter(thisobj) {
+    debugger;
+    $('#filter').show();
+
+    $('#ODfilter').hide();
+    $('#OIfilter').hide();
+    $('#FPfilter').hide();
+
+    if (thisobj == 'OD')   {
+        $('#ODfilter').show();
+    }
+    else if (thisobj == 'OI')    {
+        $('#OIfilter').show();
+    }
+    else if (thisobj == 'FP')    {
+        $('#FPfilter').show();
+    }
+   var result= GetAllInvoicesAndSummary(thisobj); 
+    if (result != null) {
+        if (result.CustomerInvoices != null)
+            DataTables.CustInvTable.clear().rows.add(result.CustomerInvoices).draw(false);
+        if (result.CustomerInvoiceSummary != null) {
+            Summary(result.CustomerInvoiceSummary);
+        }
+    }
 }

@@ -136,7 +136,7 @@ namespace UserInterface.Controllers
         #region GetAllInvoices
         [AuthSecurityFilter(ProjectObject = "CustomerInvoices", Mode = "R")]
         [HttpGet]    
-        public string GetInvoicesAndSummary()
+        public string GetInvoicesAndSummary(string filter)
         {
             try
             {
@@ -153,7 +153,20 @@ namespace UserInterface.Controllers
                 {
                     Result.CustomerInvoiceSummary = Mapper.Map<CustomerInvoiceSummary, CustomerInvoiceSummaryViewModel>(_customerInvoicesBusiness.GetCustomerInvoicesSummary());
                     Result.CustomerInvoices = Mapper.Map<List<CustomerInvoice>, List<CustomerInvoicesViewModel>>(_customerInvoicesBusiness.GetAllCustomerInvoices());
-                } 
+                }
+                if (filter != null && filter=="OD")
+                {
+                    Result.CustomerInvoices = Result.CustomerInvoices.Where(m => m.PaymentDueDate < _appUA.DateTime && m.BalanceDue > 0).ToList();
+                }
+                else if (filter != null && filter == "OI")
+                {
+                    Result.CustomerInvoices = Result.CustomerInvoices.Where(m => m.PaymentDueDate >= _appUA.DateTime && m.BalanceDue > 0).ToList();
+                }
+                else if (filter != null && filter == "FP")
+                {
+                    Result.CustomerInvoices = Result.CustomerInvoices.Where(m => m.BalanceDue <= 0).ToList();
+                }
+
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = Result });
             }
             catch (Exception ex)
@@ -439,12 +452,12 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.addbtn.Text = "Add";
                     ToolboxViewModelObj.addbtn.Title = "Add New";
                     ToolboxViewModelObj.addbtn.Event = "AddNew();";
-                     
-                    //ToolboxViewModelObj.backbtn.Visible = true;
-                    //ToolboxViewModelObj.backbtn.Disable = true;
-                    //ToolboxViewModelObj.backbtn.Text = "Back";
-                    //ToolboxViewModelObj.backbtn.DisableReason = "Not applicable";
-                    //ToolboxViewModelObj.backbtn.Event = "Back();";  
+
+                    ToolboxViewModelObj.resetbtn.Visible = true;
+                    ToolboxViewModelObj.resetbtn.Text = "Reset";
+                    ToolboxViewModelObj.resetbtn.Title = "Reset";
+                    ToolboxViewModelObj.resetbtn.Event = "List();"; 
+
                     break;
                 case "Edit": 
                     ToolboxViewModelObj.addbtn.Visible = true;
