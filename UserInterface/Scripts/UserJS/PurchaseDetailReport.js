@@ -25,9 +25,10 @@ $(document).ready(function () {
              columns: [
 
                { "data": "InvoiceNo", "defaultContent": "<i>-</i>" },
+               { "data": "SupplierName", "defaultContent": "<i>-</i>" },
                 { "data": "Date", "defaultContent": "<i>-</i>" },
-                  { "data": "PaymentDueDate", "defaultContent": "<i>-</i>" },
-
+                { "data": "PaymentDueDate", "defaultContent": "<i>-</i>" },
+                
                { "data": "InvoiceAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                { "data": "PaidAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                { "data": "BalanceDue", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
@@ -36,16 +37,16 @@ $(document).ready(function () {
              { "data": "OriginCompany", "defaultContent": "<i>-</i>" }
 
              ],
-             columnDefs: [{ "targets": [8, 6], "visible": false, "searchable": false },
-                  { className: "text-left", "targets": [0, 7, 8] },
-                   { className: "text-center", "targets": [1, 2, 3] },
-                  { className: "text-right", "targets": [4, 5, 6] }],
+             columnDefs: [{ "targets": [9, 7], "visible": false, "searchable": false },
+                   { className: "text-left", "targets": [0, 1] },
+                   { className: "text-center", "targets": [ 2, 3] },
+                  { className: "text-right", "targets": [4, 5, 6,8] }],
              drawCallback: function (settings) {
                  var api = this.api();
                  var rows = api.rows({ page: 'current' }).nodes();
                  var last = null;
 
-                 api.column(8, { page: 'current' }).data().each(function (group, i) {
+                 api.column(9, { page: 'current' }).data().each(function (group, i) {
                      if (last !== group) {
                          $(rows).eq(i).before('<tr class="group "><td colspan="8" class="rptGrp">' + '<b>Company</b> : ' + group + '</td></tr>');
                          last = group;
