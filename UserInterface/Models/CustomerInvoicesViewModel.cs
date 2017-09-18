@@ -112,6 +112,20 @@ namespace UserInterface.Models
         [DataType(DataType.MultilineText)]
         public string Remarks { get; set; }
 
+        [Display(Name = "Reference No.")]
+        public string PaymentRef { get; set; }
+
+        [Display(Name = "Reference Bank")]
+        public string RefBank { get; set; }
+
+        [Required(ErrorMessage = "Payment Mode is missing")]
+        [Display(Name = "Payment Mode")]
+        public string PaymentMode { get; set; }
+
+        [Display(Name = "Cheque Date")]
+        public string ChequeDate { get; set; }
+
+        public PaymentModesViewModel PaymentModesObj { get; set; } 
         public List<SelectListItem> SpecialPaymentList { get; set; }
     }
 

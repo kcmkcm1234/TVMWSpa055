@@ -23,8 +23,12 @@ namespace UserInterface.Controllers
         ITaxTypesBusiness _taxTypesBusiness;
         ICompaniesBusiness _companiesBusiness;
         IPaymentTermsBusiness _paymentTermsBusiness;
+        IPaymentModesBusiness _paymentmodesBusiness;
         ICommonBusiness _commonBusiness;
-        public CustomerInvoicesController(ICommonBusiness commonBusiness,IPaymentTermsBusiness paymentTermsBusiness,ICompaniesBusiness companiesBusiness, ICustomerInvoicesBusiness customerInvoicesBusiness,ICustomerBusiness customerBusiness,ITaxTypesBusiness taxTypesBusiness)
+        public CustomerInvoicesController(ICommonBusiness commonBusiness,
+            IPaymentTermsBusiness paymentTermsBusiness,ICompaniesBusiness companiesBusiness,
+            ICustomerInvoicesBusiness customerInvoicesBusiness,ICustomerBusiness customerBusiness,
+            ITaxTypesBusiness taxTypesBusiness, IPaymentModesBusiness paymentmodesBusiness)
         {
             _customerInvoicesBusiness = customerInvoicesBusiness;
             _customerBusiness = customerBusiness;
@@ -32,6 +36,7 @@ namespace UserInterface.Controllers
             _companiesBusiness = companiesBusiness;
             _paymentTermsBusiness = paymentTermsBusiness;
             _commonBusiness = commonBusiness;
+            _paymentmodesBusiness = paymentmodesBusiness;
         }
         #endregion Constructor_Injection
 
@@ -49,6 +54,7 @@ namespace UserInterface.Controllers
             CI.companiesObj = new CompaniesViewModel();
             CI.TaxTypeObj = new TaxTypesViewModel();
 
+            //-------------1.CustomerList-------------------//
             CI.customerObj.CustomerList= new List<SelectListItem>();            
             selectListItem = new List<SelectListItem>();
             List<CustomerViewModel> CustList= Mapper.Map<List<Customer>, List< CustomerViewModel >>(_customerBusiness.GetAllCustomers());
@@ -63,6 +69,24 @@ namespace UserInterface.Controllers
             }
             CI.customerObj.CustomerList = selectListItem;
 
+            //-------------2.PaymentModes-------------------//
+            CI.SpecialPayObj = new SpecialPaymentViewModel();
+            CI.SpecialPayObj.PaymentModesObj = new PaymentModesViewModel();
+            CI.SpecialPayObj.PaymentModesObj.PaymentModesList = new List<SelectListItem>();
+            selectListItem = new List<SelectListItem>();
+            List<PaymentModesViewModel> PaymentModeList = Mapper.Map<List<PaymentModes>, List<PaymentModesViewModel>>(_paymentmodesBusiness.GetAllPaymentModes());
+            foreach (PaymentModesViewModel PMVM in PaymentModeList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = PMVM.Description,
+                    Value = PMVM.Code,
+                    Selected = false
+                });
+            }
+            CI.SpecialPayObj.PaymentModesObj.PaymentModesList = selectListItem;
+
+            //-------------3.PaymentTermsList-------------------//
             CI.paymentTermsObj.PaymentTermsList = new List<SelectListItem>();
             selectListItem = new List<SelectListItem>();
             List<PaymentTermsViewModel> PayTermList = Mapper.Map<List<PaymentTerms>, List<PaymentTermsViewModel>>(_paymentTermsBusiness.GetAllPayTerms());

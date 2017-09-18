@@ -163,12 +163,16 @@ $(document).ready(function () {
             order: [],
             searching: false,
             paging: true,
-            pageLength: 7,
+            pageLength: 5,
             data: null,
             columns: [
                  { "data": "SpecialPayObj.ID", "defaultContent": "<i>-</i>" },
                  { "data": "InvoiceNo", "defaultContent": "<i>-</i>" },
                  { "data": "SpecialPayObj.SpecialPaymentDate", "defaultContent": "<i>-</i>" },
+                 { "data": "SpecialPayObj.PaymentMode", "defaultContent": "<i>-</i>" },
+                 { "data": "SpecialPayObj.ChequeDate", "defaultContent": "<i>-</i>" },
+                 { "data": "SpecialPayObj.PaymentRef", "defaultContent": "<i>-</i>" },
+                 { "data": "SpecialPayObj.RefBank", "defaultContent": "<i>-</i>" },
                  { "data": "SpecialPayObj.Remarks", "defaultContent": "<i>-</i>" },
                  { "data": "SpecialPayObj.SpecialPaidAmount", "defaultContent": "<i>-</i>" },
                  { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="EditSpecialPayment(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' },
@@ -176,9 +180,9 @@ $(document).ready(function () {
 
             ],
             columnDefs: [
-                { className: "text-right", "targets": [4] },
-                { className: "text-center", "targets": [2] },
-                { className: "text-left", "targets": [1,3] },
+                { className: "text-right", "targets": [8] },
+                { className: "text-center", "targets": [2,4] },
+                { className: "text-left", "targets": [1,3,5,6,7] },
                 { "targets": [0], "visible": false, "searchable": false }]
 
         });
@@ -878,6 +882,11 @@ function BindSpecialPayment(ID) {
     $('#txtRemarks').val(itemsdetails.SpecialPayObj.Remarks);
     $('#txtSpecialPaidAmount').val(itemsdetails.SpecialPayObj.SpecialPaidAmount);
     $('#txtSplPaymentDate').val(itemsdetails.SpecialPayObj.SpecialPaymentDate);
+    $('#PaymentMode').val(itemsdetails.SpecialPayObj.PaymentMode);
+    $('#ChequeDate').val(itemsdetails.SpecialPayObj.ChequeDate);
+    $('#PaymentRef').val(itemsdetails.SpecialPayObj.PaymentRef);
+    $('#RefBank').val(itemsdetails.SpecialPayObj.RefBank);
+    PaymentModeChanged();
     BindSpecialPaymentSummary(); //resetting Balance due Amount 
     $('#hdfBalanceDue').val(parseInt($('#hdfBalanceDue').val())+parseInt($('#txtSpecialPaidAmount').val()));
 
@@ -911,6 +920,28 @@ function SaveSpecialPayments() {
     $('#btnSaveSpecialPayments').trigger('click');
 }
 
+function PaymentModeChanged() {
+    debugger;
+    //if ($('#PaymentMode').val() == "ONLINE") {
+    //}
+    //else {
+    //}
+    if ($('#PaymentMode').val() == "CHEQUE") {
+        $('#ChequeDate').prop('disabled', false);
+        $('#RefBank').prop('disabled', false);
+
+    }
+    else {
+        $("#ChequeDate").val('');
+        $("#RefBank").val('');
+        $('#ChequeDate').prop('disabled', true);
+        $('#RefBank').prop('disabled', true);
+
+    }
+
+}
+
+
 
 function NewSpecialPayments() {
     debugger;
@@ -918,7 +949,11 @@ function NewSpecialPayments() {
     $('#txtRemarks').val('');
     $('#PaymentID').val('');
     $('#txtSpecialPaidAmount').val('');
-    $('#txtSplPaymentDate').val('');    
+    $('#txtSplPaymentDate').val('');
+    $('#PaymentMode').val('');
+    $('#ChequeDate').val('');
+    $('#PaymentRef').val('');
+    $('#RefBank').val('');
 }
 
 

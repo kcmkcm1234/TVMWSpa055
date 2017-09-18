@@ -698,33 +698,92 @@
                                 @Html.HiddenFor(model => model.SpecialPayObj.ID, htmlAttributes: new { @class = "control-label col-md-4", Value = Guid.Empty, id = "PaymentID" })
                                 @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "", id = "InvoiceId" })
                                 @Html.HiddenFor(model => model.BalanceDue, htmlAttributes: new { @class = "", id = "hdfBalanceDue" })
-                                <div class="form-group col-md-6">
+                           
+                                <div class="form-group col-md-4">
                                     <div class="col-md-12">
                                         @Html.LabelFor(model => model.SpecialPayObj.SpecialPaymentDate, htmlAttributes: new { @class = "control-label" })
                                     </div>
                                     <div class="col-md-12">
-                                        <div class="col-md-10">
+                                        <div class="col-md-11">
                                             @Html.EditorFor(model => model.SpecialPayObj.SpecialPaymentDate, new { htmlAttributes = new { @class = "form-control HeaderBox datepicker", @id = "txtSplPaymentDate" } })
                                             @Html.ValidationMessageFor(model => model.SpecialPayObj.SpecialPaymentDate, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-1"></div>
-                                        <div class="col-md-1"></div>
                                     </div>
                                 </div>
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-4">
                                     <div class="col-md-12">
                                         @Html.LabelFor(model => model.SpecialPayObj.SpecialPaidAmount, htmlAttributes: new { @class = "control-label" })
                                     </div>
                                     <div class="col-md-12">
-                                        <div class="col-md-10">
+                                        <div class="col-md-11">
                                             @Html.EditorFor(model => model.SpecialPayObj.SpecialPaidAmount, new { htmlAttributes = new { @class = "form-control", @id = "txtSpecialPaidAmount", onblur = "PaidAmountonblur(this);" } })
                                             @Html.ValidationMessageFor(model => model.SpecialPayObj.SpecialPaidAmount, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-1"></div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <div class="col-md-12">
+                                        @Html.LabelFor(model => model.SpecialPayObj.PaymentMode, htmlAttributes: new { @class = "control-label " })
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-11">
+                                            @Html.DropDownListFor(model => model.SpecialPayObj.PaymentMode, Model.SpecialPayObj.PaymentModesObj.PaymentModesList, "-- Select --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "PaymentMode", onchange = "PaymentModeChanged();" })
+                                            @Html.ValidationMessageFor(model => model.SpecialPayObj.PaymentMode, "", new { @class = "text-danger" })
+                                        </div> 
                                         <div class="col-md-1"></div>
                                     </div>
                                 </div>
+                             
                                 <div class="form-group col-md-12"></div>
+
+                                <div class="form-group col-md-4">
+                                    <div class="col-md-12">
+                                        @Html.LabelFor(model => model.SpecialPayObj.ChequeDate, htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-11">
+                                            @Html.EditorFor(model => model.SpecialPayObj.ChequeDate, new { htmlAttributes = new { @class = "form-control HeaderBox datepicker", @id = "ChequeDate", @autofocus = true } })
+                                            @Html.ValidationMessageFor(model => model.SpecialPayObj.ChequeDate, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-1"></div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <div class="col-md-12">
+                                        @Html.LabelFor(model => model.SpecialPayObj.PaymentRef, htmlAttributes: new { @class = "control-label" })
+
+
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-11">
+                                            @Html.EditorFor(model => model.SpecialPayObj.PaymentRef, new { htmlAttributes = new { @class = "form-control HeaderBox ", @id = "PaymentRef" } })
+                                            @Html.ValidationMessageFor(model => model.SpecialPayObj.PaymentRef, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-1"></div>
+                                    </div>
+
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <div class="col-md-12">
+                                        @Html.LabelFor(model => model.SpecialPayObj.RefBank, htmlAttributes: new { @class = "control-label" })
+
+
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-11">
+                                            @Html.EditorFor(model => model.SpecialPayObj.RefBank, new { htmlAttributes = new { @class = "form-control HeaderBox ", @id = "RefBank" } })
+                                            @Html.ValidationMessageFor(model => model.SpecialPayObj.RefBank, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-1"></div>
+                                    </div>
+
+                                </div>
+                                <div class="form-group col-md-12"></div>
+
+
                                 <div class="form-group col-md-6">
                                     <div class="col-md-12">
                                         @Html.LabelFor(model => model.SpecialPayObj.Remarks, htmlAttributes: new { @class = "control-label " })
@@ -750,6 +809,10 @@
                                                 <th>ID</th>
                                                 <th>Invoice No</th>
                                                 <th>Payment Date</th>
+                                                <th>Payment Mode</th>
+                                                <th>Cheque Date</th>
+                                                <th>Reference No:</th>
+                                                <th>Reference Bank</th>
                                                 <th>Remarks</th>
                                                 <th>Paid Amount(₹)</th>
                                                 <th>...</th>

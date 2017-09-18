@@ -53,8 +53,13 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal SpecialPaidAmount { get; set; }
         public string SpecialPaymentDate { get; set; }
         public string Remarks { get; set; }
-        public List<SpecialPayment> SpecialPaymentList { get; set; }
 
+        public string PaymentRef { get; set; }
+        public string RefBank { get; set; }
+        public string PaymentMode { get; set; }
+        public string ChequeDate { get; set; }
+
+        public List<SpecialPayment> SpecialPaymentList { get; set; }
 
     }
 
