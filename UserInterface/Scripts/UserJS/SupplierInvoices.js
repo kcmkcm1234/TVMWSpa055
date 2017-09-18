@@ -1,6 +1,7 @@
 ﻿var DataTables = {};
 var emptyGUID = '00000000-0000-0000-0000-000000000000'
 $(document).ready(function () {
+    debugger;
     try {
         $('#btnUpload').click(function () {
             //Pass the controller name
@@ -18,7 +19,15 @@ $(document).ready(function () {
         });
         DataTables.SupplInvTable = $('#SuppInvTable').DataTable(
         {
-            dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
+            //dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
+            dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
+            buttons: [{
+                extend: 'excel',
+                exportOptions:
+                             {
+                                 columns: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                             }
+            }],
             order: [],
             searching: true,
             paging: true,
@@ -48,6 +57,8 @@ $(document).ready(function () {
 
             ]
         });
+
+        $(".buttons-excel").hide();
         
         $('.Roundoff').on('change', function () {
             debugger;
@@ -77,6 +88,8 @@ $(document).ready(function () {
         $('#SuppInvTable tbody').on('dblclick', 'td', function () {
             Edit(this);
         });
+      
+
         $('input[type="text"].Roundoff').on('focus', function () {
             $(this).select();
         });
@@ -161,6 +174,20 @@ $(document).ready(function () {
     }
 
 });
+
+function PrintReport() {
+    try {
+        debugger;
+
+        $(".buttons-excel").trigger('click');
+
+
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
 function dashboardBind(ID){
     ResetForm(); 
     $('#ID').val(ID);

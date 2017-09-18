@@ -21,7 +21,15 @@ $(document).ready(function () {
         });
         DataTables.CustInvTable = $('#CustInvTable').DataTable(
          {
-             dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
+             //dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
+             dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
+             buttons: [{
+                 extend: 'excel',
+                 exportOptions:
+                              {
+                                  columns: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                              }
+             }],
              order: [],
              searching: true,
              paging: true,
@@ -50,7 +58,8 @@ $(document).ready(function () {
              { className: "text-center", "targets": [2,4,7,10] }
 
              ]
-         });
+                      });
+        $(".buttons-excel").hide();
 
         $('#CustInvTable tbody').on('dblclick', 'td', function () {
             Edit(this);
@@ -192,6 +201,23 @@ $(document).ready(function () {
         notyAlert('error', e.message);
     }
 });
+
+
+
+function PrintReport() {
+    try {
+        debugger;
+
+        $(".buttons-excel").trigger('click');
+
+
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
+
 
 
 function dashboardBind(ID) {

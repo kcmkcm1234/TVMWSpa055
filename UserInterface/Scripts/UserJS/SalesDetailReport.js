@@ -11,7 +11,7 @@ $(document).ready(function () {
                  extend: 'excel',
                  exportOptions:
                               {
-                                  columns: [0, 1, 2, 3, 4, 5, 6]
+                                  columns: [0, 1, 2, 3, 4, 5, 6, 7, 8 ]
                               }
              }],
              order: [],
@@ -27,20 +27,21 @@ $(document).ready(function () {
 
                { "data": "InvoiceNo", "defaultContent": "<i>-</i>" },
                 { "data": "CustomerName", "defaultContent": "<i>-</i>" },
-                { "data": "Date", "defaultContent": "<i>-</i>" },
-                  { "data": "PaymentDueDate", "defaultContent": "<i>-</i>" },
+                { "data": "Date", "defaultContent": "<i>-</i>","width": "10%" },
+                  { "data": "PaymentDueDate", "defaultContent": "<i>-</i>", "width": "10%" },
                
                { "data": "InvoiceAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                { "data": "PaidAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                { "data": "BalanceDue", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
               { "data": "Credit", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                 { "data": "GeneralNotes", "defaultContent": "<i></i>" },
-             { "data": "OriginCompany", "defaultContent": "<i>-</i>" }
+             { "data": "OriginCompany", "defaultContent": "<i>-</i>" },
+             { "data": "Origin", "defaultContent": "<i>-</i>" }
 
              ],
              columnDefs: [{ "targets": [9,7], "visible": false, "searchable": false },
 
-                  { className: "text-left", "targets": [0,1] },
+                  { className: "text-left", "targets": [0,1,10] },
                    { className: "text-center", "targets": [2,3] },
                   { className: "text-right", "targets": [ 4, 5,6,8] }],
              drawCallback: function (settings) {
