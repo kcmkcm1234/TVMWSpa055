@@ -16,6 +16,7 @@ namespace SPAccounts.BusinessService.Contracts
         object DeleteInvoices(Guid ID, string UserName);
         CustomerInvoicesSummaryForMobile GetOutstandingCustomerInvoices(CustomerInvoice CusObj);
         CustomerInvoicesSummaryForMobile GetOpeningCustomerInvoices();
+        CustomerInvoicesSummaryForMobile GetCustomerInvoicesByDateWise(CustomerInvoice CusmObj);
 
         //special Permission SAdmin and CEO case
         List<CustomerInvoice> GetAllCustomerInvoicesForSA();

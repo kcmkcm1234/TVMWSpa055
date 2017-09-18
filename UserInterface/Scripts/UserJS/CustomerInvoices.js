@@ -2,7 +2,9 @@
 var emptyGUID = '00000000-0000-0000-0000-000000000000'
 $(document).ready(function () {
     try {
-        debugger; 
+        debugger;
+        $("#ddlCustomer").select2({
+        });
         $('#btnUpload').click(function () {
             //Pass the controller name
             var FileObject = new Object;
@@ -540,6 +542,8 @@ function AddNew()
     $('#lblbalalnceAmt').text("₹ 0.00");
     $('#ID').val('');
     $('#lblInvoiceNo').text("New Invoice");
+    $("#ddlCustomer").select2();
+    $("#ddlCustomer").val('').trigger('change');
     $('#ddlCustomer').prop('disabled', false);
     $('#txtInvNo').prop('disabled', false);
     $('#ddlRefInvoice').prop('disabled', true);
@@ -562,8 +566,10 @@ function PaintInvoiceDetails()
     var CustomerInvoicesViewModel = GetCustomerInvoiceDetails(InvoiceID);
     $('#lblInvoiceNo').text(CustomerInvoicesViewModel.InvoiceNo); 
     $('#txtInvDate').val(CustomerInvoicesViewModel.InvoiceDateFormatted);
+    $("#ddlCustomer").select2();
+    $("#ddlCustomer").val(CustomerInvoicesViewModel.customerObj.ID).trigger('change');
     $('#ddlCompany').val(CustomerInvoicesViewModel.companiesObj.Code);
-    $('#ddlCustomer').val(CustomerInvoicesViewModel.customerObj.ID);
+    //$('#ddlCustomer').val(CustomerInvoicesViewModel.customerObj.ID);
     $('#hdfCustomerID').val(CustomerInvoicesViewModel.customerObj.ID);
     $('#ddlCustomer').prop('disabled', true);
     //------------------------------------------------
@@ -630,19 +636,21 @@ function GetAllInvoicesAndSummary() {
 //onchange function for the customer dropdown to fill:- due date and Address 
 function FillCustomerDefault(this_Obj)
 {
-    try
-    {
+    try {
         debugger;
-        var ID = this_Obj.value;
-        var CustomerViewModel = GetCustomerDetails(ID);
-        $('#txtBillingAddress').val(CustomerViewModel.BillingAddress);
-        $('#ddlPaymentTerm').val(CustomerViewModel.PaymentTermCode);
-        $('#ddlPaymentTerm').trigger('change');
-        //if ($('#ddlInvoiceType').val() == "PB") {
+        if (this_Obj.value != "")
+        {
+            var ID = this_Obj.value;
+            var CustomerViewModel = GetCustomerDetails(ID);
+            $('#txtBillingAddress').val(CustomerViewModel.BillingAddress);
+            $('#ddlPaymentTerm').val(CustomerViewModel.PaymentTermCode);
+            $('#ddlPaymentTerm').trigger('change');
+            //if ($('#ddlInvoiceType').val() == "PB") {
             //Bind only if invoice type is PB 
             BindInvocieReferenceDropDown(ID);
-       // }
-       
+            // }
+
+        }
     }
     catch(e)
     {

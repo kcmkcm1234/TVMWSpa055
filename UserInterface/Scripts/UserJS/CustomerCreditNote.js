@@ -2,7 +2,8 @@
 var emptyGUID = '00000000-0000-0000-0000-000000000000'
 $(document).ready(function () {
     try {
-
+        $("#Customer").select2({
+        });
         DataTables.CustomerCreditNoteTable = $('#CustomerCreditNoteTable').DataTable(
          {
              dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
@@ -60,12 +61,13 @@ $(document).ready(function () {
 
 });
 
-function BindBillingAddress(curObj)
-{
+function BindBillingAddress(curObj) {
     debugger;
-    var ID = curObj.value;
-    var thisItem = GetCustomerDetails(ID);
-    $("#BillingAddress").val(thisItem.BillingAddress);
+    if (curObj.value != "") {
+        var ID = curObj.value;
+        var thisItem = GetCustomerDetails(ID);
+        $("#BillingAddress").val(thisItem.BillingAddress);
+    }
 }
 
 function GetCustomerDetails(ID) {
@@ -187,6 +189,8 @@ function ClearFields() {
     $("#Company").val("");
     $("#CreditNoteDate").val("");
     $("#BillingAddress").val("");
+    $("#Customer").select2();
+    $("#Customer").val('').trigger('change');
     $("#CreditAmount").val("");
     $("#GeneralNotes").val("");
     $("#creditdAmt").text("₹ 0.00");
@@ -280,7 +284,8 @@ function FillCustomerCreditNoteDetails(ID) {
 
     $("#ID").val(thisItem.ID);
     $("#CreditNoteNo").val(thisItem.CreditNoteNo);
-    $("#Customer").val(thisItem.CustomerID);
+    $("#Customer").select2();
+    $("#Customer").val(thisItem.CustomerID).trigger('change');
     $("#Company").val(thisItem.OriginComanyCode);
     $("#CreditNoteDate").val(thisItem.CreditNoteDateFormatted);
     $("#BillingAddress").val(thisItem.BillingAddress);

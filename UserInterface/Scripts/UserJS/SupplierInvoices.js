@@ -2,6 +2,8 @@
 var emptyGUID = '00000000-0000-0000-0000-000000000000'
 $(document).ready(function () {
     try {
+        $("#ddlSupplier").select2({
+        });
         $('#btnUpload').click(function () {
             //Pass the controller name
             var FileObject = new Object;
@@ -198,7 +200,9 @@ function PaintInvoiceDetails() {
     $('#txtInvNo').val(SupplierInvoiceViewModel.InvoiceNo);
     $('#txtInvDate').val(SupplierInvoiceViewModel.InvoiceDateFormatted);
     $('#ddlCompany').val(SupplierInvoiceViewModel.companiesObj.Code);
-    $('#ddlSupplier').val(SupplierInvoiceViewModel.suppliersObj.ID);
+    $("#ddlSupplier").select2();
+    $("#ddlSupplier").val(SupplierInvoiceViewModel.suppliersObj.ID).trigger('change');
+    //$('#ddlSupplier').val(SupplierInvoiceViewModel.suppliersObj.ID);
     $('#txtBillingAddress').val(SupplierInvoiceViewModel.BillingAddress);
     $('#ddlPaymentTerm').val(SupplierInvoiceViewModel.paymentTermsObj.Code);
     $('#txtPayDueDate').val(SupplierInvoiceViewModel.PaymentDueDateFormatted);
@@ -501,7 +505,8 @@ function AddNew() {
     ResetForm();
     InvoicesTypeChange()
     $('#ddlInvoiceType').prop('disabled', false);
-
+    $("#ddlSupplier").select2();
+    $("#ddlSupplier").val('').trigger('change');
     $('#lblinvoicedAmt').text("₹ 0.00");
     $('#lblpaidAmt').text("₹ 0.00");
     $('#lblbalalnceAmt').text("₹ 0.00");
@@ -527,11 +532,13 @@ function Reset() {
 
 function FillCustomerDefault(this_Obj) {
     try {
-        var ID = this_Obj.value;
-        var SupplierViewModel = GetSupplierDetails(ID);
-        $('#txtBillingAddress').val(SupplierViewModel.BillingAddress);
-        $('#ddlPaymentTerm').val(SupplierViewModel.PaymentTermCode);
-        $('#ddlPaymentTerm').trigger('change');
+        if (this_Obj.value != "") {
+            var ID = this_Obj.value;
+            var SupplierViewModel = GetSupplierDetails(ID);
+            $('#txtBillingAddress').val(SupplierViewModel.BillingAddress);
+            $('#ddlPaymentTerm').val(SupplierViewModel.PaymentTermCode);
+            $('#ddlPaymentTerm').trigger('change');
+        }
     }
     catch (e) {
 

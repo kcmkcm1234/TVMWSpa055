@@ -204,6 +204,41 @@ namespace SPAccounts.BusinessService.Services
             return cusumObj;
 
         }
+        public CustomerInvoicesSummaryForMobile GetCustomerInvoicesByDateWise(CustomerInvoice CusmObj)
+        {
+            CustomerInvoicesSummaryForMobile cusumObj = new CustomerInvoicesSummaryForMobile();
+            cusumObj.CustInvSumObj = new InvoiceSummaryformobile();
+            try
+            {
+                decimal tmp = 0;
+
+                cusumObj.CustInv = _customerInvoicesRepository.GetCustomerInvoicesByDateWise(CusmObj);
+                if (cusumObj.CustInv == null)
+                {
+                    cusumObj.CustInvSumObj.Amount = 0;
+                    cusumObj.CustInvSumObj.AmountFormatted = "0";
+                    cusumObj.CustInvSumObj.count = 0;
+                }
+                else
+                {
+                    foreach (CustomerInvoice m in cusumObj.CustInv)
+                    {
+                        tmp = tmp + m.BalanceDue;
+                    }
+                    cusumObj.CustInvSumObj.Amount = tmp;
+                    cusumObj.CustInvSumObj.AmountFormatted = _commonBusiness.ConvertCurrency(tmp, 0);
+                    cusumObj.CustInvSumObj.count = cusumObj.CustInv.Count;
+
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            return cusumObj;
+        }
 
 
         public List<CustomerInvoice> GetAllSpecialPayments(Guid InvoiceID)

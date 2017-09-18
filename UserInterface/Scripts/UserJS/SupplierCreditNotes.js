@@ -2,7 +2,8 @@
 var emptyGUID = '00000000-0000-0000-0000-000000000000'
 $(document).ready(function () {
     try {
-      
+        $("#supplier").select2({
+        });
         DataTables.supplierCreditNoteTable = $('#supplierCreditNoteTable').DataTable(
          {
              dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
@@ -163,6 +164,8 @@ function ClearFields() {
     $("#Company").val("");
     $("#CreditNoteDate").val("");
     $("#SupplierAddress").val("");
+    $("#supplier").select2();
+    $("#supplier").val('').trigger('change');
     $("#CreditAmount").val("");
     $("#GeneralNotes").val("");
     $("#creditdAmt").text("₹ 0.00");
@@ -256,7 +259,9 @@ function FillSupplierDetails(ID) {
 
     $("#ID").val(thisItem.ID);
     $("#CreditNoteNo").val(thisItem.CRNRefNo);
-    $("#supplier").val(thisItem.supplier.ID);
+    $("#supplier").select2();
+    $("#supplier").val(thisItem.supplier.ID).trigger('change');
+    //$("#supplier").val(thisItem.supplier.ID);
     $("#Company").val(thisItem.CompanyCode);
     $("#CreditNoteDate").val(thisItem.CRNDate);
     $("#SupplierAddress").val(thisItem.SupplierAddress);
@@ -268,9 +273,11 @@ function FillSupplierDetails(ID) {
 
 function BindSupplierAddress(curObj) {
     debugger;
-    var ID = curObj.value;
-    var thisItem = GetSupplierByID(ID);
-    $("#SupplierAddress").val(thisItem.BillingAddress);
+    if (curObj.value != "") {
+        var ID = curObj.value;
+        var thisItem = GetSupplierByID(ID);
+        $("#SupplierAddress").val(thisItem.BillingAddress);
+    }
 }
 
 function GetSupplierByID(ID) {

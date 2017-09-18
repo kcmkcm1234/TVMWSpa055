@@ -2,6 +2,8 @@
 $(document).ready(function () {
     $("#CompanyCode,#AccountCode,#Subtype,#Employee").select2({
     });
+   $("#Subtype").prop('disabled', true);
+    $("#Employee").prop('disabled', true);
     $("#STContainer").hide();
     try {
 
@@ -10,8 +12,10 @@ $(document).ready(function () {
 
              // dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
              dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
+             //dom: 'Bfrtip',
              buttons: [{
                  extend: 'excel',
+                 
                  exportOptions:
                               {
                                   columns: [0, 1, 2,3]
@@ -222,66 +226,49 @@ function OnChangeCall()
    
 }
 
-//function RadioOnChange(curobj)
-//{
-//    try
-//    {
-    
-//        var res = $(curobj).val();
-//        switch(res)
-//        {
-//            case "AH":
-//                $(".buttons-excel").hide();
-//                $("#AHContainer").show();
-//                $("#STContainer").hide();
-//                RefreshOtherExpenseSummaryAHTable();
-//                break;
-//            case "ST":
-//                $(".buttons-excel").hide();
-//                $("#AHContainer").hide();
-//                $("#STContainer").show();
-//                RefreshOtherExpenseSummarySTTable();
-//                break;
-//        }
-       
-//    }
-//    catch(e)
-//    {
-//        notyAlert('error', e.message);
-//    }
 
-//}
+
 function AccountCodeOnchange(curobj) {
     debugger;
-    var accountcode = $(curobj).val();
    
-    if (accountcode == "OEX" || accountcode == "PTY" || accountcode == "PTYR")
-        {
-            $("#Subtype").prop('disabled', true);
-             $("#Employee").prop('disabled', true);
-        }
-        else
-        {
+    var AcodeCombined = $(curobj).val();
+    if (AcodeCombined) {
+        var len = AcodeCombined.indexOf(':');
+        var IsEmploy = AcodeCombined.substring(len + 1, (AcodeCombined.length));
+        // console.log(str.substring(0, (len)));
+        if (IsEmploy == "True") {
             $("#Subtype").prop('disabled', false);
             $("#Employee").prop('disabled', false);
-        }
-    
-     
-    //    if (IsEmploy == "True") {
-    //        $("#Subtype").prop('disabled', false);
-    //        $("#Employee").prop('disabled', false);
-          
+            //$("#btnAddEmployee").css("pointer-events", "auto");
 
-    //    }
-    //   $('span[data-valmsg-for="EmpTypeCode"]').empty();
-   
-    //if (AcodeCombined == "") {
-    //    $("#Subtype").val('');
-    //    $('#Employee').empty();
-    //    $('#Employee').append(new Option('-- Select Employee --'));
-    //    $("#Subtype").prop('disabled', true);
-    //    $("#Employee").prop('disabled', true);
-    //}
+        }
+        else {
+            $("#Subtype").select2();
+            $("#Subtype").val("EMP").trigger('change');
+            $("#Employee").select2();
+            $("#Employee").val('').trigger('change'); 
+            $('#Subtype').select2("enable", false);
+            $('#Employee').select2("enable", false);
+        }
+
+    }
+    //$('span[data-valmsg-for="EmpTypeCode"]').empty();
+    //$('span[data-valmsg-for="EmpID"]').empty();
+    if (AcodeCombined == "") {
+        $("#Subtype").val('');
+        $('#Employee').empty();
+        $('#Employee').append(new Option('-- Select Employee --'),0);
+        $("#Subtype").prop('disabled', true);
+        $("#Employee").prop('disabled', true);
+    }
+    else
+    {
+        if(AcodeCombined=='ALL')
+        {
+            $("#Subtype").val('EMP');
+            $("#Employee").val('');
+        }
+    }
     OnChangeCall();
 }
 
@@ -343,9 +330,9 @@ function Reset() {
     debugger;
 
     $("#CompanyCode").val('ALL').trigger('change')
-    $("#AccountCode").val('').trigger('change')
+    $("#AccountCode").val('ALL').trigger('change')
     $("#Subtype").val('EMP').trigger('change')
     $("#Employee").val('').trigger('change')
     $("#Search").val('').trigger('change')
-    RefreshOtherExpenseDetailsAHTable();
+    RefreshOtherExpenseSummaryAHTable();
 }

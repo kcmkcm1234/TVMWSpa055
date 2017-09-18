@@ -16,7 +16,9 @@ namespace UserInterface.Models
     public class CustomerInvoicesViewModel
     {
         public Guid ID { get; set; }
-        public DateTime InvoiceDate { get; set; } 
+        public DateTime InvoiceDate { get; set; }
+        public string ToDate { get; set; }
+        public string FromDate { get; set; }
 
         [Required(ErrorMessage = "Invoice Date is missing")]
         [Display(Name = "Invoice Date")]

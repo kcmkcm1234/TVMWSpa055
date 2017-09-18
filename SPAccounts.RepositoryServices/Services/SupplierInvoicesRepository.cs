@@ -375,6 +375,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         CIList.suppliersObj = new Supplier();
                                         CIList.suppliersObj.ID = Guid.Parse(sdr["ID"].ToString());
                                         CIList.suppliersObj.ContactPerson = sdr["ContactPerson"].ToString();
+                                        CIList.suppliersObj.CompanyName = sdr["CompanyName"].ToString();
                                         CIList.PaymentDueDate = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()) : CIList.PaymentDueDate);
                                         CIList.BalanceDue = (sdr["BalanceDue"].ToString() != "" ? Decimal.Parse(sdr["BalanceDue"].ToString()) : CIList.BalanceDue);
                                         CIList.PaidAmount = (sdr["PaidAmount"].ToString() != "" ? Decimal.Parse(sdr["PaidAmount"].ToString()) : CIList.PaidAmount);
@@ -429,6 +430,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         CIList.suppliersObj = new Supplier();
                                         CIList.suppliersObj.ID = Guid.Parse(sdr["ID"].ToString());
                                         CIList.suppliersObj.ContactPerson = sdr["ContactPerson"].ToString();
+                                        CIList.suppliersObj.CompanyName = sdr["CompanyName"].ToString();
                                         CIList.PaymentDueDate = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()) : CIList.PaymentDueDate);
                                         CIList.BalanceDue = (sdr["BalanceDue"].ToString() != "" ? Decimal.Parse(sdr["BalanceDue"].ToString()) : CIList.BalanceDue);
                                         CIList.PaidAmount = (sdr["PaidAmount"].ToString() != "" ? Decimal.Parse(sdr["PaidAmount"].ToString()) : CIList.PaidAmount);
@@ -450,6 +452,64 @@ namespace SPAccounts.RepositoryServices.Services
 
             return SupplierInvoicesList;
         }
+
+        public List<SupplierInvoices> GetSupplierPurchasesByDateWise(SupplierInvoices SupplierInvoiceObj)
+        {
+            List<SupplierInvoices> SupplierInvoicesList = null;
+            Settings settings = new Settings();
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetAllPurchaseListByDate]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        if (SupplierInvoiceObj != null)
+                            cmd.Parameters.Add("@fromdate", SqlDbType.DateTime).Value = SupplierInvoiceObj.FromDate;
+                        cmd.Parameters.Add("@todate", SqlDbType.DateTime).Value = SupplierInvoiceObj.ToDate;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                SupplierInvoicesList = new List<SupplierInvoices>();
+                                while (sdr.Read())
+                                {
+                                    SupplierInvoices CIList = new SupplierInvoices();
+                                    {
+                                        CIList.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : CIList.ID);
+                                        CIList.InvoiceNo = sdr["InvoiceNo"].ToString();
+                                        CIList.suppliersObj = new Supplier();
+                                        CIList.suppliersObj.ID = Guid.Parse(sdr["ID"].ToString());
+                                        CIList.suppliersObj.ContactPerson = sdr["ContactPerson"].ToString();
+                                        CIList.suppliersObj.CompanyName = sdr["CompanyName"].ToString();
+                                        CIList.PaymentDueDate = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()) : CIList.PaymentDueDate);
+                                        CIList.BalanceDue = (sdr["BalanceDue"].ToString() != "" ? Decimal.Parse(sdr["BalanceDue"].ToString()) : CIList.BalanceDue);
+                                        CIList.PaidAmount = (sdr["PaidAmount"].ToString() != "" ? Decimal.Parse(sdr["PaidAmount"].ToString()) : CIList.PaidAmount);
+                                        CIList.PaymentDueDateFormatted = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString(settings.dateformat) : CIList.PaymentDueDateFormatted);
+
+                                    }
+                                    SupplierInvoicesList.Add(CIList);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return SupplierInvoicesList;
+        }
+
 
         #region DeleteSupplierInvoice
         public object DeleteSupplierInvoice(Guid ID, string userName)

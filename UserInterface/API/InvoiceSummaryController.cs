@@ -15,6 +15,8 @@ namespace UserInterface.API
         #region Constructor_Injection
 
         ICustomerInvoicesBusiness _customerInvoicesBusiness;
+        AppConst c = new AppConst();
+
 
 
         public InvoiceSummaryController(ICustomerInvoicesBusiness customerInvoicesBusiness)
@@ -33,8 +35,8 @@ namespace UserInterface.API
             try
             {
                 CustomerInvoicesSummaryForMobileViewModel invoiceObj = Mapper.Map<CustomerInvoicesSummaryForMobile, CustomerInvoicesSummaryForMobileViewModel>(_customerInvoicesBusiness.GetOutstandingCustomerInvoices(CusObj));
-                  return JsonConvert.SerializeObject(new { Result = true, Records = new {OutstandingList= invoiceObj.CustInv, Summary = invoiceObj.CustInvSumObj } });
-                
+                return JsonConvert.SerializeObject(new { Result = true, Records = new { OutstandingList = invoiceObj.CustInv, Summary = invoiceObj.CustInvSumObj } });
+
             }
             catch (Exception ex)
             {
@@ -61,7 +63,33 @@ namespace UserInterface.API
             }
         }
         #endregion GetOpenInvoices
+
+        #region GetInvoicesBydate
+        [HttpPost]
+        public string GetCustomerInvoicesByDateWiseForMobile(CustomerInvoice CusmObj)
+        {
+            try
+            {
+               // AppUA _appUA = Session["AppUA"] as AppUA;
+                if (CusmObj.FromDate==null && CusmObj.ToDate==null)
+                {
+                    CusmObj.commonObj = new SPAccounts.DataAccessObject.DTO.Common();
+                    CusmObj.FromDate = CusmObj.commonObj.GetCurrentDateTime().ToString();
+                    CusmObj.ToDate = CusmObj.commonObj.GetCurrentDateTime().ToString();
+                }
+                CustomerInvoicesSummaryForMobileViewModel invoiceObj = Mapper.Map<CustomerInvoicesSummaryForMobile, CustomerInvoicesSummaryForMobileViewModel>(_customerInvoicesBusiness.GetCustomerInvoicesByDateWise(CusmObj));
+                return JsonConvert.SerializeObject(new { Result = true, Records = new { List = invoiceObj.CustInv, Summary = invoiceObj.CustInvSumObj } });
+
+            }
+            catch (Exception ex)
+            {
+
+                return JsonConvert.SerializeObject(new { Result = false, Message = ex.Message });
+            }
+        }
+        #endregion GetInvoicesBydate
+
     }
 }
 
-   
+

@@ -64,5 +64,31 @@ namespace UserInterface.API
             }
         }
         #endregion GetSupplierOpeningInvoices
+    
+
+    #region GetPurchaseBydate
+    [HttpPost]
+    public string GetSupplierPurchaseByDateWiseForMobile(SupplierInvoices SupObj)
+    {
+        try
+        {
+                if (SupObj.FromDate == null && SupObj.ToDate == null)
+                {
+                    SupObj.commonObj = new SPAccounts.DataAccessObject.DTO.Common();
+                    SupObj.FromDate = SupObj.commonObj.GetCurrentDateTime().ToString();
+                    SupObj.ToDate = SupObj.commonObj.GetCurrentDateTime().ToString();
+                }
+                SupplierSummaryforMobileViewModel invoiceObj = Mapper.Map<SupplierSummaryforMobile, SupplierSummaryforMobileViewModel>(_supplierInvoicesBusiness.GetSupplierPurchasesByDateWise(SupObj));
+            return JsonConvert.SerializeObject(new { Result = true, Records = new { List = invoiceObj.SupInv, Summary = invoiceObj.supInvSumObj } });
+
+        }
+        catch (Exception ex)
+        {
+
+            return JsonConvert.SerializeObject(new { Result = false, Message = ex.Message });
+        }
     }
+    #endregion GetPurchaseBydate
+
+}
 }

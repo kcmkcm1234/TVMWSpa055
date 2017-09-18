@@ -9,6 +9,15 @@
 @section styles {
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableButtons")
+<style>
+    table.dataTable tr.odd {
+        background-color: rgba(148, 78, 132, 0.16);
+    }
+
+    table.dataTable tr.even {
+        background-color: white;
+    }
+</style>
 }
 @*<h2>EmployeeExpenseSummary</h2>*@
 <div style="width:100%;">

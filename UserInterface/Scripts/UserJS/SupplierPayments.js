@@ -5,6 +5,9 @@ var AmountReceived = 0;
 
 $(document).ready(function () {
     try {
+        
+        $("#Supplier").select2({
+        });
         $('#btnUpload').click(function () {
             //Pass the controller name
             debugger;
@@ -263,7 +266,9 @@ function GetSupplierPaymentsByID(PaymentID) {
     $('#lblheader').text('Entry No: ' + thisitem.EntryNo);
     $('#ID').val(PaymentID);
     $('#deleteId').val(PaymentID);
-    $('#Supplier').val(thisitem.supplierObj.ID);
+    $("#Supplier").select2();
+    $("#Supplier").val(thisitem.supplierObj.ID).trigger('change');
+    //$('#Supplier').val(thisitem.supplierObj.ID);
     $('#hdfSupplierID').val(thisitem.supplierObj.ID);
     $('#Supplier').prop('disabled', true);
     $('#PaymentDate').val(thisitem.PaymentDateFormatted);
@@ -570,6 +575,8 @@ function fieldsclear() {
     $('#paidAmt').text('₹ 0.00');
     $('#invoicedAmt').text('₹ 0.00');
     $('#ID').val(emptyGUID);
+    $("#Supplier").select2();
+    $("#Supplier").val('').trigger('change');
     $("#CreditID").html("");
     $('#Type').val('P');
     $('#paymentDetailhdf').val('');

@@ -7,7 +7,7 @@
 
 @section styles {
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
-
+@Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/select2") 
 
 }
 <div style="width:100%;">
@@ -306,4 +306,5 @@
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/CustomerCreditNote")
+@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
 }

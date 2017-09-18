@@ -6,9 +6,13 @@ var AmountReceived=0;
 
 $(document).ready(function () {
     try {
+        $("#Customer").select2({
+        });
         $('#btnUpload').click(function () {
             //Pass the controller name
             debugger;
+           
+            
             var FileObject = new Object;
             if ($('#hdnFileDupID').val() != emptyGUID) {
                 FileObject.ParentID = (($('#ID').val()) != emptyGUID ? ($('#ID').val()) : $('#hdnFileDupID').val());
@@ -280,7 +284,9 @@ function GetCustomerPaymentsByID(PaymentID) {
     $('#lblheader').text('Entry No: ' + thisitem.EntryNo);
     $('#ID').val(PaymentID);
     $('#deleteId').val(PaymentID);
-    $('#Customer').val(thisitem.customerObj.ID);
+    $("#Customer").select2();
+    $("#Customer").val(thisitem.customerObj.ID).trigger('change');
+    //$('#Customer').val(thisitem.customerObj.ID);
     $('#hdfCustomerID').val(thisitem.customerObj.ID);
     $('#Customer').prop('disabled', true);
     $('#PaymentDate').val(thisitem.PaymentDateFormatted);
@@ -585,6 +591,8 @@ function fieldsclear() {
     $('#lblCredit').text('0');
     $('#paidAmt').text('₹ 0.00');
     $('#invoicedAmt').text('₹ 0.00');
+    $("#Customer").select2();
+    $("#Customer").val('').trigger('change');
     $('#ID').val(emptyGUID);
     $("#CreditID").html("");
     $('#Type').val('P');

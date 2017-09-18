@@ -34,7 +34,9 @@ namespace SPAccounts.DataAccessObject.DTO
         public TaxTypes TaxTypeObj { get; set; }
         public decimal PaidAmount { get; set; }
         public decimal OtherPayments { get; set; }
-       
+        public string ToDate { get; set; }
+        public string FromDate { get; set; }
+
         public SupplierPayments SuppPaymentObj { get; set; }
         public Guid hdnFileID { get; set; }
         public decimal BalanceDue { get; set; }

@@ -28,5 +28,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public Common commonObj { get; set; }
         public PaymentTerms PaymentTermsObj { get; set; } 
         public decimal AdvanceAmount { get; set; }
+        public string ToDate { get; set; }
+        public string FromDate { get; set; }
     }
 }

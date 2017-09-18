@@ -198,12 +198,19 @@ namespace UserInterface.Controllers
             selectListItem = null;
             selectListItem = new List<SelectListItem>();
             List<ChartOfAccountsViewModel> chartOfAccountList = Mapper.Map<List<ChartOfAccounts>, List<ChartOfAccountsViewModel>>(_otherExpenseBusiness.GetAllAccountTypes("OE"));
+            selectListItem.Add(new SelectListItem
+            {
+                Text = "All",
+                Value = "ALL",
+                Selected = true
+            });
+
             foreach (ChartOfAccountsViewModel cav in chartOfAccountList)
             {
                 selectListItem.Add(new SelectListItem
                 {
                     Text = cav.TypeDesc,
-                    Value = cav.Code ,
+                    Value = cav.Code + ":" + cav.ISEmploy,
                     Selected = false,
 
 
@@ -255,7 +262,7 @@ namespace UserInterface.Controllers
                 {
                     DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                    List<OtherExpenseSummaryReportViewModel> otherExpenseSummaryReportList = Mapper.Map<List<OtherExpenseSummaryReport>, List<OtherExpenseSummaryReportViewModel>>(_reportBusiness.GetOtherExpenseSummary(FDate, TDate, CompanyCode, OrderBy, accounthead, subtype, employeeorother, search));
+                    List<OtherExpenseSummaryReportViewModel> otherExpenseSummaryReportList = Mapper.Map<List<OtherExpenseSummaryReport>, List<OtherExpenseSummaryReportViewModel>>(_reportBusiness.GetOtherExpenseSummary(FDate, TDate, CompanyCode, OrderBy,accounthead.Split(':')[0], subtype, employeeorother, search));
                    
                     decimal otherExpenseSum = otherExpenseSummaryReportList.Sum(OE => OE.Amount);
                     string otherExpenseSumFormatted=_commonBusiness.ConvertCurrency(otherExpenseSum, 2);
@@ -314,12 +321,18 @@ namespace UserInterface.Controllers
             selectListItem = null;
             selectListItem = new List<SelectListItem>();
             List<ChartOfAccountsViewModel> chartOfAccountList = Mapper.Map<List<ChartOfAccounts>, List<ChartOfAccountsViewModel>>(_otherExpenseBusiness.GetAllAccountTypes("OE"));
+            selectListItem.Add(new SelectListItem
+            {
+                Text = "All",
+                Value = "ALL",
+                Selected = true
+            });
             foreach (ChartOfAccountsViewModel cav in chartOfAccountList)
             {
                 selectListItem.Add(new SelectListItem
                 {
                     Text = cav.TypeDesc,
-                    Value = cav.Code,
+                    Value = cav.Code + ":" + cav.ISEmploy,
                     Selected = false,
 
 
@@ -368,7 +381,7 @@ namespace UserInterface.Controllers
                 {
                     DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                    List<OtherExpenseDetailsReportViewModel> otherExpenseDetailsReportList = Mapper.Map<List<OtherExpenseDetailsReport>, List<OtherExpenseDetailsReportViewModel>>(_reportBusiness.GetOtherExpenseDetails(FDate, TDate, CompanyCode,OrderBy, accounthead, subtype, employeeorother,search));
+                    List<OtherExpenseDetailsReportViewModel> otherExpenseDetailsReportList = Mapper.Map<List<OtherExpenseDetailsReport>, List<OtherExpenseDetailsReportViewModel>>(_reportBusiness.GetOtherExpenseDetails(FDate, TDate, CompanyCode,OrderBy, accounthead.Split(':')[0], subtype, employeeorother,search));
                     decimal otherExpenseDetailsSum = otherExpenseDetailsReportList.Sum(OE => OE.Amount);
                     string otherExpenseDetailsSumFormatted = _commonBusiness.ConvertCurrency(otherExpenseDetailsSum, 2);
                     return JsonConvert.SerializeObject(new { Result = "OK", Records = otherExpenseDetailsReportList, TotalAmount = otherExpenseDetailsSumFormatted });

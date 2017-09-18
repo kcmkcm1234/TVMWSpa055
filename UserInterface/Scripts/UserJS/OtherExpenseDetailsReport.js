@@ -5,6 +5,8 @@ $(document).ready(function () {
     $("#CompanyCode,#AccountCode,#Subtype,#Employee").select2({
        
     });
+    $("#Subtype").prop('disabled', true);
+    $("#Employee").prop('disabled', true);
     //initSelection: function(element, callback){}
     $("#STContainer").hide();
     try {
@@ -156,17 +158,42 @@ function OnChangeCall() {
 
 function AccountCodeOnchange(curobj) {
     //debugger;
-    var accountcode = $(curobj).val();
+    var AcodeCombined = $(curobj).val();
+    if (AcodeCombined) {
+        var len = AcodeCombined.indexOf(':');
+        var IsEmploy = AcodeCombined.substring(len + 1, (AcodeCombined.length));
+        // console.log(str.substring(0, (len)));
+        if (IsEmploy == "True") {
+            $("#Subtype").prop('disabled', false);
+            $("#Employee").prop('disabled', false);
+            //$("#btnAddEmployee").css("pointer-events", "auto");
 
-    if (accountcode == "OEX" || accountcode == "PTY" || accountcode == "PTYR") {
+        }
+        else {
+            $("#Subtype").select2();
+            $("#Subtype").val("EMP").trigger('change');
+            $("#Employee").select2();
+            $("#Employee").val('').trigger('change');
+            $('#Subtype').select2("enable", false);
+            $('#Employee').select2("enable", false);
+        }
+
+    }
+    //$('span[data-valmsg-for="EmpTypeCode"]').empty();
+    //$('span[data-valmsg-for="EmpID"]').empty();
+    if (AcodeCombined == "") {
+        $("#Subtype").val('');
+        $('#Employee').empty();
+        $('#Employee').append(new Option('-- Select Employee --'), 0);
         $("#Subtype").prop('disabled', true);
         $("#Employee").prop('disabled', true);
     }
     else {
-        $("#Subtype").prop('disabled', false);
-        $("#Employee").prop('disabled', false);
+        if (AcodeCombined == 'ALL') {
+            $("#Subtype").val('EMP');
+            $('#Employee').val('');
+        }
     }
-
     OnChangeCall();
 }
 
@@ -229,7 +256,7 @@ function Reset() {
     debugger;
 
     $("#CompanyCode").val('ALL').trigger('change')
-    $("#AccountCode").val('').trigger('change')
+    $("#AccountCode").val('ALL').trigger('change')
     $("#Subtype").val('EMP').trigger('change')
     $("#Employee").val('').trigger('change')
     $("#Search").val('').trigger('change')

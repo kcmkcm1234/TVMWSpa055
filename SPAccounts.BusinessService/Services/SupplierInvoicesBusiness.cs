@@ -139,6 +139,39 @@ namespace SPAccounts.BusinessService.Services
             return _supplierInvoicesRepository.GetOutStandingInvoicesBySupplier(PaymentID, supplierID);
         }
 
+        public SupplierSummaryforMobile GetSupplierPurchasesByDateWise(SupplierInvoices SupObj)
+        {
+            SupplierSummaryforMobile supObj = new SupplierSummaryforMobile();
+            supObj.supInvSumObj = new SupplierInvoiceSummaryformobile();
+            try
+            {
+                decimal tmp = 0;
+                supObj.SupInv = _supplierInvoicesRepository.GetSupplierPurchasesByDateWise(SupObj);
+                if (supObj.SupInv == null)
+                {
+                    supObj.supInvSumObj.Amount = 0;
+                    supObj.supInvSumObj.AmountFormatted = "0";
+                    supObj.supInvSumObj.count = 0;
+                }
+                else
+                {
+                    foreach (SupplierInvoices m in supObj.SupInv)
+                    {
+                        tmp = tmp + m.BalanceDue;
+                    }
+                    supObj.supInvSumObj.Amount = tmp;
+                    supObj.supInvSumObj.AmountFormatted = _commonBusiness.ConvertCurrency(tmp, 0);
+                    supObj.supInvSumObj.count = supObj.SupInv.Count;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return supObj;
+        }
+
         public SupplierInvoices GetSupplierAdvances(string ID)
         {
             return _supplierInvoicesRepository.GetSupplierAdvances(ID);
