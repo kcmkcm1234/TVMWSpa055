@@ -11,9 +11,10 @@
 @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
 @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatablecheckbox")
 @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableSelect")
+@Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableButtons")
+
 
  
-
 }
 <div style="width:100%;">
     <ol class="breadcrumb">
@@ -838,6 +839,8 @@
 @section Scripts {
 @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
 @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
+@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
+@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
 @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/CustomerInvoices")
 @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableSelect")
 }

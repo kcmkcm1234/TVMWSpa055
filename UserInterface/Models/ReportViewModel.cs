@@ -47,6 +47,7 @@ namespace UserInterface.Models
         public decimal InvoiceAmount { get; set; }
         public decimal BalanceDue { get; set; }
         public string OriginCompany { get; set; }
+        public string Origin { get; set; }        //--To get Company name--
         public string GeneralNotes { get; set; }
         public string CustomerName { get; set; }
         public decimal Credit { get; set; }
@@ -169,6 +170,7 @@ namespace UserInterface.Models
         public decimal InvoiceAmount { get; set; }
         public decimal BalanceDue { get; set; }
         public string OriginCompany { get; set; }
+        public string Origin { get; set; }
         public string GeneralNotes { get; set; }
         public string SupplierName { get; set; }
         public decimal Credit { get; set; }
