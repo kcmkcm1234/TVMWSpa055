@@ -908,6 +908,7 @@ function BindSpecialPayment(ID) {
     $('#txtRemarks').val(itemsdetails.SpecialPayObj.Remarks);
     $('#txtSpecialPaidAmount').val(itemsdetails.SpecialPayObj.SpecialPaidAmount);
     $('#txtSplPaymentDate').val(itemsdetails.SpecialPayObj.SpecialPaymentDate);
+    $('#PaymentMode').prop('disabled', true);
     $('#PaymentMode').val(itemsdetails.SpecialPayObj.PaymentMode);
     $('#ChequeDate').val(itemsdetails.SpecialPayObj.ChequeDate);
     $('#PaymentRef').val(itemsdetails.SpecialPayObj.PaymentRef);
@@ -980,6 +981,8 @@ function NewSpecialPayments() {
     $('#ChequeDate').val('');
     $('#PaymentRef').val('');
     $('#RefBank').val('');
+    $('#PaymentMode').prop('disabled', false);
+    PaymentModeChanged();
 }
 
 
