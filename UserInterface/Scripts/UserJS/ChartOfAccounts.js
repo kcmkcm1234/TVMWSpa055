@@ -5,7 +5,15 @@ $(document).ready(function () {
 
         DataTables.ChartOfAccounts = $('#ChartOfAccountsTable').DataTable(
          {
-             dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
+             //dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
+             dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
+             buttons: [{
+                 extend: 'excel',
+                 exportOptions:
+                              {
+                                  columns: [0, 1, 2, 3, 4 ]
+                              }
+             }],
              order: [],
              searching: true,
              paging: true,
@@ -57,7 +65,7 @@ $(document).ready(function () {
         });
 
 
-
+        $(".buttons-excel").hide();
 
 
 
@@ -68,6 +76,19 @@ $(document).ready(function () {
     }
 
 });
+
+function PrintReport() {
+    try {
+        debugger;
+
+        $(".buttons-excel").trigger('click');
+
+
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
 
 
 //---------------------------------------Edit ChartOfAccounts--------------------------------------------------//

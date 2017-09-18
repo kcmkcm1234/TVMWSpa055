@@ -1,6 +1,7 @@
 ﻿var DataTables = {};
 var emptyGUID = '00000000-0000-0000-0000-000000000000'
 $(document).ready(function () {
+    debugger;
     try {
         $("#ddlSupplier").select2({
         });
@@ -20,7 +21,15 @@ $(document).ready(function () {
         });
         DataTables.SupplInvTable = $('#SuppInvTable').DataTable(
         {
-            dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
+            //dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
+            dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
+            buttons: [{
+                extend: 'excel',
+                exportOptions:
+                             {
+                                 columns: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                             }
+            }],
             order: [],
             searching: true,
             paging: true,
@@ -50,6 +59,8 @@ $(document).ready(function () {
 
             ]
         });
+
+        $(".buttons-excel").hide();
         
         $('.Roundoff').on('change', function () {
             debugger;
@@ -79,6 +90,8 @@ $(document).ready(function () {
         $('#SuppInvTable tbody').on('dblclick', 'td', function () {
             Edit(this);
         });
+      
+
         $('input[type="text"].Roundoff').on('focus', function () {
             $(this).select();
         });
@@ -163,6 +176,20 @@ $(document).ready(function () {
     }
 
 });
+
+function PrintReport() {
+    try {
+        debugger;
+
+        $(".buttons-excel").trigger('click');
+
+
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
 function dashboardBind(ID){
     ResetForm(); 
     $('#ID').val(ID);
@@ -224,6 +251,7 @@ function PaintInvoiceDetails() {
 }
 function List() {
     debugger;
+    $('#filter').hide();
     var result = GetAllInvoicesAndSummary();
     if (result != null) {
         if (result.SupplierInvoices != null)
@@ -243,10 +271,10 @@ function Summary(Records) {
     $('#paidinvoice').html(Records.PaidInvoices);
 }
 //---------------Bind logics-------------------
-function GetAllInvoicesAndSummary() {
+function GetAllInvoicesAndSummary(filter) {
     try {
 
-        var data = {};
+        var data = { "filter": filter };
         var ds = {};
         ds = GetDataFromServer("SupplierInvoices/GetInvoicesAndSummary/", data);
         if (ds != '') {
@@ -684,4 +712,34 @@ function InvoicesTypeChange() {
         $('#txtInvNo').prop('disabled', false);  
     }
 
+}
+
+
+//------------------------------------------------Summary Filter clicks------------------------------------------------------------//
+
+function Gridfilter(thisobj) {
+    debugger;
+    $('#filter').show();
+
+    $('#ODfilter').hide();
+    $('#OIfilter').hide();
+    $('#FPfilter').hide();
+
+    if (thisobj == 'OD') {
+        $('#ODfilter').show();
+    }
+    else if (thisobj == 'OI') {
+        $('#OIfilter').show();
+    }
+    else if (thisobj == 'FP') {
+        $('#FPfilter').show();
+    }
+    var result = GetAllInvoicesAndSummary(thisobj);
+    if (result != null) {
+        if (result.SupplierInvoices != null)
+            DataTables.SupplInvTable.clear().rows.add(result.SupplierInvoices).draw(false);
+        if (result.SupplierInvoiceSummary != null) {
+            Summary(result.SupplierInvoiceSummary);
+        }
+    }
 }

@@ -23,7 +23,15 @@ $(document).ready(function () {
         });
         DataTables.CustInvTable = $('#CustInvTable').DataTable(
          {
-             dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
+             //dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
+             dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
+             buttons: [{
+                 extend: 'excel',
+                 exportOptions:
+                              {
+                                  columns: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                              }
+             }],
              order: [],
              searching: true,
              paging: true,
@@ -52,7 +60,8 @@ $(document).ready(function () {
              { className: "text-center", "targets": [2,4,7,10] }
 
              ]
-         });
+                      });
+        $(".buttons-excel").hide();
 
         $('#CustInvTable tbody').on('dblclick', 'td', function () {
             Edit(this);
@@ -165,12 +174,16 @@ $(document).ready(function () {
             order: [],
             searching: false,
             paging: true,
-            pageLength: 7,
+            pageLength: 4,
             data: null,
             columns: [
                  { "data": "SpecialPayObj.ID", "defaultContent": "<i>-</i>" },
                  { "data": "InvoiceNo", "defaultContent": "<i>-</i>" },
-                 { "data": "SpecialPayObj.SpecialPaymentDate", "defaultContent": "<i>-</i>" },
+                 { "data": "SpecialPayObj.SpecialPaymentDate", "defaultContent": "<i>-</i>", "width": "15%" },
+                 { "data": "SpecialPayObj.PaymentMode", "defaultContent": "<i>-</i>" },
+                 { "data": "SpecialPayObj.ChequeDate", "defaultContent": "<i>-</i>", "width": "15%" },
+                 { "data": "SpecialPayObj.PaymentRef", "defaultContent": "<i>-</i>" },
+                 { "data": "SpecialPayObj.RefBank", "defaultContent": "<i>-</i>" },
                  { "data": "SpecialPayObj.Remarks", "defaultContent": "<i>-</i>" },
                  { "data": "SpecialPayObj.SpecialPaidAmount", "defaultContent": "<i>-</i>" },
                  { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="EditSpecialPayment(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' },
@@ -178,9 +191,9 @@ $(document).ready(function () {
 
             ],
             columnDefs: [
-                { className: "text-right", "targets": [4] },
-                { className: "text-center", "targets": [2] },
-                { className: "text-left", "targets": [1,3] },
+                { className: "text-right", "targets": [8] },
+                { className: "text-center", "targets": [2,4] },
+                { className: "text-left", "targets": [1,3,5,6,7] },
                 { "targets": [0], "visible": false, "searchable": false }]
 
         });
@@ -194,6 +207,23 @@ $(document).ready(function () {
         notyAlert('error', e.message);
     }
 });
+
+
+
+function PrintReport() {
+    try {
+        debugger;
+
+        $(".buttons-excel").trigger('click');
+
+
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
+
 
 
 function dashboardBind(ID) {
@@ -494,6 +524,7 @@ function GetTaxRate(Code)
     }
 }
 function List() {
+    $('#filter').hide();
     var result = GetAllInvoicesAndSummary();
     if (result != null) {
         if (result.CustomerInvoices!=null)
@@ -613,10 +644,9 @@ function PaintInvoiceDetails()
 
 }
 //---------------Bind logics-------------------
-function GetAllInvoicesAndSummary() {
+function GetAllInvoicesAndSummary(filter) {
     try {
-
-        var data = {};
+        var data = { "filter": filter };
         var ds = {};
         ds = GetDataFromServer("CustomerInvoices/GetInvoicesAndSummary/", data);
         if (ds != '') {
@@ -886,6 +916,12 @@ function BindSpecialPayment(ID) {
     $('#txtRemarks').val(itemsdetails.SpecialPayObj.Remarks);
     $('#txtSpecialPaidAmount').val(itemsdetails.SpecialPayObj.SpecialPaidAmount);
     $('#txtSplPaymentDate').val(itemsdetails.SpecialPayObj.SpecialPaymentDate);
+    $('#PaymentMode').prop('disabled', true);
+    $('#PaymentMode').val(itemsdetails.SpecialPayObj.PaymentMode);
+    $('#ChequeDate').val(itemsdetails.SpecialPayObj.ChequeDate);
+    $('#PaymentRef').val(itemsdetails.SpecialPayObj.PaymentRef);
+    $('#RefBank').val(itemsdetails.SpecialPayObj.RefBank);
+    PaymentModeChanged();
     BindSpecialPaymentSummary(); //resetting Balance due Amount 
     $('#hdfBalanceDue').val(parseInt($('#hdfBalanceDue').val())+parseInt($('#txtSpecialPaidAmount').val()));
 
@@ -919,6 +955,28 @@ function SaveSpecialPayments() {
     $('#btnSaveSpecialPayments').trigger('click');
 }
 
+function PaymentModeChanged() {
+    debugger;
+    //if ($('#PaymentMode').val() == "ONLINE") {
+    //}
+    //else {
+    //}
+    if ($('#PaymentMode').val() == "CHEQUE") {
+        $('#ChequeDate').prop('disabled', false);
+        $('#RefBank').prop('disabled', false);
+
+    }
+    else {
+        $("#ChequeDate").val('');
+        $("#RefBank").val('');
+        $('#ChequeDate').prop('disabled', true);
+        $('#RefBank').prop('disabled', true);
+
+    }
+
+}
+
+
 
 function NewSpecialPayments() {
     debugger;
@@ -926,7 +984,13 @@ function NewSpecialPayments() {
     $('#txtRemarks').val('');
     $('#PaymentID').val('');
     $('#txtSpecialPaidAmount').val('');
-    $('#txtSplPaymentDate').val('');    
+    $('#txtSplPaymentDate').val('');
+    $('#PaymentMode').val('');
+    $('#ChequeDate').val('');
+    $('#PaymentRef').val('');
+    $('#RefBank').val('');
+    $('#PaymentMode').prop('disabled', false);
+    PaymentModeChanged();
 }
 
 
@@ -999,4 +1063,33 @@ function PaidAmountonblur(thisObj) {
             notyAlert('error', "Amount should be less than Balance due");
             $('#txtSpecialPaidAmount').val($('#hdfBalanceDue').val());
         } 
+}
+
+//------------------------------------------------Summary Filter clicks------------------------------------------------------------//
+
+function Gridfilter(thisobj) {
+    debugger;
+    $('#filter').show();
+
+    $('#ODfilter').hide();
+    $('#OIfilter').hide();
+    $('#FPfilter').hide();
+
+    if (thisobj == 'OD')   {
+        $('#ODfilter').show();
+    }
+    else if (thisobj == 'OI')    {
+        $('#OIfilter').show();
+    }
+    else if (thisobj == 'FP')    {
+        $('#FPfilter').show();
+    }
+   var result= GetAllInvoicesAndSummary(thisobj); 
+    if (result != null) {
+        if (result.CustomerInvoices != null)
+            DataTables.CustInvTable.clear().rows.add(result.CustomerInvoices).draw(false);
+        if (result.CustomerInvoiceSummary != null) {
+            Summary(result.CustomerInvoiceSummary);
+        }
+    }
 }

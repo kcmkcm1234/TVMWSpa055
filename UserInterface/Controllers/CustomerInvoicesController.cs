@@ -23,8 +23,12 @@ namespace UserInterface.Controllers
         ITaxTypesBusiness _taxTypesBusiness;
         ICompaniesBusiness _companiesBusiness;
         IPaymentTermsBusiness _paymentTermsBusiness;
+        IPaymentModesBusiness _paymentmodesBusiness;
         ICommonBusiness _commonBusiness;
-        public CustomerInvoicesController(ICommonBusiness commonBusiness,IPaymentTermsBusiness paymentTermsBusiness,ICompaniesBusiness companiesBusiness, ICustomerInvoicesBusiness customerInvoicesBusiness,ICustomerBusiness customerBusiness,ITaxTypesBusiness taxTypesBusiness)
+        public CustomerInvoicesController(ICommonBusiness commonBusiness,
+            IPaymentTermsBusiness paymentTermsBusiness,ICompaniesBusiness companiesBusiness,
+            ICustomerInvoicesBusiness customerInvoicesBusiness,ICustomerBusiness customerBusiness,
+            ITaxTypesBusiness taxTypesBusiness, IPaymentModesBusiness paymentmodesBusiness)
         {
             _customerInvoicesBusiness = customerInvoicesBusiness;
             _customerBusiness = customerBusiness;
@@ -32,6 +36,7 @@ namespace UserInterface.Controllers
             _companiesBusiness = companiesBusiness;
             _paymentTermsBusiness = paymentTermsBusiness;
             _commonBusiness = commonBusiness;
+            _paymentmodesBusiness = paymentmodesBusiness;
         }
         #endregion Constructor_Injection
 
@@ -49,6 +54,7 @@ namespace UserInterface.Controllers
             CI.companiesObj = new CompaniesViewModel();
             CI.TaxTypeObj = new TaxTypesViewModel();
 
+            //-------------1.CustomerList-------------------//
             CI.customerObj.CustomerList= new List<SelectListItem>();            
             selectListItem = new List<SelectListItem>();
             List<CustomerViewModel> CustList= Mapper.Map<List<Customer>, List< CustomerViewModel >>(_customerBusiness.GetAllCustomers());
@@ -64,6 +70,24 @@ namespace UserInterface.Controllers
             }
             CI.customerObj.CustomerList = selectListItem;
 
+            //-------------2.PaymentModes-------------------//
+            CI.SpecialPayObj = new SpecialPaymentViewModel();
+            CI.SpecialPayObj.PaymentModesObj = new PaymentModesViewModel();
+            CI.SpecialPayObj.PaymentModesObj.PaymentModesList = new List<SelectListItem>();
+            selectListItem = new List<SelectListItem>();
+            List<PaymentModesViewModel> PaymentModeList = Mapper.Map<List<PaymentModes>, List<PaymentModesViewModel>>(_paymentmodesBusiness.GetAllPaymentModes());
+            foreach (PaymentModesViewModel PMVM in PaymentModeList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = PMVM.Description,
+                    Value = PMVM.Code,
+                    Selected = false
+                });
+            }
+            CI.SpecialPayObj.PaymentModesObj.PaymentModesList = selectListItem;
+
+            //-------------3.PaymentTermsList-------------------//
             CI.paymentTermsObj.PaymentTermsList = new List<SelectListItem>();
             selectListItem = new List<SelectListItem>();
             List<PaymentTermsViewModel> PayTermList = Mapper.Map<List<PaymentTerms>, List<PaymentTermsViewModel>>(_paymentTermsBusiness.GetAllPayTerms());
@@ -137,7 +161,7 @@ namespace UserInterface.Controllers
         #region GetAllInvoices
         [AuthSecurityFilter(ProjectObject = "CustomerInvoices", Mode = "R")]
         [HttpGet]    
-        public string GetInvoicesAndSummary()
+        public string GetInvoicesAndSummary(string filter)
         {
             try
             {
@@ -154,7 +178,20 @@ namespace UserInterface.Controllers
                 {
                     Result.CustomerInvoiceSummary = Mapper.Map<CustomerInvoiceSummary, CustomerInvoiceSummaryViewModel>(_customerInvoicesBusiness.GetCustomerInvoicesSummary());
                     Result.CustomerInvoices = Mapper.Map<List<CustomerInvoice>, List<CustomerInvoicesViewModel>>(_customerInvoicesBusiness.GetAllCustomerInvoices());
-                } 
+                }
+                if (filter != null && filter=="OD")
+                {
+                    Result.CustomerInvoices = Result.CustomerInvoices.Where(m => m.PaymentDueDate < _appUA.DateTime && m.BalanceDue > 0).ToList();
+                }
+                else if (filter != null && filter == "OI")
+                {
+                    Result.CustomerInvoices = Result.CustomerInvoices.Where(m => m.PaymentDueDate >= _appUA.DateTime && m.BalanceDue > 0).ToList();
+                }
+                else if (filter != null && filter == "FP")
+                {
+                    Result.CustomerInvoices = Result.CustomerInvoices.Where(m => m.BalanceDue <= 0).ToList();
+                }
+
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = Result });
             }
             catch (Exception ex)
@@ -440,12 +477,21 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.addbtn.Text = "Add";
                     ToolboxViewModelObj.addbtn.Title = "Add New";
                     ToolboxViewModelObj.addbtn.Event = "AddNew();";
-                     
-                    //ToolboxViewModelObj.backbtn.Visible = true;
-                    //ToolboxViewModelObj.backbtn.Disable = true;
-                    //ToolboxViewModelObj.backbtn.Text = "Back";
-                    //ToolboxViewModelObj.backbtn.DisableReason = "Not applicable";
-                    //ToolboxViewModelObj.backbtn.Event = "Back();";  
+
+                    ToolboxViewModelObj.resetbtn.Visible = true;
+                    ToolboxViewModelObj.resetbtn.Text = "Reset";
+                    ToolboxViewModelObj.resetbtn.Title = "Reset";
+                    ToolboxViewModelObj.resetbtn.Event = "List();";
+
+                    //----added for export button--------------
+
+                    ToolboxViewModelObj.PrintBtn.Visible = true;
+                    ToolboxViewModelObj.PrintBtn.Text = "Export";
+                    ToolboxViewModelObj.PrintBtn.Title = "Export";
+                    ToolboxViewModelObj.PrintBtn.Event = "PrintReport();";
+
+                    //---------------------------------------
+
                     break;
                 case "Edit": 
                     ToolboxViewModelObj.addbtn.Visible = true;

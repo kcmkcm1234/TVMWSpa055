@@ -126,15 +126,29 @@ namespace UserInterface.Controllers
         }
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "SupplierInvoices", Mode = "R")]
-        public string GetInvoicesAndSummary()
+        public string GetInvoicesAndSummary(string filter)
         {
             try
             {
-
+                AppUA _appUA = Session["AppUA"] as AppUA;
                 SupplierInvoiceBundleViewModel Result = new SupplierInvoiceBundleViewModel();
 
                 Result.SupplierInvoiceSummary = Mapper.Map<SupplierInvoiceSummary, SupplierInvoiceSummaryViewModel>(_supplierInvoicesBusiness.GetSupplierInvoicesSummary());
                 Result.SupplierInvoices = Mapper.Map<List<SupplierInvoices>, List<SupplierInvoicesViewModel>>(_supplierInvoicesBusiness.GetAllSupplierInvoices());
+                if (filter != null && filter == "OD")
+                {
+                    Result.SupplierInvoices = Result.SupplierInvoices.Where(m => m.PaymentDueDate < _appUA.DateTime && m.BalanceDue > 0).ToList();
+                }
+                else if (filter != null && filter == "OI")
+                {
+                    Result.SupplierInvoices = Result.SupplierInvoices.Where(m => m.PaymentDueDate >= _appUA.DateTime && m.BalanceDue > 0).ToList();
+                }
+                else if (filter != null && filter == "FP")
+                {
+                    Result.SupplierInvoices = Result.SupplierInvoices.Where(m => m.BalanceDue <= 0).ToList();
+                }
+
+
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = Result });
             }
             catch (Exception ex)
@@ -283,6 +297,20 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.addbtn.Text = "Add";
                     ToolboxViewModelObj.addbtn.Title = "Add New";
                     ToolboxViewModelObj.addbtn.Event = "AddNew();";
+
+                    ToolboxViewModelObj.resetbtn.Visible = true;
+                    ToolboxViewModelObj.resetbtn.Text = "Reset";
+                    ToolboxViewModelObj.resetbtn.Title = "Reset";
+                    ToolboxViewModelObj.resetbtn.Event = "List();";
+
+                    //----added for export button--------------
+
+                    ToolboxViewModelObj.PrintBtn.Visible = true;
+                    ToolboxViewModelObj.PrintBtn.Text = "Export";
+                    ToolboxViewModelObj.PrintBtn.Title = "Export";
+                    ToolboxViewModelObj.PrintBtn.Event = "PrintReport();";
+
+                    //---------------------------------------
 
                     break;
                 case "Edit":

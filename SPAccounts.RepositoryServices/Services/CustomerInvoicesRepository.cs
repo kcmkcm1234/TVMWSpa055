@@ -703,6 +703,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         CIList.PaidAmount = (sdr["PaidAmount"].ToString() != "" ? Decimal.Parse(sdr["PaidAmount"].ToString()) : CIList.PaidAmount);
                                         
                                         CIList.PaymentDueDateFormatted = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString(settings.dateformat) : CIList.PaymentDueDateFormatted);
+                                        CIList.SpecialPayObj.ChequeDate = (sdr["ChequeDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeDate"].ToString()).ToString(settings.dateformat) : CIList.SpecialPayObj.ChequeDate);
 
                                     }
                                     CustomerInvoicesList.Add(CIList);
@@ -751,9 +752,16 @@ namespace SPAccounts.RepositoryServices.Services
                                         CIList.InvoiceNo = sdr["InvoiceNo"].ToString();
                                         CIList.SpecialPayObj = new SpecialPayment();
                                         CIList.SpecialPayObj.ID = (sdr["PaymentID"].ToString() != "" ? Guid.Parse(sdr["PaymentID"].ToString()) : CIList.SpecialPayObj.ID);
-                                        CIList.SpecialPayObj.Remarks = sdr["Remarks"].ToString();
+                                        CIList.SpecialPayObj.Remarks = (sdr["Remarks"].ToString() != "" ? sdr["Remarks"].ToString() : CIList.SpecialPayObj.Remarks);
+                                        CIList.SpecialPayObj.PaymentRef = (sdr["PaymentRef"].ToString() != "" ? sdr["PaymentRef"].ToString() : CIList.SpecialPayObj.PaymentRef);
+                                        CIList.SpecialPayObj.PaymentMode = (sdr["PaymentMode"].ToString() != "" ? sdr["PaymentMode"].ToString() : CIList.SpecialPayObj.PaymentMode);
+
                                         CIList.SpecialPayObj.SpecialPaidAmount = (sdr["Amount"].ToString() != "" ? Decimal.Parse(sdr["Amount"].ToString()) : CIList.SpecialPayObj.SpecialPaidAmount);
                                         CIList.SpecialPayObj.SpecialPaymentDate = (sdr["PayDate"].ToString() != "" ? DateTime.Parse(sdr["PayDate"].ToString()).ToString(settings.dateformat) : CIList.SpecialPayObj.SpecialPaymentDate);
+                                        CIList.SpecialPayObj.ChequeDate = (sdr["ChequeDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeDate"].ToString()).ToString(settings.dateformat) : CIList.SpecialPayObj.ChequeDate);
+                                        CIList.SpecialPayObj.RefBank = (sdr["RefBank"].ToString() != "" ? sdr["RefBank"].ToString() : CIList.SpecialPayObj.RefBank);
+                                        CIList.SpecialPayObj.PaymentRef = (sdr["PaymentRef"].ToString() != "" ? sdr["PaymentRef"].ToString() : CIList.SpecialPayObj.PaymentRef);
+                                        CIList.SpecialPayObj.PaymentMode = (sdr["PaymentMode"].ToString() != "" ? sdr["PaymentMode"].ToString() : CIList.SpecialPayObj.PaymentMode);
 
                                     }
                                     CustomerInvoicesList.Add(CIList);
@@ -798,9 +806,13 @@ namespace SPAccounts.RepositoryServices.Services
                                 {
                                     CIList = new CustomerInvoice();
                                     CIList.SpecialPayObj = new SpecialPayment();
-                                    CIList.SpecialPayObj.Remarks = sdr["Remarks"].ToString();
+                                        CIList.SpecialPayObj.Remarks = (sdr["Remarks"].ToString() != "" ? sdr["Remarks"].ToString() : CIList.SpecialPayObj.Remarks);
                                     CIList.SpecialPayObj.SpecialPaidAmount = (sdr["Amount"].ToString() != "" ? Decimal.Parse(sdr["Amount"].ToString()) : CIList.SpecialPayObj.SpecialPaidAmount);
                                     CIList.SpecialPayObj.SpecialPaymentDate = (sdr["PayDate"].ToString() != "" ? DateTime.Parse(sdr["PayDate"].ToString()).ToString(settings.dateformat) : CIList.SpecialPayObj.SpecialPaymentDate);
+                                    CIList.SpecialPayObj.ChequeDate = (sdr["ChequeDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeDate"].ToString()).ToString(settings.dateformat) : CIList.SpecialPayObj.ChequeDate);
+                                    CIList.SpecialPayObj.RefBank = (sdr["RefBank"].ToString() != "" ? sdr["RefBank"].ToString() : CIList.SpecialPayObj.RefBank);
+                                    CIList.SpecialPayObj.PaymentRef = (sdr["PaymentRef"].ToString() != "" ? sdr["PaymentRef"].ToString() : CIList.SpecialPayObj.PaymentRef);
+                                    CIList.SpecialPayObj.PaymentMode = (sdr["PaymentMode"].ToString() != "" ? sdr["PaymentMode"].ToString() : CIList.SpecialPayObj.PaymentMode);
 
                                 }
                             }
@@ -837,6 +849,11 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@InvoiceID", SqlDbType.UniqueIdentifier).Value = _customerInvoicesObj.ID;
                         cmd.Parameters.Add("@PaymentDate", SqlDbType.DateTime).Value = _customerInvoicesObj.SpecialPayObj.SpecialPaymentDate;
                         cmd.Parameters.Add("@PaidAmount", SqlDbType.Decimal).Value = _customerInvoicesObj.SpecialPayObj.SpecialPaidAmount;
+                        cmd.Parameters.Add("@PaymentMode", SqlDbType.VarChar, 10).Value = _customerInvoicesObj.SpecialPayObj.PaymentMode;
+                        cmd.Parameters.Add("@RefBank", SqlDbType.VarChar, 50).Value = _customerInvoicesObj.SpecialPayObj.RefBank;
+                        cmd.Parameters.Add("@ChequeDate", SqlDbType.DateTime).Value = _customerInvoicesObj.SpecialPayObj.ChequeDate;
+                        cmd.Parameters.Add("@PaymentRef", SqlDbType.VarChar, 20).Value = _customerInvoicesObj.SpecialPayObj.PaymentRef;
+
                         cmd.Parameters.Add("@Remarks", SqlDbType.NVarChar, 250).Value = _customerInvoicesObj.SpecialPayObj.Remarks;
                         cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = ua.UserName;
                         cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = _customerInvoicesObj.commonObj.CreatedDate;
@@ -893,6 +910,12 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@PaymentDate", SqlDbType.DateTime).Value = _customerInvoicesObj.SpecialPayObj.SpecialPaymentDate;
                         cmd.Parameters.Add("@PaidAmount", SqlDbType.Decimal).Value = _customerInvoicesObj.SpecialPayObj.SpecialPaidAmount;
                         cmd.Parameters.Add("@Remarks", SqlDbType.NVarChar, 250).Value = _customerInvoicesObj.SpecialPayObj.Remarks;
+
+                        cmd.Parameters.Add("@PaymentMode", SqlDbType.VarChar, 10).Value = _customerInvoicesObj.SpecialPayObj.PaymentMode;
+                        cmd.Parameters.Add("@RefBank", SqlDbType.VarChar, 50).Value = _customerInvoicesObj.SpecialPayObj.RefBank;
+                        cmd.Parameters.Add("@ChequeDate", SqlDbType.DateTime).Value = _customerInvoicesObj.SpecialPayObj.ChequeDate;
+                        cmd.Parameters.Add("@PaymentRef", SqlDbType.VarChar, 20).Value = _customerInvoicesObj.SpecialPayObj.PaymentRef;
+
                         cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = _customerInvoicesObj.commonObj.UpdatedBy;
                         cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = _customerInvoicesObj.commonObj.UpdatedDate;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
