@@ -161,6 +161,14 @@ namespace UserInterface.Controllers
                 {
                     _supplierObj.TotalPaidAmt = Decimal.Parse(_supplierObj.hdfCreditAmount);
                     _supplierObj.AdvanceAmount = 0;
+                    if (_supplierObj.TotalPaidAmt == 0)
+                    { 
+                        throw new Exception("Please Check Credit Notes");
+                    }
+                }
+                else if (_supplierObj.TotalPaidAmt == 0)
+                {
+                    throw new Exception("Please Enter Amount");
                 }
                 AppUA _appUA = Session["AppUA"] as AppUA;
                 if (_supplierObj.paymentDetailhdf != null)

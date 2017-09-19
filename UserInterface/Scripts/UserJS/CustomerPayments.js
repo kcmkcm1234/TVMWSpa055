@@ -376,6 +376,7 @@ function TypeOnChange() {
         $('#PaymentMode').val('');
         $('#BankCode').val('');
         $('#PaymentMode').prop('disabled', true);
+        $('#TotalRecdAmt').prop('disabled', true);
         $('#BankCode').prop('disabled', true);
         $('#ChequeDate').prop('disabled', true);
         $('#CreditID').prop('disabled', false);
@@ -457,7 +458,7 @@ function BindCreditDropDown() {
         else {
             $("#CreditID").html("");
             $("#CreditID").append($('<option></option>').val(emptyGUID).html('No Credit Notes Available'));
-            $("#Type").val('P');
+        //    $("#Type").val('P');
         }
     }
 }
@@ -596,6 +597,7 @@ function fieldsclear() {
     $('#ID').val(emptyGUID);
     $("#CreditID").html("");
     $('#Type').val('P');
+    $('#hdfType').val('');
     $("#ddlCreditDiv").css("visibility", "hidden");
     CaptionChangePayment();
 }
@@ -604,6 +606,8 @@ function CustomerChange() {
     if ($('#Customer').val() != "") {
         BindCreditDropDown(); 
         BindOutstandingAmount();
+        $('#TotalRecdAmt').val('');
+        AmountChanged();
     }
     BindOutstanding();
 }
