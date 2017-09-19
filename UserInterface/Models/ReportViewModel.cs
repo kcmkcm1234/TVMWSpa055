@@ -24,6 +24,7 @@ namespace UserInterface.Models
         [Required(ErrorMessage = "Company required")]
         [Display(Name = "Company")]
         public string CompanyCode { get; set; }
+        public string Search { get; set; }
         public string CustomerName { get; set; }
         public decimal OpeningBalance { get; set; }
         public decimal Invoiced { get; set; }
@@ -51,6 +52,7 @@ namespace UserInterface.Models
         public string GeneralNotes { get; set; }
         public string CustomerName { get; set; }
         public decimal Credit { get; set; }
+        public string Search { get; set; }
         public List<SelectListItem> CompanyList { get; set; }
         public List<CompaniesViewModel> companiesList;
 
