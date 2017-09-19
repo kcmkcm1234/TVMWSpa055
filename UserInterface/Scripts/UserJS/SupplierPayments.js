@@ -362,6 +362,7 @@ function TypeOnChange() {
         $('#BankCode').prop('disabled', true);
         $('#ChequeDate').prop('disabled', true);
         $('#CreditID').prop('disabled', false);
+        $('#TotalPaidAmt').prop('disabled', true);
         CaptionChangeCredit()
     }
     else {
@@ -461,7 +462,7 @@ function BindCreditDropDown() {
         else {
             $("#CreditID").html("");
             $("#CreditID").append($('<option></option>').val(emptyGUID).html('No Credit Notes Available'));
-            $("#Type").val('P');
+           // $("#Type").val('P');
         }
     }
 }
@@ -493,9 +494,9 @@ function savePayments() {
     if ($('#PaymentMode').val() == "ONLINE" && $("#BankCode").val() == "") {
         notyAlert('error', 'Please Select Bank');
     }
-    else if ($('#TotalPaidAmt').val() == 0) {
-        notyAlert('error', 'Please Enter Amount');
-    }
+    //else if ($('#TotalPaidAmt').val() == 0) {
+    //    notyAlert('error', 'Please Enter Amount');
+    //}
     else {
         var SelectedRows = DataTables.OutStandingInvoices.rows(".selected").data();
         if ((SelectedRows) && (SelectedRows.length > 0)) {
@@ -579,6 +580,7 @@ function fieldsclear() {
     $("#Supplier").val('').trigger('change');
     $("#CreditID").html("");
     $('#Type').val('P');
+    $('#hdfType').val('');
     $('#paymentDetailhdf').val('');
     $('#TotalPaidAmt').prop('disabled', false);
     $("#ddlCreditDiv").css("visibility", "hidden");
@@ -589,6 +591,8 @@ function SupplierChange() {
     if ($('#Supplier').val() != "") {
         BindCreditDropDown();
         BindOutstandingAmount();
+        $('#TotalPaidAmt').val('');
+        AmountChanged();
     }
     BindOutstanding();
 }

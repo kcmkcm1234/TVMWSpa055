@@ -157,15 +157,22 @@ namespace UserInterface.Controllers
         {
             try
             {
-                if (_customerObj.TotalRecdAmt == 0)
-                {
-                    throw new Exception("Please Enter Amount");
-                }
+               
                 if (_customerObj.TotalRecdAmt == 0 && _customerObj.Type == "C" || _customerObj.hdfType == "C")
                 {
                     _customerObj.TotalRecdAmt = Decimal.Parse(_customerObj.hdfCreditAmount);
                     _customerObj.AdvanceAmount = 0;
+
+                    if (_customerObj.TotalRecdAmt == 0)
+                    {
+                        throw new Exception("Please Check Credit Notes");
+                    }
                 }
+                else if (_customerObj.TotalRecdAmt == 0)
+                {
+                    throw new Exception("Please Enter Amount");
+                }
+
                 AppUA _appUA = Session["AppUA"] as AppUA;
                 if (_customerObj.paymentDetailhdf!=null)
                 _customerObj.CustomerPaymentsDetail = JsonConvert.DeserializeObject<List<CustomerPaymentsDetailViewModel>>(_customerObj.paymentDetailhdf);
