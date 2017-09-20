@@ -55,7 +55,8 @@ $(document).ready(function () {
 
 function GetCustomerContactDetail() {
     try {
-             var data = {};
+        var search = $("#Search").val();
+        var data = { "search": search };
             var ds = {};
             ds = GetDataFromServer("Report/GetCustomerContactDetails/", data);
             if (ds != '') {
@@ -84,4 +85,28 @@ function PrintReport() {
 
 function Back() {
     window.location = appAddress + "Report/Index/";
+}
+
+function RefreshCustomerContactDetailsTable() {
+    try {
+        debugger;
+        
+        if (DataTables.CustomerContactDetailReportTable != undefined) {
+            DataTables.CustomerContactDetailReportTable.clear().rows.add(GetCustomerContactDetail()).draw(false);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
+function OnChangeCall() {
+    RefreshCustomerContactDetailsTable();
+
+}
+
+function Reset() {
+    debugger;
+    $("#Search").val('');
+    RefreshCustomerContactDetailsTable();
 }

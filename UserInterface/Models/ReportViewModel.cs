@@ -125,7 +125,8 @@ namespace UserInterface.Models
         public string ContactName { get; set; }
         public string BillingAddress { get; set; }
         public string ShippingAddress { get; set; }
-     
+        public string Search { get; set; }
+
     }
 
     public class SalesTransactionLogReportViewModel
@@ -139,6 +140,7 @@ namespace UserInterface.Models
         public string DocNo { get; set; }
         public decimal Amount { get; set; }
         public string Remarks { get; set; }
+        public string Search { get; set; }
         public List<SelectListItem> CompanyList { get; set; }
         public List<CompaniesViewModel> companiesList;
     }

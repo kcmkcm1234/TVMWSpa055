@@ -32,12 +32,12 @@ namespace SPAccounts.BusinessService.Services
             return systemReportList;
         }
 
-        public List<CustomerContactDetailsReport> GetCustomerContactDetailsReport()
+        public List<CustomerContactDetailsReport> GetCustomerContactDetailsReport(string search)
         {
             List<CustomerContactDetailsReport> CustomerContactDetailsList = null;
             try
             {
-                CustomerContactDetailsList = _reportRepository.GetCustomerContactDetailsReport();
+                CustomerContactDetailsList = _reportRepository.GetCustomerContactDetailsReport(search);
             }
             catch (Exception ex)
             {
@@ -133,12 +133,12 @@ namespace SPAccounts.BusinessService.Services
             return saleDetailList;
         }
 
-        public List<SalesTransactionLogReport> GetSalesTransactionLogDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode)
+        public List<SalesTransactionLogReport> GetSalesTransactionLogDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string search)
         {
             List<SalesTransactionLogReport> salesTransactionLogReportList = null;
             try
             {
-                salesTransactionLogReportList = _reportRepository.GetSalesTransactionLogDetails(FromDate, ToDate, CompanyCode);
+                salesTransactionLogReportList = _reportRepository.GetSalesTransactionLogDetails(FromDate, ToDate, CompanyCode,search);
             }
             catch (Exception ex)
             {

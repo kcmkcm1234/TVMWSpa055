@@ -13,7 +13,7 @@ $(document).ready(function () {
                  extend: 'excel',
                  exportOptions:
                               {
-                                  columns: [0,1,2, 3,4,5,6]
+                                  columns: [7,0,1,2, 3,4,5,6]
                               }
              }],
              order: [],
@@ -43,13 +43,14 @@ $(document).ready(function () {
              columnDefs: [{ "targets": [7], "visible": false, "searchable": false },
                   { className: "text-left", "targets": [0] },
                   { className: "text-right", "targets": [1, 2, 3, 4, 5, 6] }],
-            
+             
              drawCallback: function (settings) {
                  var api = this.api();
                  var rows = api.rows({ page: 'current' }).nodes();
                  var last = null;
 
                  api.column(7, { page: 'current' }).data().each(function (group, i) {
+                     debugger;
                      if (last !== group) {
                          $(rows).eq(i).before('<tr class="group "><td colspan="7" class="rptGrp">' + '<b>Company</b> : ' + group + '</td></tr>');
                          last = group;
@@ -57,6 +58,7 @@ $(document).ready(function () {
                  });
              }
          });
+       
       
         $(".buttons-excel").hide();
         $('input[name="GroupSelect"]').on('change', function () {
