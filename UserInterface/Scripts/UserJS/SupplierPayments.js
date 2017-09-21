@@ -260,7 +260,7 @@ function Edit(currentObj) {
 }
 
 function GetSupplierPaymentsByID(PaymentID) {
-    ChangeButtonPatchView('SupplierPayments', 'btnPatchAdd', 'Edit');
+  
     var thisitem = GetSupplierPayments(PaymentID)
     debugger;
     $('#lblheader').text('Entry No: ' + thisitem.EntryNo);
@@ -269,6 +269,16 @@ function GetSupplierPaymentsByID(PaymentID) {
     $("#Supplier").select2();
     $("#Supplier").val(thisitem.supplierObj.ID).trigger('change');
     //$('#Supplier').val(thisitem.supplierObj.ID);
+    
+    $('#ddlApprovalStatus').val(thisitem.ApprovalStatus);
+    $('#ApprovalDate').val(thisitem.ApprovalDate);
+    if (thisitem.ApprovalStatus == 3 || thisitem.ApprovalStatus==1) {
+        ChangeButtonPatchView('SupplierPayments', 'btnPatchAdd', 'Approve');
+    }
+    else {
+        ChangeButtonPatchView('SupplierPayments', 'btnPatchAdd', 'Edit');
+    }
+
     $('#hdfSupplierID').val(thisitem.supplierObj.ID);
     $('#Supplier').prop('disabled', true);
     $('#PaymentDate').val(thisitem.PaymentDateFormatted);
@@ -792,20 +802,25 @@ function ApprovedPayment() {
     debugger;
     try {
         var ID = $('#ID').val();
-        var data = { "ID": ID };
-        var ds = {};
-        ds = GetDataFromServer("SupplierPayments/ApprovedPayment/", data);
-        if (ds != '') {
-            ds = JSON.parse(ds);
-        }
-        if (ds.Result == "OK") {
-            return ds.Records;
-        }
-        if (ds.Result == "ERROR") {
-            notyAlert('error', ds.Message);
-            var emptyarr = [];
-            return emptyarr;
-        }
+        var SupplierPaymentsViewModel = new Object();
+        SupplierPaymentsViewModel.ID = ID;
+        var data = "{'supobj':" + JSON.stringify(SupplierPaymentsViewModel) + "}";
+
+        PostDataToServer("SupplierPayments/ApprovedPayment/", data, function (JsonResult) {
+            if (JsonResult != '') {
+                switch (JsonResult.Result) {
+                    case "OK":
+                        notyAlert('success', JsonResult.Message);
+                        GetSupplierPaymentsByID(ID);
+                        break;
+                    case "ERROR":
+                        notyAlert('error', JsonResult.Message);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }); 
     }
     catch (e) {
         notyAlert('error', e.message);

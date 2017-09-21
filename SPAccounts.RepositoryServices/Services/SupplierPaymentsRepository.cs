@@ -115,6 +115,9 @@ namespace SPAccounts.RepositoryServices.Services
                                     PaymentsObj.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : PaymentsObj.GeneralNotes);
                                     PaymentsObj.supplierObj = new Supplier();
                                     PaymentsObj.supplierObj.ID = (sdr["SupplierID"].ToString() != "" ? Guid.Parse(sdr["SupplierID"].ToString()) : PaymentsObj.supplierObj.ID);
+                                    PaymentsObj.ApprovalStatus=(sdr["ApprovalStatus"].ToString() != "" ? Int32.Parse(sdr["ApprovalStatus"].ToString()) : PaymentsObj.ApprovalStatus);
+                                    PaymentsObj.ApprovalDate = (sdr["ApprovalDate"].ToString() != "" ? DateTime.Parse(sdr["ApprovalDate"].ToString()).ToString("dd-MMM-yyyy").ToString() : PaymentsObj.ApprovalDate);
+
                                 }
                             }
                         }
@@ -129,7 +132,7 @@ namespace SPAccounts.RepositoryServices.Services
 
         }
 
-        public SupplierPayments InsertCustomerPayments(SupplierPayments _supplierPayObj)
+        public SupplierPayments InsertSupplierPayments(SupplierPayments _supplierPayObj)
         {
             try
             {
@@ -193,7 +196,7 @@ namespace SPAccounts.RepositoryServices.Services
             return _supplierPayObj;  
         }
 
-        public SupplierPayments UpdateCustomerPayments(SupplierPayments _supplierPayObj)
+        public SupplierPayments UpdateSupplierPayments(SupplierPayments _supplierPayObj)
         {
             try
             {
@@ -224,6 +227,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@AdvanceAmount", SqlDbType.Decimal).Value = _supplierPayObj.AdvanceAmount;
                         cmd.Parameters.Add("@DetailXml", SqlDbType.NVarChar, -1).Value = _supplierPayObj.DetailXml;
                         cmd.Parameters.Add("@GeneralNotes", SqlDbType.NVarChar, -1).Value = _supplierPayObj.GeneralNotes;
+                        cmd.Parameters.Add("@ApprovalStatus", SqlDbType.Int).Value = _supplierPayObj.ApprovalStatus;
                         cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = _supplierPayObj.CommonObj.UpdatedBy;
                         cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = _supplierPayObj.CommonObj.UpdatedDate;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);

@@ -315,14 +315,14 @@ namespace UserInterface.Controllers
         #region ApprovedPayment
         [AuthSecurityFilter(ProjectObject = "SupplierPayments", Mode = "W")]
         [HttpPost]
-        public string ApprovedPayment(string ID)
+        public string ApprovedPayment(SupplierPaymentsViewModel supobj)
         {
             AppUA _appUA = Session["AppUA"] as AppUA;
             object result = null;
             try
             {
-                result = _supplierPaymentsBusiness.ApprovedPayment(Guid.Parse(ID), _appUA.UserName, _appUA.DateTime);
-                return JsonConvert.SerializeObject(new { Result = "OK", Message = c.DeleteSuccess, Records = result });
+                result = _supplierPaymentsBusiness.ApprovedPayment(supobj.ID, _appUA.UserName, _appUA.DateTime);
+                return JsonConvert.SerializeObject(new { Result = "OK", Message = c.InsertSuccess, Records = result });
              
             }
             catch (Exception ex)
@@ -384,6 +384,43 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.PayBtn.Visible = true;
                     ToolboxViewModelObj.PayBtn.Text = "Pay";
                     ToolboxViewModelObj.PayBtn.Title = "Proceed Payment";
+                    ToolboxViewModelObj.PayBtn.Event = "ApprovedPayment();";
+
+
+                    break;
+
+                case "Approve":
+
+                    ToolboxViewModelObj.addbtn.Visible = true;
+                    ToolboxViewModelObj.addbtn.Text = "Add";
+                    ToolboxViewModelObj.addbtn.Title = "Add New";
+                    ToolboxViewModelObj.addbtn.Event = "openNavClick();";
+
+                    ToolboxViewModelObj.deletebtn.Visible = true;
+                    ToolboxViewModelObj.deletebtn.Text = "Delete";
+                    ToolboxViewModelObj.deletebtn.Title = "Delete";
+                    ToolboxViewModelObj.deletebtn.Event = "DeletePayments();";
+
+                    ToolboxViewModelObj.savebtn.Visible = true;
+                    ToolboxViewModelObj.savebtn.Text = "Save";
+                    ToolboxViewModelObj.savebtn.Title = "Save";
+                    ToolboxViewModelObj.savebtn.Event = "savePayments();";
+
+                    ToolboxViewModelObj.CloseBtn.Visible = true;
+                    ToolboxViewModelObj.CloseBtn.Text = "Close";
+                    ToolboxViewModelObj.CloseBtn.Title = "Close";
+                    ToolboxViewModelObj.CloseBtn.Event = "closeNav();";
+
+                    ToolboxViewModelObj.NotyBtn.Visible = true;
+                    ToolboxViewModelObj.NotyBtn.Text = "Send";
+                    ToolboxViewModelObj.NotyBtn.Title = "Send Notification";
+                    ToolboxViewModelObj.NotyBtn.Event = "SendNotification();";
+
+                    ToolboxViewModelObj.PayBtn.Visible = true;
+                    ToolboxViewModelObj.PayBtn.Disable = true;
+                    ToolboxViewModelObj.PayBtn.Text = "Pay";
+                    ToolboxViewModelObj.PayBtn.Title = "Pay";
+                    ToolboxViewModelObj.PayBtn.DisableReason = "Not applicable";
                     ToolboxViewModelObj.PayBtn.Event = "ApprovedPayment();";
 
 

@@ -40,12 +40,12 @@ namespace SPAccounts.BusinessService.Services
             if (_supplierPayObj.ID != null && _supplierPayObj.ID != Guid.Empty)
             {
                 PaymentDetailsXMl(_supplierPayObj);
-                return _supplierPaymentsRepository.UpdateCustomerPayments(_supplierPayObj);
+                return _supplierPaymentsRepository.UpdateSupplierPayments(_supplierPayObj);
             }
             else
             {
                 PaymentDetailsXMl(_supplierPayObj);
-                return _supplierPaymentsRepository.InsertCustomerPayments(_supplierPayObj);
+                return _supplierPaymentsRepository.InsertSupplierPayments(_supplierPayObj);
             }         
         }
 
