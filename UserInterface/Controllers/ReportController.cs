@@ -55,12 +55,12 @@ namespace UserInterface.Controllers
                     Value = "ALL",
                     Selected = true
                 });
-                selectListItem.Add(new SelectListItem
-                {
-                    Text = "Company wise",
-                    Value = "companywise",
-                    Selected = false
-                });
+                //selectListItem.Add(new SelectListItem
+                //{
+                //    Text = "Company wise",
+                //    Value = "companywise",
+                //    Selected = false
+                //});
                 foreach (CompaniesViewModel cvm in SaleSummary.companiesList)
                 {
                     selectListItem.Add(new SelectListItem
@@ -78,7 +78,7 @@ namespace UserInterface.Controllers
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "SalesReport", Mode = "R")]
-        public string GetSaleSummary(string FromDate,string ToDate,string CompanyCode)
+        public string GetSaleSummary(string FromDate,string ToDate,string CompanyCode, string search)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
             {
@@ -86,8 +86,10 @@ namespace UserInterface.Controllers
                 {
                    DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                    DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                   List<SaleSummaryViewModel>salesummaryList= Mapper.Map<List<SaleSummary>,List<SaleSummaryViewModel>>(_reportBusiness.GetSaleSummary(FDate, TDate, CompanyCode));
-                   return JsonConvert.SerializeObject(new { Result = "OK", Records = salesummaryList });
+                   List<SaleSummaryViewModel>salesummaryList= Mapper.Map<List<SaleSummary>,List<SaleSummaryViewModel>>(_reportBusiness.GetSaleSummary(FDate, TDate, CompanyCode,search));
+                    decimal salesummarySum = salesummaryList.Sum(SS => SS.NetDue);
+                    string salesummarySumFormatted = _commonBusiness.ConvertCurrency(salesummarySum, 2);
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = salesummaryList, TotalAmount= salesummarySumFormatted});
                 }
                 catch(Exception ex)
                 {
@@ -100,7 +102,7 @@ namespace UserInterface.Controllers
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "SalesReport", Mode = "R")]
-        public string GetSaleDetail(string FromDate, string ToDate, string CompanyCode)
+        public string GetSaleDetail(string FromDate, string ToDate, string CompanyCode,string search)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
             {
@@ -108,8 +110,10 @@ namespace UserInterface.Controllers
                 {
                     DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                    List<SaleDetailReportViewModel> saleDetailReportList = Mapper.Map<List<SaleDetailReport>, List<SaleDetailReportViewModel>>(_reportBusiness.GetSaleDetail(FDate, TDate, CompanyCode));
-                    return JsonConvert.SerializeObject(new { Result = "OK", Records = saleDetailReportList });
+                    List<SaleDetailReportViewModel> saleDetailReportList = Mapper.Map<List<SaleDetailReport>, List<SaleDetailReportViewModel>>(_reportBusiness.GetSaleDetail(FDate, TDate, CompanyCode,search));
+                    decimal saledetailSum = saleDetailReportList.Sum(SD => SD.BalanceDue);
+                    string saledetailSumFormatted = _commonBusiness.ConvertCurrency(saledetailSum, 2);
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = saleDetailReportList , TotalAmount = saledetailSumFormatted });
                 }
                 catch (Exception ex)
                 {
@@ -139,12 +143,12 @@ namespace UserInterface.Controllers
                     Value = "ALL",
                     Selected = true
                 });
-                selectListItem.Add(new SelectListItem
-                {
-                    Text = "Company wise",
-                    Value = "companywise",
-                    Selected = false
-                });
+                //selectListItem.Add(new SelectListItem
+                //{
+                //    Text = "Company wise",
+                //    Value = "companywise",
+                //    Selected = false
+                //});
                 foreach (CompaniesViewModel cvm in saleDetailReportViewModel.companiesList)
                 {
                     selectListItem.Add(new SelectListItem
@@ -407,13 +411,13 @@ namespace UserInterface.Controllers
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "CustomerReport", Mode = "R")]
-        public string GetCustomerContactDetails()
+        public string GetCustomerContactDetails(string search)
         {
            
                 try
                 {
                   
-                    List<CustomerContactDetailsReportViewModel> CustomerContactDetailsReportList = Mapper.Map<List<CustomerContactDetailsReport>, List<CustomerContactDetailsReportViewModel>>(_reportBusiness.GetCustomerContactDetailsReport());
+                    List<CustomerContactDetailsReportViewModel> CustomerContactDetailsReportList = Mapper.Map<List<CustomerContactDetailsReport>, List<CustomerContactDetailsReportViewModel>>(_reportBusiness.GetCustomerContactDetailsReport(search));
                     return JsonConvert.SerializeObject(new { Result = "OK", Records = CustomerContactDetailsReportList });
                 }
                 catch (Exception ex)
@@ -467,7 +471,7 @@ namespace UserInterface.Controllers
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "SalesReport", Mode = "R")]
-        public string GetsalesTransactionLog(string FromDate, string ToDate, string CompanyCode)
+        public string GetsalesTransactionLog(string FromDate, string ToDate, string CompanyCode, string search)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
             {
@@ -475,7 +479,7 @@ namespace UserInterface.Controllers
                 {
                     DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                    List<SalesTransactionLogReportViewModel> salesTransactionLogReportViewModelList = Mapper.Map<List<SalesTransactionLogReport>, List<SalesTransactionLogReportViewModel>>(_reportBusiness.GetSalesTransactionLogDetails(FDate, TDate, CompanyCode));
+                    List<SalesTransactionLogReportViewModel> salesTransactionLogReportViewModelList = Mapper.Map<List<SalesTransactionLogReport>, List<SalesTransactionLogReportViewModel>>(_reportBusiness.GetSalesTransactionLogDetails(FDate, TDate, CompanyCode,search));
                     return JsonConvert.SerializeObject(new { Result = "OK", Records = salesTransactionLogReportViewModelList });
                 }
                 catch (Exception ex)

@@ -32,12 +32,12 @@ namespace SPAccounts.BusinessService.Services
             return systemReportList;
         }
 
-        public List<CustomerContactDetailsReport> GetCustomerContactDetailsReport()
+        public List<CustomerContactDetailsReport> GetCustomerContactDetailsReport(string search)
         {
             List<CustomerContactDetailsReport> CustomerContactDetailsList = null;
             try
             {
-                CustomerContactDetailsList = _reportRepository.GetCustomerContactDetailsReport();
+                CustomerContactDetailsList = _reportRepository.GetCustomerContactDetailsReport(search);
             }
             catch (Exception ex)
             {
@@ -119,12 +119,12 @@ namespace SPAccounts.BusinessService.Services
             return purchaseTransactionLogReportList;
         }
 
-        public List<SaleDetailReport> GetSaleDetail(DateTime? FromDate, DateTime? ToDate, string CompanyCode)
+        public List<SaleDetailReport> GetSaleDetail(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string search)
         {
             List<SaleDetailReport> saleDetailList = null;
             try
             {
-                saleDetailList = _reportRepository.GetSaleDetail(FromDate,ToDate, CompanyCode);
+                saleDetailList = _reportRepository.GetSaleDetail(FromDate,ToDate, CompanyCode,search);
             }
             catch (Exception ex)
             {
@@ -133,12 +133,12 @@ namespace SPAccounts.BusinessService.Services
             return saleDetailList;
         }
 
-        public List<SalesTransactionLogReport> GetSalesTransactionLogDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode)
+        public List<SalesTransactionLogReport> GetSalesTransactionLogDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string search)
         {
             List<SalesTransactionLogReport> salesTransactionLogReportList = null;
             try
             {
-                salesTransactionLogReportList = _reportRepository.GetSalesTransactionLogDetails(FromDate, ToDate, CompanyCode);
+                salesTransactionLogReportList = _reportRepository.GetSalesTransactionLogDetails(FromDate, ToDate, CompanyCode,search);
             }
             catch (Exception ex)
             {
@@ -147,12 +147,12 @@ namespace SPAccounts.BusinessService.Services
             return salesTransactionLogReportList;
         }
 
-        public List<SaleSummary> GetSaleSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode)
+        public List<SaleSummary> GetSaleSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string search)
         {
             List<SaleSummary> saleSummaryList = null;
             try
             {
-                saleSummaryList = _reportRepository.GetSaleSummary(FromDate, ToDate, CompanyCode);
+                saleSummaryList = _reportRepository.GetSaleSummary(FromDate, ToDate, CompanyCode,search);
 
                 
             }

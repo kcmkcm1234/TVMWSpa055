@@ -1,28 +1,31 @@
 ﻿var DataTables = {};
 $(document).ready(function () {
     try {
-
+        $("#CompanyCode").select2({
+        });
+        
         DataTables.saleSummaryReportTable = $('#saleSummaryTable').DataTable(
          {
-
+            
              // dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
              dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
              buttons: [{
                  extend: 'excel',
                  exportOptions:
                               {
-                                  columns: [0,1,2, 3,4,5,6]
+                                  columns: [7,0,1,2, 3,4,5,6]
                               }
              }],
              order: [],
-             searching: true,
+             "ordering": false,
+             searching: false,
              paging: true,
              data: GetSaleSummary(),
              pageLength: 50,
-             language: {
-                 search: "_INPUT_",
-                 searchPlaceholder: "Search"
-             },
+             //language: {
+             //    search: "_INPUT_",
+             //    searchPlaceholder: "Search"
+             //},
              columns: [
              
                { "data": "CustomerName", "defaultContent": "<i>-</i>" },
@@ -39,13 +42,15 @@ $(document).ready(function () {
              ],
              columnDefs: [{ "targets": [7], "visible": false, "searchable": false },
                   { className: "text-left", "targets": [0] },
-                  { className: "text-right", "targets": [1, 2, 3, 4, 5,6] }],
+                  { className: "text-right", "targets": [1, 2, 3, 4, 5, 6] }],
+             
              drawCallback: function (settings) {
                  var api = this.api();
                  var rows = api.rows({ page: 'current' }).nodes();
                  var last = null;
 
                  api.column(7, { page: 'current' }).data().each(function (group, i) {
+                     debugger;
                      if (last !== group) {
                          $(rows).eq(i).before('<tr class="group "><td colspan="7" class="rptGrp">' + '<b>Company</b> : ' + group + '</td></tr>');
                          last = group;
@@ -53,9 +58,12 @@ $(document).ready(function () {
                  });
              }
          });
-     
+       
+      
         $(".buttons-excel").hide();
-
+        $('input[name="GroupSelect"]').on('change', function () {
+            RefreshSaleSummaryTable();
+        });
     } catch (x) {
 
         notyAlert('error', x.message);
@@ -69,13 +77,26 @@ function GetSaleSummary() {
     try {
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
-        var companycode=$("#CompanyCode").val();
+        var companycode = $("#CompanyCode").val();
+        var search = $("#Search").val();
+        if (companycode === "ALL")
+        {
+            if ($("#all").prop('checked')) {
+                companycode = $("#all").val();
+            }
+            else {
+                companycode = $("#companywise").val();
+            }
+        }        
         if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode };
+            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "search": search };
             var ds = {};
             ds = GetDataFromServer("Report/GetSaleSummary/", data);
             if (ds != '') {
                 ds = JSON.parse(ds);
+            }
+            if (ds.TotalAmount != '') {
+                $("#salessummaryamount").text(ds.TotalAmount);
             }
             if (ds.Result == "OK") {
                 return ds.Records;
@@ -96,9 +117,26 @@ function GetSaleSummary() {
 
 function RefreshSaleSummaryTable() {
     try {
+        debugger;
+       
+          
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
         var companycode = $("#CompanyCode").val();
+        if (companycode === "")
+        {
+            return false;
+        }
+            
+        if (companycode === "ALL") {
+            $("#all").prop("disabled", false);
+            $("#companywise").prop("disabled", false);
+        }
+        else {
+            $("#all").prop("disabled", true);
+            $("#companywise").prop("disabled", true);
+         
+        }
         if (DataTables.saleSummaryReportTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
             DataTables.saleSummaryReportTable.clear().rows.add(GetSaleSummary()).draw(false);
         }
@@ -119,4 +157,27 @@ function PrintReport() {
 
 function Back() {
     window.location = appAddress + "Report/Index/";
+}
+
+function Reset() {
+    debugger;
+
+    $("#CompanyCode").val('ALL').trigger('change');
+    $("#Search").val('');
+    $("#all").prop('checked',true).trigger('change');
+}
+
+
+function RemoveDatatableOrder() {
+    debugger;
+
+    DataTables.saleSummaryReportTable.dataTable({
+        ordering: false
+    });
+   DataTables.saleSummaryReportTable.clear().rows.add(GetSaleSummary()).draw(true);
+}
+
+function OnChangeCall() {
+    RefreshSaleSummaryTable();
+
 }
