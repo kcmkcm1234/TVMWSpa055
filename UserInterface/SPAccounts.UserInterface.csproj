@@ -1289,10 +1289,12 @@
     <Content Include="Content\images\listdlt.png" />
     <Content Include="Content\images\loading.gif" />
     <Content Include="Content\images\logo.png" />
+    <Content Include="Content\images\Notification.png" />
     <Content Include="Content\images\paperclip.png" />
     <Content Include="Content\images\percentage.png" />
     <Content Include="Content\images\printer.png" />
     <Content Include="Content\images\reset.png" />
+    <Content Include="Content\images\rupee1.png" />
     <Content Include="Content\images\save.png" />
     <Content Include="Content\images\searchdefault.png" />
     <Content Include="Content\images\withdraw.png" />
@@ -1635,6 +1637,7 @@
     </Compile>
     <Compile Include="Models\ApplicationViewModel.cs" />
     <Compile Include="Models\AppObjectViewModel.cs" />
+    <Compile Include="Models\ApprovalStatusViewModel.cs" />
     <Compile Include="Models\BankViewModel.cs" />
     <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\DepartmentViewModel.cs" />

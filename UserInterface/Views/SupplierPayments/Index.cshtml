@@ -1,4 +1,5 @@
 ﻿@model UserInterface.Models.SupplierPaymentsViewModel
+@using SPAccounts.DataAccessObject.DTO
 @using UserInterface.App_Start
 
 @{
@@ -300,6 +301,83 @@
                     </div>
 
                     <div class="col-md-12  ">&nbsp;</div>
+
+
+                if (Session["AppUA"] != null)
+                {
+                    AppUA _appUA = Session["AppUA"] as AppUA;
+                    if (@_appUA.RolesCSV.Contains("CEO") || @_appUA.RolesCSV.Contains("SAdmin"))
+                    {
+                        <div class="" id="ApprovalStatus">
+                            <div class="col-md-12 headSeperator"><i class="fa fa-th ig-green" aria-hidden="true"></i>Document Status</div>
+                            <div class="col-md-12">
+                                <div class="col-md-8">
+                                    <div class="form-group col-md-6">
+                                        <div class="col-md-12">
+                                            @Html.LabelFor(model => model.ApprovalStatus, htmlAttributes: new { @class = "control-label " })
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="col-md-10"> 
+                                                @Html.DropDownListFor(model => model.ApprovalStatus,Model.ApprovalStatusObj.ApprovalStatusList, new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "ddlApprovalStatus" })
+                                            </div>
+                                            <div class="col-md-1"></div>
+                                            <div class="col-md-1"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <div class="col-md-12">
+                                            @Html.LabelFor(model => model.ApprovalDate, htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.ApprovalDate, new { htmlAttributes = new { @class = "form-control HeaderBox", @id = "ApprovalDate", @disabled = true } })
+                                            </div>
+                                            <div class="col-md-1"></div>
+                                            <div class="col-md-1"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="" id="ApprovalStatus">
+                                                        <div class="col-md-12 headSeperator"><i class="fa fa-th ig-green" aria-hidden="true"></i>Document Status</div>
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-8">
+                                                                <div class="form-group col-md-6">
+                                                                    <div class="col-md-12">
+                                                                        @Html.LabelFor(model => model.ApprovalStatus, htmlAttributes: new { @class = "control-label " })
+                                                                    </div>
+                                                                    <div class="col-md-12">
+                                                                        <div class="col-md-10">
+                                                                            @Html.DropDownListFor(model => model.ApprovalStatus, Model.ApprovalStatusObj.ApprovalStatusList, new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "ddlApprovalStatus", @disabled = true })
+                                                                        </div>
+                                                                        <div class="col-md-1"></div>
+                                                                        <div class="col-md-1"></div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group col-md-6">
+                                                                    <div class="col-md-12">
+                                                                        @Html.LabelFor(model => model.ApprovalDate, htmlAttributes: new { @class = "control-label" })
+                                                                    </div>
+                                                                    <div class="col-md-12">
+                                                                        <div class="col-md-10">
+                                                                            @Html.EditorFor(model => model.ApprovalDate, new { htmlAttributes = new { @class = "form-control HeaderBox", @id = "ApprovalDate", @disabled = true } })
+                                                                        </div>
+                                                                        <div class="col-md-1"></div>
+                                                                        <div class="col-md-1"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                }
+                                            }
+
+
 
                     <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Outstanding Invoices</div>
                     <div class="col-md-12  ">

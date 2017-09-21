@@ -46,6 +46,13 @@ namespace UserInterface.Models
         [Display(Name = "General Notes")]
         public string GeneralNotes { get; set; }
 
+        [Display(Name = "Approval Status")]
+        public int ApprovalStatus { get; set; }
+      
+        [Display(Name = "Approval Date")]
+        public string ApprovalDate { get; set; }
+        
+
         [Required(ErrorMessage = "Amount Paid is missing")]
         [Display(Name = "Amount Paid")]
         public decimal TotalPaidAmt { get; set; }
@@ -61,6 +68,7 @@ namespace UserInterface.Models
         public BankViewModel bankObj { get; set; }
         public CompaniesViewModel CompanyObj { get; set; }
         public SupplierCreditNoteViewModel CreditObj { get; set; }
+        public ApprovalStatusViewModel ApprovalStatusObj { get; set; }
 
         public string paymentDetailhdf { get; set; }
         public string hdfSupplierID { get; set; }

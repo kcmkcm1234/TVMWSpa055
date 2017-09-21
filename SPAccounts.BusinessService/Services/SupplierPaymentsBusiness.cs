@@ -13,6 +13,7 @@ namespace SPAccounts.BusinessService.Services
     {
         private ISupplierPaymentsRepository _supplierPaymentsRepository;
         private ICommonBusiness _commonBusiness;
+
         public SupplierPaymentsBusiness(ISupplierPaymentsRepository supplierPaymentsRepository, ICommonBusiness commonBusiness)
         {
             _supplierPaymentsRepository = supplierPaymentsRepository;
@@ -54,7 +55,6 @@ namespace SPAccounts.BusinessService.Services
             return _supplierPaymentsRepository.InsertPaymentAdjustment(_supplierPayObj);
         }
 
-
         public void PaymentDetailsXMl(SupplierPayments PaymentObj)
         {
             string result = "<Details>";
@@ -68,6 +68,7 @@ namespace SPAccounts.BusinessService.Services
             PaymentObj.DetailXml = result;
 
         }
+
         private void XML(object some_object, ref string result, ref int totalRows)
         {
             var properties = GetProperties(some_object);
@@ -81,25 +82,28 @@ namespace SPAccounts.BusinessService.Services
             result = result + "></item>";
             totalRows = totalRows + 1;
         }
+
         private static PropertyInfo[] GetProperties(object obj)
         {
             return obj.GetType().GetProperties();
         }
-
-
 
         public object DeletePayments(Guid PaymentID, string UserName)
         {
             return _supplierPaymentsRepository.DeletePayments(PaymentID, UserName);
         }
 
-     
         public SupplierPayments GetOutstandingAmountBySupplier(string SupplierID)
         {
             SupplierPayments PayObj = _supplierPaymentsRepository.GetOutstandingAmountBySupplier(SupplierID);
             decimal temp = Decimal.Parse(PayObj.OutstandingAmount);
             PayObj.OutstandingAmount= _commonBusiness.ConvertCurrency(temp,0);
             return PayObj;
+        }
+
+        public object ApprovedPayment(Guid PaymentID, string UserName, DateTime date)
+        {
+            return _supplierPaymentsRepository.ApprovedPayment(PaymentID, UserName,date);
         }
     }
 }

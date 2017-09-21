@@ -783,3 +783,33 @@ function Selectcheckbox() {
         }
     }
 }
+//--------------------------------------------Notification,Approval,Payment Proceeding methods ---------------------------------------------------------//
+function SendNotification() {
+    debugger; 
+}
+
+function ApprovedPayment() {
+    debugger;
+    try {
+        var ID = $('#ID').val();
+        var data = { "ID": ID };
+        var ds = {};
+        ds = GetDataFromServer("SupplierPayments/ApprovedPayment/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            notyAlert('error', ds.Message);
+            var emptyarr = [];
+            return emptyarr;
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+
+    
+}
