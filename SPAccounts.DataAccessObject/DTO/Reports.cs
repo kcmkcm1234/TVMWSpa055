@@ -239,4 +239,17 @@ namespace SPAccounts.DataAccessObject.DTO
         public string AccountHead { get; set; }
         public decimal Amount { get; set; }
     }
+
+    public class DepositsAndWithdrawalsDetailsReport
+    {
+        public string TransactionDate { get; set; }
+        public string ReferenceNumber { get; set; }
+        public string ReferenceBank { get; set; }
+        public string OurBank { get; set; }
+        public string Mode { get; set; }
+        public string CheckClearDate { get; set; }
+        public string Withdrawal { get; set; }
+        public string Deposit { get; set; }
+        public string DepositNotCleared { get; set; }
+    }
 }

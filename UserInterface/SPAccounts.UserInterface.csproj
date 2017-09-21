@@ -1740,6 +1740,7 @@
     <Content Include="Views\Department\Index.cshtml" />
     <Content Include="Views\EmployeeCategory\Index.cshtml" />
     <Content Include="Views\Report\EmployeeExpenseSummary.cshtml" />
+    <Content Include="Views\Report\DepositAndWithdrawalDetail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
