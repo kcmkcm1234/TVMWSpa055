@@ -275,5 +275,21 @@ namespace SPAccounts.BusinessService.Services
             }
             return employeeExpenseSummaryList;
         }
+
+
+        public List<DepositsAndWithdrawalsDetailsReport> GetDepositAndWithdrawalDetail(DateTime? FromDate, DateTime? ToDate, string BankCode)
+        {
+            List<DepositsAndWithdrawalsDetailsReport> depositAndWithdrawalDetailList = null;
+            try
+            {
+                depositAndWithdrawalDetailList = _reportRepository.GetDepositAndWithdrawalDetail(FromDate, ToDate, BankCode);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return depositAndWithdrawalDetailList;
+        }
     }
 }
