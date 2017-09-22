@@ -1,7 +1,8 @@
 ﻿var DataTables = {};
 $(document).ready(function () {
     try {
-
+        $("#CompanyCode").select2({
+        });
         DataTables.purchaseSummaryReportTable = $('#purchaseSummaryTable').DataTable(
          {
 
@@ -11,11 +12,11 @@ $(document).ready(function () {
                  extend: 'excel',
                  exportOptions:
                               {
-                                  columns: [0, 1, 2, 3, 4, 5, 6]
+                                  columns: [7,0, 1, 2, 3, 4, 5, 6]
                               }
              }],
              order: [],
-             searching: true,
+             searching: false,
              paging: true,
              data: GetPurchaseSummary(),
              pageLength: 50,
@@ -53,7 +54,9 @@ $(document).ready(function () {
          });
 
         $(".buttons-excel").hide();
-
+        $('input[name="GroupSelect"]').on('change', function () {
+            RefreshPurchaseSummaryTable();
+        });
     } catch (x) {
 
         notyAlert('error', x.message);
@@ -68,12 +71,24 @@ function GetPurchaseSummary() {
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
         var companycode = $("#CompanyCode").val();
+        var search = $("#Search").val();
+        if (companycode === "ALL") {
+            if ($("#all").prop('checked')) {
+                companycode = $("#all").val();
+            }
+            else {
+                companycode = $("#companywise").val();
+            }
+        }
         if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode };
+            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "search": search };
             var ds = {};
             ds = GetDataFromServer("Report/GetPurchaseSummaryDetails/", data);
             if (ds != '') {
                 ds = JSON.parse(ds);
+            }
+            if (ds.TotalAmount != '') {
+                $("#purchasesummaryamount").text(ds.TotalAmount);
             }
             if (ds.Result == "OK") {
                 return ds.Records;
@@ -94,6 +109,19 @@ function RefreshPurchaseSummaryTable() {
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
         var companycode = $("#CompanyCode").val();
+        if (companycode === "") {
+            return false;
+        }
+
+        if (companycode === "ALL") {
+            $("#all").prop("disabled", false);
+            $("#companywise").prop("disabled", false);
+        }
+        else {
+            $("#all").prop("disabled", true);
+            $("#companywise").prop("disabled", true);
+
+        }
         if (DataTables.purchaseSummaryReportTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
             DataTables.purchaseSummaryReportTable.clear().rows.add(GetPurchaseSummary()).draw(false);
         }
@@ -114,4 +142,18 @@ function PrintReport() {
 
 function Back() {
     window.location = appAddress + "Report/Index/";
+}
+
+function Reset() {
+    debugger;
+
+    $("#CompanyCode").val('ALL').trigger('change');
+    $("#Search").val('');
+    $("#all").prop('checked', true).trigger('change');
+}
+
+
+function OnChangeCall() {
+    RefreshPurchaseSummaryTable();
+
 }
