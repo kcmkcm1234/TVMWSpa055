@@ -38,6 +38,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public string CreditOutstanding { get; set; }
         public string AdvOutstanding { get; set; }
         public string PaymentOutstanding { get; set; }
+        public int ApprovalStatus { get; set; }
+        public string ApprovalDate { get; set; }
     }
     public class SupplierPaymentsDetail
     {

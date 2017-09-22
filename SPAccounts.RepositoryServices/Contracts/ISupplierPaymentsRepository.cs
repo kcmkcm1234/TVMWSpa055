@@ -11,11 +11,11 @@ namespace SPAccounts.RepositoryServices.Contracts
     {
         List<SupplierPayments> GetAllSupplierPayments();
         SupplierPayments GetSupplierPaymentsByID(string ID);
-        SupplierPayments InsertCustomerPayments(SupplierPayments _supplierPayObj);
-        SupplierPayments UpdateCustomerPayments(SupplierPayments _supplierPayObj);
+        SupplierPayments InsertSupplierPayments(SupplierPayments _supplierPayObj);
+        SupplierPayments UpdateSupplierPayments(SupplierPayments _supplierPayObj);
         object DeletePayments(Guid PaymentID, string UserName);
         SupplierPayments InsertPaymentAdjustment(SupplierPayments _supplierPayObj);
         SupplierPayments GetOutstandingAmountBySupplier(string SupplierID);
-
+        object ApprovedPayment(Guid PaymentID, string UserName, DateTime date);
     }
 }

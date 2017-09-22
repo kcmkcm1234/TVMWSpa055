@@ -22,6 +22,7 @@ namespace UserInterface.Controllers
         ISupplierBusiness _supplierBusiness;
         IBankBusiness _bankBusiness;
         ICompaniesBusiness _companiesBusiness;
+        IApprovalStatusBusiness _approvalStatusBusiness;
         ISupplierCreditNotesBusiness _supplierCreditNotesBusiness;
         IPaymentModesBusiness _paymentmodesBusiness;
         ISupplierInvoicesBusiness _supplierInvoicesBusiness;
@@ -29,7 +30,8 @@ namespace UserInterface.Controllers
         public SupplierPaymentsController(ISupplierPaymentsBusiness supplierPaymentsBusiness,
             IPaymentModesBusiness paymentmodeBusiness,
             ISupplierBusiness supplierBusiness, IBankBusiness bankBusiness, ICompaniesBusiness companiesBusiness,
-            ISupplierInvoicesBusiness supplierInvoicesBusiness, ISupplierCreditNotesBusiness supplierCreditNotesBusiness)
+            ISupplierInvoicesBusiness supplierInvoicesBusiness,
+            IApprovalStatusBusiness approvalStatusBusiness, ISupplierCreditNotesBusiness supplierCreditNotesBusiness)
         {
             _supplierPaymentsBusiness = supplierPaymentsBusiness;
             _paymentmodesBusiness = paymentmodeBusiness;
@@ -38,6 +40,7 @@ namespace UserInterface.Controllers
             _bankBusiness = bankBusiness;
             _supplierCreditNotesBusiness = supplierCreditNotesBusiness;
             _companiesBusiness = companiesBusiness;
+            _approvalStatusBusiness = approvalStatusBusiness;
         }
         #endregion Constructor_Injection
 
@@ -113,6 +116,30 @@ namespace UserInterface.Controllers
                 });
             }
             SP.CompanyObj.CompanyList = selectListItem;
+
+            //-------------4.Approval Status-------------------//
+            SP.ApprovalStatusObj = new ApprovalStatusViewModel();
+            SP.ApprovalStatusObj.ApprovalStatusList = new List<SelectListItem>();
+            selectListItem = new List<SelectListItem>();
+            List<ApprovalStatusViewModel> ApprovalStatus = Mapper.Map<List<ApprovalStatus>, List<ApprovalStatusViewModel>>(_approvalStatusBusiness.GetAllApprovalStatus());
+            foreach (ApprovalStatusViewModel BL in ApprovalStatus)
+            {
+                if (BL.Description!="Paid")
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = BL.Description,
+                    Value = BL.Code,
+                    Selected = false
+                });
+                else
+                    selectListItem.Add(new SelectListItem
+                {
+                    Text = BL.Description,
+                    Value = BL.Code,
+                    Disabled = true
+                });
+            }
+            SP.ApprovalStatusObj.ApprovalStatusList = selectListItem;
             return View(SP);
         }
         #endregion Index 
@@ -274,8 +301,6 @@ namespace UserInterface.Controllers
         }
         #endregion GetCreditNoteAmount
 
-
-
         #region GetOutstandingAmountBySupplier
         [AuthSecurityFilter(ProjectObject = "SupplierPayments", Mode = "R")]
         [HttpGet]
@@ -285,6 +310,28 @@ namespace UserInterface.Controllers
             return JsonConvert.SerializeObject(new { Result = "OK", Records = Cus_pay });
         }
         #endregion GetOutstandingAmountBySupplier
+
+
+        #region ApprovedPayment
+        [AuthSecurityFilter(ProjectObject = "SupplierPayments", Mode = "W")]
+        [HttpPost]
+        public string ApprovedPayment(SupplierPaymentsViewModel supobj)
+        {
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            object result = null;
+            try
+            {
+                result = _supplierPaymentsBusiness.ApprovedPayment(supobj.ID, _appUA.UserName, _appUA.DateTime);
+                return JsonConvert.SerializeObject(new { Result = "OK", Message = c.InsertSuccess, Records = result });
+             
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion ApprovedPayment
 
 
         #region ButtonStyling
@@ -329,9 +376,20 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.CloseBtn.Title = "Close";
                     ToolboxViewModelObj.CloseBtn.Event = "closeNav();";
 
+                    ToolboxViewModelObj.NotyBtn.Visible = true;
+                    ToolboxViewModelObj.NotyBtn.Text = "Send";
+                    ToolboxViewModelObj.NotyBtn.Title = "Send Notification";
+                    ToolboxViewModelObj.NotyBtn.Event = "SendNotification();";
+
+                    ToolboxViewModelObj.PayBtn.Visible = true;
+                    ToolboxViewModelObj.PayBtn.Text = "Pay";
+                    ToolboxViewModelObj.PayBtn.Title = "Proceed Payment";
+                    ToolboxViewModelObj.PayBtn.Event = "ApprovedPayment();";
+
 
                     break;
-                case "Add":
+
+                case "Approve":
 
                     ToolboxViewModelObj.addbtn.Visible = true;
                     ToolboxViewModelObj.addbtn.Text = "Add";
@@ -339,7 +397,6 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.addbtn.Event = "openNavClick();";
 
                     ToolboxViewModelObj.deletebtn.Visible = true;
-                    ToolboxViewModelObj.deletebtn.Disable = true;
                     ToolboxViewModelObj.deletebtn.Text = "Delete";
                     ToolboxViewModelObj.deletebtn.Title = "Delete";
                     ToolboxViewModelObj.deletebtn.Event = "DeletePayments();";
@@ -353,6 +410,61 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.CloseBtn.Text = "Close";
                     ToolboxViewModelObj.CloseBtn.Title = "Close";
                     ToolboxViewModelObj.CloseBtn.Event = "closeNav();";
+
+                    ToolboxViewModelObj.NotyBtn.Visible = true;
+                    ToolboxViewModelObj.NotyBtn.Text = "Send";
+                    ToolboxViewModelObj.NotyBtn.Title = "Send Notification";
+                    ToolboxViewModelObj.NotyBtn.Event = "SendNotification();";
+
+                    ToolboxViewModelObj.PayBtn.Visible = true;
+                    ToolboxViewModelObj.PayBtn.Disable = true;
+                    ToolboxViewModelObj.PayBtn.Text = "Pay";
+                    ToolboxViewModelObj.PayBtn.Title = "Pay";
+                    ToolboxViewModelObj.PayBtn.DisableReason = "Not applicable";
+                    ToolboxViewModelObj.PayBtn.Event = "ApprovedPayment();";
+
+
+                    break;
+                case "Add":
+
+                    ToolboxViewModelObj.addbtn.Visible = true;
+                    ToolboxViewModelObj.addbtn.Text = "Add";
+                    ToolboxViewModelObj.addbtn.Title = "Add New";
+                    ToolboxViewModelObj.addbtn.Event = "openNavClick();";
+
+                    ToolboxViewModelObj.NotyBtn.Visible = true;
+                    ToolboxViewModelObj.NotyBtn.Disable = true;
+                    ToolboxViewModelObj.NotyBtn.Text = "Send";
+                    ToolboxViewModelObj.NotyBtn.Title = "Send Notification";
+                    ToolboxViewModelObj.NotyBtn.DisableReason = "Not applicable";
+                    ToolboxViewModelObj.NotyBtn.Event = "SendNotification();";
+
+                    ToolboxViewModelObj.PayBtn.Visible = true;
+                    ToolboxViewModelObj.PayBtn.Disable = true;
+                    ToolboxViewModelObj.PayBtn.Text = "Pay";
+                    ToolboxViewModelObj.PayBtn.Title = "Pay";
+                    ToolboxViewModelObj.PayBtn.DisableReason = "Not applicable";
+                    ToolboxViewModelObj.PayBtn.Event = "ApprovedPayment();";
+
+
+                    ToolboxViewModelObj.deletebtn.Visible = true;
+                    ToolboxViewModelObj.deletebtn.Disable = true;
+                    ToolboxViewModelObj.deletebtn.Text = "Delete";
+                    ToolboxViewModelObj.deletebtn.Title = "Delete";
+                    ToolboxViewModelObj.deletebtn.DisableReason = "Not applicable";
+                    ToolboxViewModelObj.deletebtn.Event = "DeletePayments();";
+
+                    ToolboxViewModelObj.savebtn.Visible = true;
+                    ToolboxViewModelObj.savebtn.Text = "Save";
+                    ToolboxViewModelObj.savebtn.Title = "Save";
+                    ToolboxViewModelObj.savebtn.Event = "savePayments();";
+
+                    ToolboxViewModelObj.CloseBtn.Visible = true;
+                    ToolboxViewModelObj.CloseBtn.Text = "Close";
+                    ToolboxViewModelObj.CloseBtn.Title = "Close";
+                    ToolboxViewModelObj.CloseBtn.Event = "closeNav();";
+
+
 
                     break;
                 default:

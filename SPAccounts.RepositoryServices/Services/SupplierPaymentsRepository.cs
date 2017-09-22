@@ -21,8 +21,6 @@ namespace SPAccounts.RepositoryServices.Services
             _databaseFactory = databaseFactory;
         }
 
-      
-
         public List<SupplierPayments> GetAllSupplierPayments()
         {
             List<SupplierPayments> SupplerPaylist = null;
@@ -117,6 +115,9 @@ namespace SPAccounts.RepositoryServices.Services
                                     PaymentsObj.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : PaymentsObj.GeneralNotes);
                                     PaymentsObj.supplierObj = new Supplier();
                                     PaymentsObj.supplierObj.ID = (sdr["SupplierID"].ToString() != "" ? Guid.Parse(sdr["SupplierID"].ToString()) : PaymentsObj.supplierObj.ID);
+                                    PaymentsObj.ApprovalStatus=(sdr["ApprovalStatus"].ToString() != "" ? Int32.Parse(sdr["ApprovalStatus"].ToString()) : PaymentsObj.ApprovalStatus);
+                                    PaymentsObj.ApprovalDate = (sdr["ApprovalDate"].ToString() != "" ? DateTime.Parse(sdr["ApprovalDate"].ToString()).ToString("dd-MMM-yyyy").ToString() : PaymentsObj.ApprovalDate);
+
                                 }
                             }
                         }
@@ -131,7 +132,7 @@ namespace SPAccounts.RepositoryServices.Services
 
         }
 
-        public SupplierPayments InsertCustomerPayments(SupplierPayments _supplierPayObj)
+        public SupplierPayments InsertSupplierPayments(SupplierPayments _supplierPayObj)
         {
             try
             {
@@ -160,6 +161,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@CreditID", SqlDbType.UniqueIdentifier).Value = _supplierPayObj.CreditID;
                         cmd.Parameters.Add("@GeneralNotes", SqlDbType.NVarChar, -1).Value = _supplierPayObj.GeneralNotes;
                         cmd.Parameters.Add("@DetailXml", SqlDbType.NVarChar, -1).Value = _supplierPayObj.DetailXml;
+                        cmd.Parameters.Add("@ApprovalStatus", SqlDbType.Int).Value = _supplierPayObj.ApprovalStatus;
                         cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = _supplierPayObj.CommonObj.CreatedBy;
                         cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = _supplierPayObj.CommonObj.CreatedDate;
                         cmd.Parameters.Add("@FileDupID", SqlDbType.UniqueIdentifier).Value = _supplierPayObj.hdnFileID;
@@ -194,7 +196,7 @@ namespace SPAccounts.RepositoryServices.Services
             return _supplierPayObj;  
         }
 
-        public SupplierPayments UpdateCustomerPayments(SupplierPayments _supplierPayObj)
+        public SupplierPayments UpdateSupplierPayments(SupplierPayments _supplierPayObj)
         {
             try
             {
@@ -225,6 +227,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@AdvanceAmount", SqlDbType.Decimal).Value = _supplierPayObj.AdvanceAmount;
                         cmd.Parameters.Add("@DetailXml", SqlDbType.NVarChar, -1).Value = _supplierPayObj.DetailXml;
                         cmd.Parameters.Add("@GeneralNotes", SqlDbType.NVarChar, -1).Value = _supplierPayObj.GeneralNotes;
+                        cmd.Parameters.Add("@ApprovalStatus", SqlDbType.Int).Value = _supplierPayObj.ApprovalStatus;
                         cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = _supplierPayObj.CommonObj.UpdatedBy;
                         cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = _supplierPayObj.CommonObj.UpdatedDate;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
@@ -333,7 +336,7 @@ namespace SPAccounts.RepositoryServices.Services
                 switch (outputStatus.Value.ToString())
                 {
                     case "0":
-                        throw new Exception(Cobj.InsertFailure);
+                        throw new Exception(Cobj.DeleteFailure);
                     default:
                         break;
                 }
@@ -389,5 +392,45 @@ namespace SPAccounts.RepositoryServices.Services
 
         }
 
+        public object ApprovedPayment(Guid PaymentID, string UserName, DateTime date)
+        {
+            AppConst Cobj = new AppConst();
+            try
+            {
+                SqlParameter outputStatus = null;
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[SupplierApprovedPayment]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@PaymentID", SqlDbType.UniqueIdentifier).Value = PaymentID;
+                        cmd.Parameters.Add("@Username", SqlDbType.NVarChar, 20).Value = UserName;
+                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = date;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        throw new Exception(Cobj.InsertFailure);
+                    default:
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return new { Message = Cobj.InsertSuccess };
+        }
     }
 }

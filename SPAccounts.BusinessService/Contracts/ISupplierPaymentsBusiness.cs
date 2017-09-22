@@ -15,5 +15,7 @@ namespace SPAccounts.BusinessService.Contracts
         object DeletePayments(Guid PaymentID, string UserName);
         SupplierPayments InsertPaymentAdjustment(SupplierPayments _supplierPayObj);
         SupplierPayments GetOutstandingAmountBySupplier(string SupplierID);
+        object ApprovedPayment(Guid PaymentID, string UserName,DateTime date);
+
     }
 }

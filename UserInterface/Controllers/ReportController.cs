@@ -16,16 +16,18 @@ namespace UserInterface.Controllers
     {
         IReportBusiness _reportBusiness;
         ICompaniesBusiness _companiesBusiness;
+        IBankBusiness _bankBusiness;
         IEmployeeBusiness _employeeBusiness;
         IOtherExpenseBusiness _otherExpenseBusiness;
         ICommonBusiness _commonBusiness;
-        public ReportController(IReportBusiness reportBusiness, ICompaniesBusiness companiesBusiness,IEmployeeBusiness employeeBusiness, IOtherExpenseBusiness otherExpenseBusiness, ICommonBusiness commonBusiness)
+        public ReportController(IReportBusiness reportBusiness, ICompaniesBusiness companiesBusiness,IEmployeeBusiness employeeBusiness, IOtherExpenseBusiness otherExpenseBusiness, ICommonBusiness commonBusiness, IBankBusiness bankbusiness)
         {
             _reportBusiness = reportBusiness;
             _companiesBusiness = companiesBusiness;
             _employeeBusiness = employeeBusiness;
             _otherExpenseBusiness = otherExpenseBusiness;
             _commonBusiness = commonBusiness;
+            _bankBusiness = bankbusiness;
         }
         // GET: Report
         [HttpGet]
@@ -1018,6 +1020,70 @@ namespace UserInterface.Controllers
 
             }
             return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "EmployeeCode is required" });
+        }
+
+        /// <summary>
+        /// To Get Deposit And Withdrawal Details in Report
+        /// </summary>
+        /// <returns></returns>
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "DepositAndWithdrawalDetailReport", Mode = "R")]
+        public ActionResult DepositAndWithdrawalDetail()
+        {
+            DateTime dt = DateTime.Now;
+            ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+            ViewBag.todate = dt.ToString("dd-MMM-yyyy");
+            DepositsAndWithdrawalsDetailsReportViewModel DWVM = new DepositsAndWithdrawalsDetailsReportViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+
+
+            List<BankViewModel> bankList = Mapper.Map<List<Bank>, List<BankViewModel>>(_bankBusiness.GetAllBanks()).ToList();
+            if (bankList != null)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "All",
+                    Value = "ALL",
+                    Selected = false
+                });
+
+                foreach (BankViewModel cvm in bankList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = cvm.Name,
+                        Value = cvm.Code.ToString(),
+                        Selected = false
+                    });
+                }
+            }
+            DWVM.bankObj = new BankViewModel();
+            DWVM.bankObj.BanksList = selectListItem;
+            return View(DWVM);
+        }
+
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "DepositAndWithdrawalDetailReport", Mode = "R")]
+        public string GetDepositAndWithdrawalDetail(string FromDate, string ToDate, string BankCode, string search)
+        {
+            if (!string.IsNullOrEmpty(BankCode))
+            {
+                try
+                {
+                    DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
+                    DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
+                    List<DepositsAndWithdrawalsDetailsReportViewModel> DepositsAndWithdrawalsDetailsReport = Mapper.Map<List<DepositsAndWithdrawalsDetailsReport>, List<DepositsAndWithdrawalsDetailsReportViewModel>>(_reportBusiness.GetDepositAndWithdrawalDetail(FDate, TDate, BankCode, search));
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = DepositsAndWithdrawalsDetailsReport });
+                }
+                catch (Exception ex)
+                {
+                    return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+                }
+            }
+
+            return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "BankCode is required" });
         }
 
 

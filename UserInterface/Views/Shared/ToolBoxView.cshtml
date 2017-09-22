@@ -128,6 +128,46 @@
         }
 
     }
+    @if (Model.NotyBtn.Visible)
+    {
+        if (Model.NotyBtn.Disable)
+        {
+
+            <a class="thr_disbtn" title="@Model.NotyBtn.Title-@Model.NotyBtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/Notification.PNG")">
+                <span class="btnText">@Model.NotyBtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.NotyBtn.Title" class="thr_btn" onclick=@Model.NotyBtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/Notification.PNG")">
+                <span class="btnText">@Model.NotyBtn.Text</span>
+            </a>
+        }
+
+    }
+    @if (Model.PayBtn.Visible)
+    {
+        if (Model.PayBtn.Disable)
+        {
+
+            <a class="thr_disbtn" title="@Model.PayBtn.Title-@Model.PayBtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/rupee1.PNG")">
+                <span class="btnText">@Model.PayBtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.PayBtn.Title" class="thr_btn" onclick=@Model.PayBtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/rupee1.PNG")">
+                <span class="btnText">@Model.PayBtn.Text</span>
+            </a>
+        }
+
+    }
 
     @if (Model.CloseBtn.Visible)
     {
@@ -211,4 +251,5 @@
         }
 
     }
+ 
 </div>

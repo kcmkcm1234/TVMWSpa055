@@ -319,4 +319,20 @@ namespace UserInterface.Models
         public List<EmployeeTypeViewModel> employeesList;
     }
 
+    public class DepositsAndWithdrawalsDetailsReportViewModel
+    {
+        public string TransactionDate { get; set; }
+        public string ReferenceNumber { get; set; }
+        public string ReferenceBank { get; set; }
+        public string OurBank { get; set; }
+        public string Mode { get; set; }
+        public string CheckClearDate { get; set; }
+        public string Withdrawal { get; set; }
+        public string Deposit { get; set; }
+        public string DepositNotCleared { get; set; }
+        public string Search { get; set; }
+        public BankViewModel bankObj { get; set; }        
+    }
+
+
 }

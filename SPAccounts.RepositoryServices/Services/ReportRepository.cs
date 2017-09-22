@@ -912,5 +912,67 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return employeeExpenseSummaryList;
         }
+
+
+        /// <summary>
+        ///To Get Deposit And Withdrawal Details in Report
+        /// </summary>
+        /// <param name="FromDate"></param>
+        /// <param name="ToDate"></param>
+        /// <param name="BankCode"></param>
+        /// <returns>List</returns>
+        public List<DepositsAndWithdrawalsDetailsReport> GetDepositAndWithdrawalDetail(DateTime? FromDate, DateTime? ToDate, string BankCode, string search)
+        {
+            List<DepositsAndWithdrawalsDetailsReport> depositAndWithdrawalDetailList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
+                        cmd.Parameters.Add("@BankCode", SqlDbType.NVarChar, 50).Value = BankCode;
+                        cmd.Parameters.Add("@search", SqlDbType.NVarChar, 250).Value = search != "" ? search : null;
+                        cmd.CommandText = "[Accounts].[RPT_GetDepositsAndWithdrawalDetail]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                depositAndWithdrawalDetailList = new List<DepositsAndWithdrawalsDetailsReport>();
+                                while (sdr.Read())
+                                {
+                                    DepositsAndWithdrawalsDetailsReport depositAndWithdrawalDetailReport = new DepositsAndWithdrawalsDetailsReport();
+                                    {
+                                        depositAndWithdrawalDetailReport.TransactionDate = (sdr["TransactionDate"].ToString() != "" ? DateTime.Parse(sdr["TransactionDate"].ToString()).ToString(settings.dateformat) : depositAndWithdrawalDetailReport.TransactionDate);
+                                        depositAndWithdrawalDetailReport.ReferenceNumber = (sdr["ReferenceNumber"].ToString() != "" ? sdr["ReferenceNumber"].ToString() : depositAndWithdrawalDetailReport.ReferenceNumber);
+                                        depositAndWithdrawalDetailReport.ReferenceBank = (sdr["ReferenceBank"].ToString() != "" ? sdr["ReferenceBank"].ToString() : depositAndWithdrawalDetailReport.ReferenceBank);
+                                        depositAndWithdrawalDetailReport.OurBank = (sdr["OurBank"].ToString() != "" ? sdr["OurBank"].ToString() : depositAndWithdrawalDetailReport.OurBank);
+                                        depositAndWithdrawalDetailReport.Mode = (sdr["Mode"].ToString() != "" ? sdr["Mode"].ToString() : depositAndWithdrawalDetailReport.Mode);
+                                        depositAndWithdrawalDetailReport.CheckClearDate = (sdr["CheckClearDate"].ToString() != "" ? DateTime.Parse(sdr["CheckClearDate"].ToString()).ToString(settings.dateformat) : depositAndWithdrawalDetailReport.CheckClearDate);
+                                        depositAndWithdrawalDetailReport.Withdrawal = (sdr["Withdrawal"].ToString() != "" ? sdr["Withdrawal"].ToString() : depositAndWithdrawalDetailReport.Withdrawal);
+                                        depositAndWithdrawalDetailReport.Deposit = (sdr["Deposit"].ToString() != "" ? sdr["Deposit"].ToString() : depositAndWithdrawalDetailReport.Deposit);
+                                        depositAndWithdrawalDetailReport.DepositNotCleared = (sdr["DepositNotCleared"].ToString() != "" ? sdr["DepositNotCleared"].ToString() : depositAndWithdrawalDetailReport.DepositNotCleared);
+                                    }
+                                    depositAndWithdrawalDetailList.Add(depositAndWithdrawalDetailReport);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return depositAndWithdrawalDetailList;
+        }
+
     }
 }
