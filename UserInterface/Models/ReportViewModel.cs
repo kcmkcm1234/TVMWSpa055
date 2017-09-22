@@ -322,7 +322,8 @@ namespace UserInterface.Models
         public string Withdrawal { get; set; }
         public string Deposit { get; set; }
         public string DepositNotCleared { get; set; }
-        public BankViewModel bankObj { get; set; }
+        public string Search { get; set; }
+        public BankViewModel bankObj { get; set; }        
     }
 
 

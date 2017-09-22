@@ -913,7 +913,7 @@ namespace SPAccounts.RepositoryServices.Services
         /// <param name="ToDate"></param>
         /// <param name="BankCode"></param>
         /// <returns>List</returns>
-        public List<DepositsAndWithdrawalsDetailsReport> GetDepositAndWithdrawalDetail(DateTime? FromDate, DateTime? ToDate, string BankCode)
+        public List<DepositsAndWithdrawalsDetailsReport> GetDepositAndWithdrawalDetail(DateTime? FromDate, DateTime? ToDate, string BankCode, string search)
         {
             List<DepositsAndWithdrawalsDetailsReport> depositAndWithdrawalDetailList = null;
             try
@@ -930,6 +930,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
                         cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
                         cmd.Parameters.Add("@BankCode", SqlDbType.NVarChar, 50).Value = BankCode;
+                        cmd.Parameters.Add("@search", SqlDbType.NVarChar, 250).Value = search != "" ? search : null;
                         cmd.CommandText = "[Accounts].[RPT_GetDepositsAndWithdrawalDetail]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())

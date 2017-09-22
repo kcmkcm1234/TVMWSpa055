@@ -71,6 +71,17 @@
 
             </div>
         </div>
+        <div class="col-md-9">
+            @Html.LabelFor(model => model.Search, htmlAttributes: new { @class = "control-label", style = "visibility:hidden" })
+            <div class="col-md-12">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search" id="Search">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="submit" style="height:28px" onclick="OnChangeCall()"><i class="glyphicon glyphicon-search"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
 

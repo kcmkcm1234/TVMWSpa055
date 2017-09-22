@@ -277,12 +277,12 @@ namespace SPAccounts.BusinessService.Services
         }
 
 
-        public List<DepositsAndWithdrawalsDetailsReport> GetDepositAndWithdrawalDetail(DateTime? FromDate, DateTime? ToDate, string BankCode)
+        public List<DepositsAndWithdrawalsDetailsReport> GetDepositAndWithdrawalDetail(DateTime? FromDate, DateTime? ToDate, string BankCode, string search)
         {
             List<DepositsAndWithdrawalsDetailsReport> depositAndWithdrawalDetailList = null;
             try
             {
-                depositAndWithdrawalDetailList = _reportRepository.GetDepositAndWithdrawalDetail(FromDate, ToDate, BankCode);
+                depositAndWithdrawalDetailList = _reportRepository.GetDepositAndWithdrawalDetail(FromDate, ToDate, BankCode, search);
 
             }
             catch (Exception ex)

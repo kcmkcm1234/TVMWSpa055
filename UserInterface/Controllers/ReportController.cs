@@ -1062,7 +1062,7 @@ namespace UserInterface.Controllers
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "DepositAndWithdrawalDetailReport", Mode = "R")]
-        public string GetDepositAndWithdrawalDetail(string FromDate, string ToDate, string BankCode)
+        public string GetDepositAndWithdrawalDetail(string FromDate, string ToDate, string BankCode, string search)
         {
             if (!string.IsNullOrEmpty(BankCode))
             {
@@ -1070,7 +1070,7 @@ namespace UserInterface.Controllers
                 {
                     DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                    List<DepositsAndWithdrawalsDetailsReportViewModel> DepositsAndWithdrawalsDetailsReport = Mapper.Map<List<DepositsAndWithdrawalsDetailsReport>, List<DepositsAndWithdrawalsDetailsReportViewModel>>(_reportBusiness.GetDepositAndWithdrawalDetail(FDate, TDate, BankCode));
+                    List<DepositsAndWithdrawalsDetailsReportViewModel> DepositsAndWithdrawalsDetailsReport = Mapper.Map<List<DepositsAndWithdrawalsDetailsReport>, List<DepositsAndWithdrawalsDetailsReportViewModel>>(_reportBusiness.GetDepositAndWithdrawalDetail(FDate, TDate, BankCode, search));
                     return JsonConvert.SerializeObject(new { Result = "OK", Records = DepositsAndWithdrawalsDetailsReport });
                 }
                 catch (Exception ex)

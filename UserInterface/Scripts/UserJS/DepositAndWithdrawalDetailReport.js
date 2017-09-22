@@ -38,7 +38,7 @@ $(document).ready(function () {
 
              ],
              
-             columnDefs: [//{ "targets": [0], "visible": false, "searchable": false },
+             columnDefs: [{  "searchable": false}, //"targets": [0], "visible": false,},
                   { className: "text-left", "targets": [1, 2,3,4] },
                   { className: "text-right", "targets": [6,7,8] },
                   { className: "text-center", "targets": [0,5] }]
@@ -64,8 +64,9 @@ function GetDepositAndWithdrawalDetailReportDetailTable() {
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
         var bankList = $("#bankList").val();
+        var search = $("#Search").val();
         if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && bankList) {
-            var data = { "FromDate": fromdate, "ToDate": todate, "BankCode": bankList };
+            var data = { "FromDate": fromdate, "ToDate": todate, "BankCode": bankList, "search": search };
             var ds = {};
             ds = GetDataFromServer("Report/GetDepositAndWithdrawalDetail/", data);
             if (ds != '') {
@@ -131,7 +132,8 @@ function OnChangeCall() {
 function Reset() {
     debugger;
 
-    $("#bankList").val('ALL').trigger('change')
+    $("#bankList").val('ALL').trigger('change');
+     $("#Search").val('').trigger('change');
 
     RefreshDepositAndWithdrawalDetailReportDetailTable()
 }
