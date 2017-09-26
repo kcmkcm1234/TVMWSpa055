@@ -46,7 +46,8 @@ namespace UserInterface.Models
 
         [Display(Name = "General Notes")]
         public string GeneralNotes { get; set; }
-
+        [Display(Name ="Reference Bank")]
+        public string ReferenceBank { get; set; }
         [Required(ErrorMessage = "Amount Received is missing")]
         [Display(Name = "Amount Received")]
         public decimal TotalRecdAmt { get; set; }

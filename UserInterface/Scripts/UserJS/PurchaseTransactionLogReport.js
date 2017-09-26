@@ -3,6 +3,8 @@ $(document).ready(function () {
 
 
     try {
+        $("#CompanyCode").select2({
+        });
 
         DataTables.purchaseTransactionLogReportTable = $('#purchaseTransactionTable').DataTable(
          {
@@ -17,7 +19,7 @@ $(document).ready(function () {
                               }
              }],
              order: [],
-             searching: true,
+             searching: false,
              paging: true,
              data: GetPurchaseTransactionLogReport(),
              pageLength: 50,
@@ -70,9 +72,9 @@ function GetPurchaseTransactionLogReport() {
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
         var companycode = $("#CompanyCode").val();
-
+        var search = $("#Search").val();
         if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode };
+            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "search": search };
             var ds = {};
             ds = GetDataFromServer("Report/GetPurchaseTransactionLog/", data);
             if (ds != '') {
@@ -125,6 +127,18 @@ function PrintReport() {
 
 function Back() {
     window.location = appAddress + "Report/Index/";
+}
+
+function Reset() {
+    debugger;
+
+    $("#CompanyCode").val('ALL').trigger('change');
+    $("#Search").val('');
+    RefreshPurchaseTransactionLogTable();
+}
+
+function OnChangeCall() {
+    RefreshPurchaseTransactionLogTable();
 }
 
 

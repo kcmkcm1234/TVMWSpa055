@@ -100,6 +100,9 @@ namespace SPAccounts.RepositoryServices.Services
                                         _otherExpense.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : _otherExpense.ID);
                                         _otherExpense.ExpenseDate = (sdr["ExpenseDate"].ToString() != "" ? DateTime.Parse(sdr["ExpenseDate"].ToString()).ToString(settings.dateformat) : _otherExpense.ExpenseDate);
                                         _otherExpense.EmpTypeCode = (sdr["EmpType"].ToString() != "" ? sdr["EmpType"].ToString() : string.Empty);
+                                        _otherExpense.ExpenseRef = (sdr["ExpenseRef"].ToString() != "" ? sdr["ExpenseRef"].ToString() : string.Empty);
+                                        _otherExpense.ReferenceNo = (sdr["ReferenceNo"].ToString() != "" ? sdr["ReferenceNo"].ToString() : string.Empty);
+                                        _otherExpense.ReferenceBank = (sdr["ReferenceBank"].ToString() != "" ? sdr["ReferenceBank"].ToString() : string.Empty);
                                         _otherExpense.chartOfAccountsObj = new ChartOfAccounts()
                                         {
                                             Code= (sdr["AccountCode"].ToString() != "" ? sdr["AccountCode"].ToString() : string.Empty),
@@ -179,6 +182,7 @@ namespace SPAccounts.RepositoryServices.Services
                             cmd.Parameters.Add("@DepWithdID", SqlDbType.UniqueIdentifier).Value = otherExpense.DepWithID;
                         }
                         cmd.Parameters.Add("@BankCode", SqlDbType.VarChar, 5).Value = otherExpense.BankCode;
+                        cmd.Parameters.Add("@Refbank", SqlDbType.NVarChar, 50).Value = otherExpense.ReferenceBank;
                         cmd.Parameters.Add("@ExpneseRef", SqlDbType.VarChar, 20).Value = otherExpense.ExpenseRef;
                         cmd.Parameters.Add("@Description", SqlDbType.NVarChar, -1).Value = otherExpense.Description;
                         cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = otherExpense.Amount;
@@ -242,6 +246,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@PaidFromComanyCode", SqlDbType.VarChar, 10).Value = otherExpense.PaidFromCompanyCode;
                         cmd.Parameters.Add("@EmpID", SqlDbType.UniqueIdentifier).Value = otherExpense.EmpID;
                         cmd.Parameters.Add("@PaymentMode", SqlDbType.VarChar, 10).Value = otherExpense.PaymentMode;
+                        cmd.Parameters.Add("@Refbank", SqlDbType.NVarChar, 50).Value = otherExpense.ReferenceBank;
                         if (otherExpense.DepWithID != Guid.Empty)
                         {
                             cmd.Parameters.Add("@DepWithdID", SqlDbType.UniqueIdentifier).Value = otherExpense.DepWithID;

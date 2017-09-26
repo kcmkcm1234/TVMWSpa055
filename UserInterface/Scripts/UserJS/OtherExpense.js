@@ -3,7 +3,7 @@ var emptyGUID = '00000000-0000-0000-0000-000000000000'
 $(document).ready(function () {
     try {
         $("#DefaultDate").val("");
-       
+      
         DataTables.expenseDetailTable = $('#expenseDetailTable').DataTable(
          {
 
@@ -26,13 +26,14 @@ $(document).ready(function () {
                { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                 { "data": "ExpenseDate", "defaultContent": "<i>-</i>" },
                  { "data": "companies.Name", "defaultContent": "<i>-</i>" },
+                 { "data": "ReferenceNo", "defaultContent": "<i>-</i>" },
                { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' },
                { "data": null, "orderable": false, "defaultContent": '<a data-toggle="tp" data-placement="top" data-delay={"show":2000, "hide":3000} title="Delete" href="#" class="DeleteLink" onclick="Delete(this)"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' },
                { "data": "ID" }
 
              ],
-             columnDefs: [{ "targets": [9], "visible": false, "searchable": false },
-                  { className: "text-left", "targets": [1, 2,3,6] },
+             columnDefs: [{ "targets": [10], "visible": false, "searchable": false },
+                  { className: "text-left", "targets": [1, 2,3,6,9] },
              { className: "text-right", "targets": [4] },
              { className: "text-center", "targets": [5,8,7] }
 
@@ -162,10 +163,12 @@ function PaymentModeOnchange(curobj)
     if (curobj.value == "CHEQUE")
     {
         $("#ChequeDate").prop('disabled', false);
+        $("#ReferenceBank").prop('disabled', false);
     }
     else
     {
         $("#ChequeDate").prop('disabled', true);
+        $("#ReferenceBank").prop('disabled', true);
     }
     $('span[data-valmsg-for="BankCode"]').empty();
 }
@@ -250,6 +253,7 @@ function ClearFields() {
     $("#CompanyCode").val('');
     $("#paymentMode").val('');
     $("#EmpTypeCode").val('');
+    $("#ReferenceBank").val('');
     $("#BankCode").val('');
     $("#ExpenseRef").val('');
     $("#Amount").val('');
@@ -260,6 +264,7 @@ function ClearFields() {
     $("#EmpTypeCode").prop('disabled', true);
     $("#BankCode").prop('disabled', true);
     $("#ChequeDate").prop('disabled', true);
+    $("#ReferenceBank").prop('disabled', true);
     $('#EmpID').empty();
     $('#EmpID').append(new Option('-- Select Employee --', -1));
     $('#EmpID').val("-1");
@@ -367,6 +372,7 @@ function FillOtherExpenseDetails(ID) {
         $("#CompanyCode").val(thisItem.companies.Code);
         $("#paymentMode").val(thisItem.PaymentMode);
         $("#ChequeDate").val(thisItem.ChequeDate);
+        $("#ReferenceBank").val(thisItem.ReferenceBank);
         $("#creditdAmt").text(thisItem.creditAmountFormatted);
         if (thisItem.PaymentMode != "ONLINE")
         {
@@ -380,10 +386,12 @@ function FillOtherExpenseDetails(ID) {
         if (thisItem.PaymentMode != "CHEQUE")
         {
             $("#ChequeDate").prop('disabled', true);
+            $("#ReferenceBank").prop('disabled', true);
         }
         else
         {
             $("#ChequeDate").prop('disabled', false);
+            $("#ReferenceBank").prop('disabled', false);
         }
         
         $("#EmpTypeCode").val(thisItem.EmpTypeCode);
@@ -785,3 +793,20 @@ function GetEmployeesCompany(ID) {
         notyAlert('error', e.message);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

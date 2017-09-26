@@ -33,6 +33,7 @@ namespace UserInterface.Models
         public decimal Credit { get; set; }
         public decimal Balance { get; set; }
         public string OriginCompany { get; set; }
+        public string RowType { get; set; }
         public List<SelectListItem> CompanyList { get; set; }
         public List<CompaniesViewModel> companiesList;
     }
@@ -53,6 +54,7 @@ namespace UserInterface.Models
         public string CustomerName { get; set; }
         public decimal Credit { get; set; }
         public string Search { get; set; }
+        public string RowType { get; set; }
         public List<SelectListItem> CompanyList { get; set; }
         public List<CompaniesViewModel> companiesList;
 
@@ -159,6 +161,8 @@ namespace UserInterface.Models
         public List<SelectListItem> CompanyList { get; set; }
         public List<CompaniesViewModel> companiesList;
         public string OriginCompany { get; set; }
+        public string Search { get; set; }
+        public string RowType { get; set; }
 
     }
 
@@ -180,6 +184,8 @@ namespace UserInterface.Models
         public decimal Credit { get; set; }
         public List<SelectListItem> CompanyList { get; set; }
         public List<CompaniesViewModel> companiesList;
+        public string Search { get; set; }
+        public string RowType { get; set; }
 
     }
 
@@ -194,6 +200,7 @@ namespace UserInterface.Models
         public string ContactName { get; set; }
         public string BillingAddress { get; set; }
         public string ShippingAddress { get; set; }
+        public string Search { get; set; }
 
     }
 
@@ -210,6 +217,7 @@ namespace UserInterface.Models
         public string Remarks { get; set; }
         public List<SelectListItem> CompanyList { get; set; }
         public List<CompaniesViewModel> companiesList;
+        public string Search { get; set; }
     }
 
     public class AccountsReceivableAgeingReportViewModel
@@ -322,7 +330,8 @@ namespace UserInterface.Models
         public string Withdrawal { get; set; }
         public string Deposit { get; set; }
         public string DepositNotCleared { get; set; }
-        public BankViewModel bankObj { get; set; }
+        public string Search { get; set; }
+        public BankViewModel bankObj { get; set; }        
     }
 
 

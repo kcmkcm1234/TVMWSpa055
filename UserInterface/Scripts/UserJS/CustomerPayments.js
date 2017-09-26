@@ -289,6 +289,7 @@ function GetCustomerPaymentsByID(PaymentID) {
     //$('#Customer').val(thisitem.customerObj.ID);
     $('#hdfCustomerID').val(thisitem.customerObj.ID);
     $('#Customer').prop('disabled', true);
+    $('#ReferenceBank').val(thisitem.ReferenceBank);
     $('#PaymentDate').val(thisitem.PaymentDateFormatted);
     $('#ChequeDate').val(thisitem.ChequeDate);
     $('#PaymentRef').val(thisitem.PaymentRef);
@@ -363,6 +364,7 @@ function openNavClick() {
     $('#Customer').prop('disabled', false);
     $('#BankCode').prop('disabled', true);
     $('#ChequeDate').prop('disabled', true);
+    $('#ReferenceBank').prop('disabled', true);
     $('#Type').prop('disabled', false);
     $('#PaymentMode').prop('disabled', false);
     $('#TotalRecdAmt').prop('disabled', false);
@@ -598,6 +600,7 @@ function fieldsclear() {
     $("#CreditID").html("");
     $('#Type').val('P');
     $('#hdfType').val('');
+    $('#ReferenceBank').val('');
     $("#ddlCreditDiv").css("visibility", "hidden");
     CaptionChangePayment();
 }
@@ -640,10 +643,12 @@ function PaymentModeChanged() {
     }
     if ($('#PaymentMode').val() == "CHEQUE") {
         $('#ChequeDate').prop('disabled', false);
+        $('#ReferenceBank').prop('disabled', false);
     }
     else {
         $("#ChequeDate").val('');
         $('#ChequeDate').prop('disabled', true);
+        $('#ReferenceBank').prop('disabled', true);
     }
 
 

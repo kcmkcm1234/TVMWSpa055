@@ -55,7 +55,8 @@ $(document).ready(function () {
 
 function GetSupplierContactDetail() {
     try {
-        var data = {};
+        var search = $("#Search").val();
+        var data = { "search": search };
         var ds = {};
         ds = GetDataFromServer("Report/GetSupplierContactDetails/", data);
         if (ds != '') {
@@ -66,6 +67,19 @@ function GetSupplierContactDetail() {
         }
         if (ds.Result == "ERROR") {
             notyAlert('error', ds.Message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
+function RefreshSupplierContactDetailsTable() {
+    try {
+        debugger;
+
+        if (DataTables.SupplierContactDetailReportTable != undefined) {
+            DataTables.SupplierContactDetailReportTable.clear().rows.add(GetSupplierContactDetail()).draw(false);
         }
     }
     catch (e) {
@@ -84,4 +98,15 @@ function PrintReport() {
 
 function Back() {
     window.location = appAddress + "Report/Index/";
+}
+
+function OnChangeCall() {
+    RefreshSupplierContactDetailsTable();
+
+}
+
+function Reset() {
+    debugger;
+    $("#Search").val('');
+    RefreshSupplierContactDetailsTable();
 }

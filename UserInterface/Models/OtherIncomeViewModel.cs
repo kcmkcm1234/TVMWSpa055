@@ -22,6 +22,8 @@ namespace UserInterface.Models
         [Display(Name = "Payment Mode")]
         [Required(ErrorMessage ="Please Select Payment Mode")]
         public string PaymentMode { get; set; }
+        [Display(Name = "Reference Bank")]
+        public string ReferenceBank { get; set; }
         public Guid DepWithdID { get; set; }
         [Display(Name = "Bank")]
         public string BankCode { get; set; }

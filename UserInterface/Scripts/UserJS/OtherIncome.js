@@ -24,12 +24,13 @@ $(document).ready(function () {
                { "data": "PaymentMode", "defaultContent": "<i>-</i>" },
                { "data": "IncomeDateFormatted", "defaultContent": "<i>-</i>" },
                  { "data": "Description", "defaultContent": "<i>-</i>" },
+                  { "data": "IncomeRef", "defaultContent": "<i>-</i>" },
                { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                { "data": null, "orderable": false, "defaultContent": '<a href="#" title="Edit OtherIncome" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' },
                { "data": null, "orderable": false, "defaultContent": '<a data-toggle="tp" data-placement="top" data-delay={"show":2000, "hide":3000} title="Delete OtherIncome" href="#" class="DeleteLink" onclick="Delete(this)"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' }
              ],
              columnDefs: [{ "targets": [1,2], "visible": false, "searchable": false },
-                  { className: "text-right", "targets": [7] },
+                  { className: "text-right", "targets": [7,8] },
                     { className: "text-left", "targets": [0,6,3,4] },
              { className: "text-center", "targets": [5,8] }
 
@@ -211,9 +212,11 @@ function PaymentModeOnchange(curObj)
     }
     if (curObj.value == "CHEQUE") {
         $("#ChequeDate").prop('disabled', false);
+        $("#ReferenceBank").prop('disabled', false);
     }
     else {
         $("#ChequeDate").prop('disabled', true);
+        $("#ReferenceBank").prop('disabled', true);
     }
     $('span[data-valmsg-for="BankCode"]').empty();
 }
@@ -227,6 +230,7 @@ function ShowModal()
     var IncomeDate = $("#IncomeDate").val();
     $("#IncomeDateModal").val(IncomeDate);
     $("#ChequeDate").prop('disabled', true);
+    $("#ReferenceBank").prop('disabled', true);
 }
 
 function Validation() {
@@ -358,6 +362,7 @@ function FillOtherIncomeDetails(ID)
     $("#AccountCode").val(thisItem.AccountCode);
     $("#PaymentRcdComanyCode").val(thisItem.PaymentRcdComanyCode);
     $("#PaymentMode").val(thisItem.PaymentMode);
+    $("#ReferenceBank").val(thisItem.ReferenceBank);
     $("#ChequeDate").val(thisItem.ChequeDate);
     $("#BankCode").val(thisItem.BankCode);
     $("#Amount").val(roundoff(thisItem.Amount));
@@ -368,9 +373,11 @@ function FillOtherIncomeDetails(ID)
     $("#AddOrEditSpan").text("Edit");
     if (thisItem.PaymentMode != "CHEQUE") {
         $("#ChequeDate").prop('disabled', true);
+        $("#ReferenceBank").prop('disabled', true);
     }
     else {
         $("#ChequeDate").prop('disabled', false);
+        $("#ReferenceBank").prop('disabled', false);
     }
 }
 
