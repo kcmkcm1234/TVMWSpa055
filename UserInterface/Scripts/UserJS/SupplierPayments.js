@@ -25,14 +25,22 @@ $(document).ready(function () {
         });
         DataTables.SupplierPaymentTable = $('#SupPayTable').DataTable(
         {
-            dom: '<"pull-left"f>rt<"bottom"ip><"clear">',
+            
+            dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
+
             order: [],
             searching: true,
             paging: true,
-            data:GetAllSupplierPayments(),
+            data: GetAllSupplierPayments(),
+            pageLength: 15,
+            language: {
+                search: "_INPUT_",
+                searchPlaceholder: "Search"
+            },
             columns: [
                  { "data": "ID", "defaultContent": "<i>-</i>" },
                  { "data": "EntryNo", "defaultContent": "<i>-</i>" },
+                 { "data": "ApprovalStatusObj.Description", "defaultContent": "<i>-</i>" },
                  { "data": "PaymentDateFormatted", "defaultContent": "<i>-</i>" },
                  { "data": "PaymentRef", "defaultContent": "<i>-</i>" },
                  { "data": "supplierObj.CompanyName", "defaultContent": "<i>-</i>" },//render supplierObj.ContactPerson
@@ -53,9 +61,9 @@ $(document).ready(function () {
                  { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink" onclick="Edit(this)"><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
             ],
             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                { className: "text-right", "targets": [8, 9] },
-                 { className: "text-Left", "targets": [4, 5, 6, 7,3] },
-                { className: "text-center", "targets": [1, 2,10] }
+                { className: "text-right", "targets": [9,10] },
+                 { className: "text-Left", "targets": [2,4, 5, 6, 7,8] },
+                { className: "text-center", "targets": [1, 3,11] }
             ]
         });
     }
@@ -183,6 +191,8 @@ function Summary(Records) {
     $('#openinvoice').html(Records.OpenInvoices);
     $('#paidamt').html(Records.PaidAmountFormatted);
     $('#paidinvoice').html(Records.PaidInvoices);
+    $('#notApproved').html(Records.NotApproved);
+    $('#Approved').html(Records.Approved);
 }
 
 //---------------Bind logics-------------------
@@ -229,9 +239,9 @@ function GetOutstandingAmountBySupplier(SupplierID) {
 ////--------------------------------------------------------------------------------------
 
 
-function GetAllSupplierPayments() {
+function GetAllSupplierPayments(filter) {
     try {
-        var data = {};
+        var data = { "filter": filter };
         var ds = {};
         ds = GetDataFromServer("SupplierPayments/GetAllSupplierPayments/", data);
         if (ds != '') {
@@ -832,4 +842,33 @@ function ApprovedPayment() {
     }
 
     
+}
+
+//------------------------------------------------Summary Filter clicks------------------------------------------------------------//
+
+function Gridfilter(thisobj) {
+    debugger;
+    $('#filter').show();
+
+    $('#APfilter').hide();
+    $('#NAfilter').hide();
+
+    if (thisobj == 'AP') {
+        $('#APfilter').show();
+    }
+    else if (thisobj == 'NA') {
+        $('#NAfilter').show();
+    } 
+
+    var result = GetAllSupplierPayments(thisobj);
+    if (result != null) {
+        if (result!= null)
+            DataTables.SupplierPaymentTable.clear().rows.add(result).draw(false); 
+    }
+}
+
+function Reset() {
+    $('#filter').hide();
+    DataTables.SupplierPaymentTable.clear().rows.add(GetAllSupplierPayments()).draw(false);
+   
 }

@@ -147,9 +147,19 @@ namespace UserInterface.Controllers
         #region GetAllSupplierPayments
         [AuthSecurityFilter(ProjectObject = "SupplierPayments", Mode = "R")]
         [HttpGet]
-        public string GetAllSupplierPayments()
+        public string GetAllSupplierPayments(string filter)
         {
             List<SupplierPaymentsViewModel> supplierPayList = Mapper.Map<List<SupplierPayments>, List<SupplierPaymentsViewModel>>(_supplierPaymentsBusiness.GetAllSupplierPayments());
+
+            if (filter != null && filter == "NA")
+            {
+                supplierPayList = supplierPayList.Where(m => m.ApprovalStatus==1).ToList();
+            }
+            else if (filter != null && filter == "AP")
+            {
+                supplierPayList = supplierPayList.Where(m => m.ApprovalStatus == 2).ToList();
+            } 
+
             return JsonConvert.SerializeObject(new { Result = "OK", Records = supplierPayList });
         }
         #endregion GetAllSupplierPayments
@@ -347,11 +357,9 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.addbtn.Title = "Add New";
                     ToolboxViewModelObj.addbtn.Event = "openNavClick();";
 
-                    //ToolboxViewModelObj.backbtn.Visible = true;
-                    //ToolboxViewModelObj.backbtn.Disable = true;
-                    //ToolboxViewModelObj.backbtn.Text = "Back";
-                    //ToolboxViewModelObj.backbtn.DisableReason = "Not applicable";
-                    //ToolboxViewModelObj.backbtn.Event = "Back();";
+                    ToolboxViewModelObj.resetbtn.Visible = true;
+                    ToolboxViewModelObj.resetbtn.Text = "Reset";
+                    ToolboxViewModelObj.resetbtn.Event = "Reset();";
 
                     break;
                 case "Edit":

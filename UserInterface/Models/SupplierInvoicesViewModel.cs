@@ -110,6 +110,9 @@ namespace UserInterface.Models
         public decimal PaidAmount { get; set; }
         public string PaidAmountFormatted { get; set; }
         public int PaidInvoices { get; set; }
+
+        public string Approved { get; set; }
+        public string NotApproved { get; set; }
     }
 
     public class SupplierSummaryforMobileViewModel
