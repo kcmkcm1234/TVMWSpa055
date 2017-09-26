@@ -30,8 +30,8 @@ $(document).ready(function () {
                { "data": null, "orderable": false, "defaultContent": '<a data-toggle="tp" data-placement="top" data-delay={"show":2000, "hide":3000} title="Delete OtherIncome" href="#" class="DeleteLink" onclick="Delete(this)"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' }
              ],
              columnDefs: [{ "targets": [1,2], "visible": false, "searchable": false },
-                  { className: "text-right", "targets": [7,8] },
-                    { className: "text-left", "targets": [0,6,3,4] },
+                  { className: "text-right", "targets": [8] },
+                    { className: "text-left", "targets": [0,6,3,4,7] },
              { className: "text-center", "targets": [5,8] }
 
              ]

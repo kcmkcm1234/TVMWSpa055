@@ -27,14 +27,29 @@ namespace SPAccounts.BusinessService.Services
             supplierPayObj = _supplierPaymentsRepository.GetAllSupplierPayments();
             return supplierPayObj;
         }
+        public List<SupplierPayments> GetAllPendingSupplierPayments()
+        {
+            List<SupplierPayments> supplierPendingList = _supplierPaymentsRepository.GetAllPendingSupplierPayments();
+            return supplierPendingList;
+        }
 
         public SupplierPayments GetSupplierPaymentsByID(string ID)
         {
             SupplierPayments PayObj = null;
             PayObj = _supplierPaymentsRepository.GetSupplierPaymentsByID(ID);
             return PayObj;
-        } 
-     
+        }
+        public SupplierPayments GetSupplierInvoiceAdjustedByPaymentID(SupplierPayments SupObj)
+        {
+            SupplierPayments PaymentObj= _supplierPaymentsRepository.GetSupplierInvoiceAdjustedByPaymentID(SupObj);
+            return PaymentObj;
+        }
+        public SupplierPayments ApprovedSupplierPayment(SupplierPayments SupObj)
+        {
+            SupplierPayments PaymentObj = _supplierPaymentsRepository.ApprovedSupplierPayment(SupObj);
+            return PaymentObj;
+        }
+        
         public SupplierPayments InsertUpdatePayments(SupplierPayments _supplierPayObj)
         {
             if (_supplierPayObj.ID != null && _supplierPayObj.ID != Guid.Empty)

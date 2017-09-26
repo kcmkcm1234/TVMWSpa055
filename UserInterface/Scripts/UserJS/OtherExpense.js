@@ -33,9 +33,9 @@ $(document).ready(function () {
 
              ],
              columnDefs: [{ "targets": [10], "visible": false, "searchable": false },
-                  { className: "text-left", "targets": [1, 2,3,6,9] },
+                  { className: "text-left", "targets": [1, 2,3,6,9,7] },
              { className: "text-right", "targets": [4] },
-             { className: "text-center", "targets": [5,8,7] }
+             { className: "text-center", "targets": [5,8] }
 
              ]
          });
