@@ -56,6 +56,9 @@ namespace SPAccounts.RepositoryServices.Services
                                         PaymentsObj.AdvanceAmount = (sdr["AdvanceAmount"].ToString() != "" ? Decimal.Parse(sdr["AdvanceAmount"].ToString()) : PaymentsObj.AdvanceAmount);
                                         PaymentsObj.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : PaymentsObj.Type);
                                         PaymentsObj.CreditNo = (sdr["CRNRefNo"].ToString() != "" ? sdr["CRNRefNo"].ToString() : PaymentsObj.CreditNo);
+                                        PaymentsObj.ApprovalStatus = (sdr["ApprovalStatus"].ToString() != "" ? Int16.Parse(sdr["ApprovalStatus"].ToString()):PaymentsObj.ApprovalStatus);
+                                        PaymentsObj.ApprovalStatusObj = new ApprovalStatus();
+                                        PaymentsObj.ApprovalStatusObj.Description = (sdr["StatusDesc"].ToString() != "" ? sdr["StatusDesc"].ToString() : PaymentsObj.ApprovalStatusObj.Description);
                                         PaymentsObj.supplierObj = new Supplier();
                                         PaymentsObj.supplierObj.CompanyName = (sdr["Supplier"].ToString() != "" ? sdr["Supplier"].ToString() : PaymentsObj.supplierObj.CompanyName);
                                         PaymentsObj.supplierObj.ID = (sdr["SupplierID"].ToString() != "" ? Guid.Parse(sdr["SupplierID"].ToString()) : PaymentsObj.supplierObj.ID);

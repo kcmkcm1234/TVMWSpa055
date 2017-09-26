@@ -122,6 +122,8 @@ namespace SPAccounts.RepositoryServices.Services
                                         SupplierInvoiceSummaryObj.PaidAmount = (sdr["Paidamt"].ToString() != "" ? Decimal.Parse(sdr["Paidamt"].ToString()) : SupplierInvoiceSummaryObj.PaidAmount);
                                         SupplierInvoiceSummaryObj.PaidInvoices = (sdr["PaidInvoices"].ToString() != "" ? int.Parse(sdr["PaidInvoices"].ToString()) : SupplierInvoiceSummaryObj.PaidInvoices);
 
+                                        SupplierInvoiceSummaryObj.Approved = (sdr["Approved"].ToString() != "" ? sdr["Approved"].ToString() : SupplierInvoiceSummaryObj.Approved);
+                                        SupplierInvoiceSummaryObj.NotApproved = (sdr["NotApproved"].ToString() != "" ? sdr["NotApproved"].ToString() : SupplierInvoiceSummaryObj.NotApproved);
                                     }
 
                                 }

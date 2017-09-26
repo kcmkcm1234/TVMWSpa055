@@ -28,7 +28,9 @@ namespace SPAccounts.BusinessService.Services
             result = _supplierInvoicesRepository.GetSupplierInvoicesSummary();
             if (result != null)
             {
-
+                
+                result.Approved= _commonBusiness.ConvertCurrency(Decimal.Parse(result.Approved), 2);
+                result.NotApproved= _commonBusiness.ConvertCurrency(Decimal.Parse(result.NotApproved), 2);
                 result.OpenAmountFormatted = _commonBusiness.ConvertCurrency(result.OpenAmount, 2);
                 result.PaidAmountFormatted = _commonBusiness.ConvertCurrency(result.PaidAmount, 2);
                 result.OverdueAmountFormatted = _commonBusiness.ConvertCurrency(result.OverdueAmount, 2);

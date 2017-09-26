@@ -36,51 +36,46 @@
             }
         </div>
     </div>
-    <div class="row summaryboxes">
-        <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box">
-                <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
-
-                <div class="info-box-content">
-                    <span class="info-box-text">Overdue <b><span class="info-box-more" id="overdueamt">₹0.00</span></b></span>
-                    <span class="info-box-more">Invoices <small><span id="overdueinvoice">0</span></small></span>
-                </div>
-                <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-        </div>
-        <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box">
-                <span class="info-box-icon bg-aqua"></span>
-
-                <div class="info-box-content">
-                    <span class="info-box-text">Open Invoices <b><span class="info-box-more" id="openamt">₹0.00</span></b></span>
-                    <span class="info-box-more">Invoices <small><span id="openinvoice">0</span></small></span>
-                </div>
-                <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-        </div>
-        <!-- /.col -->
-        <!-- /.col -->
-        <!-- fix for small devices only -->
-        <div class="clearfix visible-sm-block"></div>
-
-        <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box">
+    <div class="col-md-10">
+        <div class="row summaryboxes"> 
+           
+            <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box" style="cursor:pointer" onclick="Gridfilter('AP');">
                 <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
-
                 <div class="info-box-content">
-                    <span class="info-box-text">Fully Paid <b><span class="info-box-more" id="paidamt">₹0.00</span></b></span>
-                    <span class="info-box-more">Invoices <small><span id="paidinvoice">0</span></small></span>
+                    <span class="info-box-text">Approved <b><span class="info-box-more" id="Approved">₹0.00</span></b></span>
                 </div>
                 <!-- /.info-box-content -->
             </div>
             <!-- /.info-box -->
         </div>
-        <!-- /.col -->
-        <!-- /.col -->
+            <!-- /.col -->
+            <!-- /.col -->
+            <div class="clearfix visible-sm-block"></div>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box" style="cursor:pointer" onclick="Gridfilter('NA');">
+                    <span class="info-box-icon bg-orange"><i class="ion ion-ios-cart-outline"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Not approved <b><span class="info-box-more" id="notApproved">₹0.00</span></b></span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+
+        </div>
     </div>
+
+    <div class="col-md-12">
+        <div id="filter" hidden="hidden" style="position:absolute;padding-top:10px;font-size:medium">
+            <b>Filter:</b>
+            <p id="APfilter" style="padding-right:20px;font-size:medium" class="fa fa-th ig-green">Approved</p>
+            <p id="NAfilter" style="padding-right:20px;font-size:medium" class="fa fa-th ig-yellow">Not Approved</p>
+        </div>
+
+    </div>
+  
     <div class="row">
         &nbsp;
     </div>
@@ -91,6 +86,7 @@
                     <tr class="text-center TableHead">
                         <th>ID</th>
                         <th>Entry No.</th>
+                        <th>Approval Status</th>
                         <th>Payment Date</th>
                         <th>Payment Ref.</th>
                         <th>Supplier</th>
@@ -117,7 +113,7 @@
                 <div class="col-md-6" style="text-align:left">
                     <span id="lblheader" class="SCHeader">New Payment</span>
                 </div>
-                <div class="col-md-6" id="btnPatchAdd" style="min-height:25px; padding-right:25px;">
+                <div class="col-md-6" id="btnPatchAdd" style="min-height:25px; padding-right:25px;z-index: 1;">
                     @{
                         var data1 = new { ActionType = "Add" };
                         @Html.Action("ChangeButtonStyle", "SupplierPayments", data1);

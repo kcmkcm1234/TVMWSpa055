@@ -59,6 +59,9 @@ namespace SPAccounts.DataAccessObject.DTO
         public string PaidAmountFormatted { get; set; }
         public int PaidInvoices { get; set; }
 
+        public string Approved { get; set; }
+        public string NotApproved { get; set; }
+
     }
 
 

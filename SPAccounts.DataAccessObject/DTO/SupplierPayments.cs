@@ -40,7 +40,9 @@ namespace SPAccounts.DataAccessObject.DTO
         public string PaymentOutstanding { get; set; }
         public int ApprovalStatus { get; set; }
         public string ApprovalDate { get; set; }
-    }
+
+        public ApprovalStatus ApprovalStatusObj { get; set; }
+}
     public class SupplierPaymentsDetail
     {
         public Guid ID { get; set; }
