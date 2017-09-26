@@ -21,6 +21,9 @@ namespace UserInterface.Models
         [Display(Name = "Filter")]
         public string DefaultDate { get; set; }
         public string creditAmountFormatted { get; set; }
+        [Display(Name = "Reference Bank")]
+        public string ReferenceBank { get; set; }
+        public string ReferenceNo { get; set; }
 
         [Required(ErrorMessage = "Company required")]
         [Display(Name = "Expense From Company")]

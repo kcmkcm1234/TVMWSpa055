@@ -16,7 +16,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public string PaymentRef { get; set; }
         public DateTime PaymentDate { get; set; }
         public string ChequeDate { get; set; }
-        public string GeneralNotes { get; set; } 
+        public string GeneralNotes { get; set; }
+        public string ReferenceBank { get; set; }
         public decimal TotalRecdAmt  { get; set; }
         public decimal AdvanceAmount { get; set; }
         public string Type { get; set; }

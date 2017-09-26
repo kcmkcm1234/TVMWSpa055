@@ -110,6 +110,7 @@ namespace SPAccounts.RepositoryServices.Services
                                     CustPaymentsObj.EntryNo = (sdr["EntryNo"].ToString() != "" ? sdr["EntryNo"].ToString() : CustPaymentsObj.EntryNo);
                                     CustPaymentsObj.PaymentMode = (sdr["PaymentMode"].ToString() != "" ? sdr["PaymentMode"].ToString() : CustPaymentsObj.PaymentMode);
                                     CustPaymentsObj.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : CustPaymentsObj.Type);
+                                    CustPaymentsObj.ReferenceBank = (sdr["ReferenceBank"].ToString() != "" ? sdr["ReferenceBank"].ToString() : CustPaymentsObj.ReferenceBank);
                                     CustPaymentsObj.CreditID = (sdr["CreditID"].ToString() != "" ? Guid.Parse(sdr["CreditID"].ToString()) : CustPaymentsObj.CreditID);
                                     CustPaymentsObj.CreditNo = (sdr["CRNRefNo"].ToString() != "" ? sdr["CRNRefNo"].ToString() : CustPaymentsObj.CreditNo);
                                     CustPaymentsObj.TotalRecdAmt = (sdr["AmountReceived"].ToString() != "" ? Decimal.Parse(sdr["AmountReceived"].ToString()) : CustPaymentsObj.TotalRecdAmt);
@@ -155,6 +156,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@PaymentMode", SqlDbType.VarChar, 10).Value = _custPayObj.PaymentMode;
                         cmd.Parameters.Add("@BankCode", SqlDbType.VarChar, 10).Value = _custPayObj.BankCode;
                         cmd.Parameters.Add("@PaymentRef", SqlDbType.VarChar, 10).Value = _custPayObj.PaymentRef;
+                        cmd.Parameters.Add("@Refbank", SqlDbType.NVarChar, 50).Value = _custPayObj.ReferenceBank;
                         cmd.Parameters.Add("@RecdToComanyCode", SqlDbType.VarChar, 10).Value = _custPayObj.RecdToComanyCode;
                         cmd.Parameters.Add("@TotalRecdAmt", SqlDbType.Decimal).Value = _custPayObj.TotalRecdAmt;
                         cmd.Parameters.Add("@AdvanceAmount", SqlDbType.Decimal).Value = _custPayObj.AdvanceAmount;
@@ -221,6 +223,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@Type", SqlDbType.VarChar, 1).Value = _custPayObj.hdfType;
                         cmd.Parameters.Add("@CreditID", SqlDbType.UniqueIdentifier).Value = _custPayObj.hdfCreditID;
                         cmd.Parameters.Add("@BankCode", SqlDbType.VarChar, 10).Value = _custPayObj.BankCode;
+                        cmd.Parameters.Add("@Refbank", SqlDbType.NVarChar, 50).Value = _custPayObj.ReferenceBank;
                         cmd.Parameters.Add("@DepWithdID", SqlDbType.UniqueIdentifier).Value = _custPayObj.DepWithdID;
                         cmd.Parameters.Add("@PaymentRef", SqlDbType.VarChar, 10).Value = _custPayObj.PaymentRef;
                         cmd.Parameters.Add("@RecdToComanyCode", SqlDbType.VarChar, 10).Value = _custPayObj.RecdToComanyCode;

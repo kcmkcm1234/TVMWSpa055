@@ -121,6 +121,7 @@ namespace SPAccounts.RepositoryServices.Services
                                     _otherIncomeObj.BankCode = (sdr["BankCode"].ToString() != "" ? (sdr["BankCode"].ToString()) : _otherIncomeObj.BankCode);
                                     _otherIncomeObj.IncomeRef = (sdr["IncomeRef"].ToString() != "" ? sdr["IncomeRef"].ToString() : _otherIncomeObj.IncomeRef);
                                     _otherIncomeObj.Description = (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : _otherIncomeObj.Description);
+                                    _otherIncomeObj.ReferenceBank = (sdr["ReferenceBank"].ToString() != "" ? sdr["ReferenceBank"].ToString() : _otherIncomeObj.ReferenceBank);
                                     _otherIncomeObj.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : _otherIncomeObj.Amount);
                                     _otherIncomeObj.IncomeDateFormatted = (sdr["IncomeDate"].ToString() != "" ? DateTime.Parse(sdr["IncomeDate"].ToString()).ToString(s.dateformat) : _otherIncomeObj.IncomeDateFormatted);
                                     _otherIncomeObj.ChequeDate = (sdr["ChequeDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeDate"].ToString()).ToString(s.dateformat) : _otherIncomeObj.ChequeDate);
@@ -165,6 +166,7 @@ namespace SPAccounts.RepositoryServices.Services
                             cmd.Parameters.Add("@DepWithdID", SqlDbType.UniqueIdentifier).Value = _otherIncomeObj.DepWithdID;
                         }                       
                         cmd.Parameters.Add("@BankCode", SqlDbType.VarChar,5).Value = _otherIncomeObj.BankCode;
+                        cmd.Parameters.Add("@Refbank", SqlDbType.NVarChar, 50).Value = _otherIncomeObj.ReferenceBank;
                         cmd.Parameters.Add("@IncomeRef", SqlDbType.VarChar,20).Value = _otherIncomeObj.IncomeRef;
                         cmd.Parameters.Add("@Description", SqlDbType.NVarChar,-1).Value = _otherIncomeObj.Description;
                         cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = _otherIncomeObj.Amount;
@@ -232,6 +234,7 @@ namespace SPAccounts.RepositoryServices.Services
                         }
                         
                         cmd.Parameters.Add("@BankCode", SqlDbType.VarChar, 5).Value = _otherIncomeObj.BankCode;
+                        cmd.Parameters.Add("@Refbank", SqlDbType.NVarChar, 50).Value = _otherIncomeObj.ReferenceBank;
                         cmd.Parameters.Add("@IncomeRef", SqlDbType.VarChar, 20).Value = _otherIncomeObj.IncomeRef;
                         cmd.Parameters.Add("@Description", SqlDbType.NVarChar, -1).Value = _otherIncomeObj.Description;
                         cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = _otherIncomeObj.Amount;

@@ -14,6 +14,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string PaymentMode { get; set; }
         public Guid DepWithdID { get; set; }
         public string BankCode { get; set; }
+        public string ReferenceBank { get; set; }
         public string IncomeRef { get; set; }
         public string Description { get; set; }
         public decimal Amount { get; set; }

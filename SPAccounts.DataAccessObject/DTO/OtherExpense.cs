@@ -18,6 +18,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public string PaymentMode { get; set; }
         public Guid DepWithID { get; set; }
         public string EmpTypeCode { get; set; }
+        public string ReferenceBank { get; set; }
+        public string ReferenceNo { get; set; }
         public DepositAndWithdrawals depositAndWithdrwal { get; set; }
         public string BankCode { get; set; }
         public string ExpenseRef { get; set; }
