@@ -170,6 +170,14 @@ namespace UserInterface.Controllers
         public string GetSupplierPaymentsByID(string ID)
         {
             SupplierPaymentsViewModel supplierpaylist = Mapper.Map<SupplierPayments, SupplierPaymentsViewModel>(_supplierPaymentsBusiness.GetSupplierPaymentsByID(ID));
+            if (supplierpaylist.ApprovalStatus != 1)
+            {
+                AppUA _appUA = Session["AppUA"] as AppUA;
+                if(_appUA.RolesCSV.Contains("CEO") || _appUA.RolesCSV.Contains("SAdmin"))
+                {
+                    supplierpaylist.HasAccess = true;
+                }
+            }
             return JsonConvert.SerializeObject(new { Result = "OK", Records = supplierpaylist });
 
         }

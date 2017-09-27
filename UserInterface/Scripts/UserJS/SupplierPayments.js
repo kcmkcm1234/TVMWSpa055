@@ -282,12 +282,19 @@ function GetSupplierPaymentsByID(PaymentID) {
     
     $('#ddlApprovalStatus').val(thisitem.ApprovalStatus);
     $('#ApprovalDate').val(thisitem.ApprovalDate);
+    $('#ddlApprovalStatus').prop('disabled', false) 
     if (thisitem.ApprovalStatus == 3 || thisitem.ApprovalStatus==1) {
         ChangeButtonPatchView('SupplierPayments', 'btnPatchAdd', 'Approve');
+        if (thisitem.ApprovalStatus == 3)
+        {
+            $('#ddlApprovalStatus').prop('disabled',true)
+        }
+
     }
     else {
         ChangeButtonPatchView('SupplierPayments', 'btnPatchAdd', 'Edit');
     }
+  
 
     $('#hdfSupplierID').val(thisitem.supplierObj.ID);
     $('#Supplier').prop('disabled', true);
@@ -337,6 +344,13 @@ function GetSupplierPaymentsByID(PaymentID) {
         $('#PaymentMode').prop('disabled', false);
         $('#TotalPaidAmt').prop('disabled', false);
         CaptionChangePayment();
+    }
+    if (thisitem.HasAccess || thisitem.ApprovalStatus == 1) //true for SEO and SAdmin
+    {
+        $('#TotalPaidAmt').prop('disabled', false);
+    }
+    else {// false for manager
+        $('#TotalPaidAmt').prop('disabled', true);
     }
 
     PaymentModeChanged();
@@ -606,6 +620,7 @@ function fieldsclear() {
     $('#hdfType').val('');
     $('#paymentDetailhdf').val('');
     $('#TotalPaidAmt').prop('disabled', false);
+    $('#ddlApprovalStatus').prop('disabled', false)
     $("#ddlCreditDiv").css("visibility", "hidden");
     CaptionChangePayment();
 }
@@ -827,6 +842,8 @@ function ApprovedPayment() {
                     case "OK":
                         notyAlert('success', JsonResult.Message);
                         GetSupplierPaymentsByID(ID);
+                        List();
+                        BindSupplierPaymentsHeader()
                         break;
                     case "ERROR":
                         notyAlert('error', JsonResult.Message);

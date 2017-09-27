@@ -91,11 +91,15 @@ namespace UserInterface.Models
         public string BalanceDuestring { get; set; }
         public string TotalInvoiceAmountstring { get; set; }
         public string PaidAmountstring { get; set; }
+        public decimal PaidAmount { get; set; }
+
+        
         public Guid hdnFileID { get; set; }
         public decimal BalanceDue { get; set; }
         public DateTime LastPaymentDate { get; set; }
         public String LastPaymentDateFormatted { get; set; }
         public String Status { get; set; }
+        public decimal PaymentProcessed { get; set; }
     }
     public class SupplierInvoiceSummaryViewModel
     {

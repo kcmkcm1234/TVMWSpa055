@@ -44,6 +44,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public String LastPaymentDateFormatted { get; set; }
         public String Status { get; set; }
         public Common commonObj { get; set; }
+        public decimal PaymentProcessed { get; set; }
     }
     public class SupplierInvoiceSummary
     {
