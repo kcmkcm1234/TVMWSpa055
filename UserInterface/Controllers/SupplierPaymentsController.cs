@@ -393,7 +393,7 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.CloseBtn.Event = "closeNav();";
 
                     ToolboxViewModelObj.NotyBtn.Visible = true;
-                    ToolboxViewModelObj.NotyBtn.Text = "Send";
+                    ToolboxViewModelObj.NotyBtn.Text = "Notify";
                     ToolboxViewModelObj.NotyBtn.Title = "Send Notification";
                     ToolboxViewModelObj.NotyBtn.Event = "SendNotification();";
 
@@ -428,7 +428,7 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.CloseBtn.Event = "closeNav();";
 
                     ToolboxViewModelObj.NotyBtn.Visible = true;
-                    ToolboxViewModelObj.NotyBtn.Text = "Send";
+                    ToolboxViewModelObj.NotyBtn.Text = "Notify";
                     ToolboxViewModelObj.NotyBtn.Title = "Send Notification";
                     ToolboxViewModelObj.NotyBtn.Event = "SendNotification();";
 
@@ -450,7 +450,7 @@ namespace UserInterface.Controllers
 
                     ToolboxViewModelObj.NotyBtn.Visible = true;
                     ToolboxViewModelObj.NotyBtn.Disable = true;
-                    ToolboxViewModelObj.NotyBtn.Text = "Send";
+                    ToolboxViewModelObj.NotyBtn.Text = "Notify";
                     ToolboxViewModelObj.NotyBtn.Title = "Send Notification";
                     ToolboxViewModelObj.NotyBtn.DisableReason = "Not applicable";
                     ToolboxViewModelObj.NotyBtn.Event = "SendNotification();";
