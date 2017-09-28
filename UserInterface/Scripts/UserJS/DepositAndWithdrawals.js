@@ -82,14 +82,15 @@ $(document).ready(function () {
              { "data": "ID" },
              { "data": "Checkbox", "defaultContent": "" },
              { "data": "DateFormatted", "defaultContent": "<i>-</i>" },
+              { "data": "ChequeDate", "defaultContent": "<i>-</i>" },
              { "data": "ReferenceNo", "defaultContent": "<i>-</i>" },             
              { "data": "BankName", "defaultContent": "<i>-</i>" },
              { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
              { "data": null, "orderable": false, "defaultContent": '<a href="#" title="Edit Deposit" class="actionLink"  onclick="EditDeposit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
            ],
            columnDefs: [{ "targets": [0], "visible": false, "searchable": false }, { orderable: false, className: 'select-checkbox', targets: 1 },
-               { orderable: false, "visible": false, targets: 6 },
-                { className: "text-right", "targets": [5] },
+               { orderable: false, "visible": false, targets: 7 },
+                { className: "text-right", "targets": [6] },
                   { className: "text-left", "targets": [] },
            { className: "text-center", "targets": [1, 2, 3, 4,6] }
           

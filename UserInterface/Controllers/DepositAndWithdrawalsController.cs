@@ -180,6 +180,56 @@ namespace UserInterface.Controllers
         }
         #endregion ClearCheque
 
+        #region GetUndepositedCheque
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "UndepositedCheque", Mode = "R")]
+        public ActionResult undeposited()
+        {
+            DateTime dt = DateTime.Now;
+            ViewBag.fromdate = dt.ToString("dd-MMM-yyyy");
+            ViewBag.todate = dt.ToString("dd-MMM-yyyy");
+            return View();
+        }
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "UndepositedCheque", Mode = "R")]
+        public string GetUndepositedCheque(string FromDate, string ToDate)
+        {
+            try
+            {
+
+                List<DepositAndWithdrwalViewModel> unDepositedChequeList = Mapper.Map<List<DepositAndWithdrawals>, List<DepositAndWithdrwalViewModel>>(_depositAndWithdrawalsBusiness.GetUndepositedCheque(FromDate, ToDate));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = unDepositedChequeList });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion  GetUndepositedCheque
+
+        #region  GetUndepositedChequeCount
+        //[HttpGet]
+        //[AuthSecurityFilter(ProjectObject = "UndepositedCheque", Mode = "R")]
+        public string GetUndepositedChequeCount()
+        {
+            try
+            {
+                Common C = new Common();
+                string Date = C.GetCurrentDateTime().ToString("dd-MMM-yyyy");
+                string unDepositedCount = _depositAndWithdrawalsBusiness.GetUndepositedChequeCount(Date);
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = unDepositedCount });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion  GetUndepositedChequeCount
+
         #region ButtonStyling
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "DepositAndWithdrawals", Mode = "R")]
@@ -205,6 +255,24 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.ClearBtn.Event = "ShowChequeClear();";
 
                     break;
+
+                case "ListWithReset":
+                    //ToolboxViewModelObj.backbtn.Visible = true;
+                    //ToolboxViewModelObj.backbtn.Disable = false;
+                    //ToolboxViewModelObj.backbtn.Text = "Back";
+                    //ToolboxViewModelObj.backbtn.DisableReason = "Not applicable";
+                    //ToolboxViewModelObj.backbtn.Event = "Back();";
+
+                    ToolboxViewModelObj.PrintBtn.Visible = true;
+                    ToolboxViewModelObj.PrintBtn.Text = "Export";
+                    ToolboxViewModelObj.PrintBtn.Event = "PrintReport();";
+
+                    ToolboxViewModelObj.resetbtn.Visible = true;
+                    ToolboxViewModelObj.resetbtn.Text = "Reset";
+                    ToolboxViewModelObj.resetbtn.Event = "Reset();";
+
+                    break;
+
                 case "Edit":
                     ToolboxViewModelObj.backbtn.Visible = true;
                     ToolboxViewModelObj.backbtn.Text = "Back";
