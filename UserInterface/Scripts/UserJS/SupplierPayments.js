@@ -836,7 +836,8 @@ function Selectcheckbox() {
 }
 //--------------------------------------------Notification,Approval,Payment Proceeding methods ---------------------------------------------------------//
 function SendNotification() {
-    debugger; 
+    debugger;
+    notyAlert('success','Under Construction !');
 }
 
 function ApprovedPayment() {
