@@ -483,6 +483,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         purchaseDetailReport.PaymentDueDate = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString(settings.dateformat) : purchaseDetailReport.PaymentDueDate);
                                         purchaseDetailReport.InvoiceAmount = (sdr["InvoiceAmount"].ToString() != "" ? decimal.Parse(sdr["InvoiceAmount"].ToString()) : purchaseDetailReport.InvoiceAmount);
                                         purchaseDetailReport.PaidAmount = (sdr["PaidAmount"].ToString() != "" ? decimal.Parse(sdr["PaidAmount"].ToString()) : purchaseDetailReport.PaidAmount);
+                                        purchaseDetailReport.PaymentProcessed = (sdr["PaymentProcessed"].ToString() != "" ? decimal.Parse(sdr["PaymentProcessed"].ToString()) : purchaseDetailReport.PaymentProcessed);
                                         purchaseDetailReport.BalanceDue = (sdr["BalanceDue"].ToString() != "" ? decimal.Parse(sdr["BalanceDue"].ToString()) : purchaseDetailReport.BalanceDue);
                                         purchaseDetailReport.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : purchaseDetailReport.GeneralNotes);
                                         purchaseDetailReport.OriginCompany = (sdr["OriginCompany"].ToString() != "" ? sdr["OriginCompany"].ToString() : purchaseDetailReport.OriginCompany);

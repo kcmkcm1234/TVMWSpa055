@@ -128,6 +128,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string Date { get; set; }
         public string PaymentDueDate { get; set; }
         public decimal PaidAmount { get; set; }
+        public decimal PaymentProcessed { get; set; }
         public decimal InvoiceAmount { get; set; }
         public decimal BalanceDue { get; set; }
         public string OriginCompany { get; set; }
