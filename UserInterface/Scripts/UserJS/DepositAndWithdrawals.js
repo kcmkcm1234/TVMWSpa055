@@ -157,6 +157,9 @@ function SaveSuccess(data, status) {
             BindDepositAndWithdrawals();
             BindDepositWithdrawals('D', "");
             $("#AddDepositAndWithdrawalModel").modal('hide');
+            try {
+                GetUndepositedChequeBubbleCount();
+            } catch (x) { }
             break;
         case "ERROR":
             notyAlert('error', JsonResult.Message);
