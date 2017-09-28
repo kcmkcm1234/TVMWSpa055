@@ -341,13 +341,17 @@ function GetSupplierPaymentsByID(PaymentID) {
         $('#TotalPaidAmt').prop('disabled', false);
         CaptionChangePayment();
     }
-
+    debugger;
     if (thisitem.ApprovalStatus == 3) {
         $('#ddlApprovalStatus').prop('disabled', true)
     }
+    else {
+        if (thisitem.HasAccess) {
+            $('#ddlApprovalStatus').prop('disabled', false)
+        }
+    }
     if (!thisitem.HasAccess) {
         $('#ddlApprovalStatus').prop('disabled', true)
-
 }
  
 
@@ -627,7 +631,7 @@ function fieldsclear() {
     $('#hdfType').val('');
     $('#paymentDetailhdf').val('');
     $('#TotalPaidAmt').prop('disabled', false);
-    $('#ddlApprovalStatus').prop('disabled', false)
+  //  $('#ddlApprovalStatus').prop('disabled', false)
     $("#ddlCreditDiv").css("visibility", "hidden");
     CaptionChangePayment();
 }
