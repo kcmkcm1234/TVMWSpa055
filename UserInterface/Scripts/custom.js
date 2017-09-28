@@ -692,10 +692,12 @@ function GetUndepositedChequeBubbleCount() {
         }
         if (ds.Result == "OK") {
             $('#undepositedCount').text(ds.Records);
+            $('#undepositedCount').attr('title', ds.Records + ' Cheque(s) to be deposited Today');
+            $('#undepositedCount1').attr('title', ds.Records + ' Cheque(s) to be deposited Today');
         }
         if (ds.Result == "ERROR") {
             $('#undepositedCount').text("0");
-        }
+        }    
     }
     catch (e) {
 
