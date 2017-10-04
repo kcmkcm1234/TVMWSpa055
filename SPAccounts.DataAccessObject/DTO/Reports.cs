@@ -257,4 +257,25 @@ namespace SPAccounts.DataAccessObject.DTO
         public string Deposit { get; set; }
         public string DepositNotCleared { get; set; }
     }
+    public class OtherIncomeSummaryReport
+    {
+        public string AccountHeadORSubtype { get; set; }
+        public decimal Amount { get; set; }
+        public string OriginCompany { get; set; }
+        public string Search { get; set; }
+        public string AccountHead { get; set; }
+    }
+
+    public class OtherIncomeDetailsReport
+    {
+        public string AccountHeadORSubtype { get; set; }
+        public string AccountHead { get; set; }
+        public string PaymentMode { get; set; }
+        public string PaymentReference { get; set; }
+        public string Description { get; set; }
+        public decimal Amount { get; set; }
+        public string Company { get; set; }
+        public string OriginCompany { get; set; }
+        public string Date { get; set; }
+    }
 }

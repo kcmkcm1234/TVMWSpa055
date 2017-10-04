@@ -364,6 +364,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         _depositAndWithdrawalsObj.DateFormatted = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(s.dateformat) : _depositAndWithdrawalsObj.DateFormatted);
                                         //_depositAndWithdrawalsObj.Date = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(settings.dateformat) : _depositAndWithdrawalsObj.Date);
                                         _depositAndWithdrawalsObj.ReferenceNo = (sdr["ReferenceNo"].ToString() != "" ? (sdr["ReferenceNo"].ToString()) : _depositAndWithdrawalsObj.ReferenceNo);
+                                        _depositAndWithdrawalsObj.CustomerName = (sdr["CustomerName"].ToString() != "" ? (sdr["CustomerName"].ToString()) : _depositAndWithdrawalsObj.CustomerName);
                                         _depositAndWithdrawalsObj.ReferenceBank = (sdr["ReferenceBank"].ToString() != "" ? (sdr["ReferenceBank"].ToString()) : _depositAndWithdrawalsObj.ReferenceBank);
                                         _depositAndWithdrawalsObj.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : _depositAndWithdrawalsObj.Amount);
 

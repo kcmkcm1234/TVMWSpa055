@@ -101,7 +101,8 @@ namespace UserInterface.App_Start
                 config.CreateMap<AccountsPayableAgeingSummaryReportViewModel, AccountsPayableAgeingSummaryReport>().ReverseMap();
                 config.CreateMap<EmployeeExpenseSummaryReport, EmployeeExpenseSummaryReportViewModel>().ReverseMap();
                 config.CreateMap<DepositsAndWithdrawalsDetailsReportViewModel, DepositsAndWithdrawalsDetailsReport>().ReverseMap();
-
+                config.CreateMap<OtherIncomeSummaryReportViewModel, OtherIncomeSummaryReport>().ReverseMap();
+                config.CreateMap<OtherIncomeDetailsReportViewModel, OtherIncomeDetailsReport>().ReverseMap();
             });
         }
     }

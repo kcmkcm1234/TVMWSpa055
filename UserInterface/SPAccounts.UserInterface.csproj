@@ -1560,6 +1560,8 @@
     <Content Include="Scripts\UserJS\OtherExpenseSummaryReport.js" />
     <Content Include="Scripts\UserJS\OtherIncome.js" />
     <Content Include="Scripts\UserJS\OtherExpense.js" />
+    <Content Include="Scripts\UserJS\OtherIncomeDetailsReport.js" />
+    <Content Include="Scripts\UserJS\OtherIncomeSummaryReport.js" />
     <Content Include="Scripts\UserJS\Outstanding.js" />
     <Content Include="Scripts\UserJS\Privileges.js" />
     <Content Include="Scripts\UserJS\PrivilegesView.js" />
@@ -1744,6 +1746,8 @@
     <Content Include="Views\Report\EmployeeExpenseSummary.cshtml" />
     <Content Include="Views\Report\DepositAndWithdrawalDetail.cshtml" />
     <Content Include="Views\DepositAndWithdrawals\undeposited.cshtml" />
+    <Content Include="Views\Report\OtherIncomeSummary.cshtml" />
+    <Content Include="Views\Report\OtherIncomeDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

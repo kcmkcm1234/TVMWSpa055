@@ -683,7 +683,6 @@ function ShowFiles() {
 }
 function GetUndepositedChequeBubbleCount() {
     try {
-        debugger;
         var data = {};
         var ds = {};
         ds = GetDataFromServer("DepositAndWithdrawals/GetUndepositedChequeCount/", data);
