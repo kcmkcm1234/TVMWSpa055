@@ -272,7 +272,6 @@ function Edit(currentObj) {
 function GetSupplierPaymentsByID(PaymentID) {
   
     var thisitem = GetSupplierPayments(PaymentID)
-    debugger;
     $('#lblheader').text('Entry No: ' + thisitem.EntryNo);
     $('#ID').val(PaymentID);
     $('#deleteId').val(PaymentID);
@@ -282,16 +281,10 @@ function GetSupplierPaymentsByID(PaymentID) {
     
     $('#ddlApprovalStatus').val(thisitem.ApprovalStatus);
     $('#ApprovalDate').val(thisitem.ApprovalDate);
-    $('#ddlApprovalStatus').prop('disabled', false) 
-    if (thisitem.ApprovalStatus == 3 || thisitem.ApprovalStatus==1) {
-        ChangeButtonPatchView('SupplierPayments', 'btnPatchAdd', 'Approve'); 
-    }
-    else {
-        ChangeButtonPatchView('SupplierPayments', 'btnPatchAdd', 'Edit');
-    }
+    $('#ddlApprovalStatus').prop('disabled', false)
+   
   
   
-
     $('#hdfSupplierID').val(thisitem.supplierObj.ID);
     $('#Supplier').prop('disabled', true);
     $('#PaymentDate').val(thisitem.PaymentDateFormatted);
@@ -314,7 +307,6 @@ function GetSupplierPaymentsByID(PaymentID) {
     if ($('#Type').val() == 'C') {
         $("#CreditID").html("");
         //Get Available Credit and Add with  TotalPaidAmt
-        debugger;
         var thisObj = GetCreditNoteByPaymentID(thisitem.supplierObj.ID, PaymentID)
         if (thisObj.length>0)
             var CreditAmount = parseFloat(thisitem.TotalPaidAmt) + parseFloat(thisObj[0].AvailableCredit);
@@ -341,28 +333,44 @@ function GetSupplierPaymentsByID(PaymentID) {
         $('#TotalPaidAmt').prop('disabled', false);
         CaptionChangePayment();
     }
+    //-------------------------------------------------------------------------------------------
     debugger;
-    if (thisitem.ApprovalStatus == 3) {
-        $('#ddlApprovalStatus').prop('disabled', true)
-    }
-    else {
-        if (thisitem.HasAccess) {
+    if (thisitem.HasAccess)  //true for SEO and SAdmin
+    {
+        if (thisitem.ApprovalStatus == 1||thisitem.ApprovalStatus==2) {
+            $('#TotalPaidAmt').prop('disabled', false);
             $('#ddlApprovalStatus').prop('disabled', false)
         }
+        else {
+            $('#TotalPaidAmt').prop('disabled', true);
+            $('#ddlApprovalStatus').prop('disabled', true)
+        }
+        // ------------ Button Patch ----------------//
+        if (thisitem.ApprovalStatus == 2)
+            ChangeButtonPatchView('SupplierPayments', 'btnPatchAdd', 'Approve');
+        else
+            ChangeButtonPatchView('SupplierPayments', 'btnPatchAdd', 'Edit');
+      
     }
-    if (!thisitem.HasAccess) {
-        $('#ddlApprovalStatus').prop('disabled', true)
-}
- 
-
-    if (thisitem.HasAccess || thisitem.ApprovalStatus == 1) //true for SEO and SAdmin
+    else  // false for manager
     {
-        $('#TotalPaidAmt').prop('disabled', false);
-    }
-    else {// false for manager
+        $('#ddlApprovalStatus').prop('disabled', true)
         $('#TotalPaidAmt').prop('disabled', true);
-
+        if (thisitem.ApprovalStatus == 1) {
+            $('#TotalPaidAmt').prop('disabled', false);
+        }
+        // ------------ Button Patch ----------------//
+        if (thisitem.ApprovalStatus == 1)
+        {
+            ChangeButtonPatchView('SupplierPayments', 'btnPatchAdd', 'Edit');
+        }
+        else
+        {
+            ChangeButtonPatchView('SupplierPayments', 'btnPatchAdd', 'PaidApproved');
+        }
     }
+
+    //-------------------------------------------------------------------------------------------
 
     PaymentModeChanged();
     //BIND OUTSTANDING INVOICE TABLE USING supplier ID AND PAYMENT HEADER 
@@ -378,13 +386,26 @@ function GetSupplierPaymentsByID(PaymentID) {
     $('#lblPaymentApplied').text(roundoff(sum));
     $('#lblCredit').text(roundoff(AmountReceived - sum));
     // $('#lblPaymentApplied').text(roundoff(thisitem.TotalPaidAmt));
+
+    if (thisitem.ApprovalStatus != 1) {
+        if (!thisitem.HasAccess) {
+            //enable datatable checkbox and  payment textbox
+            $('.select-checkbox').prop('disabled', true)
+            $('.paymentAmount').prop('disabled', true);
+        }
+    }
+    else {
+            //enable datatable checkbox and  payment textbox
+            $('.select-checkbox').prop('disabled', false)
+            $('.paymentAmount').prop('disabled', false);
+    }
+
     Selectcheckbox();
     clearUploadControl();
     PaintImages(PaymentID);
 }
 
 function openNavClick() {
-    debugger;
     fieldsclear();
     BindOutstanding();
     $('#lblOutstandingdetails').text('');
@@ -438,7 +459,6 @@ function CaptionChangePayment() {
     $("#lblpaidAmt").text('Amount Paid');
 }
 function ddlCreditOnChange(event) {
-    debugger;
     var creditID = $("#CreditID").val();
     var SupplierID = $("#Supplier").val();
     if (creditID != emptyGUID) {
@@ -494,7 +514,6 @@ function GetCreditNoteByPaymentID(ID, PaymentID) {
 }
 
 function BindCreditDropDown() {
-    debugger;
     var ID = $("#Supplier").val() == "" ? null : $("#Supplier").val();
     if (ID != null) {
         var ds = GetCreditNoteBySupplier(ID);
@@ -595,11 +614,9 @@ function DeleteSuccess(data, status) {
 }
 
 function SaveSuccess(data, status) {
-    debugger;
     var JsonResult = JSON.parse(data)
     switch (JsonResult.Result) {
         case "OK":
-            debugger;
             fieldsclear();
             GetSupplierPaymentsByID(JsonResult.Records.ID)
             BindSupplierPaymentsHeader()
@@ -636,7 +653,6 @@ function fieldsclear() {
     CaptionChangePayment();
 }
 function SupplierChange() {
-    debugger;
     if ($('#Supplier').val() != "") {
         BindCreditDropDown();
         BindOutstandingAmount();
@@ -647,7 +663,6 @@ function SupplierChange() {
 }
 
 function BindOutstandingAmount() {
-    debugger;
     var thisitem = GetOutstandingAmountBySupplier($('#Supplier').val())
     if (thisitem != null) {
         $('#invoicedAmt').text(thisitem.OutstandingAmount == null ? "₹ 0.00" : thisitem.OutstandingAmount);
@@ -656,7 +671,6 @@ function BindOutstandingAmount() {
     }
 }
 function BindOutstanding() {
-    debugger;
     DataTables.OutStandingInvoices.clear().rows.add(GetOutStandingInvoices()).draw(false);
 }
 
@@ -707,7 +721,6 @@ function GetSupplierPayments(ID) {
 
 function GetOutStandingInvoices() {
     try {
-        debugger;
         var supplierID = $('#Supplier').val() == "" ? emptyGUID : $('#Supplier').val();
         var PaymentID = $('#ID').val() == "" ? emptyGUID : $('#ID').val();
 
@@ -822,7 +835,6 @@ function PaymentAmountChanged(this_Obj) {
 }
 
 function Selectcheckbox() {
-    debugger;
     var table = $('#tblOutStandingDetails').DataTable();
     var allData = table.rows().data();
     for (var i = 0; i < allData.length; i++) {
@@ -836,12 +848,10 @@ function Selectcheckbox() {
 }
 //--------------------------------------------Notification,Approval,Payment Proceeding methods ---------------------------------------------------------//
 function SendNotification() {
-    debugger;
     notyAlert('info', 'Under Construction !');
 }
 
 function ApprovedPayment() {
-    debugger;
     try {
         var ID = $('#ID').val();
         var SupplierPaymentsViewModel = new Object();
@@ -876,7 +886,6 @@ function ApprovedPayment() {
 //------------------------------------------------Summary Filter clicks------------------------------------------------------------//
 
 function Gridfilter(thisobj) {
-    debugger;
     $('#filter').show();
 
     $('#APfilter').hide();

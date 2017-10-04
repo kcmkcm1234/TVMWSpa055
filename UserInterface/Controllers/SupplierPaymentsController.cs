@@ -398,10 +398,11 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.NotyBtn.Event = "SendNotification();";
 
                     ToolboxViewModelObj.PayBtn.Visible = true;
+                    ToolboxViewModelObj.PayBtn.Disable = true;
                     ToolboxViewModelObj.PayBtn.Text = "Pay";
-                    ToolboxViewModelObj.PayBtn.Title = "Proceed Payment";
-                    ToolboxViewModelObj.PayBtn.Event = "ApprovedPayment();";
-
+                    ToolboxViewModelObj.PayBtn.Title = "Pay";
+                    ToolboxViewModelObj.PayBtn.DisableReason = "Not applicable";
+                    ToolboxViewModelObj.PayBtn.Event = "ApprovedPayment();"; 
 
                     break;
 
@@ -433,13 +434,44 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.NotyBtn.Event = "SendNotification();";
 
                     ToolboxViewModelObj.PayBtn.Visible = true;
+                    ToolboxViewModelObj.PayBtn.Text = "Pay";
+                    ToolboxViewModelObj.PayBtn.Title = "Pay";
+                    ToolboxViewModelObj.PayBtn.Event = "ApprovedPayment();";
+                    break;
+                case "PaidApproved": 
+                    ToolboxViewModelObj.addbtn.Visible = true; 
+                    ToolboxViewModelObj.addbtn.Text = "Add";
+                    ToolboxViewModelObj.addbtn.Title = "Add New";
+                    ToolboxViewModelObj.addbtn.Event = "openNavClick();";
+
+                    ToolboxViewModelObj.deletebtn.Visible = true;
+                    ToolboxViewModelObj.deletebtn.Disable = true;
+                    ToolboxViewModelObj.deletebtn.DisableReason = "Not applicable";
+                    ToolboxViewModelObj.deletebtn.Text = "Delete";
+                    ToolboxViewModelObj.deletebtn.Title = "Delete";
+                    ToolboxViewModelObj.deletebtn.Event = "DeletePayments();";
+
+                    ToolboxViewModelObj.savebtn.Visible = true;
+                    ToolboxViewModelObj.savebtn.Text = "Save";
+                    ToolboxViewModelObj.savebtn.Title = "Save";
+                    ToolboxViewModelObj.savebtn.Event = "savePayments();";
+
+                    ToolboxViewModelObj.CloseBtn.Visible = true;
+                    ToolboxViewModelObj.CloseBtn.Text = "Close";
+                    ToolboxViewModelObj.CloseBtn.Title = "Close";
+                    ToolboxViewModelObj.CloseBtn.Event = "closeNav();";
+
+                    ToolboxViewModelObj.NotyBtn.Visible = true;
+                    ToolboxViewModelObj.NotyBtn.Text = "Notify";
+                    ToolboxViewModelObj.NotyBtn.Title = "Send Notification";
+                    ToolboxViewModelObj.NotyBtn.Event = "SendNotification();";
+
+                    ToolboxViewModelObj.PayBtn.Visible = true;
                     ToolboxViewModelObj.PayBtn.Disable = true;
                     ToolboxViewModelObj.PayBtn.Text = "Pay";
                     ToolboxViewModelObj.PayBtn.Title = "Pay";
                     ToolboxViewModelObj.PayBtn.DisableReason = "Not applicable";
                     ToolboxViewModelObj.PayBtn.Event = "ApprovedPayment();";
-
-
                     break;
                 case "Add":
 
@@ -479,9 +511,6 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.CloseBtn.Text = "Close";
                     ToolboxViewModelObj.CloseBtn.Title = "Close";
                     ToolboxViewModelObj.CloseBtn.Event = "closeNav();";
-
-
-
                     break;
                 default:
                     return Content("Nochange");
