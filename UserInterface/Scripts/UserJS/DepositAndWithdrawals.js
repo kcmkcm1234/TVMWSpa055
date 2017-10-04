@@ -83,7 +83,7 @@ $(document).ready(function () {
              { "data": "Checkbox", "defaultContent": "" },
              { "data": "DateFormatted", "defaultContent": "<i>-</i>" },
               { "data": "ChequeDate", "defaultContent": "<i>-</i>" },
-             { "data": "ReferenceNo", "defaultContent": "<i>-</i>" },             
+             { "data": "ReferenceNo", "defaultContent": "<i>-</i>" },
              { "data": "BankName", "defaultContent": "<i>-</i>" },
              { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
              { "data": null, "orderable": false, "defaultContent": '<a href="#" title="Edit Deposit" class="actionLink"  onclick="EditDeposit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
@@ -386,7 +386,7 @@ function ShowDepositModal() {
     BindDepositWithdrawals('D', "");
     $('a[href="#DepositwithdrawalList"]').click();
     $("#btnCheque").css('display', 'none');
-    $('#tblDepositwithdrawalList tbody td:nth-child(6) ').show();
+    $('#tblDepositwithdrawalList tbody td:nth-child(7) ').show();
     $("#editRow").show();
     $('#tblDepositwithdrawalList tbody td:nth-child(1) ').show();
     $("#editCheckBox").show();
@@ -530,7 +530,7 @@ function ShowWithDrawal()
     BindDepositWithdrawals('W', "");
     $('a[href="#DepositwithdrawalEntry"]').click();
     $("#btnCheque").css('display', 'none');
-    $('#tblDepositwithdrawalList tbody td:nth-child(6) ').hide();
+    $('#tblDepositwithdrawalList tbody td:nth-child(7) ').hide();
     $("#editRow").hide();
     $('#tblDepositwithdrawalList tbody td:nth-child(1) ').hide();
     $("#editCheckBox").hide();
@@ -552,7 +552,7 @@ function ShowChequeClear()
     BindDepositWithdrawals('', "True");
     $('a[href="#DepositwithdrawalList"]').click();
     $("#btnCheque").css('display', '');
-    $('#tblDepositwithdrawalList tbody td:nth-child(6) ').hide();
+    $('#tblDepositwithdrawalList tbody td:nth-child(7) ').hide();
     $("#editRow").hide();
     $('#tblDepositwithdrawalList tbody td:nth-child(1) ').show();
     $("#editCheckBox").show();

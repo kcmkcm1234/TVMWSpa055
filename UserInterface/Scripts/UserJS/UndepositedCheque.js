@@ -12,7 +12,7 @@ $(document).ready(function () {
                  extend: 'excel',
                  exportOptions:
                               {
-                                  columns: [0, 1, 2, 3]
+                                  columns: [0, 1, 2, 3, 4]
                               }
              }],
              order: [],
@@ -27,13 +27,14 @@ $(document).ready(function () {
              columns: [
                 { "data": "DateFormatted", "defaultContent": "<i>-</i>", "width": "15%" },
                { "data": "ReferenceNo", "defaultContent": "<i>-</i>", "width": "15%" },
+               { "data": "CustomerName", "defaultContent": "<i>-</i>", "width": "15%" },
                { "data": "ReferenceBank", "defaultContent": "<i>-</i>", "width": "15%" },
                { "data": "Amount", "defaultContent": "<i>-</i>", "width": "10%" }
              //{ "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
              ],
              columnDefs: [{ "searchable": false }, //"targets": [0], "visible": false,},
-                  { className: "text-left", "targets": [1, 2] },
-                  { className: "text-right", "targets": [3] },
+                  { className: "text-left", "targets": [1, 2,3] },
+                  { className: "text-right", "targets": [4] },
                   { className: "text-center", "targets": [0] }]
          });
 

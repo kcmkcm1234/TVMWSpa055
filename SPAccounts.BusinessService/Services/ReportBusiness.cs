@@ -291,5 +291,35 @@ namespace SPAccounts.BusinessService.Services
             }
             return depositAndWithdrawalDetailList;
         }
+        public List<OtherIncomeSummaryReport> GetOtherIncomeSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string accounthead, string search)
+        {
+            List<OtherIncomeSummaryReport> otherIncomeSummaryList = null;
+
+            try
+            {
+                otherIncomeSummaryList = _reportRepository.GetOtherIncomeSummary(FromDate, ToDate, CompanyCode, accounthead, search);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return otherIncomeSummaryList;
+        }
+
+        public List<OtherIncomeDetailsReport> GetOtherIncomeDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string accounthead, string search)
+        {
+            List<OtherIncomeDetailsReport> otherIncomeDetailsList = null;
+            try
+            {
+                otherIncomeDetailsList = _reportRepository.GetOtherIncomeDetails(FromDate, ToDate, CompanyCode, accounthead, search);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return otherIncomeDetailsList;
+        }
     }
 }

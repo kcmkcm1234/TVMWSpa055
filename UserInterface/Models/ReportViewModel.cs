@@ -335,5 +335,35 @@ namespace UserInterface.Models
         public BankViewModel bankObj { get; set; }        
     }
 
+    public class OtherIncomeSummaryReportViewModel
+    {
+        public string CompanyCode { get; set; }
+        public string AccountHead { get; set; }
+        public List<SelectListItem> AccountHeadList { get; set; }
+        public string AccountHeadORSubtype { get; set; }
+        public decimal Amount { get; set; }
+        public string OriginCompany { get; set; }
+        public List<SelectListItem> CompanyList { get; set; }
+        public List<CompaniesViewModel> companiesList;
+        public string Search { get; set; }
+    }
+
+    public class OtherIncomeDetailsReportViewModel
+    {
+        public string CompanyCode { get; set; }
+        public string AccountHead { get; set; }
+        public string Date { get; set; }
+        public string PaymentMode { get; set; }
+        public string PaymentReference { get; set; }
+        public string Description { get; set; }
+        public decimal Amount { get; set; }
+        public string OriginCompany { get; set; }
+        public string Company { get; set; }
+        public List<SelectListItem> CompanyList { get; set; }
+        public List<CompaniesViewModel> companiesList;
+        public List<SelectListItem> AccountHeadList { get; set; }
+        public string Search { get; set; }
+
+    }
 
 }

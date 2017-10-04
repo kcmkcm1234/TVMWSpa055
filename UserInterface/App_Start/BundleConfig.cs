@@ -90,6 +90,8 @@ namespace UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/AccountReceivableAgeingSummaryReport").Include("~/Scripts/UserJS/AccountReceivableAgeingSummaryReport.js"));
             bundles.Add(new ScriptBundle("~/bundles/AccountPayableAgeingReport").Include("~/Scripts/UserJS/AccountPayableAgeingReport.js"));
             bundles.Add(new ScriptBundle("~/bundles/AccountPayableAgeingSummaryReport").Include("~/Scripts/UserJS/AccountPayableAgeingSummaryReport.js"));
+            bundles.Add(new ScriptBundle("~/bundles/OtherIncomeSummaryReport").Include("~/Scripts/UserJS/OtherIncomeSummaryReport.js"));
+            bundles.Add(new ScriptBundle("~/bundles/OtherIncomeDetailsReport").Include("~/Scripts/UserJS/OtherIncomeDetailsReport.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/UndepositedCheque").Include("~/Scripts/UserJS/UndepositedCheque.js"));
             bundles.Add(new ScriptBundle("~/bundles/DepositAndWithdrawals").Include("~/Scripts/UserJS/DepositAndWithdrawals.js"));
