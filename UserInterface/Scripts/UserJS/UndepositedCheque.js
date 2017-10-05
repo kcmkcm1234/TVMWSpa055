@@ -32,7 +32,7 @@ $(document).ready(function () {
                { "data": "Amount", "defaultContent": "<i>-</i>", "width": "10%" }
              //{ "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
              ],
-             columnDefs: [{ "searchable": false }, //"targets": [0], "visible": false,},
+             columnDefs: [{ "searchable": false }, 
                   { className: "text-left", "targets": [1, 2,3] },
                   { className: "text-right", "targets": [4] },
                   { className: "text-center", "targets": [0] }]
@@ -52,10 +52,8 @@ function GetUndepositedChequeTable() {
         debugger;
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
-        //var bankList = $("#bankList").val();
-        //var search = $("#Search").val();
-        //if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && bankList) {--, "BankCode": bankList, "search": search 
-        if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate)) {
+
+        if ((fromdate == "" ? true : IsVaildDateFormat(fromdate)) && IsVaildDateFormat(todate)) {
             var data = { "FromDate": fromdate, "ToDate": todate };
             var ds = {};
             ds = GetDataFromServer("DepositAndWithdrawals/GetUndepositedCheque/", data);
@@ -66,10 +64,13 @@ function GetUndepositedChequeTable() {
 
 
             if (ds.Result == "OK") {
+               
+                $("#fromdate").val(ds.FromDate);
                 return ds.Records;
             }
             if (ds.Result == "ERROR") {
                 notyAlert('error', ds.Message);
+                return ds.Records;
             }
         }   
     }
@@ -84,11 +85,12 @@ function RefreshUndepositedChequeTable() {
         debugger;
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
-        //var companycode = $("#bankList").val();
 
-        //if (DataTables.UndepositedChequeTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && bankList) {
-        if (DataTables.undepositedChequeTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate)) {
-            DataTables.undepositedChequeTable.clear().rows.add(GetUndepositedChequeTable()).draw(false);
+        if (DataTables.undepositedChequeTable != undefined && (fromdate==""?true:IsVaildDateFormat(fromdate)) && IsVaildDateFormat(todate)) {
+            var records = GetUndepositedChequeTable();
+            if (records != undefined)
+                DataTables.undepositedChequeTable.clear().rows.add(records).draw(false);
+
         }
     }
     catch (e) {
@@ -103,7 +105,7 @@ function PrintReport() {
         $(".buttons-excel").trigger('click');
 
 
-    }
+}
     catch (e) {
         notyAlert('error', e.message);
     }
@@ -119,10 +121,5 @@ function OnChangeCall() {
 }
 
 function Reset() {
-    debugger;
-
-    //$("#bankList").val('ALL').trigger('change');
-    //$("#Search").val('').trigger('change');
-
     RefreshUndepositedChequeTable()
 }
