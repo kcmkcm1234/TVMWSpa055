@@ -136,7 +136,6 @@ function GetExpenseSummaryReport() {
         var Employeecompany = $("#EmpCompany").val();
         var search = $("#Search").val();
         var reporttype = "";
-
         if ($("#headwise").prop('checked')) {
                 reporttype = $("#headwise").val();
             }
