@@ -1547,6 +1547,7 @@
     <Content Include="Scripts\UserJS\CustomerPayments.js" />
     <Content Include="Scripts\UserJS\Customers.js" />
     <Content Include="Scripts\UserJS\Department.js" />
+    <Content Include="Scripts\UserJS\DepositAndWithdrawalDetailReport.js" />
     <Content Include="Scripts\UserJS\DepositAndWithdrawals.js" />
     <Content Include="Scripts\UserJS\Employee.js" />
     <Content Include="Scripts\UserJS\EmployeeCategory.js" />
@@ -1560,6 +1561,8 @@
     <Content Include="Scripts\UserJS\OtherExpenseSummaryReport.js" />
     <Content Include="Scripts\UserJS\OtherIncome.js" />
     <Content Include="Scripts\UserJS\OtherExpense.js" />
+    <Content Include="Scripts\UserJS\OtherIncomeDetailsReport.js" />
+    <Content Include="Scripts\UserJS\OtherIncomeSummaryReport.js" />
     <Content Include="Scripts\UserJS\Outstanding.js" />
     <Content Include="Scripts\UserJS\Privileges.js" />
     <Content Include="Scripts\UserJS\PrivilegesView.js" />
@@ -1579,6 +1582,7 @@
     <Content Include="Scripts\UserJS\TaxTypes.js" />
     <Content Include="Scripts\UserJS\TopCustomers.js" />
     <Content Include="Scripts\UserJS\TopSuppliers.js" />
+    <Content Include="Scripts\UserJS\UndepositedCheque.js" />
     <Content Include="Scripts\UserJS\User.js" />
     <Content Include="Scripts\UserJS\Suppliers.js" />
     <Content Include="Web.config">
@@ -1743,6 +1747,9 @@
     <Content Include="Views\EmployeeCategory\Index.cshtml" />
     <Content Include="Views\Report\EmployeeExpenseSummary.cshtml" />
     <Content Include="Views\Report\DepositAndWithdrawalDetail.cshtml" />
+    <Content Include="Views\DepositAndWithdrawals\undeposited.cshtml" />
+    <Content Include="Views\Report\OtherIncomeSummary.cshtml" />
+    <Content Include="Views\Report\OtherIncomeDetails.cshtml" />
     <Content Include="Views\Report\CustomerPaymentLedger.cshtml" />
     <Content Include="Views\Report\SupplierPaymentLedger.cshtml" />
     <None Include="Web.Debug.config">

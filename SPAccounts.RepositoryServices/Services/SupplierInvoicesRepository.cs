@@ -61,6 +61,9 @@ namespace SPAccounts.RepositoryServices.Services
                                         SIList.PaymentDueDate = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()) : SIList.PaymentDueDate);
                                         SIList.TotalInvoiceAmount = (sdr["TotalInvoiceAmount"].ToString() != "" ? Decimal.Parse(sdr["TotalInvoiceAmount"].ToString()) : SIList.TotalInvoiceAmount);
                                         SIList.BalanceDue = (sdr["BalanceDue"].ToString() != "" ? Decimal.Parse(sdr["BalanceDue"].ToString()) : SIList.BalanceDue);
+                                        SIList.PaidAmount = (sdr["PaidAmount"].ToString() != "" ? Decimal.Parse(sdr["PaidAmount"].ToString()) : SIList.PaidAmount);
+                                        
+                                        SIList.PaymentProcessed = (sdr["PaymentProcessed"].ToString() != "" ? Decimal.Parse(sdr["PaymentProcessed"].ToString()) : SIList.PaymentProcessed);
                                         SIList.LastPaymentDate = (sdr["LastPaymentDate"].ToString() != "" ? DateTime.Parse(sdr["LastPaymentDate"].ToString()) : SIList.LastPaymentDate);
                                         SIList.Status = sdr["Status"].ToString();
 

@@ -45,5 +45,9 @@ namespace UserInterface.Models
         [Required(ErrorMessage = "Deposit Mode is missing")]
         public string PaymentMode { get; set; }
         public List<SelectListItem> paymentModeList { get; set; }
+        public string ReferenceBank { get; set; }
+        public string UndepositedChequeCount { get; set; }
+        public string ChequeDate { get; set; }
+        public string CustomerName { get; set; }
     }
 }

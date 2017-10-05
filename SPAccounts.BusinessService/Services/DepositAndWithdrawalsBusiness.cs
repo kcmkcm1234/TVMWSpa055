@@ -22,6 +22,10 @@ namespace SPAccounts.BusinessService.Services
         {
             return _depositAndWithdrawalsRepository.GetAllDepositAndWithdrawals(FromDate, ToDate,DepositOrWithdrawal, chqclr);
         }
+        public List<DepositAndWithdrawals> GetUndepositedCheque(string FromDate, string ToDate)
+        {
+            return _depositAndWithdrawalsRepository.GetUndepositedCheque(FromDate, ToDate);
+        }
 
         public DepositAndWithdrawals GetDepositAndWithdrawalDetails(Guid ID)
         {
@@ -93,5 +97,10 @@ namespace SPAccounts.BusinessService.Services
             }
             return result;
         }
+        public string GetUndepositedChequeCount(string Date)
+        {
+            return _depositAndWithdrawalsRepository.GetUndepositedChequeCount(Date);
+        }
+
     }
 }

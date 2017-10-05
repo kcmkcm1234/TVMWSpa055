@@ -54,6 +54,7 @@ $(document).ready(function () {
             $("#outstandingdetailsdiv").show();
         }
     });
+    GetUndepositedChequeBubbleCount();
     $('input.datepicker').datepicker({
         format: "dd-M-yyyy",//",
         maxViewMode: 0,
@@ -708,4 +709,25 @@ function ShowFiles() {
         msgs.push(fileArray[i].FileName + ", " + fileArray[i].FileSize + "Kb");
     }
     document.getElementById("text_info").value = msgs.join("\r\n");
+}
+function GetUndepositedChequeBubbleCount() {
+    try {
+        var data = {};
+        var ds = {};
+        ds = GetDataFromServer("DepositAndWithdrawals/GetUndepositedChequeCount/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            $('#undepositedCount').text(ds.Records);
+            $('#undepositedCount').attr('title', ds.Records + ' Cheque(s) to be deposited Today');
+            $('#undepositedCount1').attr('title', ds.Records + ' Cheque(s) to be deposited Today');
+        }
+        if (ds.Result == "ERROR") {
+            $('#undepositedCount').text("0");
+        }    
+    }
+    catch (e) {
+
+    }
 }

@@ -25,5 +25,9 @@ namespace SPAccounts.DataAccessObject.DTO
         public string DepositMode { get; set; }
         public string ChequeStatus { get; set; }
         public string PaymentMode { get; set; }
+        public string ReferenceBank { get; set; }
+        public string UndepositedChequeCount { get; set; }
+        public string ChequeDate { get; set; }
+        public string CustomerName { get; set; }
     }
 }

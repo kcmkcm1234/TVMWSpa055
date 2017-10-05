@@ -46,12 +46,14 @@
             </li>
 
         </ul>
-    </li>
+    </li> 
+    *@
     <!-- Notifications: style can be found in dropdown.less -->
-    <li class="dropdown notifications-menu">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <i class="fa fa-bell-o"></i>
-            <span class="label label-warning">0</span>
+    <li class="dropdown notifications-menu" id="undepositedCount1">
+     
+       <a href="@Url.Action("undeposited", "DepositAndWithdrawals")">
+            <i class="fa fa-bell-o" ></i>
+            <span class="label label-warning"  id="undepositedCount"  ></span>
         </a>
         <ul class="dropdown-menu">
             <li class="header">You have 0 notifications</li>
@@ -63,7 +65,7 @@
         </ul>
     </li>
     <!-- Tasks: style can be found in dropdown.less -->
-    <li class="dropdown tasks-menu">
+    @* <li class="dropdown tasks-menu">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             <i class="fa fa-flag-o"></i>
             <span class="label label-danger">0</span>
@@ -71,7 +73,7 @@
         <ul class="dropdown-menu">
             <li class="header">You have 0 tasks</li>
             <li>
-                <!-- inner menu: contains the actual data -->
+                 inner menu: contains the actual data
 
             </li>
 
@@ -119,9 +121,9 @@
         </header>
         <!-- Left side column. contains the logo and sidebar -->
         @Html.Action("_MenuNavBar", "DynamicUI")
-       
+
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">         
+        <div class="content-wrapper">
             <div class="container-fluid">
                 @RenderBody()
 
@@ -143,7 +145,7 @@
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/bootstrapdatepicker")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/AdminLTE")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/userpluginjs")
-   
+
     @RenderSection("scripts", required: false)
 </body>
 </html>

@@ -33,6 +33,7 @@ $(document).ready(function () {
                 
                { "data": "InvoiceAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                { "data": "PaidAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+               { "data": "PaymentProcessed", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                { "data": "BalanceDue", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
               { "data": "Credit", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                 { "data": "GeneralNotes", "defaultContent": "<i></i>" },
@@ -40,10 +41,10 @@ $(document).ready(function () {
              { "data": "Origin", "defaultContent": "<i>-</i>" }
 
              ],
-             columnDefs: [{ "targets": [9, 7], "visible": false, "searchable": false },
+             columnDefs: [{ "targets": [10, 8], "visible": false, "searchable": false },
                    { className: "text-left", "targets": [0, 1] },
                    { className: "text-center", "targets": [ 2, 3] },
-                  { className: "text-right", "targets": [4, 5, 6, 8] }],
+                  { className: "text-right", "targets": [4, 5, 6,7,9] }],
              drawCallback: function (settings) {
                  var api = this.api();
                  var rows = api.rows({ page: 'current' }).nodes();

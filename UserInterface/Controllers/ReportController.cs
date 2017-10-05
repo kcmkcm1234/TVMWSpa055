@@ -1207,6 +1207,185 @@ namespace UserInterface.Controllers
             return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "SupplierCode is required" });
         }
 
+        /// <summary>
+        /// To Get Other Income Summary in Report
+        /// </summary>
+        /// <returns></returns>
+
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "OtherIncomeReport", Mode = "R")]
+        public ActionResult OtherIncomeSummary()
+        {
+
+            DateTime dt = DateTime.Now;
+            ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+            ViewBag.todate = dt.ToString("dd-MMM-yyyy");
+            OtherIncomeSummaryReportViewModel otherIncomeSummaryReportViewModel = new OtherIncomeSummaryReportViewModel();
+
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+
+            otherIncomeSummaryReportViewModel.companiesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_companiesBusiness.GetAllCompanies());
+            if (otherIncomeSummaryReportViewModel.companiesList != null)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "All",
+                    Value = "ALL",
+                    Selected = true
+                });
+
+                foreach (CompaniesViewModel cvm in otherIncomeSummaryReportViewModel.companiesList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = cvm.Name,
+                        Value = cvm.Code.ToString(),
+                        Selected = false
+                    });
+                }
+            }
+
+            otherIncomeSummaryReportViewModel.CompanyList = selectListItem;
+            selectListItem = null;
+            selectListItem = new List<SelectListItem>();
+            List<ChartOfAccountsViewModel> chartOfAccountList = Mapper.Map<List<ChartOfAccounts>, List<ChartOfAccountsViewModel>>(_otherExpenseBusiness.GetAllAccountTypes("OI"));
+            selectListItem.Add(new SelectListItem
+            {
+                Text = "All",
+                Value = "ALL",
+                Selected = true
+            });
+
+            foreach (ChartOfAccountsViewModel cav in chartOfAccountList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = cav.TypeDesc,
+                    Value = cav.Code + ":" + cav.ISEmploy,
+                    Selected = false,
+
+
+                });
+            }
+            otherIncomeSummaryReportViewModel.AccountHeadList = selectListItem;
+
+            return View(otherIncomeSummaryReportViewModel);
+        }
+
+
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "OtherIncomeReport", Mode = "R")]
+        public string GetOtherIncomeSummary(string FromDate, string ToDate, string CompanyCode, string accounthead, string search)
+        {
+            if (!string.IsNullOrEmpty(CompanyCode))
+            {
+                try
+                {
+                    DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
+                    DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
+                    List<OtherIncomeSummaryReportViewModel> otherIncomeSummaryReportList = Mapper.Map<List<OtherIncomeSummaryReport>, List<OtherIncomeSummaryReportViewModel>>(_reportBusiness.GetOtherIncomeSummary(FDate, TDate, CompanyCode, accounthead.Split(':')[0], search));
+
+                    decimal otherIncomeSum = otherIncomeSummaryReportList.Sum(OE => OE.Amount);
+                    string otherIncomeSumFormatted = _commonBusiness.ConvertCurrency(otherIncomeSum, 2);
+
+
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = otherIncomeSummaryReportList, TotalAmount = otherIncomeSumFormatted });
+                }
+                catch (Exception ex)
+                {
+                    return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+                }
+
+            }
+            return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
+        }
+
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "OtherIncomeReport", Mode = "R")]
+        public ActionResult OtherIncomeDetails()
+        {
+
+            DateTime dt = DateTime.Now;
+            ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+            ViewBag.todate = dt.ToString("dd-MMM-yyyy");
+            OtherIncomeDetailsReportViewModel otherIncomeDetailsViewModel = new OtherIncomeDetailsReportViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            otherIncomeDetailsViewModel.companiesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_companiesBusiness.GetAllCompanies());
+            if (otherIncomeDetailsViewModel.companiesList != null)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "All",
+                    Value = "ALL",
+                    Selected = true
+                });
+
+                foreach (CompaniesViewModel cvm in otherIncomeDetailsViewModel.companiesList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = cvm.Name,
+                        Value = cvm.Code.ToString(),
+                        Selected = false
+                    });
+                }
+            }
+
+            otherIncomeDetailsViewModel.CompanyList = selectListItem;
+            selectListItem = null;
+            selectListItem = new List<SelectListItem>();
+            List<ChartOfAccountsViewModel> chartOfAccountList = Mapper.Map<List<ChartOfAccounts>, List<ChartOfAccountsViewModel>>(_otherExpenseBusiness.GetAllAccountTypes("OI"));
+            selectListItem.Add(new SelectListItem
+            {
+                Text = "All",
+                Value = "ALL",
+                Selected = true
+            });
+            foreach (ChartOfAccountsViewModel cav in chartOfAccountList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = cav.TypeDesc,
+                    Value = cav.Code + ":" + cav.ISEmploy,
+                    Selected = false,
+
+
+                });
+            }
+            otherIncomeDetailsViewModel.AccountHeadList = selectListItem;
+            selectListItem = null;
+
+            return View(otherIncomeDetailsViewModel);
+        }
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "OtherIncomeReport", Mode = "R")]
+        public string GetOtherIncomeDetails(string FromDate, string ToDate, string CompanyCode, string accounthead, string search)
+        {
+            if (!string.IsNullOrEmpty(CompanyCode))
+            {
+                try
+                {
+                    DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
+                    DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
+                    List<OtherIncomeDetailsReportViewModel> otherIncomeDetailsReportList = Mapper.Map<List<OtherIncomeDetailsReport>, List<OtherIncomeDetailsReportViewModel>>(_reportBusiness.GetOtherIncomeDetails(FDate, TDate, CompanyCode, accounthead.Split(':')[0], search));
+                    decimal otherIncomeDetailsSum = otherIncomeDetailsReportList.Sum(OE => OE.Amount);
+                    string otherIncomeDetailsSumFormatted = _commonBusiness.ConvertCurrency(otherIncomeDetailsSum, 2);
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = otherIncomeDetailsReportList, TotalAmount = otherIncomeDetailsSumFormatted });
+                }
+                catch (Exception ex)
+                {
+                    return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+                }
+
+            }
+            return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
+        }
+
+    
 
 
         #region ButtonStyling

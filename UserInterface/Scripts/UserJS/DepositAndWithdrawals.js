@@ -82,14 +82,15 @@ $(document).ready(function () {
              { "data": "ID" },
              { "data": "Checkbox", "defaultContent": "" },
              { "data": "DateFormatted", "defaultContent": "<i>-</i>" },
-             { "data": "ReferenceNo", "defaultContent": "<i>-</i>" },             
+              { "data": "ChequeDate", "defaultContent": "<i>-</i>" },
+             { "data": "ReferenceNo", "defaultContent": "<i>-</i>" },
              { "data": "BankName", "defaultContent": "<i>-</i>" },
              { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
              { "data": null, "orderable": false, "defaultContent": '<a href="#" title="Edit Deposit" class="actionLink"  onclick="EditDeposit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
            ],
            columnDefs: [{ "targets": [0], "visible": false, "searchable": false }, { orderable: false, className: 'select-checkbox', targets: 1 },
-               { orderable: false, "visible": false, targets: 6 },
-                { className: "text-right", "targets": [5] },
+               { orderable: false, "visible": false, targets: 7 },
+                { className: "text-right", "targets": [6] },
                   { className: "text-left", "targets": [] },
            { className: "text-center", "targets": [1, 2, 3, 4,6] }
           
@@ -156,6 +157,9 @@ function SaveSuccess(data, status) {
             BindDepositAndWithdrawals();
             BindDepositWithdrawals('D', "");
             $("#AddDepositAndWithdrawalModel").modal('hide');
+            try {
+                GetUndepositedChequeBubbleCount();
+            } catch (x) { }
             break;
         case "ERROR":
             notyAlert('error', JsonResult.Message);
@@ -382,7 +386,7 @@ function ShowDepositModal() {
     BindDepositWithdrawals('D', "");
     $('a[href="#DepositwithdrawalList"]').click();
     $("#btnCheque").css('display', 'none');
-    $('#tblDepositwithdrawalList tbody td:nth-child(6) ').show();
+    $('#tblDepositwithdrawalList tbody td:nth-child(7) ').show();
     $("#editRow").show();
     $('#tblDepositwithdrawalList tbody td:nth-child(1) ').show();
     $("#editCheckBox").show();
@@ -526,7 +530,7 @@ function ShowWithDrawal()
     BindDepositWithdrawals('W', "");
     $('a[href="#DepositwithdrawalEntry"]').click();
     $("#btnCheque").css('display', 'none');
-    $('#tblDepositwithdrawalList tbody td:nth-child(6) ').hide();
+    $('#tblDepositwithdrawalList tbody td:nth-child(7) ').hide();
     $("#editRow").hide();
     $('#tblDepositwithdrawalList tbody td:nth-child(1) ').hide();
     $("#editCheckBox").hide();
@@ -548,7 +552,7 @@ function ShowChequeClear()
     BindDepositWithdrawals('', "True");
     $('a[href="#DepositwithdrawalList"]').click();
     $("#btnCheque").css('display', '');
-    $('#tblDepositwithdrawalList tbody td:nth-child(6) ').hide();
+    $('#tblDepositwithdrawalList tbody td:nth-child(7) ').hide();
     $("#editRow").hide();
     $('#tblDepositwithdrawalList tbody td:nth-child(1) ').show();
     $("#editCheckBox").show();

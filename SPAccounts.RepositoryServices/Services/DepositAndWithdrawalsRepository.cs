@@ -67,6 +67,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         _depositAndWithdrawalsObj.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : _depositAndWithdrawalsObj.Amount);
                                         _depositAndWithdrawalsObj.DateFormatted = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(s.dateformat) : _depositAndWithdrawalsObj.DateFormatted);
                                         _depositAndWithdrawalsObj.ChequeFormatted = (sdr["ChequeClearDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeClearDate"].ToString()).ToString(s.dateformat) : _depositAndWithdrawalsObj.ChequeFormatted);
+                                        _depositAndWithdrawalsObj.ChequeDate = (sdr["ChequeDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeDate"].ToString()).ToString(s.dateformat) : _depositAndWithdrawalsObj.ChequeDate);
                                         _depositAndWithdrawalsObj.BankName = (sdr["BankName"].ToString() != "" ? (sdr["BankName"].ToString()) : _depositAndWithdrawalsObj.BankName);
 
                                         _depositAndWithdrawalsObj.PaymentMode = (sdr["DepositMode"].ToString() != "" ? (sdr["DepositMode"].ToString()) : _depositAndWithdrawalsObj.PaymentMode);
@@ -329,5 +330,95 @@ namespace SPAccounts.RepositoryServices.Services
             };
         }
         #endregion ClearCheque
+
+
+        #region GetUndepositedCheque
+        public List<DepositAndWithdrawals> GetUndepositedCheque(string FromDate, string ToDate)
+        {
+            List<DepositAndWithdrawals> unDepositedChequeList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate == "" ? null : FromDate; 
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
+                        cmd.CommandText = "[Accounts].[GetUndepositedCheques]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                unDepositedChequeList = new List<DepositAndWithdrawals>();
+                                while (sdr.Read())
+                                {
+                                    DepositAndWithdrawals _depositAndWithdrawalsObj = new DepositAndWithdrawals();
+                                    {
+                                        _depositAndWithdrawalsObj.DateFormatted = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(s.dateformat) : _depositAndWithdrawalsObj.DateFormatted);
+                                        //_depositAndWithdrawalsObj.Date = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(settings.dateformat) : _depositAndWithdrawalsObj.Date);
+                                        _depositAndWithdrawalsObj.ReferenceNo = (sdr["ReferenceNo"].ToString() != "" ? (sdr["ReferenceNo"].ToString()) : _depositAndWithdrawalsObj.ReferenceNo);
+                                        _depositAndWithdrawalsObj.CustomerName = (sdr["CustomerName"].ToString() != "" ? (sdr["CustomerName"].ToString()) : _depositAndWithdrawalsObj.CustomerName);
+                                        _depositAndWithdrawalsObj.ReferenceBank = (sdr["ReferenceBank"].ToString() != "" ? (sdr["ReferenceBank"].ToString()) : _depositAndWithdrawalsObj.ReferenceBank);
+                                        _depositAndWithdrawalsObj.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : _depositAndWithdrawalsObj.Amount);
+
+                                    
+                                    }
+
+                                    unDepositedChequeList.Add(_depositAndWithdrawalsObj);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return unDepositedChequeList;
+        }
+        #endregion GetUndepositedCheque
+
+        #region GetUndepositedChequeCount
+        public string GetUndepositedChequeCount(string Date)
+        {
+            DepositAndWithdrawals _depositAndWithdrawalsObj = new DepositAndWithdrawals();
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = Date;
+                        cmd.CommandText = "[Accounts].[GetUndepositedChequesCount]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        _depositAndWithdrawalsObj.UndepositedChequeCount=cmd.ExecuteScalar().ToString();
+                      
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return _depositAndWithdrawalsObj.UndepositedChequeCount;
+        }
+        #endregion GetUndepositedChequeCount
     }
 }

@@ -487,6 +487,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         purchaseDetailReport.PaymentDueDate = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString(settings.dateformat) : purchaseDetailReport.PaymentDueDate);
                                         purchaseDetailReport.InvoiceAmount = (sdr["InvoiceAmount"].ToString() != "" ? decimal.Parse(sdr["InvoiceAmount"].ToString()) : purchaseDetailReport.InvoiceAmount);
                                         purchaseDetailReport.PaidAmount = (sdr["PaidAmount"].ToString() != "" ? decimal.Parse(sdr["PaidAmount"].ToString()) : purchaseDetailReport.PaidAmount);
+                                        purchaseDetailReport.PaymentProcessed = (sdr["PaymentProcessed"].ToString() != "" ? decimal.Parse(sdr["PaymentProcessed"].ToString()) : purchaseDetailReport.PaymentProcessed);
                                         purchaseDetailReport.BalanceDue = (sdr["BalanceDue"].ToString() != "" ? decimal.Parse(sdr["BalanceDue"].ToString()) : purchaseDetailReport.BalanceDue);
                                         purchaseDetailReport.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : purchaseDetailReport.GeneralNotes);
                                         purchaseDetailReport.OriginCompany = (sdr["OriginCompany"].ToString() != "" ? sdr["OriginCompany"].ToString() : purchaseDetailReport.OriginCompany);
@@ -979,6 +980,126 @@ namespace SPAccounts.RepositoryServices.Services
         }
 
 
+        /// <summary>
+        ///To Get Other Income Summary in Report
+        /// </summary>
+        /// <param name="FromDate"></param>
+        /// <param name="ToDate"></param>
+        /// <param name="CompanyCode"></param>
+        /// <returns>List</returns>
+        public List<OtherIncomeSummaryReport> GetOtherIncomeSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string accounthead, string search)// string subtype, string employeeorother,
+        {
+            List<OtherIncomeSummaryReport> otherIncomeSummaryList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
+                        cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = CompanyCode;
+                        cmd.Parameters.Add("@accounthead", SqlDbType.NVarChar, 50).Value = accounthead != "" ? accounthead : null;
+                        cmd.Parameters.Add("@search", SqlDbType.NVarChar, 250).Value = search != "" ? search : null;
+                        cmd.CommandText = "[Accounts].[RPT_GetOtherIncomeSummary]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                otherIncomeSummaryList = new List<OtherIncomeSummaryReport>();
+                                while (sdr.Read())
+                                {
+                                    OtherIncomeSummaryReport otherIncomeSummaryReport = new OtherIncomeSummaryReport();
+                                    {
+                                        otherIncomeSummaryReport.AccountHeadORSubtype = (sdr["AccountHeadORSubtype"].ToString() != "" ? sdr["AccountHeadORSubtype"].ToString() : otherIncomeSummaryReport.AccountHeadORSubtype);
+                                        otherIncomeSummaryReport.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : otherIncomeSummaryReport.Amount);
+                                        otherIncomeSummaryReport.OriginCompany = (sdr["OriginCompany"].ToString() != "" ? sdr["OriginCompany"].ToString() : otherIncomeSummaryReport.OriginCompany);
+                                        
+                                    }
+                                    otherIncomeSummaryList.Add(otherIncomeSummaryReport);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return otherIncomeSummaryList;
+        }
+        /// <summary>
+        /// To Get Other Income Details in Report
+        /// </summary>
+        /// <param name="FromDate"></param>
+        /// <param name="ToDate"></param>
+        /// <param name="CompanyCode"></param>
+        /// <param name="accounthead"></param>
+        /// <param name="search"></param>
+        /// <returns></returns>
+
+        public List<OtherIncomeDetailsReport> GetOtherIncomeDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string accounthead, string search)
+        {
+            List<OtherIncomeDetailsReport> otherIncomeDetailList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
+                        cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = CompanyCode;
+                        cmd.Parameters.Add("@accounthead", SqlDbType.NVarChar, 50).Value = accounthead != "" ? accounthead : null;
+                        cmd.Parameters.Add("@search", SqlDbType.NVarChar, 250).Value = search != "" ? search : null;
+                        cmd.CommandText = "[Accounts].[RPT_GetOtherIncomeDetails]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                otherIncomeDetailList = new List<OtherIncomeDetailsReport>();
+                                while (sdr.Read())
+                                {
+                                    OtherIncomeDetailsReport otherIncomeDetails = new OtherIncomeDetailsReport();
+                                    {
+                                        otherIncomeDetails.AccountHead = (sdr["AccountHead"].ToString() != "" ? sdr["AccountHead"].ToString() : otherIncomeDetails.AccountHead);
+                                        otherIncomeDetails.Date = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(settings.dateformat) : otherIncomeDetails.Date);
+
+                                        otherIncomeDetails.OriginCompany = (sdr["OriginCompany"].ToString() != "" ? sdr["OriginCompany"].ToString() : otherIncomeDetails.OriginCompany);
+                                        otherIncomeDetails.PaymentMode = (sdr["PaymentMode"].ToString() != "" ? sdr["PaymentMode"].ToString() : otherIncomeDetails.PaymentMode);
+                                        otherIncomeDetails.PaymentReference = (sdr["PaymentReference"].ToString() != "" ? sdr["PaymentReference"].ToString() : otherIncomeDetails.PaymentReference);
+                                        otherIncomeDetails.Description = (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : otherIncomeDetails.Description);
+                                        otherIncomeDetails.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : otherIncomeDetails.Amount);
+                                        otherIncomeDetails.Company = (sdr["Company"].ToString() != "" ? sdr["Company"].ToString() : otherIncomeDetails.Company);
+                                    }
+                                    otherIncomeDetailList.Add(otherIncomeDetails);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return otherIncomeDetailList;
+        }
+
+
 
         public List<CustomerPaymentLedger> GetCustomerPaymentLedger(DateTime? FromDate, DateTime? ToDate, string CustomerIDs)
         {
@@ -1087,4 +1208,3 @@ namespace SPAccounts.RepositoryServices.Services
 
     }
 }
-
