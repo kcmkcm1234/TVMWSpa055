@@ -187,7 +187,7 @@ namespace UserInterface.Controllers
         public ActionResult undeposited()
         {
             DateTime dt = DateTime.Now;
-            ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+            //ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
             return View();
         }
@@ -199,13 +199,18 @@ namespace UserInterface.Controllers
             try
             {
 
+               if(FromDate!=""? Convert.ToDateTime(FromDate)>Convert.ToDateTime(ToDate):false)
+                {
+                    throw new Exception("Date missmatch");
+                }              
                 List<DepositAndWithdrwalViewModel> unDepositedChequeList = Mapper.Map<List<DepositAndWithdrawals>, List<DepositAndWithdrwalViewModel>>(_depositAndWithdrawalsBusiness.GetUndepositedCheque(FromDate, ToDate));
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = unDepositedChequeList });
+                string MinDate = unDepositedChequeList.Count != 0 ? Convert.ToDateTime((unDepositedChequeList.Min(X => Convert.ToDateTime(X.DateFormatted)))).ToString("dd-MMM-yyyy") : FromDate;
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = unDepositedChequeList,FromDate= MinDate });
             }
             catch (Exception ex)
             {
                 AppConstMessage cm = c.GetMessage(ex.Message);
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message, FromDate=FromDate });
             }
         }
         #endregion  GetUndepositedCheque

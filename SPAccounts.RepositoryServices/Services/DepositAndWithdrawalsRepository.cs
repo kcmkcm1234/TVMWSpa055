@@ -347,7 +347,7 @@ namespace SPAccounts.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate == "" ? null : FromDate; 
                         cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
                         cmd.CommandText = "[Accounts].[GetUndepositedCheques]";
                         cmd.CommandType = CommandType.StoredProcedure;
