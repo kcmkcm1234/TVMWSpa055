@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
+
+
 namespace SPAccounts.DataAccessObject.DTO
 {
     public class SystemReport
@@ -54,6 +56,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string AccountHeadORSubtype { get; set; }
         public string SubTypeDesc { get; set; }
         public decimal Amount { get; set; }
+        public string EmpCompany { get; set; }
         public string OriginCompany { get; set; }
         public string Employee { get; set; }
         public string Search { get; set; }
@@ -71,6 +74,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string AccountHeadORSubtype { get; set; }
         public string AccountHead { get; set; }
         public string SubType { get; set; }
+        public string EmpCompany { get; set; }
         public string PaymentMode { get; set; }
         public string PaymentReference { get; set; }
         public string Description { get; set; }
@@ -255,5 +259,35 @@ namespace SPAccounts.DataAccessObject.DTO
         public string Withdrawal { get; set; }
         public string Deposit { get; set; }
         public string DepositNotCleared { get; set; }
+    }
+
+    public class CustomerPaymentLedger
+
+    {
+        public string Date { get; set; }
+        public string Type { get; set; }
+        public string Ref { get; set; }
+        public string Company { get; set; }
+        public decimal Debit { get; set; }
+        public decimal Credit { get; set; }
+        public decimal Balance { get; set; }
+        public string CustomerCode { get; set; }
+        public Guid CustomerID { get; set; }
+        public string CustomerName { get; set; }
+    }
+
+
+    public class SupplierPaymentLedger
+    {
+        public string Date { get; set; }
+        public string Type { get; set; }
+        public string Ref { get; set; }
+        public string Company { get; set; }
+        public decimal Debit { get; set; }
+        public decimal Credit { get; set; }
+        public Guid SupplierID { get; set; }
+        public string SupplierName { get; set; }
+        public decimal Balance { get; set; }
+        public string SupplierCode { get; set; }
     }
 }

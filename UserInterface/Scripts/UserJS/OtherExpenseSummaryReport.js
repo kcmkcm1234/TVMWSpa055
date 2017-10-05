@@ -2,8 +2,7 @@
 $(document).ready(function () {
     $("#CompanyCode,#AccountCode,#Subtype,#Employee").select2({
     });
-   $("#Subtype").prop('disabled', true);
-    $("#Employee").prop('disabled', true);
+  
     $("#STContainer").hide();
     try {
 
@@ -57,6 +56,9 @@ $(document).ready(function () {
          });
 
         $(".buttons-excel").hide();
+        $('input[name="GroupSelect"]').on('change', function () {
+            RefreshOtherExpenseSummaryAHTable();
+        });
 
     } catch (x) {
 
@@ -126,22 +128,25 @@ function GetExpenseSummaryReport() {
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
         var companycode = $("#CompanyCode").val();
+        //var reporttype = $("#ReportType").val();
         var orderby;
         var AccountHead = $("#AccountCode").val();
         var Subtype = $("#Subtype").val();
         var Employeeorother = $("#Employee").val();
+        var Employeecompany = $("#EmpCompany").val();
         var search = $("#Search").val();
+        var reporttype = "";
+
+        if ($("#headwise").prop('checked')) {
+                reporttype = $("#headwise").val();
+            }
+            else {
+                reporttype = $("#subtypewise").val();
+            }
      
-        //if($("#AH").prop('checked'))
-        //{
-        //    orderby = $("#AH").val();
-        //}
-        //else
-        //{
-        //    orderby = $("#ST").val();
-        //}
+       
         if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode ) {
-            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "OrderBy": orderby, "accounthead": AccountHead, "subtype": Subtype, "employeeorother": Employeeorother, "search": search };
+            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode,"ReportType":reporttype,"OrderBy": orderby, "accounthead": AccountHead, "subtype": Subtype, "employeeorother": Employeeorother, "employeecompany": Employeecompany, "search": search };
             var ds = {};
             ds = GetDataFromServer("Report/GetOtherExpenseSummary/", data);
             if (ds != '') {
@@ -243,12 +248,14 @@ function AccountCodeOnchange(curobj) {
 
         }
         else {
-            $("#Subtype").select2();
-            $("#Subtype").val("EMP").trigger('change');
-            $("#Employee").select2();
-            $("#Employee").val('').trigger('change'); 
-            $('#Subtype').select2("enable", false);
-            $('#Employee').select2("enable", false);
+            $("#Subtype").prop('disabled', true);
+            $("#Employee").prop('disabled', true);
+            //$("#Subtype").select2();
+            //$("#Subtype").val("EMP").trigger('change');
+            //$("#Employee").select2();
+            //$("#Employee").val('').trigger('change'); 
+            //$('#Subtype').select2("enable", false);
+            //$('#Employee').select2("enable", false);
         }
 
     }
@@ -265,6 +272,8 @@ function AccountCodeOnchange(curobj) {
     {
         if(AcodeCombined=='ALL')
         {
+            $("#Subtype").prop('disabled', false);
+            $("#Employee").prop('disabled', false);
             $("#Subtype").val('EMP');
             $("#Employee").val('');
         }
@@ -331,8 +340,9 @@ function Reset() {
 
     $("#CompanyCode").val('ALL').trigger('change')
     $("#AccountCode").val('ALL').trigger('change')
-    $("#Subtype").val('EMP').trigger('change')
+    $("#Subtype").val('').trigger('change')
     $("#Employee").val('').trigger('change')
     $("#Search").val('').trigger('change')
+    $("#EmpCompany").val('ALL').trigger('change')
     RefreshOtherExpenseSummaryAHTable();
 }

@@ -77,7 +77,7 @@ namespace SPAccounts.RepositoryServices.Services
         /// <param name="ToDate"></param>
         /// <param name="CompanyCode"></param>
         /// <returns>List<OtherExpenseSummaryReport></returns>
-        public List<OtherExpenseSummaryReport> GetOtherExpenseSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode,string accounthead, string subtype, string employeeorother,string search)
+        public List<OtherExpenseSummaryReport> GetOtherExpenseSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string ReportType,string accounthead, string subtype, string employeeorother, string employeecompany,string search)
         {
             List<OtherExpenseSummaryReport> otherExpenseSummaryList = null;
             try
@@ -94,9 +94,11 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
                         cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
                         cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = CompanyCode;
+                        cmd.Parameters.Add("@ReportType", SqlDbType.NVarChar, 50).Value = ReportType;
                         cmd.Parameters.Add("@accounthead", SqlDbType.NVarChar, 50).Value = accounthead!=""?accounthead:null;
                         cmd.Parameters.Add("@subtype", SqlDbType.NVarChar, 50).Value = subtype!=""?subtype:null;
                         cmd.Parameters.Add("@employeeorother", SqlDbType.NVarChar, 50).Value = employeeorother!=""?employeeorother:null;
+                        cmd.Parameters.Add("@employeecompany", SqlDbType.NVarChar, 50).Value = employeecompany != "" ? employeecompany : null;
                         cmd.Parameters.Add("@search", SqlDbType.NVarChar, 250).Value = search!=""?search:null;
                         cmd.CommandText = "[Accounts].[RPT_GetOtherExpenseSummary]";
                         cmd.CommandType = CommandType.StoredProcedure;
@@ -130,7 +132,7 @@ namespace SPAccounts.RepositoryServices.Services
         }
 
 
-        public List<OtherExpenseDetailsReport> GetOtherExpenseDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string accounthead, string subtype, string employeeorother, string search)
+        public List<OtherExpenseDetailsReport> GetOtherExpenseDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string accounthead, string subtype, string employeeorother, string employeecompany, string search)
         {
             List<OtherExpenseDetailsReport> otherExpenseDetailList = null;
             try
@@ -150,6 +152,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@accounthead", SqlDbType.NVarChar, 50).Value = accounthead != "" ? accounthead : null;
                         cmd.Parameters.Add("@subtype", SqlDbType.NVarChar, 50).Value = subtype != "" ? subtype : null;
                         cmd.Parameters.Add("@employeeorother", SqlDbType.NVarChar, 50).Value = employeeorother != "" ? employeeorother : null;
+                        cmd.Parameters.Add("@employeecompany", SqlDbType.NVarChar, 50).Value = employeecompany != "" ? employeecompany : null;
                         cmd.Parameters.Add("@search", SqlDbType.NVarChar, 250).Value = search != "" ? search : null;
                         cmd.CommandText = "[Accounts].[RPT_GetOtherExpenseDetails]";
                         cmd.CommandType = CommandType.StoredProcedure;
@@ -166,6 +169,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         otherExpenseDetails.Date= (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(settings.dateformat) : otherExpenseDetails.Date);
                                         otherExpenseDetails.SubType = (sdr["Subtype"].ToString() != "" ? sdr["Subtype"].ToString() : otherExpenseDetails.SubType);
                                         otherExpenseDetails.OriginCompany = (sdr["OriginCompany"].ToString() != "" ? sdr["OriginCompany"].ToString() : otherExpenseDetails.OriginCompany);
+                                        otherExpenseDetails.EmpCompany = (sdr["EmpCompany"].ToString() != "" ? sdr["EmpCompany"].ToString() : otherExpenseDetails.EmpCompany);
                                         otherExpenseDetails.PaymentMode= (sdr["PaymentMode"].ToString() != "" ? sdr["PaymentMode"].ToString() : otherExpenseDetails.PaymentMode);
                                       
                                         otherExpenseDetails.PaymentReference= (sdr["PaymentReference"].ToString() != "" ? sdr["PaymentReference"].ToString() : otherExpenseDetails.PaymentReference);
@@ -974,5 +978,113 @@ namespace SPAccounts.RepositoryServices.Services
             return depositAndWithdrawalDetailList;
         }
 
+
+
+        public List<CustomerPaymentLedger> GetCustomerPaymentLedger(DateTime? FromDate, DateTime? ToDate, string CustomerIDs)
+        {
+            List<CustomerPaymentLedger> customerpaymentList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
+                        cmd.Parameters.Add("@CustomerIDs", SqlDbType.NVarChar,-1).Value = CustomerIDs;
+                        cmd.CommandText = "[Accounts].[RPT_GetCustomerPaymentLedger]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                customerpaymentList = new List<CustomerPaymentLedger>();
+                                while (sdr.Read())
+                                {
+                                    CustomerPaymentLedger customerpayment = new CustomerPaymentLedger();
+                                    {
+                                        customerpayment.Date = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(settings.dateformat) : customerpayment.Date);
+                                        customerpayment.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : customerpayment.Type);
+                                        customerpayment.Credit = (sdr["Credit"].ToString() != "" ? decimal.Parse(sdr["Credit"].ToString()) : customerpayment.Credit);
+                                        customerpayment.Debit = (sdr["Debit"].ToString() != "" ? decimal.Parse(sdr["Debit"].ToString()) : customerpayment.Debit);
+                                        customerpayment.CustomerID = (sdr["CustomerID"].ToString() != "" ? Guid.Parse(sdr["CustomerID"].ToString()) : customerpayment.CustomerID);
+                                        customerpayment.CustomerName = (sdr["CustomerName"].ToString() != "" ? sdr["CustomerName"].ToString() : customerpayment.CustomerName);
+                                        customerpayment.Balance = (sdr["Balance"].ToString() != "" ? decimal.Parse(sdr["Balance"].ToString()) : customerpayment.Balance);
+                                        customerpayment.Ref = (sdr["REFNO"].ToString() != "" ? sdr["REFNO"].ToString() : customerpayment.Ref);
+                                        customerpayment.Company = (sdr["Company"].ToString() != "" ? sdr["Company"].ToString() : customerpayment.Company);
+                                    }
+                                    customerpaymentList.Add(customerpayment);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return customerpaymentList;
+        }
+
+
+        public List<SupplierPaymentLedger> GetSupplierPaymentLedger(DateTime? FromDate, DateTime? ToDate, string Suppliercode)
+        {
+            List<SupplierPaymentLedger> supplierpaymentList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
+                        cmd.Parameters.Add("@SupplierIDs", SqlDbType.NVarChar, 50).Value = Suppliercode;
+                        cmd.CommandText = "[Accounts].[RPT_GetSupplierPaymentLedger]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                supplierpaymentList = new List<SupplierPaymentLedger>();
+                                while (sdr.Read())
+                                {
+                                    SupplierPaymentLedger supplierpayment = new SupplierPaymentLedger();
+                                    {
+                                        supplierpayment.Date = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(settings.dateformat) : supplierpayment.Date);
+                                        supplierpayment.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : supplierpayment.Type);
+                                        supplierpayment.SupplierID = (sdr["SupplierID"].ToString() != "" ? Guid.Parse(sdr["SupplierID"].ToString()) : supplierpayment.SupplierID);
+                                        supplierpayment.SupplierName = (sdr["SupplierName"].ToString() != "" ? sdr["SupplierName"].ToString() : supplierpayment.SupplierName);
+                                        supplierpayment.Credit = (sdr["Credit"].ToString() != "" ? decimal.Parse(sdr["Credit"].ToString()) : supplierpayment.Credit);
+                                        supplierpayment.Debit = (sdr["Debit"].ToString() != "" ? decimal.Parse(sdr["Debit"].ToString()) : supplierpayment.Debit);
+                                        supplierpayment.Balance = (sdr["Balance"].ToString() != "" ? decimal.Parse(sdr["Balance"].ToString()) : supplierpayment.Balance);
+                                        supplierpayment.Ref = (sdr["REFNO"].ToString() != "" ? sdr["REFNO"].ToString() : supplierpayment.Ref);
+                                        supplierpayment.Company = (sdr["Company"].ToString() != "" ? sdr["Company"].ToString() : supplierpayment.Company);
+                                    }
+                                    supplierpaymentList.Add(supplierpayment);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return supplierpaymentList;
+        }
+
     }
 }
+
