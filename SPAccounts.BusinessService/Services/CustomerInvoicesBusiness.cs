@@ -24,6 +24,7 @@ namespace SPAccounts.BusinessService.Services
             {
                 List<CustomerInvoice> custlist = new List<CustomerInvoice>();
                 custlist= _customerInvoicesRepository.GetAllCustomerInvoices();
+                if(custlist!=null)
                 custlist = custlist.Where(C => C.InvoiceType == "RB").ToList();
                 return custlist;
             }

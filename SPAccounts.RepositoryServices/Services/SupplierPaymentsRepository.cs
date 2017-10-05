@@ -296,7 +296,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@PaymentMode", SqlDbType.VarChar, 10).Value = _supplierPayObj.PaymentMode;
                         cmd.Parameters.Add("@Refbank", SqlDbType.NVarChar, 50).Value = _supplierPayObj.ReferenceBank;
                         cmd.Parameters.Add("@BankCode", SqlDbType.VarChar, 10).Value = _supplierPayObj.BankCode;
-                        cmd.Parameters.Add("@PaymentRef", SqlDbType.VarChar, 10).Value = _supplierPayObj.PaymentRef;
+                        cmd.Parameters.Add("@PaymentRef", SqlDbType.VarChar, 20).Value = _supplierPayObj.PaymentRef;
                         cmd.Parameters.Add("@PaidFromComanyCode", SqlDbType.VarChar, 10).Value = _supplierPayObj.PaidFromComanyCode;
                         cmd.Parameters.Add("@TotalPaidAmt", SqlDbType.Decimal).Value = _supplierPayObj.TotalPaidAmt;
                         cmd.Parameters.Add("@AdvanceAmount", SqlDbType.Decimal).Value = _supplierPayObj.AdvanceAmount;
@@ -365,7 +365,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@CreditID", SqlDbType.UniqueIdentifier).Value = _supplierPayObj.hdfCreditID;
                         cmd.Parameters.Add("@BankCode", SqlDbType.VarChar, 10).Value = _supplierPayObj.BankCode;
                         cmd.Parameters.Add("@DepWithdID", SqlDbType.UniqueIdentifier).Value = _supplierPayObj.DepWithdID;
-                        cmd.Parameters.Add("@PaymentRef", SqlDbType.VarChar, 10).Value = _supplierPayObj.PaymentRef;
+                        cmd.Parameters.Add("@PaymentRef", SqlDbType.VarChar, 20).Value = _supplierPayObj.PaymentRef;
                         cmd.Parameters.Add("@PaidFromComanyCode", SqlDbType.VarChar, 10).Value = _supplierPayObj.PaidFromComanyCode;
                         cmd.Parameters.Add("@TotalPaidAmt", SqlDbType.Decimal).Value = _supplierPayObj.TotalPaidAmt;
                         cmd.Parameters.Add("@AdvanceAmount", SqlDbType.Decimal).Value = _supplierPayObj.AdvanceAmount;
