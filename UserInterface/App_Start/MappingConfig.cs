@@ -106,6 +106,7 @@ namespace UserInterface.App_Start
 
                 config.CreateMap<OtherIncomeSummaryReportViewModel, OtherIncomeSummaryReport>().ReverseMap();
                 config.CreateMap<OtherIncomeDetailsReportViewModel, OtherIncomeDetailsReport>().ReverseMap();
+                config.CreateMap<DailyLedgerReportViewModel, DailyLedgerReport>().ReverseMap();
             });
         }
     }
