@@ -202,6 +202,12 @@ namespace UserInterface.Controllers
         {
             try
             {
+
+                if (_supplierObj.TotalPaidAmt == 0)
+                {
+                    _supplierObj.TotalPaidAmt = Decimal.Parse(_supplierObj.hdfCreditAmount);
+                }
+
                 if (_supplierObj.TotalPaidAmt == 0 && _supplierObj.Type == "C" || _supplierObj.hdfType == "C")
                 {
                     _supplierObj.TotalPaidAmt = Decimal.Parse(_supplierObj.hdfCreditAmount);
@@ -212,7 +218,7 @@ namespace UserInterface.Controllers
                     }
                 }
                 else if (_supplierObj.TotalPaidAmt == 0)
-                {
+                { 
                     throw new Exception("Please Enter Amount");
                 }
                 AppUA _appUA = Session["AppUA"] as AppUA;
