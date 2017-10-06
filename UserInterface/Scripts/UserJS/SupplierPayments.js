@@ -338,11 +338,9 @@ function GetSupplierPaymentsByID(PaymentID) {
     if (thisitem.HasAccess)  //true for SEO and SAdmin
     {
         if (thisitem.ApprovalStatus == 1||thisitem.ApprovalStatus==2) {
-            $('#TotalPaidAmt').prop('disabled', false);
             $('#ddlApprovalStatus').prop('disabled', false)
         }
         else {
-            $('#TotalPaidAmt').prop('disabled', true);
             $('#ddlApprovalStatus').prop('disabled', true)
         }
         // ------------ Button Patch ----------------//
