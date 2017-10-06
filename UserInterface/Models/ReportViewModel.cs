@@ -366,4 +366,22 @@ namespace UserInterface.Models
 
     }
 
+    public class DailyLedgerReportViewModel
+    {
+        //public string Date { get; set; }
+        public string TransactionDate { get; set; }
+        public string EntryType { get; set; }
+        public string MainHead { get; set; }
+        public string AccountHead { get; set; }
+        public string ReferenceNo { get; set; }
+        public string CustomerORemployee { get; set; }
+        public string Debit { get; set; }
+        public string Credit { get; set; }
+        public string PayMode { get; set; }
+        public string Remarks { get; set; }
+        public string Search { get; set; }
+        //public string Search { get; set; }
+
+    }
+
 }

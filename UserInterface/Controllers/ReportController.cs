@@ -1265,7 +1265,38 @@ namespace UserInterface.Controllers
             return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
         }
 
-    
+
+
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "DailyLedgerReport", Mode = "R")]
+        public ActionResult DailyLedgerDetails()
+        {
+            DateTime dt = DateTime.Now;
+            ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+            ViewBag.todate = dt.ToString("dd-MMM-yyyy");
+            ViewBag.ondate = dt.ToString("dd-MMM-yyyy");
+            DailyLedgerReportViewModel dailyLedgerViewModel = new DailyLedgerReportViewModel();
+            return View(dailyLedgerViewModel);
+
+        }
+        [HttpGet]
+        //[AuthSecurityFilter(ProjectObject = "DailyLedgerReport", Mode = "R")]
+        public string GetDailyLedgerDetails(string FromDate, string ToDate, string Date, string MainHead, string search)
+        {
+            try
+            {
+                DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
+                DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
+                DateTime? OnDate = string.IsNullOrEmpty(Date) ? (DateTime?)null : DateTime.Parse(Date);
+                List< DailyLedgerReportViewModel > dailyLedgerList = Mapper.Map<List< DailyLedgerReport >, List<DailyLedgerReportViewModel>>(_reportBusiness.GetDailyLedgerDetails(FDate, TDate,OnDate,MainHead,search));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = dailyLedgerList });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+            }
+        }
 
 
         #region ButtonStyling

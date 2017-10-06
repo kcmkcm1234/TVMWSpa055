@@ -305,6 +305,14 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.resetbtn.Event = "Reset();";
 
                     break;
+
+                case "Export":
+                    ToolboxViewModelObj.PrintBtn.Visible = true;
+                    ToolboxViewModelObj.PrintBtn.Text = "Export";
+                    ToolboxViewModelObj.PrintBtn.Event = "PrintReport();";
+
+                    break;
+
                 case "Add":
 
                     ToolboxViewModelObj.savebtn.Visible = true;

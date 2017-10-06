@@ -1095,5 +1095,70 @@ namespace SPAccounts.RepositoryServices.Services
             return otherIncomeDetailList;
         }
 
+  /// <summary>
+  /// To Get Daily Ledger Details in Report
+  /// </summary>
+  /// <param name="FromDate"></param>
+  /// <param name="ToDate"></param>
+  /// <param name="Date"></param>
+  /// <param name="MainHead"></param>
+  /// <param name="search"></param>
+  /// <returns></returns>
+        public List<DailyLedgerReport> GetDailyLedgerDetails(DateTime? FromDate, DateTime? ToDate, DateTime? Date, string MainHead, string search)
+        {
+            List<DailyLedgerReport> dailyLedgerList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
+                        cmd.Parameters.Add("@OnDate", SqlDbType.DateTime).Value = Date;
+                        cmd.Parameters.Add("@MainHead", SqlDbType.NVarChar, 50).Value = MainHead != "" ? MainHead : null;
+                        cmd.Parameters.Add("@Search", SqlDbType.NVarChar, 250).Value = search != "" ? search : null;
+                        cmd.CommandText = "[Accounts].[RPT_DailyPaymentLedger]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                dailyLedgerList = new List<DailyLedgerReport>();
+                                while (sdr.Read())
+                                {
+                                    DailyLedgerReport dailyLedgerDetails = new DailyLedgerReport();
+                                    {
+                                        //dailyLedgerDetails.TransactionDate = (sdr["TransactionDate"].ToString() != "" ? sdr["TransactionDate"].ToString() : dailyLedgerDetails.TransactionDate);
+                                        dailyLedgerDetails.TransactionDate = (sdr["TransactionDate"].ToString() != "" ? DateTime.Parse(sdr["TransactionDate"].ToString()).ToString(settings.dateformat) : dailyLedgerDetails.TransactionDate);
+                                        dailyLedgerDetails.EntryType = (sdr["EntryType"].ToString() != "" ? sdr["EntryType"].ToString() : dailyLedgerDetails.EntryType);
+                                        dailyLedgerDetails.MainHead = (sdr["mainHead"].ToString() != "" ? sdr["mainHead"].ToString() : dailyLedgerDetails.MainHead);
+                                        dailyLedgerDetails.AccountHead = (sdr["AccountHead"].ToString() != "" ? sdr["AccountHead"].ToString() : dailyLedgerDetails.AccountHead);
+                                        dailyLedgerDetails.ReferenceNo = (sdr["ReferenceNo"].ToString() != "" ? sdr["ReferenceNo"].ToString() : dailyLedgerDetails.ReferenceNo);
+                                        dailyLedgerDetails.CustomerORemployee = (sdr["CustomerORemployee"].ToString() != "" ? sdr["CustomerORemployee"].ToString() : dailyLedgerDetails.CustomerORemployee);
+                                        dailyLedgerDetails.Debit = (sdr["Debit"].ToString() != "" ? sdr["Debit"].ToString() : dailyLedgerDetails.Debit);
+                                        dailyLedgerDetails.Credit = (sdr["Credit"].ToString() != "" ? sdr["Credit"].ToString() : dailyLedgerDetails.Credit);
+                                        dailyLedgerDetails.PayMode = (sdr["PayMode"].ToString() != "" ? sdr["PayMode"].ToString() : dailyLedgerDetails.PayMode);
+                                        dailyLedgerDetails.Remarks = (sdr["Remarks"].ToString() != "" ? sdr["Remarks"].ToString() : dailyLedgerDetails.Remarks);
+                                    }
+                                    dailyLedgerList.Add(dailyLedgerDetails);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return dailyLedgerList;
+        }
+
     }
 }
