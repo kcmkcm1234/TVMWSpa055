@@ -1119,6 +1119,7 @@
     <Content Include="Content\AdminLTE\css\skins\skin-yellow.min.css" />
     <Content Include="Content\AdminLTE\css\skins\_all-skins.css" />
     <Content Include="Content\AdminLTE\css\skins\_all-skins.min.css" />
+    <Content Include="Content\bootstrap-datepicker3.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -1543,6 +1544,7 @@
     <Content Include="Scripts\UserJS\AppObject.js" />
     <Content Include="Scripts\UserJS\AppSubobject.js" />
     <Content Include="Scripts\UserJS\CustomerInvoices.js" />
+    <Content Include="Scripts\UserJS\CustomerPaymentLedgerReport.js" />
     <Content Include="Scripts\UserJS\CustomerPayments.js" />
     <Content Include="Scripts\UserJS\Customers.js" />
     <Content Include="Scripts\UserJS\DailyLedgerReport.js" />
@@ -1577,6 +1579,7 @@
     <Content Include="Scripts\UserJS\SupplierContactDetailsReport.js" />
     <Content Include="Scripts\UserJS\SupplierCreditNotes.js" />
     <Content Include="Scripts\UserJS\SupplierInvoices.js" />
+    <Content Include="Scripts\UserJS\SupplierPaymentLedgerReport.js" />
     <Content Include="Scripts\UserJS\SupplierPayments.js" />
     <Content Include="Scripts\UserJS\TaxTypes.js" />
     <Content Include="Scripts\UserJS\TopCustomers.js" />
@@ -1749,6 +1752,8 @@
     <Content Include="Views\DepositAndWithdrawals\undeposited.cshtml" />
     <Content Include="Views\Report\OtherIncomeSummary.cshtml" />
     <Content Include="Views\Report\OtherIncomeDetails.cshtml" />
+    <Content Include="Views\Report\CustomerPaymentLedger.cshtml" />
+    <Content Include="Views\Report\SupplierPaymentLedger.cshtml" />
     <Content Include="Views\Report\DailyLedgerDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

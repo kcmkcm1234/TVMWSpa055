@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace UserInterface.Models
 {
@@ -56,6 +57,7 @@ namespace UserInterface.Models
         public string PaymentDateFormatted { get; set; }
         public List<CustomerPaymentsDetailViewModel> CustomerPaymentsDetail { get; set; }
         public CustomerPaymentsDetailViewModel CustPaymentDetailObj { get; set; }
+        public List<SelectListItem> customerList { get; set; }
 
         public CustomerViewModel customerObj { get; set; }
         public CommonViewModel commonObj { get; set; }

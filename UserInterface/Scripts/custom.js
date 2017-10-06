@@ -197,6 +197,35 @@ function GetDataFromServer(page, formData) {
     });
     return jsonResult;
 }
+
+function GetDataFromServerTraditional(page, formData) {
+    var jsonResult = {};
+    $.ajax({
+
+        type: "GET",
+        url: appAddress + page,
+        data: formData,
+        beforeSend: function () {
+            showLoader();
+        },
+        async: false,
+        cache: false,
+        traditional: true,
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            jsonResult = data;
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            notyAlert('error', errorThrown + ',' + textStatus + ',' + jqXHR.statusText);
+        },
+        complete: function () {
+            hideLoader();
+        }
+
+    });
+    return jsonResult;
+}
+
 function ChangeButtonPatchView(Controller,Dom, Action) {
     var data = { ActionType: Action };
     var ds = {};

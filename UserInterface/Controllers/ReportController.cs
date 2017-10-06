@@ -15,19 +15,24 @@ namespace UserInterface.Controllers
     public class ReportController : Controller
     {
         IReportBusiness _reportBusiness;
+        ICustomerBusiness _customerBusiness;
+        ISupplierBusiness _supplierBusiness;
         ICompaniesBusiness _companiesBusiness;
         IBankBusiness _bankBusiness;
         IEmployeeBusiness _employeeBusiness;
         IOtherExpenseBusiness _otherExpenseBusiness;
         ICommonBusiness _commonBusiness;
-        public ReportController(IReportBusiness reportBusiness, ICompaniesBusiness companiesBusiness,IEmployeeBusiness employeeBusiness, IOtherExpenseBusiness otherExpenseBusiness, ICommonBusiness commonBusiness, IBankBusiness bankbusiness)
+        public ReportController(IReportBusiness reportBusiness, ICompaniesBusiness companiesBusiness,IEmployeeBusiness employeeBusiness, IOtherExpenseBusiness otherExpenseBusiness, ICommonBusiness commonBusiness, IBankBusiness bankbusiness, ICustomerBusiness customerBusiness, ISupplierBusiness supplierBusiness)
         {
             _reportBusiness = reportBusiness;
-            _companiesBusiness = companiesBusiness;
+            _supplierBusiness = supplierBusiness;
+             _companiesBusiness = companiesBusiness;
             _employeeBusiness = employeeBusiness;
             _otherExpenseBusiness = otherExpenseBusiness;
             _commonBusiness = commonBusiness;
             _bankBusiness = bankbusiness;
+            _customerBusiness = customerBusiness;
+
         }
         // GET: Report
         [HttpGet]
@@ -260,7 +265,7 @@ namespace UserInterface.Controllers
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "OEReport", Mode = "R")]
-        public string GetOtherExpenseSummary(string FromDate, string ToDate, string CompanyCode, string OrderBy,string accounthead, string subtype,string employeeorother,string search)
+        public string GetOtherExpenseSummary(string FromDate, string ToDate, string CompanyCode,string ReportType, string OrderBy,string accounthead, string subtype,string employeeorother,string employeecompany,string search)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
             {
@@ -268,7 +273,7 @@ namespace UserInterface.Controllers
                 {
                     DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                    List<OtherExpenseSummaryReportViewModel> otherExpenseSummaryReportList = Mapper.Map<List<OtherExpenseSummaryReport>, List<OtherExpenseSummaryReportViewModel>>(_reportBusiness.GetOtherExpenseSummary(FDate, TDate, CompanyCode, OrderBy,accounthead.Split(':')[0], subtype, employeeorother, search));
+                    List<OtherExpenseSummaryReportViewModel> otherExpenseSummaryReportList = Mapper.Map<List<OtherExpenseSummaryReport>, List<OtherExpenseSummaryReportViewModel>>(_reportBusiness.GetOtherExpenseSummary(FDate, TDate, CompanyCode,ReportType, OrderBy,accounthead.Split(':')[0], subtype, employeeorother, employeecompany, search));
                    
                     decimal otherExpenseSum = otherExpenseSummaryReportList.Sum(OE => OE.Amount);
                     string otherExpenseSumFormatted=_commonBusiness.ConvertCurrency(otherExpenseSum, 2);
@@ -379,7 +384,7 @@ namespace UserInterface.Controllers
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "OEReport", Mode = "R")]
-        public string GetOtherExpenseDetails(string FromDate, string ToDate, string CompanyCode, string OrderBy, string accounthead, string subtype, string employeeorother, string search)
+        public string GetOtherExpenseDetails(string FromDate, string ToDate, string CompanyCode, string OrderBy, string accounthead, string subtype, string employeeorother,string employeecompany, string search)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
             {
@@ -387,7 +392,7 @@ namespace UserInterface.Controllers
                 {
                     DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                    List<OtherExpenseDetailsReportViewModel> otherExpenseDetailsReportList = Mapper.Map<List<OtherExpenseDetailsReport>, List<OtherExpenseDetailsReportViewModel>>(_reportBusiness.GetOtherExpenseDetails(FDate, TDate, CompanyCode,OrderBy, accounthead.Split(':')[0], subtype, employeeorother,search));
+                    List<OtherExpenseDetailsReportViewModel> otherExpenseDetailsReportList = Mapper.Map<List<OtherExpenseDetailsReport>, List<OtherExpenseDetailsReportViewModel>>(_reportBusiness.GetOtherExpenseDetails(FDate, TDate, CompanyCode,OrderBy, accounthead.Split(':')[0], subtype, employeeorother, employeecompany,search));
                     decimal otherExpenseDetailsSum = otherExpenseDetailsReportList.Sum(OE => OE.Amount);
                     string otherExpenseDetailsSumFormatted = _commonBusiness.ConvertCurrency(otherExpenseDetailsSum, 2);
                     return JsonConvert.SerializeObject(new { Result = "OK", Records = otherExpenseDetailsReportList, TotalAmount = otherExpenseDetailsSumFormatted });
@@ -1086,6 +1091,121 @@ namespace UserInterface.Controllers
             return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "BankCode is required" });
         }
 
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "CustomerPaymentLedgerReport", Mode = "R")]
+        public ActionResult CustomerPaymentLedger()
+        {
+            DateTime dt = DateTime.Now;
+            ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+            ViewBag.todate = dt.ToString("dd-MMM-yyyy");
+            CustomerPaymentLedgerViewModel CustomerPayments = new CustomerPaymentLedgerViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            List<CustomerViewModel> customerList = Mapper.Map<List<Customer>, List<CustomerViewModel>>(_customerBusiness.GetAllCustomers());
+            if (customerList != null)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "All",
+                    Value = "ALL",
+                    Selected = true
+                });
+
+                foreach (CustomerViewModel Cust in customerList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = Cust.CompanyName,
+                        Value = Cust.ID.ToString(),
+                        Selected = false
+                    });
+                }
+
+                CustomerPayments.customerList = selectListItem;
+                
+            }
+            return View(CustomerPayments);
+        }
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "PaymentLedgerReport", Mode = "R")]
+        public string GetCustomerPaymentLedger(string FromDate, string ToDate, string[] CustomerIDs)
+        {
+            //if (!string.IsNullOrEmpty(CustomerCode))
+            //{
+                try
+                {
+                    DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
+                    DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
+                    List<CustomerPaymentLedgerViewModel> customerpaymentledgerList = Mapper.Map<List<CustomerPaymentLedger>, List<CustomerPaymentLedgerViewModel>>(_reportBusiness.GetCustomerPaymentLedger(FDate, TDate,String.Join(",", CustomerIDs)));
+               
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = customerpaymentledgerList });
+                }
+                catch (Exception ex)
+                {
+                    return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+                }
+
+            //}
+            return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CustomerCode is required" });
+        }
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "SupplierPaymentLedgerReport", Mode = "R")]
+        public ActionResult SupplierPaymentLedger()
+        {
+            DateTime dt = DateTime.Now;
+            ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+            ViewBag.todate = dt.ToString("dd-MMM-yyyy");
+            SupplierPaymentLedgerViewModel SupplierPayments = new SupplierPaymentLedgerViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            List<SuppliersViewModel> supplierList = Mapper.Map<List<Supplier>, List<SuppliersViewModel>>(_supplierBusiness.GetAllSuppliers());
+            if (supplierList != null)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "All",
+                    Value = "ALL",
+                    Selected = true
+                });
+
+                foreach (SuppliersViewModel Supp in supplierList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = Supp.CompanyName,
+                        Value = Supp.ID.ToString(),
+                        Selected = false
+                    });
+                }
+
+                SupplierPayments.supplierList = selectListItem;
+
+            }
+            return View(SupplierPayments);
+        }
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "SalesReport", Mode = "R")]
+        public string GetSupplierPaymentLedger(string FromDate, string ToDate, string[] Suppliercode)
+        {
+            //if (!string.IsNullOrEmpty(CustomerCode))
+            //{
+            try
+            {
+                DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
+                DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
+                List<SupplierPaymentLedgerViewModel> supplierpaymentledgerList = Mapper.Map<List<SupplierPaymentLedger>, List<SupplierPaymentLedgerViewModel>>(_reportBusiness.GetSupplierPaymentLedger(FDate, TDate, String.Join(",", Suppliercode)));
+
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = supplierpaymentledgerList });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+            }
+
+            //}
+            return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "SupplierCode is required" });
+        }
 
         /// <summary>
         /// To Get Other Income Summary in Report

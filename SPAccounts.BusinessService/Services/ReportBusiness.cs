@@ -46,12 +46,12 @@ namespace SPAccounts.BusinessService.Services
             return CustomerContactDetailsList;
         }
 
-        public List<OtherExpenseDetailsReport> GetOtherExpenseDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string OrderBy, string accounthead, string subtype, string employeeorother, string search)
+        public List<OtherExpenseDetailsReport> GetOtherExpenseDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string OrderBy, string accounthead, string subtype, string employeeorother, string employeecompany, string search)
         {
             List<OtherExpenseDetailsReport> otherExpenseDetailsList = null;
             try
             {
-                otherExpenseDetailsList = _reportRepository.GetOtherExpenseDetails(FromDate, ToDate, CompanyCode, accounthead,  subtype, employeeorother,search);
+                otherExpenseDetailsList = _reportRepository.GetOtherExpenseDetails(FromDate, ToDate, CompanyCode, accounthead,  subtype, employeeorother, employeecompany, search);
                
             }
             catch (Exception ex)
@@ -61,13 +61,13 @@ namespace SPAccounts.BusinessService.Services
             return otherExpenseDetailsList;
         }
 
-        public List<OtherExpenseSummaryReport> GetOtherExpenseSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string OrderBy, string accounthead, string subtype, string employeeorother,string search)
+        public List<OtherExpenseSummaryReport> GetOtherExpenseSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string ReportType, string OrderBy, string accounthead, string subtype, string employeeorother,string employeecompany, string search)
         {
             List<OtherExpenseSummaryReport> otherExpenseSummaryList = null;
            
             try
             {
-                otherExpenseSummaryList = _reportRepository.GetOtherExpenseSummary(FromDate, ToDate, CompanyCode, accounthead, subtype, employeeorother, search);
+                otherExpenseSummaryList = _reportRepository.GetOtherExpenseSummary(FromDate, ToDate, CompanyCode,ReportType, accounthead, subtype, employeeorother, employeecompany, search);
                 
                 }
             catch (Exception ex)
@@ -320,6 +320,33 @@ namespace SPAccounts.BusinessService.Services
                 throw ex;
             }
             return otherIncomeDetailsList;
+        }
+
+         public List<CustomerPaymentLedger> GetCustomerPaymentLedger(DateTime? FromDate, DateTime? ToDate, string CustomerIDs)
+        {
+            List<CustomerPaymentLedger> CustomerPaymentsDetailsList = null;
+            try
+            {
+                CustomerPaymentsDetailsList = _reportRepository.GetCustomerPaymentLedger(FromDate,ToDate, CustomerIDs);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return CustomerPaymentsDetailsList;
+        }
+        public List<SupplierPaymentLedger> GetSupplierPaymentLedger(DateTime? FromDate, DateTime? ToDate, string Suppliercode)
+        {
+            List<SupplierPaymentLedger> SupplierPaymentsDetailsList = null;
+            try
+            {
+                SupplierPaymentsDetailsList = _reportRepository.GetSupplierPaymentLedger(FromDate, ToDate, Suppliercode);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return SupplierPaymentsDetailsList;
         }
         public List<DailyLedgerReport> GetDailyLedgerDetails(DateTime? FromDate, DateTime? ToDate, DateTime? Date, string MainHead, string search)
         {

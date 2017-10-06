@@ -338,11 +338,9 @@ function GetSupplierPaymentsByID(PaymentID) {
     if (thisitem.HasAccess)  //true for SEO and SAdmin
     {
         if (thisitem.ApprovalStatus == 1||thisitem.ApprovalStatus==2) {
-            $('#TotalPaidAmt').prop('disabled', false);
             $('#ddlApprovalStatus').prop('disabled', false)
         }
         else {
-            $('#TotalPaidAmt').prop('disabled', true);
             $('#ddlApprovalStatus').prop('disabled', true)
         }
         // ------------ Button Patch ----------------//
@@ -360,14 +358,19 @@ function GetSupplierPaymentsByID(PaymentID) {
             $('#TotalPaidAmt').prop('disabled', false);
         }
         // ------------ Button Patch ----------------//
-        if (thisitem.ApprovalStatus == 1)
-        {
-            ChangeButtonPatchView('SupplierPayments', 'btnPatchAdd', 'Edit');
-        }
-        else
+        if (thisitem.ApprovalStatus == 2)
         {
             ChangeButtonPatchView('SupplierPayments', 'btnPatchAdd', 'PaidApproved');
         }
+        else if (thisitem.ApprovalStatus == 3) {
+            ChangeButtonPatchView('SupplierPayments', 'btnPatchAdd', 'PaidManager');
+        }
+        else
+        {
+            ChangeButtonPatchView('SupplierPayments', 'btnPatchAdd', 'Edit');
+        }
+    
+
     }
 
     //-------------------------------------------------------------------------------------------

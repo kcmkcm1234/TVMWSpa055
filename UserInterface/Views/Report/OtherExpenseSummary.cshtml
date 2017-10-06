@@ -79,7 +79,7 @@
             <div class="col-md-3">
                 @Html.LabelFor(model => model.Subtype, htmlAttributes: new { @class = "control-label" })
                 <div class="col-md-12">
-                    @Html.DropDownListFor(model => model.Subtype, Model.EmployeeTypeList, new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "Subtype", @onchange = "EmployeeTypeOnchange(this)" })
+                    @Html.DropDownListFor(model => model.Subtype, Model.EmployeeTypeList, "--Select--", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "Subtype", @onchange = "EmployeeTypeOnchange(this)" })
                     @Html.ValidationMessageFor(model => model.Subtype, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -91,8 +91,33 @@
                     @Html.ValidationMessageFor(model => model.Employee, "", new { @class = "text-danger" })
                 </div>
             </div>
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.EmpCompany, htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-12">
+                @Html.DropDownListFor(model => model.EmpCompany, Model.CompanyList, new { @class = "form-control BlockEnter", @onchange = "OnChangeCall()", value = -1, style = "padding:4px 12px;", @id = "EmpCompany" })
+                @Html.ValidationMessageFor(model => model.EmpCompany, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="row">
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="GroupSelect" id="headwise"  value="HeadWise" checked >
+                        Account head wise
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="GroupSelect" id="subtypewise" value="SubtypeWise">
+                        Sub type wise
+                    </label>
+                </div>
+            </div>
+        </div>
+
        
-            <div class="col-md-6">
+            <div class="col-md-12">
                 @Html.LabelFor(model => model.Search, htmlAttributes: new { @class = "control-label", style = "visibility:hidden" })
                 <div class="col-md-12">
                     <div class="input-group">
@@ -106,23 +131,7 @@
        
               
            
-            @*<div class="col-md-3">
-            <div class="row">
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="GroupSelect" id="AH" onchange="RadioOnChange(this)" value="AH" checked>
-                        Account head wise
-                    </label>
-                </div>
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="GroupSelect" onchange="RadioOnChange(this)" id="ST" value="ST">
-                        Sub type wise(Employer,Other,etc)
-                     </label>
-                </div>
-                </div>
-            </div>*@
-
+            
 
             @*<div class="col-md-12 filterHead">Filter</div>
             <div class="col-md-12">

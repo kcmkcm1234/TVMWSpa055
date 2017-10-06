@@ -20,7 +20,7 @@ $(document).ready(function () {
                  extend: 'excel',
                  exportOptions:
                               {
-                                  columns: [0, 1, 2, 3,4,5,6,7]
+                                  columns: [0, 1, 2, 3,4,5,6,7,8]
                               }
              }],
              order: [],
@@ -34,24 +34,25 @@ $(document).ready(function () {
                 { "data": "Date", "defaultContent": "<i>-</i>" },
                { "data": "AccountHead", "defaultContent": "<i>-</i>" },
                { "data": "SubType", "defaultContent": "<i>-</i>" },
+               { "data": "EmpCompany", "defaultContent": "<i>-</i>" },
                { "data": "PaymentMode", "defaultContent": "<i>-</i>" },
                { "data": "PaymentReference", "defaultContent": "<i>-</i>" },
                { "data": "Description", "defaultContent": "<i>-</i>" },
                { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                { "data": "OriginCompany", "defaultContent": "<i>-</i>" }
              ],
-             columnDefs: [{ "targets": [8], "visible": false, "searchable": false },
+             columnDefs: [{ "targets": [9], "visible": false, "searchable": false },
              { className: "text-left", "targets": [0, 2, 3, 4, 5,6] },
               { "width": "15%", "targets": [0] },
                { "width": "10%", "targets": [1] },
-             { className: "text-right", "targets": [7] },
+             { className: "text-right", "targets": [7,8] },
          { className: "text-center", "targets": [1] }],
              drawCallback: function (settings) {
                  var api = this.api();
                  var rows = api.rows({ page: 'current' }).nodes();
                  var last = null;
 
-                 api.column(8, { page: 'current' }).data().each(function (group, i) {
+                 api.column(9, { page: 'current' }).data().each(function (group, i) {
                    
                      if (last !== group) {
                          $(rows).eq(i).before('<tr class="group "><td colspan="8" class="rptGrp">' + '<b>Company</b> : ' + group + '</td></tr>');
@@ -88,10 +89,11 @@ function GetOtherExpenseDetailsReport() {
         var AccountHead = $("#AccountCode").val();
         var Subtype = $("#Subtype").val();
         var Employeeorother = $("#Employee").val();
+        var Employeecompany = $("#EmpCompany").val();
         var search = $("#Search").val();
        
         if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "OrderBy": orderby, "accounthead": AccountHead, "subtype": Subtype, "employeeorother": Employeeorother, "search": search };
+            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "OrderBy": orderby, "accounthead": AccountHead, "subtype": Subtype, "employeeorother": Employeeorother,"employeecompany": Employeecompany, "search": search };
             var ds = {};
             ds = GetDataFromServer("Report/GetOtherExpenseDetails/", data);
             if (ds != '') {
@@ -260,5 +262,6 @@ function Reset() {
     $("#Subtype").val('EMP').trigger('change')
     $("#Employee").val('').trigger('change')
     $("#Search").val('').trigger('change')
+    $("#EmpCompany").val('ALL').trigger('change')
     RefreshOtherExpenseDetailsAHTable();
 }

@@ -65,6 +65,8 @@ namespace UserInterface.Models
         [Required(ErrorMessage = "Company required")]
         [Display(Name = "Company")]
         public string CompanyCode { get; set; }
+        [Display(Name = "Employee Company")]
+        public string EmpCompany { get; set; }
         [Display(Name = "Account Head")]
         public string AccountHead { get; set; }
         public string Subtype { get; set; }
@@ -95,6 +97,8 @@ namespace UserInterface.Models
         public string CompanyCode { get; set; }
         [Display(Name = "Employee/Other")]
         public string EmployeeOrOther { get; set; }
+        [Display(Name = "Employee Company")]
+        public string EmpCompany { get; set; }
         [Display(Name = "Account Head")]
         public string AccountHead { get; set; }
         public string SubType { get; set; }
@@ -365,6 +369,37 @@ namespace UserInterface.Models
         public string Search { get; set; }
 
     }
+    public class CustomerPaymentLedgerViewModel
+    {
+        public string Date { get; set; }
+        public string Type { get; set; }
+        public string Ref { get; set; }
+        public string Company { get; set; }
+        public decimal Debit { get; set; }
+        public decimal Credit { get; set; }
+        public decimal Balance { get; set; }
+        public List<SelectListItem> customerList { get; set; }
+        public string CustomerCode { get; set; }
+        public Guid CustomerID { get; set; }
+        public string CustomerName { get; set; }
+    }
+
+
+    public class SupplierPaymentLedgerViewModel
+    {
+        public string Date { get; set; }
+        public string Type { get; set; }
+        public string Ref { get; set; }
+        public string Company { get; set; }
+        public decimal Debit { get; set; }
+        public decimal Credit { get; set; }
+        public decimal Balance { get; set; }
+        public List<SelectListItem> supplierList { get; set; }
+        public string SupplierCode { get; set; }
+        public Guid SupplierID { get; set; }
+        public string SupplierName { get; set; }
+    }
+
 
     public class DailyLedgerReportViewModel
     {
