@@ -23,7 +23,7 @@ namespace SPAccounts.RepositoryServices.Services
 
         public List<SupplierPayments> GetAllSupplierPayments()
         {
-            List<SupplierPayments> SupplerPaylist = null;
+            List<SupplierPayments> SupplierPaylist = null;
             try
             {
                 using (SqlConnection con = _databaseFactory.GetDBConnection())
@@ -41,7 +41,7 @@ namespace SPAccounts.RepositoryServices.Services
                         {
                             if ((sdr != null) && (sdr.HasRows))
                             {
-                                SupplerPaylist = new List<SupplierPayments>();
+                                SupplierPaylist = new List<SupplierPayments>();
                                 while (sdr.Read())
                                 {
                                     SupplierPayments PaymentsObj = new SupplierPayments();
@@ -64,7 +64,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         PaymentsObj.supplierObj.ID = (sdr["SupplierID"].ToString() != "" ? Guid.Parse(sdr["SupplierID"].ToString()) : PaymentsObj.supplierObj.ID);
                                         PaymentsObj.supplierObj.ContactPerson = (sdr["ContactPerson"].ToString() != "" ? sdr["ContactPerson"].ToString() : PaymentsObj.supplierObj.ContactPerson);
                                     };
-                                    SupplerPaylist.Add(PaymentsObj);
+                                    SupplierPaylist.Add(PaymentsObj);
                                 }
                             }
                         }
@@ -75,7 +75,7 @@ namespace SPAccounts.RepositoryServices.Services
             {
                 throw ex;
             }
-            return SupplerPaylist;
+            return SupplierPaylist;
         }
 
         public List<SupplierPayments> GetAllPendingSupplierPayments()
@@ -196,9 +196,9 @@ namespace SPAccounts.RepositoryServices.Services
             return PaymentsObj;
 
         }
-        public SupplierPayments GetSupplierInvoiceAdjustedByPaymentID(SupplierPayments SupplierObj)
+        public List<SupplierPayments> GetSupplierInvoiceAdjustedByPaymentID(SupplierPayments SupplierObj)
         {
-            SupplierPayments PaymentsObj = new SupplierPayments();
+            List<SupplierPayments> PaymentsList = null;
             try
             {
                 using (SqlConnection con = _databaseFactory.GetDBConnection())
@@ -215,9 +215,10 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
-                            if ((sdr != null) && (sdr.HasRows))
+                            PaymentsList = new List<SupplierPayments>();
+                            while (sdr.Read())
                             {
-                                while (sdr.Read())
+                                SupplierPayments PaymentsObj = new SupplierPayments();
                                 {
                                     PaymentsObj.ID = (sdr["InvoiceID"].ToString() != "" ? Guid.Parse(sdr["InvoiceID"].ToString()) : PaymentsObj.ID);
                                     PaymentsObj.supplierPaymentsDetailObj = new SupplierPaymentsDetail();
@@ -228,10 +229,9 @@ namespace SPAccounts.RepositoryServices.Services
                                     PaymentsObj.supplierPaymentsDetailObj.CurrPayment = (sdr["CurrPayment"].ToString() != "" ?decimal.Parse( sdr["CurrPayment"].ToString()) : PaymentsObj.supplierPaymentsDetailObj.CurrPayment);
                                     PaymentsObj.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : PaymentsObj.Type);
                                     PaymentsObj.supplierPaymentsDetailObj.BalancePayment = (sdr["BalancePayment"].ToString() != "" ? decimal.Parse(sdr["BalancePayment"].ToString()) : PaymentsObj.supplierPaymentsDetailObj.BalancePayment);
-                                   
-                                    
-
+                                  
                                 }
+                                PaymentsList.Add(PaymentsObj);
                             }
                         }
                     }
@@ -241,7 +241,7 @@ namespace SPAccounts.RepositoryServices.Services
             {
                 throw ex;
             }
-            return PaymentsObj;
+            return PaymentsList;
 
         }
 

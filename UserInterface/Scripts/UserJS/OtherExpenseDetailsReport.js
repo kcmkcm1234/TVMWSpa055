@@ -5,8 +5,7 @@ $(document).ready(function () {
     $("#CompanyCode,#AccountCode,#Subtype,#Employee").select2({
        
     });
-    $("#Subtype").prop('disabled', true);
-    $("#Employee").prop('disabled', true);
+ 
     //initSelection: function(element, callback){}
     $("#STContainer").hide();
     try {
@@ -164,37 +163,20 @@ function AccountCodeOnchange(curobj) {
     if (AcodeCombined) {
         var len = AcodeCombined.indexOf(':');
         var IsEmploy = AcodeCombined.substring(len + 1, (AcodeCombined.length));
-        // console.log(str.substring(0, (len)));
+      
         if (IsEmploy == "True") {
             $("#Subtype").prop('disabled', false);
             $("#Employee").prop('disabled', false);
-            //$("#btnAddEmployee").css("pointer-events", "auto");
-
-        }
+             }
         else {
-            $("#Subtype").select2();
-            $("#Subtype").val("EMP").trigger('change');
-            $("#Employee").select2();
-            $("#Employee").val('').trigger('change');
-            $('#Subtype').select2("enable", false);
-            $('#Employee').select2("enable", false);
+            $("#Subtype").prop('disabled', true);
+            $("#Employee").prop('disabled', true);
         }
-
-    }
-    //$('span[data-valmsg-for="EmpTypeCode"]').empty();
-    //$('span[data-valmsg-for="EmpID"]').empty();
-    if (AcodeCombined == "") {
-        $("#Subtype").val('');
-        $('#Employee').empty();
-        $('#Employee').append(new Option('-- Select Employee --'), 0);
-        $("#Subtype").prop('disabled', true);
-        $("#Employee").prop('disabled', true);
-    }
-    else {
-        if (AcodeCombined == 'ALL') {
-            $("#Subtype").val('EMP');
-            $('#Employee').val('');
-        }
+            }
+        if (AcodeCombined == "ALL") {
+      
+        $("#Subtype").prop('disabled', false);
+        $("#Employee").prop('disabled', false);
     }
     OnChangeCall();
 }
@@ -223,7 +205,7 @@ function BindEmployeeDropDown(type) {
 
 
 function EmployeeTypeOnchange(curobj) {
-
+    debugger;
     var emptypeselected = $(curobj).val();
     if (emptypeselected) {
         BindEmployeeDropDown(emptypeselected);
@@ -259,9 +241,10 @@ function Reset() {
 
     $("#CompanyCode").val('ALL').trigger('change')
     $("#AccountCode").val('ALL').trigger('change')
-    $("#Subtype").val('EMP').trigger('change')
+    $("#Subtype").val('').trigger('change')
     $("#Employee").val('').trigger('change')
     $("#Search").val('').trigger('change')
     $("#EmpCompany").val('ALL').trigger('change')
     RefreshOtherExpenseDetailsAHTable();
 }
+

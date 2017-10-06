@@ -20,7 +20,7 @@ $(document).ready(function () {
              order: [],
              searching: false,
              paging: true,
-             data: GetSupplierPaymentLedger(),
+             data: GetSupplierPaymentLedger('ALL'),
              pageLength: 50,
 
              columns: [
@@ -32,31 +32,20 @@ $(document).ready(function () {
                { "data": "Company", "defaultContent": "<i>-</i>" },
                {
                    "data": "Debit", render: function (data, type, row) {
-                       if (data != 0) {
+                       
                            return roundoff(data, 1);
-                       }
-                       else {
-                           return data;
-                       }
+                       
                    }, "defaultContent": "<i>-</i>"
                },
                {
                    "data": "Credit", render: function (data, type, row) {
-                       if (data != 0) {
-                           return roundoff(data, 1);
-                       }
-                       else {
-                           return data;
-                       }
-                   },"defaultContent": "<i>-</i>" },
+                       return roundoff(data, 1);
+                   }, "defaultContent": "<i>-</i>"
+               },
                {
                    "data": "Balance", render: function (data, type, row) {
-                       if (data != 0) {
-                           return roundoff(data, 1);
-                       }
-                       else {
-                           return data;
-                       }
+
+                       return roundoff(data, 1);
                    }, "defaultContent": "<i>-</i>"
                },
 
@@ -100,13 +89,13 @@ $(document).ready(function () {
 });
 
 
-function GetSupplierPaymentLedger() {
+function GetSupplierPaymentLedger(cur) {
     try {
         debugger;
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
-
-        var suppliercode = $("#supplierCode").val();
+        var suppliercode = (cur != "ALL" ? $("#supplierCode").val() : cur);
+            
 
         if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && suppliercode) {
             var data = { "FromDate": fromdate, "ToDate": todate, "Suppliercode": suppliercode };
@@ -161,12 +150,19 @@ function Back() {
 }
 
 function OnCallChange() {
+    debugger;
+    if ($("#supplierCode").val() == '') {
+        return;
+    }
+   
     RefreshSupplierPaymentLedgerTable();
 }
 
-function Reset() {
-    $("#supplierCode").val('ALL').trigger('change')
 
+
+function Reset() {
+    $("#supplierCode").val('').trigger('change')
+    DataTables.supplierpaymentledgertable.clear().rows.add(GetSupplierPaymentLedger('ALL')).draw(false);
 }
 
 

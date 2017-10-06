@@ -91,8 +91,8 @@ namespace UserInterface.API
         [HttpPost]
         public string GetAllSupplierInvoiceAdjustedByPaymentID(SupplierPayments SupObj)
         {
-            SupplierPaymentsViewModel supplierpaylist = Mapper.Map<SupplierPayments, SupplierPaymentsViewModel>(_supplierPaymentsBusiness.GetSupplierInvoiceAdjustedByPaymentID(SupObj));
-            return JsonConvert.SerializeObject(new { Result = "OK", Records = supplierpaylist });
+            List<SupplierPaymentsViewModel> supplierpaylist = Mapper.Map<List<SupplierPayments>, List<SupplierPaymentsViewModel>>(_supplierPaymentsBusiness.GetSupplierInvoiceAdjustedByPaymentID(SupObj));
+            return JsonConvert.SerializeObject(new { Result = true, Records = supplierpaylist });
 
         }
 
@@ -104,8 +104,8 @@ namespace UserInterface.API
                 SupObj.commonObj = new SPAccounts.DataAccessObject.DTO.Common();
                 SupObj.ApprovalDate = SupObj.commonObj.GetCurrentDateTime().ToString();
             }
-            SupplierPaymentsViewModel supplierpaylist = Mapper.Map<SupplierPayments, SupplierPaymentsViewModel>(_supplierPaymentsBusiness.ApprovedSupplierPayment(SupObj));
-            return JsonConvert.SerializeObject(new { Result = "OK", Records = supplierpaylist });
+            SupplierPaymentsViewModel supplierpaylist = Mapper.Map<SupplierPayments,SupplierPaymentsViewModel>(_supplierPaymentsBusiness.ApprovedSupplierPayment(SupObj));
+            return JsonConvert.SerializeObject(new { Result = true, Records = supplierpaylist });
 
         }
     }

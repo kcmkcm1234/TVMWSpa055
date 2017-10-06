@@ -1103,12 +1103,12 @@ namespace UserInterface.Controllers
             List<CustomerViewModel> customerList = Mapper.Map<List<Customer>, List<CustomerViewModel>>(_customerBusiness.GetAllCustomers());
             if (customerList != null)
             {
-                selectListItem.Add(new SelectListItem
-                {
-                    Text = "All",
-                    Value = "ALL",
-                    Selected = true
-                });
+                //selectListItem.Add(new SelectListItem
+                //{
+                //    Text = "All",
+                //    Value = "ALL",
+                //    Selected = true
+                //});
 
                 foreach (CustomerViewModel Cust in customerList)
                 {
@@ -1127,7 +1127,7 @@ namespace UserInterface.Controllers
         }
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "PaymentLedgerReport", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "CustomerPaymentLedgerReport", Mode = "R")]
         public string GetCustomerPaymentLedger(string FromDate, string ToDate, string[] CustomerIDs)
         {
             //if (!string.IsNullOrEmpty(CustomerCode))
@@ -1136,7 +1136,7 @@ namespace UserInterface.Controllers
                 {
                     DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                    List<CustomerPaymentLedgerViewModel> customerpaymentledgerList = Mapper.Map<List<CustomerPaymentLedger>, List<CustomerPaymentLedgerViewModel>>(_reportBusiness.GetCustomerPaymentLedger(FDate, TDate,String.Join(",", CustomerIDs)));
+                    List<CustomerPaymentLedgerViewModel> customerpaymentledgerList = Mapper.Map<List<CustomerPaymentLedger>, List<CustomerPaymentLedgerViewModel>>(_reportBusiness.GetCustomerPaymentLedger(FDate, TDate, CustomerIDs!=null?String.Join(",", CustomerIDs):"ALL"));
                
                     return JsonConvert.SerializeObject(new { Result = "OK", Records = customerpaymentledgerList });
                 }
@@ -1161,12 +1161,12 @@ namespace UserInterface.Controllers
             List<SuppliersViewModel> supplierList = Mapper.Map<List<Supplier>, List<SuppliersViewModel>>(_supplierBusiness.GetAllSuppliers());
             if (supplierList != null)
             {
-                selectListItem.Add(new SelectListItem
-                {
-                    Text = "All",
-                    Value = "ALL",
-                    Selected = true
-                });
+                //selectListItem.Add(new SelectListItem
+                //{
+                //    Text = "All",
+                //    Value = "ALL",
+                //    Selected = true
+                //});
 
                 foreach (SuppliersViewModel Supp in supplierList)
                 {
@@ -1185,7 +1185,7 @@ namespace UserInterface.Controllers
         }
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "SalesReport", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "SupplierPaymentLedgerReport", Mode = "R")]
         public string GetSupplierPaymentLedger(string FromDate, string ToDate, string[] Suppliercode)
         {
             //if (!string.IsNullOrEmpty(CustomerCode))
@@ -1194,7 +1194,7 @@ namespace UserInterface.Controllers
             {
                 DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                 DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                List<SupplierPaymentLedgerViewModel> supplierpaymentledgerList = Mapper.Map<List<SupplierPaymentLedger>, List<SupplierPaymentLedgerViewModel>>(_reportBusiness.GetSupplierPaymentLedger(FDate, TDate, String.Join(",", Suppliercode)));
+                List<SupplierPaymentLedgerViewModel> supplierpaymentledgerList = Mapper.Map<List<SupplierPaymentLedger>, List<SupplierPaymentLedgerViewModel>>(_reportBusiness.GetSupplierPaymentLedger(FDate, TDate, Suppliercode!=null? String.Join(",", Suppliercode):"ALL"));
 
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = supplierpaymentledgerList });
             }

@@ -12,7 +12,7 @@ namespace SPAccounts.RepositoryServices.Contracts
         List<SupplierPayments> GetAllSupplierPayments();
         List<SupplierPayments> GetAllPendingSupplierPayments();
         SupplierPayments GetSupplierPaymentsByID(string ID);
-        SupplierPayments GetSupplierInvoiceAdjustedByPaymentID(SupplierPayments SupObj );
+        List<SupplierPayments> GetSupplierInvoiceAdjustedByPaymentID(SupplierPayments SupObj );
         SupplierPayments ApprovedSupplierPayment(SupplierPayments SupObj);
         SupplierPayments InsertSupplierPayments(SupplierPayments _supplierPayObj);
         SupplierPayments UpdateSupplierPayments(SupplierPayments _supplierPayObj);
