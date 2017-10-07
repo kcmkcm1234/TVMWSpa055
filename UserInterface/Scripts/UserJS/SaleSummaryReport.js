@@ -147,6 +147,7 @@ function RefreshSaleSummaryTable() {
 }
 
 function PrintReport() {
+    debugger;
     try {
         $(".buttons-excel").trigger('click');
     }

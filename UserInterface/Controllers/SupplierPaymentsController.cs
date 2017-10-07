@@ -375,6 +375,10 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.resetbtn.Text = "Reset";
                     ToolboxViewModelObj.resetbtn.Event = "Reset();";
 
+                    ToolboxViewModelObj.PrintBtn.Visible = true;
+                    ToolboxViewModelObj.PrintBtn.Text = "Export";
+                    ToolboxViewModelObj.PrintBtn.Event = "PrintReport();";
+
                     break;
                 case "Edit":
 
@@ -550,6 +554,8 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.CloseBtn.Text = "Close";
                     ToolboxViewModelObj.CloseBtn.Title = "Close";
                     ToolboxViewModelObj.CloseBtn.Event = "closeNav();";
+
+                    
                     break;
                 default:
                     return Content("Nochange");
