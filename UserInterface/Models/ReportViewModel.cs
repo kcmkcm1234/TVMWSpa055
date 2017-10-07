@@ -407,7 +407,6 @@ namespace UserInterface.Models
 
     public class DailyLedgerReportViewModel
     {
-        //public string Date { get; set; }
         public string TransactionDate { get; set; }
         public string EntryType { get; set; }
         public string MainHead { get; set; }
@@ -419,8 +418,7 @@ namespace UserInterface.Models
         public string PayMode { get; set; }
         public string Remarks { get; set; }
         public string Search { get; set; }
-        //public string Search { get; set; }
-
+        public string Particulars { get; set; }
     }
 
 }

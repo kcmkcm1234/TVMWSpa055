@@ -11,7 +11,7 @@ $(document).ready(function () {
                     extend: 'excel',
                     exportOptions:
                                  {
-                                     columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+                                     columns: [0, 1, 2, 3, 4, 5]
                                  }
                 }],
                 order: [],
@@ -20,21 +20,18 @@ $(document).ready(function () {
                 data: GetDailyLedgerDetails(),
                 pageLength: 50,
                 columns: [
-               { "data": "TransactionDate", "defaultContent": "<i>-</i>" },
-               { "data": "EntryType", "defaultContent": "<i>-</i>" },
-               { "data": "MainHead", "defaultContent": "<i>-</i>" },
-               { "data": "AccountHead", "defaultContent": "<i>-</i>" },
-               { "data": "ReferenceNo", "defaultContent": "<i>-</i>" },
-               { "data": "CustomerORemployee", "defaultContent": "<i>-</i>" },
-                 { "data": "PayMode", "defaultContent": "<i>-</i>" },
-               { "data": "Remarks", "defaultContent": "<i>-</i>" },
-               { "data": "Debit", "defaultContent": "<i>-</i>" },
-               { "data": "Credit", "defaultContent": "<i>-</i>" },
+               { "data": "TransactionDate", "defaultContent": "<i>-</i>", "width": "10%" },
+               { "data": "EntryType", "defaultContent": "<i>-</i>", "width": "10%" },
+               { "data": "Particulars", "defaultContent": "<i>-</i>", "width": "40%" },
+               { "data": "CustomerORemployee", "defaultContent": "<i>-</i>", "width": "5%" },
+               { "data": "Debit", "defaultContent": "<i>-</i>", "width": "5%" },
+               { "data": "Credit", "defaultContent": "<i>-</i>", "width": "5%"},
              
                 ],
-                columnDefs: [{  "searchable": false}, 
-                  { className: "text-left", "targets": [1, 2, 3, 4, 5, 6, 7] },
-                  { className: "text-right", "targets": [8, 9] },
+                columnDefs: [{ "searchable": false },
+                  { "bSortable": false, "aTargets": [0, 1, 2, 3, 4, 5] },
+                  { className: "text-left", "targets": [1, 2, 3] },
+                  { className: "text-right", "targets": [4,5] },
                   { className: "text-center", "targets": [0] }]
             });
         $(".buttons-excel").hide();
