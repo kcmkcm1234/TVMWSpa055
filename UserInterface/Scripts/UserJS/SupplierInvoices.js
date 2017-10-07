@@ -46,8 +46,8 @@ $(document).ready(function () {
               { "data": "suppliersObj.CompanyName", "defaultContent": "<i>-</i>" },
               { "data": "PaymentDueDateFormatted", "defaultContent": "<i>-</i>" },
               { "data": "TotalInvoiceAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
-               { "data": "PaidAmount", "defaultContent": "<i>-</i>" },
-              { "data": "PaymentProcessed", "defaultContent": "<i>-</i>" },
+               { "data": "PaidAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+              { "data": "PaymentProcessed", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
               { "data": "BalanceDue", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>"
             },
               { "data": "LastPaymentDateFormatted", "defaultContent": "<i>-</i>" },
@@ -248,6 +248,8 @@ function PaintInvoiceDetails() {
     $('#ID').val(SupplierInvoiceViewModel.ID);
     $('#lblinvoicedAmt').text(SupplierInvoiceViewModel.TotalInvoiceAmountstring);
     $('#lblpaidAmt').text(SupplierInvoiceViewModel.PaidAmountstring);
+    $('#lblPaymentProcessed').text("(Payment Processed: " + SupplierInvoiceViewModel.PaymentProcessed+" )");
+    
     $('#lblbalalnceAmt').text(SupplierInvoiceViewModel.BalanceDuestring);
     clearUploadControl();
     PaintImages(InvoiceID);

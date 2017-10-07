@@ -80,6 +80,7 @@ namespace UserInterface.Models
         public string CreditOutstanding { get; set; }
         public string AdvOutstanding { get; set; }
         public string PaymentOutstanding { get; set; }
+        public string PaymentBooked { get; set; }
 
         public bool HasAccess { get; set; }
 

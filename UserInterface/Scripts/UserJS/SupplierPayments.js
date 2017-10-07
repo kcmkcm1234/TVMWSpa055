@@ -56,8 +56,8 @@ $(document).ready(function () {
                      }
                  },
                  { "data": "CreditNo", "defaultContent": "<i>-</i>" },
-                 { "data": "TotalPaidAmt", "defaultContent": "<i>-</i>" },
-                 { "data": "AdvanceAmount", "defaultContent": "<i>-</i>" },
+                 { "data": "TotalPaidAmt", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+                 { "data": "AdvanceAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                  { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink" onclick="Edit(this)"><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
             ],
             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
@@ -280,6 +280,7 @@ function GetSupplierPaymentsByID(PaymentID) {
     //$('#Supplier').val(thisitem.supplierObj.ID);
     
     $('#ddlApprovalStatus').val(thisitem.ApprovalStatus);
+    $('#lblApprovalStatus').text($("#ddlApprovalStatus option:selected").text());
     $('#ApprovalDate').val(thisitem.ApprovalDate);
     $('#ddlApprovalStatus').prop('disabled', false)
    
@@ -411,7 +412,7 @@ function GetSupplierPaymentsByID(PaymentID) {
 function openNavClick() {
     fieldsclear();
     BindOutstanding();
-    $('#lblOutstandingdetails').text('');
+    $('#lblOutstandingdetails').text('');//gibin
     $('#lblheader').text('New Payment');
     ChangeButtonPatchView('SupplierPayments', 'btnPatchAdd', 'Add');
     $('#Supplier').prop('disabled', false);
@@ -601,7 +602,7 @@ function DeleteSuccess(data, status) {
         case "OK":
             closeNav();
             BindSupplierPaymentsHeader()
-            $('#lblOutstandingdetails').text('');
+            //$('#lblOutstandingdetails').text('');//gibin
             notyAlert('success', JsonResult.Message);
             List();
             break;
@@ -651,7 +652,14 @@ function fieldsclear() {
     $('#hdfType').val('');
     $('#paymentDetailhdf').val('');
     $('#TotalPaidAmt').prop('disabled', false);
-  //  $('#ddlApprovalStatus').prop('disabled', false)
+
+    $('#lblInvoiceOutstanding').text('0');
+    $('#lblPaymentBooked').text('0');
+    $('#lblPaymentProcessed').text('0');
+    $('#lblCreditOutstanding').text('0');
+    $('#lblAdvOutstanding').text('0');
+    $('#lblApprovalStatus').text($("#ddlApprovalStatus option:selected").text());
+  //  $('#ddlApprovalStatus').prop('disabled', false)s
     $("#ddlCreditDiv").css("visibility", "hidden");
     CaptionChangePayment();
 }
@@ -668,9 +676,13 @@ function SupplierChange() {
 function BindOutstandingAmount() {
     var thisitem = GetOutstandingAmountBySupplier($('#Supplier').val())
     if (thisitem != null) {
+        debugger;
         $('#invoicedAmt').text(thisitem.OutstandingAmount == null ? "₹ 0.00" : thisitem.OutstandingAmount);
-        $('#lblOutstandingdetails').text("(Inv: " + thisitem.InvoiceOutstanding + ", Pay: " + thisitem.PaymentOutstanding +
-                                         ", Cr: " + thisitem.CreditOutstanding + ", Adv: " + thisitem.AdvOutstanding + ")");
+        $('#lblInvoiceOutstanding').text(thisitem.InvoiceOutstanding);
+        $('#lblPaymentBooked').text(thisitem.PaymentBooked);
+        $('#lblPaymentProcessed').text(thisitem.PaymentOutstanding);
+        $('#lblCreditOutstanding').text(thisitem.CreditOutstanding);
+        $('#lblAdvOutstanding').text(thisitem.AdvOutstanding);
     }
 }
 function BindOutstanding() {

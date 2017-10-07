@@ -49,9 +49,11 @@ $(document).ready(function () {
         if (this.scrollTop > 147) {
             $('#CommonFigure').addClass("fix-search");
             $("#outstandingdetailsdiv").hide();
+            $("#divStatus").hide();
         } else {
             $('#CommonFigure').removeClass("fix-search");
             $("#outstandingdetailsdiv").show();
+            $("#divStatus").show();
         }
     });
     GetUndepositedChequeBubbleCount();
