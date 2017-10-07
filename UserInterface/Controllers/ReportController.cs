@@ -1407,7 +1407,7 @@ namespace UserInterface.Controllers
                 
             }
             DateTime dt = DateTime.Now;
-            ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+            ViewBag.fromdate = dt.ToString("dd-MMM-yyyy");
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
             ViewBag.ondate = dt.ToString("dd-MMM-yyyy");
             
