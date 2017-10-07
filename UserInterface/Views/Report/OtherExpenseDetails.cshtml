@@ -81,7 +81,7 @@
         <div class="col-md-3">
             @Html.LabelFor(model => model.SubType, htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
-                @Html.DropDownListFor(model => model.SubType, Model.EmployeeTypeList, new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "Subtype", @onchange = "EmployeeTypeOnchange(this)" })
+                @Html.DropDownListFor(model => model.SubType, Model.EmployeeTypeList, "--Select--", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "Subtype", @onchange = "EmployeeTypeOnchange(this)" })
                 @Html.ValidationMessageFor(model => model.SubType, "", new { @class = "text-danger" })
             </div>
         </div>

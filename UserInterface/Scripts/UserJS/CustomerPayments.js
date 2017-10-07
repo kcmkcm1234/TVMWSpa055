@@ -600,6 +600,7 @@ function fieldsclear() {
     $("#CreditID").html("");
     $('#Type').val('P');
     $('#hdfType').val('');
+    $('#hdfCustomerID').val('');
     $('#ReferenceBank').val('');
     $("#ddlCreditDiv").css("visibility", "hidden");
     CaptionChangePayment();

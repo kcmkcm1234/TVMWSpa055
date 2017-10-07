@@ -39,9 +39,9 @@ namespace SPAccounts.BusinessService.Services
             PayObj = _supplierPaymentsRepository.GetSupplierPaymentsByID(ID);
             return PayObj;
         }
-        public SupplierPayments GetSupplierInvoiceAdjustedByPaymentID(SupplierPayments SupObj)
+        public List<SupplierPayments> GetSupplierInvoiceAdjustedByPaymentID(SupplierPayments SupObj)
         {
-            SupplierPayments PaymentObj= _supplierPaymentsRepository.GetSupplierInvoiceAdjustedByPaymentID(SupObj);
+            List<SupplierPayments> PaymentObj = _supplierPaymentsRepository.GetSupplierInvoiceAdjustedByPaymentID(SupObj);
             return PaymentObj;
         }
         public SupplierPayments ApprovedSupplierPayment(SupplierPayments SupObj)

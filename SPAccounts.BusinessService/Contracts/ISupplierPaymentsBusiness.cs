@@ -12,8 +12,8 @@ namespace SPAccounts.BusinessService.Contracts
         List<SupplierPayments> GetAllSupplierPayments();
         List<SupplierPayments> GetAllPendingSupplierPayments();
         SupplierPayments GetSupplierPaymentsByID(string ID);
-        SupplierPayments GetSupplierInvoiceAdjustedByPaymentID(SupplierPayments SupObj);
-        SupplierPayments ApprovedSupplierPayment(SupplierPayments SupObj);
+        List<SupplierPayments> GetSupplierInvoiceAdjustedByPaymentID(SupplierPayments SupObj);
+       SupplierPayments ApprovedSupplierPayment(SupplierPayments SupObj);
         SupplierPayments InsertUpdatePayments(SupplierPayments _supplierPayObj);
         object DeletePayments(Guid PaymentID, string UserName);
         SupplierPayments InsertPaymentAdjustment(SupplierPayments _supplierPayObj);

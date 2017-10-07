@@ -379,6 +379,8 @@ namespace UserInterface.Models
         public decimal Credit { get; set; }
         public decimal Balance { get; set; }
         public List<SelectListItem> customerList { get; set; }
+        [Required(ErrorMessage = "Customer required")]
+        [Display(Name = "Customer")]
         public string CustomerCode { get; set; }
         public Guid CustomerID { get; set; }
         public string CustomerName { get; set; }
@@ -395,6 +397,8 @@ namespace UserInterface.Models
         public decimal Credit { get; set; }
         public decimal Balance { get; set; }
         public List<SelectListItem> supplierList { get; set; }
+        [Required(ErrorMessage = "Supplier required")]
+        [Display(Name = "Supplier")]
         public string SupplierCode { get; set; }
         public Guid SupplierID { get; set; }
         public string SupplierName { get; set; }

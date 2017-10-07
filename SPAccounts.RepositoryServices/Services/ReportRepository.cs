@@ -95,11 +95,11 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
                         cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = CompanyCode;
                         cmd.Parameters.Add("@ReportType", SqlDbType.NVarChar, 50).Value = ReportType;
-                        cmd.Parameters.Add("@accounthead", SqlDbType.NVarChar, 50).Value = accounthead!=""?accounthead:null;
-                        cmd.Parameters.Add("@subtype", SqlDbType.NVarChar, 50).Value = subtype!=""?subtype:null;
-                        cmd.Parameters.Add("@employeeorother", SqlDbType.NVarChar, 50).Value = employeeorother!=""?employeeorother:null;
-                        cmd.Parameters.Add("@employeecompany", SqlDbType.NVarChar, 50).Value = employeecompany != "" ? employeecompany : null;
-                        cmd.Parameters.Add("@search", SqlDbType.NVarChar, 250).Value = search!=""?search:null;
+                        cmd.Parameters.Add("@AccountHead", SqlDbType.NVarChar, 50).Value = accounthead!=""?accounthead:null;
+                        cmd.Parameters.Add("@SubType", SqlDbType.NVarChar, 50).Value = subtype!=""?subtype:null;
+                        cmd.Parameters.Add("@EmployeeOrOther", SqlDbType.NVarChar, 50).Value = employeeorother!=""?employeeorother:null;
+                        cmd.Parameters.Add("@EmployeeCompany", SqlDbType.NVarChar, 50).Value = employeecompany != "" ? employeecompany : null;
+                        cmd.Parameters.Add("@Search", SqlDbType.NVarChar, 250).Value = search!=""?search:null;
                         cmd.CommandText = "[Accounts].[RPT_GetOtherExpenseSummary]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -149,11 +149,11 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
                         cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
                         cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = CompanyCode;
-                        cmd.Parameters.Add("@accounthead", SqlDbType.NVarChar, 50).Value = accounthead != "" ? accounthead : null;
-                        cmd.Parameters.Add("@subtype", SqlDbType.NVarChar, 50).Value = subtype != "" ? subtype : null;
-                        cmd.Parameters.Add("@employeeorother", SqlDbType.NVarChar, 50).Value = employeeorother != "" ? employeeorother : null;
-                        cmd.Parameters.Add("@employeecompany", SqlDbType.NVarChar, 50).Value = employeecompany != "" ? employeecompany : null;
-                        cmd.Parameters.Add("@search", SqlDbType.NVarChar, 250).Value = search != "" ? search : null;
+                        cmd.Parameters.Add("@AccountHead", SqlDbType.NVarChar, 50).Value = accounthead != "" ? accounthead : null;
+                        cmd.Parameters.Add("@SubType", SqlDbType.NVarChar, 50).Value = subtype != "" ? subtype : null;
+                        cmd.Parameters.Add("@EmployeeOrOther", SqlDbType.NVarChar, 50).Value = employeeorother != "" ? employeeorother : null;
+                        cmd.Parameters.Add("@EmployeeCompany", SqlDbType.NVarChar, 50).Value = employeecompany != "" ? employeecompany : null;
+                        cmd.Parameters.Add("@Search", SqlDbType.NVarChar, 250).Value = search != "" ? search : null;
                         cmd.CommandText = "[Accounts].[RPT_GetOtherExpenseDetails]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -1170,7 +1170,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Connection = con;
                         cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
                         cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
-                        cmd.Parameters.Add("@SupplierIDs", SqlDbType.NVarChar, 50).Value = Suppliercode;
+                        cmd.Parameters.Add("@SupplierIDs", SqlDbType.NVarChar, -1).Value = Suppliercode;
                         cmd.CommandText = "[Accounts].[RPT_GetSupplierPaymentLedger]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())

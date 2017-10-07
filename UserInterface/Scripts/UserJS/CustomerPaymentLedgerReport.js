@@ -4,8 +4,10 @@ $(document).ready(function () {
                
     try {
         $("#customerCode").select2({
-            placeholder: "Select a Customers.."
+            placeholder: "Select a Customers..",
+           
         });
+        
         
         DataTables.customerpaymentledgertable = $('#customerpaymentledgertable').DataTable(
          {
@@ -22,7 +24,7 @@ $(document).ready(function () {
              order: [],
              searching: false,
              paging: true,
-             data: GetCustomerPaymentLedger(),
+             data: GetCustomerPaymentLedger('ALL'),
              pageLength: 50,
              columns: [
                 
@@ -34,32 +36,18 @@ $(document).ready(function () {
                { "data": "Company", "defaultContent": "<i>-</i>" },
                {
                    "data": "Debit", render: function (data, type, row) {
-                       if (data != 0) {
                            return roundoff(data, 1);
-                       }
-                       else {
-                           return data;
-                       }
                    }, "defaultContent": "<i>-</i>"
                },
                {
                    "data": "Credit", render: function (data, type, row) {
-                       if (data != 0) {
                            return roundoff(data, 1);
-                       }
-                       else {
-                           return data;
-                       }
                    }, "defaultContent": "<i>-</i>"
                },
                {
                    "data": "Balance", render: function (data, type, row) {
-                       if (data != 0) {
+                       
                            return roundoff(data, 1);
-                       }
-                       else {
-                           return data;
-                       }
                    }, "defaultContent": "<i>-</i>"
                },
               
@@ -104,12 +92,13 @@ $(document).ready(function () {
 });
 
 
-function GetCustomerPaymentLedger() {
+function GetCustomerPaymentLedger(cur) {
     try {
         debugger;
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
-        var customerids = $("#customerCode").val();
+        var customerids =(cur!="ALL"? $("#customerCode").val():cur);
+       
        
         if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && customerids) {
             var data = { "FromDate": fromdate, "ToDate": todate, "CustomerIDs": customerids };
@@ -169,11 +158,20 @@ function Back()
 
 function OnCallChange()
 {
+    debugger;
+    if ($("#customerCode").val()=='') {
+        DataTables.customerpaymentledgertable.clear().rows.add(GetCustomerPaymentLedger('ALL')).draw(false);
+    }
+   
     RefreshCustomerPaymentLedgerTable();
 }
 
+
+
 function Reset() {
-    $("#customerCode").val('ALL').trigger('change')
+    debugger;
+    $("#customerCode").val('').trigger('change')
+    DataTables.customerpaymentledgertable.clear().rows.add(GetCustomerPaymentLedger('ALL')).draw(false);
    
 }
 
