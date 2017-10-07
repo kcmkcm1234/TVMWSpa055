@@ -1170,7 +1170,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Connection = con;
                         cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
                         cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
-                        cmd.Parameters.Add("@SupplierIDs", SqlDbType.NVarChar, 50).Value = Suppliercode;
+                        cmd.Parameters.Add("@SupplierIDs", SqlDbType.NVarChar, -1).Value = Suppliercode;
                         cmd.CommandText = "[Accounts].[RPT_GetSupplierPaymentLedger]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
