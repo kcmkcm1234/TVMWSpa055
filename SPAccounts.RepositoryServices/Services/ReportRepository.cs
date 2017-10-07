@@ -1170,7 +1170,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Connection = con;
                         cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
                         cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
-                        cmd.Parameters.Add("@SupplierIDs", SqlDbType.NVarChar, 50).Value = Suppliercode;
+                        cmd.Parameters.Add("@SupplierIDs", SqlDbType.NVarChar, -1).Value = Suppliercode;
                         cmd.CommandText = "[Accounts].[RPT_GetSupplierPaymentLedger]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -1233,7 +1233,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
                         cmd.Parameters.Add("@OnDate", SqlDbType.DateTime).Value = Date;
                         cmd.Parameters.Add("@MainHead", SqlDbType.NVarChar, 50).Value = MainHead != "" ? MainHead : null;
-                        cmd.Parameters.Add("@Search", SqlDbType.NVarChar, 250).Value = search != "" ? search : null;
+                        cmd.Parameters.Add("@Search", SqlDbType.NVarChar, 500).Value = search != "" ? search : null;
                         cmd.CommandText = "[Accounts].[RPT_DailyPaymentLedger]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -1245,9 +1245,9 @@ namespace SPAccounts.RepositoryServices.Services
                                 {
                                     DailyLedgerReport dailyLedgerDetails = new DailyLedgerReport();
                                     {
-                                        //dailyLedgerDetails.TransactionDate = (sdr["TransactionDate"].ToString() != "" ? sdr["TransactionDate"].ToString() : dailyLedgerDetails.TransactionDate);
                                         dailyLedgerDetails.TransactionDate = (sdr["TransactionDate"].ToString() != "" ? DateTime.Parse(sdr["TransactionDate"].ToString()).ToString(settings.dateformat) : dailyLedgerDetails.TransactionDate);
                                         dailyLedgerDetails.EntryType = (sdr["EntryType"].ToString() != "" ? sdr["EntryType"].ToString() : dailyLedgerDetails.EntryType);
+                                        dailyLedgerDetails.Particulars = (sdr["Particulars"].ToString() != "" ? sdr["Particulars"].ToString() : dailyLedgerDetails.Particulars);
                                         dailyLedgerDetails.MainHead = (sdr["mainHead"].ToString() != "" ? sdr["mainHead"].ToString() : dailyLedgerDetails.MainHead);
                                         dailyLedgerDetails.AccountHead = (sdr["AccountHead"].ToString() != "" ? sdr["AccountHead"].ToString() : dailyLedgerDetails.AccountHead);
                                         dailyLedgerDetails.ReferenceNo = (sdr["ReferenceNo"].ToString() != "" ? sdr["ReferenceNo"].ToString() : dailyLedgerDetails.ReferenceNo);

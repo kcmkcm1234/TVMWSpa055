@@ -16,6 +16,9 @@
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/select2")
 }
 <style>
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: 20px !important;
+        }
     table.dataTable tr.odd {
         background-color: rgba(148, 78, 132, 0.16);
     }
@@ -57,20 +60,20 @@
 <div class="form-horizontal">
 
     <div class="col-md-9" style="margin-top:10px;">
-        <div class="col-md-3">
+        <div class="col-md-3 DateFilterDiv" style=@ViewBag.DateFilterDisplay>
             @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
-                @Html.TextBox("fromdate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3",onchange= "OnChangeCall()",@id="fromdate", @Value = ViewBag.fromdate })
+                @Html.TextBox("fromdate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3",onchange= "OnChangeCall()", @id="fromdate", @Value = ViewBag.fromdate })
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3 DateFilterDiv" style=@ViewBag.DateFilterDisplay>
             @Html.Label("To Date", htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
                 @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", onchange = "OnChangeCall()",@id="todate", @Value = ViewBag.todate })
             </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-3 SingleDateFilterDiv" style=@ViewBag.SingleDateFilterDisplay>
             @Html.Label("On Date", htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
                 @Html.TextBox("ondate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", onchange = "OnChangeCall()", @id = "ondate", @Value = ViewBag.ondate })
@@ -82,18 +85,16 @@
                     <div class="col-md-12">
                       
                         @Html.DropDownListFor(c => c.MainHead, new SelectList(
-new List<Object>{ 
+                       new List<Object>{ 
                        new { value = "All" , text = "All"  },
                        new { value = "Cash" , text = "Cash"  },
                        new { value = "Bank" , text = "Bank" },
                        new { value = "BNC" , text = "BankNotCleared"},
                        new { value = "Cheque" , text = "ChequeUndeposited"}
- },
-"value",
-"text", 2),
-new { @class = "form-control BlockEnter", id = "MainHead", @onchange ="OnChangeCall()",value = -1, style = "padding:4px 12px;" })
-                        
-                        
+                                         },
+                                        "value",
+                                        "text", 2),
+                                        new { @class = "form-control BlockEnter", id = "MainHead", @onchange ="OnChangeCall()",value = -1, style = "padding:4px 12px;" })                               
                           @Html.ValidationMessageFor(model => model.MainHead, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -139,16 +140,13 @@ new { @class = "form-control BlockEnter", id = "MainHead", @onchange ="OnChangeC
                     <thead>
                         <tr class="text-center TableHead">
 
-                            <th>Transaction Date</th>
+                            <th>Document Date</th>
                             <th>Entry Type</th>
-                            <th>Main Head</th>
-                            <th>Account Head</th>
-                            <th>Reference No</th>
-                            <th>Customer/Employee</th>
+                            <th>Particulars</th>
+                            <th>Customer/ Employee</th>
                             <th>Debit</th>
                             <th>Credit</th>
-                            <th>PayMode</th>
-                            <th>Remarks</th>
+                            
                         </tr>
                     </thead>
                 </table>

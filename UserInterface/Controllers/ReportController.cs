@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Newtonsoft.Json;
+using SAMTool.DataAccessObject.DTO;
 using SPAccounts.BusinessService.Contracts;
 using SPAccounts.DataAccessObject.DTO;
 using SPAccounts.UserInterface.SecurityFilter;
@@ -1392,24 +1393,38 @@ namespace UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject = "DailyLedgerReport", Mode = "R")]
         public ActionResult DailyLedgerDetails()
         {
+            Permission _permission =  Session["UserRights"] as Permission;
+            if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "SingleDateFilter").AccessCode : string.Empty).Contains("R"))
+            {
+                ViewBag.DateFilterDisplay = "display:none";
+                ViewBag.SingleDateFilterDisplay = "display:block";
+                ViewBag.Disabled = "disabled";
+            }
+            if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "DateFilter").AccessCode : string.Empty).Contains("R"))
+            {
+                ViewBag.DateFilterDisplay = "display:block";
+                ViewBag.SingleDateFilterDisplay = "display:none";
+                
+            }
             DateTime dt = DateTime.Now;
-            ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+            ViewBag.fromdate = dt.ToString("dd-MMM-yyyy");
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
             ViewBag.ondate = dt.ToString("dd-MMM-yyyy");
+            
             DailyLedgerReportViewModel dailyLedgerViewModel = new DailyLedgerReportViewModel();
             return View(dailyLedgerViewModel);
 
         }
         [HttpGet]
-        //[AuthSecurityFilter(ProjectObject = "DailyLedgerReport", Mode = "R")]
-        public string GetDailyLedgerDetails(string FromDate, string ToDate, string Date, string MainHead, string search)
+        [AuthSecurityFilter(ProjectObject = "DailyLedgerReport", Mode = "R")]
+        public string GetDailyLedgerDetails(string FromDate, string ToDate, string OnDate, string MainHead, string search)
         {
             try
             {
                 DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                 DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                DateTime? OnDate = string.IsNullOrEmpty(Date) ? (DateTime?)null : DateTime.Parse(Date);
-                List< DailyLedgerReportViewModel > dailyLedgerList = Mapper.Map<List< DailyLedgerReport >, List<DailyLedgerReportViewModel>>(_reportBusiness.GetDailyLedgerDetails(FDate, TDate,OnDate,MainHead,search));
+                DateTime? NDate = string.IsNullOrEmpty(OnDate) ? (DateTime?)null : DateTime.Parse(OnDate);
+                List< DailyLedgerReportViewModel > dailyLedgerList = Mapper.Map<List< DailyLedgerReport >, List<DailyLedgerReportViewModel>>(_reportBusiness.GetDailyLedgerDetails(FDate, TDate,NDate,MainHead,search));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = dailyLedgerList });
             }
             catch (Exception ex)

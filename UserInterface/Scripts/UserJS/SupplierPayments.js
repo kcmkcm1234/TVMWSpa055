@@ -5,9 +5,8 @@ var AmountReceived = 0;
 
 $(document).ready(function () {
     try {
-        
-        $("#Supplier").select2({
-        });
+        debugger;
+        $("#Supplier").select2();
         $('#btnUpload').click(function () {
             //Pass the controller name
             debugger;
@@ -27,7 +26,13 @@ $(document).ready(function () {
         {
             
             dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
-
+            buttons: [{
+                extend: 'excel',
+                exportOptions:
+                             {
+                                 columns: [ 1, 2, 3, 4, 5, 6,7,8,9,10]
+                             }
+            }],
             order: [],
             searching: true,
             paging: true,
@@ -66,6 +71,7 @@ $(document).ready(function () {
                 { className: "text-center", "targets": [1, 3,11] }
             ]
         });
+        $(".buttons-excel").hide();
     }
     catch (e) {
         notyAlert('error', e.message);
@@ -164,7 +170,7 @@ $(document).ready(function () {
     if ($('#BindValue').val() != '') {
         dashboardBind($('#BindValue').val())
     }
-
+   
 });
 
 function dashboardBind(ID) {
@@ -924,4 +930,15 @@ function Reset() {
     $('#filter').hide();
     DataTables.SupplierPaymentTable.clear().rows.add(GetAllSupplierPayments()).draw(false);
    
+}
+
+
+function PrintReport() {
+    debugger;
+    try {
+        $(".buttons-excel").trigger('click');
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
 }

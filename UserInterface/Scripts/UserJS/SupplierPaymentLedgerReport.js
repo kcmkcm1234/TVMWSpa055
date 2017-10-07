@@ -152,7 +152,7 @@ function Back() {
 function OnCallChange() {
     debugger;
     if ($("#supplierCode").val() == '') {
-        return;
+        DataTables.supplierpaymentledgertable.clear().rows.add(GetSupplierPaymentLedger('ALL')).draw(false);
     }
    
     RefreshSupplierPaymentLedgerTable();

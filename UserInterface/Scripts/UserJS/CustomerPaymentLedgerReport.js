@@ -160,7 +160,7 @@ function OnCallChange()
 {
     debugger;
     if ($("#customerCode").val()=='') {
-        return true ;
+        DataTables.customerpaymentledgertable.clear().rows.add(GetCustomerPaymentLedger('ALL')).draw(false);
     }
    
     RefreshCustomerPaymentLedgerTable();
