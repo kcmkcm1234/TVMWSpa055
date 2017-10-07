@@ -325,5 +325,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string Credit { get; set; }
         public string PayMode { get; set; }
         public string Remarks { get; set; }
+        public string Particulars { get; set; }
+
     }
 }

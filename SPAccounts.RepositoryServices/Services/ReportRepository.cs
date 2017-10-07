@@ -1247,6 +1247,7 @@ namespace SPAccounts.RepositoryServices.Services
                                     {
                                         dailyLedgerDetails.TransactionDate = (sdr["TransactionDate"].ToString() != "" ? DateTime.Parse(sdr["TransactionDate"].ToString()).ToString(settings.dateformat) : dailyLedgerDetails.TransactionDate);
                                         dailyLedgerDetails.EntryType = (sdr["EntryType"].ToString() != "" ? sdr["EntryType"].ToString() : dailyLedgerDetails.EntryType);
+                                        dailyLedgerDetails.Particulars = (sdr["Particulars"].ToString() != "" ? sdr["Particulars"].ToString() : dailyLedgerDetails.Particulars);
                                         dailyLedgerDetails.MainHead = (sdr["mainHead"].ToString() != "" ? sdr["mainHead"].ToString() : dailyLedgerDetails.MainHead);
                                         dailyLedgerDetails.AccountHead = (sdr["AccountHead"].ToString() != "" ? sdr["AccountHead"].ToString() : dailyLedgerDetails.AccountHead);
                                         dailyLedgerDetails.ReferenceNo = (sdr["ReferenceNo"].ToString() != "" ? sdr["ReferenceNo"].ToString() : dailyLedgerDetails.ReferenceNo);
