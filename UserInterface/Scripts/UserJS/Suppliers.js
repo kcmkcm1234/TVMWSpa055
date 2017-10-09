@@ -17,7 +17,16 @@ $(document).ready(function () {
              },
              columns: [
                { "data": "ID" },
-               { "data": "CompanyName", "defaultContent": "<i>-</i>" },
+               {
+                   "data": "CompanyName", render: function (data, type, row) {
+                       if (row.IsInternalComp) {
+                           return data + " ( <label><i><b> Internal </b></i></label> )";
+                       }
+                       else {
+                           return data;
+                       }
+                   }, "defaultContent": "<i>-</i>"
+               },
                { "data": "ContactPerson", "defaultContent": "<i>-</i>" },
                { "data": "Product", "defaultContent": "<i>-</i>" }, 
                { "data": "Mobile", "defaultContent": "<i>-</i>" },
@@ -143,6 +152,7 @@ function DeleteSupplier() {
 function ClearFields() {
     $("#ID").val("");
     $("#CompanyName").val("");
+    $("#IsInternalComp").val('false');
     $("#ContactTitle").val("");
     $("#ContactPerson").val("");
     //$("#CompanyName").prop('disabled', false);
@@ -247,6 +257,10 @@ function FillSupplierDetails(ID) {
 
     $("#ID").val(thisItem.ID);
     $("#CompanyName").val(thisItem.CompanyName);
+    if (thisItem.IsInternalComp == true)
+        $("#IsInternalComp").val('true');
+    else
+        $("#IsInternalComp").val('false');
     $("#ContactTitle").val(thisItem.ContactTitle);
     $("#ContactPerson").val(thisItem.ContactPerson);
     //$("#CompanyName").prop('disabled', true);

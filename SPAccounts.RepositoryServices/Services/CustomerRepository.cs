@@ -46,7 +46,8 @@ namespace SPAccounts.RepositoryServices.Services
                                     Customer _customerObj = new Customer();
                                     {
                                         _customerObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : _customerObj.ID);
-                                        _customerObj.CompanyName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : _customerObj.CompanyName);
+                                         _customerObj.CompanyName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : _customerObj.CompanyName);
+                                        _customerObj.IsInternalComp = (sdr["IsInternalComp"].ToString() != "" ? bool.Parse(sdr["IsInternalComp"].ToString()) : _customerObj.IsInternalComp);
                                         _customerObj.ContactPerson = (sdr["ContactPerson"].ToString() != "" ? sdr["ContactPerson"].ToString() : _customerObj.ContactPerson);
                                         _customerObj.ContactEmail = (sdr["ContactEmail"].ToString() != "" ? sdr["ContactEmail"].ToString() : _customerObj.ContactEmail);
                                         _customerObj.ContactTitle = (sdr["ContactTitle"].ToString() != "" ? sdr["ContactTitle"].ToString() : _customerObj.ContactTitle);
@@ -165,6 +166,7 @@ namespace SPAccounts.RepositoryServices.Services
                                 {
                                         _customerObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : _customerObj.ID);
                                         _customerObj.CompanyName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : _customerObj.CompanyName);
+                                        _customerObj.IsInternalComp = (sdr["IsInternalComp"].ToString() != "" ? bool.Parse(sdr["IsInternalComp"].ToString()) : _customerObj.IsInternalComp);
                                         _customerObj.ContactPerson = (sdr["ContactPerson"].ToString() != "" ? sdr["ContactPerson"].ToString() : _customerObj.ContactPerson);
                                         _customerObj.ContactEmail = (sdr["ContactEmail"].ToString() != "" ? sdr["ContactEmail"].ToString() : _customerObj.ContactEmail);
                                         _customerObj.ContactTitle = (sdr["ContactTitle"].ToString() != "" ? sdr["ContactTitle"].ToString() : _customerObj.ContactTitle);
@@ -274,6 +276,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandText = "[Accounts].[InsertCustomers]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@CompanyName", SqlDbType.VarChar, 150).Value = _customerObj.CompanyName;
+                        cmd.Parameters.Add("@IsInternalComp", SqlDbType.Bit).Value = _customerObj.IsInternalComp;
                         cmd.Parameters.Add("@ContactPerson", SqlDbType.VarChar, 100).Value = _customerObj.ContactPerson;
                         cmd.Parameters.Add("@ContactEmail", SqlDbType.VarChar, 150).Value = _customerObj.ContactEmail;
                         cmd.Parameters.Add("@ContactTitle", SqlDbType.VarChar, 10).Value = _customerObj.ContactTitle;
@@ -342,6 +345,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = _customerObj.ID;
                         cmd.Parameters.Add("@CompanyName", SqlDbType.VarChar, 150).Value = _customerObj.CompanyName;
+                        cmd.Parameters.Add("@IsInternalComp", SqlDbType.Bit).Value = _customerObj.IsInternalComp;
                         cmd.Parameters.Add("@ContactPerson", SqlDbType.VarChar, 100).Value = _customerObj.ContactPerson;
                         cmd.Parameters.Add("@ContactEmail", SqlDbType.VarChar, 150).Value = _customerObj.ContactEmail;
                         cmd.Parameters.Add("@ContactTitle", SqlDbType.VarChar, 10).Value = _customerObj.ContactTitle;
