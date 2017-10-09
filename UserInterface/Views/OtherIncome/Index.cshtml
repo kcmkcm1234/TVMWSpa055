@@ -34,117 +34,126 @@
 
     
     <div class="form-horizontal">
-       
-        <div class="col-md-12">
-            <div class="col-md-4">
-                <div class="form-group col-md-12">
-                    <div class="col-md-12">
-                        @Html.LabelFor(model => model.IncomeDateFormatted, htmlAttributes: new { @class = "control-label" })
-                    </div>
-                    <div class="col-md-12">
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.IncomeDateFormatted, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter datepicker", @id = "IncomeDate" ,@onchange="IncomeDateOnchange()"} })
-                            @Html.ValidationMessageFor(model => model.IncomeDateFormatted, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-md-1"></div>
-                        <div class="col-md-1"></div>
-                    </div>
+
+    <div class="col-md-12">
+        <div class="col-md-4">
+            <div class="form-group col-md-12">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.IncomeDateFormatted, htmlAttributes: new { @class = "control-label" })
                 </div>
-                </div>
-            <div class="col-md-4">
-                <div class="form-group col-md-12">
-                    <div class="col-md-12">
-                        @Html.LabelFor(model => model.DefaultDate, htmlAttributes: new { @class = "control-label" })
+                <div class="col-md-12">
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.IncomeDateFormatted, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter datepicker", @id = "IncomeDate" ,@onchange="IncomeDateOnchange()"} })
+                        @Html.ValidationMessageFor(model => model.IncomeDateFormatted, "", new { @class = "text-danger" })
                     </div>
-                    <div class="col-md-12">
-                        <div class="col-md-10">
-                            @{
-                                List<SelectListItem> listDefaultDate = new List<SelectListItem>();
-                                listDefaultDate.Add(new SelectListItem
-                                { Text = "Last 30 Days", Value = "30" });
-                                listDefaultDate.Add(new SelectListItem
-                                { Text = "Last 60 Days", Value = "60" });
-                                listDefaultDate.Add(new SelectListItem
-                                { Text = "All", Value = "0" });
-                            }
-                            @Html.DropDownListFor(model =>model.DefaultDate, listDefaultDate, new { @class = "form-control BlockEnter",  style = "padding:4px 12px;",@id= "DefaultDate",  @onchange = "IncomeDefaultDateOnchange()" })
-                            @Html.ValidationMessageFor(model => model.DefaultDate, "", new { @class = "text-danger" })
-                          
-                        </div>
-                        <div class="col-md-1"></div>
-                        <div class="col-md-1"></div>
-                    </div>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-1"></div>
                 </div>
             </div>
-                <div class="col-md-4" style="padding-top:2%;border-left:1px solid #64e564;white-space:nowrap;">
-                   
-                    <div class="col-md-12">
-                        <div class="col-md-5 text-right">Opening As On : </div>
-                        <div class="col-md-6" id="OpeningDate"></div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="col-md-5 text-right">Cash : </div>
-                        <div class="col-md-6" id="OpeningCash"></div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="col-md-5 text-right">Bank : </div>
-                        <div class="col-md-6" id="OpeningBank"></div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="col-md-5 text-right">Bank(Not Cleared): </div>
-                        <div class="col-md-6" id="OpeningNCBank"></div>
-                    </div>  
-
-                </div>
-
-            </div>
-      
-        <div class="row summaryboxes">
-
-            <div class="clearfix visible-sm-block">
-
-            </div>
-
         </div>
-        <div class="row">
-            &nbsp;
+        <div class="col-md-4">
+            <div class="form-group col-md-12">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.DefaultDate, htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-10">
+                        @{
+                            List<SelectListItem> listDefaultDate = new List<SelectListItem>();
+                            listDefaultDate.Add(new SelectListItem
+                            { Text = "Last 30 Days", Value = "30" });
+                            listDefaultDate.Add(new SelectListItem
+                            { Text = "Last 60 Days", Value = "60" });
+                            listDefaultDate.Add(new SelectListItem
+                            { Text = "All", Value = "0" });
+                        }
+                        @Html.DropDownListFor(model =>model.DefaultDate, listDefaultDate, new { @class = "form-control BlockEnter",  style = "padding:4px 12px;",@id= "DefaultDate",  @onchange = "IncomeDefaultDateOnchange()" })
+                        @Html.ValidationMessageFor(model => model.DefaultDate, "", new { @class = "text-danger" })
+
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-1"></div>
+                </div>
+            </div>
         </div>
-        <div class="row tableContainer">
+        <div class="col-md-4" style="padding-top:2%;border-left:1px solid #64e564;white-space:nowrap;">
+
             <div class="col-md-12">
-                <table id="OtherIncomeTable" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
-                    <thead>
-                        <tr class="text-center TableHead">
-                            <th style="width:35px !important;">Sl.No</th>
-                            <th style="display:none;">ID</th>                           
-                            <th style="display:none;">AccountCode</th>
-                            <th style="width:150px !important;">Account</th>
-                            <th>Payment Method</th>
-                            <th style="width:85px !important;">Income Date</th>
-                            <th style="width:300px !important;">Description</th>
-                            <th>Reference No</th>
-                            <th>Amount</th>
-                            <th>...</th>
-                            <th>...</th>
-                        </tr>
-                    </thead>
-                </table>
+                <div class="col-md-5 text-right">Opening As On  </div>
+                <div class="col-md-1 ">:</div>
+                <div class="col-md-5" id="OpeningDate"></div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-5 text-right">Cash  </div>
+                <div class="col-md-1 ">:</div>
+                <div class="col-md-5" id="OpeningCash"></div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-5 text-right">Bank  </div>
+                <div class="col-md-1 ">:</div>
+                <div class="col-md-5" id="OpeningBank"></div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-5 text-right">Bank(Not Cleared) </div>
+                <div class="col-md-1 ">:</div>
+                <div class="col-md-5" id="OpeningNCBank"></div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-5 text-right">Cheque(Undeposited)</div>
+                <div class="col-md-1 ">:</div>
+                <div class="col-md-5" id="UndepositedCheque"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row summaryboxes">
+
+        <div class="clearfix visible-sm-block">
+
+        </div>
+
+    </div>
+    <div class="row">
+        &nbsp;
+    </div>
+
+    <div class="form-group col-md-12">
+        <div class="col-md-4">
+            <div class="row tableContainer">
+                <div class="col-md-12">
+                    <div class="col-md-4 text-left">
+                        <div class="rightAmtCaption" style="width:100%;padding-top:13%;">Net Income</div>
+                    </div>
+                    <div class="col-md-8 text-left">
+                        <div class="rightAmt" id="TotalAmt"></div>
+                    </div>
+                </div>
             </div>
         </div>
-         <div class="form-group col-md-12">
-             <div class="col-md-4"></div>
-             <div class="col-md-4"></div>
-             <div class="col-md-4">
-                 <div class="col-md-12 text-right">
-                         <div class="rightAmtCaption">Net Income</div>
-                 </div>
-                 <div class="col-md-12 text-right">
-                         <div class="rightAmt" id="TotalAmt">₹ 0.00</div>
-                 </div>
-             </div>
-          </div>
 
-     </div>
+    <table id="OtherIncomeTable" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
+        <thead>
+            <tr class="text-center TableHead">
+                <th style="width:35px !important;">Sl.No</th>
+                <th style="display:none;">ID</th>
+                <th style="display:none;">AccountCode</th>
+                <th style="width:150px !important;">Account</th>
+                <th>Payment Method</th>
+                <th style="width:85px !important;">Income Date</th>
+                <th style="width:300px !important;">Description</th>
+                <th>Reference No</th>
+                <th>Amount</th>
+                <th>...</th>
+                <th>...</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+        </div>
 
+      
 
 <div class="modal fade" id="AddOtherIncomeModel" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true" style="overflow-y:hidden !important;">
     <div class="modal-dialog" role="document" style="min-width:900px !important;">

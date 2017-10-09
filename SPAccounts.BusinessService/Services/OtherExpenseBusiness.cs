@@ -253,6 +253,7 @@ namespace SPAccounts.BusinessService.Services
                 OtherExpenseObj.OpeningBank = _commonBusiness.ConvertCurrency(decimal.Parse(OtherExpenseObj.OpeningBank));
                 OtherExpenseObj.OpeningCash = _commonBusiness.ConvertCurrency(decimal.Parse(OtherExpenseObj.OpeningCash));
                 OtherExpenseObj.OpeningNCBank = _commonBusiness.ConvertCurrency(decimal.Parse(OtherExpenseObj.OpeningNCBank));
+                OtherExpenseObj.UndepositedCheque = _commonBusiness.ConvertCurrency(decimal.Parse(OtherExpenseObj.UndepositedCheque));
                 return OtherExpenseObj;
             }
             catch (Exception ex)
