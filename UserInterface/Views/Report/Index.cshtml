@@ -25,28 +25,33 @@
                     {
                         foreach (SystemReportViewModel svm in Model.GroupBy(elem => elem.ReportGroup).Select(group => group.First()))
                         {
+
                             <div class="col-md-12">
                                 <div class="col-md-12 headSeperator" style="margin-left:0%;width:100%;"><i class="fa fa-th ig-yellow" aria-hidden="true"></i> @svm.ReportGroup</div>
-                               @foreach (SystemReportViewModel subsvm in Model.Where(s=>s.GroupOrder==svm.GroupOrder).OrderBy(os=>os.ReportOrder))
-                                {
-                                <div class="col-md-4">
-                                    <h4> @subsvm.ReportName </h4>
-                                    <p>
-                                        @subsvm.ReportDescription
-                                    </p>
-                                 
-                                        <ul class="pager">
-                                           
-                                            <li style="font-size:14px;" class="next"><a href="/@subsvm.Controller/@subsvm.Action">Run <span aria-hidden="true">&rarr;</span></a></li>
-                                        </ul>
+                               @foreach (SystemReportViewModel subsvm in Model.Where(s => s.GroupOrder == svm.GroupOrder).OrderBy(os => os.ReportOrder))
+                               {
+                                <div class="col-md-12 ReportRows">
+                                    <div class="col-md-5 ">
+                                        <h5> @subsvm.ReportName </h5>
+                                        @*<p>
+                                                @subsvm.ReportDescription
+                                            </p>*@
+
+
                                         @*<a href="/@svm.Controller/@subsvm.Action" class="btn btn-link">Run </a>*@
-                                   
+
+
+                                    </div>
+                                    <div class="col-md-7 ">
+                                        <ul class="pager">
+                                            <li style="font-size:12px;" class="next"><a href="/@subsvm.Controller/@subsvm.Action">Run <span aria-hidden="true">&rarr;</span></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                               }
 
                                 </div>
-                                }
-                                
-                                </div>
-                                }
+                               }
 
                                 }
 
