@@ -424,6 +424,7 @@ namespace SPAccounts.RepositoryServices.Services
                                     OtherExpenseObj.OpeningBank = (sdr["BankOpening"].ToString() != "" ? (sdr["BankOpening"].ToString()) : OtherExpenseObj.OpeningBank);
                                     OtherExpenseObj.OpeningNCBank = (sdr["BankNCOpening"].ToString() != "" ?(sdr["BankNCOpening"].ToString()) : OtherExpenseObj.OpeningNCBank); 
                                     OtherExpenseObj.OpeningCash = (sdr["CashOpening"].ToString() != "" ? (sdr["CashOpening"].ToString()) : OtherExpenseObj.OpeningCash);
+                                    OtherExpenseObj.UndepositedCheque = (sdr["UndepositedChq"].ToString() != "" ? (sdr["UndepositedChq"].ToString()) : OtherExpenseObj.UndepositedCheque);
                                 }
                             }
                         }
