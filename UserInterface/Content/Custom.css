@@ -727,7 +727,7 @@ color: #e32;
 }
 
 .headSeperator i {
-     font-size:18px;
+     font-size:20px;
     
 }
 
@@ -780,4 +780,18 @@ color: #e32;
     background-color: white!important;
     border-bottom:#954c84 solid 3px;
     border-top-color: white;
+}
+
+.ReportRows {
+    border-bottom:1px solid white; 
+}
+
+.ReportRows:hover {
+   background-color:rgba(198, 238, 238, 0.13);
+   
+}
+
+.pager {
+    margin:7px 0;
+    padding-right:20%;
 }
