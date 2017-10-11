@@ -76,6 +76,7 @@ namespace UserInterface.Models
         public string OpeningBank { get; set; }
         public string OpeningNCBank { get; set; }
         public string OpeningCash { get; set; }
+        public string UndepositedCheque { get; set; }
     }
 
 

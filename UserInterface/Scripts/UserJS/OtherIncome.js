@@ -82,6 +82,8 @@ function BindOpeningBalance() {
         $('#OpeningCash').append('<span><b> ' + items.OpeningCash + '</b></span>');
         $('#OpeningNCBank').text('');
         $('#OpeningNCBank').append('<span><b> ' + items.OpeningNCBank + '</b></span>');
+        $('#UndepositedCheque').text('');
+        $('#UndepositedCheque').append('<span><b> ' + items.UndepositedCheque + '</b></span>');
     } 
 }
 function GetOpeningBalance() {
