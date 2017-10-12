@@ -362,5 +362,37 @@ namespace SPAccounts.BusinessService.Services
             }
             return dailyLedgerList;
         }
+
+
+        public List<CustomerExpeditingReport> GetCustomerExpeditingDetail(DateTime? ToDate)
+        {
+            List<CustomerExpeditingReport> CustomerExpeditingList = null;
+            try
+            {
+                CustomerExpeditingList = _reportRepository.GetCustomerExpeditingDetail(ToDate);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return CustomerExpeditingList;
+        }
+
+
+        
+
+            public List<SupplierExpeditingReport> GetSupplierExpeditingDetail(DateTime? ToDate)
+        {
+            List<SupplierExpeditingReport> SupplierExpeditingList = null;
+            try
+            {
+                SupplierExpeditingList = _reportRepository.GetSupplierExpeditingDetail(ToDate);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return SupplierExpeditingList;
+        }
     }
 }

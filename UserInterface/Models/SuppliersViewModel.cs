@@ -17,6 +17,8 @@ namespace UserInterface.Models
         [MaxLength(150)]
         [Required(ErrorMessage = "Company Name is missing")]
         public string CompanyName { get; set; }
+        [Display(Name = "Is Internal Company")]
+        public bool IsInternalComp { get; set; }
         [Display(Name = "Contact Person Name")]
         [MaxLength(100)]
         public string ContactPerson { get; set; }

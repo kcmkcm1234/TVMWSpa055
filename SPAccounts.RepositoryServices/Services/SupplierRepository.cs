@@ -52,6 +52,7 @@ namespace SPAccounts.RepositoryServices.Services
                                     {
                                         _SupplierObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : _SupplierObj.ID);
                                         _SupplierObj.CompanyName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : _SupplierObj.CompanyName);
+                                        _SupplierObj.IsInternalComp = (sdr["IsInternalComp"].ToString() != "" ? bool.Parse(sdr["IsInternalComp"].ToString()) : _SupplierObj.IsInternalComp);
                                         _SupplierObj.ContactPerson = (sdr["ContactPerson"].ToString() != "" ? sdr["ContactPerson"].ToString() : _SupplierObj.ContactPerson);
                                         _SupplierObj.ContactEmail = (sdr["ContactEmail"].ToString() != "" ? sdr["ContactEmail"].ToString() : _SupplierObj.ContactEmail);
                                         _SupplierObj.ContactTitle = (sdr["ContactTitle"].ToString() != "" ? sdr["ContactTitle"].ToString() : _SupplierObj.ContactTitle);
@@ -213,6 +214,7 @@ namespace SPAccounts.RepositoryServices.Services
                                 {
                                     _supplierObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : _supplierObj.ID);
                                     _supplierObj.CompanyName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : _supplierObj.CompanyName);
+                                    _supplierObj.IsInternalComp = (sdr["IsInternalComp"].ToString() != "" ? bool.Parse(sdr["IsInternalComp"].ToString()) : _supplierObj.IsInternalComp);
                                     _supplierObj.ContactPerson = (sdr["ContactPerson"].ToString() != "" ? sdr["ContactPerson"].ToString() : _supplierObj.ContactPerson);
                                     _supplierObj.ContactEmail = (sdr["ContactEmail"].ToString() != "" ? sdr["ContactEmail"].ToString() : _supplierObj.ContactEmail);
                                     _supplierObj.ContactTitle = (sdr["ContactTitle"].ToString() != "" ? sdr["ContactTitle"].ToString() : _supplierObj.ContactTitle);
@@ -268,6 +270,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandText = "[Accounts].[InsertSupplier]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@CompanyName", SqlDbType.VarChar, 150).Value = _supplierObj.CompanyName;
+                        cmd.Parameters.Add("@IsInternalComp", SqlDbType.Bit).Value = _supplierObj.IsInternalComp;
                         cmd.Parameters.Add("@ContactPerson", SqlDbType.VarChar, 100).Value = _supplierObj.ContactPerson;
                         cmd.Parameters.Add("@ContactEmail", SqlDbType.VarChar, 150).Value = _supplierObj.ContactEmail;
                         cmd.Parameters.Add("@ContactTitle", SqlDbType.VarChar, 10).Value = _supplierObj.ContactTitle;
@@ -336,6 +339,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = _supplierObj.ID;
                         cmd.Parameters.Add("@CompanyName", SqlDbType.VarChar, 150).Value = _supplierObj.CompanyName;
+                        cmd.Parameters.Add("@IsInternalComp", SqlDbType.Bit).Value = _supplierObj.IsInternalComp;
                         cmd.Parameters.Add("@ContactPerson", SqlDbType.VarChar, 100).Value = _supplierObj.ContactPerson;
                         cmd.Parameters.Add("@ContactEmail", SqlDbType.VarChar, 150).Value = _supplierObj.ContactEmail;
                         cmd.Parameters.Add("@ContactTitle", SqlDbType.VarChar, 10).Value = _supplierObj.ContactTitle;

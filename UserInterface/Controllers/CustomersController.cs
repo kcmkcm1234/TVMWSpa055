@@ -128,8 +128,6 @@ namespace UserInterface.Controllers
            
                 try
                 {
-
-                    
                     AppUA _appUA = Session["AppUA"] as AppUA;
                     _customersObj.commonObj = new CommonViewModel();
                     _customersObj.commonObj.CreatedBy = _appUA.UserName;

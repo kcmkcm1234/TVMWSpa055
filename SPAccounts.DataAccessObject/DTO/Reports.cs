@@ -328,4 +328,33 @@ namespace SPAccounts.DataAccessObject.DTO
         public string Particulars { get; set; }
 
     }
+
+    public class CustomerExpeditingReport
+    {
+        public string CustomerName { get; set; }
+        public string ContactNo { get; set; }
+        public string LandLine { get; set; }
+        public string Mobile { get; set; }
+        public string OtherPhoneNos { get; set; }
+        public string InvoiceNo { get; set; }
+        public string InvoiceDate { get; set; }
+        public Decimal Amount { get; set; }
+        public string NoOfDays { get; set; }
+        public string Remarks { get; set; }
+    }
+
+
+    public class SupplierExpeditingReport
+    {
+        public string SupplierName { get; set; }
+        public string LandLine { get; set; }
+        public string ContactNo { get; set; }
+        public string Mobile { get; set; }
+        public string OtherPhoneNos { get; set; }
+        public string InvoiceNo { get; set; }
+        public string InvoiceDate { get; set; }
+        public Decimal Amount { get; set; }
+        public string NoOfDays { get; set; }
+        public string Remarks { get; set; }
+    }
 }

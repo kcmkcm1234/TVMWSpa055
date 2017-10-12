@@ -102,6 +102,8 @@ namespace UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/EmployeeCategory").Include("~/Scripts/UserJS/EmployeeCategory.js"));
             bundles.Add(new ScriptBundle("~/bundles/CustomerPaymentLedger").Include("~/Scripts/UserJS/CustomerPaymentLedgerReport.js"));
             bundles.Add(new ScriptBundle("~/bundles/SupplierPaymentLedger").Include("~/Scripts/UserJS/SupplierPaymentLedgerReport.js"));
+            bundles.Add(new ScriptBundle("~/bundles/CustomerExpeditingReport").Include("~/Scripts/UserJS/CustomerExpeditingDetailsReport.js"));
+            bundles.Add(new ScriptBundle("~/bundles/SupplierExpeditingReport").Include("~/Scripts/UserJS/SupplierExpeditingDetailsReport.js"));
 
         }
           
