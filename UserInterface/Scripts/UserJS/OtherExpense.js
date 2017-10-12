@@ -80,7 +80,7 @@ $(document).ready(function () {
         columns: [
           { "data": "BankCode", "defaultContent": "<i>-</i>" },
           { "data": "BankName", "defaultContent": "" },
-          { "data": "TotalAmount", "defaultContent": "<i>-</i>" },
+          { "data": "TotalAmount", render: function (data, type, row) { return formatCurrency(data); }, "defaultContent": "<i>-</i>" },
     
         ],
         columnDefs: [
