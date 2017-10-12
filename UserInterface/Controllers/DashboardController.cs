@@ -60,37 +60,28 @@ namespace UserInterface.Controllers
         }
 
         [AuthSecurityFilter(ProjectObject = "AdminDashboard", Mode = "R")]
-        public ActionResult MonthlyRecap(string Company)
+        public ActionResult MonthlyRecap(MonthlyRecapViewModel data)
         {
-            MonthlyRecapViewModel data = new MonthlyRecapViewModel();   
-
-            data = Mapper.Map<MonthlyRecap, MonthlyRecapViewModel>(_dashboardBusiness.GetMonthlyRecap(Company));
-            data.CompanyName = Company;
-
+            data = Mapper.Map<MonthlyRecap, MonthlyRecapViewModel>(_dashboardBusiness.GetMonthlyRecap(Mapper.Map<MonthlyRecapViewModel, MonthlyRecap>(data)));
             return PartialView("_MontlyRecap", data);
         }
 
         [AuthSecurityFilter(ProjectObject = "AdminDashboard", Mode = "R")]
-        public ActionResult ExpenseSummary(ExpenseSummaryViewModel d)
+        public ActionResult ExpenseSummary(ExpenseSummaryViewModel data)
         {
-            if (d.month == 0) {
-                d.month = DateTime.Today.Month;
-                d.year = DateTime.Today.Year;
-                d.CompanyName = "ALL";
+            if (data.month == 0) {
+                data.month = DateTime.Today.Month;
+                data.year = DateTime.Today.Year;
             }
-            ExpenseSummaryViewModel data = new ExpenseSummaryViewModel();
-            data.OtherExpSummary= Mapper.Map<OtherExpSummary, OtherExpSummaryViewModel>(_otherExpenseBusiness.GetOtherExpSummary(d.month,d.year,d.CompanyName));
-            data.CompanyName = d.CompanyName;
+            data.OtherExpSummary= Mapper.Map<OtherExpSummary, OtherExpSummaryViewModel>(_otherExpenseBusiness.GetOtherExpSummary(data.month, data.year, data.CompanyName));
             return PartialView("_ExpenseSummary", data);
         }
 
         [AuthSecurityFilter(ProjectObject = "Dashboard", Mode = "R")]
-        public ActionResult OutstandingSummary(string Company)
+        public ActionResult OutstandingSummary(OutstandingSummaryViewModel data)
         {
-            OutstandingSummaryViewModel data = new OutstandingSummaryViewModel();
-            data.CompanyName = Company;
-            CustomerInvoiceSummaryViewModel CustomerInvoiceSummary = Mapper.Map<CustomerInvoiceSummary, CustomerInvoiceSummaryViewModel>(_customerInvoiceBusiness.GetCustomerInvoicesSummary());
-            SupplierInvoiceSummaryViewModel SupplierInvoiceSummary = Mapper.Map<SupplierInvoiceSummary, SupplierInvoiceSummaryViewModel>(_supplierInvoicesBusiness.GetSupplierInvoicesSummary());
+            CustomerInvoiceSummaryViewModel CustomerInvoiceSummary = Mapper.Map<CustomerInvoiceSummary, CustomerInvoiceSummaryViewModel>(_customerInvoiceBusiness.GetCustomerInvoicesSummary(data.IsInternal));
+            SupplierInvoiceSummaryViewModel SupplierInvoiceSummary = Mapper.Map<SupplierInvoiceSummary, SupplierInvoiceSummaryViewModel>(_supplierInvoicesBusiness.GetSupplierInvoicesSummary(data.IsInternal));
             data.OutstandingInv = CustomerInvoiceSummary.OpenAmount + CustomerInvoiceSummary.OverdueAmount;
             data.OuttandingPay = SupplierInvoiceSummary.OpenAmount + SupplierInvoiceSummary.OverdueAmount;
 
@@ -104,22 +95,18 @@ namespace UserInterface.Controllers
         }
 
         [AuthSecurityFilter(ProjectObject = "AdminDashboard", Mode = "R")]
-        public ActionResult TopCustomers(string Company)
+        public ActionResult TopCustomers(TopCustomersViewModel data)
         {
-            TopCustomersViewModel data = new TopCustomersViewModel();
-            data.CompanyName = Company;
             data.BaseURL = "../Customers/Index/";
-            data.Docs = Mapper.Map<TopDocs, TopDocsVewModel>(_dashboardBusiness.GetTopDocs("CUST", "ALL", data.BaseURL));
+            data.Docs = Mapper.Map<TopDocs, TopDocsVewModel>(_dashboardBusiness.GetTopDocs("CUST", "ALL", data.BaseURL,data.IsInternal));
             return PartialView("_TopCustomers", data);
         }
 
         [AuthSecurityFilter(ProjectObject = "AdminDashboard", Mode = "R")]
-        public ActionResult TopSuppliers(string Company)
+        public ActionResult TopSuppliers(TopSuppliersViewModel data)
         {
-            TopSuppliersViewModel data = new TopSuppliersViewModel();
-            data.CompanyName = Company;
             data.BaseURL = "../Suppliers/Index/";
-            data.Docs = Mapper.Map<TopDocs, TopDocsVewModel>(_dashboardBusiness.GetTopDocs("SUPP", "ALL", data.BaseURL));
+            data.Docs = Mapper.Map<TopDocs, TopDocsVewModel>(_dashboardBusiness.GetTopDocs("SUPP", "ALL", data.BaseURL, data.IsInternal));
             return PartialView("_TopSuppliers", data);
         }
 
@@ -133,7 +120,7 @@ namespace UserInterface.Controllers
             data.Title = "Recent Customer Invoices";
             data.Color = "bg-yellow";
             data.BaseURL =  "../CustomerInvoices/Index/";
-            data.Docs = Mapper.Map<TopDocs, TopDocsVewModel>(_dashboardBusiness.GetTopDocs(data.DocType,"ALL", data.BaseURL));
+            data.Docs = Mapper.Map<TopDocs, TopDocsVewModel>(_dashboardBusiness.GetTopDocs(data.DocType,"ALL", data.BaseURL,data.IsInternal));
 
 
             return PartialView("_RecentDocs", data);
@@ -150,7 +137,7 @@ namespace UserInterface.Controllers
             data.Title = "Recent Customer Payments";
             data.Color = "bg-yellow";
             data.BaseURL = "../CustomerPayments/Index/";
-            data.Docs = Mapper.Map<TopDocs, TopDocsVewModel>(_dashboardBusiness.GetTopDocs(data.DocType, "ALL", data.BaseURL));
+            data.Docs = Mapper.Map<TopDocs, TopDocsVewModel>(_dashboardBusiness.GetTopDocs(data.DocType, "ALL", data.BaseURL, data.IsInternal));
 
             return PartialView("_RecentDocs", data);
         }
@@ -162,7 +149,7 @@ namespace UserInterface.Controllers
             data.Title = "Recent Supplier Invoices";
             data.Color = "bg-green";
             data.BaseURL = "../SupplierInvoices/Index/";
-            data.Docs = Mapper.Map<TopDocs, TopDocsVewModel>(_dashboardBusiness.GetTopDocs(data.DocType, "ALL", data.BaseURL));
+            data.Docs = Mapper.Map<TopDocs, TopDocsVewModel>(_dashboardBusiness.GetTopDocs(data.DocType, "ALL", data.BaseURL,data.IsInternal));
             return PartialView("_RecentDocs", data);
         }
 
@@ -174,7 +161,7 @@ namespace UserInterface.Controllers
             data.Title = "Recent Supplier Payments";
             data.Color = "bg-green";
             data.BaseURL = "../SupplierPayments/Index/";
-            data.Docs = Mapper.Map<TopDocs, TopDocsVewModel>(_dashboardBusiness.GetTopDocs(data.DocType, "ALL", data.BaseURL));
+            data.Docs = Mapper.Map<TopDocs, TopDocsVewModel>(_dashboardBusiness.GetTopDocs(data.DocType, "ALL", data.BaseURL,data.IsInternal));
             return PartialView("_RecentDocs", data);
         }
 
@@ -187,7 +174,7 @@ namespace UserInterface.Controllers
             data.Title = "Recent Other Income";
             data.Color = "bg-yellow";
             data.BaseURL = "../OtherIncome/Index/";
-            data.Docs = Mapper.Map<TopDocs, TopDocsVewModel>(_dashboardBusiness.GetTopDocs(data.DocType, "ALL", data.BaseURL));
+            data.Docs = Mapper.Map<TopDocs, TopDocsVewModel>(_dashboardBusiness.GetTopDocs(data.DocType, "ALL", data.BaseURL,data.IsInternal));
             return PartialView("_RecentDocs", data);
         }
 
@@ -200,7 +187,7 @@ namespace UserInterface.Controllers
             data.Title = "Recent Other Expense";
             data.Color = "bg-green";
             data.BaseURL = "../OtherExpenses/Index/";
-            data.Docs = Mapper.Map<TopDocs, TopDocsVewModel>(_dashboardBusiness.GetTopDocs(data.DocType, "ALL", data.BaseURL));
+            data.Docs = Mapper.Map<TopDocs, TopDocsVewModel>(_dashboardBusiness.GetTopDocs(data.DocType, "ALL", data.BaseURL,data.IsInternal));
             return PartialView("_RecentDocs", data);
         }
 

@@ -85,12 +85,12 @@ namespace SPAccounts.BusinessService.Services
             }
 
         }
-        public CustomerInvoiceSummary GetCustomerInvoicesSummary()
+        public CustomerInvoiceSummary GetCustomerInvoicesSummary(bool IsInternal)
         {
             try
             {
                 CustomerInvoiceSummary result = new CustomerInvoiceSummary();
-                result = _customerInvoicesRepository.GetCustomerInvoicesSummary();
+                result = _customerInvoicesRepository.GetCustomerInvoicesSummary(IsInternal);
                 if (result != null)
                 {
 

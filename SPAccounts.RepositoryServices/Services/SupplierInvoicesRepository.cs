@@ -90,7 +90,7 @@ namespace SPAccounts.RepositoryServices.Services
             return SupplierInvoicesList;
         }
 
-        public SupplierInvoiceSummary GetSupplierInvoicesSummary()
+        public SupplierInvoiceSummary GetSupplierInvoicesSummary(bool IsInternal)
         {
             SupplierInvoiceSummary SupplierInvoiceSummaryObj = null;
 
@@ -106,6 +106,7 @@ namespace SPAccounts.RepositoryServices.Services
                         }
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[GetSupplierInvoiceSummary]";
+                        cmd.Parameters.Add("@IsInternal", SqlDbType.Bit).Value = IsInternal;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {

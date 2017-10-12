@@ -1548,6 +1548,7 @@
     <Content Include="Scripts\UserJS\CustomerPayments.js" />
     <Content Include="Scripts\UserJS\Customers.js" />
     <Content Include="Scripts\UserJS\DailyLedgerReport.js" />
+    <Content Include="Scripts\UserJS\Dashboard.js" />
     <Content Include="Scripts\UserJS\Department.js" />
     <Content Include="Scripts\UserJS\DepositAndWithdrawalDetailReport.js" />
     <Content Include="Scripts\UserJS\DepositAndWithdrawals.js" />

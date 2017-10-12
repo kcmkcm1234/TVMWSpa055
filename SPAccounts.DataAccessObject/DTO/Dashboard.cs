@@ -47,7 +47,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal IncomePercentage { get; set; }
         public decimal ExpensePercentage { get; set; }
         public decimal ProfitPercentage { get; set; }
-
+        public bool IsInternal { get; set; }
     }
     public class MonthlyRecapItem
     {

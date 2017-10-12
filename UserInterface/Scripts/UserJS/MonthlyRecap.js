@@ -1,22 +1,25 @@
-$(function () {
+$(function () { 
+    debugger; 
+    MRinit();
 
-     
-    
+});
+
+function MRinit()
+{
+
     var list = MRmodel.MonthlyRecapItemList;
     var labelList = [];
     var IncomeList = [];
     var ExpenseList = [];
     for (i = 0; i < list.length; i++) {
         labelList.push(list[i].Period);
-        IncomeList.push(parseFloat(list[i].INAmount)/1000);
+        IncomeList.push(parseFloat(list[i].INAmount) / 1000);
         ExpenseList.push(parseFloat(list[i].ExAmount) / 1000);
 
     }
     createSalesChart(labelList, IncomeList, ExpenseList);
 
-});
-
-
+}
 function createSalesChart(labelList,IncomeList,ExpenseList) {
 
     'use strict';

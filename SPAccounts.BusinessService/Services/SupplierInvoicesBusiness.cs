@@ -22,10 +22,10 @@ namespace SPAccounts.BusinessService.Services
         {
             return _supplierInvoicesRepository.GetAllSupplierInvoices();
         }
-        public SupplierInvoiceSummary GetSupplierInvoicesSummary()
+        public SupplierInvoiceSummary GetSupplierInvoicesSummary(bool IsInternal)
         {
             SupplierInvoiceSummary result = new SupplierInvoiceSummary();
-            result = _supplierInvoicesRepository.GetSupplierInvoicesSummary();
+            result = _supplierInvoicesRepository.GetSupplierInvoicesSummary(IsInternal);
             if (result != null)
             {
                 

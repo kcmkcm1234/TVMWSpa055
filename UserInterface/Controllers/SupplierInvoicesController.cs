@@ -133,7 +133,7 @@ namespace UserInterface.Controllers
                 AppUA _appUA = Session["AppUA"] as AppUA;
                 SupplierInvoiceBundleViewModel Result = new SupplierInvoiceBundleViewModel();
 
-                Result.SupplierInvoiceSummary = Mapper.Map<SupplierInvoiceSummary, SupplierInvoiceSummaryViewModel>(_supplierInvoicesBusiness.GetSupplierInvoicesSummary());
+                Result.SupplierInvoiceSummary = Mapper.Map<SupplierInvoiceSummary, SupplierInvoiceSummaryViewModel>(_supplierInvoicesBusiness.GetSupplierInvoicesSummary(true));
                 Result.SupplierInvoices = Mapper.Map<List<SupplierInvoices>, List<SupplierInvoicesViewModel>>(_supplierInvoicesBusiness.GetAllSupplierInvoices());
                 if (filter != null && filter == "OD")
                 {
