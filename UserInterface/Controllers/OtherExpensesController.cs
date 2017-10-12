@@ -178,6 +178,28 @@ namespace UserInterface.Controllers
         }
         #endregion  GetAllEmployeeTypes
 
+        #region GetBankWiseBalance
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "OtherExpense", Mode = "R")]
+        public string GetBankWiseBalance(string Date)
+        {
+            try
+            {
+                List<OtherExpenseViewModel> otherExpenseList = Mapper.Map<List<OtherExpense>, List<OtherExpenseViewModel>>(_otherExpenseBusiness.GetBankWiseBalance(Date));
+                decimal otherExpenseSum = otherExpenseList.Sum(OE => OE.TotalAmount);
+                string otherExpenseSumFormatted = _commonBusiness.ConvertCurrency(otherExpenseSum, 2);
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = otherExpenseList,TotalAmount= otherExpenseSumFormatted });
+            }
+            catch (Exception ex)
+            {
+               
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+            }
+        }
+        #endregion GetBankWiseBalance
+
+
+
         public string GetEmployeeCompanyDetails(string ID)
         {
             try
