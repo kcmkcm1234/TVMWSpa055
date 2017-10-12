@@ -58,7 +58,39 @@ $(document).ready(function () {
     catch (x) {
 
         notyAlert('error', x.message);
-    } 
+    }
+
+    try {
+
+        DataTables.tblbankWiseBalanceTable = $('#tblbankWiseBalanceTable').DataTable({
+            dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
+            order: [],
+            searching: false,
+            paging: true,
+            data: null,
+            pageLength: 10,
+            language: {
+                search: "_INPUT_",
+                searchPlaceholder: "Search"
+            },
+            columns: [
+              { "data": "BankCode", "defaultContent": "<i>-</i>" },
+              { "data": "BankName", "defaultContent": "" },
+              { "data": "TotalAmount", "defaultContent": "<i>-</i>" },
+
+            ],
+            columnDefs: [
+                 { className: "text-right", "targets": [2] },
+                 { className: "text-left", "targets": [0, 1] },
+                 { className: "text-center", "targets": [] },
+                 { "bSortable": false, "aTargets": [0, 1, 2] }
+            ],
+        });
+
+    } catch (x) {
+
+        notyAlert('error', x.message);
+    }
 
 });
 
@@ -72,25 +104,28 @@ function dashboardBind(ID) {
 
 function BindOpeningBalance() {
     debugger;
-    var items = GetOpeningBalance();
-    if (items != undefined) {
-        $('#OpeningDate').text('');
-        $('#OpeningDate').append('<b>' + $("#IncomeDate").val() + '</b>')
-        $('#OpeningBank').text('');
-        $('#OpeningBank').append('<span><b> ' + items.OpeningBank + '</b></span>');
-        $('#OpeningCash').text('');
-        $('#OpeningCash').append('<span><b> ' + items.OpeningCash + '</b></span>');
-        $('#OpeningNCBank').text('');
-        $('#OpeningNCBank').append('<span><b> ' + items.OpeningNCBank + '</b></span>');
-        $('#UndepositedCheque').text('');
-        $('#UndepositedCheque').append('<span><b> ' + items.UndepositedCheque + '</b></span>');
-    } 
+    var OpeningDate = $("#IncomeDate").val();
+    if (OpeningDate != "" && IsVaildDateFormat(OpeningDate)) {
+        var items = GetOpeningBalance();
+        if (items != undefined) {
+            $('#OpeningDate').text('');
+            $('#OpeningDate').append('<b>' + $("#IncomeDate").val() + '</b>')
+            $('#OpeningBank').text('');
+            $('#OpeningBank').append('<span><b> ' + items.OpeningBank + '</b></span>');
+            $('#OpeningCash').text('');
+            $('#OpeningCash').append('<span><b> ' + items.OpeningCash + '</b></span>');
+            $('#OpeningNCBank').text('');
+            $('#OpeningNCBank').append('<span><b> ' + items.OpeningNCBank + '</b></span>');
+            $('#UndepositedCheque').text('');
+            $('#UndepositedCheque').append('<span><b> ' + items.UndepositedCheque + '</b></span>');
+        }
+    }
 }
 function GetOpeningBalance() {
     try {
         debugger;
         var OpeningDate = $("#IncomeDate").val();
-        if (OpeningDate != "") {
+        if (OpeningDate != "" && IsVaildDateFormat(OpeningDate)) {
             var data = { "OpeningDate": OpeningDate };
             var ds = {};
             ds = GetDataFromServer("OtherExpenses/GetOpeningBalance/", data);
@@ -109,6 +144,41 @@ function GetOpeningBalance() {
     }
 
 }
+
+function BankwiseBalance() {
+    debugger;
+    $("#BankWiseBalanceList").modal('show');
+
+    DataTables.tblbankWiseBalanceTable.clear().rows.add(GetBankWiseBalance()).draw(false);
+
+}
+
+function GetBankWiseBalance() {
+    try {
+        debugger;
+        var Date = $("#IncomeDate").val();
+        if (Date != "" && IsVaildDateFormat(Date)) {
+            var data = { "Date": Date };
+            var ds = {};
+            ds = GetDataFromServer("OtherExpenses/GetBankWiseBalance/", data);
+            ds = JSON.parse(ds);
+            $("#TotalBlnce").text("");
+            $("#TotalBlnce").text(ds.TotalAmount);
+            if (ds.Result == "OK") {
+                return ds.Records;
+            }
+            if (ds.Result == "ERROR") {
+                alert(ds.Message);
+            }
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+       
+
+
 
 function IncomeDefaultDateOnchange()
 { 

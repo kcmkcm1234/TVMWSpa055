@@ -1,7 +1,9 @@
 ﻿var DataTables = {};
-var emptyGUID = '00000000-0000-0000-0000-000000000000'
+var emptyGUID = '00000000-0000-0000-0000-000000000000';
+var DefaultDate = "";
 $(document).ready(function () {
     try {
+        debugger;
         $("#DefaultDate").val("");
       
         DataTables.expenseDetailTable = $('#expenseDetailTable').DataTable(
@@ -51,16 +53,52 @@ $(document).ready(function () {
 
     }
 
-    $('#expenseDetailTable tbody').on('dblclick', 'td', function () {
-        Edit(this)
+            $('#expenseDetailTable tbody').on('dblclick', 'td', function () {
+                Edit(this)
+            });
+            DefaultDate = $("#ExpDate").val();
+            BindOpeningBalance()
+
+            debugger;
+            if ($('#BindValue').val() != '') {
+                dashboardBind($('#BindValue').val())
+            }
+
+    try {
+
+    DataTables.tblbankWiseBalanceTable = $('#tblbankWiseBalanceTable').DataTable({
+        dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
+        order: [],
+        searching: false,
+        paging: true,
+        data: null,
+        pageLength: 10,
+        language: {
+            search: "_INPUT_",
+            searchPlaceholder: "Search"
+        },
+        columns: [
+          { "data": "BankCode", "defaultContent": "<i>-</i>" },
+          { "data": "BankName", "defaultContent": "" },
+          { "data": "TotalAmount", "defaultContent": "<i>-</i>" },
+    
+        ],
+        columnDefs: [
+             { className: "text-right", "targets": [2] },
+             { className: "text-left", "targets": [0, 1] },
+             { className: "text-center", "targets": [] },
+             { "bSortable": false, "aTargets": [0, 1, 2] }
+        ],
     });
+    
 
-    BindOpeningBalance()
+    } catch (x) {
 
-    debugger;
-    if ($('#BindValue').val() != '') {
-        dashboardBind($('#BindValue').val())
+        notyAlert('error', x.message);
     }
+
+
+
 });
 
 function dashboardBind(ID) {
@@ -71,40 +109,86 @@ function dashboardBind(ID) {
 
 function BindOpeningBalance() {
     debugger;
-    var items = GetOpeningBalance();
-    $('#OpeningDate').text('');
-    $('#OpeningDate').append('<b>' + $("#ExpDate").val()+'</b>')
-    $('#OpeningBank').text('');
-    $('#OpeningBank').append('<span><b> ' + items.OpeningBank + '</b></span>');
-    $('#OpeningCash').text('');
-    $('#OpeningCash').append('<span><b> ' + items.OpeningCash + '</b></span>');
-    $('#OpeningNCBank').text('');
-    $('#OpeningNCBank').append('<span><b> ' + items.OpeningNCBank + '</b></span>');
-    $('#UndepositedCheque').text('');
-    $('#UndepositedCheque').append('<span><b> ' + items.UndepositedCheque + '</b></span>');
-    
+    var OpeningDate = $("#ExpDate").val();
+    if (OpeningDate != "" && IsVaildDateFormat(OpeningDate)) {
+       
+        var items = GetOpeningBalance();
+        $('#OpeningDate').text('');
+        $('#OpeningDate').append('<b>' + $("#ExpDate").val() + '</b>')
+        $('#OpeningBank').text('');
+        $('#OpeningBank').append('<span><b> ' + items.OpeningBank + '</b></span>');
+        $('#OpeningCash').text('');
+        $('#OpeningCash').append('<span><b> ' + items.OpeningCash + '</b></span>');
+        $('#OpeningNCBank').text('');
+        $('#OpeningNCBank').append('<span><b> ' + items.OpeningNCBank + '</b></span>');
+        $('#UndepositedCheque').text('');
+        $('#UndepositedCheque').append('<span><b> ' + items.UndepositedCheque + '</b></span>');
+    }
+    else {
+        $("#ExpDate").val(DefaultDate).trigger('change');
+}
+
+   
 }
 
 function GetOpeningBalance() {
     try {
         debugger;
         var OpeningDate = $("#ExpDate").val();
-     
-        var data = { "OpeningDate": OpeningDate };
-        var ds = {};
-        ds = GetDataFromServer("OtherExpenses/GetOpeningBalance/", data);
-        ds = JSON.parse(ds);
-        if (ds.Result == "OK") {
-            return ds.Records;
+        if (OpeningDate != "" && IsVaildDateFormat(OpeningDate))
+        {
+            var data = { "OpeningDate": OpeningDate };
+            var ds = {};
+            ds = GetDataFromServer("OtherExpenses/GetOpeningBalance/", data);
+            ds = JSON.parse(ds);
+            if (ds.Result == "OK") {
+                return ds.Records;
+            }
+            if (ds.Result == "ERROR") {
+                alert(ds.Message);
+            }
         }
-        if (ds.Result == "ERROR") {
-            alert(ds.Message);
-        }
+        
     }
     catch (e) {
         notyAlert('error', e.message);
     }
 
+}
+
+function BankwiseBalance() {
+    debugger;
+    $("#BankWiseBalanceList").modal('show');
+
+    DataTables.tblbankWiseBalanceTable.clear().rows.add(GetBankWiseBalance()).draw(false);
+
+}
+
+function GetBankWiseBalance() {
+    try {
+        
+        debugger;
+        var Date = $("#ExpDate").val();
+        if (Date != "" && IsVaildDateFormat(Date))
+        {
+            var data = { "Date": Date };
+            var ds = {};
+            ds = GetDataFromServer("OtherExpenses/GetBankWiseBalance/", data);
+            ds = JSON.parse(ds);
+            $("#TotalBlnce").text("");
+            $("#TotalBlnce").text(ds.TotalAmount);
+            if (ds.Result == "OK") {
+                return ds.Records;
+            }
+            if (ds.Result == "ERROR") {
+                alert(ds.Message);
+            }
+}
+        
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
 }
 
 
@@ -157,6 +241,8 @@ function PaymentModeOnchange(curobj)
 {
     if (curobj.value == "ONLINE") {
         $("#BankCode").prop('disabled', false);
+        $("#ChequeDate").prop('disabled', false);
+        $("#ReferenceBank").prop('disabled', false);
     }
     else {
         $("#BankCode").val("");
@@ -164,8 +250,9 @@ function PaymentModeOnchange(curobj)
     }
     if (curobj.value == "CHEQUE")
     {
+        $("#BankCode").prop('disabled', false);
         $("#ChequeDate").prop('disabled', false);
-        $("#ReferenceBank").prop('disabled', false);
+        $("#ReferenceBank").prop('disabled', true);
     }
     else
     {

@@ -32,5 +32,8 @@ namespace SPAccounts.RepositoryServices.Contracts
         List<OtherIncomeSummaryReport> GetOtherIncomeSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string accounthead, string search);
         List<OtherIncomeDetailsReport> GetOtherIncomeDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string accounthead, string search);
         List<DailyLedgerReport> GetDailyLedgerDetails(DateTime? FromDate, DateTime? ToDate, DateTime? Date, string MainHead, string search);
+        List<CustomerExpeditingReport> GetCustomerExpeditingDetail(DateTime? ToDate);
+        List<SupplierExpeditingReport> GetSupplierExpeditingDetail(DateTime? ToDate);
+        
     }
 }

@@ -261,5 +261,19 @@ namespace SPAccounts.BusinessService.Services
                 throw ex;
             }
         }
+
+        public List<OtherExpense> GetBankWiseBalance(String Date)
+        {
+            List<OtherExpense> otherExpenseList = null;
+            try
+            {
+                otherExpenseList = _otherExpenseRepository.GetBankWiseBalance(Date);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return otherExpenseList;
+        }
     }
 }

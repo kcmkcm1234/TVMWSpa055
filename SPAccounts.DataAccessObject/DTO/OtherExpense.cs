@@ -34,6 +34,9 @@ namespace SPAccounts.DataAccessObject.DTO
         public string OpeningCash { get; set; }
         public string UndepositedCheque { get; set; }
         public bool IsReverse { get; set; }
+        //For BankWise Balance//
+        public string BankName { get; set; }
+        public string TotalAmount { get; set; }
 
     }
 

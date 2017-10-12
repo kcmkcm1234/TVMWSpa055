@@ -1271,5 +1271,114 @@ namespace SPAccounts.RepositoryServices.Services
             return dailyLedgerList;
         }
 
+
+
+
+        public List<CustomerExpeditingReport> GetCustomerExpeditingDetail(DateTime? ToDate)
+        {
+            List<CustomerExpeditingReport> CustomerExpeditingList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = ToDate;
+                        cmd.CommandText = "[Accounts].[RPT_CustomerPaymentExpeditingDetail]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                CustomerExpeditingList = new List<CustomerExpeditingReport>();
+                                while (sdr.Read())
+                                {
+                                    CustomerExpeditingReport customerexpeditingdetail = new CustomerExpeditingReport();
+                                    {
+                                        customerexpeditingdetail.CustomerName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : customerexpeditingdetail.CustomerName);
+                                        customerexpeditingdetail.ContactNo = (sdr["Mobile"].ToString() != "" ? ("☎"+sdr["Mobile"].ToString()) : "") +
+                                            (sdr["LandLine"].ToString() != "" ? (", ☎"+sdr["LandLine"].ToString()) : "" )+
+                                            (sdr["OtherPhoneNos"].ToString() != "" ? (", ☎"+sdr["OtherPhoneNos"].ToString()) : "");
+                                        customerexpeditingdetail.InvoiceNo = (sdr["InvoiceNo"].ToString() != "" ? sdr["InvoiceNo"].ToString() : customerexpeditingdetail.InvoiceNo);
+                                        customerexpeditingdetail.InvoiceDate = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(settings.dateformat) : customerexpeditingdetail.InvoiceDate);
+                                        customerexpeditingdetail.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : customerexpeditingdetail.Amount);
+                                        customerexpeditingdetail.NoOfDays = (sdr["NoOfDays"].ToString() != "" ? sdr["NoOfDays"].ToString() : customerexpeditingdetail.NoOfDays);
+                                       
+
+                                    }
+                                    CustomerExpeditingList.Add(customerexpeditingdetail);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return CustomerExpeditingList;
+        }
+
+
+        public List<SupplierExpeditingReport> GetSupplierExpeditingDetail(DateTime? ToDate)
+        {
+            List<SupplierExpeditingReport> SupplierExpeditingList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = ToDate;
+                        cmd.CommandText = "[Accounts].[RPT_SupplierPaymentExpeditingDetail]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                SupplierExpeditingList = new List<SupplierExpeditingReport>();
+                                while (sdr.Read())
+                                {
+                                    SupplierExpeditingReport supplierexpeditingdetail = new SupplierExpeditingReport();
+                                    {
+                                        supplierexpeditingdetail.SupplierName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : supplierexpeditingdetail.SupplierName);
+                                        supplierexpeditingdetail.ContactNo = (sdr["Mobile"].ToString() != "" ? ("☎" + sdr["Mobile"].ToString()) : "") +
+                                            (sdr["LandLine"].ToString() != "" ? (", ☎" + sdr["LandLine"].ToString()) : "") +
+                                            (sdr["OtherPhoneNos"].ToString() != "" ? (", ☎" + sdr["OtherPhoneNos"].ToString()) : "");
+                                        supplierexpeditingdetail.InvoiceNo = (sdr["InvoiceNo"].ToString() != "" ? sdr["InvoiceNo"].ToString() : supplierexpeditingdetail.InvoiceNo);
+                                        supplierexpeditingdetail.InvoiceDate = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(settings.dateformat) : supplierexpeditingdetail.InvoiceDate);
+                                        supplierexpeditingdetail.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : supplierexpeditingdetail.Amount);
+                                        supplierexpeditingdetail.NoOfDays = (sdr["NoOfDays"].ToString() != "" ? sdr["NoOfDays"].ToString() : supplierexpeditingdetail.NoOfDays);
+
+
+                                    }
+                                    SupplierExpeditingList.Add(supplierexpeditingdetail);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return SupplierExpeditingList;
+        }
+
+      
+
+
     }
 }

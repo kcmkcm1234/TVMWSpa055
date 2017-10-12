@@ -14,6 +14,7 @@ $(document).ready(function () {
                                      columns: [0, 1, 2, 3, 4, 5]
                                  }
                 }],
+                
                 order: [],
                 searching: false,
                 paging: true,
@@ -23,16 +24,18 @@ $(document).ready(function () {
                { "data": "TransactionDate", "defaultContent": "<i>-</i>", "width": "10%" },
                { "data": "EntryType", "defaultContent": "<i>-</i>", "width": "10%" },
                { "data": "Particulars", "defaultContent": "<i>-</i>", "width": "40%" },
-               { "data": "CustomerORemployee", "defaultContent": "<i>-</i>", "width": "5%" },
-               { "data": "Debit", "defaultContent": "<i>-</i>", "width": "5%" },
-               { "data": "Credit", "defaultContent": "<i>-</i>", "width": "5%"},
+               { "data": "CustomerORemployee", "defaultContent": "<i></i>", "width": "5%" },
+               { "data": "Debit", render: function (data, type, row) { return formatCurrency(data); }, "defaultContent": "<i>-</i>", "width": "5%" },
+               { "data": "Credit", render: function (data, type, row) { return formatCurrency(data); }, "defaultContent": "<i>-</i>", "width": "5%" },
              
                 ],
                 columnDefs: [{ "searchable": false },
                   { "bSortable": false, "aTargets": [0, 1, 2, 3, 4, 5] },
                   { className: "text-left", "targets": [1, 2, 3] },
                   { className: "text-right", "targets": [4,5] },
-                  { className: "text-center", "targets": [0] }]
+                  { className: "text-center", "targets": [0] }
+                    
+                ]
             });
         $(".buttons-excel").hide();
         if($('.DateFilterDiv').is(":hidden"))

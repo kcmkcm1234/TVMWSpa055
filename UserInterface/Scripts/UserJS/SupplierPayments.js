@@ -700,6 +700,7 @@ function BindSupplierPaymentsHeader() {
 }
 
 function PaymentModeChanged() {
+
     if ($('#PaymentMode').val() == "ONLINE") {
         $('#BankCode').prop('disabled', false);
     }
@@ -708,8 +709,10 @@ function PaymentModeChanged() {
         $('#BankCode').prop('disabled', true);
     }
     if ($('#PaymentMode').val() == "CHEQUE") {
+        $('#BankCode').prop('disabled', false);
         $('#ChequeDate').prop('disabled', false);
-        $('#ReferenceBank').prop('disabled', false);
+        $('#ReferenceBank').prop('disabled', true);
+
     }
     else {
         $("#ChequeDate").val('');

@@ -97,9 +97,9 @@
                 <div class="col-md-5" id="OpeningCash"></div>
             </div>
             <div class="col-md-12">
-                <div class="col-md-5 text-right">Bank  </div>
+                <div class="col-md-5 text-right"><a id="tabBankWiseBalanceList"onclick="BankwiseBalance()" style="cursor:pointer;">Bank</a>  </div>
                 <div class="col-md-1 ">:</div>
-                <div class="col-md-5" id="OpeningBank"></div>
+                <div class="col-md-5"> <a id="OpeningBank" onclick="BankwiseBalance()" style="cursor:pointer;"></a></div>
             </div>
             <div class="col-md-12">
                 <div class="col-md-5 text-right">Bank(Not Cleared)  </div>
@@ -117,54 +117,53 @@
     </div>
 
 
-    <div class="row summaryboxes">
+               <div class="row summaryboxes">
 
-        <div class="clearfix visible-sm-block">
+            <div class="clearfix visible-sm-block">
+
+            </div>
 
         </div>
-
-    </div>
-    <div class="row">
-        &nbsp;
-    </div>
+        <div class="row">
+            &nbsp;
+        </div>
 
 
-    <div class="form-group col-md-12">
-        <div class="col-md-4">
-            <div class="row tableContainer">
-                <div class="col-md-12">
-                    <div class="col-md-4 text-left">
-                        <div class="rightAmtCaption" style="width:100% ;padding-top:13%">Net Expense</div>
-                    </div>
-                    <div class="col-md-8 text-left">
-                        <div class="rightAmt" id="TotalAmt"></div>
+        <div class="form-group col-md-12">
+            <div class="col-md-4">
+                <div class="row tableContainer">
+                    <div class="col-md-12">
+                        <div class="col-md-4 text-left">
+                            <div class="rightAmtCaption" style="width:100% ;padding-top:13%">Net Expense</div>
+                        </div>
+                        <div class="col-md-8 text-left">
+                            <div class="rightAmt" id="TotalAmt"></div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-                <table id="expenseDetailTable" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
-                    <thead>
-                        <tr class="text-center TableHead">
-                            <th>SI No</th>
-                            <th>Account</th>
-                            <th>Payment mode</th>
-                            <th>Description</th>
-                            <th>Amount</th>
-                            <th>Expense Date</th>
-                            <th>Origin Company</th>
-                            <th>Reference No</th>
-                            <th>...</th>
-                            <th>...</th>
-                            <th>ID</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
+            <table id="expenseDetailTable" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
+                <thead>
+                    <tr class="text-center TableHead">
+                        <th>SI No</th>
+                        <th>Account</th>
+                        <th>Payment mode</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Expense Date</th>
+                        <th>Origin Company</th>
+                        <th>Reference No</th>
+                        <th>...</th>
+                        <th>...</th>
+                        <th>ID</th>
+                    </tr>
+                </thead>
+            </table>
         </div>
-
     </div>
-</div>
+
+
 
 
 @*Model*@
@@ -409,11 +408,64 @@
 </div>
 
 
+@*Model*@
+<div class="modal fade" id="BankWiseBalanceList" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true" @*style="overflow-y:hidden !important;"*@>
+    <div class="modal-dialog" role="document" style="min-width:900px !important;">
+        <div class="modal-content">
+            <div class="modal-header" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 36px;padding: 3px;border-bottom:2px solid rgb(149, 76, 132)!important;">
+                <div class="container-fluid" style="padding-right: 0px;">
+                    <div class="col-md-4">
+                        <h3 class="modal-title SCHeader" id="modelContextLabel"></h3>
+
+                        <div class="col-md-12">
+                            <span style="font-weight: 600;font-size: 20px;" id="AddOrEditSpan">Bank Wise Balance</span>
+                        </div>
+                    </div>
+                        
+                       
+                    <div class="col-md-8" style="padding-right: 4px;"> 
+                        <a class="close" data-dismiss="modal" aria-label="Close"><i style="font-size: 33px;" class="fa fa-times-circle" aria-hidden="true"></i></a>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="modal-body">
+                <div class="col-md-12">
+                    <div class="col-md-6">
+
+                    </div>
+                    <div class="col-md-6 text-right" style="display:inline-flex;">
+                        <div class="col-md-6" style="font-weight: 600;font-size: 14px;padding-top:3%;">Total Balance</div>
+                        <div class="col-md-6" id="TotalBlnce" style="font-family: 'Times New Roman';font-size: 28px;"></div>
+                    </div>
+                </div>
+                <div class="container-fluid">
+                    <table id="tblbankWiseBalanceTable" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+                        <thead>
+                            <tr class="text-center">
+                                <th>BankCode</th>
+                                <th>BankName</th>
+                                <th>Amount </th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 50px;padding: 7px;">
+               
+            </div>
+
+        </div>
+    </div>
+</div>
 
 
 
-@section Scripts {
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/OtherExpense")
-}
+
+    @section Scripts {
+        @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
+        @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
+        @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/OtherExpense")
+    }
