@@ -23,7 +23,7 @@ namespace UserInterface.Models
 
     public class AdminDashboardViewModel
     {
-        [Display(Name = "Is Internal Company")]
+        [Display(Name = "Include Internal Companies")]
         public bool IsInternal { get; set; }
     }
 
