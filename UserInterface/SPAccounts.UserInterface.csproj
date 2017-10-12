@@ -1543,6 +1543,7 @@
     <Content Include="Scripts\UserJS\Application.js" />
     <Content Include="Scripts\UserJS\AppObject.js" />
     <Content Include="Scripts\UserJS\AppSubobject.js" />
+    <Content Include="Scripts\UserJS\CustomerExpeditingDetailsReport.js" />
     <Content Include="Scripts\UserJS\CustomerInvoices.js" />
     <Content Include="Scripts\UserJS\CustomerPaymentLedgerReport.js" />
     <Content Include="Scripts\UserJS\CustomerPayments.js" />
@@ -1578,6 +1579,7 @@
     <Content Include="Scripts\UserJS\SubType.js" />
     <Content Include="Scripts\UserJS\SupplierContactDetailsReport.js" />
     <Content Include="Scripts\UserJS\SupplierCreditNotes.js" />
+    <Content Include="Scripts\UserJS\SupplierExpeditingDetailsReport.js" />
     <Content Include="Scripts\UserJS\SupplierInvoices.js" />
     <Content Include="Scripts\UserJS\SupplierPaymentLedgerReport.js" />
     <Content Include="Scripts\UserJS\SupplierPayments.js" />
@@ -1755,6 +1757,8 @@
     <Content Include="Views\Report\CustomerPaymentLedger.cshtml" />
     <Content Include="Views\Report\SupplierPaymentLedger.cshtml" />
     <Content Include="Views\Report\DailyLedgerDetails.cshtml" />
+    <Content Include="Views\Report\CustomerPaymentExpeditingDetails.cshtml" />
+    <Content Include="Views\Report\SupplierPaymentExpeditingDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

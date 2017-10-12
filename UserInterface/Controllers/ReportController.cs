@@ -1387,6 +1387,65 @@ namespace UserInterface.Controllers
         }
 
 
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
+        public ActionResult CustomerPaymentExpeditingDetails()
+        {
+
+            DateTime dt = DateTime.Now;
+            ViewBag.todate = dt.ToString("dd-MMM-yyyy");
+
+            return View();
+        }
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
+        public string GetCustomerPaymentExpeditingDetails(string ToDate)
+        {
+            try
+            { 
+            DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
+            List<CustomerExpeditingReportViewModel> customerExpeditingDetailsList = Mapper.Map<List<CustomerExpeditingReport>, List<CustomerExpeditingReportViewModel>>(_reportBusiness.GetCustomerExpeditingDetail(TDate));
+            return JsonConvert.SerializeObject(new { Result = "OK", Records = customerExpeditingDetailsList});
+            }
+                catch (Exception ex)
+                {
+                    return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message});
+                }
+
+            //return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "Date is required" });
+        }
+
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
+        public ActionResult SupplierPaymentExpeditingDetails()
+        {
+
+            DateTime dt = DateTime.Now;
+            ViewBag.todate = dt.ToString("dd-MMM-yyyy");
+
+            return View();
+        }
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
+        public string GetSupplierPaymentExpeditingDetails(string ToDate)
+        {
+            try
+            {
+                DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
+                List<SupplierExpeditingReportViewModel> supplierExpeditingDetailsList = Mapper.Map<List<SupplierExpeditingReport>, List<SupplierExpeditingReportViewModel>>(_reportBusiness.GetSupplierExpeditingDetail(TDate));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = supplierExpeditingDetailsList });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+            }
+
+            //return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "Date is required" });
+        }
+
 
 
         [HttpGet]
