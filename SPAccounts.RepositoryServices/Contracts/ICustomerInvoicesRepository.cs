@@ -7,7 +7,7 @@ namespace SPAccounts.RepositoryServices.Contracts
     public interface ICustomerInvoicesRepository
     {
          List<CustomerInvoice> GetAllCustomerInvoices();
-        CustomerInvoiceSummary GetCustomerInvoicesSummary();
+        CustomerInvoiceSummary GetCustomerInvoicesSummary(bool IsInternal);
         CustomerInvoice GetCustomerInvoiceDetails(Guid ID);
         CustomerInvoice InsertInvoice(CustomerInvoice _customerInvoicesObj, AppUA ua);
         CustomerInvoice UpdateInvoice(CustomerInvoice _customerInvoicesObj, AppUA ua);

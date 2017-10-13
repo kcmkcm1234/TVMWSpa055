@@ -77,6 +77,9 @@ namespace UserInterface.Models
         public string OpeningNCBank { get; set; }
         public string OpeningCash { get; set; }
         public string UndepositedCheque { get; set; }
+//For BankWise Balance//
+        public string BankName { get; set; }
+        public decimal TotalAmount { get; set; }
     }
 
 

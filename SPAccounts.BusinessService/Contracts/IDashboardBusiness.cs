@@ -9,8 +9,8 @@ namespace SPAccounts.BusinessService.Contracts
 {
     public interface IDashboardBusiness
     {
-        MonthlyRecap GetMonthlyRecap(string Company);
+        MonthlyRecap GetMonthlyRecap(MonthlyRecap data);
         List<SalesSummary> GetSalesSummaryChart(SalesSummary duration);
-        TopDocs GetTopDocs(string DocType, string Company,string BaseURL);
+        TopDocs GetTopDocs(string DocType, string Company,string BaseURL,bool IsInternal);
     }
 }

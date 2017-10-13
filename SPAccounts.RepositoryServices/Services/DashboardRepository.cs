@@ -24,7 +24,7 @@ namespace SPAccounts.RepositoryServices.Services
 
 
 
-        public MonthlyRecap GetMonthlyRecap(string Company)
+        public MonthlyRecap GetMonthlyRecap(MonthlyRecap data)
         {
             MonthlyRecap monthlyRecap = new MonthlyRecap();
             monthlyRecap.MonthlyRecapItemList = new List<MonthlyRecapItem>();
@@ -41,7 +41,8 @@ namespace SPAccounts.RepositoryServices.Services
                         }
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[MonthlyRecap]";
-                        cmd.Parameters.Add("@Company", SqlDbType.NVarChar, 10).Value = Company;
+                        cmd.Parameters.Add("@Company", SqlDbType.NVarChar, 10).Value = data.CompanyName;
+                        cmd.Parameters.Add("@IsInternal", SqlDbType.Bit).Value = data.IsInternal;
                         cmd.CommandType = CommandType.StoredProcedure;
                         
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -76,7 +77,7 @@ namespace SPAccounts.RepositoryServices.Services
         }
 
 
-        public TopDocs GetTopDocs(string DocType,string Company) {
+        public TopDocs GetTopDocs(string DocType,string Company, bool IsInternal) {
             Settings settings = new Settings();
             TopDocs Docs = new TopDocs();
             Docs.DocItems = new List<TopDocsItem>();
@@ -95,6 +96,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandText = "[Accounts].[GetTopDocs]";
                         cmd.Parameters.Add("@DocType", SqlDbType.NVarChar, 10).Value = DocType;
                         cmd.Parameters.Add("@Company", SqlDbType.NVarChar, 10).Value = Company;
+                        cmd.Parameters.Add("@IsInternal", SqlDbType.Bit).Value = IsInternal;
                         cmd.CommandType = CommandType.StoredProcedure;
 
                         using (SqlDataReader sdr = cmd.ExecuteReader())

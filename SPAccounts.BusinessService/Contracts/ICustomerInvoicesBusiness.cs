@@ -9,7 +9,7 @@ namespace SPAccounts.BusinessService.Contracts
         List<CustomerInvoice> GetAllCustomerInvoices();
         List<CustomerInvoice> GetAllCustomerInvociesByCustomerID(Guid CustomerID);
         CustomerInvoice GetCustomerInvoiceDetails(Guid ID);
-        CustomerInvoiceSummary GetCustomerInvoicesSummary();
+        CustomerInvoiceSummary GetCustomerInvoicesSummary(bool IsInternal);
         CustomerInvoice InsertUpdateInvoice(CustomerInvoice _customerInvoicesObj, AppUA ua);
         List<CustomerInvoice> GetOutStandingInvoices(Guid PaymentID,Guid CustID);
         CustomerInvoice GetCustomerAdvances(string ID);

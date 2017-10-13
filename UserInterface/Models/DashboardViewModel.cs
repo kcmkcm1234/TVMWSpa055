@@ -1,6 +1,7 @@
-﻿ 
+﻿
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -17,16 +18,19 @@ namespace UserInterface.Models
         public bool ISEmploy { get; set; }
         public decimal Amount { get; set; }
         public string account { get; set; }
+        public bool IsInternal { get; set; }
     }
 
     public class AdminDashboardViewModel
     {
+        [Display(Name = "Include Internal Companies")]
+        public bool IsInternal { get; set; }
     }
 
     public class TopDocsVewModel
     {
         public string DocType { get; set; }
-        public List<TopDocsItemVewModel> DocItems { get; set; }
+        public List<TopDocsItemVewModel> DocItems { get; set; }       
 
     }
 
@@ -41,6 +45,7 @@ namespace UserInterface.Models
         public string CreatedDateFormatted { get; set; }
         public Guid ID { get; set; }
         public string URL { get; set; }
+        public bool IsInternal { get; set; }
 
     }
     public class MonthlyRecapViewModel
@@ -60,6 +65,7 @@ namespace UserInterface.Models
         public decimal IncomePercentage { get; set; }
         public decimal ExpensePercentage { get; set; }
         public decimal ProfitPercentage { get; set; }
+        public bool IsInternal { get; set; }
 
     }
     public class MonthlyRecapItemViewModel
@@ -67,6 +73,7 @@ namespace UserInterface.Models
         public string Period { get; set; }
         public decimal INAmount { get; set; }
         public decimal ExAmount { get; set; }
+        public bool IsInternal { get; set; }
 
 
     }
@@ -77,6 +84,7 @@ namespace UserInterface.Models
         public OtherExpSummaryViewModel OtherExpSummary { get; set; }
         public int month { get; set; }
         public int year { get; set; }
+        public bool IsInternal { get; set; }
     }
 
     public class OutstandingSummaryViewModel
@@ -90,6 +98,7 @@ namespace UserInterface.Models
 
         public string OutstandingInvFormatted { get; set; }
         public string OuttandingPayFormatted { get; set; }
+        public bool IsInternal { get; set; }
 
     }
 
@@ -98,6 +107,7 @@ namespace UserInterface.Models
         public string CompanyName { get; set; }
         public TopDocsVewModel Docs { get; set; }
         public string BaseURL { get; set; }
+        public bool IsInternal { get; set; }
     }
 
     public class TopSuppliersViewModel
@@ -105,6 +115,7 @@ namespace UserInterface.Models
         public string CompanyName { get; set; }
         public TopDocsVewModel Docs { get; set; }
         public string BaseURL { get; set; }
+        public bool IsInternal { get; set; }
 
     }
 
@@ -117,6 +128,8 @@ namespace UserInterface.Models
         public string Color { get; set; }
         public string BaseURL { get; set; }
         public TopDocsVewModel Docs { get; set; }
+        public bool IsInternal { get; set; }
+
     }
 
     //public class DocumentSummaryViewModel

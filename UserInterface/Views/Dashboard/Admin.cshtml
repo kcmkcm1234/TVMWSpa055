@@ -1,5 +1,6 @@
 ﻿@model UserInterface.Models.AdminDashboardViewModel
 @using UserInterface.App_Start
+@using UserInterface.Models
 @{
     ViewBag.Title = "Admin Dashboard";
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
@@ -16,39 +17,73 @@
     &nbsp;
 </div>
 <div class="col-md-12">
-    &nbsp;
+    <div class="form-group col-md-12">
+        <div class="col-md-8"></div>
+        <div class="col-md-4">
+            <div class="col-md-2" style="text-align:right">
+                @Html.CheckBoxFor(model => model.IsInternal, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter" }, onchange = "IsInternalChange();" })
+            </div>
+            <div class="col-md-8" style="text-align:left">
+                @Html.LabelFor(model => model.IsInternal, htmlAttributes: new { @class = "control-label" })
+            </div>
+           
+        </div>
+    </div>
 </div>
-<div class="col-md-12">
-    @{
-        var data = new { Company = "All" };
-        @Html.Action("MonthlyRecap", "Dashboard", data);
-    }
+
+    <div id="MonthlyRecap" class="col-md-12">
+        @{ 
+            //var data = new { Company = "All" };
+            MonthlyRecapViewModel MRV = new MonthlyRecapViewModel();
+            MRV.CompanyName = "All";
+            @Html.Action("MonthlyRecap", "Dashboard", MRV);
+        }
+    </div>  
+  
+    <div class="col-lg-12">
+    <div id="ExpenseSummary" class="col-md-6">
+        @{
+            //var data1 = new { month = 0, year = 0, CompanyName = "All" };
+            ExpenseSummaryViewModel ESVM = new ExpenseSummaryViewModel();
+            ESVM.CompanyName = "All";
+            ESVM.month = 0;
+            ESVM.year = 0;
+            @Html.Action("ExpenseSummary", "Dashboard", ESVM);
+        }
+    </div>
+    <div id="OutstandingSummary" class="col-md-6">
+        @{
+            OutstandingSummaryViewModel OSVM = new OutstandingSummaryViewModel();
+            OSVM.CompanyName = "All";
+            @Html.Action("OutstandingSummary", "Dashboard", OSVM);
+        }
+    </div>
+
 </div>
-  
-  
-<div class="col-md-12">
-    @{
-        var data1 = new {month=0,year=0, CompanyName = "All" };
-        @Html.Action("ExpenseSummary", "Dashboard", data1);
-    }
-    @{
-        var data2 = new { Company = "All" };
-        @Html.Action("OutstandingSummary", "Dashboard", data2);
-    }
+<div class="col-lg-12">
+
+    <div id="TopCustomers" class="col-md-6 ">
+        @{
+            TopCustomersViewModel TCVM = new TopCustomersViewModel();
+            TCVM.CompanyName = "All";
+            @Html.Action("TopCustomers", "Dashboard", TCVM);
+        }
+    </div>
+    <div id="TopSuppliers" class="col-md-6 ">
+        @{
+            TopSuppliersViewModel TSVM = new TopSuppliersViewModel();
+            TSVM.CompanyName = "All";
+            @Html.Action("TopSuppliers", "Dashboard", TSVM);
+        }
+    </div>
+
 </div>
    
-    <div class="col-md-12 ">
-        @{
-            var data3 = new { Company = "All" };
-            @Html.Action("TopCustomers", "Dashboard", data3);
-        }
 
-        @{
-            var data4 = new { Company = "All" };
-            @Html.Action("TopSuppliers", "Dashboard", data4);
-        }
 
-    </div>
+        
+
+   
 
 
     @section Scripts {

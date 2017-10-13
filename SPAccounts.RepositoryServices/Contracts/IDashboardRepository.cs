@@ -9,8 +9,8 @@ namespace SPAccounts.RepositoryServices.Contracts
 {
     public interface IDashboardRepository
     {
-         MonthlyRecap GetMonthlyRecap(string Company);
-        TopDocs GetTopDocs(string DocType, string Company);
+         MonthlyRecap GetMonthlyRecap(MonthlyRecap Company);
+        TopDocs GetTopDocs(string DocType, string Company, bool IsInternal);
         List<SalesSummary> GetSalesSummaryChart(SalesSummary duration);
     }
 }

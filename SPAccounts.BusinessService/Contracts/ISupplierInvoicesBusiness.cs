@@ -10,7 +10,7 @@ namespace SPAccounts.BusinessService.Contracts
     {
         List<SupplierInvoices> GetAllSupplierInvoices();
         SupplierInvoices GetSupplierInvoiceDetails(Guid ID);
-        SupplierInvoiceSummary GetSupplierInvoicesSummary();
+        SupplierInvoiceSummary GetSupplierInvoicesSummary(bool IsInternal);
         SupplierInvoices InsertUpdateInvoice(SupplierInvoices _supplierInvoicesObj);
         SupplierSummaryforMobile GetOutstandingSupplierInvoices(SupplierInvoices SupObj);
         List<SupplierInvoices> GetOutStandingInvoicesBySupplier(Guid PaymentID,Guid supplierID);

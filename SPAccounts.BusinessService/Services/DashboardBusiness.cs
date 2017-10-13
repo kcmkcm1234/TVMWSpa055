@@ -17,9 +17,9 @@ namespace SPAccounts.BusinessService.Services
             _dashboardRepository = dashboardRepository;
             _commonBusiness = commonBusiness;
         }
-        public MonthlyRecap GetMonthlyRecap(string Company)
+        public MonthlyRecap GetMonthlyRecap(MonthlyRecap data)
         {
-            MonthlyRecap Result = _dashboardRepository.GetMonthlyRecap(Company);
+            MonthlyRecap Result = _dashboardRepository.GetMonthlyRecap(data);
             if (Result != null)
             {
                 foreach (MonthlyRecapItem m in Result.MonthlyRecapItemList)
@@ -57,21 +57,17 @@ namespace SPAccounts.BusinessService.Services
         }
 
 
-        public TopDocs GetTopDocs(string DocType, string Company, string BaseURL)
+        public TopDocs GetTopDocs(string DocType, string Company, string BaseURL, bool IsInternal)
         {
-            TopDocs Result = _dashboardRepository.GetTopDocs(DocType, Company);
-           
-             
-
-
+            TopDocs Result = _dashboardRepository.GetTopDocs(DocType, Company,IsInternal);
+            
             if (Result != null)
             {
                 foreach (TopDocsItem m in Result.DocItems)
                 {
                     m.ValueFormatted = _commonBusiness.ConvertCurrency(m.Value, 2);
                     m.URL = BaseURL+m.ID;
-                }
-
+                } 
             }
 
             return Result;

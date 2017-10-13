@@ -16,5 +16,6 @@ namespace SPAccounts.RepositoryServices.Contracts
         object DeleteOtherExpense(Guid ID, string UserName);
         OtherExpSummary GetOtherExpSummary(int month, int year, string Company);
         List<OtherExpense> GetExpenseTypeDetails(OtherExpense expObj);
+        List<OtherExpense> GetBankWiseBalance(string Date);
     }
 }

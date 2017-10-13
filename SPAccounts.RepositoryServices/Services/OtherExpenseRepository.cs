@@ -20,7 +20,7 @@ namespace SPAccounts.RepositoryServices.Services
         }
 
         #region DeleteOtherExpense
-        public object DeleteOtherExpense(Guid ID,string UserName)
+        public object DeleteOtherExpense(Guid ID, string UserName)
         {
             SqlParameter outputStatus = null;
             try
@@ -70,7 +70,7 @@ namespace SPAccounts.RepositoryServices.Services
             };
         }
         #endregion DeleteOtherExpense
-        
+
         #region GetAllOtherExpenses
         public List<OtherExpense> GetAllOtherExpenses()
         {
@@ -105,17 +105,17 @@ namespace SPAccounts.RepositoryServices.Services
                                         _otherExpense.ReferenceBank = (sdr["ReferenceBank"].ToString() != "" ? sdr["ReferenceBank"].ToString() : string.Empty);
                                         _otherExpense.chartOfAccountsObj = new ChartOfAccounts()
                                         {
-                                            Code= (sdr["AccountCode"].ToString() != "" ? sdr["AccountCode"].ToString() : string.Empty),
-                                            TypeDesc= (sdr["AccountTypeDescription"].ToString() != "" ? sdr["AccountTypeDescription"].ToString() : string.Empty),
-                                            ISEmploy= (sdr["ISEmpApplicable"].ToString() != "" ? bool.Parse(sdr["ISEmpApplicable"].ToString()) : false),
-                                        }; 
+                                            Code = (sdr["AccountCode"].ToString() != "" ? sdr["AccountCode"].ToString() : string.Empty),
+                                            TypeDesc = (sdr["AccountTypeDescription"].ToString() != "" ? sdr["AccountTypeDescription"].ToString() : string.Empty),
+                                            ISEmploy = (sdr["ISEmpApplicable"].ToString() != "" ? bool.Parse(sdr["ISEmpApplicable"].ToString()) : false),
+                                        };
                                         _otherExpense.AccountCode = (sdr["AccountCode"].ToString() != "" ? sdr["AccountCode"].ToString() : _otherExpense.AccountCode);
                                         _otherExpense.PaidFromCompanyCode = (sdr["PaidFromComanyCode"].ToString() != "" ? (sdr["PaidFromComanyCode"].ToString()) : _otherExpense.PaidFromCompanyCode);
                                         _otherExpense.companies = new Companies()
                                         {
                                             Code = (sdr["PaidFromComanyCode"].ToString() != "" ? (sdr["PaidFromComanyCode"].ToString()) : string.Empty),
                                             Name = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : string.Empty)
-                                            
+
                                         };
                                         _otherExpense.employee = new Employee()
                                         {
@@ -132,7 +132,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         _otherExpense.ExpenseRef = (sdr["ExpenseRef"].ToString() != "" ? (sdr["ExpenseRef"].ToString()) : _otherExpense.ExpenseRef);
                                         _otherExpense.Description = (sdr["Description"].ToString() != "" ? (sdr["Description"].ToString()) : _otherExpense.Description);
                                         _otherExpense.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : _otherExpense.Amount);
-                                        _otherExpense.ChequeDate= (sdr["ChequeDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeDate"].ToString()).ToString(settings.dateformat) : _otherExpense.ChequeDate);
+                                        _otherExpense.ChequeDate = (sdr["ChequeDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeDate"].ToString()).ToString(settings.dateformat) : _otherExpense.ChequeDate);
                                         _otherExpense.commonObj = new Common()
                                         {
                                             CreatedDateString = (sdr["CreatedDate"].ToString() != "" ? DateTime.Parse(sdr["CreatedDate"].ToString()).ToString(settings.dateformat) : string.Empty)
@@ -153,7 +153,7 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return otherExpenselist;
         }
-       #endregion GetAllOtherExpenses
+        #endregion GetAllOtherExpenses
 
         #region InsertOtherExpense
         public OtherExpense InsertOtherExpense(OtherExpense otherExpense)
@@ -186,8 +186,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@ExpneseRef", SqlDbType.VarChar, 20).Value = otherExpense.ExpenseRef;
                         cmd.Parameters.Add("@Description", SqlDbType.NVarChar, -1).Value = otherExpense.Description;
                         cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = otherExpense.Amount;
-                        cmd.Parameters.Add("@IsReverse", SqlDbType.Bit).Value = otherExpense.IsReverse; 
-                        cmd.Parameters.Add("@ChequeDate", SqlDbType.DateTime).Value =otherExpense.ChequeDate;
+                        cmd.Parameters.Add("@IsReverse", SqlDbType.Bit).Value = otherExpense.IsReverse;
+                        cmd.Parameters.Add("@ChequeDate", SqlDbType.DateTime).Value = otherExpense.ChequeDate;
                         cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = otherExpense.commonObj.CreatedBy;
                         cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = otherExpense.commonObj.CreatedDate;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
@@ -222,13 +222,13 @@ namespace SPAccounts.RepositoryServices.Services
             return otherExpense;
         }
         #endregion InsertOtherExpense
-        
+
         #region UpdateOtherExpense
         public OtherExpense UpdateOtherExpense(OtherExpense otherExpense)
         {
             try
             {
-                SqlParameter outputStatus=null;
+                SqlParameter outputStatus = null;
                 using (SqlConnection con = _databaseFactory.GetDBConnection())
                 {
                     using (SqlCommand cmd = new SqlCommand())
@@ -261,7 +261,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = otherExpense.commonObj.UpdatedDate;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
-                       
+
                         cmd.ExecuteNonQuery();
 
 
@@ -274,7 +274,7 @@ namespace SPAccounts.RepositoryServices.Services
                         AppConst Cobj = new AppConst();
                         throw new Exception(Cobj.InsertFailure);
                     case "1":
-                         break;
+                        break;
                     default:
                         break;
                 }
@@ -290,7 +290,7 @@ namespace SPAccounts.RepositoryServices.Services
         #endregion UpdateOtherExpense
 
         #region summary
-        public OtherExpSummary GetOtherExpSummary(int month,int year,string Company)
+        public OtherExpSummary GetOtherExpSummary(int month, int year, string Company)
         {
             OtherExpSummary OES = new OtherExpSummary();
             OES.ItemsList = new List<OtherExpSummaryItem>();
@@ -396,6 +396,7 @@ namespace SPAccounts.RepositoryServices.Services
         }
         #endregion GetExpenseDetailsByValue
 
+
         public OtherExpense GetOpeningBalance(string OpeningDate)
         {
             OtherExpense OtherExpenseObj = null;
@@ -412,7 +413,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[GetOpeningBalance]";
                         cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = OpeningDate;
-                     
+
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
@@ -422,7 +423,7 @@ namespace SPAccounts.RepositoryServices.Services
                                 while (sdr.Read())
                                 {
                                     OtherExpenseObj.OpeningBank = (sdr["BankOpening"].ToString() != "" ? (sdr["BankOpening"].ToString()) : OtherExpenseObj.OpeningBank);
-                                    OtherExpenseObj.OpeningNCBank = (sdr["BankNCOpening"].ToString() != "" ?(sdr["BankNCOpening"].ToString()) : OtherExpenseObj.OpeningNCBank); 
+                                    OtherExpenseObj.OpeningNCBank = (sdr["BankNCOpening"].ToString() != "" ? (sdr["BankNCOpening"].ToString()) : OtherExpenseObj.OpeningNCBank);
                                     OtherExpenseObj.OpeningCash = (sdr["CashOpening"].ToString() != "" ? (sdr["CashOpening"].ToString()) : OtherExpenseObj.OpeningCash);
                                     OtherExpenseObj.UndepositedCheque = (sdr["UndepositedChq"].ToString() != "" ? (sdr["UndepositedChq"].ToString()) : OtherExpenseObj.UndepositedCheque);
                                 }
@@ -431,7 +432,7 @@ namespace SPAccounts.RepositoryServices.Services
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -442,6 +443,59 @@ namespace SPAccounts.RepositoryServices.Services
             return OtherExpenseObj;
         }
 
+        #region GetBankWiseBalance
+        /// <summary>
+        /// To Get Balance on Bank Wise
+        /// </summary>
+        /// <param name="Date"></param>
+        /// <returns></returns>
+        public List<OtherExpense> GetBankWiseBalance(string Date)
+        {
+            List<OtherExpense> otherExpenseList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetBankWiseBalance]";
+                        cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = Date;
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                otherExpenseList = new List<OtherExpense>();
+                                while (sdr.Read())
+                                {
+                                    OtherExpense _otherExpense = new OtherExpense();
+                                    {
+                                        _otherExpense.BankCode = (sdr["BankCode"].ToString() != "" ? (sdr["BankCode"].ToString()) : _otherExpense.BankCode);
+                                        _otherExpense.BankName = (sdr["BankName"].ToString() != "" ? (sdr["BankName"].ToString()) : _otherExpense.BankName);
+                                        _otherExpense.TotalAmount = (sdr["TotalAmount"].ToString() != "" ? (sdr["TotalAmount"].ToString()) : _otherExpense.TotalAmount);
+                                    }
+                                    otherExpenseList.Add(_otherExpense);
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return otherExpenseList;
+        }
+        #endregion GetBankWiseBalance
     }
 
 }
