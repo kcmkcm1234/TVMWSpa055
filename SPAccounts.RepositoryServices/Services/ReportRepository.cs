@@ -191,7 +191,7 @@ namespace SPAccounts.RepositoryServices.Services
             return otherExpenseDetailList;
         }
 
-        public List<SaleDetailReport> GetSaleDetail(DateTime? FromDate, DateTime? ToDate, string CompanyCode,string search)
+        public List<SaleDetailReport> GetSaleDetail(DateTime? FromDate, DateTime? ToDate, string CompanyCode,string search, Boolean IsInternal,Boolean IsTax)
         {
             List<SaleDetailReport> SaleDetailList = null;
             try
@@ -209,6 +209,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
                         cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = CompanyCode;
                         cmd.Parameters.Add("@search", SqlDbType.NVarChar, 250).Value = search != "" ? search : null;
+                        cmd.Parameters.Add("@IsInternal", SqlDbType.Bit).Value = IsInternal ;
+                        cmd.Parameters.Add("@IsTax", SqlDbType.Bit).Value = IsTax;
                         cmd.CommandText = "[Accounts].[RPT_GetSalesDetail]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -247,7 +249,7 @@ namespace SPAccounts.RepositoryServices.Services
             return SaleDetailList;
         }
 
-        public List<SaleSummary> GetSaleSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string search)
+        public List<SaleSummary> GetSaleSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string search, Boolean IsInternal, Boolean IsTax)
         {
             List<SaleSummary> SaleSummaryList = null;
             try
@@ -264,6 +266,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
                         cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
                         cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = CompanyCode;
+                        cmd.Parameters.Add("@IsInternal", SqlDbType.Bit).Value = IsInternal;
+                        cmd.Parameters.Add("@IsTax", SqlDbType.Bit).Value = IsTax;
                         cmd.Parameters.Add("@search", SqlDbType.NVarChar, 250).Value = search != "" ? search : null;
 
                         cmd.CommandText = "[Accounts].[RPT_GetSalesSummary]";
@@ -400,7 +404,7 @@ namespace SPAccounts.RepositoryServices.Services
             return salesTransactionLogReportList;
         }
 
-        public List<PurchaseSummaryReport> GetPurchaseSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode,string search)
+        public List<PurchaseSummaryReport> GetPurchaseSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode,string search,Boolean IsInternal)
         {
             List<PurchaseSummaryReport> purchaseSummaryReportList = null;
             try
@@ -418,6 +422,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
                         cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = CompanyCode;
                         cmd.Parameters.Add("@search", SqlDbType.NVarChar, 250).Value = search != "" ? search : null;
+                        cmd.Parameters.Add("@IsInternal", SqlDbType.Bit).Value = IsInternal;
                         cmd.CommandText = "[Accounts].[RPT_GetPurchaseSummary]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -453,7 +458,7 @@ namespace SPAccounts.RepositoryServices.Services
             return purchaseSummaryReportList;
         }
 
-        public List<PurchaseDetailReport> GetPurchaseDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode,string search)
+        public List<PurchaseDetailReport> GetPurchaseDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode,string search,Boolean IsInternal)
         {
             List<PurchaseDetailReport> purchaseDetailReportList = null;
             try
@@ -471,6 +476,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
                         cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = CompanyCode;
                         cmd.Parameters.Add("@search", SqlDbType.NVarChar, 250).Value = search != "" ? search : null;
+                        cmd.Parameters.Add("@IsInternal", SqlDbType.Bit).Value = IsInternal;
                         cmd.CommandText = "[Accounts].[RPT_GetPurchaseDetail]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())

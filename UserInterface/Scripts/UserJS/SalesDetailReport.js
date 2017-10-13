@@ -79,6 +79,22 @@ function GetSaleDetail() {
         var todate = $("#todate").val();
         var companycode = $("#CompanyCode").val();
         var search = $("#Search").val();
+        $('#IncludeInternal').attr('checked', false);
+        $('#IncludeTax').attr('checked', true);
+        var internal;
+        if ($('#IncludeInternal').prop("checked") == true) {
+            internal = true;
+        }
+        else {
+            internal = false;
+        }
+        var tax;
+        if ($('#IncludeTax').prop("checked") == true) {
+            tax = true;
+        }
+        else {
+            tax = false;
+        }
         if (companycode === "ALL") {
             if ($("#all").prop('checked')) {
                 companycode = $("#all").val();
@@ -88,7 +104,7 @@ function GetSaleDetail() {
             }
         }
         if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "search": search };
+            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "search": search, "IsInternal": internal, "IsTax": tax };
             var ds = {};
             ds = GetDataFromServer("Report/GetSaleDetail/", data);
             if (ds != '') {
@@ -115,7 +131,11 @@ function GetSaleDetail() {
 
 
 function RefreshSaleDetailTable() {
-    try {
+    try
+    {
+        debugger;
+        var IsInternalCompany = $('#IncludeInternal').prop('checked');
+        var IsTax = $('#IncludeTax').prop('checked');
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
         var companycode = $("#CompanyCode").val();
@@ -164,6 +184,7 @@ function Reset() {
 }
 
 function OnChangeCall() {
+    debugger;
     RefreshSaleDetailTable();
 
 }

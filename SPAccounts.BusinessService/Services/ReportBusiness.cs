@@ -77,12 +77,12 @@ namespace SPAccounts.BusinessService.Services
             return otherExpenseSummaryList;
         }
 
-        public List<PurchaseDetailReport> GetPurchaseDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string search)
+        public List<PurchaseDetailReport> GetPurchaseDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string search, Boolean IsInternal)
         {
             List<PurchaseDetailReport> purchaseDetailReportList = null;
             try
             {
-                purchaseDetailReportList = _reportRepository.GetPurchaseDetails(FromDate, ToDate, CompanyCode,search);
+                purchaseDetailReportList = _reportRepository.GetPurchaseDetails(FromDate, ToDate, CompanyCode,search,IsInternal);
             }
             catch (Exception ex)
             {
@@ -91,12 +91,12 @@ namespace SPAccounts.BusinessService.Services
             return purchaseDetailReportList;
         }
 
-        public List<PurchaseSummaryReport> GetPurchaseSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string search)
+        public List<PurchaseSummaryReport> GetPurchaseSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string search, Boolean IsInternal)
         {
             List<PurchaseSummaryReport> purchaseSummaryReportList = null;
             try
             {
-                purchaseSummaryReportList = _reportRepository.GetPurchaseSummary(FromDate, ToDate, CompanyCode,search);
+                purchaseSummaryReportList = _reportRepository.GetPurchaseSummary(FromDate, ToDate, CompanyCode,search, IsInternal);
             }
             catch (Exception ex)
             {
@@ -119,12 +119,12 @@ namespace SPAccounts.BusinessService.Services
             return purchaseTransactionLogReportList;
         }
 
-        public List<SaleDetailReport> GetSaleDetail(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string search)
+        public List<SaleDetailReport> GetSaleDetail(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string search,Boolean IsInternal,Boolean IsTax)
         {
             List<SaleDetailReport> saleDetailList = null;
             try
             {
-                saleDetailList = _reportRepository.GetSaleDetail(FromDate,ToDate, CompanyCode,search);
+                saleDetailList = _reportRepository.GetSaleDetail(FromDate,ToDate, CompanyCode,search,IsInternal,IsTax);
             }
             catch (Exception ex)
             {
@@ -147,12 +147,12 @@ namespace SPAccounts.BusinessService.Services
             return salesTransactionLogReportList;
         }
 
-        public List<SaleSummary> GetSaleSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string search)
+        public List<SaleSummary> GetSaleSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string search, Boolean IsInternal, Boolean IsTax)
         {
             List<SaleSummary> saleSummaryList = null;
             try
             {
-                saleSummaryList = _reportRepository.GetSaleSummary(FromDate, ToDate, CompanyCode,search);
+                saleSummaryList = _reportRepository.GetSaleSummary(FromDate, ToDate, CompanyCode,search,IsInternal,IsTax);
 
                 
             }

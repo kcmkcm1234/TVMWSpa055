@@ -91,7 +91,7 @@
             </div>
         </div>
 
-        <div class="col-md-9">
+        <div class="col-md-6">
             @Html.LabelFor(model => model.Search, htmlAttributes: new { @class = "control-label", style = "visibility:hidden" })
             <div class="col-md-12">
                 <div class="input-group">
@@ -99,6 +99,26 @@
                     <div class="input-group-btn">
                         <button class="btn btn-default" type="submit" style="height:28px" onclick="OnChangeCall()"><i class="glyphicon glyphicon-search"></i></button>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            @Html.LabelFor(model => model.IncludeTax, htmlAttributes: new { @class = "control-label", style = "visibility:hidden" })
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="checkbox col-md-12">
+                        <label>
+                            @Html.CheckBoxFor(model => model.IncludeInternal,htmlAttributes :new { @class = "", @onchange = "OnChangeCall()" } )
+                            Include Internal Companies
+                        </label>
+                    </div>
+                    @*<div class="checkbox col-md-6">
+                        <label>
+                            @Html.CheckBoxFor(model => model.IncludeTax,htmlAttributes:new { @class = "", @onchange = "OnChangeCall()" } )
+                            IncludeTax
+                        </label>
+                    </div>*@
                 </div>
             </div>
         </div>

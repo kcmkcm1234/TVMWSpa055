@@ -47,7 +47,7 @@
 
     <div class="col-md-8" style="margin-top:10px;">
         <div class="col-md-6">
-            @Html.Label("Date", htmlAttributes: new { @class = "control-label" })
+            @Html.Label("As On Date", htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
                 @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @Value = ViewBag.todate, @onchange = "RefreshSupplierExpeditingDetailTable()" })
             </div>
@@ -80,10 +80,10 @@
                 <tr class="text-center TableHead">
                     <th>Supplier Name</th>
                     <th>Contact Number</th>
-                    <th>Invoice No</th>
-                    <th>No Of Days</th>
+                    <th>Invoice No</th>                   
                     <th>Invoice Date</th>
                     <th> Balance Amount</th>
+                    <th>No Of Days</th>
                     <th>Remarks</th>
 
                 </tr>

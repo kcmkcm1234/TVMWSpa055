@@ -16,6 +16,7 @@ $(document).ready(function () {
              }],
              order: [],
              searching: true,
+             ordering: false,
              paging: true,
              data: GetCustomerExpeditingDetail(),
              pageLength: 50,
@@ -27,17 +28,17 @@ $(document).ready(function () {
 
                { "data": "CustomerName", "defaultContent": "<i></i>" },
                { "data": "ContactNo", "defaultContent": "<i>-</i>" },
-               { "data": "InvoiceNo", "defaultContent": "<i>-</i>" },
-               { "data": "NoOfDays", "defaultContent": "<i>-</i>" },
+               { "data": "InvoiceNo", "defaultContent": "<i>-</i>" },             
                { "data": "InvoiceDate", "defaultContent": "<i>-</i>" },
                { "data": "Amount", "defaultContent": "<i>-</i>" },
+                 { "data": "NoOfDays", "defaultContent": "<i>-</i>" },
                { "data": "Remarks", "defaultContent": "<i></i>" }
 
 
              ],
              columnDefs: [{ "targets": [6], "visible": false, "searchable": false },
-                  { className: "text-left", "targets": [0, 1, 2, 3, 4] },
-             { className: "text-right", "targets": [5] }
+                  { className: "text-left", "targets": [0, 1, 2, 3] },
+             { className: "text-right", "targets": [4,5] }
 
              ]
 
