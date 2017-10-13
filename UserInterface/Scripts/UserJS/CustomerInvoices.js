@@ -83,8 +83,8 @@ $(document).ready(function () {
             CustomerInvoiceViewModel.TotalInvoiceAmount = (CustomerInvoiceViewModel.NetTaxableAmount + CustomerInvoiceViewModel.TaxAmount) 
             $('#txtNetTaxableAmt').val(CustomerInvoiceViewModel.NetTaxableAmount);
             $('#txtTaxPercApp').val(CustomerInvoiceViewModel.TaxPercentage);
-            $('#txtTaxAmt').val(CustomerInvoiceViewModel.TaxAmount);
-            $('#txtTotalInvAmt').val(CustomerInvoiceViewModel.TotalInvoiceAmount);
+            $('#txtTaxAmt').val(roundoff(Math.round(CustomerInvoiceViewModel.TaxAmount)));
+            $('#txtTotalInvAmt').val(roundoff(Math.round(CustomerInvoiceViewModel.TotalInvoiceAmount)));
             if((parseInt($('#txtDiscount').val())) > (parseInt($('#txtGrossAmt').val())))
             {
                 $('#txtDiscount').val("0.00");
@@ -632,8 +632,8 @@ function PaintInvoiceDetails()
     $('#txtNetTaxableAmt').val(CustomerInvoicesViewModel.GrossAmount - CustomerInvoicesViewModel.Discount);
     $('#ddlTaxType').val(CustomerInvoicesViewModel.TaxTypeObj.Code);
     $('#txtTaxPercApp').val(CustomerInvoicesViewModel.TaxPercApplied);
-    $('#txtTaxAmt').val(CustomerInvoicesViewModel.TaxAmount);
-    $('#txtTotalInvAmt').val(CustomerInvoicesViewModel.TotalInvoiceAmount);
+    $('#txtTaxAmt').val(roundoff(CustomerInvoicesViewModel.TaxAmount));
+    $('#txtTotalInvAmt').val(roundoff(CustomerInvoicesViewModel.TotalInvoiceAmount));
     $('#txtNotes').val(CustomerInvoicesViewModel.Notes);
     $('#ID').val(CustomerInvoicesViewModel.ID);
     $('#lblinvoicedAmt').text(CustomerInvoicesViewModel.TotalInvoiceAmountstring);

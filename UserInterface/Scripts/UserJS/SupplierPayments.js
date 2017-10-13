@@ -268,6 +268,7 @@ function GetAllSupplierPayments(filter) {
 }
 
 function Edit(currentObj) {
+    debugger;
     openNav();
         var rowData = DataTables.SupplierPaymentTable.row($(currentObj).parents('tr')).data();
     if ((rowData != null) && (rowData.ID != null)) {
@@ -276,7 +277,7 @@ function Edit(currentObj) {
 }
 
 function GetSupplierPaymentsByID(PaymentID) {
-  
+    debugger;
     var thisitem = GetSupplierPayments(PaymentID)
     $('#lblheader').text('Entry No: ' + thisitem.EntryNo);
     $('#ID').val(PaymentID);
@@ -284,7 +285,7 @@ function GetSupplierPaymentsByID(PaymentID) {
     $("#Supplier").select2();
     $("#Supplier").val(thisitem.supplierObj.ID).trigger('change');
     //$('#Supplier').val(thisitem.supplierObj.ID);
-    
+    debugger;
     $('#ddlApprovalStatus').val(thisitem.ApprovalStatus);
     $('#lblApprovalStatus').text($("#ddlApprovalStatus option:selected").text());
     $('#ApprovalDate').val(thisitem.ApprovalDate);
@@ -416,6 +417,7 @@ function GetSupplierPaymentsByID(PaymentID) {
 }
 
 function openNavClick() {
+    debugger;
     fieldsclear();
     BindOutstanding();
     $('#lblOutstandingdetails').text('');//gibin
@@ -567,7 +569,11 @@ function GetCreditNoteBySupplier(ID) {
 
 function savePayments() {
     debugger;
-    if ($('#PaymentMode').val() == "ONLINE" && $("#BankCode").val() == "") {
+    //if ($('#PaymentMode').val() == "CHEQUE" && $("#BankCode").val() == "")
+    //{
+    //    notyAlert('error', 'Please Select Bank');
+    //}
+    if ($('#PaymentMode').val() == "ONLINE" && $("#BankCode").val() == ""  || $('#PaymentMode').val() == "CHEQUE" && $("#BankCode").val() == "") {
         notyAlert('error', 'Please Select Bank');
     }
     //else if ($('#TotalPaidAmt').val() == 0) {
@@ -701,25 +707,51 @@ function BindSupplierPaymentsHeader() {
 
 function PaymentModeChanged() {
 
-    if ($('#PaymentMode').val() == "ONLINE") {
+    //if ($('#PaymentMode').val() == "ONLINE") {
+    //    $('#BankCode').prop('disabled', false);
+    //}
+    //else {
+    //    $("#BankCode").val('');
+    //    $('#BankCode').prop('disabled', true);
+    //}
+    //if ($('#PaymentMode').val() == "CHEQUE") {
+    //    $('#BankCode').prop('disabled', false);
+    //    $('#ChequeDate').prop('disabled', false);
+    //    $('#ReferenceBank').prop('disabled', true);
+
+    //}
+    //else {
+    //    $("#ChequeDate").val('');
+    //    $('#ChequeDate').prop('disabled', true);
+    //    $('#ReferenceBank').prop('disabled', true);
+
+    //}
+
+
+
+
+    if ($('#PaymentMode').val() == "ONLINE" || $('#PaymentMode').val() == "CHEQUE") {
         $('#BankCode').prop('disabled', false);
+
+        if ($('#PaymentMode').val() == "CHEQUE") {
+            $('#ChequeDate').prop('disabled', false);
+            $('#ReferenceBank').prop('disabled', true);
+        }
+        else {
+            $("#ChequeDate").val('');
+            $('#ChequeDate').prop('disabled', true);
+            $('#ReferenceBank').prop('disabled', true);
+        }
     }
     else {
         $("#BankCode").val('');
         $('#BankCode').prop('disabled', true);
-    }
-    if ($('#PaymentMode').val() == "CHEQUE") {
-        $('#BankCode').prop('disabled', false);
-        $('#ChequeDate').prop('disabled', false);
-        $('#ReferenceBank').prop('disabled', true);
-
-    }
-    else {
         $("#ChequeDate").val('');
         $('#ChequeDate').prop('disabled', true);
         $('#ReferenceBank').prop('disabled', true);
+
     }
-}
+    }
 
 function GetSupplierPayments(ID) {
     try {
