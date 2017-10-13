@@ -34,6 +34,8 @@ namespace UserInterface.Models
         public decimal Balance { get; set; }
         public string OriginCompany { get; set; }
         public string RowType { get; set; }
+        public Boolean IncludeInternal { get; set; }
+        public Boolean IncludeTax { get; set; }
         public List<SelectListItem> CompanyList { get; set; }
         public List<CompaniesViewModel> companiesList;
     }
@@ -55,6 +57,8 @@ namespace UserInterface.Models
         public decimal Credit { get; set; }
         public string Search { get; set; }
         public string RowType { get; set; }
+        public Boolean IncludeInternal { get; set; }
+        public Boolean IncludeTax { get; set; }
         public List<SelectListItem> CompanyList { get; set; }
         public List<CompaniesViewModel> companiesList;
 
@@ -167,6 +171,8 @@ namespace UserInterface.Models
         public string OriginCompany { get; set; }
         public string Search { get; set; }
         public string RowType { get; set; }
+        public Boolean IncludeInternal { get; set; }
+        public Boolean IncludeTax { get; set; }
 
     }
 
@@ -191,6 +197,8 @@ namespace UserInterface.Models
         public List<CompaniesViewModel> companiesList;
         public string Search { get; set; }
         public string RowType { get; set; }
+        public Boolean IncludeInternal { get; set; }
+        public Boolean IncludeTax { get; set; }
 
     }
 

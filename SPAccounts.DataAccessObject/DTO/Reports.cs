@@ -33,6 +33,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal Balance { get; set; }
         public string OriginCompany { get; set; }
         public string RowType { get; set; }
+        public Boolean IncludeInternal { get; set; }
+        public Boolean IncludeTax { get; set; }
     }
 
     public class SaleDetailReport
@@ -49,6 +51,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public string CustomerName { get; set; }
         public decimal Credit { get; set; }
         public string RowType { get; set; }
+        public Boolean IncludeInternal { get; set; }
+        public Boolean IncludeTax { get; set; }
 
     }
     public class OtherExpenseSummaryReport
@@ -123,6 +127,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal NetDue { get; set; }
         public string OriginCompany { get; set; }
         public string RowType { get; set; }
+        public Boolean IncludeInternal { get; set; }
+        public Boolean IncludeTax { get; set; }
 
     }
     public class PurchaseDetailReport
@@ -141,6 +147,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public string SupplierName { get; set; }
         public decimal Credit { get; set; }
         public string RowType { get; set; }
+        public Boolean IncludeInternal { get; set; }
+        public Boolean IncludeTax { get; set; }
 
     }
     public class SupplierContactDetailsReport

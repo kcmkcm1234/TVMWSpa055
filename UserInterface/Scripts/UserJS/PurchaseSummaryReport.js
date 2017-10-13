@@ -72,6 +72,15 @@ function GetPurchaseSummary() {
         var todate = $("#todate").val();
         var companycode = $("#CompanyCode").val();
         var search = $("#Search").val();
+        $('#IncludeInternal').attr('checked', false);
+        $('#IncludeTax').attr('checked', true);
+        var internal;
+        if ($('#IncludeInternal').prop("checked") == true) {
+            internal = true;
+        }
+        else {
+            internal = false;
+        }
         if (companycode === "ALL") {
             if ($("#all").prop('checked')) {
                 companycode = $("#all").val();
@@ -81,7 +90,7 @@ function GetPurchaseSummary() {
             }
         }
         if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "search": search };
+            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "search": search, "IsInternal": internal };
             var ds = {};
             ds = GetDataFromServer("Report/GetPurchaseSummaryDetails/", data);
             if (ds != '') {
@@ -106,6 +115,10 @@ function GetPurchaseSummary() {
 
 function RefreshPurchaseSummaryTable() {
     try {
+
+        debugger;
+        var IsInternalCompany = $('#IncludeInternal').prop('checked');
+        var IsTax = $('#IncludeTax').prop('checked');
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
         var companycode = $("#CompanyCode").val();
@@ -154,6 +167,7 @@ function Reset() {
 
 
 function OnChangeCall() {
+    debugger;
     RefreshPurchaseSummaryTable();
 
 }

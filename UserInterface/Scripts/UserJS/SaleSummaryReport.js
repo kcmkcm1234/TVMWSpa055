@@ -64,6 +64,8 @@ $(document).ready(function () {
         $('input[name="GroupSelect"]').on('change', function () {
             RefreshSaleSummaryTable();
         });
+
+       
     } catch (x) {
 
         notyAlert('error', x.message);
@@ -75,10 +77,27 @@ $(document).ready(function () {
 
 function GetSaleSummary() {
     try {
+        debugger;
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
         var companycode = $("#CompanyCode").val();
         var search = $("#Search").val();
+        var internal;
+        $('#IncludeInternal').attr('checked', false);
+        $('#IncludeTax').attr('checked', true);
+        if ($('#IncludeInternal').prop("checked") == true) {
+            internal = true;
+        }
+        else {
+            internal = false;
+        }
+        var tax;
+        if ($('#IncludeTax').prop("checked") == true) {
+            tax = true;
+        }
+        else {
+            tax = false;
+        }
         if (companycode === "ALL")
         {
             if ($("#all").prop('checked')) {
@@ -89,7 +108,7 @@ function GetSaleSummary() {
             }
         }        
         if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "search": search };
+            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "search": search, "IsInternal": internal, "IsTax": tax };
             var ds = {};
             ds = GetDataFromServer("Report/GetSaleSummary/", data);
             if (ds != '') {
@@ -119,7 +138,8 @@ function RefreshSaleSummaryTable() {
     try {
         debugger;
        
-          
+        var IsInternalCompany = $('#IncludeInternal').prop('checked');
+        var IsTax = $('#IncludeTax').prop('checked');
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
         var companycode = $("#CompanyCode").val();
@@ -179,6 +199,7 @@ function RemoveDatatableOrder() {
 }
 
 function OnChangeCall() {
+    debugger;
     RefreshSaleSummaryTable();
 
 }
