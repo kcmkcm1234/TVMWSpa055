@@ -704,8 +704,8 @@ namespace SPAccounts.RepositoryServices.Services
                                         CIList.PaidAmount = (sdr["PaidAmount"].ToString() != "" ? Decimal.Parse(sdr["PaidAmount"].ToString()) : CIList.PaidAmount);
                                         
                                         CIList.PaymentDueDateFormatted = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString(settings.dateformat) : CIList.PaymentDueDateFormatted);
-                                        CIList.SpecialPayObj = new SpecialPayment();
-                                        CIList.SpecialPayObj.ChequeDate = (sdr["ChequeDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeDate"].ToString()).ToString(settings.dateformat) : CIList.SpecialPayObj.ChequeDate);
+                                       // CIList.SpecialPayObj = new SpecialPayment();
+                                       // CIList.SpecialPayObj.ChequeDate = (sdr["ChequeDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeDate"].ToString()).ToString(settings.dateformat) : CIList.SpecialPayObj.ChequeDate);
 
                                     }
                                     CustomerInvoicesList.Add(CIList);
