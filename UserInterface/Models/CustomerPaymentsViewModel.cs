@@ -42,6 +42,7 @@ namespace UserInterface.Models
         [Display(Name = "Payment Date")]
         public DateTime PaymentDate { get; set; }
 
+        [Required(ErrorMessage = "Cheque Date is missing")]
         [Display(Name = "Cheque Date")]
         public string ChequeDate { get; set; }
 
