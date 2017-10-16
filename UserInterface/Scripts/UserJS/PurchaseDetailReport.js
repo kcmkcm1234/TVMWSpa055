@@ -50,7 +50,7 @@ $(document).ready(function () {
                  var rows = api.rows({ page: 'current' }).nodes();
                  var last = null;
 
-                 api.column(9, { page: 'current' }).data().each(function (group, i) {
+                 api.column(10, { page: 'current' }).data().each(function (group, i) {
                      if (last !== group) {
                          $(rows).eq(i).before('<tr class="group "><td colspan="8" class="rptGrp">' + '<b>Company</b> : ' + group + '</td></tr>');
                          last = group;

@@ -237,30 +237,85 @@ function Save() {
 }
 
 
-function PaymentModeOnchange(curobj)
-{
-    if (curobj.value == "ONLINE") {
+function PaymentModeOnchange(curobj) {
+    ////if (curobj.value == "ONLINE") {
+    ////    $("#BankCode").prop('disabled', false);
+    ////    $("#ChequeDate").prop('disabled', false);
+    ////    $("#ReferenceBank").prop('disabled', false);
+    ////}
+    ////else {
+    ////    $("#BankCode").val("");
+    ////    $("#BankCode").prop('disabled', true);
+    ////}
+    ////if (curobj.value == "CHEQUE") {
+    ////    $("#BankCode").prop('disabled', false);
+    ////    $("#ChequeDate").prop('disabled', false);
+    ////    $("#ReferenceBank").prop('disabled', true);
+    ////}
+    ////else {
+    ////    $("#ChequeDate").prop('disabled', true);
+    ////    $("#ReferenceBank").prop('disabled', true);
+    ////}
+    ////$('span[data-valmsg-for="BankCode"]').empty();
+
+
+
+
+    if (curobj.value == "ONLINE" || curobj.value == "CHEQUE") {
         $("#BankCode").prop('disabled', false);
-        $("#ChequeDate").prop('disabled', false);
-        $("#ReferenceBank").prop('disabled', false);
+        $("#ReferenceBank").prop('disabled', true);
+
+        if (curobj.value == "CHEQUE") {
+            $("#ChequeDate").prop('disabled', false);
+            $("#BankCode").prop('disabled', false);
+        }
+        else {
+            $("#ChequeDate").prop('disabled', true);
+          }
     }
     else {
-        $("#BankCode").val("");
+
         $("#BankCode").prop('disabled', true);
-    }
-    if (curobj.value == "CHEQUE")
-    {
-        $("#BankCode").prop('disabled', false);
-        $("#ChequeDate").prop('disabled', false);
-        $("#ReferenceBank").prop('disabled', true);
-    }
-    else
-    {
         $("#ChequeDate").prop('disabled', true);
         $("#ReferenceBank").prop('disabled', true);
-    }
+    }    
     $('span[data-valmsg-for="BankCode"]').empty();
 }
+
+
+
+/////
+//if ($('#PaymentMode').val() == "ONLINE" || $('#PaymentMode').val() == "CHEQUE") {
+//    $('#BankCode').prop('disabled', false);
+
+//    if ($('#PaymentMode').val() == "CHEQUE") {
+//        $('#ChequeDate').prop('disabled', false);
+//        $('#ReferenceBank').prop('disabled', true);
+//    }
+//    else {
+//        $("#ChequeDate").val('');
+//        $('#ChequeDate').prop('disabled', true);
+//        $('#ReferenceBank').prop('disabled', true);
+//    }
+//}
+//else {
+//    $("#BankCode").val('');
+//    $('#BankCode').prop('disabled', true);
+//    $("#ChequeDate").val('');
+//    $('#ChequeDate').prop('disabled', true);
+//    $('#ReferenceBank').prop('disabled', true);
+
+//}
+//}
+
+
+
+
+
+////
+
+
+
 function BankOnchange()
 {
     $('span[data-valmsg-for="BankCode"]').empty();
@@ -286,6 +341,13 @@ function Validation()
     }
     if ((pm) && (pm == "CHEQUE"))
     {
+        if ($("#BankCode").val() == "") {
+      
+            $('span[data-valmsg-for="BankCode"]').append('<span for="EmpID" class="">BankCode required</span>')
+        }
+        else {
+            $('span[data-valmsg-for="BankCode"]').empty();
+        }
         if ($("#ChequeDate").val() == "") {
             fl = false;
 
@@ -463,25 +525,46 @@ function FillOtherExpenseDetails(ID) {
         $("#ChequeDate").val(thisItem.ChequeDate);
         $("#ReferenceBank").val(thisItem.ReferenceBank);
         $("#creditdAmt").text(thisItem.creditAmountFormatted);
-        if (thisItem.PaymentMode != "ONLINE")
-        {
+        //if (thisItem.PaymentMode != "ONLINE")
+        //{
+        //    $("#BankCode").val("");
+        //    $("#BankCode").prop('disabled', true);
+        //}
+        //else
+        //{
+        //    $("#BankCode").prop('disabled', false);
+        //}
+        //if (thisItem.PaymentMode != "CHEQUE")
+        //{
+        //    $("#ChequeDate").prop('disabled', true);
+        //    $("#ReferenceBank").prop('disabled', true);
+        //}
+        //else
+        //{
+        //    $("#ChequeDate").prop('disabled', false);
+        //    $("#ReferenceBank").prop('disabled', false);
+        //}
+
+
+
+        if (thisItem.PaymentMode == "ONLINE" || thisItem.PaymentMode == "CHEQUE") {
             $("#BankCode").val("");
-            $("#BankCode").prop('disabled', true);
-        }
-        else
-        {
             $("#BankCode").prop('disabled', false);
-        }
-        if (thisItem.PaymentMode != "CHEQUE")
-        {
-            $("#ChequeDate").prop('disabled', true);
             $("#ReferenceBank").prop('disabled', true);
+            if (thisItem.PaymentMode == "CHEQUE") {
+                $("#ChequeDate").prop('disabled', false);
+            }
+            else {
+                $("#ChequeDate").prop('disabled', true);
+
+}
         }
-        else
-        {
-            $("#ChequeDate").prop('disabled', false);
-            $("#ReferenceBank").prop('disabled', false);
-        }
+        else {
+            $("#ReferenceBank").prop('disabled', true);
+
+}
+
+
         
         $("#EmpTypeCode").val(thisItem.EmpTypeCode);
         if (thisItem.EmpTypeCode)
