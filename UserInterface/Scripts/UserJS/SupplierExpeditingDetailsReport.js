@@ -11,7 +11,7 @@ $(document).ready(function () {
                  extend: 'excel',
                  exportOptions:
                               {
-                                  columns: [0, 1, 2, 3, 4, 5, 6]
+                                  columns: [0, 1, 2, 3, 4, 5, 7]
                               }
              }],
              order: [],
@@ -31,12 +31,15 @@ $(document).ready(function () {
                { "data": "NoOfDays", "defaultContent": "<i>-</i>" },
                { "data": "InvoiceDate", "defaultContent": "<i>-</i>" },
                { "data": "Amount", "defaultContent": "<i>-</i>" },
+                { "data": "SupplierName1", "defaultContent": "<i></i>" },
                { "data": "Remarks", "defaultContent": "<i></i>" }
 
 
              ],
-             columnDefs: [{ "targets": [6], "visible": false, "searchable": false },
+             columnDefs: [{ "targets": [7], "visible": false, "searchable": false },
+                  { "targets": [6], "visible": false },
                   { className: "text-left", "targets": [0, 1, 2, 3, 4] },
+                  { "width": "20%", "targets": [0,1] },
              { className: "text-right", "targets": [5] }
 
              ]

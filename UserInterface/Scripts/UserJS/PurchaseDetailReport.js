@@ -106,6 +106,12 @@ function GetPurchaseDetail() {
             if (ds.TotalAmount != '') {
                 $("#purchasedetailsamount").text(ds.TotalAmount);
             }
+            if (ds.InvoicedAmount != '') {
+                $("#purchasedetailsinvoiceamount").text(ds.InvoicedAmount);
+            }
+            if (ds.PaidAmount != '') {
+                $("#purchasedetailspaidamount").text(ds.PaidAmount);
+            }
             if (ds.Result == "OK") {
                 return ds.Records;
             }

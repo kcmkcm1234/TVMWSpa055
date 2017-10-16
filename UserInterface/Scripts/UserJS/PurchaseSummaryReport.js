@@ -99,6 +99,12 @@ function GetPurchaseSummary() {
             if (ds.TotalAmount != '') {
                 $("#purchasesummaryamount").text(ds.TotalAmount);
             }
+            if (ds.InvoicedAmount != '') {
+                $("#purchasesummaryinvoiceamount").text(ds.InvoicedAmount);
+            }
+            if (ds.PaidAmount != '') {
+                $("#purchasesummarypaidamount").text(ds.PaidAmount);
+            }
             if (ds.Result == "OK") {
                 return ds.Records;
             }

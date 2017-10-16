@@ -1307,6 +1307,7 @@ namespace SPAccounts.RepositoryServices.Services
                                     CustomerExpeditingReport customerexpeditingdetail = new CustomerExpeditingReport();
                                     {
                                         customerexpeditingdetail.CustomerName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : customerexpeditingdetail.CustomerName);
+                                        customerexpeditingdetail.CustomerName1 = (sdr["CompanyName1"].ToString() != "" ? sdr["CompanyName1"].ToString() : customerexpeditingdetail.CustomerName1);
                                         customerexpeditingdetail.ContactNo = (sdr["Mobile"].ToString() != "" ? ("☎"+sdr["Mobile"].ToString()) : "") +
                                             (sdr["LandLine"].ToString() != "" ? (", ☎"+sdr["LandLine"].ToString()) : "" )+
                                             (sdr["OtherPhoneNos"].ToString() != "" ? (", ☎"+sdr["OtherPhoneNos"].ToString()) : "");
@@ -1359,6 +1360,7 @@ namespace SPAccounts.RepositoryServices.Services
                                     SupplierExpeditingReport supplierexpeditingdetail = new SupplierExpeditingReport();
                                     {
                                         supplierexpeditingdetail.SupplierName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : supplierexpeditingdetail.SupplierName);
+                                        supplierexpeditingdetail.SupplierName1 = (sdr["CompanyName1"].ToString() != "" ? sdr["CompanyName1"].ToString() : supplierexpeditingdetail.SupplierName1);
                                         supplierexpeditingdetail.ContactNo = (sdr["Mobile"].ToString() != "" ? ("☎" + sdr["Mobile"].ToString()) : "") +
                                             (sdr["LandLine"].ToString() != "" ? (", ☎" + sdr["LandLine"].ToString()) : "") +
                                             (sdr["OtherPhoneNos"].ToString() != "" ? (", ☎" + sdr["OtherPhoneNos"].ToString()) : "");

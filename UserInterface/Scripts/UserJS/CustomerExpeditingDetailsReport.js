@@ -11,7 +11,7 @@ $(document).ready(function () {
                  extend: 'excel',
                  exportOptions:
                               {
-                                  columns: [0, 1, 2, 3, 4, 5,6]
+                                  columns: [0, 1, 2, 3, 4, 5,7]
                               }
              }],
              order: [],
@@ -28,18 +28,21 @@ $(document).ready(function () {
                { "data": "CustomerName", "defaultContent": "<i></i>" },
                { "data": "ContactNo", "defaultContent": "<i>-</i>" },
                { "data": "InvoiceNo", "defaultContent": "<i>-</i>" },
-               { "data": "NoOfDays", "defaultContent": "<i>-</i>" },
+                { "data": "NoOfDays", "defaultContent": "<i>-</i>" },
                { "data": "InvoiceDate", "defaultContent": "<i>-</i>" },
                { "data": "Amount", "defaultContent": "<i>-</i>" },
+                  { "data": "CustomerName1", "defaultContent": "<i></i>" },
                { "data": "Remarks", "defaultContent": "<i></i>" }
 
 
              ],
-             columnDefs: [{ "targets": [6], "visible": false, "searchable": false },
-                  { className: "text-left", "targets": [0, 1, 2, 3, 4] },
-             { className: "text-right", "targets": [5] }
+             columnDefs: [{ "targets": [7], "visible": false, "searchable": false },
+                 { "targets": [6], "visible": false },
+                  { className: "text-left", "targets": [0,1,2, 3, 4,5] },
+                  { "width": "20%", "targets": [0,1] },
+             { className: "text-right", "targets": [4] }
 
-             ]
+                 ]
 
          });
 

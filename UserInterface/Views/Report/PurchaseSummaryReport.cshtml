@@ -71,8 +71,6 @@
 
             </div>
         </div>
-
-
         <div class="col-md-3">
             <div class="row">
                 <div class="radio">
@@ -90,8 +88,8 @@
             </div>
         </div>
 
+        <div class="col-md-12"><p></p></div>
         <div class="col-md-6">
-            @Html.LabelFor(model => model.Search, htmlAttributes: new { @class = "control-label", style = "visibility:hidden" })
             <div class="col-md-12">
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="Search" id="Search">
@@ -103,7 +101,6 @@
         </div>
 
         <div class="col-md-6">
-            @Html.LabelFor(model => model.IncludeTax, htmlAttributes: new { @class = "control-label", style = "visibility:hidden" })
             <div class="col-md-12">
                 <div class="row">
                     <div class="checkbox col-md-12">
@@ -121,11 +118,6 @@
                 </div>
             </div>
         </div>
-        @*<div class="col-md-12 filterHead">Filter</div>
-            <div class="col-md-12">
-
-
-            </div>*@
 
 
 
@@ -137,18 +129,19 @@
             @Html.Action("ChangeButtonStyle", "Report", data);
         }
     </div>
-    <div class="row summaryboxes">
-
-        <div class="clearfix visible-sm-block">
-
-        </div>
-
-    </div>
+   
+   
     <div class="form-group col-md-12">
+
         <div class="col-md-12 text-right">
-            <div style="font-size:medium">NetDue Total: <small><span id="purchasesummaryamount" style="font-size:medium;font-weight:bold"> 0.00</span></small></div>
+            <div style="font-size:small">Invoiced Amount: <small><span id="purchasesummaryinvoiceamount" style="font-size:small;font-weight:bold"> 0.00</span></small></div>
+
+            <div style="font-size:small">Paid Amount: <small><span id="purchasesummarypaidamount" style="font-size:small;font-weight:bold"> 0.00</span></small></div>
+
+            <div style="font-size:small">Balance: <small><span id="purchasesummaryamount" style="font-size:small;font-weight:bold"> 0.00</span></small></div>
         </div>
     </div>
+
     <div class="row">
         &nbsp;
     </div>

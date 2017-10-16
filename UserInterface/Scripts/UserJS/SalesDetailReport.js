@@ -113,6 +113,12 @@ function GetSaleDetail() {
             if (ds.TotalAmount != '') {
                 $("#salesdetailsamount").text(ds.TotalAmount);
             }
+            if (ds.InvoicedAmount != '') {
+                $("#salesdetailsinvoiceamount").text(ds.InvoicedAmount);
+            }
+            if (ds.PaidAmount != '') {
+                $("#salesdetailspaidamount").text(ds.PaidAmount);
+            }
             if (ds.Result == "OK") {
                 return ds.Records;
             }

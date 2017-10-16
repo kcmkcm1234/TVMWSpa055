@@ -38,6 +38,10 @@ namespace UserInterface.Models
         public Boolean IncludeTax { get; set; }
         public List<SelectListItem> CompanyList { get; set; }
         public List<CompaniesViewModel> companiesList;
+        public string salesummarySum { get; set; }
+        public string salesummaryinvoice { get; set; }
+        public string salesummarypaid { get; set; }
+        public List<SaleSummaryViewModel> saleSummaryList { get; set; }
     }
     public class SaleDetailReportViewModel
     {
@@ -61,6 +65,10 @@ namespace UserInterface.Models
         public Boolean IncludeTax { get; set; }
         public List<SelectListItem> CompanyList { get; set; }
         public List<CompaniesViewModel> companiesList;
+        public string saledetailSum { get; set; }
+        public string saledetailinvoice { get; set; }
+        public string saledetailpaid { get; set; }
+        public List<SaleDetailReportViewModel> saleDetailList { get; set; }
 
     }
 
@@ -173,6 +181,11 @@ namespace UserInterface.Models
         public string RowType { get; set; }
         public Boolean IncludeInternal { get; set; }
         public Boolean IncludeTax { get; set; }
+        public string purchaseSummarySum { get; set; }
+        public string purchaseSummaryPaid { get; set; }
+        public string purchaseSummaryInvoice { get; set; }
+        public List<PurchaseSummaryReportViewModel> purchaseSummaryReportList { get; set; }
+
 
     }
 
@@ -199,6 +212,10 @@ namespace UserInterface.Models
         public string RowType { get; set; }
         public Boolean IncludeInternal { get; set; }
         public Boolean IncludeTax { get; set; }
+        public string purchaseDetailSum { get; set; }
+        public string purchaseDetailPaid { get; set; }
+        public string purchaseDetailInvoice { get; set; }
+        public List<PurchaseDetailReportViewModel> purchaseDetailReportList { get; set; }
 
     }
 
@@ -432,6 +449,7 @@ namespace UserInterface.Models
     public class CustomerExpeditingReportViewModel
     {
         public string CustomerName { get; set; }
+        public string CustomerName1 { get; set; }
         public string ContactNo { get; set; }
         public string LandLine { get; set; }
         public string Mobile { get; set; }
@@ -448,6 +466,7 @@ namespace UserInterface.Models
     public class SupplierExpeditingReportViewModel
     {
         public string SupplierName { get; set; }
+        public string SupplierName1 { get; set; }
         public string ContactNo { get; set; }
         public string LandLine { get; set; }
         public string Mobile { get; set; }

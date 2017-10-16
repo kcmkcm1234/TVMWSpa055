@@ -94,10 +94,10 @@ namespace UserInterface.Controllers
                 {
                    DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                    DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                   List<SaleSummaryViewModel>salesummaryList= Mapper.Map<List<SaleSummary>,List<SaleSummaryViewModel>>(_reportBusiness.GetSaleSummary(FDate, TDate, CompanyCode,search,IsInternal, IsTax));
-                    decimal salesummarySum = salesummaryList.Where(SS=>SS.RowType != "T").Sum(SS => SS.NetDue );
-                    string salesummarySumFormatted = _commonBusiness.ConvertCurrency(salesummarySum, 2);
-                    return JsonConvert.SerializeObject(new { Result = "OK", Records = salesummaryList, TotalAmount= salesummarySumFormatted});
+                   SaleSummaryViewModel saleObj = Mapper.Map<SaleSummary,SaleSummaryViewModel>(_reportBusiness.GetSaleSummary(FDate, TDate, CompanyCode,search,IsInternal, IsTax));
+                   
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = saleObj.saleSummaryList, TotalAmount = saleObj.salesummarySum, InvoicedAmount = saleObj.salesummaryinvoice, PaidAmount= saleObj.salesummarypaid});
+                
                 }
                 catch(Exception ex)
                 {
@@ -118,10 +118,9 @@ namespace UserInterface.Controllers
                 {
                     DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                    List<SaleDetailReportViewModel> saleDetailReportList = Mapper.Map<List<SaleDetailReport>, List<SaleDetailReportViewModel>>(_reportBusiness.GetSaleDetail(FDate, TDate, CompanyCode,search,IsInternal,IsTax));
-                    decimal saledetailSum = saleDetailReportList.Where(SD=>SD.RowType!="T").Sum(SD => SD.BalanceDue);
-                    string saledetailSumFormatted = _commonBusiness.ConvertCurrency(saledetailSum, 2);
-                    return JsonConvert.SerializeObject(new { Result = "OK", Records = saleDetailReportList , TotalAmount = saledetailSumFormatted });
+                    SaleDetailReportViewModel SaledetailObj = Mapper.Map<SaleDetailReport,SaleDetailReportViewModel>(_reportBusiness.GetSaleDetail(FDate, TDate, CompanyCode,search,IsInternal,IsTax));
+                    
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = SaledetailObj.saleDetailList, TotalAmount = SaledetailObj.saledetailSum, InvoicedAmount= SaledetailObj.saledetailinvoice, PaidAmount= SaledetailObj.saledetailpaid });
                 }
                 catch (Exception ex)
                 {
@@ -550,10 +549,9 @@ namespace UserInterface.Controllers
                 {
                     DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                    List<PurchaseSummaryReportViewModel> purchaseSummaryReportViewModelList = Mapper.Map<List<PurchaseSummaryReport>, List<PurchaseSummaryReportViewModel>>(_reportBusiness.GetPurchaseSummary(FDate, TDate, CompanyCode,search, IsInternal));
-                    decimal purchaseSummarySum = purchaseSummaryReportViewModelList.Where(PS=>PS.RowType!="T").Sum(PS => PS.NetDue);
-                    string purchaseSummarySumFormatted = _commonBusiness.ConvertCurrency(purchaseSummarySum, 2);
-                    return JsonConvert.SerializeObject(new { Result = "OK", Records = purchaseSummaryReportViewModelList ,TotalAmount= purchaseSummarySumFormatted });
+                    PurchaseSummaryReportViewModel purchaseSummaryReportList = Mapper.Map<PurchaseSummaryReport, PurchaseSummaryReportViewModel>(_reportBusiness.GetPurchaseSummary(FDate, TDate, CompanyCode,search, IsInternal));
+                    
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = purchaseSummaryReportList.purchaseSummaryReportList, TotalAmount= purchaseSummaryReportList.purchaseSummarySum, InvoicedAmount= purchaseSummaryReportList.purchaseSummaryInvoice, PaidAmount= purchaseSummaryReportList.purchaseSummaryPaid });
                 }
                 catch (Exception ex)
                 {
@@ -576,10 +574,9 @@ namespace UserInterface.Controllers
                 {
                     DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                    List<PurchaseDetailReportViewModel> purchaseDetailReportViewModelList = Mapper.Map<List<PurchaseDetailReport>, List<PurchaseDetailReportViewModel>>(_reportBusiness.GetPurchaseDetails(FDate, TDate, CompanyCode,search,IsInternal));
-                    decimal purchaseDetailSum = purchaseDetailReportViewModelList.Where(PD=>PD.RowType!="T").Sum(PD => PD.BalanceDue);
-                    string purchaseDetailSumFormatted = _commonBusiness.ConvertCurrency(purchaseDetailSum, 2);
-                    return JsonConvert.SerializeObject(new { Result = "OK", Records = purchaseDetailReportViewModelList ,TotalAmount= purchaseDetailSumFormatted });
+                  PurchaseDetailReportViewModel purchasedetailObj = Mapper.Map<PurchaseDetailReport, PurchaseDetailReportViewModel>(_reportBusiness.GetPurchaseDetails(FDate, TDate, CompanyCode,search,IsInternal));
+                    
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = purchasedetailObj.purchaseDetailReportList, TotalAmount= purchasedetailObj.purchaseDetailSum, InvoicedAmount = purchasedetailObj.purchaseDetailInvoice, PaidAmount = purchasedetailObj.purchaseDetailPaid });
                 }
                 catch (Exception ex)
                 {

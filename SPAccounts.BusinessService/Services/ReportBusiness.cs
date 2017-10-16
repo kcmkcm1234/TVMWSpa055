@@ -11,9 +11,11 @@ namespace SPAccounts.BusinessService.Services
     public class ReportBusiness : IReportBusiness
     {
         IReportRepository _reportRepository;
-        public ReportBusiness(IReportRepository reportRepository)
+        ICommonBusiness _commonBusiness;
+        public ReportBusiness(IReportRepository reportRepository, ICommonBusiness commonBusiness)
         {
             _reportRepository = reportRepository;
+            _commonBusiness = commonBusiness;
         }
 
    
@@ -77,32 +79,48 @@ namespace SPAccounts.BusinessService.Services
             return otherExpenseSummaryList;
         }
 
-        public List<PurchaseDetailReport> GetPurchaseDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string search, Boolean IsInternal)
+        public PurchaseDetailReport GetPurchaseDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string search, Boolean IsInternal)
         {
+            PurchaseDetailReport purchasedetailObj = new PurchaseDetailReport();
             List<PurchaseDetailReport> purchaseDetailReportList = null;
             try
             {
                 purchaseDetailReportList = _reportRepository.GetPurchaseDetails(FromDate, ToDate, CompanyCode,search,IsInternal);
+                decimal purchaseDetailSum = purchaseDetailReportList.Where(PD => PD.RowType != "T").Sum(PD => PD.BalanceDue);
+                decimal purchaseDetailInvoiceAmount = purchaseDetailReportList.Where(PS => PS.RowType != "T").Sum(PS => PS.InvoiceAmount);
+                decimal purchaseDetailPaidAmount = purchaseDetailReportList.Where(PS => PS.RowType != "T").Sum(PS => PS.PaidAmount);
+                purchasedetailObj.purchaseDetailSum = _commonBusiness.ConvertCurrency(purchaseDetailSum, 2);
+                purchasedetailObj.purchaseDetailPaid = _commonBusiness.ConvertCurrency(purchaseDetailPaidAmount, 2);
+                purchasedetailObj.purchaseDetailInvoice = _commonBusiness.ConvertCurrency(purchaseDetailInvoiceAmount, 2);
+                purchasedetailObj.purchaseDetailReportList = purchaseDetailReportList;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-            return purchaseDetailReportList;
+            return purchasedetailObj;
         }
 
-        public List<PurchaseSummaryReport> GetPurchaseSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string search, Boolean IsInternal)
+        public PurchaseSummaryReport GetPurchaseSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string search, Boolean IsInternal)
         {
+            PurchaseSummaryReport PurchaseObj = new PurchaseSummaryReport();
             List<PurchaseSummaryReport> purchaseSummaryReportList = null;
             try
             {
                 purchaseSummaryReportList = _reportRepository.GetPurchaseSummary(FromDate, ToDate, CompanyCode,search, IsInternal);
+                decimal purchaseSummarySum = purchaseSummaryReportList.Where(PS => PS.RowType != "T").Sum(PS => PS.NetDue);
+                decimal purchaseSummaryInvoiceAmount = purchaseSummaryReportList.Where(PS => PS.RowType != "T").Sum(PS => PS.Invoiced);
+                decimal purchaseSummaryPaidAmount = purchaseSummaryReportList.Where(PS => PS.RowType != "T").Sum(PS => PS.Paid);
+                PurchaseObj.purchaseSummarySum = _commonBusiness.ConvertCurrency(purchaseSummarySum, 2);
+                PurchaseObj.purchaseSummaryPaid = _commonBusiness.ConvertCurrency(purchaseSummaryPaidAmount, 2);
+                PurchaseObj.purchaseSummaryInvoice = _commonBusiness.ConvertCurrency(purchaseSummaryInvoiceAmount, 2);
+                PurchaseObj.purchaseSummaryReportList = purchaseSummaryReportList;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-            return purchaseSummaryReportList;
+            return PurchaseObj;
         }
 
         public List<PurchaseTransactionLogReport> GetPurchaseTransactionLogDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string search)
@@ -119,18 +137,27 @@ namespace SPAccounts.BusinessService.Services
             return purchaseTransactionLogReportList;
         }
 
-        public List<SaleDetailReport> GetSaleDetail(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string search,Boolean IsInternal,Boolean IsTax)
+        public SaleDetailReport GetSaleDetail(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string search,Boolean IsInternal,Boolean IsTax)
         {
+            SaleDetailReport SaledetailObj = new SaleDetailReport();
             List<SaleDetailReport> saleDetailList = null;
             try
             {
+                
                 saleDetailList = _reportRepository.GetSaleDetail(FromDate,ToDate, CompanyCode,search,IsInternal,IsTax);
+                decimal saledetailsum = saleDetailList.Where(SD => SD.RowType != "T").Sum(SD => SD.BalanceDue);
+                decimal saledetailinvoiceamount = saleDetailList.Where(SD => SD.RowType != "T").Sum(SD => SD.InvoiceAmount);
+                decimal saledetailpaidamount = saleDetailList.Where(SD => SD.RowType != "T").Sum(SD => SD.PaidAmount);
+                SaledetailObj.saledetailSum = _commonBusiness.ConvertCurrency(saledetailsum, 2);
+                SaledetailObj.saledetailinvoice = _commonBusiness.ConvertCurrency(saledetailinvoiceamount, 2);
+                SaledetailObj.saledetailpaid = _commonBusiness.ConvertCurrency(saledetailpaidamount, 2);
+                SaledetailObj.saleDetailList = saleDetailList;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-            return saleDetailList;
+            return SaledetailObj;
         }
 
         public List<SalesTransactionLogReport> GetSalesTransactionLogDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string search)
@@ -147,20 +174,28 @@ namespace SPAccounts.BusinessService.Services
             return salesTransactionLogReportList;
         }
 
-        public List<SaleSummary> GetSaleSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string search, Boolean IsInternal, Boolean IsTax)
+        public SaleSummary GetSaleSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string search, Boolean IsInternal, Boolean IsTax)
         {
+            SaleSummary saleObj = new SaleSummary();
             List<SaleSummary> saleSummaryList = null;
             try
             {
                 saleSummaryList = _reportRepository.GetSaleSummary(FromDate, ToDate, CompanyCode,search,IsInternal,IsTax);
+                decimal salesummarySum = saleSummaryList.Where(SS => SS.RowType != "T").Sum(SS => SS.NetDue);
+                decimal salesummaryinvoice = saleSummaryList.Where(SS => SS.RowType != "T").Sum(SS => SS.Invoiced);
+                decimal salesummarypaid = saleSummaryList.Where(SS => SS.RowType != "T").Sum(SS => SS.Paid);
 
-                
+                saleObj.salesummarySum = _commonBusiness.ConvertCurrency(salesummarySum, 2);
+                saleObj.salesummaryinvoice = _commonBusiness.ConvertCurrency(salesummaryinvoice, 2);
+                saleObj.salesummarypaid = _commonBusiness.ConvertCurrency(salesummarypaid, 2);
+                saleObj.saleSummaryList = saleSummaryList;
+
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-            return saleSummaryList;
+            return saleObj;
         }
 
         public List<SupplierContactDetailsReport> GetSupplierContactDetailsReport(string search)

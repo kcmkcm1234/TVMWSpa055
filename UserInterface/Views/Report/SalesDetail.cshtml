@@ -90,9 +90,8 @@
                 </div>
             </div>
         </div>
-
+        <div class="col-md-12"><p></p></div>
         <div class="col-md-6">
-            @Html.LabelFor(model => model.Search, htmlAttributes: new { @class = "control-label", style = "visibility:hidden" })
             <div class="col-md-12">
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="Search" id="Search">
@@ -103,22 +102,21 @@
             </div>
         </div>
 
-        <div class="col-md-6">
-            @Html.LabelFor(model => model.IncludeTax, htmlAttributes: new { @class = "control-label", style = "visibility:hidden" })
+        <div class="col-md-6" style="z-index:999">
             <div class="col-md-12">
                 <div class="row">
                     <div class="checkbox col-md-12">
                         <label>
-                            @Html.CheckBoxFor(model => model.IncludeInternal,htmlAttributes :new { @class = "", @onchange = "OnChangeCall()" } )
+                            @Html.CheckBoxFor(model => model.IncludeInternal, htmlAttributes: new { @class = "", @onchange = "OnChangeCall()" })
                             Include Internal Companies
                         </label>
                     </div>
                     @*<div class="checkbox col-md-6">
-                        <label>
-                            @Html.CheckBoxFor(model => model.IncludeTax,htmlAttributes:new { @class = "", @onchange = "OnChangeCall()" } )
-                            IncludeTax
-                        </label>
-                    </div>*@
+                            <label>
+                                @Html.CheckBoxFor(model => model.IncludeTax,htmlAttributes:new { @class = "", @onchange = "OnChangeCall()" } )
+                                IncludeTax
+                            </label>
+                        </div>*@
                 </div>
             </div>
         </div>
@@ -145,9 +143,14 @@
         </div>
 
     </div>
+
     <div class="form-group col-md-12">
-        <div class="col-md-12 text-right">
-            <div style="font-size:medium">Total: <small><span id="salesdetailsamount" style="font-size:medium;font-weight:bold"> 0.00</span></small></div>
+        <div class="col-md-3 text-left">
+        </div>
+        <div class="col-md-12 text-right" style="margin-top:-3%">
+            <div style="font-size:small">Invoiced Amount: <small><span id="salesdetailsinvoiceamount" style="font-size:small;font-weight:bold"> 0.00</span></small></div>
+            <div style="font-size:small">Paid Amount: <small><span id="salesdetailspaidamount" style="font-size:small;font-weight:bold"> 0.00</span></small></div>
+            <div style="font-size:small">Balance: <small><span id="salesdetailsamount" style="font-size:small;font-weight:bold"> 0.00</span></small></div>
         </div>
     </div>
     <div class="row">
@@ -169,7 +172,7 @@
                         <th>General Notes</th>
                         <th>Originated Company</th>
                         <th>Originated Company</th>
-                  </tr>
+                    </tr>
                 </thead>
             </table>
         </div>

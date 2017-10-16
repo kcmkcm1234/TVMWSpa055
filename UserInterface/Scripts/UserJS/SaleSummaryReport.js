@@ -117,6 +117,12 @@ function GetSaleSummary() {
             if (ds.TotalAmount != '') {
                 $("#salessummaryamount").text(ds.TotalAmount);
             }
+            if (ds.InvoicedAmount != '') {
+                $("#salessummaryinvoiceamount").text(ds.InvoicedAmount);
+            }
+            if (ds.PaidAmount != '') {
+                $("#salessummarypaidamount").text(ds.PaidAmount);
+            }
             if (ds.Result == "OK") {
                 return ds.Records;
             }
