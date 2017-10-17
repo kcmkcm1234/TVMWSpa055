@@ -1,4 +1,6 @@
 ﻿var DataTables = {};
+var startdate = '';
+var enddate = '';
 $(document).ready(function () {
    
                
@@ -81,6 +83,8 @@ $(document).ready(function () {
          });
 
         $(".buttons-excel").hide();
+        startdate = $("#todate").val();
+        enddate = $("#fromdate").val();
 
     } catch (x) {
 
@@ -170,6 +174,8 @@ function OnCallChange()
 
 function Reset() {
     debugger;
+    $("#todate").val(startdate);
+    $("#fromdate").val(enddate);
     $("#customerCode").val('').trigger('change')
     DataTables.customerpaymentledgertable.clear().rows.add(GetCustomerPaymentLedger('ALL')).draw(false);
    

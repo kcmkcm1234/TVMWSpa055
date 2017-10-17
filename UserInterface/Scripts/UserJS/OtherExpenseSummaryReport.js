@@ -1,4 +1,6 @@
 ﻿var DataTables = {};
+var startdate = '';
+var enddate = '';
 $(document).ready(function () {
     $("#CompanyCode,#AccountCode,#Subtype,#Employee").select2({
     });
@@ -56,6 +58,8 @@ $(document).ready(function () {
          });
 
         $(".buttons-excel").hide();
+        startdate = $("#todate").val();
+        enddate = $("#fromdate").val();
         $('input[name="GroupSelect"]').on('change', function () {
             RefreshOtherExpenseSummaryAHTable();
         });
@@ -314,7 +318,8 @@ function GetAllEmployeesByType(type) {
 }
 function Reset() {
     debugger;
-
+    $("#todate").val(startdate);
+    $("#fromdate").val(enddate);
     $("#CompanyCode").val('ALL').trigger('change')
     $("#AccountCode").val('ALL').trigger('change')
     $("#Subtype").val('').trigger('change')

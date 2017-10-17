@@ -1,4 +1,6 @@
 ﻿var DataTables = {};
+var startdate = '';
+var enddate = '';
 $(document).ready(function () {
     
   
@@ -67,6 +69,8 @@ $(document).ready(function () {
          });
 
         $(".buttons-excel").hide();
+        startdate = $("#todate").val();
+        enddate = $("#fromdate").val();
 
     } catch (x) {
 
@@ -238,7 +242,8 @@ function GetAllEmployeesByType(type) {
 
 function Reset() {
     debugger;
-
+    $("#todate").val(startdate);
+    $("#fromdate").val(enddate);
     $("#CompanyCode").val('ALL').trigger('change')
     $("#AccountCode").val('ALL').trigger('change')
     $("#Subtype").val('').trigger('change')

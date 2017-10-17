@@ -7,6 +7,10 @@
 
 @section styles {
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
+     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/select2")
+<style>
+
+    </style>
 }
 <div style="width:100%;">
     <ol class="breadcrumb">
@@ -167,7 +171,7 @@
 
 
 @*Model*@
-<div class="modal fade" id="AddOtherexpenseModel" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true" @*style="overflow-y:hidden !important;"*@>
+<div class="modal fade" id="AddOtherexpenseModel" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true" @*style="overflow-y:hidden !important;"*@>
     <div class="modal-dialog" role="document" style="min-width:900px !important;">
         <div class="modal-content">
             <div class="modal-header" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 36px;padding: 3px;border-bottom:2px solid rgb(149, 76, 132)!important;">
@@ -220,7 +224,7 @@
                                         @Html.LabelFor(model => model.AccountCode, htmlAttributes: new { @class = "control-label" })
                                     </div>
                                     <div class="col-md-12">
-                                        @Html.DropDownListFor(model => model.AccountCode, Model.AccountTypes, "-- Select Account --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "AccountCode", @onchange = "AccountCodeOnchange(this)" })
+                                        @Html.DropDownListFor(model => model.AccountCode, Model.AccountTypes, "-- Select Account --", new { @class = "form-control BlockEnter", value = -1, style = "width:100%;", @id = "AccountCode", @onchange = "AccountCodeOnchange(this)" })
                                         @Html.ValidationMessageFor(model => model.AccountCode, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -256,7 +260,7 @@
                                      @Html.LabelFor(model => model.EmpID, htmlAttributes: new { @class = "control-label" })
                                  </div>
                                  <div class="col-md-12">
-                                         @Html.DropDownListFor(model => model.EmpID, new List<SelectListItem>(), "-- Select Employee --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;",@onchange= "SelectEmployeeCompanyOnchange(this)" })
+                                         @Html.DropDownListFor(model => model.EmpID, new List<SelectListItem>(), "-- Select Employee --", new { @class = "form-control BlockEnter", value = -1, @style = "width:100%",@onchange= "SelectEmployeeCompanyOnchange(this)" })
                                          @Html.ValidationMessageFor(model => model.EmpID, "", new { @class = "text-danger" })
                                  </div>
                              </div>
@@ -467,5 +471,7 @@
     @section Scripts {
         @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
         @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
+        @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
         @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/OtherExpense")
+      
     }

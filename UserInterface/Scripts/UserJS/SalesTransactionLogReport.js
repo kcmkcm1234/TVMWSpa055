@@ -1,4 +1,6 @@
 ﻿var DataTables = {};
+var startdate = '';
+var enddate = '';
 $(document).ready(function () {
 
    
@@ -59,6 +61,8 @@ $(document).ready(function () {
          });
 
         $(".buttons-excel").hide();
+        startdate = $("#todate").val();
+        enddate = $("#fromdate").val();
 
     } catch (x) {
         notyAlert('error', x.message);
@@ -132,7 +136,8 @@ function Back() {
 
 function Reset() {
     debugger;
-
+    $("#todate").val(startdate);
+    $("#fromdate").val(enddate);
     $("#CompanyCode").val('ALL').trigger('change');
     $("#Search").val('');
     RefreshSalesTransactionLogTable();

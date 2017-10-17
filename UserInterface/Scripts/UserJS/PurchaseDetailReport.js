@@ -1,4 +1,6 @@
 ﻿var DataTables = {};
+var startdate = '';
+var enddate = '';
 $(document).ready(function () {
     try {
         $("#CompanyCode").select2({
@@ -60,6 +62,8 @@ $(document).ready(function () {
          });
 
         $(".buttons-excel").hide();
+        startdate = $("#todate").val();
+        enddate = $("#fromdate").val();
         $('input[name="GroupSelect"]').on('change', function () {
             RefreshPurchaseDetailTable();
         });
@@ -174,7 +178,8 @@ function Back() {
 
 function Reset() {
     debugger;
-
+    $("#todate").val(startdate);
+    $("#fromdate").val(enddate);
     $("#CompanyCode").val('ALL').trigger('change');
     $("#Search").val('');
     $("#all").prop('checked', true).trigger('change');

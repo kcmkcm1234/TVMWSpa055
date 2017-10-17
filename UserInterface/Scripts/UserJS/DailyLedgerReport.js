@@ -1,4 +1,6 @@
 ﻿var DataTables = {};
+var startdate = '';
+var enddate = '';
 $(document).ready(function () {
     
     try {
@@ -38,6 +40,8 @@ $(document).ready(function () {
                 ]
             });
         $(".buttons-excel").hide();
+        startdate = $("#todate").val();
+        enddate = $("#fromdate").val();
         if($('.DateFilterDiv').is(":hidden"))
         {
             $('.DateFilterDiv').find('input').prop('disabled', true);
@@ -127,6 +131,8 @@ function PrintReport() {
 
 function Reset() {
     debugger;
+    $("#todate").val(startdate);
+    $("#fromdate").val(enddate);
     $("#MainHead").val('All').trigger('change')
     $("#Search").val('').trigger('change')
     RefreshDailyLedgerDetails()

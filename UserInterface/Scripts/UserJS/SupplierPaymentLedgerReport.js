@@ -1,4 +1,6 @@
 ﻿var DataTables = {};
+var startdate = '';
+var enddate = '';
 $(document).ready(function () {
     try {
         $("#supplierCode").select2({
@@ -78,6 +80,8 @@ $(document).ready(function () {
          });
 
         $(".buttons-excel").hide();
+        startdate = $("#todate").val();
+        enddate = $("#fromdate").val();
 
     } catch (x) {
 
@@ -161,6 +165,8 @@ function OnCallChange() {
 
 
 function Reset() {
+    $("#todate").val(startdate);
+    $("#fromdate").val(enddate);
     $("#supplierCode").val('').trigger('change')
     DataTables.supplierpaymentledgertable.clear().rows.add(GetSupplierPaymentLedger('ALL')).draw(false);
 }

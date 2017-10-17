@@ -1,4 +1,6 @@
 ﻿var DataTables = {};
+var startdate = '';
+var enddate = '';
 $(document).ready(function () {
     $("#bankList").select2({
     });
@@ -46,6 +48,8 @@ $(document).ready(function () {
          });
 
         $(".buttons-excel").hide();
+        startdate = $("#todate").val();
+        enddate = $("#fromdate").val();
 
     } catch (x) {
 
@@ -131,7 +135,8 @@ function OnChangeCall() {
 
 function Reset() {
     debugger;
-
+    $("#todate").val(startdate);
+    $("#fromdate").val(enddate);
     $("#bankList").val('ALL').trigger('change');
      $("#Search").val('').trigger('change');
 

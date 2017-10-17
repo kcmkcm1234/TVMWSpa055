@@ -4,6 +4,7 @@ var DefaultDate = "";
 $(document).ready(function () {
     try {
         debugger;
+        $("#EmpID,#AccountCode").select2({ dropdownParent: $("#AddOtherexpenseModel") });
         $("#DefaultDate").val("");
       
         DataTables.expenseDetailTable = $('#expenseDetailTable').DataTable(
@@ -417,6 +418,8 @@ function ClearFields() {
     $("#ChequeDate").prop('disabled', true);
     $("#ReferenceBank").prop('disabled', true);
     $('#EmpID').empty();
+    $("#AccountCode").select2('');
+    $("#EmpID").select2('');
     $('#EmpID').append(new Option('-- Select Employee --', -1));
     $('#EmpID').val("-1");
     $("#EmpName").val("");
@@ -475,6 +478,7 @@ function SaveSuccess(data, status) {
 function Reset() {
     if ($("#ID").val() == emptyGUID) {
         ClearFields();
+       
         $("#AddOrEditSpan").text("Add New");
     }
     else {
