@@ -120,5 +120,10 @@ namespace SPAccounts.BusinessService.Services
         {
             return _supplierPaymentsRepository.ApprovedPayment(PaymentID, UserName,date);
         }
+
+        public object Validate(SupplierPayments _supplierpayObj)
+        {
+            return _supplierPaymentsRepository.Validate(_supplierpayObj);
+        }
     }
 }

@@ -567,39 +567,78 @@ function GetCreditNoteBySupplier(ID) {
     }
 }
 
+function SaveValidatedData()
+{
+    $(".cancel").click();
+ var SelectedRows = DataTables.OutStandingInvoices.rows(".selected").data();
+    if ((SelectedRows) && (SelectedRows.length > 0)) {
+        var ar = [];
+        for (var r = 0; r < SelectedRows.length; r++) {
+            var PaymentDetailViewModel = new Object();
+            PaymentDetailViewModel.InvoiceID = SelectedRows[r].ID;//Invoice ID
+            PaymentDetailViewModel.ID = SelectedRows[r].SuppPaymentObj.supplierPaymentsDetailObj.ID//Detail ID
+            PaymentDetailViewModel.PaidAmount = SelectedRows[r].SuppPaymentObj.supplierPaymentsDetailObj.PaidAmount;
+            ar.push(PaymentDetailViewModel);
+        }
+        $('#paymentDetailhdf').val(JSON.stringify(ar));
+    }
+    if ($("#hdfCreditID").val() == undefined)
+        $("#hdfCreditID").val(emptyGUID);
+    $('#hdfCreditAmount').val($('#lblPaymentApplied').text());
+    $('#AdvanceAmount').val($('#lblCredit').text());
+    setTimeout(function () {
+        $('#btnSave').trigger('click');
+    }, 1000);
+}
+
+
 function savePayments() {
     debugger;
     //if ($('#PaymentMode').val() == "CHEQUE" && $("#BankCode").val() == "")
     //{
     //    notyAlert('error', 'Please Select Bank');
     //}
-    if ($('#PaymentMode').val() == "ONLINE" && $("#BankCode").val() == ""  || $('#PaymentMode').val() == "CHEQUE" && $("#BankCode").val() == "") {
+    if ($('#PaymentMode').val() == "ONLINE" && $("#BankCode").val() == "" || $('#PaymentMode').val() == "CHEQUE" && $("#BankCode").val() == "") {
         notyAlert('error', 'Please Select Bank');
     }
-    //else if ($('#TotalPaidAmt').val() == 0) {
-    //    notyAlert('error', 'Please Enter Amount');
-    //}
+        //else if ($('#TotalPaidAmt').val() == 0) {
+        //    notyAlert('error', 'Please Enter Amount');
+        //}
     else {
-        var SelectedRows = DataTables.OutStandingInvoices.rows(".selected").data();
-        if ((SelectedRows) && (SelectedRows.length > 0)) {
-            var ar = [];
-            for (var r = 0; r < SelectedRows.length; r++) {
-                var PaymentDetailViewModel = new Object();
-                PaymentDetailViewModel.InvoiceID = SelectedRows[r].ID;//Invoice ID
-                PaymentDetailViewModel.ID = SelectedRows[r].SuppPaymentObj.supplierPaymentsDetailObj.ID//Detail ID
-                PaymentDetailViewModel.PaidAmount = SelectedRows[r].SuppPaymentObj.supplierPaymentsDetailObj.PaidAmount;
-                ar.push(PaymentDetailViewModel);
-            }
-            $('#paymentDetailhdf').val(JSON.stringify(ar));
-        }
-        if ($("#hdfCreditID").val() == undefined)
-            $("#hdfCreditID").val(emptyGUID);
-        $('#hdfCreditAmount').val($('#lblPaymentApplied').text());
-        $('#AdvanceAmount').val($('#lblCredit').text());
-        $('#btnSave').trigger('click');
+        validate();
     }
 }
 
+
+   
+
+function validate()
+    {
+        debugger;
+        var SupplierPaymentsViewModel = new Object();
+        SupplierPaymentsViewModel.PaymentRef = $("#PaymentRef").val();
+        var data = "{'_supplierpayObj': " + JSON.stringify(SupplierPaymentsViewModel) + "}";
+        PostDataToServer("SupplierPayments/Validate/", data, function (JsonResult) {
+            debugger;
+            if (JsonResult != '') {
+                switch (JsonResult.Result) {
+                    case "OK":
+                        if (JsonResult.Records.Status==1)
+                            notyConfirm(JsonResult.Records.Message, 'SaveValidatedData();', '', "Yes,Proceed!", 1);
+                        else
+                        {
+                            SaveValidatedData();
+                        }
+                        break;
+                    case "ERROR":
+                        notyAlert('error', JsonResult.Message);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+}
 
 function DeletePayments() {
     notyConfirm('Are you sure to delete?', 'Delete()', '', "Yes, delete it!");

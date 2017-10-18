@@ -509,39 +509,100 @@ function GetCreditNoteByCustomer(ID) {
     }
 }
 
+
+function validate()
+{
+    debugger;
+    var CustomerPaymentsViewModel = new Object();
+    CustomerPaymentsViewModel.PaymentRef = $("#PaymentRef").val();
+    var data = "{'_customerpayObj': "+JSON.stringify(CustomerPaymentsViewModel)+"}";
+    PostDataToServer("CustomerPayments/Validate/", data, function (JsonResult) {
+        debugger;
+        if (JsonResult != '') {
+            switch (JsonResult.Result) {
+                case "OK":
+                    if (JsonResult.Records.Status==1)
+                        notyConfirm(JsonResult.Records.Message, 'SaveValidatedData();', '', "Yes,Proceed!", 1);
+                    else
+                    {
+                        SaveValidatedData();
+                    }
+                    break;
+                case "ERROR":
+                    notyAlert('error', JsonResult.Message);
+                    break;
+                default:
+                    break;
+            }
+        }
+    });
+    //debugger;
+    //var CustomerPaymentsViewModel = new Object();
+    //CustomerPaymentsViewModel.PaymentRef = $("#PaymentRef").val();
+    //var data = { "_customerpayObj": JSON.stringify(CustomerPaymentsViewModel) };
+    //var ds = {};
+    //ds = PostDataToServer("CustomerPayments/Validate/", data);
+    //if (ds != '') {
+    //    ds = JSON.parse(ds);
+    //}
+    //if (ds.Result == "OK") {
+    //    return ds.Records;
+    //}
+    //if (ds.Result == "ERROR") {
+    //    notyAlert('error', ds.Message);
+    //}
+}
+
 function savePayments() {
     debugger; 
     if ($('#PaymentMode').val() == "ONLINE" &&  $("#BankCode").val()=="" ) {
 
         notyAlert('error', 'Please Select Bank');
-    } 
+       
+    }
+    
     //else if ($('#TotalRecdAmt').val()==0) {
     //    notyAlert('error', 'Please Enter Amount');
-    //}
-    else {
-        var SelectedRows = DataTables.OutStandingInvoices.rows(".selected").data();
-        if ((SelectedRows) && (SelectedRows.length > 0)) {
-            var ar = [];
-            for (var r = 0; r < SelectedRows.length; r++) {
-                var PaymentDetailViewModel = new Object();
-                PaymentDetailViewModel.InvoiceID = SelectedRows[r].ID;//Invoice ID
-                PaymentDetailViewModel.ID = SelectedRows[r].CustPaymentObj.CustPaymentDetailObj.ID//Detail ID
-                PaymentDetailViewModel.PaidAmount = SelectedRows[r].CustPaymentObj.CustPaymentDetailObj.PaidAmount;
-//
-                ar.push(PaymentDetailViewModel);
-            }
-            $('#paymentDetailhdf').val(JSON.stringify(ar));
-        }
-        $('#hdfCreditAmount').val($('#lblPaymentApplied').text());
-        $('#AdvanceAmount').val($('#lblCredit').text());
-        $('#btnSave').trigger('click');
+        //}
+    else
+    {
+        validate();
+        //SaveValidatedData();
     }
 }
+
+function SaveValidatedData()
+{
+    debugger;
+    $(".cancel").click();
+    var SelectedRows = DataTables.OutStandingInvoices.rows(".selected").data();
+    if ((SelectedRows) && (SelectedRows.length > 0)) {
+        var ar = [];
+        for (var r = 0; r < SelectedRows.length; r++) {
+            var PaymentDetailViewModel = new Object();
+            PaymentDetailViewModel.InvoiceID = SelectedRows[r].ID;//Invoice ID
+            PaymentDetailViewModel.ID = SelectedRows[r].CustPaymentObj.CustPaymentDetailObj.ID//Detail ID
+            PaymentDetailViewModel.PaidAmount = SelectedRows[r].CustPaymentObj.CustPaymentDetailObj.PaidAmount;
+            //
+            ar.push(PaymentDetailViewModel);
+        }
+        $('#paymentDetailhdf').val(JSON.stringify(ar));
+    }
+    $('#hdfCreditAmount').val($('#lblPaymentApplied').text());
+    $('#AdvanceAmount').val($('#lblCredit').text());
+    setTimeout(function () {
+        $('#btnSave').trigger('click');
+    }, 1000);
+    
+}
+
 
 
 function DeletePayments() {
     notyConfirm('Are you sure to delete?', 'Delete()', '', "Yes, delete it!");
-} 
+}
+
+
 function Delete() {
     $('#btnFormDelete').trigger('click');
 }

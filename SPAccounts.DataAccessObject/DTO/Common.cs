@@ -88,7 +88,7 @@ namespace SPAccounts.DataAccessObject.DTO
         }
         public string Duplicate
         {
-            get { return "Allready Exist.."; }
+            get { return "Already Exist.."; }
         }
         
         public string NoItems
