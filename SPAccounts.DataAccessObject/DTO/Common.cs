@@ -74,6 +74,12 @@ namespace SPAccounts.DataAccessObject.DTO
             get { return "Updation Successfull! "; }
         }
 
+        public string NotificationSuccess
+        {
+            get { return "Notification Send Successfully ! "; }
+        }
+
+
         public string DeleteFailure
         {
             get { return "Deletion Not Successfull! "; }

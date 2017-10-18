@@ -357,6 +357,29 @@ namespace UserInterface.Controllers
         }
         #endregion ApprovedPayment
 
+        #region SendNotification
+        [AuthSecurityFilter(ProjectObject = "SupplierPayments", Mode = "W")]
+        [HttpPost]
+        public string SendNotification(SupplierPaymentsViewModel supobj)
+        {
+            object result = null;
+            try
+            {
+                string titleString = "Payment Approval";
+                string descriptionString = supobj.EntryNo + ", Supplier: " + supobj.supplierObj.CompanyName + ", Amount: " + supobj.TotalPaidAmt;
+                Boolean isCommon = true;
+                string CustomerID = "";
+                _supplierPaymentsBusiness.SendToFCM(titleString, descriptionString, isCommon, CustomerID);
+                return JsonConvert.SerializeObject(new { Result = "OK", Message = c.NotificationSuccess, Records = result });
+
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion SendNotification
 
         #region CheckReferenceNo
         [HttpPost]
