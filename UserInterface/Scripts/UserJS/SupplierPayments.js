@@ -904,7 +904,35 @@ function Selectcheckbox() {
 }
 //--------------------------------------------Notification,Approval,Payment Proceeding methods ---------------------------------------------------------//
 function SendNotification() {
-    notyAlert('info', 'Under Construction !');
+
+    try {
+
+        var SupplierPaymentsViewModel = new Object();
+        SupplierPaymentsViewModel.EntryNo = $('#lblheader').text()
+        SupplierPaymentsViewModel.TotalPaidAmt = $('#TotalPaidAmt').val();
+        SupplierPaymentsViewModel.supplierObj = new Object();
+        SupplierPaymentsViewModel.supplierObj.CompanyName = $('#Supplier').select2('data')[0].text;
+
+        var data = "{'supobj':" + JSON.stringify(SupplierPaymentsViewModel) + "}";
+
+        PostDataToServer("SupplierPayments/SendNotification/", data, function (JsonResult) {
+            if (JsonResult != '') {
+                switch (JsonResult.Result) {
+                    case "OK":
+                        notyAlert('success', JsonResult.Message);
+                        break;
+                    case "ERROR":
+                        notyAlert('error', JsonResult.Message);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
 }
 
 function ApprovedPayment() {
