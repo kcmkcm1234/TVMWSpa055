@@ -16,6 +16,11 @@ namespace UserInterface.Models
         public string ChequeDate { get; set; }
         public Guid ID { get; set; }
 
+        [Display(Name = "Reference No")]
+        public string RefNo { get; set; }
+        [Display(Name = "Reversal Of")]
+        public string ReversalRef { get; set; }
+
         [Display(Name = "Expense Date")]
         public string ExpenseDateFormatted { get; set; }
         [Display(Name = "Filter")]

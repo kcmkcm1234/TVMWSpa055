@@ -150,7 +150,7 @@
             <table id="expenseDetailTable" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
                 <thead>
                     <tr class="text-center TableHead">
-                        <th>SI No</th>
+                        <th>Ref. No</th>
                         <th>Account</th>
                         <th>Payment mode</th>
                         <th>Description</th>
@@ -217,6 +217,17 @@
                                             @Html.ValidationMessageFor(model => model.ExpenseDate, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="col-md-12">
+                                        @Html.LabelFor(model => model.RefNo, htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="col-md-12">
+                                        @{
+                                            @Html.EditorFor(model => model.RefNo, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+                                        }
+
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group col-md-12">
                                 <div class="col-md-6">
@@ -228,23 +239,8 @@
                                         @Html.ValidationMessageFor(model => model.AccountCode, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="col-md-12">
-                                        @Html.LabelFor(model => model.IsReverse, htmlAttributes: new { @class = "control-label" })
-                                    </div>
-                                    <div class="col-md-12">
-                                        @{
-                                            List<SelectListItem> listIsReverse = new List<SelectListItem>();
-                                            listIsReverse.Add(new SelectListItem
-                                            { Text = "Regular", Value = "false" });
-                                            listIsReverse.Add(new SelectListItem
-                                            { Text = "Reversal", Value = "true" }); 
-                                        }
-                                        @Html.DropDownListFor(model => model.IsReverse, listIsReverse, new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "IsReverse" })
-                                    </div>
-                                </div>
-                            </div>
-
+                             
+                            </div> 
                             <div class="form-group col-md-12">
                                 <div class="col-md-6">
                                     <div class="col-md-12">
@@ -264,6 +260,38 @@
                                          @Html.ValidationMessageFor(model => model.EmpID, "", new { @class = "text-danger" })
                                  </div>
                              </div>
+                            </div>
+
+                            <div class="form-group col-md-12">
+                                <div class="col-md-6">
+                                    <div class="col-md-12">
+                                        @Html.LabelFor(model => model.IsReverse, htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="col-md-12">
+                                        @{
+                                            List<SelectListItem> listIsReverse = new List<SelectListItem>();
+                                            listIsReverse.Add(new SelectListItem
+                                            { Text = "Regular", Value = "false" });
+                                            listIsReverse.Add(new SelectListItem
+                                            { Text = "Reversal", Value = "true" });
+                                        }
+                                        @Html.DropDownListFor(model => model.IsReverse, listIsReverse, new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "IsReverse", @onchange = "IsReverseOnchange()" })
+                                    </div>
+                                </div>
+
+                                <div id="ReversalRefDiv" class="col-md-6" style="display:none">
+                                    <div class="col-md-12">
+                                        @Html.LabelFor(model => model.ReversalRef, htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="col-md-11">
+                                        @{
+                                            @Html.EditorFor(model => model.ReversalRef, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.ReversalRef, "", new { @class = "text-danger" })
+                                        }
+
+                                    </div>
+                                    <span id="btnAddRef" title="Search Reference"><img src="~/Content/images/searchdefault.png" style="width:12px;cursor:pointer;" onclick="SearchReference();"/></span>
+                                </div>
                             </div>
                             <span id="btnAddEmployee" title="Add Employee/Other" style="z-index: 12;position: absolute;margin-top:18%;right: 7%;"><img src="~/Content/images/add.png" style="width:12px;cursor:pointer;" onclick="AddEmployee();"/></span>
 

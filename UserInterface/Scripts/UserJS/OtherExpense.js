@@ -21,11 +21,17 @@ $(document).ready(function () {
                  searchPlaceholder: "Search"
              },
              columns: [
-               { "data": null },
+               { "data": "RefNo", "defaultContent": "<i>-</i>"  },
                { "data": "chartOfAccountsObj.TypeDesc", "defaultContent": "<i>-</i>" },
                { "data": "PaymentMode", "defaultContent": "<i>-</i>" },
                 
-               { "data": "Description", "defaultContent": "<i>-</i>" },
+               {
+                   "data": "Description", render: function (data, type, row) {
+                       if(row.ReversalRef!="")
+                           return row.Description + " <label><i><b>ReversalRef: " + row.ReversalRef + "</b></i></label>"
+                   else
+                       return row.Description
+               }, "defaultContent": "<i>-</i>"},
                { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                 { "data": "ExpenseDate", "defaultContent": "<i>-</i>" },
                  { "data": "companies.Name", "defaultContent": "<i>-</i>" },
@@ -42,11 +48,11 @@ $(document).ready(function () {
 
              ]
          });
-        DataTables.expenseDetailTable.on('order.dt search.dt', function () {
-            DataTables.expenseDetailTable.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
-                cell.innerHTML = i + 1;
-            });
-        }).draw();
+        //DataTables.expenseDetailTable.on('order.dt search.dt', function () {
+        //    DataTables.expenseDetailTable.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+        //        cell.innerHTML = i + 1;
+        //    });
+        //}).draw();
 
     } catch (x) {
 
@@ -238,29 +244,7 @@ function Save() {
 }
 
 
-function PaymentModeOnchange(curobj) {
-    ////if (curobj.value == "ONLINE") {
-    ////    $("#BankCode").prop('disabled', false);
-    ////    $("#ChequeDate").prop('disabled', false);
-    ////    $("#ReferenceBank").prop('disabled', false);
-    ////}
-    ////else {
-    ////    $("#BankCode").val("");
-    ////    $("#BankCode").prop('disabled', true);
-    ////}
-    ////if (curobj.value == "CHEQUE") {
-    ////    $("#BankCode").prop('disabled', false);
-    ////    $("#ChequeDate").prop('disabled', false);
-    ////    $("#ReferenceBank").prop('disabled', true);
-    ////}
-    ////else {
-    ////    $("#ChequeDate").prop('disabled', true);
-    ////    $("#ReferenceBank").prop('disabled', true);
-    ////}
-    ////$('span[data-valmsg-for="BankCode"]').empty();
-
-
-
+function PaymentModeOnchange(curobj) {  
 
     if (curobj.value == "ONLINE" || curobj.value == "CHEQUE") {
         $("#BankCode").prop('disabled', false);
@@ -281,41 +265,7 @@ function PaymentModeOnchange(curobj) {
         $("#ReferenceBank").prop('disabled', true);
     }    
     $('span[data-valmsg-for="BankCode"]').empty();
-}
-
-
-
-/////
-//if ($('#PaymentMode').val() == "ONLINE" || $('#PaymentMode').val() == "CHEQUE") {
-//    $('#BankCode').prop('disabled', false);
-
-//    if ($('#PaymentMode').val() == "CHEQUE") {
-//        $('#ChequeDate').prop('disabled', false);
-//        $('#ReferenceBank').prop('disabled', true);
-//    }
-//    else {
-//        $("#ChequeDate").val('');
-//        $('#ChequeDate').prop('disabled', true);
-//        $('#ReferenceBank').prop('disabled', true);
-//    }
-//}
-//else {
-//    $("#BankCode").val('');
-//    $('#BankCode').prop('disabled', true);
-//    $("#ChequeDate").val('');
-//    $('#ChequeDate').prop('disabled', true);
-//    $('#ReferenceBank').prop('disabled', true);
-
-//}
-//}
-
-
-
-
-
-////
-
-
+}  
 
 function BankOnchange()
 {
@@ -404,6 +354,8 @@ function ClearFields() {
     $("#AccountCode").val('');
     $("#CompanyCode").val('');
     $("#paymentMode").val('');
+    $("#RefNo").val('');
+    $("#ReversalRef").val('');
     $("#EmpTypeCode").val('');
     $("#ReferenceBank").val('');
     $("#BankCode").val('');
@@ -412,6 +364,7 @@ function ClearFields() {
     $("#Description").val('');
     $("#ChequeDate").val('');
     $("#IsReverse").val('false');
+    IsReverseOnchange();
     $("#EmpID").prop('disabled', true);
     $("#EmpTypeCode").prop('disabled', true);
     $("#BankCode").prop('disabled', true);
@@ -525,31 +478,12 @@ function FillOtherExpenseDetails(ID) {
         $("#expenseDateModal").val(thisItem.ExpenseDate);
         $("#AccountCode").val(thisItem.AccountCode);
         $("#CompanyCode").val(thisItem.companies.Code);
+        $("#RefNo").val(thisItem.RefNo);
+        $("#ReversalRef").val(thisItem.ReversalRef);
         $("#paymentMode").val(thisItem.PaymentMode);
         $("#ChequeDate").val(thisItem.ChequeDate);
         $("#ReferenceBank").val(thisItem.ReferenceBank);
-        $("#creditdAmt").text(thisItem.creditAmountFormatted);
-        //if (thisItem.PaymentMode != "ONLINE")
-        //{
-        //    $("#BankCode").val("");
-        //    $("#BankCode").prop('disabled', true);
-        //}
-        //else
-        //{
-        //    $("#BankCode").prop('disabled', false);
-        //}
-        //if (thisItem.PaymentMode != "CHEQUE")
-        //{
-        //    $("#ChequeDate").prop('disabled', true);
-        //    $("#ReferenceBank").prop('disabled', true);
-        //}
-        //else
-        //{
-        //    $("#ChequeDate").prop('disabled', false);
-        //    $("#ReferenceBank").prop('disabled', false);
-        //}
-
-
+        $("#creditdAmt").text(thisItem.creditAmountFormatted); 
 
         if (thisItem.PaymentMode == "ONLINE" || thisItem.PaymentMode == "CHEQUE") {
             $("#BankCode").val("");
@@ -560,13 +494,11 @@ function FillOtherExpenseDetails(ID) {
             }
             else {
                 $("#ChequeDate").prop('disabled', true);
-
-}
+            }
         }
         else {
             $("#ReferenceBank").prop('disabled', true);
-
-}
+        }
 
 
         
@@ -584,6 +516,7 @@ function FillOtherExpenseDetails(ID) {
             $("#IsReverse").val('true');
             else
             $("#IsReverse").val('false');
+        IsReverseOnchange();
 
         $("#Description").val(thisItem.Description);
         $("#AddOrEditSpan").text("Edit");
@@ -971,17 +904,18 @@ function GetEmployeesCompany(ID) {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
+function IsReverseOnchange() {
+    debugger;
+    if ($("#IsReverse").val() == 'true')
+    {
+        $('#ReversalRefDiv').show();
+    }
+    else
+    {
+        $('#ReversalRefDiv').hide();
+        $('#ReversalRef').val('');
+    }
+}
 
 
 

@@ -98,6 +98,8 @@ namespace SPAccounts.RepositoryServices.Services
                                     OtherExpense _otherExpense = new OtherExpense();
                                     {
                                         _otherExpense.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : _otherExpense.ID);
+                                        _otherExpense.RefNo = (sdr["RefNo"].ToString() != "" ? sdr["RefNo"].ToString() : string.Empty);
+                                        _otherExpense.ReversalRef = (sdr["ReversalRef"].ToString() != "" ? sdr["ReversalRef"].ToString() : string.Empty);
                                         _otherExpense.ExpenseDate = (sdr["ExpenseDate"].ToString() != "" ? DateTime.Parse(sdr["ExpenseDate"].ToString()).ToString(settings.dateformat) : _otherExpense.ExpenseDate);
                                         _otherExpense.EmpTypeCode = (sdr["EmpType"].ToString() != "" ? sdr["EmpType"].ToString() : string.Empty);
                                         _otherExpense.ExpenseRef = (sdr["ExpenseRef"].ToString() != "" ? sdr["ExpenseRef"].ToString() : string.Empty);
@@ -188,6 +190,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = otherExpense.Amount;
                         cmd.Parameters.Add("@IsReverse", SqlDbType.Bit).Value = otherExpense.IsReverse;
                         cmd.Parameters.Add("@ChequeDate", SqlDbType.DateTime).Value = otherExpense.ChequeDate;
+                        cmd.Parameters.Add("@ReversalRef", SqlDbType.VarChar, 20).Value = otherExpense.ReversalRef;
                         cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = otherExpense.commonObj.CreatedBy;
                         cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = otherExpense.commonObj.CreatedDate;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
@@ -255,6 +258,9 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@ExpneseRef", SqlDbType.VarChar, 20).Value = otherExpense.ExpenseRef;
                         cmd.Parameters.Add("@Description", SqlDbType.NVarChar, -1).Value = otherExpense.Description;
                         cmd.Parameters.Add("@IsReverse", SqlDbType.Bit).Value = otherExpense.IsReverse;
+                        if(otherExpense.IsReverse)
+                        cmd.Parameters.Add("@ReversalRef", SqlDbType.VarChar, 20).Value = otherExpense.ReversalRef;
+
                         cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = otherExpense.Amount;
                         cmd.Parameters.Add("@ChequeDate", SqlDbType.DateTime).Value = otherExpense.ChequeDate;
                         cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = otherExpense.commonObj.UpdatedBy;
