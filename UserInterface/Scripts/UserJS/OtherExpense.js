@@ -562,7 +562,13 @@ function CancelEmployee()
 
     $("#EmpName").val("");
     $("#EmployeeDiv").hide();
-    }
+}
+
+
+function SearchReference() {
+
+
+}
 
 //---------------------------------------Edit Other expense--------------------------------------------------//
 function Edit(currentObj) {
