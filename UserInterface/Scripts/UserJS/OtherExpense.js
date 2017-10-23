@@ -3,7 +3,6 @@ var emptyGUID = '00000000-0000-0000-0000-000000000000';
 var DefaultDate = "";
 $(document).ready(function () {
     try {
-        debugger;
         $("#EmpID,#AccountCode").select2({ dropdownParent: $("#AddOtherexpenseModel") });
         $("#DefaultDate").val("");
       
@@ -28,7 +27,7 @@ $(document).ready(function () {
                {
                    "data": "Description", render: function (data, type, row) {
                        if(row.ReversalRef!="")
-                           return row.Description + " <label><i><b>ReversalRef: " + row.ReversalRef + "</b></i></label>"
+                           return row.Description + " ( Reversal Of  <label><i><b>Ref# " + row.ReversalRef + "</b></i></label>)"
                    else
                        return row.Description
                }, "defaultContent": "<i>-</i>"},
@@ -104,6 +103,36 @@ $(document).ready(function () {
         notyAlert('error', x.message);
     }
 
+    try {
+        DataTables.RefSearchTable = $('#RefSearchTable').DataTable({
+            dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
+            order: [],
+            searching: true,
+            paging: true,
+            data: null,
+            pageLength: 5,
+            columns: [
+              {
+                  "data": "RefNo", render: function (data, type, row) {
+                      return data
+                  }, "defaultContent": "<i>-</i>"
+              },
+              { "data": "Description", "defaultContent": "<i>-</i>" },
+              { "data": "ExpenseDate", "defaultContent": "<i>-</i>" },
+              { "data": "Amount", "defaultContent": "<i>-</i>" },
+              { "data": "ReversableAmount", "defaultContent": "<i>-</i>" },
+              { "data": null, "orderable": false, "defaultContent": '<a  href="#" class="actionLink" style="background:lightgreen;border-radius:1em;padding: 0.25em .75em; aria-hidden="true"  onclick="SelectRefNo(this)" ><i>Select</i></a>' }
+            ],
+            columnDefs: [
+                 { className: "text-right", "targets": [3,4] },
+             { className: "text-center", "targets": [5,2] },
+                 { className: "text-left", "targets": [0,1,] },
+                 { "bSortable": false, "aTargets": [0, 1, 2,3,4,5] }
+            ],
+        });  
+    } catch (x) {
+            notyAlert('error', x.message);
+    }
 
 
 });
@@ -379,6 +408,7 @@ function ClearFields() {
     $("#btnAddEmployee").css("pointer-events", "none");
     $("#EmployeeDiv").hide();
     $("#creditdAmt").text("₹ 0.00");
+    $("#ReFAmountMsg").hide();
     var validator = $("#OtherExpenseModal").validate();
     $('#OtherExpenseModal').find('.field-validation-error span').each(function () {
         validator.settings.success($(this));
@@ -476,7 +506,10 @@ function FillOtherExpenseDetails(ID) {
     {
         $("#ID").val(thisItem.ID);
         $("#expenseDateModal").val(thisItem.ExpenseDate);
-        $("#AccountCode").val(thisItem.AccountCode);
+
+        $("#AccountCode").select2();
+        $("#AccountCode").val(thisItem.AccountCode).trigger('change');
+
         $("#CompanyCode").val(thisItem.companies.Code);
         $("#RefNo").val(thisItem.RefNo);
         $("#ReversalRef").val(thisItem.ReversalRef);
@@ -550,6 +583,7 @@ function FillOtherExpenseDetails(ID) {
 function AddEmployee()
 {
     debugger;
+  $("#RefSearchDiv").hide();
     if ($("#EmpTypeCode").val() != "") $("#sbtyp").html($("#EmpTypeCode option:selected").text());
     if ($("#CompanyCode").val() != "") $("#cmpny").html($("#CompanyCode option:selected").text());
     $("#EmployeeDiv").fadeIn();
@@ -566,8 +600,85 @@ function CancelEmployee()
 
 
 function SearchReference() {
+    debugger;
+    $("#RefSearchDiv").fadeIn();
+    $("#EmployeeDiv").hide();
+    $("#ReFSearchMsg").hide();
+    $("#HdfAmountReversal").val();
+   // $("#ReFAmountMsg").hide();
+    try {
+        debugger;
+        var data = GetReversalReference();
+        DataTables.RefSearchTable.clear().rows.add(data).draw(false);
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+function CancelSearch() {
+    $("#RefSearchDiv").hide();
+}
+function SelectRefNo(currentObj) {
+    debugger;
+    var rowData = DataTables.RefSearchTable.row($(currentObj).parents('tr')).data();
+    $("#ReversalRef").val(rowData.RefNo);
+    $("#HdfAmountReversal").val(rowData.ReversableAmount);
+    $("#ReFAmountMsg").show();
+    $("#ReFAmountMsg").text('* Amount must be lessthan '+rowData.ReversableAmount);
+    $("#RefSearchDiv").hide();
+}
+function ClearReversalRef() {
+    $("#ReversalRef").val('');
+    $("#HdfAmountReversal").val('');
+    SearchReference();
+}
 
+function CheckReversableAmount() {
+    debugger;
+    var reversableAmt =$("#HdfAmountReversal").val();
+    var EnteredAmt = $("#Amount").val();
+    if (parseInt(EnteredAmt) >parseInt( reversableAmt)) {
+        $("#Amount").val('');
+        $("#ReFAmountMsg").show();
+        $("#ReFAmountMsg").text('* Amount must be lessthan ' + reversableAmt);
+    }
+    else {
+        $("#ReFAmountMsg").hide();
+    }
+}
 
+function GetReversalReference() {
+    try { 
+        debugger;
+        //-------parameter Passing -------------//
+        var AccountCode = $("#AccountCode").val() == "" ? null : $("#AccountCode").val();
+        var EmpID = $("#EmpID").val();
+        var EmpTypeCode = $("#EmpTypeCode").val()
+        var regex = /[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}/i;
+        var match = regex.exec(EmpID);  
+        if (match==null)
+            EmpID = emptyGUID;
+        if (EmpTypeCode == "")
+            EmpTypeCode = null;
+        if(AccountCode==null )
+            $("#ReFSearchMsg").show();
+        else if (AccountCode.includes('True') && (EmpTypeCode == null || EmpID == emptyGUID))
+            $("#ReFSearchMsg").show(); 
+        //-------  -------------//
+        var data = { "EmpID": EmpID, "AccountCode": AccountCode, "EmpTypeCode": EmpTypeCode };
+            var ds = {};
+            ds = GetDataFromServer("OtherExpenses/GetReversalReference/", data);
+            ds = JSON.parse(ds); 
+            if (ds.Result == "OK") {
+                return ds.Records;
+            }
+            if (ds.Result == "ERROR") {
+                alert(ds.Message);
+            }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
 }
 
 //---------------------------------------Edit Other expense--------------------------------------------------//
@@ -587,6 +698,7 @@ function Edit(currentObj) {
 function AddOtherExpense() {
     try {
         ClearFields();
+        $("#RefNo").val('--Auto Generated--');
         $("#expenseDateModal").val($("#ExpDate").val());
         $("#AddOtherexpenseModel").modal('show');
         $("#AddOrEditSpan").text("Add New");
@@ -596,6 +708,7 @@ function AddOtherExpense() {
         //$("#ChequeDate").prop('disabled', true);
         $("#btnAddEmployee").css("pointer-events", "none");
         $("#EmployeeDiv").hide();
+        $("#RefSearchDiv").hide();
         
     }
     catch (e) {
@@ -768,6 +881,7 @@ function ExpenseDefaultDateOnchange()
 function AccountCodeOnchange(curobj)
 {
     debugger;
+    $("#RefSearchDiv").hide();
     var AcodeCombined = $(curobj).val();
     if(AcodeCombined)
     {
@@ -808,7 +922,8 @@ function AccountCodeOnchange(curobj)
 
 function EmployeeTypeOnchange(curobj)
 {
-    
+    $("#ReversalRef").val('');
+    $("#RefSearchDiv").hide();
     var emptypeselected = $(curobj).val();
     if(emptypeselected)
     {
@@ -821,6 +936,9 @@ function SelectEmployeeCompanyOnchange(curObj)
 {
     try {
         debugger;
+        $("#ReversalRef").val('');
+        $("#RefSearchDiv").hide();
+
         if (curObj.value != "-1") {
             var ID = curObj.value;
             var OtherExpenseViewModel = GetEmployeesCompany(ID);

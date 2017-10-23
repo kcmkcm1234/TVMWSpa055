@@ -11,6 +11,7 @@ namespace SPAccounts.BusinessService.Contracts
     {
         List<OtherExpense> GetAllOtherExpenses();
         OtherExpense GetExpenseDetailsByID(Guid ID);
+        List<OtherExpense> GetReversalReference(string EmpID, string AccountCode, string EmpTypeCode);
         OtherExpense GetOpeningBalance(string OpeningDate);
 
         List<ChartOfAccounts> GetAllAccountTypes(string accountType);

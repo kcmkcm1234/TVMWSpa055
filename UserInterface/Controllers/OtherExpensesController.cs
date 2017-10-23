@@ -282,6 +282,26 @@ namespace UserInterface.Controllers
             }
         }
         #endregion GetExpenseDetailsByID
+
+        #region GetReversalReference
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "OtherExpense", Mode = "R")]
+        public string GetReversalReference(string EmpID, string AccountCode, string EmpTypeCode)
+        {
+            try
+            {
+                List<OtherExpenseViewModel> otherExpenseViewModelList = Mapper.Map<List<OtherExpense>, List<OtherExpenseViewModel>>(_otherExpenseBusiness.GetReversalReference(EmpID,AccountCode,EmpTypeCode));
+                
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = otherExpenseViewModelList });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion GetReversalReference
+
         #region InsertUpdateOtherExpense
         [HttpPost]
         [ValidateAntiForgeryToken]
