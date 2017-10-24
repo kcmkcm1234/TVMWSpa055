@@ -43,9 +43,9 @@ $(document).ready(function () {
               { "data": "OriginCompany", "defaultContent": "<i>-</i>" },
 
              ],
-             columnDefs: [{ "targets": [8], "visible": false, "searchable": false },
+             columnDefs: [{ "targets": [7,8], "visible": false, "searchable": false },
                   { className: "text-left", "targets": [0] },
-                  { className: "text-right", "targets": [1, 2, 3, 4, 5, 6,7] }],
+                  { className: "text-right", "targets": [1, 2, 3, 4, 5, 6] }],
              
              drawCallback: function (settings) {
                  var api = this.api();
