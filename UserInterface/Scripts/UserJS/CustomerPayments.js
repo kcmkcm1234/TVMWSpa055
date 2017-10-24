@@ -664,6 +664,7 @@ function fieldsclear() {
     $('#hdfCustomerID').val('');
     $('#ReferenceBank').val('');
     $("#ddlCreditDiv").css("visibility", "hidden");
+    $('#paymentDetailhdf').val('');
     CaptionChangePayment();
 }
 function CustomerChange() {
