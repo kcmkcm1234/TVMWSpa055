@@ -502,6 +502,57 @@ namespace SPAccounts.RepositoryServices.Services
             return otherExpenseList;
         }
         #endregion GetBankWiseBalance
+
+
+
+
+        #region ValidateRefno
+
+        public object Validate(OtherExpense _otherexpenseObj)
+        {
+            AppConst appcust = new AppConst();
+            SqlParameter outputStatus = null;
+            SqlParameter outputStatus1 = null;
+            try
+            {
+
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[ValidateOtherExpenses]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ReferenceNo", SqlDbType.VarChar, 20).Value = _otherexpenseObj.ExpenseRef;
+                        cmd.Parameters.Add("@id", SqlDbType.UniqueIdentifier).Value = _otherexpenseObj.ID;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus1 = cmd.Parameters.Add("@message", SqlDbType.VarChar, 100);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        outputStatus1.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+
+                    }
+                }
+
+            }
+
+
+            catch (Exception ex)
+
+            {
+                return new { Message = ex.ToString(), Status = -1 };
+            }
+
+            return new { Message = outputStatus1.Value.ToString(), Status = outputStatus.Value };
+
+        }
+
+        #endregion ValidateRefno
+
     }
 
 }

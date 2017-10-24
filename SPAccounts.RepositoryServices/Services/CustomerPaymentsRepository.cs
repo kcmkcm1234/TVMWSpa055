@@ -337,6 +337,7 @@ namespace SPAccounts.RepositoryServices.Services
 
 
             catch (Exception ex)
+
             {
                 return new { Message = ex.ToString(), Status = -1 };
             }

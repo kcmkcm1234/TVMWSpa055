@@ -29,6 +29,8 @@ namespace UserInterface.Models
         public decimal OpeningBalance { get; set; }
         public decimal Invoiced { get; set; }
         public decimal Paid { get; set; }
+        public decimal Total { get; set; }
+        public decimal TaxAmount { get; set; }
         public decimal NetDue { get; set; }
         public decimal Credit { get; set; }
         public decimal Balance { get; set; }
@@ -41,6 +43,7 @@ namespace UserInterface.Models
         public string salesummarySum { get; set; }
         public string salesummaryinvoice { get; set; }
         public string salesummarypaid { get; set; }
+        public string salesummaryTax { get; set; }
         public List<SaleSummaryViewModel> saleSummaryList { get; set; }
     }
     public class SaleDetailReportViewModel
@@ -54,6 +57,8 @@ namespace UserInterface.Models
         public decimal PaidAmount { get; set; }
         public decimal InvoiceAmount { get; set; }
         public decimal BalanceDue { get; set; }
+        public decimal Total { get; set; }
+        public decimal TaxAmount { get; set; }
         public string OriginCompany { get; set; }
         public string Origin { get; set; }        //--To get Company name--
         public string GeneralNotes { get; set; }
@@ -68,6 +73,7 @@ namespace UserInterface.Models
         public string saledetailSum { get; set; }
         public string saledetailinvoice { get; set; }
         public string saledetailpaid { get; set; }
+        public string saledetailtax { get; set; }
         public List<SaleDetailReportViewModel> saleDetailList { get; set; }
 
     }

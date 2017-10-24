@@ -15,7 +15,7 @@ $(document).ready(function () {
                  extend: 'excel',
                  exportOptions:
                               {
-                                  columns: [7,0,1,2, 3,4,5,6]
+                                  columns: [0,1,2, 3,4,5,6,7]
                               }
              }],
              order: [],
@@ -31,30 +31,31 @@ $(document).ready(function () {
              columns: [
              
                { "data": "CustomerName", "defaultContent": "<i>-</i>" },
-               { "data": "OpeningBalance",render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                { "data": "Invoiced",render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+               { "data": "TaxAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+               { "data": "Total", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                { "data": "Paid", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
-                 { "data": "Credit", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
-              { "data": "Balance", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+               { "data": "Credit", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+               { "data": "Balance", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                { "data": "NetDue", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
              
                
               { "data": "OriginCompany", "defaultContent": "<i>-</i>" },
 
              ],
-             columnDefs: [{ "targets": [7], "visible": false, "searchable": false },
+             columnDefs: [{ "targets": [8], "visible": false, "searchable": false },
                   { className: "text-left", "targets": [0] },
-                  { className: "text-right", "targets": [1, 2, 3, 4, 5, 6] }],
+                  { className: "text-right", "targets": [1, 2, 3, 4, 5, 6,7] }],
              
              drawCallback: function (settings) {
                  var api = this.api();
                  var rows = api.rows({ page: 'current' }).nodes();
                  var last = null;
 
-                 api.column(7, { page: 'current' }).data().each(function (group, i) {
+                 api.column(8, { page: 'current' }).data().each(function (group, i) {
                      debugger;
                      if (last !== group) {
-                         $(rows).eq(i).before('<tr class="group "><td colspan="7" class="rptGrp">' + '<b>Company</b> : ' + group + '</td></tr>');
+                         $(rows).eq(i).before('<tr class="group "><td colspan="8" class="rptGrp">' + '<b>Company</b> : ' + group + '</td></tr>');
                          last = group;
                      }
                  });
@@ -65,9 +66,9 @@ $(document).ready(function () {
         $(".buttons-excel").hide();
         startdate = $("#todate").val();
         enddate = $("#fromdate").val();
-        $('input[name="GroupSelect"]').on('change', function () {
-            RefreshSaleSummaryTable();
-        });
+        ////$('input[name="GroupSelect"]').on('change', function () {
+        //    RefreshSaleSummaryTable();
+        ////});
 
        
     } catch (x) {
@@ -102,15 +103,15 @@ function GetSaleSummary() {
         else {
             tax = false;
         }
-        if (companycode === "ALL")
-        {
-            if ($("#all").prop('checked')) {
-                companycode = $("#all").val();
-            }
-            else {
-                companycode = $("#companywise").val();
-            }
-        }        
+        //if (companycode === "ALL")
+        //{
+        //    if ($("#all").prop('checked')) {
+        //        companycode = $("#all").val();
+        //    }
+        //    else {
+        //        companycode = $("#companywise").val();
+        //    }
+        //}        
         if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
             var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "search": search, "IsInternal": internal, "IsTax": tax };
             var ds = {};
@@ -126,6 +127,9 @@ function GetSaleSummary() {
             }
             if (ds.PaidAmount != '') {
                 $("#salessummarypaidamount").text(ds.PaidAmount);
+            }
+            if (ds.TaxAmount != '') {
+                $("#salessummarytax").text(ds.TaxAmount);
             }
             if (ds.Result == "OK") {
                 return ds.Records;
@@ -153,20 +157,20 @@ function RefreshSaleSummaryTable() {
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
         var companycode = $("#CompanyCode").val();
-        if (companycode === "")
-        {
-            return false;
-        }
+        //if (companycode === "")
+        //{
+        //    return false;
+        //}
             
-        if (companycode === "ALL") {
-            $("#all").prop("disabled", false);
-            $("#companywise").prop("disabled", false);
-        }
-        else {
-            $("#all").prop("disabled", true);
-            $("#companywise").prop("disabled", true);
+        //if (companycode === "ALL") {
+        //    $("#all").prop("disabled", false);
+        //    $("#companywise").prop("disabled", false);
+        //}
+        //else {
+        //    $("#all").prop("disabled", true);
+        //    $("#companywise").prop("disabled", true);
          
-        }
+        //}
         if (DataTables.saleSummaryReportTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
             DataTables.saleSummaryReportTable.clear().rows.add(GetSaleSummary()).draw(false);
         }
@@ -196,7 +200,7 @@ function Reset() {
     $("#fromdate").val(enddate);
     $("#CompanyCode").val('ALL').trigger('change');
     $("#Search").val('');
-    $("#all").prop('checked',true).trigger('change');
+    //$("#all").prop('checked',true).trigger('change');
 }
 
 

@@ -395,6 +395,30 @@ namespace UserInterface.Controllers
         }
         #endregion DeleteOtherExpense
 
+
+        #region validaterefno
+
+        public string Validate(OtherExpenseViewModel _otherexpenseObj)
+        {
+
+
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            object result = null;
+            try
+
+            {
+                result = _otherExpenseBusiness.Validate(Mapper.Map<OtherExpenseViewModel, OtherExpense>(_otherexpenseObj));
+                return JsonConvert.SerializeObject(new { Result = "OK", Message = "", Records = result });
+            }
+
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message, Status = -1 });
+            }
+
+        }
+        #endregion validaterefno
         #region ButtonStyling
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "OtherExpense", Mode = "R")]

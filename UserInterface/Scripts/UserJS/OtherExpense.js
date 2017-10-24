@@ -233,14 +233,60 @@ function GetAllExpenseDetails(expDate, DefaultDate) {
 
 function Save() {
     try {
+        debugger;
         //$('#myModal').modal('hide')
-        $("#btnSaveOtherExpense").trigger('click');
+        validate();
+
+        //$("#btnSaveOtherExpense").trigger('click');
       
     }
     catch (e) {
         notyAlert('error', e.message);
         return 0;
     }
+}
+
+
+function validate() {
+    debugger;
+    var OtherExpenseViewModel = new Object();
+    OtherExpenseViewModel.ExpenseRef = $("#ExpenseRef").val();
+    var data = "{'_otherexpenseObj': " + JSON.stringify(OtherExpenseViewModel) + "}";
+    PostDataToServer("OtherExpenses/Validate/", data, function (JsonResult) {
+        debugger;
+        if (JsonResult != '') {
+            switch (JsonResult.Result) {
+                case "OK":
+                    if (JsonResult.Records.Status == 1)
+                    {
+                        debugger;
+
+                        notyConfirm(JsonResult.Records.Message, 'SaveValidatedData();', '', "Yes,Proceed!", 1);
+                        return false;
+                    }
+                    else
+                    {
+                        SaveValidatedData();
+                    }
+                    break;
+                case "ERROR":
+                    notyAlert('error', JsonResult.Message);
+                    break;
+                default:
+                    break;
+            }
+        }
+    });
+}
+
+
+
+function SaveValidatedData() {
+    debugger;
+    $(".cancel").click();
+    setTimeout(function () {
+        $("#btnSaveOtherExpense").trigger('click');
+    }, 1000);
 }
 
 

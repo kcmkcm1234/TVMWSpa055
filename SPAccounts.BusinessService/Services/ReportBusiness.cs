@@ -148,9 +148,11 @@ namespace SPAccounts.BusinessService.Services
                 decimal saledetailsum = saleDetailList.Where(SD => SD.RowType != "T").Sum(SD => SD.BalanceDue);
                 decimal saledetailinvoiceamount = saleDetailList.Where(SD => SD.RowType != "T").Sum(SD => SD.InvoiceAmount);
                 decimal saledetailpaidamount = saleDetailList.Where(SD => SD.RowType != "T").Sum(SD => SD.PaidAmount);
+                decimal saledetailTax = saleDetailList.Where(SS => SS.RowType != "T").Sum(SD => SD.TaxAmount);
                 SaledetailObj.saledetailSum = _commonBusiness.ConvertCurrency(saledetailsum, 2);
                 SaledetailObj.saledetailinvoice = _commonBusiness.ConvertCurrency(saledetailinvoiceamount, 2);
                 SaledetailObj.saledetailpaid = _commonBusiness.ConvertCurrency(saledetailpaidamount, 2);
+                SaledetailObj.saledetailtax = _commonBusiness.ConvertCurrency(saledetailTax, 2);
                 SaledetailObj.saleDetailList = saleDetailList;
             }
             catch (Exception ex)
@@ -182,12 +184,14 @@ namespace SPAccounts.BusinessService.Services
             {
                 saleSummaryList = _reportRepository.GetSaleSummary(FromDate, ToDate, CompanyCode,search,IsInternal,IsTax);
                 decimal salesummarySum = saleSummaryList.Where(SS => SS.RowType != "T").Sum(SS => SS.NetDue);
-                decimal salesummaryinvoice = saleSummaryList.Where(SS => SS.RowType != "T").Sum(SS => SS.Invoiced);
+                decimal salesummaryTax = saleSummaryList.Where(SS => SS.RowType != "T").Sum(SS => SS.TaxAmount);
+                decimal salesummaryinvoice = saleSummaryList.Where(SS => SS.RowType != "T").Sum(SS => SS.Total);
                 decimal salesummarypaid = saleSummaryList.Where(SS => SS.RowType != "T").Sum(SS => SS.Paid);
 
                 saleObj.salesummarySum = _commonBusiness.ConvertCurrency(salesummarySum, 2);
                 saleObj.salesummaryinvoice = _commonBusiness.ConvertCurrency(salesummaryinvoice, 2);
                 saleObj.salesummarypaid = _commonBusiness.ConvertCurrency(salesummarypaid, 2);
+                saleObj.salesummaryTax = _commonBusiness.ConvertCurrency(salesummaryTax, 2);
                 saleObj.saleSummaryList = saleSummaryList;
 
             }

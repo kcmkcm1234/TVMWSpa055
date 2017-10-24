@@ -20,7 +20,7 @@ namespace SPAccounts.RepositoryServices.Services
         }
 
         #region GetAllOtherIncome
-        public List<OtherIncome> GetAllOtherIncome(string IncomeDate,string DefaultDate)
+        public List<OtherIncome> GetAllOtherIncome(string IncomeDate, string DefaultDate)
         {
             List<OtherIncome> otherIncomeList = null;
             try
@@ -35,15 +35,15 @@ namespace SPAccounts.RepositoryServices.Services
                         }
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[GetAllOtherIncome]";
-                        if(!string.IsNullOrEmpty(IncomeDate))
+                        if (!string.IsNullOrEmpty(IncomeDate))
                         {
                             cmd.Parameters.Add("@IncomeDate", SqlDbType.DateTime).Value = DateTime.Parse(IncomeDate);
                         }
-                        if(!string.IsNullOrEmpty(DefaultDate))
+                        if (!string.IsNullOrEmpty(DefaultDate))
                         {
                             cmd.Parameters.Add("@DefaultDate", SqlDbType.Int).Value = Convert.ToInt32(DefaultDate);
                         }
-                        
+
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
@@ -64,15 +64,15 @@ namespace SPAccounts.RepositoryServices.Services
                                         _otherIncomeObj.IncomeRef = (sdr["IncomeRef"].ToString() != "" ? sdr["IncomeRef"].ToString() : _otherIncomeObj.IncomeRef);
                                         _otherIncomeObj.Description = (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : _otherIncomeObj.Description);
                                         _otherIncomeObj.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : _otherIncomeObj.Amount);
-                                        _otherIncomeObj.AccountDesc= (sdr["TypeDesc"].ToString() != "" ? (sdr["TypeDesc"].ToString()) : _otherIncomeObj.AccountDesc);
+                                        _otherIncomeObj.AccountDesc = (sdr["TypeDesc"].ToString() != "" ? (sdr["TypeDesc"].ToString()) : _otherIncomeObj.AccountDesc);
                                         //_otherIncomeObj.TotalAmt = (sdr["totalamt"].ToString() != "" ? decimal.Parse(sdr["totalamt"].ToString()) : _otherIncomeObj.TotalAmt);
 
                                         _otherIncomeObj.IncomeDateFormatted = (sdr["IncomeDate"].ToString() != "" ? DateTime.Parse(sdr["IncomeDate"].ToString()).ToString(s.dateformat) : _otherIncomeObj.IncomeDateFormatted);
 
-                                       
+
                                     }
                                     otherIncomeList.Add(_otherIncomeObj);
-                                   
+
                                 }
                             }
                         }
@@ -159,16 +159,16 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@IncomeDate", SqlDbType.DateTime).Value = _otherIncomeObj.IncomeDateFormatted;
                         cmd.Parameters.Add("@AccountCode", SqlDbType.VarChar, 10).Value = _otherIncomeObj.AccountCode;
-                        cmd.Parameters.Add("@PaymentRcdComanyCode", SqlDbType.VarChar,10).Value = _otherIncomeObj.PaymentRcdComanyCode;
-                        cmd.Parameters.Add("@PaymentMode", SqlDbType.VarChar,10).Value = _otherIncomeObj.PaymentMode;
-                        if(_otherIncomeObj.DepWithdID!=Guid.Empty)
+                        cmd.Parameters.Add("@PaymentRcdComanyCode", SqlDbType.VarChar, 10).Value = _otherIncomeObj.PaymentRcdComanyCode;
+                        cmd.Parameters.Add("@PaymentMode", SqlDbType.VarChar, 10).Value = _otherIncomeObj.PaymentMode;
+                        if (_otherIncomeObj.DepWithdID != Guid.Empty)
                         {
                             cmd.Parameters.Add("@DepWithdID", SqlDbType.UniqueIdentifier).Value = _otherIncomeObj.DepWithdID;
-                        }                       
-                        cmd.Parameters.Add("@BankCode", SqlDbType.VarChar,5).Value = _otherIncomeObj.BankCode;
+                        }
+                        cmd.Parameters.Add("@BankCode", SqlDbType.VarChar, 5).Value = _otherIncomeObj.BankCode;
                         cmd.Parameters.Add("@Refbank", SqlDbType.NVarChar, 50).Value = _otherIncomeObj.ReferenceBank;
-                        cmd.Parameters.Add("@IncomeRef", SqlDbType.VarChar,20).Value = _otherIncomeObj.IncomeRef;
-                        cmd.Parameters.Add("@Description", SqlDbType.NVarChar,-1).Value = _otherIncomeObj.Description;
+                        cmd.Parameters.Add("@IncomeRef", SqlDbType.VarChar, 20).Value = _otherIncomeObj.IncomeRef;
+                        cmd.Parameters.Add("@Description", SqlDbType.NVarChar, -1).Value = _otherIncomeObj.Description;
                         cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = _otherIncomeObj.Amount;
                         cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = _otherIncomeObj.commonObj.CreatedBy;
                         cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = _otherIncomeObj.commonObj.CreatedDate;
@@ -228,11 +228,11 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@AccountCode", SqlDbType.VarChar, 10).Value = _otherIncomeObj.AccountCode;
                         cmd.Parameters.Add("@PaymentRcdComanyCode", SqlDbType.VarChar, 10).Value = _otherIncomeObj.PaymentRcdComanyCode;
                         cmd.Parameters.Add("@PaymentMode", SqlDbType.VarChar, 10).Value = _otherIncomeObj.PaymentMode;
-                        if(_otherIncomeObj.DepWithdID!=Guid.Empty)
+                        if (_otherIncomeObj.DepWithdID != Guid.Empty)
                         {
                             cmd.Parameters.Add("@DepWithdID", SqlDbType.UniqueIdentifier).Value = _otherIncomeObj.DepWithdID;
                         }
-                        
+
                         cmd.Parameters.Add("@BankCode", SqlDbType.VarChar, 5).Value = _otherIncomeObj.BankCode;
                         cmd.Parameters.Add("@Refbank", SqlDbType.NVarChar, 50).Value = _otherIncomeObj.ReferenceBank;
                         cmd.Parameters.Add("@IncomeRef", SqlDbType.VarChar, 20).Value = _otherIncomeObj.IncomeRef;
@@ -324,6 +324,55 @@ namespace SPAccounts.RepositoryServices.Services
             };
         }
         #endregion DeleteOtherIncome
+
+
+
+        #region ValidateRefno
+
+        public object Validate(OtherIncome _otherincome)
+        {
+            AppConst appcust = new AppConst();
+            SqlParameter outputStatus = null;
+            SqlParameter outputStatus1 = null;
+            try
+            {
+
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[ValidateOtherIncome]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ReferenceNo", SqlDbType.VarChar, 20).Value = _otherincome.IncomeRef;
+                        cmd.Parameters.Add("@id", SqlDbType.UniqueIdentifier).Value = _otherincome.ID;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus1 = cmd.Parameters.Add("@message", SqlDbType.VarChar, 100);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        outputStatus1.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+
+                    }
+                }
+
+            }
+
+
+            catch (Exception ex)
+
+            {
+                return new { Message = ex.ToString(), Status = -1 };
+            }
+
+            return new { Message = outputStatus1.Value.ToString(), Status = outputStatus.Value };
+
+        }
+
+        #endregion ValidateRefno
 
     }
 }

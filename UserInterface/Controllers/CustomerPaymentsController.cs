@@ -296,10 +296,6 @@ namespace UserInterface.Controllers
            
                 AppUA _appUA = Session["AppUA"] as AppUA;
                 object result = null;
-            //if (!ModelState.IsValid)
-            //{
-            //    return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "",Status=404 });
-            //}
                 try
 
                 {

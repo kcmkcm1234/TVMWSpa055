@@ -275,5 +275,11 @@ namespace SPAccounts.BusinessService.Services
             }
             return otherExpenseList;
         }
+
+
+        public object Validate(OtherExpense _otherexpenseObj)
+        {
+            return _otherExpenseRepository.Validate(_otherexpenseObj);
+        }
     }
 }
