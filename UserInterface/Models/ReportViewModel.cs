@@ -450,6 +450,10 @@ namespace UserInterface.Models
         public string Remarks { get; set; }
         public string Search { get; set; }
         public string Particulars { get; set; }
+        public string BankCode { get; set; }
+        public List<SelectListItem> CustomerList { get; set; }
+        public BankViewModel bankObj { get; set; }
+        public List<SelectListItem> BanksList { get; set; }
     }
 
     public class CustomerExpeditingReportViewModel

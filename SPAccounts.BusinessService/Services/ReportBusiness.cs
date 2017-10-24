@@ -387,12 +387,12 @@ namespace SPAccounts.BusinessService.Services
             }
             return SupplierPaymentsDetailsList;
         }
-        public List<DailyLedgerReport> GetDailyLedgerDetails(DateTime? FromDate, DateTime? ToDate, DateTime? Date, string MainHead, string search)
+        public List<DailyLedgerReport> GetDailyLedgerDetails(DateTime? FromDate, DateTime? ToDate, DateTime? Date, string MainHead, string search,string Bank)
         {
             List<DailyLedgerReport> dailyLedgerList = null;
             try
             {
-                dailyLedgerList = _reportRepository.GetDailyLedgerDetails(FromDate, ToDate, Date, MainHead, search);
+                dailyLedgerList = _reportRepository.GetDailyLedgerDetails(FromDate, ToDate, Date, MainHead, search,Bank);
 
             }
             catch (Exception ex)

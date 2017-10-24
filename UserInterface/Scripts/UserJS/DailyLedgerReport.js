@@ -67,9 +67,10 @@ function GetDailyLedgerDetails(){
         var ondate = $('.SingleDateFilterDiv').is(":hidden") ? "" : $("#ondate").val();
         var mainHead = $("#MainHead").val();
         var search = $("#Search").val();
+        var bank = $("#BankCode").val();
         if ((IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate)) || IsVaildDateFormat(ondate))
         {
-            var data = { "FromDate": fromdate, "ToDate": todate, "OnDate": ondate, "MainHead": mainHead, "search": search };
+            var data = { "FromDate": fromdate, "ToDate": todate, "OnDate": ondate, "MainHead": mainHead, "search": search, "Bank": bank };
             var ds = {};
             ds = GetDataFromServer("Report/GetDailyLedgerDetails/", data);
             if (ds != '') {

@@ -70,7 +70,7 @@
                 @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @Value = ViewBag.todate, @onchange = "RefreshSupplierPaymentLedgerTable()" })
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6" id="suppliernameddl" style="visibility:hidden;">
             @Html.LabelFor(model => model.SupplierCode, htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
                 @Html.DropDownListFor(model => model.SupplierCode, Model.supplierList, new { @class = "form-control BlockEnter", @id = "supplierCode", @onchange = "OnCallChange()", @multiple = "multiple" })

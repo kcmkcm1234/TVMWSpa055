@@ -1127,7 +1127,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
                         cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
                         cmd.Parameters.Add("@CustomerIDs", SqlDbType.NVarChar,-1).Value = CustomerIDs;
-                        cmd.CommandText = "[Accounts].[RPT_GetCustomerPaymentLedger1]";
+                        cmd.CommandText = "[Accounts].[RPT_GetCustomerPaymentLedger]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
@@ -1224,7 +1224,7 @@ namespace SPAccounts.RepositoryServices.Services
   /// <param name="MainHead"></param>
   /// <param name="search"></param>
   /// <returns></returns>
-        public List<DailyLedgerReport> GetDailyLedgerDetails(DateTime? FromDate, DateTime? ToDate, DateTime? Date, string MainHead, string search)
+        public List<DailyLedgerReport> GetDailyLedgerDetails(DateTime? FromDate, DateTime? ToDate, DateTime? Date, string MainHead, string search,string Bank)
         {
             List<DailyLedgerReport> dailyLedgerList = null;
             try
@@ -1242,6 +1242,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
                         cmd.Parameters.Add("@OnDate", SqlDbType.DateTime).Value = Date;
                         cmd.Parameters.Add("@MainHead", SqlDbType.NVarChar, 50).Value = MainHead != "" ? MainHead : null;
+                        cmd.Parameters.Add("@bank", SqlDbType.NVarChar, 50).Value = Bank != "" ? Bank : null;
                         cmd.Parameters.Add("@Search", SqlDbType.NVarChar, 500).Value = search != "" ? search : null;
                         cmd.CommandText = "[Accounts].[RPT_DailyPaymentLedger]";
                         cmd.CommandType = CommandType.StoredProcedure;
