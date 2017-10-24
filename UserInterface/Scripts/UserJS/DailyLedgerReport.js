@@ -6,6 +6,7 @@ $(document).ready(function () {
     try {
         debugger;
         $("#MainHead").select2();
+      
         DataTables.DailyLedgerTable = $('#dailyLedgerDetailAHTable').DataTable(
             {
                 dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
@@ -109,8 +110,17 @@ function RefreshDailyLedgerDetails() {
 
 
 function OnChangeCall() {
+   
+    if($("#MainHead").val()=='Bank')
+    {
+        $("#BankCode").prop('disabled', false);
+    }
+    else
+    {
+        $("#BankCode").val('ALL');
+        $("#BankCode").prop('disabled', true);
+    }
     RefreshDailyLedgerDetails();
-
 }
 
 
@@ -136,6 +146,7 @@ function Reset() {
     $("#fromdate").val(enddate);
     $("#MainHead").val('All').trigger('change')
     $("#Search").val('').trigger('change')
+    $("#BankCode").val('').trigger('change')
     RefreshDailyLedgerDetails()
 }
 
