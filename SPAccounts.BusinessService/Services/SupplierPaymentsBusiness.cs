@@ -208,5 +208,10 @@ namespace SPAccounts.BusinessService.Services
             }
         }
         #endregion Notification message to Cloud messaging system
+
+        public object Validate(SupplierPayments _supplierpayObj)
+        {
+            return _supplierPaymentsRepository.Validate(_supplierpayObj);
+        }
     }
 }

@@ -13,5 +13,6 @@ namespace SPAccounts.BusinessService.Contracts
         OtherIncome GetOtherIncomeDetails(Guid ID);
         object InsertUpdateOtherIncome(OtherIncome _otherIncomeObj);
         object DeleteOtherIncome(Guid ID, string userName);
+        object Validate(OtherIncome _otherincome);
     }
 }

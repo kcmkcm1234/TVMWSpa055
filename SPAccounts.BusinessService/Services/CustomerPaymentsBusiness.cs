@@ -90,6 +90,11 @@ namespace SPAccounts.BusinessService.Services
             return _customerPaymentsRepository.DeletePayments(PaymentID, UserName);
         }
 
+        public object Validate(CustomerPayments _customerpayObj)
+        {
+            return _customerPaymentsRepository.Validate(_customerpayObj);
+        }
+
         public CustomerPayments GetOutstandingAmountByCustomer(string CustomerID)
         {
             CustomerPayments CustomerPayObj = _customerPaymentsRepository.GetOutstandingAmountByCustomer(CustomerID);

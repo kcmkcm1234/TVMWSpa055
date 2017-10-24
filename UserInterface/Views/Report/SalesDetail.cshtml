@@ -74,7 +74,7 @@
         </div>
 
 
-        <div class="col-md-3">
+        @*<div class="col-md-3">
             <div class="row">
                 <div class="radio">
                     <label>
@@ -89,7 +89,7 @@
                     </label>
                 </div>
             </div>
-        </div>
+        </div>*@
         <div class="col-md-12"><p></p></div>
         <div class="col-md-6">
             <div class="col-md-12">
@@ -149,6 +149,7 @@
         </div>
         <div class="col-md-12 text-right" style="margin-top:-3%">
             <div style="font-size:small">Invoiced Amount: <small><span id="salesdetailsinvoiceamount" style="font-size:small;font-weight:bold"> 0.00</span></small></div>
+            <div style="font-size:small">Tax Amount: <small><span id="salesdetailtax" style="font-size:small;font-weight:bold"> 0.00</span></small></div>
             <div style="font-size:small">Paid Amount: <small><span id="salesdetailspaidamount" style="font-size:small;font-weight:bold"> 0.00</span></small></div>
             <div style="font-size:small">Balance: <small><span id="salesdetailsamount" style="font-size:small;font-weight:bold"> 0.00</span></small></div>
         </div>
@@ -165,7 +166,9 @@
                         <th>Customer Name</th>
                         <th>Date</th>
                         <th>Payment Due Date</th>
-                        <th>Invoice Amount</th>
+                        <th>Invoiced (Excl.Tax)(A)</th>
+                        <th>Tax Amount(B)</th>
+                        <th>Total Amount(A+B)</th>
                         <th>Paid Amount</th>
                         <th>Balance Due</th>
                         <th>Credit</th>

@@ -14,5 +14,6 @@ namespace SPAccounts.RepositoryServices.Contracts
         OtherIncome InsertOtherIncome(OtherIncome _otherIncomeObj);
         object UpdateOtherIncome(OtherIncome _otherIncomeObj);
         object DeleteOtherIncome(Guid ID, string userName);
+        object Validate(OtherIncome _otherincome);
     }
 }

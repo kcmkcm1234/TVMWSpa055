@@ -228,6 +228,8 @@ namespace SPAccounts.RepositoryServices.Services
                                         saleDetail.InvoiceAmount = (sdr["InvoiceAmount"].ToString() != "" ? decimal.Parse(sdr["InvoiceAmount"].ToString()) : saleDetail.InvoiceAmount);
                                         saleDetail.PaidAmount = (sdr["PaidAmount"].ToString() != "" ? decimal.Parse(sdr["PaidAmount"].ToString()) : saleDetail.PaidAmount);
                                         saleDetail.BalanceDue = (sdr["BalanceDue"].ToString() != "" ? decimal.Parse(sdr["BalanceDue"].ToString()) : saleDetail.BalanceDue);
+                                        saleDetail.TaxAmount = (sdr["Tax"].ToString() != "" ? decimal.Parse(sdr["Tax"].ToString()) : saleDetail.TaxAmount);
+                                        saleDetail.Total = (sdr["Total"].ToString() != "" ? decimal.Parse(sdr["Total"].ToString()) : saleDetail.Total);
                                         saleDetail.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : saleDetail.GeneralNotes);
                                         saleDetail.OriginCompany = (sdr["OriginCompany"].ToString() != "" ? sdr["OriginCompany"].ToString() : saleDetail.OriginCompany);
                                         saleDetail.Origin = (sdr["Origin"].ToString() != "" ? sdr["Origin"].ToString() : saleDetail.Origin);
@@ -282,8 +284,9 @@ namespace SPAccounts.RepositoryServices.Services
                                     SaleSummary saleSummary = new SaleSummary();
                                     {
                                         saleSummary.CustomerName = (sdr["CustomerName"].ToString() != "" ? sdr["CustomerName"].ToString() : saleSummary.CustomerName);
-                                        saleSummary.OpeningBalance = (sdr["OpeningBalance"].ToString() != "" ? decimal.Parse(sdr["OpeningBalance"].ToString()) : saleSummary.OpeningBalance);
-                                        saleSummary.Invoiced= (sdr["Invoiced"].ToString() != "" ? decimal.Parse(sdr["Invoiced"].ToString()) : saleSummary.Invoiced);
+                                        saleSummary.Total = (sdr["Total"].ToString() != "" ? decimal.Parse(sdr["Total"].ToString()) : saleSummary.Total);
+                                        saleSummary.TaxAmount = (sdr["TaxAmount"].ToString() != "" ? decimal.Parse(sdr["TaxAmount"].ToString()) : saleSummary.TaxAmount);
+                                        saleSummary.Invoiced= (sdr["Invoice"].ToString() != "" ? decimal.Parse(sdr["Invoice"].ToString()) : saleSummary.Invoiced);
                                         saleSummary.Paid = (sdr["Paid"].ToString() != "" ? decimal.Parse(sdr["Paid"].ToString()) : saleSummary.Paid);
                                         saleSummary.NetDue= (sdr["NetDue"].ToString() != "" ? decimal.Parse(sdr["NetDue"].ToString()) : saleSummary.NetDue);
                                         saleSummary.Credit= (sdr["Credit"].ToString() != "" ? decimal.Parse(sdr["Credit"].ToString()) : saleSummary.Credit);
@@ -1124,7 +1127,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
                         cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
                         cmd.Parameters.Add("@CustomerIDs", SqlDbType.NVarChar,-1).Value = CustomerIDs;
-                        cmd.CommandText = "[Accounts].[RPT_GetCustomerPaymentLedger]";
+                        cmd.CommandText = "[Accounts].[RPT_GetCustomerPaymentLedger1]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {

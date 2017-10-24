@@ -28,6 +28,9 @@ namespace SPAccounts.DataAccessObject.DTO
         public Common commonObj { get; set; }
         public string ChequeDate { get; set; }
         public string creditAmountFormatted { get; set; }
+        public string RefNo { get; set; }
+        public string ReversalRef { get; set; }
+        public decimal ReversableAmount { get; set; }        
 
         public string OpeningBank { get; set; }
         public string OpeningNCBank { get; set; }

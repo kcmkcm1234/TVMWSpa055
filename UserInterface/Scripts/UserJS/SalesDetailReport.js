@@ -15,7 +15,7 @@ $(document).ready(function () {
                  extend: 'excel',
                  exportOptions:
                               {
-                                  columns: [0, 1, 2, 3, 4, 5, 6, 7, 8,10]
+                                  columns: [0, 1, 2, 3, 4, 5, 6, 7, 8,10,11,12,13]
                               }
              }],
              order: [],
@@ -35,6 +35,8 @@ $(document).ready(function () {
                   { "data": "PaymentDueDate", "defaultContent": "<i>-</i>", "width": "10%" },
                
                { "data": "InvoiceAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+                 { "data": "TaxAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+                   { "data": "Total", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                { "data": "PaidAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                { "data": "BalanceDue", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
               { "data": "Credit", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
@@ -43,17 +45,17 @@ $(document).ready(function () {
              { "data": "Origin", "defaultContent": "<i>-</i>" }
 
              ],
-             columnDefs: [{ "targets": [9,7], "visible": false, "searchable": false },
+             columnDefs: [{ "targets": [9,11], "visible": false, "searchable": false },
 
                   { className: "text-left", "targets": [0,1,10] },
                    { className: "text-center", "targets": [2,3] },
-                  { className: "text-right", "targets": [ 4, 5,6,8] }],
+                  { className: "text-right", "targets": [ 4, 5,6,8,7,9] }],
              drawCallback: function (settings) {
                  var api = this.api();
                  var rows = api.rows({ page: 'current' }).nodes();
                  var last = null;
 
-                 api.column(9, { page: 'current' }).data().each(function (group, i) {
+                 api.column(11, { page: 'current' }).data().each(function (group, i) {
                      if (last !== group) {
                          $(rows).eq(i).before('<tr class="group "><td colspan="8" class="rptGrp">' + '<b>Company</b> : ' + group + '</td></tr>');
                          last = group;
@@ -65,9 +67,9 @@ $(document).ready(function () {
         $(".buttons-excel").hide();
         startdate = $("#todate").val();
         enddate = $("#fromdate").val();
-        $('input[name="GroupSelect"]').on('change', function () {
-            RefreshSaleDetailTable();
-        });
+        //$('input[name="GroupSelect"]').on('change', function () {
+        //    RefreshSaleDetailTable();
+        //});
     } catch (x) {
 
         notyAlert('error', x.message);
@@ -99,14 +101,14 @@ function GetSaleDetail() {
         else {
             tax = false;
         }
-        if (companycode === "ALL") {
-            if ($("#all").prop('checked')) {
-                companycode = $("#all").val();
-            }
-            else {
-                companycode = $("#companywise").val();
-            }
-        }
+        //if (companycode === "ALL") {
+        //    if ($("#all").prop('checked')) {
+        //        companycode = $("#all").val();
+        //    }
+        //    else {
+        //        companycode = $("#companywise").val();
+        //    }
+        //}
         if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
             var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "search": search, "IsInternal": internal, "IsTax": tax };
             var ds = {};
@@ -122,6 +124,9 @@ function GetSaleDetail() {
             }
             if (ds.PaidAmount != '') {
                 $("#salesdetailspaidamount").text(ds.PaidAmount);
+            }
+            if (ds.TaxAmount != '') {
+                $("#salesdetailtax").text(ds.TaxAmount);
             }
             if (ds.Result == "OK") {
                 return ds.Records;
@@ -149,19 +154,19 @@ function RefreshSaleDetailTable() {
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
         var companycode = $("#CompanyCode").val();
-        if (companycode === "") {
-            return false;
-        }
+        //if (companycode === "") {
+        //    return false;
+        //}
 
-        if (companycode === "ALL") {
-            $("#all").prop("disabled", false);
-            $("#companywise").prop("disabled", false);
-        }
-        else {
-            $("#all").prop("disabled", true);
-            $("#companywise").prop("disabled", true);
+        //if (companycode === "ALL") {
+        //    $("#all").prop("disabled", false);
+        //    $("#companywise").prop("disabled", false);
+        //}
+        //else {
+        //    $("#all").prop("disabled", true);
+        //    $("#companywise").prop("disabled", true);
 
-        }
+        //}
         if (DataTables.saleDetailReportTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
             DataTables.saleDetailReportTable.clear().rows.add(GetSaleDetail()).draw(false);
         }
@@ -191,7 +196,7 @@ function Reset() {
     $("#fromdate").val(enddate);
     $("#CompanyCode").val('ALL').trigger('change');
     $("#Search").val('').trigger('change');
-    $("#all").prop('checked', true).trigger('change');
+    //$("#all").prop('checked', true).trigger('change');
 }
 
 function OnChangeCall() {

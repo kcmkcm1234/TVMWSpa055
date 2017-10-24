@@ -96,7 +96,7 @@ namespace UserInterface.Controllers
                    DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
                    SaleSummaryViewModel saleObj = Mapper.Map<SaleSummary,SaleSummaryViewModel>(_reportBusiness.GetSaleSummary(FDate, TDate, CompanyCode,search,IsInternal, IsTax));
                    
-                    return JsonConvert.SerializeObject(new { Result = "OK", Records = saleObj.saleSummaryList, TotalAmount = saleObj.salesummarySum, InvoicedAmount = saleObj.salesummaryinvoice, PaidAmount= saleObj.salesummarypaid});
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = saleObj.saleSummaryList, TotalAmount = saleObj.salesummarySum, InvoicedAmount = saleObj.salesummaryinvoice, PaidAmount= saleObj.salesummarypaid,TaxAmount=saleObj.salesummaryTax});
                 
                 }
                 catch(Exception ex)
@@ -120,7 +120,7 @@ namespace UserInterface.Controllers
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
                     SaleDetailReportViewModel SaledetailObj = Mapper.Map<SaleDetailReport,SaleDetailReportViewModel>(_reportBusiness.GetSaleDetail(FDate, TDate, CompanyCode,search,IsInternal,IsTax));
                     
-                    return JsonConvert.SerializeObject(new { Result = "OK", Records = SaledetailObj.saleDetailList, TotalAmount = SaledetailObj.saledetailSum, InvoicedAmount= SaledetailObj.saledetailinvoice, PaidAmount= SaledetailObj.saledetailpaid });
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = SaledetailObj.saleDetailList, TotalAmount = SaledetailObj.saledetailSum, InvoicedAmount= SaledetailObj.saledetailinvoice, PaidAmount= SaledetailObj.saledetailpaid,TaxAmount= SaledetailObj.saledetailtax });
                 }
                 catch (Exception ex)
                 {
@@ -311,12 +311,12 @@ namespace UserInterface.Controllers
                     Value = "ALL",
                     Selected = true
                 });
-                //selectListItem.Add(new SelectListItem
-                //{
-                //    Text = "Company Wise",
-                //    Value = "companywise",
-                //    Selected = false
-                //});
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "Company Wise",
+                    Value = "companywise",
+                    Selected = false
+                });
                 foreach (CompaniesViewModel cvm in otherExpenseDetailsViewModel.companiesList)
                 {
                     selectListItem.Add(new SelectListItem

@@ -27,6 +27,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public string CustomerName { get; set; }
         public decimal OpeningBalance { get; set; }
         public decimal Invoiced { get; set; }
+        public decimal Total { get; set; }
+        public decimal TaxAmount { get; set; }
         public decimal Paid { get; set; }
         public decimal NetDue { get; set; }
         public decimal Credit { get; set; }
@@ -38,6 +40,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string salesummarySum { get; set; }
         public string salesummaryinvoice { get; set; }
         public string salesummarypaid { get; set; }
+        public string salesummaryTax { get; set; }
         public List<SaleSummary> saleSummaryList { get; set; }
     }
 
@@ -55,11 +58,14 @@ namespace SPAccounts.DataAccessObject.DTO
         public string CustomerName { get; set; }
         public decimal Credit { get; set; }
         public string RowType { get; set; }
+        public decimal Total { get; set; }
+        public decimal TaxAmount { get; set; }
         public Boolean IncludeInternal { get; set; }
         public Boolean IncludeTax { get; set; }
         public string saledetailSum { get; set; }
         public string saledetailinvoice { get; set; }
         public string saledetailpaid { get; set; }
+        public string saledetailtax { get; set; }
         public List<SaleDetailReport> saleDetailList { get; set; }
 
     }
