@@ -26,10 +26,13 @@ $(document).ready(function () {
                 
                {
                    "data": "Description", render: function (data, type, row) {
-                       if(row.ReversalRef!="")
+                       if (row.ReversalRef != "" && row.Description!=null)
                            return row.Description + " ( Reversal Of  <label><i><b>Ref# " + row.ReversalRef + "</b></i></label>)"
-                   else
-                       return row.Description
+                       else if (row.ReversalRef != "" && row.Description == null)
+                           return " ( Reversal Of  <label><i><b>Ref# " + row.ReversalRef + "</b></i></label>)"
+                       else
+                           return row.Description
+
                }, "defaultContent": "<i>-</i>"},
                { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                 { "data": "ExpenseDate", "defaultContent": "<i>-</i>" },
@@ -651,7 +654,7 @@ function SearchReference() {
     $("#EmployeeDiv").hide();
     $("#ReFSearchMsg").hide();
     $("#HdfAmountReversal").val();
-   // $("#ReFAmountMsg").hide();
+    $("#Amount").val('');
     try {
         debugger;
         var data = GetReversalReference();
