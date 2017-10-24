@@ -85,6 +85,8 @@ namespace UserInterface.Models
 //For BankWise Balance//
         public string BankName { get; set; }
         public decimal TotalAmount { get; set; }
+
+        public decimal ReversableAmount { get; set; }
     }
 
 

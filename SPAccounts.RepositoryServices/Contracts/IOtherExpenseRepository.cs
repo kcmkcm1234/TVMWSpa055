@@ -10,6 +10,7 @@ namespace SPAccounts.RepositoryServices.Contracts
     public interface IOtherExpenseRepository
     {
         List<OtherExpense> GetAllOtherExpenses();
+        List<OtherExpense> GetReversalReference(string EmpID, string AccountCode, string EmpTypeCode);
         OtherExpense GetOpeningBalance(string OpeningDate);
         OtherExpense InsertOtherExpense(OtherExpense otherExpense);
         OtherExpense UpdateOtherExpense(OtherExpense otherExpense);

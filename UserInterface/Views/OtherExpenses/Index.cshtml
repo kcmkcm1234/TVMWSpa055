@@ -203,6 +203,7 @@
                         {
                             @Html.AntiForgeryToken()
                             @Html.Hidden("BindValue", "", htmlAttributes: new { @class = "", Value = ViewBag.value });
+                            @Html.Hidden("HdfAmountReversal", "", htmlAttributes: new { @class = ""});
 
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
@@ -259,7 +260,7 @@
                                          @Html.DropDownListFor(model => model.EmpID, new List<SelectListItem>(), "-- Select Employee --", new { @class = "form-control BlockEnter", value = -1, @style = "width:100%",@onchange= "SelectEmployeeCompanyOnchange(this)" })
                                          @Html.ValidationMessageFor(model => model.EmpID, "", new { @class = "text-danger" })
                                  </div>
-                                    <span id="btnAddEmployee" title="Add Employee/Other"><img src="~/Content/images/add.png" style="width:12px;cursor:pointer;" onclick="AddEmployee();" /></span>
+                                    <span id="btnAddEmployee" title="Add Employee/Other"><img src="~/Content/images/add.png" style="width:20px;cursor:pointer;" onclick="AddEmployee();" /></span>
 
                              </div>
                                 <div class="col-md-6"></div>
@@ -303,12 +304,39 @@
                                     </div>
                                     <div class="col-md-11">
                                         @{
-                                            @Html.EditorFor(model => model.ReversalRef, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.EditorFor(model => model.ReversalRef, new { htmlAttributes = new { @class = "form-control",@onkeyup="ClearReversalRef()" } })
                                             @Html.ValidationMessageFor(model => model.ReversalRef, "", new { @class = "text-danger" })
                                         }
 
                                     </div>
-                                    <span id="btnAddRef" title="Search Reference"><img src="~/Content/images/searchdefault.png" style="width:12px;cursor:pointer;" onclick="SearchReference();"/></span>
+                                    <span id="btnAddRef" title="Search Reference"><img src="~/Content/images/searchdefault.png" style="width:20px;cursor:pointer;" onclick="SearchReference();"/></span>
+                                </div>
+                                <div class="col-md-6"></div>
+                                <div class="col-md-12">
+                                    <div id="RefSearchDiv" hidden="hidden"  class="addEmp">
+                                        <div class="col-md-11"></div>
+                                        <div class="col-md-1">
+                                            <a class="close" onclick="CancelSearch();" style="padding-top:5px" aria-label="Close"><i style="font-size: 22px;" class="fa fa-times-circle" aria-hidden="true"></i></a>
+                                        </div>
+                                        <div class="col-md-12"> 
+                                            <div id="ReFSearchMsg" class="col-md-12" style="color:red" hidden="hidden">* Select AccountHead/Subtype/Empoyee/other as applicable</div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <h5 style="text-align:left;font-size:16px;position:absolute;padding-top:20px; padding-left:20px">Select Reversal Referances</h5>
+                                            <table id="RefSearchTable" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
+                                                <thead>
+                                                    <tr class="text-center TableHead">
+                                                        <th>Ref. No</th>
+                                                        <th>Description</th>
+                                                        <th>Expense Date</th>
+                                                        <th>Amount</th>
+                                                        <th>Reversable Amount</th>
+                                                        <th>...</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>                                       
+                                    </div>
                                 </div>
                             </div>
 
@@ -391,9 +419,10 @@
                                         <div class="col-md-6">
                                             <div class="col-md-12">
                                                 @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                <div id="ReFAmountMsg" class="col-md-10" style="color:red" hidden="hidden"></div>
                                             </div>
                                             <div class="col-md-11">
-                                                @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter Amount", @id = "Amount", onkeypress = "return isNumber(event)", @onclick = "SelectAllValue(this);" } })
+                                                @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter Amount", @id = "Amount", onkeypress = "return isNumber(event)",onchange="CheckReversableAmount()", @onclick = "SelectAllValue(this);" } })
                                                 @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
