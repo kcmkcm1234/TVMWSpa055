@@ -4,9 +4,14 @@ $(document).ready(function () {
 
     try {
 
+
+        $("#supplierCode").select2({
+            placeholder: "Select a Suppliers..",
+
+        });
         DataTables.PayableAgeingReportTable = $('#PayableAgeingTable').DataTable(
          {
-
+         
              // dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
              dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
              buttons: [{
@@ -60,6 +65,7 @@ $(document).ready(function () {
          });
 
         $(".buttons-excel").hide();
+        $("#ddlSupplier").attr('style', 'visibility:true');
 
     } catch (x) {
         notyAlert('error', x.message);
@@ -72,10 +78,11 @@ function GetPayableAgeingReport() {
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
         var companycode = $("#CompanyCode").val();
+        var supplierids = $("#supplierCode").val();
         if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode };
+            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "SupplierIDs": supplierids };
             var ds = {};
-            ds = GetDataFromServer("Report/GetAccountsPayableAgeingDetails/", data);
+            ds = GetDataFromServerTraditional("Report/GetAccountsPayableAgeingDetails/", data);
             if (ds != '') {
                 ds = JSON.parse(ds);
             }

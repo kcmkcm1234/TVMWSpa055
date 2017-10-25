@@ -878,13 +878,29 @@ namespace UserInterface.Controllers
                 }
             }
             accountsPayableAgeingReportViewModel.CompanyList = selectListItem;
-            return View(accountsPayableAgeingReportViewModel);
+
+            selectListItem = new List<SelectListItem>();
+            List<SuppliersViewModel> supplierList = Mapper.Map<List<Supplier>, List<SuppliersViewModel>>(_supplierBusiness.GetAllSuppliers());
+            if (supplierList != null)
+            {
+                foreach (SuppliersViewModel Supp in supplierList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = Supp.CompanyName,
+                        Value = Supp.ID.ToString(),
+                        Selected = false
+                    });
+                }
+                accountsPayableAgeingReportViewModel.supplierList = selectListItem;
+            }
+                return View(accountsPayableAgeingReportViewModel);
         }
 
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
-        public string GetAccountsPayableAgeingDetails(string FromDate, string ToDate, string CompanyCode)
+        public string GetAccountsPayableAgeingDetails(string FromDate, string ToDate, string CompanyCode,string[] SupplierIDs)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
             {
@@ -892,7 +908,7 @@ namespace UserInterface.Controllers
                 {
                     DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                    List<AccountsPayableAgeingReportViewModel> accountsPayableAgeingReportList = Mapper.Map<List<AccountsPayableAgeingReport>, List<AccountsPayableAgeingReportViewModel>>(_reportBusiness.GetAccountsPayableAgeingReport(FDate, TDate, CompanyCode));
+                    List<AccountsPayableAgeingReportViewModel> accountsPayableAgeingReportList = Mapper.Map<List<AccountsPayableAgeingReport>, List<AccountsPayableAgeingReportViewModel>>(_reportBusiness.GetAccountsPayableAgeingReport(FDate, TDate, CompanyCode, SupplierIDs != null ? String.Join(",", SupplierIDs) : "ALL"));
                     return JsonConvert.SerializeObject(new { Result = "OK", Records = accountsPayableAgeingReportList });
                 }
                 catch (Exception ex)
@@ -935,13 +951,29 @@ namespace UserInterface.Controllers
                 }
             }
             accountsPayableAgeingSummaryReportViewModel.CompanyList = selectListItem;
+
+            selectListItem = new List<SelectListItem>();
+            List<SuppliersViewModel> supplierList = Mapper.Map<List<Supplier>, List<SuppliersViewModel>>(_supplierBusiness.GetAllSuppliers());
+            if (supplierList != null)
+            {
+                foreach (SuppliersViewModel Supp in supplierList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = Supp.CompanyName,
+                        Value = Supp.ID.ToString(),
+                        Selected = false
+                    });
+                }
+                accountsPayableAgeingSummaryReportViewModel.supplierList = selectListItem;
+            }
             return View(accountsPayableAgeingSummaryReportViewModel);
         }
 
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
-        public string GetAccountsPayableAgeingSummary(string FromDate, string ToDate, string CompanyCode)
+        public string GetAccountsPayableAgeingSummary(string FromDate, string ToDate, string CompanyCode, string[] SupplierIDs)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
             {
@@ -949,7 +981,7 @@ namespace UserInterface.Controllers
                 {
                     DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                    List<AccountsPayableAgeingSummaryReportViewModel> accountsPayableAgeingSummaryReportList = Mapper.Map<List<AccountsPayableAgeingSummaryReport>, List<AccountsPayableAgeingSummaryReportViewModel>>(_reportBusiness.GetAccountsPayableAgeingSummaryReport(FDate, TDate, CompanyCode));
+                    List<AccountsPayableAgeingSummaryReportViewModel> accountsPayableAgeingSummaryReportList = Mapper.Map<List<AccountsPayableAgeingSummaryReport>, List<AccountsPayableAgeingSummaryReportViewModel>>(_reportBusiness.GetAccountsPayableAgeingSummaryReport(FDate, TDate, CompanyCode, SupplierIDs != null ? String.Join(",", SupplierIDs) : "ALL"));
                     return JsonConvert.SerializeObject(new { Result = "OK", Records = accountsPayableAgeingSummaryReportList });
                 }
                 catch (Exception ex)
