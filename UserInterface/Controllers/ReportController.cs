@@ -45,6 +45,7 @@ namespace UserInterface.Controllers
             systemReportList = systemReportList != null ? systemReportList.OrderBy(s => s.GroupOrder).ToList() : null;
             return View(systemReportList);
         }
+
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "SalesReport", Mode = "R")]
         public ActionResult SaleSummary()
@@ -171,7 +172,6 @@ namespace UserInterface.Controllers
             return View(saleDetailReportViewModel);
         }
 
-
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "OEReport", Mode = "R")]
         public ActionResult OtherExpenseSummary()
@@ -261,8 +261,6 @@ namespace UserInterface.Controllers
             return View(otherExpenseSummaryReportViewModel);
         }
 
-
-
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "OEReport", Mode = "R")]
         public string GetOtherExpenseSummary(string FromDate, string ToDate, string CompanyCode,string ReportType, string OrderBy,string accounthead, string subtype,string employeeorother,string employeecompany,string search)
@@ -289,8 +287,6 @@ namespace UserInterface.Controllers
             }
             return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
         }
-
-
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "OEReport", Mode = "R")]
@@ -414,8 +410,6 @@ namespace UserInterface.Controllers
             return View();
         }
 
-
-
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "CustomerReport", Mode = "R")]
         public string GetCustomerContactDetails(string search)
@@ -435,7 +429,6 @@ namespace UserInterface.Controllers
          
           
         }
-
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "SalesReport", Mode = "R")]
@@ -475,7 +468,6 @@ namespace UserInterface.Controllers
             return View(salesTransactionLogReportViewModel);
         }
 
-
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "SalesReport", Mode = "R")]
         public string GetsalesTransactionLog(string FromDate, string ToDate, string CompanyCode, string search)
@@ -497,9 +489,6 @@ namespace UserInterface.Controllers
 
             return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
         }
-
-
-
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "PurchaseReport", Mode = "R")]
@@ -561,8 +550,6 @@ namespace UserInterface.Controllers
 
             return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
         }
-
-
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "PurchaseReport", Mode = "R")]
@@ -627,13 +614,13 @@ namespace UserInterface.Controllers
             return View(purchaseDetailReportViewModel);
         }
 
-
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "SupplierReport", Mode = "R")]
         public ActionResult SupplierContactDetails()
         {
             return View();
         }
+
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "SupplierReport", Mode = "R")]
         public string GetSupplierContactDetails(string search)
@@ -648,7 +635,6 @@ namespace UserInterface.Controllers
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
             }
         }
-
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "PurchaseReport", Mode = "R")]
@@ -688,7 +674,6 @@ namespace UserInterface.Controllers
             return View(purchaseTransactionLogReportViewModel);
         }
 
-
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "PurchaseReport", Mode = "R")]
         public string GetPurchaseTransactionLog(string FromDate, string ToDate, string CompanyCode, string search)
@@ -712,6 +697,7 @@ namespace UserInterface.Controllers
             return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
         }
 
+        #region AccountsReceivableAgeingDetails
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
@@ -743,13 +729,30 @@ namespace UserInterface.Controllers
                 }
             }
             accountsReceivableAgeingReportViewModel.CompanyList = selectListItem;
+
+            selectListItem = new List<SelectListItem>();
+            List<CustomerViewModel> customerList = Mapper.Map<List<Customer>, List<CustomerViewModel>>(_customerBusiness.GetAllCustomers());
+            if (customerList != null)
+            {
+                foreach (CustomerViewModel Cust in customerList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = Cust.CompanyName,
+                        Value = Cust.ID.ToString(),
+                        Selected = false
+                    });
+                }
+            }
+
+            accountsReceivableAgeingReportViewModel.customerList = selectListItem;
+
             return View(accountsReceivableAgeingReportViewModel);
         }
 
-
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
-        public string GetAccountsReceivableAgeingDetails(string FromDate, string ToDate, string CompanyCode)
+        public string GetAccountsReceivableAgeingDetails(string FromDate, string ToDate, string CompanyCode, string[] Customerids)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
             {
@@ -763,11 +766,11 @@ namespace UserInterface.Controllers
                     string[] arr = _appUA.RolesCSV.Split(',');
                     if (arr.Contains("SAdmin") || arr.Contains("CEO"))
                     {
-                        accountsReceivableAgeingReportList = Mapper.Map<List<AccountsReceivableAgeingReport>, List<AccountsReceivableAgeingReportViewModel>>(_reportBusiness.GetAccountsReceivableAgeingReportForSA(FDate, TDate, CompanyCode));
+                        accountsReceivableAgeingReportList = Mapper.Map<List<AccountsReceivableAgeingReport>, List<AccountsReceivableAgeingReportViewModel>>(_reportBusiness.GetAccountsReceivableAgeingReportForSA(FDate, TDate, CompanyCode, Customerids != null ? String.Join(",", Customerids) : "ALL"));
                     }
                     else
                     {
-                        accountsReceivableAgeingReportList = Mapper.Map<List<AccountsReceivableAgeingReport>, List<AccountsReceivableAgeingReportViewModel>>(_reportBusiness.GetAccountsReceivableAgeingReport(FDate, TDate, CompanyCode));
+                        accountsReceivableAgeingReportList = Mapper.Map<List<AccountsReceivableAgeingReport>, List<AccountsReceivableAgeingReportViewModel>>(_reportBusiness.GetAccountsReceivableAgeingReport(FDate, TDate, CompanyCode, Customerids != null ? String.Join(",", Customerids) : "ALL"));
                     }
                     return JsonConvert.SerializeObject(new { Result = "OK", Records = accountsReceivableAgeingReportList });
                 }
@@ -779,6 +782,10 @@ namespace UserInterface.Controllers
 
             return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
         }
+
+        #endregion AccountsReceivableAgeingDetails
+
+        #region AccountsReceivableAgeingSummary
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
@@ -810,13 +817,29 @@ namespace UserInterface.Controllers
                 }
             }
             accountsReceivableAgeingSummaryReportViewModel.CompanyList = selectListItem;
+
+            selectListItem = new List<SelectListItem>();
+            List<CustomerViewModel> customerList = Mapper.Map<List<Customer>, List<CustomerViewModel>>(_customerBusiness.GetAllCustomers());
+            if (customerList != null)
+            {
+                foreach (CustomerViewModel Cust in customerList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = Cust.CompanyName,
+                        Value = Cust.ID.ToString(),
+                        Selected = false
+                    });
+                }
+            }
+
+            accountsReceivableAgeingSummaryReportViewModel.customerList = selectListItem;
             return View(accountsReceivableAgeingSummaryReportViewModel);
         }
 
-
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
-        public string GetAccountsReceivableAgeingSummary(string FromDate, string ToDate, string CompanyCode)
+        public string GetAccountsReceivableAgeingSummary(string FromDate, string ToDate, string CompanyCode, string[] Customerids)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
             {
@@ -830,11 +853,11 @@ namespace UserInterface.Controllers
                     string[] arr = _appUA.RolesCSV.Split(',');
                     if (arr.Contains("SAdmin") || arr.Contains("CEO"))
                     {
-                        AccountsReceivableAgeingSummaryList = Mapper.Map<List<AccountsReceivableAgeingSummaryReport>, List<AccountsReceivableAgeingSummaryReportViewModel>>(_reportBusiness.GetAccountsReceivableAgeingSummaryReportForSA(FDate, TDate, CompanyCode));
+                        AccountsReceivableAgeingSummaryList = Mapper.Map<List<AccountsReceivableAgeingSummaryReport>, List<AccountsReceivableAgeingSummaryReportViewModel>>(_reportBusiness.GetAccountsReceivableAgeingSummaryReportForSA(FDate, TDate, CompanyCode, Customerids != null ? String.Join(",", Customerids) : "ALL"));
                     }
                     else
                     {
-                        AccountsReceivableAgeingSummaryList = Mapper.Map<List<AccountsReceivableAgeingSummaryReport>, List<AccountsReceivableAgeingSummaryReportViewModel>>(_reportBusiness.GetAccountsReceivableAgeingSummaryReport(FDate, TDate, CompanyCode));
+                        AccountsReceivableAgeingSummaryList = Mapper.Map<List<AccountsReceivableAgeingSummaryReport>, List<AccountsReceivableAgeingSummaryReportViewModel>>(_reportBusiness.GetAccountsReceivableAgeingSummaryReport(FDate, TDate, CompanyCode, Customerids != null ? String.Join(",", Customerids) : "ALL"));
                     }
                     return JsonConvert.SerializeObject(new { Result = "OK", Records = AccountsReceivableAgeingSummaryList });
                 }
@@ -847,6 +870,9 @@ namespace UserInterface.Controllers
             return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
         }
 
+        #endregion AccountsReceivableAgeingSummary
+
+        #region AccountsPayableAgeingDetails
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
@@ -920,6 +946,9 @@ namespace UserInterface.Controllers
             return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
         }
 
+        #endregion AccountsPayableAgeingDetails
+
+        #region AccountsPayableAgeingSummary
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
@@ -993,7 +1022,9 @@ namespace UserInterface.Controllers
             return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
         }
 
+        #endregion AccountsPayableAgeingSummary
 
+        #region EmployeeExpenseSummary
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "OEReport", Mode = "R")]
@@ -1057,11 +1088,13 @@ namespace UserInterface.Controllers
             return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "EmployeeCode is required" });
         }
 
+        #endregion EmployeeExpenseSummary
+
+
         /// <summary>
         /// To Get Deposit And Withdrawal Details in Report
         /// </summary>
         /// <returns></returns>
-
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "DepositAndWithdrawalDetailReport", Mode = "R")]
         public ActionResult DepositAndWithdrawalDetail()
@@ -1097,7 +1130,6 @@ namespace UserInterface.Controllers
             DWVM.bankObj.BanksList = selectListItem;
             return View(DWVM);
         }
-
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "DepositAndWithdrawalDetailReport", Mode = "R")]
@@ -1243,8 +1275,6 @@ namespace UserInterface.Controllers
         /// To Get Other Income Summary in Report
         /// </summary>
         /// <returns></returns>
-
-
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "OtherIncomeReport", Mode = "R")]
         public ActionResult OtherIncomeSummary()
@@ -1305,8 +1335,6 @@ namespace UserInterface.Controllers
             return View(otherIncomeSummaryReportViewModel);
         }
 
-
-
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "OtherIncomeReport", Mode = "R")]
         public string GetOtherIncomeSummary(string FromDate, string ToDate, string CompanyCode, string accounthead, string search)
@@ -1333,7 +1361,6 @@ namespace UserInterface.Controllers
             }
             return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
         }
-
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "OtherIncomeReport", Mode = "R")]
@@ -1417,7 +1444,6 @@ namespace UserInterface.Controllers
             return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
         }
 
-
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
         public ActionResult CustomerPaymentExpeditingDetails()
@@ -1477,8 +1503,6 @@ namespace UserInterface.Controllers
             //return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "Date is required" });
         }
 
-
-
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "DailyLedgerReport", Mode = "R")]
         public ActionResult DailyLedgerDetails()
@@ -1529,8 +1553,6 @@ namespace UserInterface.Controllers
                 return View(DL);
             
         }
-               
-            
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "DailyLedgerReport", Mode = "R")]
@@ -1549,7 +1571,6 @@ namespace UserInterface.Controllers
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
             }
         }
-
 
         #region ButtonStyling
         [HttpGet]
@@ -1595,6 +1616,5 @@ namespace UserInterface.Controllers
         }
 
         #endregion
-
     }
 }
