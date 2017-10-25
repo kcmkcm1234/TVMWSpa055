@@ -6,6 +6,7 @@ $(document).ready(function () {
     try {
         debugger;
         $("#MainHead").select2();
+      
         DataTables.DailyLedgerTable = $('#dailyLedgerDetailAHTable').DataTable(
             {
                 dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
@@ -67,9 +68,10 @@ function GetDailyLedgerDetails(){
         var ondate = $('.SingleDateFilterDiv').is(":hidden") ? "" : $("#ondate").val();
         var mainHead = $("#MainHead").val();
         var search = $("#Search").val();
+        var bank = $("#BankCode").val();
         if ((IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate)) || IsVaildDateFormat(ondate))
         {
-            var data = { "FromDate": fromdate, "ToDate": todate, "OnDate": ondate, "MainHead": mainHead, "search": search };
+            var data = { "FromDate": fromdate, "ToDate": todate, "OnDate": ondate, "MainHead": mainHead, "search": search, "Bank": bank };
             var ds = {};
             ds = GetDataFromServer("Report/GetDailyLedgerDetails/", data);
             if (ds != '') {
@@ -108,8 +110,17 @@ function RefreshDailyLedgerDetails() {
 
 
 function OnChangeCall() {
+   
+    if($("#MainHead").val()=='Bank')
+    {
+        $("#BankCode").prop('disabled', false);
+    }
+    else
+    {
+        $("#BankCode").val('ALL');
+        $("#BankCode").prop('disabled', true);
+    }
     RefreshDailyLedgerDetails();
-
 }
 
 
@@ -135,6 +146,7 @@ function Reset() {
     $("#fromdate").val(enddate);
     $("#MainHead").val('All').trigger('change')
     $("#Search").val('').trigger('change')
+    $("#BankCode").val('').trigger('change')
     RefreshDailyLedgerDetails()
 }
 

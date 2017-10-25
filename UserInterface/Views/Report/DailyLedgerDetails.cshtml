@@ -98,6 +98,14 @@
                           @Html.ValidationMessageFor(model => model.MainHead, "", new { @class = "text-danger" })
                     </div>
                 </div>
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.BankCode, htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-12">
+                @Html.DropDownListFor(model => model.BankCode,Model.BanksList, new { @class = "form-control BlockEnter", @onchange = "OnChangeCall()", value = -1, style = "padding:4px 12px;", @id = "BankCode" })
+                @Html.ValidationMessageFor(model => model.BankCode, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
 
                 <div class="col-md-8">
                     @Html.LabelFor(model => model.Search, htmlAttributes: new { @class = "control-label", style = "visibility:hidden" })

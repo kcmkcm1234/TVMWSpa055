@@ -82,6 +82,7 @@ $(document).ready(function () {
         $(".buttons-excel").hide();
         startdate = $("#todate").val();
         enddate = $("#fromdate").val();
+        $("#suppliernameddl").attr('style', 'visibility:true');
 
     } catch (x) {
 

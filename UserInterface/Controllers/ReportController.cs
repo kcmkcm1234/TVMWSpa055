@@ -1151,7 +1151,9 @@ namespace UserInterface.Controllers
                 }
 
                 CustomerPayments.customerList = selectListItem;
+             
                 
+                   
             }
             return View(CustomerPayments);
         }
@@ -1481,7 +1483,8 @@ namespace UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject = "DailyLedgerReport", Mode = "R")]
         public ActionResult DailyLedgerDetails()
         {
-            Permission _permission =  Session["UserRights"] as Permission;
+            DailyLedgerReportViewModel DL = new DailyLedgerReportViewModel();
+            Permission _permission = Session["UserRights"] as Permission;
             if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "SingleDateFilter").AccessCode : string.Empty).Contains("R"))
             {
                 ViewBag.DateFilterDisplay = "display:none";
@@ -1492,27 +1495,53 @@ namespace UserInterface.Controllers
             {
                 ViewBag.DateFilterDisplay = "display:block";
                 ViewBag.SingleDateFilterDisplay = "display:none";
-                
+
             }
             DateTime dt = DateTime.Now;
             ViewBag.fromdate = dt.ToString("dd-MMM-yyyy");
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
             ViewBag.ondate = dt.ToString("dd-MMM-yyyy");
-            
-            DailyLedgerReportViewModel dailyLedgerViewModel = new DailyLedgerReportViewModel();
-            return View(dailyLedgerViewModel);
 
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            DL.BanksList = new List<SelectListItem>();
+            List<BankViewModel> BanksList = Mapper.Map<List<Bank>, List<BankViewModel>>(_bankBusiness.GetAllBanks());
+            if (BanksList != null)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "All",
+                    Value = "ALL",
+                    Selected = true
+                });
+
+                foreach (BankViewModel BL in BanksList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = BL.Name,
+                        Value = BL.Code,
+                        Selected = false
+                    });
+                }
+            }
+
+                DL.BanksList= selectListItem;
+                return View(DL);
+            
         }
+               
+            
+
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "DailyLedgerReport", Mode = "R")]
-        public string GetDailyLedgerDetails(string FromDate, string ToDate, string OnDate, string MainHead, string search)
+        public string GetDailyLedgerDetails(string FromDate, string ToDate, string OnDate, string MainHead, string search,string Bank)
         {
             try
             {
                 DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                 DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
                 DateTime? NDate = string.IsNullOrEmpty(OnDate) ? (DateTime?)null : DateTime.Parse(OnDate);
-                List< DailyLedgerReportViewModel > dailyLedgerList = Mapper.Map<List< DailyLedgerReport >, List<DailyLedgerReportViewModel>>(_reportBusiness.GetDailyLedgerDetails(FDate, TDate,NDate,MainHead,search));
+                List< DailyLedgerReportViewModel > dailyLedgerList = Mapper.Map<List< DailyLedgerReport >, List<DailyLedgerReportViewModel>>(_reportBusiness.GetDailyLedgerDetails(FDate, TDate,NDate,MainHead,search,Bank));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = dailyLedgerList });
             }
             catch (Exception ex)

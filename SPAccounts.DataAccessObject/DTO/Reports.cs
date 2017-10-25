@@ -356,7 +356,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string PayMode { get; set; }
         public string Remarks { get; set; }
         public string Particulars { get; set; }
-
+        public List<SaleSummary> BankList { get; set; }
     }
 
     public class CustomerExpeditingReport
