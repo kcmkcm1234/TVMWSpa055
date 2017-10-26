@@ -34,6 +34,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public SupplierPaymentsDetail supplierPaymentsDetailObj { get; set; }
         public Supplier supplierObj { get; set; }
         public Common CommonObj { get; set; }
+        public Companies CompanyObj { get; set; }
         public string DetailXml { get; set; }
         public Guid hdnFileID { get; set; }
         public string OutstandingAmount { get; set; }

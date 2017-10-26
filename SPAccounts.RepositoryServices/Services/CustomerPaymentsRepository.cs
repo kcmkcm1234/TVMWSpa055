@@ -55,7 +55,8 @@ namespace SPAccounts.RepositoryServices.Services
                                         CustPaymentsObj.PaymentMode = (sdr["PaymentMode"].ToString() != "" ? sdr["PaymentMode"].ToString() : CustPaymentsObj.PaymentMode);
                                         CustPaymentsObj.TotalRecdAmt = (sdr["AmountReceived"].ToString() != "" ? Decimal.Parse(sdr["AmountReceived"].ToString()): CustPaymentsObj.TotalRecdAmt);
                                         CustPaymentsObj.AdvanceAmount = (sdr["AdvanceAmount"].ToString() != "" ? Decimal.Parse(sdr["AdvanceAmount"].ToString()) : CustPaymentsObj.AdvanceAmount);
-
+                                        CustPaymentsObj.CompanyObj = new Companies();
+                                        CustPaymentsObj.CompanyObj.Name = sdr["ReceivedTo"].ToString();
                                         CustPaymentsObj.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : CustPaymentsObj.Type);
                                         CustPaymentsObj.CreditNo = (sdr["CRNRefNo"].ToString() != "" ? sdr["CRNRefNo"].ToString() : CustPaymentsObj.CreditNo);
                                         CustPaymentsObj.customerObj = new Customer();

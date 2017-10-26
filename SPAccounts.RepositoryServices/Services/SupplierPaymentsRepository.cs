@@ -56,6 +56,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         PaymentsObj.AdvanceAmount = (sdr["AdvanceAmount"].ToString() != "" ? Decimal.Parse(sdr["AdvanceAmount"].ToString()) : PaymentsObj.AdvanceAmount);
                                         PaymentsObj.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : PaymentsObj.Type);
                                         PaymentsObj.CreditNo = (sdr["CRNRefNo"].ToString() != "" ? sdr["CRNRefNo"].ToString() : PaymentsObj.CreditNo);
+                                        PaymentsObj.GeneralNotes= (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : PaymentsObj.GeneralNotes);
                                         PaymentsObj.ApprovalStatus = (sdr["ApprovalStatus"].ToString() != "" ? Int16.Parse(sdr["ApprovalStatus"].ToString()):PaymentsObj.ApprovalStatus);
                                         PaymentsObj.ApprovalStatusObj = new ApprovalStatus();
                                         PaymentsObj.ApprovalStatusObj.Description = (sdr["StatusDesc"].ToString() != "" ? sdr["StatusDesc"].ToString() : PaymentsObj.ApprovalStatusObj.Description);
@@ -63,6 +64,8 @@ namespace SPAccounts.RepositoryServices.Services
                                         PaymentsObj.supplierObj.CompanyName = (sdr["Supplier"].ToString() != "" ? sdr["Supplier"].ToString() : PaymentsObj.supplierObj.CompanyName);
                                         PaymentsObj.supplierObj.ID = (sdr["SupplierID"].ToString() != "" ? Guid.Parse(sdr["SupplierID"].ToString()) : PaymentsObj.supplierObj.ID);
                                         PaymentsObj.supplierObj.ContactPerson = (sdr["ContactPerson"].ToString() != "" ? sdr["ContactPerson"].ToString() : PaymentsObj.supplierObj.ContactPerson);
+                                        PaymentsObj.CompanyObj = new Companies();
+                                        PaymentsObj.CompanyObj.Name = sdr["PaidFrom"].ToString();
                                     };
                                     SupplierPaylist.Add(PaymentsObj);
                                 }
