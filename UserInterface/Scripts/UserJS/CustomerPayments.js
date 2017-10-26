@@ -39,6 +39,7 @@ $(document).ready(function () {
              { "data": "PaymentRef", "defaultContent": "<i>-</i>" },
              { "data": "customerObj.CompanyName", "defaultContent": "<i>-</i>" },//render customerObj.ContactPerson
              { "data": "PaymentMode", "defaultContent": "<i>-</i>" },
+             { "data": "CompanyObj.Name", "defaultContent": "<i>-</i>" },
              {
                  "data": "Type", "defaultContent": "<i>-</i>", 'render': function (data, type, row) {
                      if (data == 'C') {
@@ -55,9 +56,9 @@ $(document).ready(function () {
              { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink" onclick="Edit(this)"><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
         ],
         columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-            { className: "text-right", "targets": [8, 9] },
-              { className: "text-Left", "targets": [1, 4, 3, 5, 6, 7] },
-            { className: "text-center", "targets": [2,10] } 
+            { className: "text-right", "targets": [9,10] },
+              { className: "text-Left", "targets": [1, 4, 3, 5, 6, 7,8] },
+            { className: "text-center", "targets": [2,11] } 
         ]
     }); 
 }

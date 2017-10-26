@@ -48,8 +48,19 @@ $(document).ready(function () {
                  { "data": "ApprovalStatusObj.Description", "defaultContent": "<i>-</i>" },
                  { "data": "PaymentDateFormatted", "defaultContent": "<i>-</i>" },
                  { "data": "PaymentRef", "defaultContent": "<i>-</i>" },
-                 { "data": "supplierObj.CompanyName", "defaultContent": "<i>-</i>" },//render supplierObj.ContactPerson
+                 {
+                     "data": "supplierObj.CompanyName", "defaultContent": "<i>-</i>", 'render': function (data, type, row) {
+                         debugger;
+                         if (row.GeneralNotes!=null)
+                         if (row.GeneralNotes.length>50)
+                             return  data + '<br/>[ ' + row.GeneralNotes.substring(0, 50) + '.... ]'
+                         else
+                             return  data + '<br/>[ ' + row.GeneralNotes+' ]'
+                         return  data 
+                     }
+                 },//render supplierObj.ContactPerson
                  { "data": "PaymentMode", "defaultContent": "<i>-</i>" },
+                 { "data": "CompanyObj.Name", "defaultContent": "<i>-</i>" },
                  {
                      "data": "Type", "defaultContent": "<i>-</i>", 'render': function (data, type, row) {
                          if (data == 'C') {
@@ -66,9 +77,9 @@ $(document).ready(function () {
                  { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink" onclick="Edit(this)"><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
             ],
             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                { className: "text-right", "targets": [9,10] },
-                 { className: "text-Left", "targets": [2,4, 5, 6, 7,8] },
-                { className: "text-center", "targets": [1, 3,11] }
+                { className: "text-right", "targets": [10,11] },
+                 { className: "text-Left", "targets": [2,4, 5, 6, 7,8,9] },
+                { className: "text-center", "targets": [1, 3,12] }
             ]
         });
         $(".buttons-excel").hide();
