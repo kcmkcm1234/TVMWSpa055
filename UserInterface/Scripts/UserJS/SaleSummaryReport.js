@@ -131,6 +131,9 @@ function GetSaleSummary() {
             if (ds.TaxAmount != '') {
                 $("#salessummarytax").text(ds.TaxAmount);
             }
+            if (ds.Invoiced != '') {
+                $("#salessummaryinvoiced").text(ds.Invoiced);
+            }
             if (ds.Result == "OK") {
                 return ds.Records;
             }

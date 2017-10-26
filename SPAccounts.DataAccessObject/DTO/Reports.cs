@@ -38,7 +38,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public Boolean IncludeInternal { get; set; }
         public Boolean IncludeTax { get; set; }
         public string salesummarySum { get; set; }
-        public string salesummaryinvoice { get; set; }
+        public string salesummaryTotalInvoice { get; set; }
+        public string salesummaryInvoiced { get; set; }
         public string salesummarypaid { get; set; }
         public string salesummaryTax { get; set; }
         public List<SaleSummary> saleSummaryList { get; set; }
@@ -66,6 +67,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string saledetailinvoice { get; set; }
         public string saledetailpaid { get; set; }
         public string saledetailtax { get; set; }
+        public string saledetailtotalinvoiced { get; set; }
         public List<SaleDetailReport> saleDetailList { get; set; }
 
     }
@@ -170,6 +172,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string purchaseDetailSum { get; set; }
         public string purchaseDetailPaid { get; set; }
         public string purchaseDetailInvoice { get; set; }
+        public string purchaseDetailPaymentProcess { get; set; }
         public List<PurchaseDetailReport> purchaseDetailReportList { get; set; }
 
     }
@@ -305,6 +308,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string CustomerCode { get; set; }
         public Guid CustomerID { get; set; }
         public string CustomerName { get; set; }
+        public string CompanyCode { get; set; }
     }
 
 

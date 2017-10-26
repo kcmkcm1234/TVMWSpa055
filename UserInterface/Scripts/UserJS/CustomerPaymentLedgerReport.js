@@ -103,10 +103,11 @@ function GetCustomerPaymentLedger(cur) {
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
         var customerids =(cur!="ALL"? $("#customerCode").val():cur);
-       
-       
+        var company = $("#companyCode").val();
+      
+        
         if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && customerids) {
-            var data = { "FromDate": fromdate, "ToDate": todate, "CustomerIDs": customerids };
+            var data = { "FromDate": fromdate, "ToDate": todate, "CustomerIDs": customerids, "Company": company };
             var ds = {};
             ds = GetDataFromServerTraditional("Report/GetCustomerPaymentLedger/", data);
             if (ds != '') {
@@ -178,6 +179,7 @@ function Reset() {
     $("#todate").val(startdate);
     $("#fromdate").val(enddate);
     $("#customerCode").val('').trigger('change')
+    $("#companyCode").val('ALL');
     DataTables.customerpaymentledgertable.clear().rows.add(GetCustomerPaymentLedger('ALL')).draw(false);
    
 }

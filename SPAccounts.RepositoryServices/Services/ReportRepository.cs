@@ -191,7 +191,7 @@ namespace SPAccounts.RepositoryServices.Services
             return otherExpenseDetailList;
         }
 
-        public List<SaleDetailReport> GetSaleDetail(DateTime? FromDate, DateTime? ToDate, string CompanyCode,string search, Boolean IsInternal,Boolean IsTax)
+        public List<SaleDetailReport> GetSaleDetail(DateTime? FromDate, DateTime? ToDate, string CompanyCode,string search, Boolean IsInternal,Boolean IsTax,Guid Customer)
         {
             List<SaleDetailReport> SaleDetailList = null;
             try
@@ -211,6 +211,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@search", SqlDbType.NVarChar, 250).Value = search != "" ? search : null;
                         cmd.Parameters.Add("@IsInternal", SqlDbType.Bit).Value = IsInternal ;
                         cmd.Parameters.Add("@IsTax", SqlDbType.Bit).Value = IsTax;
+                        cmd.Parameters.Add("@Customercode", SqlDbType.UniqueIdentifier).Value = Customer;
                         cmd.CommandText = "[Accounts].[RPT_GetSalesDetail]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -461,7 +462,7 @@ namespace SPAccounts.RepositoryServices.Services
             return purchaseSummaryReportList;
         }
 
-        public List<PurchaseDetailReport> GetPurchaseDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode,string search,Boolean IsInternal)
+        public List<PurchaseDetailReport> GetPurchaseDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode,string search,Boolean IsInternal, Guid Supplier)
         {
             List<PurchaseDetailReport> purchaseDetailReportList = null;
             try
@@ -480,6 +481,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = CompanyCode;
                         cmd.Parameters.Add("@search", SqlDbType.NVarChar, 250).Value = search != "" ? search : null;
                         cmd.Parameters.Add("@IsInternal", SqlDbType.Bit).Value = IsInternal;
+                        cmd.Parameters.Add("@Suppliercode", SqlDbType.UniqueIdentifier).Value = Supplier;
                         cmd.CommandText = "[Accounts].[RPT_GetPurchaseDetail]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -1110,7 +1112,7 @@ namespace SPAccounts.RepositoryServices.Services
 
 
 
-        public List<CustomerPaymentLedger> GetCustomerPaymentLedger(DateTime? FromDate, DateTime? ToDate, string CustomerIDs)
+        public List<CustomerPaymentLedger> GetCustomerPaymentLedger(DateTime? FromDate, DateTime? ToDate, string CustomerIDs, string Company)
         {
             List<CustomerPaymentLedger> customerpaymentList = null;
             try
@@ -1127,6 +1129,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
                         cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
                         cmd.Parameters.Add("@CustomerIDs", SqlDbType.NVarChar,-1).Value = CustomerIDs;
+                        cmd.Parameters.Add("@Companycode", SqlDbType.NVarChar,50).Value = Company;
                         cmd.CommandText = "[Accounts].[RPT_GetCustomerPaymentLedger]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -1163,7 +1166,7 @@ namespace SPAccounts.RepositoryServices.Services
         }
 
 
-        public List<SupplierPaymentLedger> GetSupplierPaymentLedger(DateTime? FromDate, DateTime? ToDate, string Suppliercode)
+        public List<SupplierPaymentLedger> GetSupplierPaymentLedger(DateTime? FromDate, DateTime? ToDate, string Suppliercode, string Company)
         {
             List<SupplierPaymentLedger> supplierpaymentList = null;
             try
@@ -1180,6 +1183,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
                         cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
                         cmd.Parameters.Add("@SupplierIDs", SqlDbType.NVarChar, -1).Value = Suppliercode;
+                        cmd.Parameters.Add("@Companycode", SqlDbType.NVarChar, -1).Value = Company;
                         cmd.CommandText = "[Accounts].[RPT_GetSupplierPaymentLedger]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())

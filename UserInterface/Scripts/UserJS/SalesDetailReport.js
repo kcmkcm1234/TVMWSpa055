@@ -1,9 +1,10 @@
 ﻿var DataTables = {};
 var startdate = '';
 var enddate = '';
+var emptyGUID = '00000000-0000-0000-0000-000000000000'
 $(document).ready(function () {
     try {
-        $("#CompanyCode").select2({
+        $("#CompanyCode,#CustomerCode").select2({
         });
 
         DataTables.saleDetailReportTable = $('#saleDetailTable').DataTable(
@@ -81,12 +82,22 @@ $(document).ready(function () {
 
 function GetSaleDetail() {
     try {
+        debugger
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
         var companycode = $("#CompanyCode").val();
         var search = $("#Search").val();
         $('#IncludeInternal').attr('checked', false);
         $('#IncludeTax').attr('checked', true);
+        var customer = $("#CustomerCode").val();
+        if (customer =='ALL')
+        {
+            customer = emptyGUID;
+        }
+        else
+        {
+            customer = $("#CustomerCode").val();
+        }
         var internal;
         if ($('#IncludeInternal').prop("checked") == true) {
             internal = true;
@@ -110,7 +121,7 @@ function GetSaleDetail() {
         //    }
         //}
         if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "search": search, "IsInternal": internal, "IsTax": tax };
+            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "search": search, "IsInternal": internal, "IsTax": tax, "Customer": customer };
             var ds = {};
             ds = GetDataFromServer("Report/GetSaleDetail/", data);
             if (ds != '') {
@@ -128,6 +139,10 @@ function GetSaleDetail() {
             if (ds.TaxAmount != '') {
                 $("#salesdetailtax").text(ds.TaxAmount);
             }
+            if (ds.TotalInvoiced != '') {
+                $("#salesdetailInvoiced").text(ds.TotalInvoiced);
+            }
+            
             if (ds.Result == "OK") {
                 return ds.Records;
             }
@@ -157,7 +172,6 @@ function RefreshSaleDetailTable() {
         //if (companycode === "") {
         //    return false;
         //}
-
         //if (companycode === "ALL") {
         //    $("#all").prop("disabled", false);
         //    $("#companywise").prop("disabled", false);
@@ -165,9 +179,8 @@ function RefreshSaleDetailTable() {
         //else {
         //    $("#all").prop("disabled", true);
         //    $("#companywise").prop("disabled", true);
-
         //}
-        if (DataTables.saleDetailReportTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
+        if (DataTables.saleDetailReportTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate)) {
             DataTables.saleDetailReportTable.clear().rows.add(GetSaleDetail()).draw(false);
         }
     }
@@ -196,11 +209,7 @@ function Reset() {
     $("#fromdate").val(enddate);
     $("#CompanyCode").val('ALL').trigger('change');
     $("#Search").val('').trigger('change');
+    $("#CustomerCode").val('ALL').trigger('change');;
     //$("#all").prop('checked', true).trigger('change');
 }
 
-function OnChangeCall() {
-    debugger;
-    RefreshSaleDetailTable();
-
-}

@@ -50,7 +50,7 @@
 </div>
 <div class="form-horizontal">
 
-    <div class="col-md-8" style="margin-top:10px;">
+    <div class="col-md-9" style="margin-top:10px;">
         <div class="col-md-3">
             @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
@@ -73,8 +73,16 @@
 
             </div>
         </div>
-
         <div class="col-md-3">
+            @Html.LabelFor(model => model.SupplierCode, htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-12">
+                @Html.DropDownListFor(model => model.SupplierCode, Model.supplierList, new { @class = "form-control BlockEnter", @onchange = "RefreshPurchaseDetailTable()", value = -1, style = "padding:4px 12px;", @id = "SupplierCode" })
+                @Html.ValidationMessageFor(model => model.SupplierCode, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+
+        @*<div class="col-md-3">
             <div class="row">
                 <div class="radio">
                     <label>
@@ -89,7 +97,7 @@
                     </label>
                 </div>
             </div>
-        </div>
+        </div>*@
 
         <div class="col-md-12"><p></p></div>
         <div class="col-md-6">
@@ -131,7 +139,7 @@
 
 
     </div>
-    <div class="col-md-4" style="min-height:25px">
+    <div class="col-md-3" style="min-height:25px">
         @{
             var data = new { ActionType = "ListWithReset" };
             @Html.Action("ChangeButtonStyle", "Report", data);
@@ -144,9 +152,9 @@
         <div class="col-md-12 text-right" style="margin-top:-3%">
             <div style="font-size:small">Invoiced Amount: <small><span id="purchasedetailsinvoiceamount" style="font-size:small;font-weight:bold"> 0.00</span></small></div>
 
-            <div style="font-size:small">Paid Amount: <small><span id="purchasedetailspaidamount" style="font-size:small;font-weight:bold"> 0.00</span></small></div>
-
-            <div style="font-size:small">Balance: <small><span id="purchasedetailsamount" style="font-size:small;font-weight:bold"> 0.00</span></small></div>
+            <div style="font-size:small">Payment Booked:<small><span id="purchasedetailspaidamount" style="font-size:small;font-weight:bold"> 0.00</span></small></div>
+            <div style="font-size:small">Payment Processed:<small><span id="purchasedetailspaymentprocessed" style="font-size:small;font-weight:bold"> 0.00</span></small></div>
+            <div style="font-size:small">Balance Due: <small><span id="purchasedetailsamount" style="font-size:small;font-weight:bold"> 0.00</span></small></div>
         </div>
     </div>
     <div class="row">
