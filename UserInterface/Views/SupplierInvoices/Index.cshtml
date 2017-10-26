@@ -165,7 +165,9 @@
                                             InvoiceTypeList.Add(new SelectListItem
                                             { Text = "Regular Invoice", Value = "RB", Selected = true });
                                             InvoiceTypeList.Add(new SelectListItem
-                                            { Text = "WB Invoice", Value = "WB" }); 
+                                            { Text = "WB Invoice", Value = "WB" });
+                                            InvoiceTypeList.Add(new SelectListItem
+                                            { Text = "WP Invoice", Value = "WP" });
                                         }
                                         @Html.DropDownListFor(model => model.InvoiceType, InvoiceTypeList, new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "ddlInvoiceType", @onchange = "InvoicesTypeChange();" })
                                     </div> 
