@@ -617,6 +617,7 @@ function validate()
         debugger;
         var SupplierPaymentsViewModel = new Object();
         SupplierPaymentsViewModel.PaymentRef = $("#PaymentRef").val();
+        SupplierPaymentsViewModel.ID = $("#ID").val();
         var data = "{'_supplierpayObj': " + JSON.stringify(SupplierPaymentsViewModel) + "}";
         PostDataToServer("SupplierPayments/Validate/", data, function (JsonResult) {
             debugger;

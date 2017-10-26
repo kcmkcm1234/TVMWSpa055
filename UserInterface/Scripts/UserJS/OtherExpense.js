@@ -283,6 +283,7 @@ function validate() {
     debugger;
     var OtherExpenseViewModel = new Object();
     OtherExpenseViewModel.ExpenseRef = $("#ExpenseRef").val();
+    OtherExpenseViewModel.ID = $("#ID").val();
     var data = "{'_otherexpenseObj': " + JSON.stringify(OtherExpenseViewModel) + "}";
     PostDataToServer("OtherExpenses/Validate/", data, function (JsonResult) {
         debugger;

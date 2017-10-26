@@ -516,6 +516,7 @@ function validate()
     debugger;
     var CustomerPaymentsViewModel = new Object();
     CustomerPaymentsViewModel.PaymentRef = $("#PaymentRef").val();
+    CustomerPaymentsViewModel.ID = $("#ID").val();
     var data = "{'_customerpayObj': "+JSON.stringify(CustomerPaymentsViewModel)+"}";
     PostDataToServer("CustomerPayments/Validate/", data, function (JsonResult) {
         debugger;
