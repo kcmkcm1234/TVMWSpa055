@@ -280,6 +280,9 @@ namespace UserInterface.Models
         public decimal Paid { get; set; }
         public decimal Balance { get; set; }
         public string Group { get; set; }
+        [Display(Name = "Customer")]
+        public string CustomerCode { get; set; }
+        public List<SelectListItem> customerList;
         public List<SelectListItem> CompanyList { get; set; }
         public List<CompaniesViewModel> companiesList;
     }
@@ -296,6 +299,9 @@ namespace UserInterface.Models
         public string ThirtyOneToSixty { get; set; }
         public string SixtyOneToNinety { get; set; }
         public string NinetyOneAndOver { get; set; }
+        [Display(Name = "Customer")]
+        public string CustomerCode { get; set; }
+        public List<SelectListItem> customerList;
         public List<SelectListItem> CompanyList { get; set; }
         public List<CompaniesViewModel> companiesList;
     }
@@ -305,6 +311,8 @@ namespace UserInterface.Models
         [Required(ErrorMessage = "Company required")]
         [Display(Name = "Company")]
         public string CompanyCode { get; set; }
+        [Display(Name = "Supplier")]
+        public string SupplierCode { get; set; }
         public string OriginatedCompany { get; set; }
         public string TransactionDate { get; set; }
         public string DocNo { get; set; }
@@ -315,6 +323,7 @@ namespace UserInterface.Models
         public decimal Paid { get; set; }
         public decimal Balance { get; set; }
         public string Group { get; set; }
+        public List<SelectListItem> supplierList { get; set; }
         public List<SelectListItem> CompanyList { get; set; }
         public List<CompaniesViewModel> companiesList;
     }
@@ -324,6 +333,8 @@ namespace UserInterface.Models
         [Required(ErrorMessage = "Company required")]
         [Display(Name = "Company")]
         public string CompanyCode {get;set;}
+        [Display(Name = "Supplier")]
+        public string SupplierCode { get; set; }
         public string OriginatedCompany {get;set;}
         public string Supplier {get;set;}
         public string Current {get;set;}
@@ -333,7 +344,8 @@ namespace UserInterface.Models
         public string NinetyOneAndOver {get;set;}
         public List<SelectListItem> CompanyList{get;set;}
         public List<CompaniesViewModel> companiesList;
-    }
+        public List<SelectListItem> supplierList { get; set; }
+            }
 
 
 
