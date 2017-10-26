@@ -97,7 +97,7 @@ namespace UserInterface.Controllers
                    DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
                    SaleSummaryViewModel saleObj = Mapper.Map<SaleSummary,SaleSummaryViewModel>(_reportBusiness.GetSaleSummary(FDate, TDate, CompanyCode,search,IsInternal, IsTax));
                    
-                    return JsonConvert.SerializeObject(new { Result = "OK", Records = saleObj.saleSummaryList, TotalAmount = saleObj.salesummarySum, InvoicedAmount = saleObj.salesummaryinvoice, PaidAmount= saleObj.salesummarypaid,TaxAmount=saleObj.salesummaryTax});
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = saleObj.saleSummaryList, TotalAmount = saleObj.salesummarySum, InvoicedAmount = saleObj.salesummaryTotalInvoice, PaidAmount= saleObj.salesummarypaid,TaxAmount=saleObj.salesummaryTax,Invoiced= saleObj.salesummaryInvoiced });
                 
                 }
                 catch(Exception ex)
@@ -111,7 +111,7 @@ namespace UserInterface.Controllers
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "SalesReport", Mode = "R")]
-        public string GetSaleDetail(string FromDate, string ToDate, string CompanyCode,string search, Boolean IsInternal, Boolean IsTax)
+        public string GetSaleDetail(string FromDate, string ToDate, string CompanyCode,string search, Boolean IsInternal, Boolean IsTax,string Customer)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
             {
@@ -119,9 +119,9 @@ namespace UserInterface.Controllers
                 {
                     DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                    SaleDetailReportViewModel SaledetailObj = Mapper.Map<SaleDetailReport,SaleDetailReportViewModel>(_reportBusiness.GetSaleDetail(FDate, TDate, CompanyCode,search,IsInternal,IsTax));
+                    SaleDetailReportViewModel SaledetailObj = Mapper.Map<SaleDetailReport,SaleDetailReportViewModel>(_reportBusiness.GetSaleDetail(FDate, TDate, CompanyCode,search,IsInternal,IsTax, Guid.Parse(Customer)));
                     
-                    return JsonConvert.SerializeObject(new { Result = "OK", Records = SaledetailObj.saleDetailList, TotalAmount = SaledetailObj.saledetailSum, InvoicedAmount= SaledetailObj.saledetailinvoice, PaidAmount= SaledetailObj.saledetailpaid,TaxAmount= SaledetailObj.saledetailtax });
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = SaledetailObj.saleDetailList, TotalAmount = SaledetailObj.saledetailSum, InvoicedAmount= SaledetailObj.saledetailinvoice, PaidAmount= SaledetailObj.saledetailpaid,TaxAmount= SaledetailObj.saledetailtax,TotalInvoiced= SaledetailObj.saledetailtotalinvoiced });
                 }
                 catch (Exception ex)
                 {
@@ -169,6 +169,29 @@ namespace UserInterface.Controllers
             }
 
             saleDetailReportViewModel.CompanyList = selectListItem;
+
+            selectListItem = new List<SelectListItem>();
+            List<CustomerViewModel> customerList = Mapper.Map<List<Customer>, List<CustomerViewModel>>(_customerBusiness.GetAllCustomers());
+            if (customerList != null)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "All",
+                    Value = "ALL",
+                    Selected = true
+                });
+
+                foreach (CustomerViewModel Cust in customerList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = Cust.CompanyName,
+                        Value = Cust.ID.ToString(),
+                        Selected = false
+                    });
+                }
+            }
+            saleDetailReportViewModel.customerList = selectListItem;
             return View(saleDetailReportViewModel);
         }
 
@@ -553,7 +576,7 @@ namespace UserInterface.Controllers
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "PurchaseReport", Mode = "R")]
-        public string GetPurchaseDetails(string FromDate, string ToDate, string CompanyCode, string search, Boolean IsInternal)
+        public string GetPurchaseDetails(string FromDate, string ToDate, string CompanyCode, string search, Boolean IsInternal,string Supplier)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
             {
@@ -561,9 +584,9 @@ namespace UserInterface.Controllers
                 {
                     DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                  PurchaseDetailReportViewModel purchasedetailObj = Mapper.Map<PurchaseDetailReport, PurchaseDetailReportViewModel>(_reportBusiness.GetPurchaseDetails(FDate, TDate, CompanyCode,search,IsInternal));
+                  PurchaseDetailReportViewModel purchasedetailObj = Mapper.Map<PurchaseDetailReport, PurchaseDetailReportViewModel>(_reportBusiness.GetPurchaseDetails(FDate, TDate, CompanyCode,search,IsInternal, Guid.Parse(Supplier)));
                     
-                    return JsonConvert.SerializeObject(new { Result = "OK", Records = purchasedetailObj.purchaseDetailReportList, TotalAmount= purchasedetailObj.purchaseDetailSum, InvoicedAmount = purchasedetailObj.purchaseDetailInvoice, PaidAmount = purchasedetailObj.purchaseDetailPaid });
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = purchasedetailObj.purchaseDetailReportList, TotalAmount= purchasedetailObj.purchaseDetailSum, InvoicedAmount = purchasedetailObj.purchaseDetailInvoice, PaidAmount = purchasedetailObj.purchaseDetailPaid,PaymentProcessed = purchasedetailObj.purchaseDetailPaymentProcess });
                 }
                 catch (Exception ex)
                 {
@@ -611,6 +634,29 @@ namespace UserInterface.Controllers
             }
 
             purchaseDetailReportViewModel.CompanyList = selectListItem;
+
+            selectListItem = new List<SelectListItem>();
+            List<SuppliersViewModel> supplierList = Mapper.Map<List<Supplier>, List<SuppliersViewModel>>(_supplierBusiness.GetAllSuppliers());
+            if (supplierList != null)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "All",
+                    Value = "ALL",
+                    Selected = true
+                });
+
+                foreach (SuppliersViewModel Supp in supplierList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = Supp.CompanyName,
+                        Value = Supp.ID.ToString(),
+                        Selected = false
+                    });
+                }
+            }
+            purchaseDetailReportViewModel.supplierList = selectListItem;
             return View(purchaseDetailReportViewModel);
         }
 
@@ -1181,33 +1227,54 @@ namespace UserInterface.Controllers
                         Selected = false
                     });
                 }
-
-                CustomerPayments.customerList = selectListItem;
-             
-                
-                   
             }
-            return View(CustomerPayments);
+                CustomerPayments.customerList = selectListItem;
+
+                CustomerPayments.CompanyList = new List<SelectListItem>();
+                selectListItem = new List<SelectListItem>();
+                List<CompaniesViewModel> companiesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_otherExpenseBusiness.GetAllCompanies());
+            if (companiesList != null)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "All",
+                    Value = "ALL",
+                    Selected = true
+                });
+
+                foreach (CompaniesViewModel cvm in companiesList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = cvm.Name,
+                        Value = cvm.Code.ToString(),
+                        Selected = false
+                    });
+                }
+            }
+                CustomerPayments.companiesList = selectListItem;
+
+               return View(CustomerPayments);
         }
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "CustomerPaymentLedgerReport", Mode = "R")]
-        public string GetCustomerPaymentLedger(string FromDate, string ToDate, string[] CustomerIDs)
+        public string GetCustomerPaymentLedger(string FromDate, string ToDate, string[] CustomerIDs, string Company)
         {
             //if (!string.IsNullOrEmpty(CustomerCode))
             //{
-                try
-                {
-                    DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
-                    DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                    List<CustomerPaymentLedgerViewModel> customerpaymentledgerList = Mapper.Map<List<CustomerPaymentLedger>, List<CustomerPaymentLedgerViewModel>>(_reportBusiness.GetCustomerPaymentLedger(FDate, TDate, CustomerIDs!=null?String.Join(",", CustomerIDs):"ALL"));
-               
-                    return JsonConvert.SerializeObject(new { Result = "OK", Records = customerpaymentledgerList });
-                }
-                catch (Exception ex)
-                {
-                    return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
-                }
+            try
+            {
+                DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
+                DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
+                List<CustomerPaymentLedgerViewModel> customerpaymentledgerList = Mapper.Map<List<CustomerPaymentLedger>, List<CustomerPaymentLedgerViewModel>>(_reportBusiness.GetCustomerPaymentLedger(FDate, TDate, CustomerIDs != null ? String.Join(",", CustomerIDs) : "ALL", Company));
+
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = customerpaymentledgerList });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+            }
 
             //}
             return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CustomerCode is required" });
@@ -1241,8 +1308,33 @@ namespace UserInterface.Controllers
                         Selected = false
                     });
                 }
-
+            }
                 SupplierPayments.supplierList = selectListItem;
+
+
+                SupplierPayments.CompanyList = new List<SelectListItem>();
+                selectListItem = new List<SelectListItem>();
+                List<CompaniesViewModel> companiesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_otherExpenseBusiness.GetAllCompanies());
+                if (companiesList != null)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = "All",
+                        Value = "ALL",
+                        Selected = true
+                    });
+
+                    foreach (CompaniesViewModel cvm in companiesList)
+                    {
+                        selectListItem.Add(new SelectListItem
+                        {
+                            Text = cvm.Name,
+                            Value = cvm.Code.ToString(),
+                            Selected = false
+                        });
+                    }
+                
+                SupplierPayments.companiesList = selectListItem;
 
             }
             return View(SupplierPayments);
@@ -1250,7 +1342,7 @@ namespace UserInterface.Controllers
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "SupplierPaymentLedgerReport", Mode = "R")]
-        public string GetSupplierPaymentLedger(string FromDate, string ToDate, string[] Suppliercode)
+        public string GetSupplierPaymentLedger(string FromDate, string ToDate, string[] Suppliercode, string Company)
         {
             //if (!string.IsNullOrEmpty(CustomerCode))
             //{
@@ -1258,7 +1350,7 @@ namespace UserInterface.Controllers
             {
                 DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                 DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                List<SupplierPaymentLedgerViewModel> supplierpaymentledgerList = Mapper.Map<List<SupplierPaymentLedger>, List<SupplierPaymentLedgerViewModel>>(_reportBusiness.GetSupplierPaymentLedger(FDate, TDate, Suppliercode!=null? String.Join(",", Suppliercode):"ALL"));
+                List<SupplierPaymentLedgerViewModel> supplierpaymentledgerList = Mapper.Map<List<SupplierPaymentLedger>, List<SupplierPaymentLedgerViewModel>>(_reportBusiness.GetSupplierPaymentLedger(FDate, TDate, Suppliercode!=null? String.Join(",", Suppliercode):"ALL",Company));
 
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = supplierpaymentledgerList });
             }

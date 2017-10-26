@@ -41,7 +41,8 @@ namespace UserInterface.Models
         public List<SelectListItem> CompanyList { get; set; }
         public List<CompaniesViewModel> companiesList;
         public string salesummarySum { get; set; }
-        public string salesummaryinvoice { get; set; }
+        public string salesummaryInvoiced { get; set; }
+        public string salesummaryTotalInvoice { get; set; }
         public string salesummarypaid { get; set; }
         public string salesummaryTax { get; set; }
         public List<SaleSummaryViewModel> saleSummaryList { get; set; }
@@ -51,6 +52,8 @@ namespace UserInterface.Models
         [Required(ErrorMessage = "Company required")]
         [Display(Name = "Company")]
         public string CompanyCode { get; set; }
+        [Display(Name = "Customer")]
+        public string CustomerCode { get; set; }
         public string InvoiceNo { get; set; }
         public string Date { get; set; }
         public string PaymentDueDate { get; set; }
@@ -69,11 +72,13 @@ namespace UserInterface.Models
         public Boolean IncludeInternal { get; set; }
         public Boolean IncludeTax { get; set; }
         public List<SelectListItem> CompanyList { get; set; }
+        public List<SelectListItem> customerList { get; set; }
         public List<CompaniesViewModel> companiesList;
         public string saledetailSum { get; set; }
         public string saledetailinvoice { get; set; }
         public string saledetailpaid { get; set; }
         public string saledetailtax { get; set; }
+        public string saledetailtotalinvoiced { get; set; }
         public List<SaleDetailReportViewModel> saleDetailList { get; set; }
 
     }
@@ -200,6 +205,8 @@ namespace UserInterface.Models
         [Required(ErrorMessage = "Company required")]
         [Display(Name = "Company")]
         public string CompanyCode { get; set; }
+        [Display(Name = "Supplier")]
+        public string SupplierCode { get; set; }
         public string InvoiceNo { get; set; }
         public string Date { get; set; }
         public string PaymentDueDate { get; set; }
@@ -213,6 +220,7 @@ namespace UserInterface.Models
         public string SupplierName { get; set; }
         public decimal Credit { get; set; }
         public List<SelectListItem> CompanyList { get; set; }
+        public List<SelectListItem> supplierList { get; set; }
         public List<CompaniesViewModel> companiesList;
         public string Search { get; set; }
         public string RowType { get; set; }
@@ -221,6 +229,7 @@ namespace UserInterface.Models
         public string purchaseDetailSum { get; set; }
         public string purchaseDetailPaid { get; set; }
         public string purchaseDetailInvoice { get; set; }
+        public string purchaseDetailPaymentProcess { get; set; }
         public List<PurchaseDetailReportViewModel> purchaseDetailReportList { get; set; }
 
     }
@@ -422,11 +431,15 @@ namespace UserInterface.Models
         public decimal Credit { get; set; }
         public decimal Balance { get; set; }
         public List<SelectListItem> customerList { get; set; }
+        public List<SelectListItem> CompanyList { get; set; }
         [Required(ErrorMessage = "Customer required")]
         [Display(Name = "Customer")]
         public string CustomerCode { get; set; }
+        [Display(Name = "Company")]
+        public string CompanyCode { get; set; }
         public Guid CustomerID { get; set; }
         public string CustomerName { get; set; }
+        public List<SelectListItem> companiesList { get; set; }
     }
 
 
@@ -439,12 +452,16 @@ namespace UserInterface.Models
         public decimal Debit { get; set; }
         public decimal Credit { get; set; }
         public decimal Balance { get; set; }
+        public List<SelectListItem> CompanyList { get; set; }
         public List<SelectListItem> supplierList { get; set; }
         [Required(ErrorMessage = "Supplier required")]
         [Display(Name = "Supplier")]
         public string SupplierCode { get; set; }
         public Guid SupplierID { get; set; }
         public string SupplierName { get; set; }
+        [Display(Name = "Company")]
+        public string CompanyCode { get; set; }
+        public List<SelectListItem> companiesList { get; set; }
     }
 
 

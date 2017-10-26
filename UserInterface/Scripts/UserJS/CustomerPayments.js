@@ -167,10 +167,11 @@ if ($('#BindValue').val() != '') {
 });
 
 
-function dashboardBind(ID){
-    ShowModal();
-    ResetForm();
-    FillOtherIncomeDetails(ID);
+function dashboardBind(ID) {
+    debugger;
+    openNav();
+    Resetform();
+    GetCustomerPaymentsByID(ID);
 }
 
 function paymentAmountFocus(event)

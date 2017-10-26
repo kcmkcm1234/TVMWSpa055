@@ -100,10 +100,10 @@ function GetSupplierPaymentLedger(cur) {
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
         var suppliercode = (cur != "ALL" ? $("#supplierCode").val() : cur);
-            
+        var company = $("#companyCode").val();
 
         if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && suppliercode) {
-            var data = { "FromDate": fromdate, "ToDate": todate, "Suppliercode": suppliercode };
+            var data = { "FromDate": fromdate, "ToDate": todate, "Suppliercode": suppliercode,"Company": company };
             var ds = {};
             ds = GetDataFromServerTraditional("Report/GetSupplierPaymentLedger/", data);
             if (ds != '') {
@@ -169,6 +169,7 @@ function Reset() {
     $("#todate").val(startdate);
     $("#fromdate").val(enddate);
     $("#supplierCode").val('').trigger('change')
+    $("#companyCode").val('ALL');
     DataTables.supplierpaymentledgertable.clear().rows.add(GetSupplierPaymentLedger('ALL')).draw(false);
 }
 
