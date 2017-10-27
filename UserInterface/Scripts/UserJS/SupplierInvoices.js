@@ -41,7 +41,14 @@ $(document).ready(function () {
             },
             columns: [
               { "data": "ID" },
-              { "data": "InvoiceNo" },
+              {
+                  "data": "InvoiceNo", render: function (data, type, row) {
+                      debugger;
+                      if (row.InvoiceType=='WP')
+                          return data+' (WP)';
+                      return data;
+                  }
+              },
               { "data": "InvoiceDateFormatted" },
               { "data": "suppliersObj.CompanyName", "defaultContent": "<i>-</i>" },
               { "data": "PaymentDueDateFormatted", "defaultContent": "<i>-</i>" },
