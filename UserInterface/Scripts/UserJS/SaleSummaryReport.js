@@ -69,7 +69,7 @@ $(document).ready(function () {
         ////$('input[name="GroupSelect"]').on('change', function () {
         //    RefreshSaleSummaryTable();
         ////});
-
+        $("#saleTotals").attr('style', 'visibility:true');
        
     } catch (x) {
 

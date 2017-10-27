@@ -68,6 +68,7 @@ $(document).ready(function () {
         //$('input[name="GroupSelect"]').on('change', function () {
         //    RefreshPurchaseDetailTable();
         //});
+        $("#purchasedetailtotals").attr('style', 'visibility:true');
 
     } catch (x) {
 

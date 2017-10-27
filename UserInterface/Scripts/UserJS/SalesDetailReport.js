@@ -71,6 +71,7 @@ $(document).ready(function () {
         //$('input[name="GroupSelect"]').on('change', function () {
         //    RefreshSaleDetailTable();
         //});
+        $("#saledetailtotal").attr('style', 'visibility:true');
     } catch (x) {
 
         notyAlert('error', x.message);

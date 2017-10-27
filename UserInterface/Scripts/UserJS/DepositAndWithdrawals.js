@@ -217,7 +217,10 @@ function FillDepositWithdrawalDetails(ID) {
         else {
             $("#lblPaymentMode").text("Withdrawal Mode");
         }
-        DepositModeOnchange(); 
+        DepositModeOnchange();
+
+        $("#hdnChequeStatus").val(thisItem.ChequeStatus);
+        $("#hdnChequeDate").val(thisItem.ChequeFormatted);
 }
 
 function GetDepositWithdrawalDetailsByID(ID) {
