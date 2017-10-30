@@ -54,6 +54,9 @@
 
 </div>
 
+
+
+
 <div class="col-md-12 ">
     @{
         var data9 = new { Company = "All" };
@@ -67,4 +70,13 @@
 
 </div>
 
-@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jquery")
+<div class="col-md-12 ">
+    @{
+         
+        @Html.Action("InvAgeingSummary", "Dashboard");
+    }
+
+</div>
+
+
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jquery")

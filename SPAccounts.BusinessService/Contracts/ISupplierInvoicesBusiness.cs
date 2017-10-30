@@ -18,5 +18,6 @@ namespace SPAccounts.BusinessService.Contracts
         SupplierSummaryforMobile GetSupplierPurchasesByDateWise(SupplierInvoices SupObj);
         object DeleteSupplierInvoice(Guid ID, string userName);
         SupplierInvoices GetSupplierAdvances(string ID);
+        SupplierInvoiceAgeingSummary GetSupplierInvoicesAgeingSummary();
     }
 }

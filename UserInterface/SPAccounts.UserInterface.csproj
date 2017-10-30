@@ -1760,6 +1760,7 @@
     <Content Include="Views\Report\DailyLedgerDetails.cshtml" />
     <Content Include="Views\Report\CustomerPaymentExpeditingDetails.cshtml" />
     <Content Include="Views\Report\SupplierPaymentExpeditingDetails.cshtml" />
+    <Content Include="Views\Dashboard\_InvAgeingSummary.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
