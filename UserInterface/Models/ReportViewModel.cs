@@ -25,6 +25,7 @@ namespace UserInterface.Models
         [Display(Name = "Company")]
         public string CompanyCode { get; set; }
         public string Search { get; set; }
+        public Guid CustomerID { get; set; }
         public string CustomerName { get; set; }
         public decimal OpeningBalance { get; set; }
         public decimal Invoiced { get; set; }

@@ -132,6 +132,32 @@ namespace UserInterface.Controllers
             return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
         }
 
+        #region GetRPTViewCustomerDetail
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "SalesReport", Mode = "R")]
+        public string GetRPTViewCustomerDetail(string FromDate, string ToDate, string CompanyCode,string Customer)
+        {
+            if (!string.IsNullOrEmpty(CompanyCode))
+            {
+                try
+                {
+                    SaleDetailReportViewModel SaledetailObj = null;
+                    DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
+                    DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
+                    SaledetailObj = Mapper.Map<SaleDetailReport, SaleDetailReportViewModel>(_reportBusiness.GetRPTViewCustomerDetail(FDate, TDate, CompanyCode,Guid.Parse(Customer)));
+
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = SaledetailObj.saleDetailList });
+                }
+                catch (Exception ex)
+                {
+                    return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+                }
+
+            }
+            return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
+        }
+        #endregion GetRPTViewCustomerDetail
+
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "SalesReport", Mode = "R")]
         public ActionResult SalesDetail()
@@ -1681,6 +1707,17 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.PrintBtn.Visible = true;
                     ToolboxViewModelObj.PrintBtn.Text = "Export";
                     ToolboxViewModelObj.PrintBtn.Event = "PrintReport();";
+
+                    break;
+                case "CustDetail":
+                    ToolboxViewModelObj.backbtn.Visible = true;
+                    ToolboxViewModelObj.backbtn.Disable = false;
+                    ToolboxViewModelObj.backbtn.Text = "Back";
+                    ToolboxViewModelObj.backbtn.Event = "closeNav();";
+
+                    //ToolboxViewModelObj.PrintBtn.Visible = true;
+                    //ToolboxViewModelObj.PrintBtn.Text = "Export";
+                    //ToolboxViewModelObj.PrintBtn.Event = "PrintReport();";
 
                     break;
 
