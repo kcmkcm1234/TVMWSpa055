@@ -167,6 +167,23 @@ namespace SPAccounts.BusinessService.Services
             return SaledetailObj;
         }
 
+        public SaleDetailReport GetRPTViewCustomerDetail(DateTime? FromDate, DateTime? ToDate, string CompanyCode,Guid Customer)
+        {
+            SaleDetailReport SaledetailObj = new SaleDetailReport();
+            List<SaleDetailReport> saleDetailList = null;
+            try
+            {
+                saleDetailList = _reportRepository.GetRPTViewCustomerDetail(FromDate, ToDate, CompanyCode,Customer);
+                SaledetailObj.saleDetailList = saleDetailList;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return SaledetailObj;
+        }
+
         public List<SalesTransactionLogReport> GetSalesTransactionLogDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string search)
         {
             List<SalesTransactionLogReport> salesTransactionLogReportList = null;

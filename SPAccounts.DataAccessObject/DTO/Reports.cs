@@ -24,6 +24,7 @@ namespace SPAccounts.DataAccessObject.DTO
 
     public class SaleSummary
     {
+        public Guid CustomerID { get; set; }
         public string CustomerName { get; set; }
         public decimal OpeningBalance { get; set; }
         public decimal Invoiced { get; set; }

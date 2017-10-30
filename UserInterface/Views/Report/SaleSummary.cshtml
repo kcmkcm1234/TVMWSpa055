@@ -51,7 +51,7 @@
     &nbsp;
     &nbsp;
 </div>
-<div class="form-horizontal">
+<div class="form-horizontal" id="main">
 
     <div class="col-md-8" style="margin-top:10px;">
         <div class="col-md-3">
@@ -184,9 +184,51 @@
             </div>
         </div>
 
+</div>
+
+
+<div id="myNav" class="overlay"> 
+    <div class="overlay-content"> 
+        <div class="row" id="OverlayHeader">
+            <div class="col-md-6" style="text-align:left">
+                <span id="lblInvoiceNo" class="SCHeader">Customer Details</span>
+            </div>
+            <div class="col-md-6" id="btnPatchAdd" style="min-height:25px; padding-right:25px;">
+
+                @{
+                    var data1 = new { ActionType = "CustDetail" };
+                    @Html.Action("ChangeButtonStyle", "Report", data1);
+                }
+            </div>
+        </div> 
+        <br />
+        <div class="row tableContainer EntryForms" style="height:550px">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <table id="saleDetailTable" class="table stripe" cellspacing="0" width="100%">
+                        <thead>
+                            <tr class="text-center TableHead">
+                                <th>Invoice No.</th>
+                                <th>Customer Name</th>
+                                <th>Date</th>
+                                <th>Payment Due Date</th>
+                                <th>Invoiced (Excl.Tax)(A)</th>
+                                <th>Tax Amount (B)</th>
+                                <th>Total Amount (C=A+B)</th>
+                                <th>Paid Amount (D)</th>
+                                <th>Balance Due  (C-D)</th>
+                                <th>Credit</th>
+                                <th>General Notes</th>
+                                <th>Originated Company</th>
+                                <th>Originated Company</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>         
+        </div>         
     </div>
-
-
+</div>
 
 
 
