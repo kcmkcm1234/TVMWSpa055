@@ -66,9 +66,6 @@ $(document).ready(function () {
                  });
              }
          });
-
-
-        debugger;
         $(".buttons-excel").hide();
         startdate = $("#todate").val();
         enddate = $("#fromdate").val();
@@ -104,6 +101,10 @@ $(document).ready(function () {
                  { className: "text-right", "targets": [4, 5, 6, 8, 7, 9] }]
         });
         
+        ////$('input[name="GroupSelect"]').on('change', function () {
+        //    RefreshSaleSummaryTable();
+        ////});
+        $("#saleTotals").attr('style', 'visibility:true');
        
     } catch (x) {
 

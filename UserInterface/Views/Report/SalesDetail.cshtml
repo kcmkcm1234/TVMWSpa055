@@ -20,6 +20,8 @@
     .select2-container--default .select2-selection--single .select2-selection__rendered {
         line-height: 20px !important;
     }
+
+   
 </style>
 }
 
@@ -151,17 +153,24 @@
 
     </div>
 
+
     <div class="form-group col-md-12">
-        <div class="col-md-3 text-left">
+        <div class="col-md-8">
         </div>
-        <div class="col-md-12 text-right" style="margin-top:-3%">
-            <div style="font-size:small">Invoiced Amount: <small><span id="salesdetailsinvoiceamount" style="font-size:small;font-weight:bold"> 0.00</span></small></div>
-            <div style="font-size:small">Tax Amount: <small><span id="salesdetailtax" style="font-size:small;font-weight:bold"> 0.00</span></small></div>
-            <div style="font-size:small">Total Invoiced: <small><span id="salesdetailInvoiced" style="font-size:small;font-weight:bold"> 0.00</span></small></div>
-            <div style="font-size:small">Paid Amount: <small><span id="salesdetailspaidamount" style="font-size:small;font-weight:bold"> 0.00</span></small></div>
-            <div style="font-size:small">Balance: <small><span id="salesdetailsamount" style="font-size:small;font-weight:bold"> 0.00</span></small></div>
+        <div id="saledetailtotal" class="col-md-4 box-header figuresummary rounded" style="margin-top:-3%;visibility:hidden">
+            <div class="col-md-6 text-right" style="font-size:small">Invoiced Amount:</div>
+            <div class="col-md-6 text-right"><small><span id="salesdetailsinvoiceamount" style="font-size:small;font-weight:bold"></span></small></div>
+            <div class="col-md-6 text-right" style="font-size:small">Tax Amount:</div>
+            <div class="col-md-6 text-right"><small><span id="salesdetailtax" style="font-size:small;font-weight:bold"></span></small></div>
+            <div class="col-md-6 text-right" style="font-size:small">Total Invoiced:</div>
+            <div class="col-md-6 text-right"> <small><span id="salesdetailInvoiced" style="font-size:small;font-weight:bold"></span></small></div>
+            <div class="col-md-6 text-right" style="font-size:small">Paid Amount:</div>
+            <div class="col-md-6 text-right"><small><span id="salesdetailspaidamount" style="font-size:small;font-weight:bold"></span></small></div>
+            <div class="col-md-6 text-right" style="font-size:small">Balance:</div>
+            <div class="col-md-6 text-right"><small><span id="salesdetailsamount" style="font-size:small;font-weight:bold"></span></small></div>
         </div>
     </div>
+
     <div class="row">
         &nbsp;
     </div>

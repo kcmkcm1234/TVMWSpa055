@@ -38,6 +38,8 @@ namespace UserInterface.Models
         public string DepositRowValues { get; set; }
         public List<DepositAndWithdrwalViewModel> CheckedRows { get; set; }
         public string DepositMode { get; set; }
+        public string hdnChequeStatus { get; set; }
+        public string hdnChequeDate { get;set;}
         [Display(Name = "Cheque Status")]
         [Required(ErrorMessage = "Cheque Status is missing")]
         public string ChequeStatus { get; set; }

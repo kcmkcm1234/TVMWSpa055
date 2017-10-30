@@ -145,6 +145,16 @@ namespace UserInterface.Controllers
                     _depositAndWithdrwalObj.CheckedRows = _depositAndWithdrwalObj.CheckedRows == null ? null : _depositAndWithdrwalObj.CheckedRows.Select(x => { x.CommonObj = new CommonViewModel { CreatedBy = _appUA.UserName, CreatedDate = _appUA.DateTime };return x;}).ToList();
                   
                 }
+                //Author:Praveena M S
+                //While updating bank ,hidden field values 'Status and ChequeClearDate' are taken and assigned to ChequeClearDate and ChequeStatus for avoiding null entries......
+                if (_depositAndWithdrwalObj.hdnChequeStatus == "Cleared")
+                {
+                    if (_depositAndWithdrwalObj.ChequeClearDate == null && _depositAndWithdrwalObj.ChequeStatus == null)
+                    {
+                        _depositAndWithdrwalObj.ChequeClearDate = _depositAndWithdrwalObj.hdnChequeDate;
+                        _depositAndWithdrwalObj.ChequeStatus = _depositAndWithdrwalObj.hdnChequeStatus;
+                    }
+                }
                 result = _depositAndWithdrawalsBusiness.InsertUpdateDepositAndWithdrawals(Mapper.Map<DepositAndWithdrwalViewModel, DepositAndWithdrawals>(_depositAndWithdrwalObj));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
 

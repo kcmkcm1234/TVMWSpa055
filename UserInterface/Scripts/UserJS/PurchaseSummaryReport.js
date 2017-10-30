@@ -61,6 +61,7 @@ $(document).ready(function () {
         $('input[name="GroupSelect"]').on('change', function () {
             RefreshPurchaseSummaryTable();
         });
+        $("#purchasesummarytotals").attr('style', 'visibility:true');
     } catch (x) {
 
         notyAlert('error', x.message);

@@ -227,7 +227,8 @@
 
                             {
                                 @Html.AntiForgeryToken()
-
+                                @Html.HiddenFor(model => model.hdnChequeStatus)
+                                @Html.HiddenFor(model => model.hdnChequeDate)
                                 @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "", Value = "0" })
                                 @Html.HiddenFor(model => model.DepositRowValues, htmlAttributes: new { @class = "", Value = "0" })
 
