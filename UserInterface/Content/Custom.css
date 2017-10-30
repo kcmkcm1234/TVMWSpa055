@@ -808,3 +808,13 @@ margin:20px;
          background-color: rgba(148, 78, 132, 0.16);;
          border-radius: 10px;
     }
+
+
+.border-bottom {
+    border-bottom:1px solid #f4f4f4;
+    
+}
+
+.description-block > .description-text {
+     text-transform: capitalize!important;
+}

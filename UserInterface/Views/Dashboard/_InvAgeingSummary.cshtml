@@ -4,13 +4,13 @@
     <div class="box box-widget widget-user">
         <!-- Add the bg color to the header using any of the bg-* classes -->
         <div class="widget-user-header bg-yellow-active" style="height:80px" >
-            <h5 class="widget-user-username" style="font-size:20px">Customer Invoice Due Summary</h5>
+            <h5 class="widget-user-username" style="font-size:20px">Customer Invoices Due </h5>
             <h5 class="widget-user-desc">Number of invoices on Due  </h5>
         </div>
        
         <div class="box-footer">
             <div class="row">
-                <div class="col-sm-4 border-right">
+                <div class="col-sm-4 border-right border-bottom">
                     <div class="description-block">
                         <h5 class="description-header">@Model.CustInvAgeSummary.ThisWeek</h5>
                         <span class="description-text">Coming Week</span>
@@ -18,7 +18,7 @@
                     <!-- /.description-block -->
                 </div>
                 <!-- /.col -->
-                <div class="col-sm-4 border-right">
+                <div class="col-sm-4 border-right border-bottom">
                     <div class="description-block">
                         <h5 class="description-header">@Model.CustInvAgeSummary.Todays</h5>
                         <span class="description-text">Today</span>
@@ -26,8 +26,8 @@
                     <!-- /.description-block -->
                 </div>
                 <!-- /.col -->
-                <div class="col-sm-4">
-                    <div class="description-block">
+                <div class="col-sm-4 border-bottom">
+                    <div class="description-block  ">
                         <h5 class="description-header">@Model.CustInvAgeSummary.Count1To30</h5>
                         <span class="description-text">1-30 Days</span>
                     </div>
@@ -76,13 +76,13 @@
     <div class="box box-widget widget-user" >
         <!-- Add the bg color to the header using any of the bg-* classes -->
         <div class="widget-user-header bg-green-active" style="height:80px">
-            <h5 class="widget-user-username" style="font-size:20px">Supplier Invoice Due Summary</h5>
+            <h5 class="widget-user-username" style="font-size:20px">Supplier Invoices Due </h5>
             <h5 class="widget-user-desc">Number of invoices on Due  </h5>
         </div>
 
         <div class="box-footer">
             <div class="row">
-                <div class="col-sm-4 border-right">
+                <div class="col-sm-4 border-right border-bottom">
                     <div class="description-block">
                         <h5 class="description-header">@Model.SuppInvAgeSummary.ThisWeek  </h5>
                         <span class="description-text">Coming Week </span>
@@ -90,7 +90,7 @@
                     <!-- /.description-block -->
                 </div>
                 <!-- /.col -->
-                <div class="col-sm-4 border-right">
+                <div class="col-sm-4 border-right border-bottom">
                     <div class="description-block">
                         <h5 class="description-header">@Model.SuppInvAgeSummary.Todays</h5>
                         <span class="description-text">Today</span>
@@ -98,7 +98,7 @@
                     <!-- /.description-block -->
                 </div>
                 <!-- /.col -->
-                <div class="col-sm-4">
+                <div class="col-sm-4 border-bottom">
                     <div class="description-block">
                         <h5 class="description-header">@Model.SuppInvAgeSummary.Count1To30</h5>
                         <span class="description-text">1-30 Days</span>
