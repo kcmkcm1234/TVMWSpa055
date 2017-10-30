@@ -150,6 +150,12 @@ namespace UserInterface.Models
         public string Amount { get; set; }
         public string duration { get; set; }
     }
+
+    public class InvoiceAgeingSummary {
+
+        public CustomerInvoiceAgeingSummaryViewModel CustInvAgeSummary { get; set; }
+        public SupplierInvoiceAgeingSummaryViewModel SuppInvAgeSummary { get; set; }
+    }
 }
 
 

@@ -95,4 +95,16 @@ namespace SPAccounts.DataAccessObject.DTO
        
 
     }
+
+    public class CustomerInvoiceAgeingSummary
+    {
+       public int total;
+        public int Todays;
+        public int Count1To30;
+        public int Count31To60;
+        public int Count61To90;
+        public int Count91Above;
+
+
+    }
 }

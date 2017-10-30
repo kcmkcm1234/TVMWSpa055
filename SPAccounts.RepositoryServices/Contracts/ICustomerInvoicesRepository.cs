@@ -27,5 +27,6 @@ namespace SPAccounts.RepositoryServices.Contracts
         CustomerInvoice InsertSpecialPayments(CustomerInvoice _customerInvoicesObj, AppUA ua);
         CustomerInvoice UpdateSpecialPayments(CustomerInvoice _customerInvoicesObj, AppUA ua);
         object DeleteSpecialPayments(Guid ID);
+        CustomerInvoiceAgeingSummary GetCustomerInvoicesAgeingSummary();
     }
 }
