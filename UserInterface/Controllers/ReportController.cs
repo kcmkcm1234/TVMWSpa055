@@ -623,6 +623,33 @@ namespace UserInterface.Controllers
             return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
         }
 
+        
+        #region GetRPTViewPurchaseDetail
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "SalesReport", Mode = "R")]
+        public string GetRPTViewPurchaseDetail(string FromDate, string ToDate, string CompanyCode, string Supplier)
+        {
+            if (!string.IsNullOrEmpty(CompanyCode))
+            {
+                try
+                {
+                    PurchaseDetailReportViewModel detailObj = null;
+                    DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
+                    DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
+                    detailObj = Mapper.Map<PurchaseDetailReport, PurchaseDetailReportViewModel>(_reportBusiness.GetRPTViewPurchaseDetail(FDate, TDate, CompanyCode, Guid.Parse(Supplier)));
+
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = detailObj.purchaseDetailReportList });
+                }
+                catch (Exception ex)
+                {
+                    return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+                }
+
+            }
+            return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
+        }
+        #endregion GetRPTViewPurchaseDetail
+
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "PurchaseReport", Mode = "R")]
         public ActionResult PurchaseDetails()

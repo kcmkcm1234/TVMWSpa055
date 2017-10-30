@@ -179,6 +179,7 @@ namespace UserInterface.Models
         [Required(ErrorMessage = "Company required")]
         [Display(Name = "Company")]
         public string CompanyCode { get; set; }
+        public Guid SupplierID { get; set; }
         public string SupplierName { get; set; }
         public decimal OpeningBalance { get; set; }
         public decimal Invoiced { get; set; }
