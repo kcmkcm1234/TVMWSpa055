@@ -104,6 +104,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public int Count31To60;
         public int Count61To90;
         public int Count91Above;
+        public int ThisWeek;
 
 
     }
