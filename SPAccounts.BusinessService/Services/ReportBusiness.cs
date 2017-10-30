@@ -125,6 +125,23 @@ namespace SPAccounts.BusinessService.Services
             return PurchaseObj;
         }
 
+        public PurchaseDetailReport GetRPTViewPurchaseDetail(DateTime? FromDate, DateTime? ToDate, string CompanyCode, Guid SupplierID)
+        {
+            PurchaseDetailReport detailObj = new PurchaseDetailReport();
+            List<PurchaseDetailReport> DetailList = null;
+            try
+            {
+                DetailList = _reportRepository.GetRPTViewPurchaseDetail(FromDate, ToDate, CompanyCode, SupplierID);
+                detailObj.purchaseDetailReportList = DetailList;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return detailObj;
+        }
+
         public List<PurchaseTransactionLogReport> GetPurchaseTransactionLogDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string search)
         {
             List<PurchaseTransactionLogReport> purchaseTransactionLogReportList = null;
@@ -458,5 +475,7 @@ namespace SPAccounts.BusinessService.Services
             }
             return SupplierExpeditingList;
         }
+
+        
     }
 }
