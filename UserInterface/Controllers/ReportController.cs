@@ -23,7 +23,8 @@ namespace UserInterface.Controllers
         IEmployeeBusiness _employeeBusiness;
         IOtherExpenseBusiness _otherExpenseBusiness;
         ICommonBusiness _commonBusiness;
-        public ReportController(IReportBusiness reportBusiness, ICompaniesBusiness companiesBusiness,IEmployeeBusiness employeeBusiness, IOtherExpenseBusiness otherExpenseBusiness, ICommonBusiness commonBusiness, IBankBusiness bankbusiness, ICustomerBusiness customerBusiness, ISupplierBusiness supplierBusiness)
+        SecurityFilter.ToolBarAccess _tool;
+        public ReportController(IReportBusiness reportBusiness, ICompaniesBusiness companiesBusiness,IEmployeeBusiness employeeBusiness, IOtherExpenseBusiness otherExpenseBusiness, ICommonBusiness commonBusiness, IBankBusiness bankbusiness, ICustomerBusiness customerBusiness, ISupplierBusiness supplierBusiness, SecurityFilter.ToolBarAccess tool)
         {
             _reportBusiness = reportBusiness;
             _supplierBusiness = supplierBusiness;
@@ -33,6 +34,7 @@ namespace UserInterface.Controllers
             _commonBusiness = commonBusiness;
             _bankBusiness = bankbusiness;
             _customerBusiness = customerBusiness;
+            _tool = tool;
 
         }
         // GET: Report
@@ -1695,6 +1697,8 @@ namespace UserInterface.Controllers
         public ActionResult ChangeButtonStyle(string ActionType)
         {
             ToolboxViewModel ToolboxViewModelObj = new ToolboxViewModel();
+            Permission _permission = Session["UserRights"] as Permission;
+
             switch (ActionType)
             {
                 case "List":
@@ -1707,7 +1711,8 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.PrintBtn.Visible = true;
                     ToolboxViewModelObj.PrintBtn.Text = "Export";
                     ToolboxViewModelObj.PrintBtn.Event = "PrintReport();";
-
+                   
+                    ToolboxViewModelObj = _tool.SetToolbarAccess(ToolboxViewModelObj, _permission);
                     break;
                 case "CustDetail":
                     ToolboxViewModelObj.backbtn.Visible = true;
@@ -1719,6 +1724,8 @@ namespace UserInterface.Controllers
                     //ToolboxViewModelObj.PrintBtn.Text = "Export";
                     //ToolboxViewModelObj.PrintBtn.Event = "PrintReport();";
 
+                   
+                    ToolboxViewModelObj = _tool.SetToolbarAccess(ToolboxViewModelObj, _permission);
                     break;
 
                 case "ListWithReset":
@@ -1735,6 +1742,9 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.resetbtn.Visible = true;
                     ToolboxViewModelObj.resetbtn.Text = "Reset";
                     ToolboxViewModelObj.resetbtn.Event = "Reset();";
+
+                   
+                    ToolboxViewModelObj = _tool.SetToolbarAccess(ToolboxViewModelObj, _permission);
 
                     break;
 

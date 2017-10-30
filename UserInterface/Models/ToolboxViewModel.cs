@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 
 namespace UserInterface.Models
@@ -21,6 +22,40 @@ namespace UserInterface.Models
         public ToolBoxStructure ClearBtn;
         public ToolBoxStructure NotyBtn;
         public ToolBoxStructure PayBtn;
+
+        public ToolboxViewModel()
+        {
+            backbtn.SecurityObject = "ButtonBack";
+            addbtn.SecurityObject = "ButtonAdd";
+            savebtn.SecurityObject = "ButtonSave";
+            deletebtn.SecurityObject = "ButtonDelete";
+            resetbtn.SecurityObject = "ButtonReset";
+            returnBtn.SecurityObject = "ButtonReturn";
+            calculateBtn.SecurityObject = "ButtonCalculate";
+            CloseBtn.SecurityObject = "ButtonClose";
+            PrintBtn.SecurityObject = "ButtonPrint";
+            DepositBtn.SecurityObject = "ButtonDeposit";
+            WithdrawBtn.SecurityObject = "ButtonWithdraw";
+            ClearBtn.SecurityObject = "ButtonClear";
+            NotyBtn.SecurityObject = "ButtonNoty";
+            PayBtn.SecurityObject = "ButtonPay";
+
+            backbtn.HasAccess = true;
+            addbtn.HasAccess = true;
+            savebtn.HasAccess = true;
+            deletebtn.HasAccess = true;
+            resetbtn.HasAccess = true;
+            returnBtn.HasAccess = true;
+            calculateBtn.HasAccess = true;
+            CloseBtn.HasAccess = true;
+            PrintBtn.HasAccess = true;
+            DepositBtn.HasAccess = true;
+            WithdrawBtn.HasAccess = true;
+            ClearBtn.HasAccess = true;
+            NotyBtn.HasAccess = true;
+            PayBtn.HasAccess = true;
+        }
+
     }
 
     public struct ToolBoxStructure
@@ -31,6 +66,13 @@ namespace UserInterface.Models
         public string DisableReason { get; set; }
         public bool Visible { get; set; }
         public bool Disable { get; set; }
+        public bool HasAccess { get; set; }
+        public string SecurityObject { get; set; }
+
+        public static explicit operator ToolBoxStructure(PropertyInfo v)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class ToolBox
@@ -39,4 +81,6 @@ namespace UserInterface.Models
         public string Action { get; set; }
         public string ViewModel { get; set; }
     }
+
+    
 }
