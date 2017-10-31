@@ -82,17 +82,18 @@ $(document).ready(function () {
              { "data": "ID" },
              { "data": "Checkbox", "defaultContent": "" },
              { "data": "DateFormatted", "defaultContent": "<i>-</i>" },
-              { "data": "ChequeDate", "defaultContent": "<i>-</i>" },
+             { "data": "ChequeDate", "defaultContent": "<i>-</i>" },
+             { "data": "CustomerName", "defaultContent": "<i>-</i>" },
              { "data": "ReferenceNo", "defaultContent": "<i>-</i>" },
              { "data": "BankName", "defaultContent": "<i>-</i>" },
-             { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+             { "data": "Amount", render: function (data, type, row) { debugger; return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
              { "data": null, "orderable": false, "defaultContent": '<a href="#" title="Edit Deposit" class="actionLink"  onclick="EditDeposit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
            ],
            columnDefs: [{ "targets": [0], "visible": false, "searchable": false }, { orderable: false, className: 'select-checkbox', targets: 1 },
-               { orderable: false, "visible": false, targets: 7 },
+               { orderable: false, "visible": false, targets: [8] },
                 { className: "text-right", "targets": [6] },
                   { className: "text-left", "targets": [] },
-           { className: "text-center", "targets": [1, 2, 3, 4,6] }
+           { className: "text-center", "targets": [1, 2, 3, 4,6,7] }
           
 
            ],
@@ -199,10 +200,11 @@ function ChequeStatusModeOnchange()
 function FillDepositWithdrawalDetails(ID) {
     var thisItem = GetDepositWithdrawalDetailsByID(ID); //Binding Data
     //Hidden
-    debugger; 
+        debugger; 
         $("#ID").val(thisItem.ID);
         $("#TransactionType").val(thisItem.TransactionType);
         $("#ReferenceNo").val(thisItem.ReferenceNo);
+        $("#customerCode").val(thisItem.CustomerID);
         $("#Date").val(thisItem.DateFormatted);
         $("#ChequeClearDate").val(thisItem.ChequeFormatted);
         $("#Amount").val(roundoff(thisItem.Amount));
@@ -211,6 +213,14 @@ function FillDepositWithdrawalDetails(ID) {
         $("#ChequeStatus").val(thisItem.ChequeStatus);
         $("#PaymentMode").val(thisItem.PaymentMode);
         $("#PaymentMode").prop('disabled', true);
+    //Hiding customerid when transaction type is withdrawal
+        if (thisItem.TransactionType === "W") {
+            $("#customerid").hide();
+        }
+        else
+        {
+            $("#customerid").show();
+        }
         if (thisItem.TransactionType == "D") {
             $("#lblPaymentMode").text("Deposit Mode");
         }
@@ -262,6 +272,7 @@ function ClearFields() {
     $("#TransactionType").val("");
     $("#ReferenceNo").val("");
     $("#Date").val("");
+    $("#customerCode").val("")
     $("#ChequeClearDate").val("");
     $("#Amount").val("");
     $("#BankCode").val("");
@@ -389,7 +400,7 @@ function ShowDepositModal() {
     BindDepositWithdrawals('D', "");
     $('a[href="#DepositwithdrawalList"]').click();
     $("#btnCheque").css('display', 'none');
-    $('#tblDepositwithdrawalList tbody td:nth-child(7) ').show();
+    $('#tblDepositwithdrawalList tbody td:nth-child(8) ').show();
     $("#editRow").show();
     $('#tblDepositwithdrawalList tbody td:nth-child(1) ').show();
     $("#editCheckBox").show();
@@ -406,6 +417,7 @@ function ShowDepositModal() {
     $("#lblBankDiv").css('display', '');
     $("#BankCode").val("");
     $("#lblPaymentMode").text("Deposit Mode");
+    $("#customerid").show();
 }
 
 function ShowDepositEdit()
@@ -533,7 +545,7 @@ function ShowWithDrawal()
     BindDepositWithdrawals('W', "");
     $('a[href="#DepositwithdrawalEntry"]').click();
     $("#btnCheque").css('display', 'none');
-    $('#tblDepositwithdrawalList tbody td:nth-child(7) ').hide();
+    $('#tblDepositwithdrawalList tbody td:nth-child(8) ').hide();
     $("#editRow").hide();
     $('#tblDepositwithdrawalList tbody td:nth-child(1) ').hide();
     $("#editCheckBox").hide();
@@ -543,6 +555,7 @@ function ShowWithDrawal()
     $("#lblBankCode").text("Withdrawal From");
     $("#lblBankDiv").css('display', '');
     $("#lblPaymentMode").text("Withdrawal Mode");
+    $("#customerid").hide();
 }
 function ShowChequeClear()
 {
@@ -555,7 +568,7 @@ function ShowChequeClear()
     BindDepositWithdrawals('', "True");
     $('a[href="#DepositwithdrawalList"]').click();
     $("#btnCheque").css('display', '');
-    $('#tblDepositwithdrawalList tbody td:nth-child(7) ').hide();
+    $('#tblDepositwithdrawalList tbody td:nth-child(8) ').hide();
     $("#editRow").hide();
     $('#tblDepositwithdrawalList tbody td:nth-child(1) ').show();
     $("#editCheckBox").show();
