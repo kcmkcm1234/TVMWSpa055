@@ -132,4 +132,16 @@ namespace UserInterface.Models
         public int count { get; set; }
 
     }
+    public class SupplierInvoiceAgeingSummaryViewModel
+    {
+        public int total;
+        public int Todays;
+        public int Count1To30;
+        public int Count31To60;
+        public int Count61To90;
+        public int Count91Above;
+        public int ThisWeek;
+
+    }
+
 }

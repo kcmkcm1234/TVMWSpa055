@@ -23,7 +23,8 @@ namespace UserInterface.Controllers
         IEmployeeBusiness _employeeBusiness;
         IOtherExpenseBusiness _otherExpenseBusiness;
         ICommonBusiness _commonBusiness;
-        public ReportController(IReportBusiness reportBusiness, ICompaniesBusiness companiesBusiness,IEmployeeBusiness employeeBusiness, IOtherExpenseBusiness otherExpenseBusiness, ICommonBusiness commonBusiness, IBankBusiness bankbusiness, ICustomerBusiness customerBusiness, ISupplierBusiness supplierBusiness)
+        SecurityFilter.ToolBarAccess _tool;
+        public ReportController(IReportBusiness reportBusiness, ICompaniesBusiness companiesBusiness,IEmployeeBusiness employeeBusiness, IOtherExpenseBusiness otherExpenseBusiness, ICommonBusiness commonBusiness, IBankBusiness bankbusiness, ICustomerBusiness customerBusiness, ISupplierBusiness supplierBusiness, SecurityFilter.ToolBarAccess tool)
         {
             _reportBusiness = reportBusiness;
             _supplierBusiness = supplierBusiness;
@@ -33,6 +34,7 @@ namespace UserInterface.Controllers
             _commonBusiness = commonBusiness;
             _bankBusiness = bankbusiness;
             _customerBusiness = customerBusiness;
+            _tool = tool;
 
         }
         // GET: Report
@@ -131,6 +133,32 @@ namespace UserInterface.Controllers
             }
             return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
         }
+
+        #region GetRPTViewCustomerDetail
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "SalesReport", Mode = "R")]
+        public string GetRPTViewCustomerDetail(string FromDate, string ToDate, string CompanyCode,string Customer)
+        {
+            if (!string.IsNullOrEmpty(CompanyCode))
+            {
+                try
+                {
+                    SaleDetailReportViewModel SaledetailObj = null;
+                    DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
+                    DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
+                    SaledetailObj = Mapper.Map<SaleDetailReport, SaleDetailReportViewModel>(_reportBusiness.GetRPTViewCustomerDetail(FDate, TDate, CompanyCode,Guid.Parse(Customer)));
+
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = SaledetailObj.saleDetailList });
+                }
+                catch (Exception ex)
+                {
+                    return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+                }
+
+            }
+            return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
+        }
+        #endregion GetRPTViewCustomerDetail
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "SalesReport", Mode = "R")]
@@ -596,6 +624,33 @@ namespace UserInterface.Controllers
             }
             return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
         }
+
+        
+        #region GetRPTViewPurchaseDetail
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "SalesReport", Mode = "R")]
+        public string GetRPTViewPurchaseDetail(string FromDate, string ToDate, string CompanyCode, string Supplier)
+        {
+            if (!string.IsNullOrEmpty(CompanyCode))
+            {
+                try
+                {
+                    PurchaseDetailReportViewModel detailObj = null;
+                    DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
+                    DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
+                    detailObj = Mapper.Map<PurchaseDetailReport, PurchaseDetailReportViewModel>(_reportBusiness.GetRPTViewPurchaseDetail(FDate, TDate, CompanyCode, Guid.Parse(Supplier)));
+
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = detailObj.purchaseDetailReportList });
+                }
+                catch (Exception ex)
+                {
+                    return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+                }
+
+            }
+            return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
+        }
+        #endregion GetRPTViewPurchaseDetail
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "PurchaseReport", Mode = "R")]
@@ -1669,6 +1724,8 @@ namespace UserInterface.Controllers
         public ActionResult ChangeButtonStyle(string ActionType)
         {
             ToolboxViewModel ToolboxViewModelObj = new ToolboxViewModel();
+            Permission _permission = Session["UserRights"] as Permission;
+
             switch (ActionType)
             {
                 case "List":
@@ -1681,7 +1738,21 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.PrintBtn.Visible = true;
                     ToolboxViewModelObj.PrintBtn.Text = "Export";
                     ToolboxViewModelObj.PrintBtn.Event = "PrintReport();";
+                   
+                    ToolboxViewModelObj = _tool.SetToolbarAccess(ToolboxViewModelObj, _permission);
+                    break;
+                case "CustDetail":
+                    ToolboxViewModelObj.backbtn.Visible = true;
+                    ToolboxViewModelObj.backbtn.Disable = false;
+                    ToolboxViewModelObj.backbtn.Text = "Back";
+                    ToolboxViewModelObj.backbtn.Event = "closeNav();";
 
+                    //ToolboxViewModelObj.PrintBtn.Visible = true;
+                    //ToolboxViewModelObj.PrintBtn.Text = "Export";
+                    //ToolboxViewModelObj.PrintBtn.Event = "PrintReport();";
+
+                   
+                    ToolboxViewModelObj = _tool.SetToolbarAccess(ToolboxViewModelObj, _permission);
                     break;
 
                 case "ListWithReset":
@@ -1698,6 +1769,9 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.resetbtn.Visible = true;
                     ToolboxViewModelObj.resetbtn.Text = "Reset";
                     ToolboxViewModelObj.resetbtn.Event = "Reset();";
+
+                   
+                    ToolboxViewModelObj = _tool.SetToolbarAccess(ToolboxViewModelObj, _permission);
 
                     break;
 

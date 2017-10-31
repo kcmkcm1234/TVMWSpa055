@@ -197,5 +197,19 @@ namespace UserInterface.Controllers
         {
             return RedirectToAction("Admin", "DashBoard");
         }
+
+
+        [AuthSecurityFilter(ProjectObject = "Dashboard", Mode = "R")]
+        public ActionResult  InvAgeingSummary()
+        {
+            InvoiceAgeingSummary Result = new InvoiceAgeingSummary();
+
+            Result.CustInvAgeSummary = Mapper.Map<CustomerInvoiceAgeingSummary, CustomerInvoiceAgeingSummaryViewModel>(_customerInvoiceBusiness.GetCustomerInvoicesAgeingSummary());
+            Result.SuppInvAgeSummary = Mapper.Map<SupplierInvoiceAgeingSummary, SupplierInvoiceAgeingSummaryViewModel>(_supplierInvoicesBusiness.GetSupplierInvoicesAgeingSummary());
+          
+
+            return PartialView("_InvAgeingSummary", Result);
+        }
+
     }
 }

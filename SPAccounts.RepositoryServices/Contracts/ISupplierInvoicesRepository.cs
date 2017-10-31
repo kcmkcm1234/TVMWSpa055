@@ -19,6 +19,7 @@ namespace SPAccounts.RepositoryServices.Contracts
         object DeleteSupplierInvoice(Guid ID, string userName);
         List<SupplierInvoices> GetOutStandingInvoicesBySupplier(Guid PaymentID, Guid supplierID);
         SupplierInvoices GetSupplierAdvances(string ID);
+        SupplierInvoiceAgeingSummary GetSupplierInvoicesAgeingSummary();
 
     }
 }

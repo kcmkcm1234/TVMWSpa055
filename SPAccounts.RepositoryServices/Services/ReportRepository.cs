@@ -131,7 +131,6 @@ namespace SPAccounts.RepositoryServices.Services
             return otherExpenseSummaryList;
         }
 
-
         public List<OtherExpenseDetailsReport> GetOtherExpenseDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string accounthead, string subtype, string employeeorother, string employeecompany, string search)
         {
             List<OtherExpenseDetailsReport> otherExpenseDetailList = null;
@@ -252,6 +251,64 @@ namespace SPAccounts.RepositoryServices.Services
             return SaleDetailList;
         }
 
+        public List<SaleDetailReport> GetRPTViewCustomerDetail(DateTime? FromDate, DateTime? ToDate, string CompanyCode,Guid Customer)
+        {
+            List<SaleDetailReport> SaleDetailList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
+                        cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = CompanyCode;
+                        cmd.Parameters.Add("@Customerid", SqlDbType.UniqueIdentifier).Value = Customer;
+                        cmd.CommandText = "[Accounts].[RPT_GetCustomerSalesDetail]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                SaleDetailList = new List<SaleDetailReport>();
+                                while (sdr.Read())
+                                {
+                                    SaleDetailReport saleDetail = new SaleDetailReport();
+                                    {
+                                        saleDetail.InvoiceNo = (sdr["InvoiceNo"].ToString() != "" ? sdr["InvoiceNo"].ToString() : saleDetail.InvoiceNo);
+                                        saleDetail.Date = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(settings.dateformat) : saleDetail.Date);
+                                        saleDetail.PaymentDueDate = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString(settings.dateformat) : saleDetail.PaymentDueDate);
+                                        saleDetail.InvoiceAmount = (sdr["InvoiceAmount"].ToString() != "" ? decimal.Parse(sdr["InvoiceAmount"].ToString()) : saleDetail.InvoiceAmount);
+                                        saleDetail.PaidAmount = (sdr["PaidAmount"].ToString() != "" ? decimal.Parse(sdr["PaidAmount"].ToString()) : saleDetail.PaidAmount);
+                                        saleDetail.BalanceDue = (sdr["BalanceDue"].ToString() != "" ? decimal.Parse(sdr["BalanceDue"].ToString()) : saleDetail.BalanceDue);
+                                        saleDetail.TaxAmount = (sdr["Tax"].ToString() != "" ? decimal.Parse(sdr["Tax"].ToString()) : saleDetail.TaxAmount);
+                                        saleDetail.Total = (sdr["Total"].ToString() != "" ? decimal.Parse(sdr["Total"].ToString()) : saleDetail.Total);
+                                        saleDetail.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : saleDetail.GeneralNotes);
+                                        saleDetail.OriginCompany = (sdr["OriginCompany"].ToString() != "" ? sdr["OriginCompany"].ToString() : saleDetail.OriginCompany);
+                                        saleDetail.Origin = (sdr["Origin"].ToString() != "" ? sdr["Origin"].ToString() : saleDetail.Origin);
+                                        saleDetail.RowType = (sdr["RowType"].ToString() != "" ? sdr["RowType"].ToString() : saleDetail.RowType);
+                                        saleDetail.CustomerName = (sdr["CustomerName"].ToString() != "" ? sdr["CustomerName"].ToString() : saleDetail.CustomerName);
+                                        saleDetail.Credit = (sdr["Credit"].ToString() != "" ? decimal.Parse(sdr["Credit"].ToString()) : saleDetail.Credit);
+                                    }
+                                    SaleDetailList.Add(saleDetail);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return SaleDetailList;
+        }
+
         public List<SaleSummary> GetSaleSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string search, Boolean IsInternal, Boolean IsTax)
         {
             List<SaleSummary> SaleSummaryList = null;
@@ -285,6 +342,7 @@ namespace SPAccounts.RepositoryServices.Services
                                     SaleSummary saleSummary = new SaleSummary();
                                     {
                                         saleSummary.CustomerName = (sdr["CustomerName"].ToString() != "" ? sdr["CustomerName"].ToString() : saleSummary.CustomerName);
+                                        saleSummary.CustomerID = (sdr["CustomerID"].ToString() != "" ? Guid.Parse(sdr["CustomerID"].ToString()) : saleSummary.CustomerID);
                                         saleSummary.Total = (sdr["Total"].ToString() != "" ? decimal.Parse(sdr["Total"].ToString()) : saleSummary.Total);
                                         saleSummary.TaxAmount = (sdr["TaxAmount"].ToString() != "" ? decimal.Parse(sdr["TaxAmount"].ToString()) : saleSummary.TaxAmount);
                                         saleSummary.Invoiced= (sdr["Invoice"].ToString() != "" ? decimal.Parse(sdr["Invoice"].ToString()) : saleSummary.Invoiced);
@@ -438,6 +496,7 @@ namespace SPAccounts.RepositoryServices.Services
                                 {
                                     PurchaseSummaryReport purchaseSummaryReport = new PurchaseSummaryReport();
                                     {
+                                        purchaseSummaryReport.SupplierID = (sdr["SupplierID"].ToString() != "" ? Guid.Parse(sdr["SupplierID"].ToString()) : purchaseSummaryReport.SupplierID);
                                         purchaseSummaryReport.SupplierName = (sdr["SupplierName"].ToString() != "" ? sdr["SupplierName"].ToString() : purchaseSummaryReport.SupplierName);
                                         purchaseSummaryReport.OpeningBalance = (sdr["OpeningBalance"].ToString() != "" ? decimal.Parse(sdr["OpeningBalance"].ToString()) : purchaseSummaryReport.OpeningBalance);
                                         purchaseSummaryReport.Invoiced = (sdr["Invoiced"].ToString() != "" ? decimal.Parse(sdr["Invoiced"].ToString()) : purchaseSummaryReport.Invoiced);
@@ -483,6 +542,63 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@IsInternal", SqlDbType.Bit).Value = IsInternal;
                         cmd.Parameters.Add("@Suppliercode", SqlDbType.UniqueIdentifier).Value = Supplier;
                         cmd.CommandText = "[Accounts].[RPT_GetPurchaseDetail]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                purchaseDetailReportList = new List<PurchaseDetailReport>();
+                                while (sdr.Read())
+                                {
+                                    PurchaseDetailReport purchaseDetailReport = new PurchaseDetailReport();
+                                    {
+                                        purchaseDetailReport.InvoiceNo = (sdr["InvoiceNo"].ToString() != "" ? sdr["InvoiceNo"].ToString() : purchaseDetailReport.InvoiceNo);
+                                        purchaseDetailReport.Date = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(settings.dateformat) : purchaseDetailReport.Date);
+                                        purchaseDetailReport.PaymentDueDate = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString(settings.dateformat) : purchaseDetailReport.PaymentDueDate);
+                                        purchaseDetailReport.InvoiceAmount = (sdr["InvoiceAmount"].ToString() != "" ? decimal.Parse(sdr["InvoiceAmount"].ToString()) : purchaseDetailReport.InvoiceAmount);
+                                        purchaseDetailReport.PaidAmount = (sdr["PaidAmount"].ToString() != "" ? decimal.Parse(sdr["PaidAmount"].ToString()) : purchaseDetailReport.PaidAmount);
+                                        purchaseDetailReport.PaymentProcessed = (sdr["PaymentProcessed"].ToString() != "" ? decimal.Parse(sdr["PaymentProcessed"].ToString()) : purchaseDetailReport.PaymentProcessed);
+                                        purchaseDetailReport.BalanceDue = (sdr["BalanceDue"].ToString() != "" ? decimal.Parse(sdr["BalanceDue"].ToString()) : purchaseDetailReport.BalanceDue);
+                                        purchaseDetailReport.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : purchaseDetailReport.GeneralNotes);
+                                        purchaseDetailReport.OriginCompany = (sdr["OriginCompany"].ToString() != "" ? sdr["OriginCompany"].ToString() : purchaseDetailReport.OriginCompany);
+                                        purchaseDetailReport.Origin = (sdr["Origin"].ToString() != "" ? sdr["Origin"].ToString() : purchaseDetailReport.Origin);
+                                        purchaseDetailReport.RowType = (sdr["RowType"].ToString() != "" ? sdr["RowType"].ToString() : purchaseDetailReport.RowType);
+                                        purchaseDetailReport.SupplierName = (sdr["SupplierName"].ToString() != "" ? sdr["SupplierName"].ToString() : purchaseDetailReport.SupplierName);
+                                        purchaseDetailReport.Credit = (sdr["Credit"].ToString() != "" ? decimal.Parse(sdr["Credit"].ToString()) : purchaseDetailReport.Credit);
+                                    }
+                                    purchaseDetailReportList.Add(purchaseDetailReport);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return purchaseDetailReportList;
+        }
+
+        public List<PurchaseDetailReport> GetRPTViewPurchaseDetail(DateTime? FromDate, DateTime? ToDate, string CompanyCode, Guid SupplierID)
+        {
+            List<PurchaseDetailReport> purchaseDetailReportList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
+                        cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = CompanyCode;
+                        cmd.Parameters.Add("@Supplierid", SqlDbType.UniqueIdentifier).Value = SupplierID;
+                        cmd.CommandText = "[Accounts].[RPT_GetSupplierPurchaseDetail]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
@@ -729,6 +845,7 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return accountsReceivableAgeingSummaryReportList;
         }
+
         public List<AccountsReceivableAgeingSummaryReport> GetAccountsReceivableAgeingSummaryReportForSA(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string Customerids)
         {
             List<AccountsReceivableAgeingSummaryReport> accountsReceivableAgeingSummaryReportList = null;
@@ -936,7 +1053,6 @@ namespace SPAccounts.RepositoryServices.Services
             return employeeExpenseSummaryList;
         }
 
-
         /// <summary>
         ///To Get Deposit And Withdrawal Details in Report
         /// </summary>
@@ -996,7 +1112,6 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return depositAndWithdrawalDetailList;
         }
-
 
         /// <summary>
         ///To Get Other Income Summary in Report
@@ -1117,8 +1232,6 @@ namespace SPAccounts.RepositoryServices.Services
             return otherIncomeDetailList;
         }
 
-
-
         public List<CustomerPaymentLedger> GetCustomerPaymentLedger(DateTime? FromDate, DateTime? ToDate, string CustomerIDs, string Company)
         {
             List<CustomerPaymentLedger> customerpaymentList = null;
@@ -1171,7 +1284,6 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return customerpaymentList;
         }
-
 
         public List<SupplierPaymentLedger> GetSupplierPaymentLedger(DateTime? FromDate, DateTime? ToDate, string Suppliercode, string Company)
         {
@@ -1226,7 +1338,7 @@ namespace SPAccounts.RepositoryServices.Services
             return supplierpaymentList;
         }
 
-  /// <summary>
+        /// <summary>
   /// To Get Daily Ledger Details in Report
   /// </summary>
   /// <param name="FromDate"></param>
@@ -1292,9 +1404,6 @@ namespace SPAccounts.RepositoryServices.Services
             return dailyLedgerList;
         }
 
-
-
-
         public List<CustomerExpeditingReport> GetCustomerExpeditingDetail(DateTime? ToDate)
         {
             List<CustomerExpeditingReport> CustomerExpeditingList = null;
@@ -1346,7 +1455,6 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return CustomerExpeditingList;
         }
-
 
         public List<SupplierExpeditingReport> GetSupplierExpeditingDetail(DateTime? ToDate)
         {

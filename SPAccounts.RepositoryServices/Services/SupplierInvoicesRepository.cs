@@ -674,5 +674,55 @@ namespace SPAccounts.RepositoryServices.Services
 
             return SIList;
         }
+
+        public  SupplierInvoiceAgeingSummary GetSupplierInvoicesAgeingSummary()
+        {
+            SupplierInvoiceAgeingSummary SupplierInvoiceSummaryObj = null;
+            Common C = new Common();
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetSupplierInvAgeingSummary]";
+                        cmd.Parameters.Add("@OnDate", SqlDbType.Date).Value = C.GetCurrentDateTime().Date; ;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                SupplierInvoiceSummaryObj = new SupplierInvoiceAgeingSummary();
+                                if (sdr.Read())
+                                {
+
+                                    {                                       
+                                        SupplierInvoiceSummaryObj.Todays = (sdr["Today"].ToString() != "" ? int.Parse(sdr["Today"].ToString()) : SupplierInvoiceSummaryObj.total);
+                                        SupplierInvoiceSummaryObj.Count1To30 = (sdr["Count1to30"].ToString() != "" ? int.Parse(sdr["Count1to30"].ToString()) : SupplierInvoiceSummaryObj.Count1To30);
+                                        SupplierInvoiceSummaryObj.Count31To60 = (sdr["Count31to60"].ToString() != "" ? int.Parse(sdr["Count31to60"].ToString()) : SupplierInvoiceSummaryObj.Count31To60);
+                                        SupplierInvoiceSummaryObj.Count61To90= (sdr["Count61to90"].ToString() != "" ? int.Parse(sdr["Count61to90"].ToString()) : SupplierInvoiceSummaryObj.Count61To90);
+                                        SupplierInvoiceSummaryObj.Count91Above = (sdr["Count90Above"].ToString() != "" ? int.Parse(sdr["Count90Above"].ToString()) : SupplierInvoiceSummaryObj.Count91Above);
+                                        SupplierInvoiceSummaryObj.ThisWeek = (sdr["ThisWeek"].ToString() != "" ? int.Parse(sdr["ThisWeek"].ToString()) : SupplierInvoiceSummaryObj.ThisWeek);
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return SupplierInvoiceSummaryObj;
+        }
     }
 }

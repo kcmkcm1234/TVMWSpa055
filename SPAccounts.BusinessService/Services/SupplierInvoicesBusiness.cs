@@ -178,5 +178,11 @@ namespace SPAccounts.BusinessService.Services
         {
             return _supplierInvoicesRepository.GetSupplierAdvances(ID);
         }
+
+        public SupplierInvoiceAgeingSummary GetSupplierInvoicesAgeingSummary() {
+            return _supplierInvoicesRepository.GetSupplierInvoicesAgeingSummary();
+        }
+
+
     }
 }

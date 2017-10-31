@@ -24,6 +24,7 @@ namespace SPAccounts.DataAccessObject.DTO
 
     public class SaleSummary
     {
+        public Guid CustomerID { get; set; }
         public string CustomerName { get; set; }
         public decimal OpeningBalance { get; set; }
         public decimal Invoiced { get; set; }
@@ -132,7 +133,7 @@ namespace SPAccounts.DataAccessObject.DTO
 
     public class PurchaseSummaryReport
     {
-
+        public Guid SupplierID { get; set; }
         public string CompanyCode { get; set; }
         public string SupplierName { get; set; }
         public decimal OpeningBalance { get; set; }

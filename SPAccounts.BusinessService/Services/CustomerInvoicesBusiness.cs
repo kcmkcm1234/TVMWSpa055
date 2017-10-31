@@ -278,5 +278,9 @@ namespace SPAccounts.BusinessService.Services
             
             return CI;
         }
+
+        public CustomerInvoiceAgeingSummary GetCustomerInvoicesAgeingSummary() {
+            return _customerInvoicesRepository.GetCustomerInvoicesAgeingSummary();
+        }
     }
 }

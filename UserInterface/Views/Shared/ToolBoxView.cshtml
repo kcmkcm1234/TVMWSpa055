@@ -4,7 +4,7 @@
 
     @if (Model.backbtn.Visible)
     {
-        if (Model.backbtn.Disable)
+        if (Model.backbtn.Disable || Model.backbtn.HasAccess==false)
         {
 
             <a class="thr_disbtn" title="@Model.backbtn.Title-@Model.backbtn.DisableReason">
@@ -25,7 +25,7 @@
     }
     @if (Model.addbtn.Visible)
     {
-        if (Model.addbtn.Disable)
+        if (Model.addbtn.Disable || Model.addbtn.HasAccess == false)
         {
 
             <a class="thr_disbtn" title="@Model.addbtn.Title-@Model.addbtn.DisableReason">
@@ -45,7 +45,7 @@
     }
     @if (Model.savebtn.Visible)
     {
-        if (Model.savebtn.Disable)
+        if (Model.savebtn.Disable || Model.savebtn.HasAccess == false)
         {
 
             <a class="thr_disbtn" title="@Model.savebtn.Title-@Model.savebtn.DisableReason">
@@ -66,7 +66,7 @@
 
     @if (Model.deletebtn.Visible)
     {
-        if (Model.deletebtn.Disable)
+        if (Model.deletebtn.Disable || Model.deletebtn.HasAccess == false)
         {
 
             <a class="thr_disbtn" title="@Model.deletebtn.Title-@Model.deletebtn.DisableReason">
@@ -87,7 +87,7 @@
 
     @if (Model.resetbtn.Visible)
     {
-        if (Model.resetbtn.Disable)
+        if (Model.resetbtn.Disable || Model.resetbtn.HasAccess == false)
         {
 
             <a class="thr_disbtn" title="@Model.resetbtn.Title-@Model.resetbtn.DisableReason">
@@ -110,7 +110,7 @@
 
     @if (Model.PrintBtn.Visible)
     {
-        if (Model.PrintBtn.Disable)
+        if (Model.PrintBtn.Disable || Model.PrintBtn.HasAccess == false)
         {
 
             <a class="thr_disbtn" title="@Model.PrintBtn.Title-@Model.PrintBtn.DisableReason">
@@ -130,7 +130,7 @@
     }
     @if (Model.NotyBtn.Visible)
     {
-        if (Model.NotyBtn.Disable)
+        if (Model.NotyBtn.Disable || Model.NotyBtn.HasAccess == false)
         {
 
             <a class="thr_disbtn" title="@Model.NotyBtn.Title-@Model.NotyBtn.DisableReason">
@@ -150,7 +150,7 @@
     }
     @if (Model.PayBtn.Visible)
     {
-        if (Model.PayBtn.Disable)
+        if (Model.PayBtn.Disable || Model.PayBtn.HasAccess == false)
         {
 
             <a class="thr_disbtn" title="@Model.PayBtn.Title-@Model.PayBtn.DisableReason">
@@ -171,7 +171,7 @@
 
     @if (Model.CloseBtn.Visible)
     {
-        if (Model.CloseBtn.Disable)
+        if (Model.CloseBtn.Disable || Model.CloseBtn.HasAccess == false)
         {
 
             <a class="thr_disbtn" title="@Model.CloseBtn.Title-@Model.CloseBtn.DisableReason">
@@ -192,7 +192,7 @@
 
     @if (Model.DepositBtn.Visible)
     {
-        if (Model.DepositBtn.Disable)
+        if (Model.DepositBtn.Disable || Model.DepositBtn.HasAccess == false)
         {
 
             <a class="thr_disbtn" title="@Model.DepositBtn.Title-@Model.DepositBtn.DisableReason">
@@ -213,7 +213,7 @@
 
     @if (Model.WithdrawBtn.Visible)
     {
-        if (Model.WithdrawBtn.Disable)
+        if (Model.WithdrawBtn.Disable || Model.WithdrawBtn.HasAccess == false)
         {
 
             <a class="thr_disbtn" title="@Model.WithdrawBtn.Title-@Model.WithdrawBtn.DisableReason">
@@ -233,7 +233,7 @@
     }
     @if (Model.ClearBtn.Visible)
     {
-        if (Model.ClearBtn.Disable)
+        if (Model.ClearBtn.Disable || Model.ClearBtn.HasAccess == false)
         {
 
             <a class="thr_disbtn" title="@Model.ClearBtn.Title-@Model.ClearBtn.DisableReason">
