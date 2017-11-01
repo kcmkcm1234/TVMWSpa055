@@ -87,10 +87,11 @@ $(document).ready(function () {
              { "data": "ReferenceNo", "defaultContent": "<i>-</i>" },
              { "data": "BankName", "defaultContent": "<i>-</i>" },
              { "data": "Amount", render: function (data, type, row) { debugger; return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
-             { "data": null, "orderable": false, "defaultContent": '<a href="#" title="Edit Deposit" class="actionLink"  onclick="EditDeposit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
+             { "data": null, "orderable": false, "defaultContent": '<a href="#" title="Edit Deposit" class="actionLink"  onclick="EditDeposit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' },
+                { "data": "CustomerID", "defaultContent": "<i>-</i>" }
            ],
            columnDefs: [{ "targets": [0], "visible": false, "searchable": false }, { orderable: false, className: 'select-checkbox', targets: 1 },
-               { orderable: false, "visible": false, targets: [8] },
+               { orderable: false, "visible": false, targets: [8,9] },
                 { className: "text-right", "targets": [6] },
                   { className: "text-left", "targets": [] },
            { className: "text-center", "targets": [1, 2, 3, 4,6,7] }
@@ -605,6 +606,7 @@ function SaveCheckedDeposit()
                     DepositAndWithdrwalViewModel.ReferenceNo = SelectedRows[r].ReferenceNo;
                     DepositAndWithdrwalViewModel.Amount = SelectedRows[r].Amount;
                     DepositAndWithdrwalViewModel.BankCode = $("#BankCode").val();
+                    DepositAndWithdrwalViewModel.CustomerID = SelectedRows[r].CustomerID;
                     //DepositAndWithdrwalViewModel.DepositMode = $("#PaymentMode").val();
                     DepositAndWithdrwalViewModel.PaymentMode = "CHEQUE";
                     //if ($("#ChequeStatus").val() == "")

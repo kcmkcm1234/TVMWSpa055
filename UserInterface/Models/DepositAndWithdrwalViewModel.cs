@@ -51,6 +51,7 @@ namespace UserInterface.Models
         public string UndepositedChequeCount { get; set; }
         public string ChequeDate { get; set; }
         public string CustomerName { get; set; }
+        [Display(Name = "Customer Name")]
         public Guid CustomerID { get; set; }
         public List<SelectListItem> customerList { get; set; }
     }
