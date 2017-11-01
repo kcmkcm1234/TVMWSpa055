@@ -235,6 +235,7 @@ function ViewSupplierDetail(row_obj) {
 function GetPurchaseDetail(rowData) {
     try {
         debugger
+        $("#lblDetailsHead").text(rowData.SupplierName);
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
         var companycode = $("#CompanyCode").val();

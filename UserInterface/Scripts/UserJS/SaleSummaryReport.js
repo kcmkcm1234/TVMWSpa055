@@ -269,6 +269,7 @@ function ViewCustomerDetail(row_obj)
 function GetSaleDetail(rowData) {
     try {
         debugger
+        $("#lblDetailsHead").text(rowData.CustomerName);
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
         var companycode = $("#CompanyCode").val();
