@@ -29,5 +29,6 @@ namespace SPAccounts.DataAccessObject.DTO
         public string UndepositedChequeCount { get; set; }
         public string ChequeDate { get; set; }
         public string CustomerName { get; set; }
+        public Guid CustomerID { get; set; }
     }
 }

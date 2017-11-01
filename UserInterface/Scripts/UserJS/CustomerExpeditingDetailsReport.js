@@ -61,15 +61,16 @@ $(document).ready(function () {
 function GetCustomerExpeditingDetail() {
     try {
         var todate = $("#todate").val();
+        var filter = $("#BasicFilters").val();
         if (IsVaildDateFormat(todate))
-            var data = {"ToDate": todate};
+            var data = {"ToDate": todate,"Filter": filter};
         var ds = {};
         ds = GetDataFromServer("Report/GetCustomerPaymentExpeditingDetails/", data);
         if (ds != '') {
             ds = JSON.parse(ds);
         }
         if (ds.Result == "OK") {
-            return ds.Records;
+            return ds.Records.customerExpeditingDetailsList;
         }
         if (ds.Result == "ERROR") {
             notyAlert('error', ds.Message);
@@ -80,11 +81,14 @@ function GetCustomerExpeditingDetail() {
     }
 }
 
+ 
+
 
 function RefreshCustomerExpeditingDetailTable() {
     debugger;
     try {
         var todate = $("#todate").val();
+        var filter = $("#BasicFilters").val();
 
         if (DataTables.CustomerExpeditingDetailTableReportTable != undefined && IsVaildDateFormat(todate)) {
             DataTables.CustomerExpeditingDetailTableReportTable.clear().rows.add(GetCustomerExpeditingDetail()).draw(false);

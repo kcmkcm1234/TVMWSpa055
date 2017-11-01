@@ -70,3 +70,8 @@ function ChangePartialView(Controller, Dom, Action) {
          ExpenseSummaryGraph();
    
 }
+
+
+
+
+ 

@@ -60,6 +60,8 @@ namespace SPAccounts.RepositoryServices.Services
                                     DepositAndWithdrawals _depositAndWithdrawalsObj = new DepositAndWithdrawals();
                                     {
                                         _depositAndWithdrawalsObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : _depositAndWithdrawalsObj.ID);
+                                        _depositAndWithdrawalsObj.CustomerID = (sdr["CustomerID"].ToString() != "" ? Guid.Parse(sdr["CustomerID"].ToString()) : _depositAndWithdrawalsObj.CustomerID);
+                                        _depositAndWithdrawalsObj.CustomerName = (sdr["CompanyName"].ToString() != "" ? (sdr["CompanyName"].ToString()) : _depositAndWithdrawalsObj.CustomerName);
                                         _depositAndWithdrawalsObj.TransactionType = (sdr["TransactionType"].ToString() != "" ? (sdr["TransactionType"].ToString()) : _depositAndWithdrawalsObj.TransactionType);
                                         _depositAndWithdrawalsObj.ReferenceNo = (sdr["ReferenceNo"].ToString() != "" ? (sdr["ReferenceNo"].ToString()) : _depositAndWithdrawalsObj.ReferenceNo);
                                         _depositAndWithdrawalsObj.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : _depositAndWithdrawalsObj.GeneralNotes);                                       
@@ -131,6 +133,7 @@ namespace SPAccounts.RepositoryServices.Services
                                 if (sdr.Read())
                                 {
                                     _depositAndWithdrawalsObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : _depositAndWithdrawalsObj.ID);
+                                    _depositAndWithdrawalsObj.CustomerID = (sdr["CustomerID"].ToString() != "" ? Guid.Parse(sdr["CustomerID"].ToString()):Guid.Empty);
                                     _depositAndWithdrawalsObj.TransactionType = (sdr["TransactionType"].ToString() != "" ? (sdr["TransactionType"].ToString()) : _depositAndWithdrawalsObj.TransactionType);
                                     _depositAndWithdrawalsObj.ReferenceNo = (sdr["ReferenceNo"].ToString() != "" ? (sdr["ReferenceNo"].ToString()) : _depositAndWithdrawalsObj.ReferenceNo);
                                     _depositAndWithdrawalsObj.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : _depositAndWithdrawalsObj.GeneralNotes);
@@ -185,6 +188,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@BankCode", SqlDbType.VarChar, 5).Value = _depositAndWithdrawalsObj.BankCode;                       
                         cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = _depositAndWithdrawalsObj.Amount;
                         cmd.Parameters.Add("@ChequeStatus", SqlDbType.NVarChar, 10).Value = _depositAndWithdrawalsObj.ChequeStatus;
+                        cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = _depositAndWithdrawalsObj.CustomerID;
                         cmd.Parameters.Add("@DepositMode", SqlDbType.NVarChar, 10).Value = _depositAndWithdrawalsObj.PaymentMode;
                         if (_depositAndWithdrawalsObj.ChequeClearDate != default(DateTime))
                         {
@@ -244,6 +248,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandText = "[Accounts].[UpdateDepositAndWithdrawals]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = _depositAndWithdrawalsObj.ID;
+                        cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = _depositAndWithdrawalsObj.CustomerID;
                         cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = _depositAndWithdrawalsObj.Date;
                         cmd.Parameters.Add("@TransactionType", SqlDbType.Char, 1).Value = _depositAndWithdrawalsObj.TransactionType;
                         cmd.Parameters.Add("@ReferenceNo", SqlDbType.VarChar, 20).Value = _depositAndWithdrawalsObj.ReferenceNo;

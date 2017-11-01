@@ -1409,7 +1409,7 @@ namespace SPAccounts.RepositoryServices.Services
             return dailyLedgerList;
         }
 
-        public List<CustomerExpeditingReport> GetCustomerExpeditingDetail(DateTime? ToDate)
+        public List<CustomerExpeditingReport> GetCustomerExpeditingDetail(DateTime? ToDate,string Filter)
         {
             List<CustomerExpeditingReport> CustomerExpeditingList = null;
             try
@@ -1424,6 +1424,7 @@ namespace SPAccounts.RepositoryServices.Services
                         }
                         cmd.Connection = con;
                         cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = ToDate;
+                        cmd.Parameters.Add("@Filter", SqlDbType.NVarChar,50).Value = Filter;
                         cmd.CommandText = "[Accounts].[RPT_CustomerPaymentExpeditingDetail]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -1461,7 +1462,7 @@ namespace SPAccounts.RepositoryServices.Services
             return CustomerExpeditingList;
         }
 
-        public List<SupplierExpeditingReport> GetSupplierExpeditingDetail(DateTime? ToDate)
+        public List<SupplierExpeditingReport> GetSupplierExpeditingDetail(DateTime? ToDate, string Filter)
         {
             List<SupplierExpeditingReport> SupplierExpeditingList = null;
             try
@@ -1476,6 +1477,7 @@ namespace SPAccounts.RepositoryServices.Services
                         }
                         cmd.Connection = con;
                         cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = ToDate;
+                        cmd.Parameters.Add("@Filter", SqlDbType.NVarChar, 50).Value = Filter;
                         cmd.CommandText = "[Accounts].[RPT_SupplierPaymentExpeditingDetail]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
