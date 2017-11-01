@@ -114,5 +114,6 @@ function Back() {
 function Reset() {
     debugger;
     $("#todate").val(today);
+    $("#BasicFilters").val('ALL');
     RefreshSupplierExpeditingDetailTable();
 }
