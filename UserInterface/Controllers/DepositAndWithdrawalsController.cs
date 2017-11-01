@@ -22,13 +22,15 @@ namespace UserInterface.Controllers
         IBankBusiness _bankBusiness;       
         ICommonBusiness _commonBusiness;
         IPaymentModesBusiness _paymentModesBusiness;
+        ICustomerBusiness _customerBusiness;
 
-        public DepositAndWithdrawalsController(IDepositAndWithdrawalsBusiness depositAndWithdrawalsBusiness,IBankBusiness bankBusiness, ICommonBusiness commonBusiness,IPaymentModesBusiness paymentModesBusiness)
+        public DepositAndWithdrawalsController(IDepositAndWithdrawalsBusiness depositAndWithdrawalsBusiness,IBankBusiness bankBusiness, ICommonBusiness commonBusiness,IPaymentModesBusiness paymentModesBusiness, ICustomerBusiness customerBusiness)
         {
             _depositAndWithdrawalsBusiness = depositAndWithdrawalsBusiness;          
             _bankBusiness = bankBusiness;            
             _commonBusiness = commonBusiness;
             _paymentModesBusiness = paymentModesBusiness;
+            _customerBusiness= customerBusiness; ;
         }
         #endregion Constructor_Injection 
 
@@ -70,7 +72,25 @@ namespace UserInterface.Controllers
                         Selected = false
                     });
                 }
+
                 depositAndWithdrwalViewModelObj.paymentModeList = selectListItem;
+
+                selectListItem = null;
+                selectListItem = new List<SelectListItem>();
+                List<CustomerViewModel> customerList = Mapper.Map<List<Customer>, List<CustomerViewModel>>(_customerBusiness.GetAllCustomers());
+                if (customerList != null)
+                {
+                    foreach (CustomerViewModel Cust in customerList)
+                    {
+                        selectListItem.Add(new SelectListItem
+                        {
+                            Text = Cust.CompanyName,
+                            Value = Cust.ID.ToString(),
+                            Selected = false
+                        });
+                    }
+                }
+                depositAndWithdrwalViewModelObj.customerList = selectListItem;
 
             }
             catch (Exception ex)
