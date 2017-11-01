@@ -61,15 +61,16 @@ $(document).ready(function () {
 function GetSupplierExpeditingDetail() {
     try {
         var todate = $("#todate").val();
+        var filter = $("#BasicFilters").val();
         if (IsVaildDateFormat(todate))
-            var data = { "ToDate": todate };
+            var data = { "ToDate": todate, "Filter": filter };
         var ds = {};
         ds = GetDataFromServer("Report/GetSupplierPaymentExpeditingDetails/", data);
         if (ds != '') {
             ds = JSON.parse(ds);
         }
         if (ds.Result == "OK") {
-            return ds.Records;
+            return ds.Records.SupplierExpeditingDetailsList;
         }
         if (ds.Result == "ERROR") {
             notyAlert('error', ds.Message);
@@ -113,5 +114,6 @@ function Back() {
 function Reset() {
     debugger;
     $("#todate").val(today);
+    $("#BasicFilters").val('ALL');
     RefreshSupplierExpeditingDetailTable();
 }

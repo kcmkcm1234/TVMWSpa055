@@ -80,6 +80,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string EmpCompany { get; set; }
         public string OriginCompany { get; set; }
         public string Employee { get; set; }
+        public Guid EmployeeID { get; set; }
         public string Search { get; set; }
         public string Subtype { get; set; }
         public string AccountHead { get; set; }
@@ -89,7 +90,7 @@ namespace SPAccounts.DataAccessObject.DTO
 
     }
 
-    
+
     public class OtherExpenseDetailsReport
     {
         public string AccountHeadORSubtype { get; set; }
@@ -105,6 +106,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string EmployeeOrOther { get; set; }
         public decimal TotalAmount { get; set; }
         public string Date { get; set; }
+        public string RowType { get; set; }
     }
 
     public class CustomerContactDetailsReport
@@ -346,6 +348,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string Company { get; set; }
         public string OriginCompany { get; set; }
         public string Date { get; set; }
+        public string RowType { get; set; }
     }
 
     public class DailyLedgerReport

@@ -34,7 +34,7 @@ $(document).ready(function () {
                        if (data == '<b>GrantTotal</b>')
                            return data;  
                        else
-                           return '<a onclick="ViewCustomerDetail(this);">' + data + ' </a>';
+                           return '<a href="#" onclick="ViewCustomerDetail(this);">' + data + ' </a>';
                    }
                },
                { "data": "Invoiced",render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
@@ -269,6 +269,7 @@ function ViewCustomerDetail(row_obj)
 function GetSaleDetail(rowData) {
     try {
         debugger
+        $("#lblDetailsHead").text(rowData.CustomerName);
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
         var companycode = $("#CompanyCode").val();

@@ -100,6 +100,7 @@ namespace UserInterface.Models
         public List<SelectListItem> SubtypeList { get; set; }
         public string AccountHeadORSubtype { get; set; }
         public string Employee { get; set; }
+        public Guid EmployeeID { get; set; } 
         public string SubTypeDesc { get; set; }
         public decimal Amount { get; set; }
         public string OriginCompany { get; set; }
@@ -141,8 +142,9 @@ namespace UserInterface.Models
         public List<SelectListItem> SubtypeList { get; set; }
         public string Search { get; set; }
         public decimal TotalAmount { get; set; }
-       
-    }
+        public string RowType { get; set; }
+
+            }
 
     public class CustomerContactDetailsReportViewModel
     {
@@ -421,6 +423,7 @@ namespace UserInterface.Models
         public List<CompaniesViewModel> companiesList;
         public List<SelectListItem> AccountHeadList { get; set; }
         public string Search { get; set; }
+        public string RowType { get; set; }
 
     }
     public class CustomerPaymentLedgerViewModel
@@ -503,6 +506,12 @@ namespace UserInterface.Models
         public string Date { get; set; }
     }
 
+    public class CustomerExpeditingListViewModel {
+        public List<CustomerExpeditingReportViewModel> customerExpeditingDetailsList { get; set; }
+        [Display(Name = "Filter")]
+        public List<SelectListItem> BasicFilters { get; set; }
+        public string Filter { get; set; }
+    }
 
     public class SupplierExpeditingReportViewModel
     {
@@ -517,6 +526,14 @@ namespace UserInterface.Models
         public Decimal Amount { get; set; }
         public string NoOfDays { get; set; }
         public string Remarks { get; set; }
+    }
+
+    public class SupplierExpeditingListViewModel
+    {
+        public List<SupplierExpeditingReportViewModel> SupplierExpeditingDetailsList { get; set; }
+        [Display(Name = "Filter")]
+        public List<SelectListItem> BasicFilters { get; set; }
+        public string Filter { get; set; }
     }
 
 }

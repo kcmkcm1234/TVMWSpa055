@@ -818,3 +818,7 @@ margin:20px;
 .description-block > .description-text {
      text-transform: capitalize!important;
 }
+
+.dashLink {
+    cursor:pointer;
+}

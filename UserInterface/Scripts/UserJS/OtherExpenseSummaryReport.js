@@ -32,8 +32,13 @@ $(document).ready(function () {
              //    searchPlaceholder: "Search"
              //},
              columns: [
-               { "data": "OriginCompany", "defaultContent": "<i>-</i>" },
-               { "data": "AccountHeadORSubtype", "defaultContent": "<i>-</i>" },
+               {
+                   "data": "OriginCompany", "defaultContent": "<i>-</i>"},
+               {
+                   "data": "AccountHeadORSubtype", "defaultContent": "<i>-</i>", render: function (data, type, row) {
+                       return '<a href="#" onclick="ViewOtherExpensesDetail(this);">' + data + ' </a>';
+                   }
+               },
                { "data": "SubTypeDesc", "defaultContent": "<i>-</i>" },
                //{ "data": "Description", "defaultContent": "<i>-</i>" },
                { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
@@ -60,6 +65,38 @@ $(document).ready(function () {
         $(".buttons-excel").hide();
         startdate = $("#todate").val();
         enddate = $("#fromdate").val();
+
+        DataTables.otherExpenseDetailsReportAHTable = $('#otherExpenseDetailsAHTable').DataTable(
+ {
+
+     dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
+     order: [],
+     searching: false,
+     paging: true,
+     data: null,
+     pageLength: 50,
+
+     columns: [
+       { "data": "Company", "defaultContent": "<i>-</i>" },
+        { "data": "Date", "defaultContent": "<i>-</i>" },
+       { "data": "AccountHead", "defaultContent": "<i>-</i>" },
+       { "data": "SubType", "defaultContent": "<i>-</i>" },
+       { "data": "EmpCompany", "defaultContent": "<i>-</i>" },
+       { "data": "PaymentMode", "defaultContent": "<i>-</i>" },
+       { "data": "PaymentReference", "defaultContent": "<i>-</i>" },
+       { "data": "Description", "defaultContent": "<i>-</i>" },
+       { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+       { "data": "OriginCompany", "defaultContent": "<i>-</i>" }
+     ],
+     columnDefs: [{ "targets": [9], "visible": false, "searchable": false },
+     { className: "text-left", "targets": [0, 2, 3, 4, 5, 6,7] },
+      { "width": "15%", "targets": [0] },
+       { "width": "10%", "targets": [1] },
+     { className: "text-right", "targets": [8] },
+ { className: "text-center", "targets": [1] }]
+ });
+
+
         $('input[name="GroupSelect"]').on('change', function () {
             RefreshOtherExpenseSummaryAHTable();
         });
@@ -328,4 +365,53 @@ function Reset() {
     $("#EmpCompany").val('ALL').trigger('change')
     $("#headwise").prop('checked', true).trigger('change');
     RefreshOtherExpenseSummaryAHTable();
+}
+
+
+
+function ViewOtherExpensesDetail(row_obj) {
+    debugger;
+    var rowData = DataTables.otherExpenseSummaryReportAHTable.row($(row_obj).parents('tr')).data();
+
+    openNav();
+    DataTables.otherExpenseDetailsReportAHTable.clear().rows.add(GetOtherExpenseDetailsReport(rowData)).draw(false);
+}
+
+function GetOtherExpenseDetailsReport(rowData) {
+    try {
+        debugger
+        if (rowData.SubTypeDesc!=null)
+            $("#lblDetailsHead").text(rowData.AccountHeadORSubtype + '-' + rowData.SubTypeDesc);
+        else
+            $("#lblDetailsHead").text(rowData.AccountHeadORSubtype);
+
+        var fromdate = $("#fromdate").val();
+        var todate = $("#todate").val();
+        var companycode = $("#CompanyCode").val();
+        var AccountHead = rowData.AccountHead;
+        var Subtype = $("#Subtype").val();
+        if (rowData.EmployeeID != '00000000-0000-0000-0000-000000000000')
+            var Employeeorother = rowData.EmployeeID;
+        else
+            var Employeeorother = $("#Employee").val();
+        var Employeecompany = $("#EmpCompany").val();
+
+        if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
+            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode,"accounthead": AccountHead, "subtype": Subtype, "employeeorother": Employeeorother, "employeecompany": Employeecompany};
+            var ds = {};
+            ds = GetDataFromServer("Report/GetOtherExpenseDetailsReport/", data);
+            if (ds != '') {
+                ds = JSON.parse(ds);
+            }
+            if (ds.Result == "OK") {
+                return ds.Records;
+            }
+            if (ds.Result == "ERROR") {
+                notyAlert('error', ds.Message);
+            }
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
 }

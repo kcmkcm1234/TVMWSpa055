@@ -11,7 +11,7 @@
         <div class="box-footer">
             <div class="row">
                 <div class="col-sm-4 border-right border-bottom">
-                    <div class="description-block">
+                    <div class="description-block dashLink" onclick="OpenCustExpeditionReport('ThisWeek')">
                         <h5 class="description-header">@Model.CustInvAgeSummary.ThisWeek</h5>
                         <span class="description-text">Coming Week</span>
                     </div>
@@ -19,7 +19,7 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-sm-4 border-right border-bottom">
-                    <div class="description-block">
+                    <div class="description-block dashLink" onclick="OpenCustExpeditionReport('Today')">
                         <h5 class="description-header">@Model.CustInvAgeSummary.Todays</h5>
                         <span class="description-text">Today</span>
                     </div>
@@ -27,7 +27,7 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-sm-4 border-bottom">
-                    <div class="description-block  ">
+                    <div class="description-block dashLink" onclick="OpenCustExpeditionReport('1To30')">
                         <h5 class="description-header">@Model.CustInvAgeSummary.Count1To30</h5>
                         <span class="description-text">1-30 Days</span>
                     </div>
@@ -38,7 +38,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-4 border-right">
-                    <div class="description-block">
+                    <div class="description-block dashLink" onclick="OpenCustExpeditionReport('31To60')">
                         <h5 class="description-header">@Model.CustInvAgeSummary.Count31To60</h5>
                         <span class="description-text">31-60 Days</span>
                     </div>
@@ -46,7 +46,7 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-sm-4 border-right">
-                    <div class="description-block">
+                    <div class="description-block dashLink" onclick="OpenCustExpeditionReport('61To90')">
                         <h5 class="description-header">@Model.CustInvAgeSummary.Count61To90</h5>
                         <span class="description-text">61-90 Days</span>
                     </div>
@@ -54,7 +54,7 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-sm-4">
-                    <div class="description-block">
+                    <div class="description-block dashLink" onclick="OpenCustExpeditionReport('90Above')">
                         <h5 class="description-header">@Model.CustInvAgeSummary.Count91Above  </h5>
                         <span class="description-text">91 Above</span>
                     </div>
@@ -83,7 +83,7 @@
         <div class="box-footer">
             <div class="row">
                 <div class="col-sm-4 border-right border-bottom">
-                    <div class="description-block">
+                    <div class="description-block dashLink" onclick="OpenSuppExpeditionReport('ThisWeek')">
                         <h5 class="description-header">@Model.SuppInvAgeSummary.ThisWeek  </h5>
                         <span class="description-text">Coming Week </span>
                     </div>
@@ -91,7 +91,7 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-sm-4 border-right border-bottom">
-                    <div class="description-block">
+                    <div class="description-block dashLink" onclick="OpenSuppExpeditionReport('Today')">
                         <h5 class="description-header">@Model.SuppInvAgeSummary.Todays</h5>
                         <span class="description-text">Today</span>
                     </div>
@@ -99,7 +99,7 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-sm-4 border-bottom">
-                    <div class="description-block">
+                    <div class="description-block dashLink" onclick="OpenSuppExpeditionReport('1To30')">
                         <h5 class="description-header">@Model.SuppInvAgeSummary.Count1To30</h5>
                         <span class="description-text">1-30 Days</span>
                     </div>
@@ -110,7 +110,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-4 border-right">
-                    <div class="description-block">
+                    <div class="description-block dashLink" onclick="OpenSuppExpeditionReport('31To60')">
                         <h5 class="description-header">@Model.SuppInvAgeSummary.Count31To60</h5>
                         <span class="description-text">31-60 Days</span>
                     </div>
@@ -118,7 +118,7 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-sm-4 border-right">
-                    <div class="description-block">
+                    <div class="description-block dashLink" onclick="OpenSuppExpeditionReport('61To90')">
                         <h5 class="description-header">@Model.SuppInvAgeSummary.Count61To90</h5>
                         <span class="description-text">61-90 Days</span>
                     </div>
@@ -126,7 +126,7 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-sm-4">
-                    <div class="description-block">
+                    <div class="description-block dashLink" onclick="OpenSuppExpeditionReport('90Above')">
                         <h5 class="description-header">@Model.SuppInvAgeSummary.Count91Above  </h5>
                         <span class="description-text">91 Above</span>
                     </div>
