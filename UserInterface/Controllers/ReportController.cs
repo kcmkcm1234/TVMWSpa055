@@ -1593,24 +1593,57 @@ namespace UserInterface.Controllers
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
-        public ActionResult CustomerPaymentExpeditingDetails()
+        public ActionResult CustomerPaymentExpeditingDetails(string id)
         {
 
             DateTime dt = DateTime.Now;
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
+            CustomerExpeditingListViewModel Result = new CustomerExpeditingListViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            selectListItem.Add(new SelectListItem {Text = "--Select--", Value = "ALL", Selected = false});
+            selectListItem.Add(new SelectListItem { Text = "Coming Week", Value = "ThisWeek", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "Today", Value = "Today", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "1-30 Days", Value = "1To30", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "31-60 Days", Value = "31To60", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "61-90 Days", Value = "61To90", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "90 Above", Value = "90Above", Selected = false });
 
-            return View();
+            if (id == null || id == "")
+            {
+                var selected = selectListItem.Where(x => x.Value == "ALL").First();
+                selected.Selected = true;
+            }
+            else
+            {
+                try
+                {
+                    var selected = selectListItem.Where(x => x.Value == id).First();
+                    selected.Selected = true;
+                }
+                catch (Exception)
+                {
+
+                    Result.Filter = "ALL";
+                }
+
+            }
+
+            Result.BasicFilters = selectListItem;
+
+          
+            return View(Result);
         }
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
-        public string GetCustomerPaymentExpeditingDetails(string ToDate)
+        public string GetCustomerPaymentExpeditingDetails(string ToDate,string Filter)
         {
             try
             { 
             DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-            List<CustomerExpeditingReportViewModel> customerExpeditingDetailsList = Mapper.Map<List<CustomerExpeditingReport>, List<CustomerExpeditingReportViewModel>>(_reportBusiness.GetCustomerExpeditingDetail(TDate));
-            return JsonConvert.SerializeObject(new { Result = "OK", Records = customerExpeditingDetailsList});
+            CustomerExpeditingListViewModel Result = new CustomerExpeditingListViewModel();
+            Result.customerExpeditingDetailsList = Mapper.Map<List<CustomerExpeditingReport>, List<CustomerExpeditingReportViewModel>>(_reportBusiness.GetCustomerExpeditingDetail(TDate,Filter));
+            return JsonConvert.SerializeObject(new { Result = "OK", Records = Result });
             }
                 catch (Exception ex)
                 {
@@ -1623,24 +1656,61 @@ namespace UserInterface.Controllers
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
-        public ActionResult SupplierPaymentExpeditingDetails()
+        public ActionResult SupplierPaymentExpeditingDetails(string id)
         {
 
             DateTime dt = DateTime.Now;
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
 
-            return View();
+            SupplierExpeditingListViewModel Result = new SupplierExpeditingListViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            selectListItem.Add(new SelectListItem { Text = "--Select--", Value = "ALL", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "Coming Week", Value = "ThisWeek", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "Today", Value = "Today", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "1-30 Days", Value = "1To30", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "31-60 Days", Value = "31To60", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "61-90 Days", Value = "61To90", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "90 Above", Value = "90Above", Selected = false });
+
+            if (id == null || id == "")
+            {
+                var selected = selectListItem.Where(x => x.Value == "ALL").First();
+                selected.Selected = true;
+            }
+            else
+            {
+                try
+                {
+                    var selected = selectListItem.Where(x => x.Value == id).First();
+                    selected.Selected = true;
+                }
+                catch (Exception)
+                {
+
+                    Result.Filter = "ALL";
+                }
+
+            }
+
+            Result.BasicFilters = selectListItem;
+
+
+            return View(Result);
+
+
+            
         }
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
-        public string GetSupplierPaymentExpeditingDetails(string ToDate)
+        public string GetSupplierPaymentExpeditingDetails(string ToDate, string Filter)
         {
             try
             {
                 DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                List<SupplierExpeditingReportViewModel> supplierExpeditingDetailsList = Mapper.Map<List<SupplierExpeditingReport>, List<SupplierExpeditingReportViewModel>>(_reportBusiness.GetSupplierExpeditingDetail(TDate));
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = supplierExpeditingDetailsList });
+                SupplierExpeditingListViewModel Result = new SupplierExpeditingListViewModel();
+                Result.SupplierExpeditingDetailsList = Mapper.Map<List<SupplierExpeditingReport>, List<SupplierExpeditingReportViewModel>>(_reportBusiness.GetSupplierExpeditingDetail(TDate, Filter));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = Result });
             }
             catch (Exception ex)
             {

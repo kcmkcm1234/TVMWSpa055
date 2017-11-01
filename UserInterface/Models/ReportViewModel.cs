@@ -503,6 +503,12 @@ namespace UserInterface.Models
         public string Date { get; set; }
     }
 
+    public class CustomerExpeditingListViewModel {
+        public List<CustomerExpeditingReportViewModel> customerExpeditingDetailsList { get; set; }
+        [Display(Name = "Filter")]
+        public List<SelectListItem> BasicFilters { get; set; }
+        public string Filter { get; set; }
+    }
 
     public class SupplierExpeditingReportViewModel
     {
@@ -517,6 +523,14 @@ namespace UserInterface.Models
         public Decimal Amount { get; set; }
         public string NoOfDays { get; set; }
         public string Remarks { get; set; }
+    }
+
+    public class SupplierExpeditingListViewModel
+    {
+        public List<SupplierExpeditingReportViewModel> SupplierExpeditingDetailsList { get; set; }
+        [Display(Name = "Filter")]
+        public List<SelectListItem> BasicFilters { get; set; }
+        public string Filter { get; set; }
     }
 
 }

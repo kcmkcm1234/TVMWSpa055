@@ -445,12 +445,12 @@ namespace SPAccounts.BusinessService.Services
         }
 
 
-        public List<CustomerExpeditingReport> GetCustomerExpeditingDetail(DateTime? ToDate)
+        public List<CustomerExpeditingReport> GetCustomerExpeditingDetail(DateTime? ToDate,String Filter)
         {
             List<CustomerExpeditingReport> CustomerExpeditingList = null;
             try
             {
-                CustomerExpeditingList = _reportRepository.GetCustomerExpeditingDetail(ToDate);
+                CustomerExpeditingList = _reportRepository.GetCustomerExpeditingDetail(ToDate, Filter);
             }
             catch (Exception ex)
             {
@@ -462,12 +462,12 @@ namespace SPAccounts.BusinessService.Services
 
         
 
-            public List<SupplierExpeditingReport> GetSupplierExpeditingDetail(DateTime? ToDate)
+            public List<SupplierExpeditingReport> GetSupplierExpeditingDetail(DateTime? ToDate, string Filter)
         {
             List<SupplierExpeditingReport> SupplierExpeditingList = null;
             try
             {
-                SupplierExpeditingList = _reportRepository.GetSupplierExpeditingDetail(ToDate);
+                SupplierExpeditingList = _reportRepository.GetSupplierExpeditingDetail(ToDate,Filter);
             }
             catch (Exception ex)
             {
