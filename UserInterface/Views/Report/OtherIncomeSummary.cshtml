@@ -50,7 +50,7 @@
     &nbsp;
     &nbsp;
 </div>
-<div class="form-horizontal">
+<div class="form-horizontal" id="main">
 
     <div class="col-md-9" style="margin-top:10px;">
         <div class="col-md-3">
@@ -136,7 +136,43 @@
 </div>
 
 
+<div id="myNav" class="overlay">
+    <div class="overlay-content">
+        <div class="row" id="OverlayHeader">
+            <div class="col-md-6" style="text-align:left">
+                <span id="lblDetailsHead" class="SCHeader"></span>
+            </div>
+            <div class="col-md-6" id="btnPatchAdd" style="min-height:25px; padding-right:25px;">
 
+                @{
+                    var data1 = new { ActionType = "CustDetail" };
+                    @Html.Action("ChangeButtonStyle", "Report", data1);
+                }
+            </div>
+        </div>
+        <br />
+        <div class="row tableContainer EntryForms" style="height:550px">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <table id="otherIncomeDetailsAHTable" class="table stripe" cellspacing="0" width="100%">
+                        <thead>
+                            <tr class="text-center TableHead">
+                                <th>Company</th>
+                                <th>Date</th>
+                                <th>Account Head</th>
+                                <th>Payment Mode</th>
+                                <th>Payment Reference</th>
+                                <th>Description</th>
+                                <th>Amount</th>
+                                <th>Origin Company</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 

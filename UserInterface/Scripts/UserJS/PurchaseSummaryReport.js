@@ -32,7 +32,7 @@ $(document).ready(function () {
                    if (data == '<b>GrantTotal</b>')
                        return data;  
                    else
-                       return '<a onclick="ViewSupplierDetail(this);">' + data + ' </a>';
+                       return '<a href="#" onclick="ViewSupplierDetail(this);">' + data + ' </a>';
                } },
                { "data": "OpeningBalance", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                { "data": "Invoiced", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },

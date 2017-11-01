@@ -115,6 +115,8 @@ namespace SPAccounts.RepositoryServices.Services
                                         otherExpenseSummary.SubTypeDesc = (sdr["SubTypeDesc"].ToString() != "" ? sdr["SubTypeDesc"].ToString() : otherExpenseSummary.SubTypeDesc);
                                         otherExpenseSummary.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : otherExpenseSummary.Amount);
                                         otherExpenseSummary.OriginCompany = (sdr["OriginCompany"].ToString() != "" ? sdr["OriginCompany"].ToString() : otherExpenseSummary.OriginCompany);
+                                        otherExpenseSummary.AccountHead = (sdr["AccountHeadCode"].ToString() != "" ? sdr["AccountHeadCode"].ToString() : otherExpenseSummary.AccountHead);
+                                        otherExpenseSummary.EmployeeID = (sdr["EmpID"].ToString() != "" ? Guid.Parse(sdr["EmpID"].ToString()) : otherExpenseSummary.EmployeeID);
                                         //otherExpenseSummary.Description = (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : otherExpenseSummary.Description);
                                     }
                                     otherExpenseSummaryList.Add(otherExpenseSummary);
@@ -174,6 +176,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         otherExpenseDetails.PaymentReference= (sdr["PaymentReference"].ToString() != "" ? sdr["PaymentReference"].ToString() : otherExpenseDetails.PaymentReference);
                                         otherExpenseDetails.Description= (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : otherExpenseDetails.Description);
                                         otherExpenseDetails.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : otherExpenseDetails.Amount);
+                                        otherExpenseDetails.RowType = (sdr["RowType"].ToString() != "" ? sdr["RowType"].ToString() : otherExpenseDetails.RowType);
                                         otherExpenseDetails.Company= (sdr["Company"].ToString() != "" ? sdr["Company"].ToString() : otherExpenseDetails.Company);
                                     }
                                     otherExpenseDetailList.Add(otherExpenseDetails);
@@ -1153,7 +1156,8 @@ namespace SPAccounts.RepositoryServices.Services
                                         otherIncomeSummaryReport.AccountHeadORSubtype = (sdr["AccountHeadORSubtype"].ToString() != "" ? sdr["AccountHeadORSubtype"].ToString() : otherIncomeSummaryReport.AccountHeadORSubtype);
                                         otherIncomeSummaryReport.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : otherIncomeSummaryReport.Amount);
                                         otherIncomeSummaryReport.OriginCompany = (sdr["OriginCompany"].ToString() != "" ? sdr["OriginCompany"].ToString() : otherIncomeSummaryReport.OriginCompany);
-                                        
+                                        otherIncomeSummaryReport.AccountHead= (sdr["AccountCode"].ToString() != "" ? sdr["AccountCode"].ToString() : otherIncomeSummaryReport.AccountHead);
+
                                     }
                                     otherIncomeSummaryList.Add(otherIncomeSummaryReport);
                                 }
@@ -1217,6 +1221,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         otherIncomeDetails.Description = (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : otherIncomeDetails.Description);
                                         otherIncomeDetails.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : otherIncomeDetails.Amount);
                                         otherIncomeDetails.Company = (sdr["Company"].ToString() != "" ? sdr["Company"].ToString() : otherIncomeDetails.Company);
+                                        otherIncomeDetails.RowType = (sdr["RowType"].ToString() != "" ? sdr["RowType"].ToString() : otherIncomeDetails.RowType);
                                     }
                                     otherIncomeDetailList.Add(otherIncomeDetails);
                                 }

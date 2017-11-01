@@ -31,7 +31,11 @@ $(document).ready(function () {
              //},
              columns: [
                
-               { "data": "AccountHeadORSubtype", "defaultContent": "<i>-</i>" },
+               {
+                   "data": "AccountHeadORSubtype", "defaultContent": "<i>-</i>", render: function (data, type, row) { 
+                       return '<a href="#" onclick="ViewOtherIncomeDetail(this);">' + data + ' </a>';
+                   }
+               },
                { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
              { "data": "OriginCompany", "defaultContent": "<i>-</i>" },
              ],
@@ -57,10 +61,35 @@ $(document).ready(function () {
         startdate = $("#todate").val();
         enddate = $("#fromdate").val();
 
+        DataTables.otherIncomeDetailsReportAHTable = $('#otherIncomeDetailsAHTable').DataTable(
+         {
+             dom: '<"pull-right"f>rt<"bottom"ip><"clear">', 
+             order: [],
+             searching: false,
+             paging: true,
+             data:null,
+             pageLength: 50,
+
+             columns: [
+               { "data": "Company", "defaultContent": "<i>-</i>" },
+                { "data": "Date", "defaultContent": "<i>-</i>" },
+               { "data": "AccountHead", "defaultContent": "<i>-</i>" },
+               { "data": "PaymentMode", "defaultContent": "<i>-</i>" },
+               { "data": "PaymentReference", "defaultContent": "<i>-</i>" },
+               { "data": "Description", "defaultContent": "<i>-</i>" },
+               { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+               { "data": "OriginCompany", "defaultContent": "<i>-</i>" }
+             ],
+             columnDefs: [{ "targets": [7], "visible": false, "searchable": false },
+             { className: "text-left", "targets": [0, 2, 3, 4, 5] },
+                { "width": "15%", "targets": [0] },
+               { "width": "10%", "targets": [1] },
+             { className: "text-right", "targets": [6] },
+         { className: "text-center", "targets": [1] }] 
+         });
+
     } catch (x) {
-
         notyAlert('error', x.message);
-
     }
 
 });
@@ -150,4 +179,43 @@ function Reset() {
     $("#AccountCode").val('ALL').trigger('change')
     $("#Search").val('').trigger('change')
     RefreshOtherIncomeSummaryAHTable();
+}
+
+
+function ViewOtherIncomeDetail(row_obj) {
+    debugger;
+    var rowData = DataTables.otherIncomeSummaryReportAHTable.row($(row_obj).parents('tr')).data();
+
+    openNav();
+    DataTables.otherIncomeDetailsReportAHTable.clear().rows.add(GetIncomeDetailsReport(rowData)).draw(false);
+}
+
+function GetIncomeDetailsReport(rowData) {
+    try {
+        debugger;
+        $("#lblDetailsHead").text(rowData.AccountHeadORSubtype);
+        var fromdate = $("#fromdate").val();
+        var todate = $("#todate").val();
+        var companycode = $("#CompanyCode").val();
+        var AccountHead = rowData.AccountHead;
+
+
+        if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
+            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "accounthead": AccountHead};
+            var ds = {};
+            ds = GetDataFromServer("Report/GetOtherIncomeDetailsReport/", data);
+            if (ds != '') {
+                ds = JSON.parse(ds);
+            }
+            if (ds.Result == "OK") {
+                return ds.Records;
+            }
+            if (ds.Result == "ERROR") {
+                notyAlert('error', ds.Message);
+            }
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
 }

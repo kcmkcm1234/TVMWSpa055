@@ -43,10 +43,10 @@ $(document).ready(function () {
                { "data": "OriginCompany", "defaultContent": "<i>-</i>" }
              ],
              columnDefs: [{ "targets": [9], "visible": false, "searchable": false },
-             { className: "text-left", "targets": [0, 2, 3, 4, 5,6] },
+             { className: "text-left", "targets": [0, 2, 3, 4, 5,6,7] },
               { "width": "15%", "targets": [0] },
                { "width": "10%", "targets": [1] },
-             { className: "text-right", "targets": [7,8] },
+             { className: "text-right", "targets": [8] },
          { className: "text-center", "targets": [1] }],
              drawCallback: function (settings) {
                  var api = this.api();
