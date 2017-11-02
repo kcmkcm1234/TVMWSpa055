@@ -168,6 +168,7 @@ namespace SPAccounts.RepositoryServices.Services
                                     PaymentsObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : PaymentsObj.ID);
                                     PaymentsObj.PaidFromComanyCode = (sdr["PaidFromComanyCode"].ToString() != "" ? sdr["PaidFromComanyCode"].ToString() : PaymentsObj.PaidFromComanyCode);
                                     PaymentsObj.PaymentDateFormatted = (sdr["PaymentDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDate"].ToString()).ToString("dd-MMM-yyyy").ToString() : PaymentsObj.PaymentDateFormatted);
+                                    PaymentsObj.ChequeClearDate = (sdr["ChequeClearDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeClearDate"].ToString()).ToString("dd-MMM-yyyy").ToString() : PaymentsObj.ChequeClearDate);
                                     PaymentsObj.ChequeDate = (sdr["ChequeDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeDate"].ToString()).ToString("dd-MMM-yyyy").ToString() : PaymentsObj.ChequeDate);
                                     PaymentsObj.PaymentRef = (sdr["PaymentRef"].ToString() != "" ? sdr["PaymentRef"].ToString() : PaymentsObj.PaymentRef);
                                     PaymentsObj.EntryNo = (sdr["EntryNo"].ToString() != "" ? sdr["EntryNo"].ToString() : PaymentsObj.EntryNo);
@@ -295,6 +296,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = _supplierPayObj.supplierObj.ID;
                         cmd.Parameters.Add("@PaymentDate", SqlDbType.DateTime).Value = _supplierPayObj.PaymentDate;
+                        cmd.Parameters.Add("@ChequeClearDate", SqlDbType.DateTime).Value = _supplierPayObj.ChequeClearDate;
                         cmd.Parameters.Add("@ChequeDate", SqlDbType.DateTime).Value = _supplierPayObj.ChequeDate;
                         cmd.Parameters.Add("@PaymentMode", SqlDbType.VarChar, 10).Value = _supplierPayObj.PaymentMode;
                         cmd.Parameters.Add("@Refbank", SqlDbType.NVarChar, 50).Value = _supplierPayObj.ReferenceBank;
@@ -360,6 +362,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = _supplierPayObj.ID;
                         cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = Guid.Parse(_supplierPayObj.hdfSupplierID);
+                        cmd.Parameters.Add("@ChequeClearDate", SqlDbType.DateTime).Value = _supplierPayObj.ChequeClearDate;
                         cmd.Parameters.Add("@ChequeDate", SqlDbType.DateTime).Value = _supplierPayObj.ChequeDate;
                         cmd.Parameters.Add("@PaymentDate", SqlDbType.DateTime).Value = _supplierPayObj.PaymentDate;
                         cmd.Parameters.Add("@PaymentMode", SqlDbType.VarChar, 10).Value = _supplierPayObj.PaymentMode;

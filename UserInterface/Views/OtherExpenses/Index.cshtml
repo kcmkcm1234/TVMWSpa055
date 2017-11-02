@@ -418,19 +418,18 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="col-md-12">
-                                                @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-2" })
-                                                <div id="ReFAmountMsg" class="col-md-10" style="color:red" hidden="hidden"></div>
+                                                @Html.LabelFor(model => model.ChequeClearDate, htmlAttributes: new { @class = "control-label" })
                                             </div>
+
                                             <div class="col-md-11">
-                                                @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter Amount", @id = "Amount", onkeypress = "return isNumber(event)",onchange="CheckReversableAmount()", @onclick = "SelectAllValue(this);" } })
-                                                @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+                                                @Html.EditorFor(model => model.ChequeClearDate, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter datepicker", @id = "ChequeClearDate" } })
                                             </div>
                                         </div>
-                                           
+                                      
                                         </div>
 
                                         <div class="form-group col-md-12">
-                                            
+                                           
                                             <div class="col-md-6">
                                                 <div class="col-md-12">
                                                     @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -443,6 +442,17 @@
 
                                                 </div>
                                             </div>
+                                            <div class="col-md-6">
+                                                <div class="col-md-12">
+                                                    @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                    <div id="ReFAmountMsg" class="col-md-10" style="color:red" hidden="hidden"></div>
+                                                </div>
+                                                <div class="col-md-11">
+                                                    @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter Amount", @id = "Amount", onkeypress = "return isNumber(event)", onchange = "CheckReversableAmount()", @onclick = "SelectAllValue(this);" } })
+                                                    @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
 
                                         </div>
 

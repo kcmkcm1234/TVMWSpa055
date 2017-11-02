@@ -46,6 +46,9 @@ namespace UserInterface.Models
         [Display(Name = "Cheque Date")]
         public string ChequeDate { get; set; }
 
+        [Display(Name = "Cheque Cleared Date")]
+        public string ChequeClearDate { get; set; }
+
         [Display(Name = "General Notes")]
         public string GeneralNotes { get; set; }
 

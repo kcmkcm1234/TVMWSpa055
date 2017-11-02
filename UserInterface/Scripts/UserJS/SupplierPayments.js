@@ -308,6 +308,7 @@ function GetSupplierPaymentsByID(PaymentID) {
     $('#Supplier').prop('disabled', true);
     $('#PaymentDate').val(thisitem.PaymentDateFormatted);
     $('#ChequeDate').val(thisitem.ChequeDate);
+    $('#ChequeClearDate').val(thisitem.ChequeClearDate);
     $('#PaymentRef').val(thisitem.PaymentRef);
     $('#ReferenceBank').val(thisitem.ReferenceBank);
     $('#PaidFromComanyCode').val(thisitem.PaidFromComanyCode);
@@ -438,6 +439,7 @@ function openNavClick() {
     $('#ReferenceBank').prop('disabled', true);
     $('#BankCode').prop('disabled', true);
     $('#ChequeDate').prop('disabled', true);
+    $('#ChequeClearDate').prop('disabled', true);
     $('#Type').prop('disabled', false);
     $('#PaymentMode').prop('disabled', false);
     openNav();
@@ -452,6 +454,7 @@ function TypeOnChange() {
         $('#PaymentMode').prop('disabled', true);
         $('#BankCode').prop('disabled', true);
         $('#ChequeDate').prop('disabled', true);
+        $('#ChequeClearDate').prop('disabled', true);
         $('#CreditID').prop('disabled', false);
         $('#TotalPaidAmt').prop('disabled', true);
         CaptionChangeCredit()
@@ -786,11 +789,15 @@ function PaymentModeChanged() {
 
         if ($('#PaymentMode').val() == "CHEQUE") {
             $('#ChequeDate').prop('disabled', false);
+            $('#ChequeClearDate').prop('disabled', false);
             $('#ReferenceBank').prop('disabled', true);
         }
         else {
             $("#ChequeDate").val('');
             $('#ChequeDate').prop('disabled', true);
+            $("#ChequeClearDate").val('');
+            $('#ChequeClearDate').prop('disabled', true);
+
             $('#ReferenceBank').prop('disabled', true);
         }
     }
@@ -799,6 +806,8 @@ function PaymentModeChanged() {
         $('#BankCode').prop('disabled', true);
         $("#ChequeDate").val('');
         $('#ChequeDate').prop('disabled', true);
+        $("#ChequeClearDate").val('');
+        $('#ChequeClearDate').prop('disabled', true);
         $('#ReferenceBank').prop('disabled', true);
 
     }
