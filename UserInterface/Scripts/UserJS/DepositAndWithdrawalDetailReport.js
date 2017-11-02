@@ -103,7 +103,7 @@ function RefreshDepositAndWithdrawalDetailReportDetailTable() {
         var companycode = $("#bankList").val();
 
         if (DataTables.depositAndWithdrawalDetailReportDetailTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && bankList) {
-            DataTables.depositAndWithdrawalDetailReportDetailTable.clear().rows.add(GetDepositAndWithdrawalDetailReportDetailTable()).draw(false);
+            DataTables.depositAndWithdrawalDetailReportDetailTable.clear().rows.add(GetDepositAndWithdrawalDetailReportDetailTable()).draw(true);
         }
     }
     catch (e) {

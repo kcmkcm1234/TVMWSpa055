@@ -107,7 +107,7 @@ function RefreshReceivableAgeingReportTable() {
         var todate = $("#todate").val();
         var companycode = $("#CompanyCode").val();
         if (DataTables.ReceivableAgeingReportTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            DataTables.ReceivableAgeingReportTable.clear().rows.add(GetReceivableAgeingReport()).draw(false);
+            DataTables.ReceivableAgeingReportTable.clear().rows.add(GetReceivableAgeingReport()).draw(true);
         }
     }
     catch (e) {

@@ -105,7 +105,7 @@ $(document).ready(function () {
             var companycode = $("#EmployeeCode").val();
 
             if (DataTables.employeeExpenseSummaryReportTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && employeecode) {
-                DataTables.employeeExpenseSummaryReportTable.clear().rows.add(GetEmployeeExpenseSummaryReport()).draw(false);
+                DataTables.employeeExpenseSummaryReportTable.clear().rows.add(GetEmployeeExpenseSummaryReport()).draw(true);
             }
         }
         catch (e) {
@@ -120,7 +120,7 @@ $(document).ready(function () {
             var employeecode = $("#EmployeeCode").val();
 
             if (DataTables.employeeExpenseSummaryReportTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && employeecode) {
-                DataTables.employeeExpenseSummaryReportTable.clear().rows.add(GetEmployeeExpenseSummaryReport()).draw(false);
+                DataTables.employeeExpenseSummaryReportTable.clear().rows.add(GetEmployeeExpenseSummaryReport()).draw(true);
             }
         }
         catch (e) {

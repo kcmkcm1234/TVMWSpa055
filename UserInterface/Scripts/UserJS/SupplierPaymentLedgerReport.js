@@ -132,7 +132,7 @@ function RefreshSupplierPaymentLedgerTable() {
         var suppliercode = $("#supplierCode").val();
 
         if (DataTables.supplierpaymentledgertable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && suppliercode) {
-            DataTables.supplierpaymentledgertable.clear().rows.add(GetSupplierPaymentLedger()).draw(false);
+            DataTables.supplierpaymentledgertable.clear().rows.add(GetSupplierPaymentLedger()).draw(true);
         }
     }
     catch (e) {
@@ -157,7 +157,7 @@ function Back() {
 function OnCallChange() {
     debugger;
     if ($("#supplierCode").val() == '') {
-        DataTables.supplierpaymentledgertable.clear().rows.add(GetSupplierPaymentLedger('ALL')).draw(false);
+        DataTables.supplierpaymentledgertable.clear().rows.add(GetSupplierPaymentLedger('ALL')).draw(true);
     }
    
     RefreshSupplierPaymentLedgerTable();
@@ -170,7 +170,7 @@ function Reset() {
     $("#fromdate").val(enddate);
     $("#supplierCode").val('').trigger('change')
     $("#companyCode").val('ALL');
-    DataTables.supplierpaymentledgertable.clear().rows.add(GetSupplierPaymentLedger('ALL')).draw(false);
+    DataTables.supplierpaymentledgertable.clear().rows.add(GetSupplierPaymentLedger('ALL')).draw(true);
 }
 
 

@@ -130,7 +130,7 @@ function RefreshOtherExpenseDetailsAHTable() {
         var companycode = $("#CompanyCode").val();
 
         if (DataTables.otherExpenseDetailsReportAHTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            DataTables.otherExpenseDetailsReportAHTable.clear().rows.add(GetOtherExpenseDetailsReport()).draw(false);
+            DataTables.otherExpenseDetailsReportAHTable.clear().rows.add(GetOtherExpenseDetailsReport()).draw(true);
         }
     }
     catch (e) {

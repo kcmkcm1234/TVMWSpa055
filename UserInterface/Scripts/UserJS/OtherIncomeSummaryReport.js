@@ -141,7 +141,7 @@ function RefreshOtherIncomeSummaryAHTable() {
         var companycode = $("#CompanyCode").val();
 
         if (DataTables.otherIncomeSummaryReportAHTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            DataTables.otherIncomeSummaryReportAHTable.clear().rows.add(GetIncomeSummaryReport()).draw(false);
+            DataTables.otherIncomeSummaryReportAHTable.clear().rows.add(GetIncomeSummaryReport()).draw(true);
         }
     }
     catch (e) {
@@ -187,7 +187,7 @@ function ViewOtherIncomeDetail(row_obj) {
     var rowData = DataTables.otherIncomeSummaryReportAHTable.row($(row_obj).parents('tr')).data();
 
     openNav();
-    DataTables.otherIncomeDetailsReportAHTable.clear().rows.add(GetIncomeDetailsReport(rowData)).draw(false);
+    DataTables.otherIncomeDetailsReportAHTable.clear().rows.add(GetIncomeDetailsReport(rowData)).draw(true);
 }
 
 function GetIncomeDetailsReport(rowData) {

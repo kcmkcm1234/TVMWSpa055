@@ -168,7 +168,7 @@ function RefreshPurchaseDetailTable() {
 
         //}
         if (DataTables.purchaseDetailReportTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            DataTables.purchaseDetailReportTable.clear().rows.add(GetPurchaseDetail()).draw(false);
+            DataTables.purchaseDetailReportTable.clear().rows.add(GetPurchaseDetail()).draw(true);
         }
     }
     catch (e) {

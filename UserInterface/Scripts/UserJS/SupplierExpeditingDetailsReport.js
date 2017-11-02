@@ -88,7 +88,7 @@ function RefreshSupplierExpeditingDetailTable() {
         var todate = $("#todate").val();
 
         if (DataTables.SupplierExpeditingDetailTableReportTable != undefined && IsVaildDateFormat(todate)) {
-            DataTables.SupplierExpeditingDetailTableReportTable.clear().rows.add(GetSupplierExpeditingDetail()).draw(false);
+            DataTables.SupplierExpeditingDetailTableReportTable.clear().rows.add(GetSupplierExpeditingDetail()).draw(true);
         }
     }
     catch (e) {
