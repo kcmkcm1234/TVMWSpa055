@@ -161,7 +161,7 @@ namespace UserInterface.Controllers
         #region GetAllInvoices
         [AuthSecurityFilter(ProjectObject = "CustomerInvoices", Mode = "R")]
         [HttpGet]    
-        public string GetInvoicesAndSummary(string filter)
+        public string GetInvoicesAndSummary(string filter,string FromDate,string ToDate,string Customer,string InvoiceType, string Company, string Status, string Search)
         {
             try
             {
@@ -171,13 +171,17 @@ namespace UserInterface.Controllers
                 string[] arr = _appUA.RolesCSV.Split(',');
                 if (arr.Contains("SAdmin")|| arr.Contains("CEO"))
                 {
+                    DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
+                    DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
                     Result.CustomerInvoiceSummary = Mapper.Map<CustomerInvoiceSummary, CustomerInvoiceSummaryViewModel>(_customerInvoicesBusiness.GetCustomerInvoicesSummaryForSA());
-                    Result.CustomerInvoices = Mapper.Map<List<CustomerInvoice>, List<CustomerInvoicesViewModel>>(_customerInvoicesBusiness.GetAllCustomerInvoicesForSA());
+                    Result.CustomerInvoices = Mapper.Map<List<CustomerInvoice>, List<CustomerInvoicesViewModel>>(_customerInvoicesBusiness.GetAllCustomerInvoicesForSA(FDate,TDate, Customer, InvoiceType, Company, Status, Search));
                 } 
                 else
                 {
+                    DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
+                    DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
                     Result.CustomerInvoiceSummary = Mapper.Map<CustomerInvoiceSummary, CustomerInvoiceSummaryViewModel>(_customerInvoicesBusiness.GetCustomerInvoicesSummary(true));
-                    Result.CustomerInvoices = Mapper.Map<List<CustomerInvoice>, List<CustomerInvoicesViewModel>>(_customerInvoicesBusiness.GetAllCustomerInvoices());
+                    Result.CustomerInvoices = Mapper.Map<List<CustomerInvoice>, List<CustomerInvoicesViewModel>>(_customerInvoicesBusiness.GetAllCustomerInvoices(FDate, TDate, Customer, InvoiceType, Company, Status, Search));
                 }
                 if (filter != null && filter=="OD")
                 {
@@ -481,7 +485,7 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.resetbtn.Visible = true;
                     ToolboxViewModelObj.resetbtn.Text = "Reset";
                     ToolboxViewModelObj.resetbtn.Title = "Reset";
-                    ToolboxViewModelObj.resetbtn.Event = "List();";
+                    ToolboxViewModelObj.resetbtn.Event = "FilterReset();";
 
                     //----added for export button--------------
 

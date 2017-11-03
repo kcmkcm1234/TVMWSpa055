@@ -1,9 +1,12 @@
-﻿var DataTables = {};
+﻿//Declaration of global variables,which can be accessible through out the program
+var DataTables = {};
 var emptyGUID = '00000000-0000-0000-0000-000000000000'
+//A way to run JavaScript code as soon as the page's Document Object Model (DOM) becomes safe to manipulate. 
 $(document).ready(function () {
     try {
         debugger;
-        $("#ddlCustomer").select2({
+        //For implementating select2
+        $("#ddlCustomer,#Customerddl").select2({
         });
         $('#btnUpload').click(function () {
             //Pass the controller name
@@ -21,6 +24,7 @@ $(document).ready(function () {
             FileObject.Controller = "FileUpload";
             UploadFile(FileObject);
         });
+        //To bind values to datatable
         DataTables.CustInvTable = $('#CustInvTable').DataTable(
          {
              //dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
@@ -33,14 +37,14 @@ $(document).ready(function () {
                               }
              }],
              order: [],
-             searching: true,
+             searching: false,
              paging: true,
              data: null,
              pageLength: 15,
-             language: {
-                 search: "_INPUT_",
-                 searchPlaceholder: "Search"
-             },
+             //language: {
+             //    search: "_INPUT_",
+             //    searchPlaceholder: "Search"
+             //},
              columns: [              
                { "data": "ID" },
                { "data": "InvoiceNo" },
@@ -60,18 +64,20 @@ $(document).ready(function () {
              { className: "text-center", "targets": [2,4,7,10] }
 
              ]
-                      });
+         });
+        //print button is hided in the page
         $(".buttons-excel").hide();
-
+        //on double clicking edit it will redirect to edit page
         $('#CustInvTable tbody').on('dblclick', 'td', function () {
             Edit(this);
         });
         $('input[type="text"].Roundoff').on('focus', function () {
             $(this).select();
         });
+        //show loading gif on refreshing the page
         showLoader();
         List();
-       
+       //roundoff the digits upto two decimal place
         $('.Roundoff').on('change', function () {
             var CustomerInvoiceViewModel = new Object();
             CustomerInvoiceViewModel.GrossAmount = $('#txtGrossAmt').val();
@@ -98,7 +104,7 @@ $(document).ready(function () {
         });
 
 
-
+        //Bind value to modal pop up
         //------------------------Modal Popup Advance Adujustment-------------------------------------//
         DataTables.OutStandingInvoices = $('#tblOutStandingDetails').DataTable({
             dom: '<"pull-left"f>rt<"bottom"ip><"clear">',
@@ -209,14 +215,12 @@ $(document).ready(function () {
 });
 
 
-
+//To print the page to excel format up on clicking the print button,which triggers the hidden button
 function PrintReport() {
     try {
         debugger;
 
         $(".buttons-excel").trigger('click');
-
-
     }
     catch (e) {
         notyAlert('error', e.message);
@@ -225,7 +229,7 @@ function PrintReport() {
 
 
 
-
+//Bind values to dashboard
 function dashboardBind(ID) {
     Resetform();
     $('#ID').val(ID);
@@ -235,26 +239,30 @@ function dashboardBind(ID) {
     openNav();
 }
 
+//alert msg on clicking delete button ,whether to proceed or not with the delete
 function DeleteInvoices() {
     notyConfirm('Are you sure to delete?', 'Delete()', '', "Yes, delete it!");
 }
 
+//Check the discount amount is zero if so,then round off to 0.00
 function CheckAmount() {
-    debugger;
     if($("#txtDiscount").val() == "")
     $("#txtDiscount").val(roundoff(0));
 }
 
+//Trigger the delete button
 function Delete()
 { 
     $('#btnFormDelete').trigger('click'); 
 }
 
+//trigger the save button to save the invoices
 function saveInvoices() {
     debugger; 
       $('#btnSave').trigger('click');
 }
 
+//Notification on delete-whether success or failure
 function DeleteSuccess(data, status) {
     var JsonResult = JSON.parse(data)
     switch (JsonResult.Result) {
@@ -274,6 +282,7 @@ function DeleteSuccess(data, status) {
     }
 }
 
+//Notification on Save-whether save success or failure
 function SaveSuccess(data, status) {
     debugger;
     var JsonResult = JSON.parse(data)
@@ -319,6 +328,8 @@ function Advanceadjustment() {
         return false;
     }
 }
+
+//save advanceadjust upon inserting or updating
 function SaveAdvanceAdujust() {
     debugger;
     var SelectedRows = DataTables.OutStandingInvoices.rows(".selected").data();
@@ -455,7 +466,8 @@ function Selectcheckbox() {
             DataTables.OutStandingInvoices.rows(i).select();
         }
     }
-} 
+}
+//Get Customer advances based on Id
 function GetCustomerAdvances(ID) {
     try {
         var data = { "ID": ID };
@@ -475,6 +487,8 @@ function GetCustomerAdvances(ID) {
         notyAlert('error', e.message);
     }
 }
+
+//Get outstanding invoices based on customer Id
 function GetOutStandingInvoices(CustID) {
     try {
         debugger;
@@ -544,7 +558,7 @@ function Summary(Records) {
     $('#paidinvoice').html(Records.PaidInvoices);
 }
 
-
+//edit the data
 function Edit(Obj) {
     debugger;
 
@@ -557,6 +571,7 @@ function Edit(Obj) {
     openNav();
 }
 
+//Form is resetted 
 function Resetform() {
     var validator = $("#CustomerInvoiceForm").validate();
     $('#CustomerInvoiceForm').find('.field-validation-error span').each(function () {
@@ -564,6 +579,19 @@ function Resetform() {
     });
     $('#CustomerInvoiceForm')[0].reset();
 }
+
+function FilterReset()
+{
+    $("#fromdate").val('');
+    $("#todate").val('');
+    $("#Customerddl").val('').trigger('change')
+    $("#ddlInvoiceTypes").val('');
+    $("#Companyddl").val('');
+    $("#ddlInvoiceTypesStatus").val('');
+    $("#search").val('');
+    List();
+}
+//New form to add data
 function AddNew()
 {
     debugger;
@@ -643,10 +671,25 @@ function PaintInvoiceDetails()
     PaintImages(InvoiceID);
 
 }
+//Filter the table based on the filter conditions
 //---------------Bind logics-------------------
 function GetAllInvoicesAndSummary(filter) {
     try {
-        var data = { "filter": filter };
+        if ($("#fromdate").val() !== "")
+            var fromdate = $("#fromdate").val();
+        if ($("#todate").val() !== "")
+            var todate = $("#todate").val();
+        if($("#Customerddl").val()!="")
+            var customercode = $("#Customerddl").val();
+        if($("#ddlInvoiceTypes").val()!= "")
+            var invoicetype = $("#ddlInvoiceTypes").val();
+        if($("#Companyddl").val() != ""  )
+            var companycode = $("#Companyddl").val();
+        if($("#ddlInvoiceTypesStatus").val() != "" )
+            var status = $("#ddlInvoiceTypesStatus").val();
+        if($("#search").val()!= "")
+        var search = $("#search").val();
+        var data = { "filter": filter ,"FromDate":fromdate,"ToDate":todate,"Customer":customercode,"InvoiceType":invoicetype,"Company":companycode,"Status":status,"Search":search};
         var ds = {};
         ds = GetDataFromServer("CustomerInvoices/GetInvoicesAndSummary/", data);
         if (ds != '') {
@@ -663,6 +706,27 @@ function GetAllInvoicesAndSummary(filter) {
         notyAlert('error', e.message);
     }
 }
+
+//to refresh datatable on clicking button 'Apply'
+function RefreshInvoicesAndSummary() {
+    try {
+        var fromdate = $("#fromdate").val();
+        var todate = $("#todate").val();
+        var companycode = $("#Companyddl").val();
+        var result = GetAllInvoicesAndSummary();
+        if (result != null) {
+            if (result.CustomerInvoices != null)
+                DataTables.CustInvTable.clear().rows.add(result.CustomerInvoices).draw(false);
+            if (result.CustomerInvoiceSummary != null) {
+                Summary(result.CustomerInvoiceSummary);
+            }
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
 //onchange function for the customer dropdown to fill:- due date and Address 
 function FillCustomerDefault(this_Obj)
 {
@@ -686,7 +750,8 @@ function FillCustomerDefault(this_Obj)
     {
 
     }
-} 
+}
+//Get Customer Details based on ID
 function GetCustomerDetails(ID)
 {
     try {
@@ -707,6 +772,7 @@ function GetCustomerDetails(ID)
         notyAlert('error', e.message);
     }
 }
+//Bind Payment due date based on Payment date
 function GetDueDate(this_Obj)
 {
     try
@@ -742,6 +808,7 @@ function GetPaymentTermDetails(Code)
         notyAlert('error', e.message);
     }
 }
+//Based on invoice id get customer invoice details
 function GetCustomerInvoiceDetails()
 {
     try {
@@ -764,7 +831,7 @@ function GetCustomerInvoiceDetails()
     }
 }
 
-
+//Disabling and enabling invoice reference based on invoice type
 //-----------------------------------------------------------------------------------------------------------------//
 
 function InvoicesTypeChange() {

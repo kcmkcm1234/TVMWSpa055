@@ -6,7 +6,7 @@ namespace SPAccounts.BusinessService.Contracts
 {
     public interface ICustomerInvoicesBusiness
     {
-        List<CustomerInvoice> GetAllCustomerInvoices();
+        List<CustomerInvoice> GetAllCustomerInvoices(DateTime? FromDate, DateTime? ToDate, string Customer, string InvoiceType, string Company, string Status, string Search);
         List<CustomerInvoice> GetAllCustomerInvociesByCustomerID(Guid CustomerID);
         CustomerInvoice GetCustomerInvoiceDetails(Guid ID);
         CustomerInvoiceSummary GetCustomerInvoicesSummary(bool IsInternal);
@@ -19,7 +19,7 @@ namespace SPAccounts.BusinessService.Contracts
         CustomerInvoicesSummaryForMobile GetCustomerInvoicesByDateWise(CustomerInvoice CusmObj);
 
         //special Permission SAdmin and CEO case
-        List<CustomerInvoice> GetAllCustomerInvoicesForSA();
+        List<CustomerInvoice> GetAllCustomerInvoicesForSA(DateTime? FromDate, DateTime? ToDate, string Customer, string InvoiceType, string Company, string Status, string Search);
         CustomerInvoiceSummary GetCustomerInvoicesSummaryForSA();
         //SpecialPayments
         

@@ -84,7 +84,7 @@ namespace UserInterface.Models
         public String LastPaymentDateFormatted { get; set; }
         public String Status { get; set; }
         public decimal TotalAmount { get; set; }
-
+        public string Search { get; set; }
         [Display(Name = "Invoice Type")]
         public string InvoiceType { get; set; }
 

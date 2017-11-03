@@ -18,12 +18,12 @@ namespace SPAccounts.BusinessService.Services
 
         }
 
-        public List<CustomerInvoice> GetAllCustomerInvoices()
+        public List<CustomerInvoice> GetAllCustomerInvoices(DateTime? FromDate, DateTime? ToDate, string Customer, string InvoiceType, string Company, string Status, string Search)
         {
             try
             {
                 List<CustomerInvoice> custlist = new List<CustomerInvoice>();
-                custlist= _customerInvoicesRepository.GetAllCustomerInvoices();
+                custlist= _customerInvoicesRepository.GetAllCustomerInvoices(FromDate,ToDate,Customer,InvoiceType,Company,Status,Search);
                 if(custlist!=null)
                 custlist = custlist.Where(C => C.InvoiceType == "RB").ToList();
                 return custlist;
@@ -34,11 +34,11 @@ namespace SPAccounts.BusinessService.Services
             }
         }
 
-        public List<CustomerInvoice> GetAllCustomerInvoicesForSA()
+        public List<CustomerInvoice> GetAllCustomerInvoicesForSA(DateTime? FromDate, DateTime? ToDate, string Customer, string InvoiceType, string Company, string Status, string Search)
         {
             try
             {
-                return _customerInvoicesRepository.GetAllCustomerInvoices();
+                return _customerInvoicesRepository.GetAllCustomerInvoices(FromDate, ToDate, Customer, InvoiceType, Company, Status, Search);
             }
             catch (Exception ex)
             {
@@ -51,7 +51,7 @@ namespace SPAccounts.BusinessService.Services
             try
             {
                 List<CustomerInvoice> result = new List<CustomerInvoice>();
-                result= _customerInvoicesRepository.GetAllCustomerInvoices();
+                result= _customerInvoicesRepository.GetAllCustomerInvoices( null,null,null,null,null,null,null);
                 if (result!=null)
                     result = result.Where(c => c.customerObj.ID == CustomerID && c.InvoiceType == "RB").ToList(); 
                 return result;

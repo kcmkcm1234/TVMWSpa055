@@ -22,7 +22,7 @@ namespace SPAccounts.RepositoryServices.Services
             _databaseFactory = databaseFactory;
         }
 
-        public List<CustomerInvoice> GetAllCustomerInvoices()
+        public List<CustomerInvoice> GetAllCustomerInvoices(DateTime? FromDate, DateTime? ToDate, string Customer, string InvoiceType, string Company, string Status, string Search)
         {
             List<CustomerInvoice> CustomerInvoicesList = null;
              Settings settings = new Settings();
@@ -38,6 +38,13 @@ namespace SPAccounts.RepositoryServices.Services
                         }
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[GetAllCustomerInvoices]";
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
+                        cmd.Parameters.Add("@CustomerCode", SqlDbType.NVarChar,50).Value = Customer;
+                        cmd.Parameters.Add("@InvoiceType", SqlDbType.NVarChar,50).Value = InvoiceType;
+                        cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar,50).Value = Company;
+                        cmd.Parameters.Add("@search", SqlDbType.NVarChar,250).Value = Search;
+                        cmd.Parameters.Add("@status", SqlDbType.NVarChar,50).Value = Status;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
