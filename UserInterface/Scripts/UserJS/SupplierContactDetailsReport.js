@@ -79,7 +79,7 @@ function RefreshSupplierContactDetailsTable() {
         debugger;
 
         if (DataTables.SupplierContactDetailReportTable != undefined) {
-            DataTables.SupplierContactDetailReportTable.clear().rows.add(GetSupplierContactDetail()).draw(false);
+            DataTables.SupplierContactDetailReportTable.clear().rows.add(GetSupplierContactDetail()).draw(true);
         }
     }
     catch (e) {

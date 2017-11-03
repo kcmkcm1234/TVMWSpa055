@@ -138,7 +138,7 @@ function RefreshCustomerPaymentLedgerTable()
         var customerids = $("#customerCode").val();
           
         if (DataTables.customerpaymentledgertable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && customerids) {
-            DataTables.customerpaymentledgertable.clear().rows.add(GetCustomerPaymentLedger()).draw(false);
+            DataTables.customerpaymentledgertable.clear().rows.add(GetCustomerPaymentLedger()).draw(true);
             }
         }
     catch (e)
@@ -166,7 +166,7 @@ function OnCallChange()
 {
     debugger;
     if ($("#customerCode").val()=='') {
-        DataTables.customerpaymentledgertable.clear().rows.add(GetCustomerPaymentLedger('ALL')).draw(false);
+        DataTables.customerpaymentledgertable.clear().rows.add(GetCustomerPaymentLedger('ALL')).draw(true);
     }
    
     RefreshCustomerPaymentLedgerTable();
@@ -180,7 +180,7 @@ function Reset() {
     $("#fromdate").val(enddate);
     $("#customerCode").val('').trigger('change')
     $("#companyCode").val('ALL');
-    DataTables.customerpaymentledgertable.clear().rows.add(GetCustomerPaymentLedger('ALL')).draw(false);
+    DataTables.customerpaymentledgertable.clear().rows.add(GetCustomerPaymentLedger('ALL')).draw(true);
    
 }
 

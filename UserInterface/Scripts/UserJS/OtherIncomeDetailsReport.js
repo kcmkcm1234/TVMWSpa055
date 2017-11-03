@@ -115,7 +115,7 @@ function RefreshOtherIncomeDetailsAHTable() {
         var companycode = $("#CompanyCode").val();
 
         if (DataTables.otherIncomeDetailsReportAHTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            DataTables.otherIncomeDetailsReportAHTable.clear().rows.add(GetOtherIncomeDetailsReport()).draw(false);
+            DataTables.otherIncomeDetailsReportAHTable.clear().rows.add(GetOtherIncomeDetailsReport()).draw(true);
         }
     }
     catch (e) {

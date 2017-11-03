@@ -331,16 +331,20 @@ function PaymentModeOnchange(curobj) {
 
         if (curobj.value == "CHEQUE") {
             $("#ChequeDate").prop('disabled', false);
+            $("#ChequeClearDate").prop('disabled', false);
             $("#BankCode").prop('disabled', false);
         }
         else {
             $("#ChequeDate").prop('disabled', true);
+            $("#ChequeClearDate").prop('disabled', true);
+            
           }
     }
     else {
 
         $("#BankCode").prop('disabled', true);
         $("#ChequeDate").prop('disabled', true);
+        $("#ChequeClearDate").prop('disabled', true);
         $("#ReferenceBank").prop('disabled', true);
     }    
     $('span[data-valmsg-for="BankCode"]').empty();
@@ -442,12 +446,14 @@ function ClearFields() {
     $("#Amount").val('');
     $("#Description").val('');
     $("#ChequeDate").val('');
+    $("#ChequeClearDate").val('');
     $("#IsReverse").val('false');
     IsReverseOnchange();
     $("#EmpID").prop('disabled', true);
     $("#EmpTypeCode").prop('disabled', true);
     $("#BankCode").prop('disabled', true);
     $("#ChequeDate").prop('disabled', true);
+    $("#ChequeClearDate").prop('disabled', true);
     $("#ReferenceBank").prop('disabled', true);
     $('#EmpID').empty();
     $("#AccountCode").select2('');
@@ -565,6 +571,7 @@ function FillOtherExpenseDetails(ID) {
         $("#ReversalRef").val(thisItem.ReversalRef);
         $("#paymentMode").val(thisItem.PaymentMode);
         $("#ChequeDate").val(thisItem.ChequeDate);
+        $("#ChequeClearDate").val(thisItem.ChequeClearDate);
         $("#ReferenceBank").val(thisItem.ReferenceBank);
         $("#creditdAmt").text(thisItem.creditAmountFormatted); 
 
@@ -574,9 +581,11 @@ function FillOtherExpenseDetails(ID) {
             $("#ReferenceBank").prop('disabled', true);
             if (thisItem.PaymentMode == "CHEQUE") {
                 $("#ChequeDate").prop('disabled', false);
+                $("#ChequeClearDate").prop('disabled', false);
             }
             else {
                 $("#ChequeDate").prop('disabled', true);
+                $("#ChequeClearDate").prop('disabled', true);
             }
         }
         else {

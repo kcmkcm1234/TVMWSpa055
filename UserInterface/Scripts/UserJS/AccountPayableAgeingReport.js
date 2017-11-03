@@ -108,7 +108,7 @@ function RefreshPayableAgeingReportTable() {
         var todate = $("#todate").val();
         var companycode = $("#CompanyCode").val();
         if (DataTables.PayableAgeingReportTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            DataTables.PayableAgeingReportTable.clear().rows.add(GetPayableAgeingReport()).draw(false);
+            DataTables.PayableAgeingReportTable.clear().rows.add(GetPayableAgeingReport()).draw(true);
         }
     }
     catch (e) {

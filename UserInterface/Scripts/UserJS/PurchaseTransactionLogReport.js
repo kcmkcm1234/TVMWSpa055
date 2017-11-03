@@ -107,7 +107,7 @@ function RefreshPurchaseTransactionLogTable() {
         var companycode = $("#CompanyCode").val();
 
         if (DataTables.purchaseTransactionLogReportTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            DataTables.purchaseTransactionLogReportTable.clear().rows.add(GetPurchaseTransactionLogReport()).draw(false);
+            DataTables.purchaseTransactionLogReportTable.clear().rows.add(GetPurchaseTransactionLogReport()).draw(true);
         }
     }
     catch (e) {

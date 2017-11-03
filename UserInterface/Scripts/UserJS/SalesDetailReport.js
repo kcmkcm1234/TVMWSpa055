@@ -182,7 +182,7 @@ function RefreshSaleDetailTable() {
         //    $("#companywise").prop("disabled", true);
         //}
         if (DataTables.saleDetailReportTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate)) {
-            DataTables.saleDetailReportTable.clear().rows.add(GetSaleDetail()).draw(false);
+            DataTables.saleDetailReportTable.clear().rows.add(GetSaleDetail()).draw(true);
         }
     }
     catch (e) {

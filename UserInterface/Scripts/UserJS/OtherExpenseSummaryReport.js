@@ -226,7 +226,7 @@ function RefreshOtherExpenseSummaryAHTable() {
         //var search = $("#Search").val();
        
         if (DataTables.otherExpenseSummaryReportAHTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            DataTables.otherExpenseSummaryReportAHTable.clear().rows.add(GetExpenseSummaryReport()).draw(false);
+            DataTables.otherExpenseSummaryReportAHTable.clear().rows.add(GetExpenseSummaryReport()).draw(true);
         }
     }
     catch (e) {
@@ -374,7 +374,7 @@ function ViewOtherExpensesDetail(row_obj) {
     var rowData = DataTables.otherExpenseSummaryReportAHTable.row($(row_obj).parents('tr')).data();
 
     openNav();
-    DataTables.otherExpenseDetailsReportAHTable.clear().rows.add(GetOtherExpenseDetailsReport(rowData)).draw(false);
+    DataTables.otherExpenseDetailsReportAHTable.clear().rows.add(GetOtherExpenseDetailsReport(rowData)).draw(true);
 }
 
 function GetOtherExpenseDetailsReport(rowData) {

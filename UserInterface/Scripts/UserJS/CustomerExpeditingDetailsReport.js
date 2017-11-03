@@ -91,7 +91,7 @@ function RefreshCustomerExpeditingDetailTable() {
         var filter = $("#BasicFilters").val();
 
         if (DataTables.CustomerExpeditingDetailTableReportTable != undefined && IsVaildDateFormat(todate)) {
-            DataTables.CustomerExpeditingDetailTableReportTable.clear().rows.add(GetCustomerExpeditingDetail()).draw(false);
+            DataTables.CustomerExpeditingDetailTableReportTable.clear().rows.add(GetCustomerExpeditingDetail()).draw(true);
         }
     }
     catch (e) {

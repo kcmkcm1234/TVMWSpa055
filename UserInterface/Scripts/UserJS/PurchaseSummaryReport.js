@@ -187,7 +187,7 @@ function RefreshPurchaseSummaryTable() {
 
         }
         if (DataTables.purchaseSummaryReportTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            DataTables.purchaseSummaryReportTable.clear().rows.add(GetPurchaseSummary()).draw(false);
+            DataTables.purchaseSummaryReportTable.clear().rows.add(GetPurchaseSummary()).draw(true);
         }
     }
     catch (e) {
@@ -229,7 +229,7 @@ function ViewSupplierDetail(row_obj) {
     var rowData = DataTables.purchaseSummaryReportTable.row($(row_obj).parents('tr')).data();
 
     openNav();
-    DataTables.purchaseDetailReportTable.clear().rows.add(GetPurchaseDetail(rowData)).draw(false);
+    DataTables.purchaseDetailReportTable.clear().rows.add(GetPurchaseDetail(rowData)).draw(true);
 }
 
 function GetPurchaseDetail(rowData) {

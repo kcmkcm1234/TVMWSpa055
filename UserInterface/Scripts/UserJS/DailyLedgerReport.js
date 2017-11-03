@@ -100,7 +100,7 @@ function RefreshDailyLedgerDetails() {
 
         if ((DataTables.DailyLedgerTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) ) || (DataTables.DailyLedgerTable != undefined && IsVaildDateFormat(ondate)))
         {
-            DataTables.DailyLedgerTable.clear().rows.add(GetDailyLedgerDetails()).draw(false);
+            DataTables.DailyLedgerTable.clear().rows.add(GetDailyLedgerDetails()).draw(true);
         }
     }
     catch (e) {

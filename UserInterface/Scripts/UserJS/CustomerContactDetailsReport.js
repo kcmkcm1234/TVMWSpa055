@@ -92,7 +92,7 @@ function RefreshCustomerContactDetailsTable() {
         debugger;
         
         if (DataTables.CustomerContactDetailReportTable != undefined) {
-            DataTables.CustomerContactDetailReportTable.clear().rows.add(GetCustomerContactDetail()).draw(false);
+            DataTables.CustomerContactDetailReportTable.clear().rows.add(GetCustomerContactDetail()).draw(true);
         }
     }
     catch (e) {

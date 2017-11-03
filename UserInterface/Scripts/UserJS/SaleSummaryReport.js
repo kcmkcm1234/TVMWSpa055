@@ -210,7 +210,7 @@ function RefreshSaleSummaryTable() {
          
         //}
         if (DataTables.saleSummaryReportTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            DataTables.saleSummaryReportTable.clear().rows.add(GetSaleSummary()).draw(false);
+            DataTables.saleSummaryReportTable.clear().rows.add(GetSaleSummary()).draw(true);
         }
     }
     catch (e) {
@@ -263,7 +263,7 @@ function ViewCustomerDetail(row_obj)
     var rowData = DataTables.saleSummaryReportTable.row($(row_obj).parents('tr')).data();
 
     openNav();
-    DataTables.saleDetailReportTable.clear().rows.add(GetSaleDetail(rowData)).draw(false);
+    DataTables.saleDetailReportTable.clear().rows.add(GetSaleDetail(rowData)).draw(true);
 }
 
 function GetSaleDetail(rowData) {

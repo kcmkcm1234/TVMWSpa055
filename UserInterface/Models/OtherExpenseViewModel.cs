@@ -14,6 +14,8 @@ namespace UserInterface.Models
         public string ExpenseDate { get; set; }
         [Display(Name = "Cheque Date")]
         public string ChequeDate { get; set; }
+        [Display(Name = "Cheque Cleared Date")]
+        public string ChequeClearDate { get; set; }
         public Guid ID { get; set; }
 
         [Display(Name = "Reference No")]
