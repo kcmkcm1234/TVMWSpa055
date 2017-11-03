@@ -92,6 +92,7 @@ namespace UserInterface.Models
         public string TotalInvoiceAmountstring { get; set; }
         public string PaidAmountstring { get; set; }
         public decimal PaidAmount { get; set; }
+        public string Search { get; set; }
 
         
         public Guid hdnFileID { get; set; }

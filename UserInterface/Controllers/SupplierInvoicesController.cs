@@ -126,15 +126,16 @@ namespace UserInterface.Controllers
         }
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "SupplierInvoices", Mode = "R")]
-        public string GetInvoicesAndSummary(string filter)
+        public string GetInvoicesAndSummary(string filter, string FromDate, string ToDate, string Supplier, string InvoiceType, string Company, string Status, string Search)
         {
             try
             {
                 AppUA _appUA = Session["AppUA"] as AppUA;
                 SupplierInvoiceBundleViewModel Result = new SupplierInvoiceBundleViewModel();
-
+                DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
+                DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
                 Result.SupplierInvoiceSummary = Mapper.Map<SupplierInvoiceSummary, SupplierInvoiceSummaryViewModel>(_supplierInvoicesBusiness.GetSupplierInvoicesSummary(true));
-                Result.SupplierInvoices = Mapper.Map<List<SupplierInvoices>, List<SupplierInvoicesViewModel>>(_supplierInvoicesBusiness.GetAllSupplierInvoices());
+                Result.SupplierInvoices = Mapper.Map<List<SupplierInvoices>, List<SupplierInvoicesViewModel>>(_supplierInvoicesBusiness.GetAllSupplierInvoices(FDate, TDate, Supplier, InvoiceType, Company, Status, Search));
                 if (filter != null && filter == "OD")
                 {
                     Result.SupplierInvoices = Result.SupplierInvoices.Where(m => m.PaymentDueDate < _appUA.DateTime && m.BalanceDue > 0).ToList();
@@ -301,7 +302,7 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.resetbtn.Visible = true;
                     ToolboxViewModelObj.resetbtn.Text = "Reset";
                     ToolboxViewModelObj.resetbtn.Title = "Reset";
-                    ToolboxViewModelObj.resetbtn.Event = "List();";
+                    ToolboxViewModelObj.resetbtn.Event = "FilterReset();";
 
                     //----added for export button--------------
 

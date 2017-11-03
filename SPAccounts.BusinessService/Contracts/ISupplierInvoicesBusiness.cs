@@ -8,7 +8,7 @@ namespace SPAccounts.BusinessService.Contracts
 {
     public interface ISupplierInvoicesBusiness
     {
-        List<SupplierInvoices> GetAllSupplierInvoices();
+        List<SupplierInvoices> GetAllSupplierInvoices(DateTime? FromDate, DateTime? ToDate,string Supplier, string InvoiceType, string Company, string Status, string Search);
         SupplierInvoices GetSupplierInvoiceDetails(Guid ID);
         SupplierInvoiceSummary GetSupplierInvoicesSummary(bool IsInternal);
         SupplierInvoices InsertUpdateInvoice(SupplierInvoices _supplierInvoicesObj);
