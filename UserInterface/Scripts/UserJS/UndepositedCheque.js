@@ -7,14 +7,7 @@ $(document).ready(function () {
 
         DataTables.undepositedChequeTable = $('#undepositedChequeTable').DataTable(
          {
-             dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
-             buttons: [{
-                 extend: 'excel',
-                 exportOptions:
-                              {
-                                  columns: [0, 1, 2, 3, 4]
-                              }
-             }],
+             dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">', 
              order: [],
              searching: false,
              paging: true,

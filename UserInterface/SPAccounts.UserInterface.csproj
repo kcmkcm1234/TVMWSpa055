@@ -1537,6 +1537,7 @@
     <Content Include="Scripts\UserJS\AccountReceivableAgeingReport.js" />
     <Content Include="Scripts\UserJS\AccountReceivableAgeingSummaryReport.js" />
     <Content Include="Scripts\UserJS\Bank.js" />
+    <Content Include="Scripts\UserJS\BankBalance.js" />
     <Content Include="Scripts\UserJS\ChartOfAccounts.js" />
     <Content Include="Scripts\UserJS\CustomerContactDetailsReport.js" />
     <Content Include="Scripts\UserJS\CustomerCreditNote.js" />
@@ -1762,6 +1763,7 @@
     <Content Include="Views\Report\CustomerPaymentExpeditingDetails.cshtml" />
     <Content Include="Views\Report\SupplierPaymentExpeditingDetails.cshtml" />
     <Content Include="Views\Dashboard\_InvAgeingSummary.cshtml" />
+    <Content Include="Views\DepositAndWithdrawals\BankBalance.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
