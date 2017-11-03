@@ -488,6 +488,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         _otherExpense.BankCode = (sdr["BankCode"].ToString() != "" ? (sdr["BankCode"].ToString()) : _otherExpense.BankCode);
                                         _otherExpense.BankName = (sdr["BankName"].ToString() != "" ? (sdr["BankName"].ToString()) : _otherExpense.BankName);
                                         _otherExpense.TotalAmount = (sdr["TotalAmount"].ToString() != "" ? (sdr["TotalAmount"].ToString()) : _otherExpense.TotalAmount);
+                                        _otherExpense.UnClearedAmount = (sdr["UnClearedAmount"].ToString() != "" ? (sdr["UnClearedAmount"].ToString()) : _otherExpense.UnClearedAmount);
                                     }
                                     otherExpenseList.Add(_otherExpense);
                                 }

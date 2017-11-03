@@ -90,6 +90,16 @@ $(document).ready(function () {
           { "data": "BankCode", "defaultContent": "<i>-</i>" },
           { "data": "BankName", "defaultContent": "" },
           { "data": "TotalAmount", render: function (data, type, row) { return formatCurrency(data); }, "defaultContent": "<i>-</i>" },
+          {
+              "data": "UnClearedAmount", render: function (data, type, row) {
+                  return formatCurrency(data);
+              }, "defaultContent": "<i>-</i>"
+          },
+          {
+              "data": "TotalAmount", render: function (data, type, row) {
+                  return formatCurrency(row.TotalAmount + row.UnClearedAmount);
+              }, "defaultContent": "<i>-</i>"
+          },
     
         ],
         columnDefs: [
