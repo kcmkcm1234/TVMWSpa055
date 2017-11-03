@@ -31,7 +31,7 @@ $(document).ready(function () {
                              }
             }],
             order: [],
-            searching: true,
+            searching: false,
             paging: true,
             data: null,
             pageLength: 15,
