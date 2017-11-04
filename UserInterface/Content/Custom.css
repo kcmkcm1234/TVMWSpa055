@@ -822,3 +822,19 @@ margin:20px;
 .dashLink {
     cursor:pointer;
 }
+
+
+td.opeingRow {
+
+    background-color:lightblue;
+}
+
+td.closingRow {
+
+    background-color:lightblue;
+}
+
+td.totalRow {
+
+    background-color:darkseagreen;
+}
