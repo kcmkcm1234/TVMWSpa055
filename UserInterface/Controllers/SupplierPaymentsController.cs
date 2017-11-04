@@ -366,7 +366,7 @@ namespace UserInterface.Controllers
             try
             {
                 string titleString = "Payment Approval";
-                string descriptionString = supobj.EntryNo + ", Supplier: " + supobj.supplierObj.CompanyName + ", Amount: " + supobj.TotalPaidAmt;
+                string descriptionString = supobj.EntryNo + ", Supplier: " + supobj.supplierObj.CompanyName + ", Amount: " + supobj.TotalPaidAmt + ", Notes: " + supobj.GeneralNotes;
                 Boolean isCommon = true;
                 string CustomerID = "";
                 _supplierPaymentsBusiness.SendToFCM(titleString, descriptionString, isCommon, CustomerID);

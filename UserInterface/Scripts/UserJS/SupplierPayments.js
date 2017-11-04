@@ -964,12 +964,29 @@ function Selectcheckbox() {
 }
 //--------------------------------------------Notification,Approval,Payment Proceeding methods ---------------------------------------------------------//
 function SendNotification() {
+    $("#NotificationMessagemodal").modal('show');
+    debugger; 
+    $('#GeneralNotes').val($('#Notes').val());
+    var description = $('#lblheader').text() + ", Supplier: " + $('#Supplier').select2('data')[0].text + ", Amount: " + $('#TotalPaidAmt').val();
+    $('#lblNotyMessage').html('<b>' + description + '</b><br/>' + $('#GeneralNotes').val());
+}
+function ChangeNotificationMessage() {
+    debugger;
+    var description = $('#lblheader').text() + ", Supplier: " + $('#Supplier').select2('data')[0].text + ", Amount: " + $('#TotalPaidAmt').val();
+                                
+    $('#lblNotyMessage').html('<b>' + description + '</b><br/>' + $('#GeneralNotes').val());
 
+}
+
+
+
+function SendNotificationConfirm() {
     try {
-
+        debugger;
         var SupplierPaymentsViewModel = new Object();
         SupplierPaymentsViewModel.EntryNo = $('#lblheader').text()
         SupplierPaymentsViewModel.TotalPaidAmt = $('#TotalPaidAmt').val();
+        SupplierPaymentsViewModel.GeneralNotes = $('#GeneralNotes').val().substring(0, 250)
         SupplierPaymentsViewModel.supplierObj = new Object();
         SupplierPaymentsViewModel.supplierObj.CompanyName = $('#Supplier').select2('data')[0].text;
 
