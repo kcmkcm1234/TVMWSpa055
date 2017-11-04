@@ -103,7 +103,7 @@ $(document).ready(function () {
     
         ],
         columnDefs: [
-             { className: "text-right", "targets": [2] },
+             { className: "text-right", "targets": [2,3,4] },
              { className: "text-left", "targets": [0, 1] },
              { className: "text-center", "targets": [] },
              { "bSortable": false, "aTargets": [0, 1, 2] }
