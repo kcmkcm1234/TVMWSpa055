@@ -38,7 +38,24 @@ $(document).ready(function () {
                   { className: "text-right", "targets": [4,5] },
                   { className: "text-center", "targets": [0] }
                     
-                ]
+                ],
+                createdRow: function (row, data, index) {
+                    
+                    if (data.EntryType == "<b>Opening</b>") {
+                        
+                        $('td', row).addClass('opeingRow');
+                    }
+                    if (data.EntryType == "<b>Closing(Cr)</b>" || data.EntryType == "<b>Closing(Dr)</b>") {
+                        
+                        $('td', row).addClass('closingRow');
+                    }
+                    if (data.EntryType == "<b>Total</b>") {
+                        
+                        $('td', row).addClass('totalRow');
+                    }
+
+                }
+               
             });
         $(".buttons-excel").hide();
         startdate = $("#todate").val();
@@ -52,7 +69,7 @@ $(document).ready(function () {
             $('.SingleDateFilterDiv').find('input').prop('disabled', true);
         }
                 
-                
+          
 
     } catch (x) {
         //console.Write(x.message);
