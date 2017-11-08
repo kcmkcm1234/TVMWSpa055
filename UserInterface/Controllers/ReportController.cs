@@ -1348,7 +1348,7 @@ namespace UserInterface.Controllers
             }
 
             //}
-            return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CustomerCode is required" });
+            //return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CustomerCode is required" });
         }
 
         [HttpGet]

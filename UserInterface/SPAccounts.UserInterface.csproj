@@ -51,6 +51,14 @@
       <HintPath>..\packages\AutoMapper.6.1.0\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="itextsharp, Version=5.5.12.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.12\lib\itextsharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="itextsharp.xmlworker, Version=5.5.12.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itextsharp.xmlworker.5.5.12\lib\itextsharp.xmlworker.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.0.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.6\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -1275,6 +1283,7 @@
     <Content Include="Content\DataTables\images\sort_desc.png" />
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
+    <Content Include="Content\easyeditor.css" />
     <Content Include="Content\filemanage.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
@@ -1518,6 +1527,7 @@
     <Content Include="Scripts\jquery-3.1.1.min.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.js" />
+    <Content Include="Scripts\jquery.easyeditor.js" />
     <Content Include="Scripts\jquery.form.js" />
     <Content Include="Scripts\jquery.noty.packaged.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
@@ -1569,6 +1579,7 @@
     <Content Include="Scripts\UserJS\OtherIncomeDetailsReport.js" />
     <Content Include="Scripts\UserJS\OtherIncomeSummaryReport.js" />
     <Content Include="Scripts\UserJS\Outstanding.js" />
+    <Content Include="Scripts\UserJS\PDF.js" />
     <Content Include="Scripts\UserJS\Privileges.js" />
     <Content Include="Scripts\UserJS\PrivilegesView.js" />
     <Content Include="Scripts\UserJS\PurchaseDetailReport.js" />
@@ -1632,6 +1643,7 @@
     <Compile Include="Controllers\FileUploadController.cs" />
     <Compile Include="Controllers\OtherExpensesController.cs" />
     <Compile Include="Controllers\OtherIncomeController.cs" />
+    <Compile Include="Controllers\PDFGeneratorController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\SAMPanelController.cs" />
     <Compile Include="Controllers\ManageAccessController.cs" />
@@ -1670,6 +1682,7 @@
     <Compile Include="Models\OtherIncomeViewModel.cs" />
     <Compile Include="Models\PaymentModesViewModel.cs" />
     <Compile Include="Models\PaymentTermsViewModel.cs" />
+    <Compile Include="Models\PDFGeneratorViewModel.cs" />
     <Compile Include="Models\PrivilegesViewModel.cs" />
     <Compile Include="Models\ReportViewModel.cs" />
     <Compile Include="Models\RolesViewModel.cs" />
@@ -1764,6 +1777,7 @@
     <Content Include="Views\Report\SupplierPaymentExpeditingDetails.cshtml" />
     <Content Include="Views\Dashboard\_InvAgeingSummary.cshtml" />
     <Content Include="Views\DepositAndWithdrawals\BankBalance.cshtml" />
+    <Content Include="Views\PDFGenerator\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
