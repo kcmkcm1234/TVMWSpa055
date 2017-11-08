@@ -1,4 +1,6 @@
 ﻿var DataTables = {};
+var startdate = '';
+var enddate = '';
 $(document).ready(function () {
 
 
@@ -60,6 +62,8 @@ $(document).ready(function () {
          });
 
         $(".buttons-excel").hide();
+        startdate = $("#todate").val();
+        enddate = $("#fromdate").val();
 
     } catch (x) {
         notyAlert('error', x.message);
@@ -103,7 +107,7 @@ function RefreshPurchaseTransactionLogTable() {
         var companycode = $("#CompanyCode").val();
 
         if (DataTables.purchaseTransactionLogReportTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            DataTables.purchaseTransactionLogReportTable.clear().rows.add(GetPurchaseTransactionLogReport()).draw(false);
+            DataTables.purchaseTransactionLogReportTable.clear().rows.add(GetPurchaseTransactionLogReport()).draw(true);
         }
     }
     catch (e) {
@@ -131,7 +135,8 @@ function Back() {
 
 function Reset() {
     debugger;
-
+    $("#todate").val(startdate);
+    $("#fromdate").val(enddate);
     $("#CompanyCode").val('ALL').trigger('change');
     $("#Search").val('');
     RefreshPurchaseTransactionLogTable();

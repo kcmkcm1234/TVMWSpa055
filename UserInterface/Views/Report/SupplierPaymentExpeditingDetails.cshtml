@@ -1,5 +1,5 @@
 ﻿
-@model UserInterface.Models.SupplierExpeditingReportViewModel
+@model UserInterface.Models.SupplierExpeditingListViewModel
 @using UserInterface.App_Start
 @{
     ViewBag.Title = "Supplier Payment Expediting Details";
@@ -52,6 +52,13 @@
                 @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @Value = ViewBag.todate, @onchange = "RefreshSupplierExpeditingDetailTable()" })
             </div>
         </div>
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.BasicFilters, htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-12">
+                @Html.DropDownListFor(model => model.Filter, Model.BasicFilters, new { @class = "form-control BlockEnter", value = 0, style = "padding:4px 12px;", @id = "BasicFilters", @onchange = "RefreshSupplierExpeditingDetailTable()" })
+                @Html.ValidationMessageFor(model => model.Filter, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
     </div>
 
@@ -84,6 +91,7 @@
                     <th>Invoice Date</th>
                     <th> Balance Amount</th>
                     <th>No Of Days</th>
+                    <th>Supplier Name1</th>
                     <th>Remarks</th>
 
                 </tr>

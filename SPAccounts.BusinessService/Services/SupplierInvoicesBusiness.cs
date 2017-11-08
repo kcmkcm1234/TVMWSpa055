@@ -18,9 +18,9 @@ namespace SPAccounts.BusinessService.Services
             _commonBusiness = commonBusiness;
 
         }
-        public List<SupplierInvoices> GetAllSupplierInvoices()
+        public List<SupplierInvoices> GetAllSupplierInvoices(DateTime? FromDate, DateTime? ToDate, string Supplier, string InvoiceType, string Company, string Status, string Search)
         {
-            return _supplierInvoicesRepository.GetAllSupplierInvoices();
+            return _supplierInvoicesRepository.GetAllSupplierInvoices(FromDate, ToDate, Supplier, InvoiceType, Company, Status, Search);
         }
         public SupplierInvoiceSummary GetSupplierInvoicesSummary(bool IsInternal)
         {
@@ -178,5 +178,11 @@ namespace SPAccounts.BusinessService.Services
         {
             return _supplierInvoicesRepository.GetSupplierAdvances(ID);
         }
+
+        public SupplierInvoiceAgeingSummary GetSupplierInvoicesAgeingSummary() {
+            return _supplierInvoicesRepository.GetSupplierInvoicesAgeingSummary();
+        }
+
+
     }
 }

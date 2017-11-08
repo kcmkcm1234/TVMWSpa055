@@ -11,7 +11,7 @@ $(document).ready(function () {
                  extend: 'excel',
                  exportOptions:
                               {
-                                  columns: [0, 1, 2, 3, 4, 5,6]
+                                  columns: [0, 1, 2, 3, 4, 5,7]
                               }
              }],
              order: [],
@@ -32,15 +32,18 @@ $(document).ready(function () {
                { "data": "InvoiceDate", "defaultContent": "<i>-</i>" },
                { "data": "Amount", "defaultContent": "<i>-</i>" },
                  { "data": "NoOfDays", "defaultContent": "<i>-</i>" },
+                  { "data": "CustomerName1", "defaultContent": "<i></i>" },
                { "data": "Remarks", "defaultContent": "<i></i>" }
 
 
              ],
-             columnDefs: [{ "targets": [6], "visible": false, "searchable": false },
-                  { className: "text-left", "targets": [0, 1, 2, 3] },
-             { className: "text-right", "targets": [4,5] }
+             columnDefs: [{ "targets": [7], "visible": false, "searchable": false },
+                 { "targets": [6], "visible": false },
+                  { className: "text-left", "targets": [0,1,2, 3, 4,5] },
+                  { "width": "20%", "targets": [0,1] },
+             { className: "text-right", "targets": [4] }
 
-             ]
+                 ]
 
          });
 
@@ -58,15 +61,16 @@ $(document).ready(function () {
 function GetCustomerExpeditingDetail() {
     try {
         var todate = $("#todate").val();
+        var filter = $("#BasicFilters").val();
         if (IsVaildDateFormat(todate))
-            var data = {"ToDate": todate};
+            var data = {"ToDate": todate,"Filter": filter};
         var ds = {};
         ds = GetDataFromServer("Report/GetCustomerPaymentExpeditingDetails/", data);
         if (ds != '') {
             ds = JSON.parse(ds);
         }
         if (ds.Result == "OK") {
-            return ds.Records;
+            return ds.Records.customerExpeditingDetailsList;
         }
         if (ds.Result == "ERROR") {
             notyAlert('error', ds.Message);
@@ -77,14 +81,17 @@ function GetCustomerExpeditingDetail() {
     }
 }
 
+ 
+
 
 function RefreshCustomerExpeditingDetailTable() {
     debugger;
     try {
         var todate = $("#todate").val();
+        var filter = $("#BasicFilters").val();
 
         if (DataTables.CustomerExpeditingDetailTableReportTable != undefined && IsVaildDateFormat(todate)) {
-            DataTables.CustomerExpeditingDetailTableReportTable.clear().rows.add(GetCustomerExpeditingDetail()).draw(false);
+            DataTables.CustomerExpeditingDetailTableReportTable.clear().rows.add(GetCustomerExpeditingDetail()).draw(true);
         }
     }
     catch (e) {
@@ -110,5 +117,6 @@ function Reset()
 {
     debugger;
     $("#todate").val(today);
+    $("#BasicFilters").val('ALL');
     RefreshCustomerExpeditingDetailTable();
 }

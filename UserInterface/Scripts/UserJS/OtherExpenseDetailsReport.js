@@ -1,4 +1,6 @@
 ﻿var DataTables = {};
+var startdate = '';
+var enddate = '';
 $(document).ready(function () {
     
   
@@ -41,10 +43,10 @@ $(document).ready(function () {
                { "data": "OriginCompany", "defaultContent": "<i>-</i>" }
              ],
              columnDefs: [{ "targets": [9], "visible": false, "searchable": false },
-             { className: "text-left", "targets": [0, 2, 3, 4, 5,6] },
+             { className: "text-left", "targets": [0, 2, 3, 4, 5,6,7] },
               { "width": "15%", "targets": [0] },
                { "width": "10%", "targets": [1] },
-             { className: "text-right", "targets": [7,8] },
+             { className: "text-right", "targets": [8] },
          { className: "text-center", "targets": [1] }],
              drawCallback: function (settings) {
                  var api = this.api();
@@ -67,6 +69,8 @@ $(document).ready(function () {
          });
 
         $(".buttons-excel").hide();
+        startdate = $("#todate").val();
+        enddate = $("#fromdate").val();
 
     } catch (x) {
 
@@ -126,7 +130,7 @@ function RefreshOtherExpenseDetailsAHTable() {
         var companycode = $("#CompanyCode").val();
 
         if (DataTables.otherExpenseDetailsReportAHTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            DataTables.otherExpenseDetailsReportAHTable.clear().rows.add(GetOtherExpenseDetailsReport()).draw(false);
+            DataTables.otherExpenseDetailsReportAHTable.clear().rows.add(GetOtherExpenseDetailsReport()).draw(true);
         }
     }
     catch (e) {
@@ -238,7 +242,8 @@ function GetAllEmployeesByType(type) {
 
 function Reset() {
     debugger;
-
+    $("#todate").val(startdate);
+    $("#fromdate").val(enddate);
     $("#CompanyCode").val('ALL').trigger('change')
     $("#AccountCode").val('ALL').trigger('change')
     $("#Subtype").val('').trigger('change')

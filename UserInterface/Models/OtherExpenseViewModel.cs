@@ -14,7 +14,14 @@ namespace UserInterface.Models
         public string ExpenseDate { get; set; }
         [Display(Name = "Cheque Date")]
         public string ChequeDate { get; set; }
+        [Display(Name = "Cheque Cleared Date")]
+        public string ChequeClearDate { get; set; }
         public Guid ID { get; set; }
+
+        [Display(Name = "Reference No")]
+        public string RefNo { get; set; }
+        [Display(Name = "Reversal Of")]
+        public string ReversalRef { get; set; }
 
         [Display(Name = "Expense Date")]
         public string ExpenseDateFormatted { get; set; }
@@ -80,6 +87,9 @@ namespace UserInterface.Models
 //For BankWise Balance//
         public string BankName { get; set; }
         public decimal TotalAmount { get; set; }
+        public decimal UnClearedAmount { get; set; }
+
+        public decimal ReversableAmount { get; set; }
     }
 
 

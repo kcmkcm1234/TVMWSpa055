@@ -55,7 +55,8 @@ namespace SPAccounts.RepositoryServices.Services
                                         CustPaymentsObj.PaymentMode = (sdr["PaymentMode"].ToString() != "" ? sdr["PaymentMode"].ToString() : CustPaymentsObj.PaymentMode);
                                         CustPaymentsObj.TotalRecdAmt = (sdr["AmountReceived"].ToString() != "" ? Decimal.Parse(sdr["AmountReceived"].ToString()): CustPaymentsObj.TotalRecdAmt);
                                         CustPaymentsObj.AdvanceAmount = (sdr["AdvanceAmount"].ToString() != "" ? Decimal.Parse(sdr["AdvanceAmount"].ToString()) : CustPaymentsObj.AdvanceAmount);
-
+                                        CustPaymentsObj.CompanyObj = new Companies();
+                                        CustPaymentsObj.CompanyObj.Name = sdr["ReceivedTo"].ToString();
                                         CustPaymentsObj.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : CustPaymentsObj.Type);
                                         CustPaymentsObj.CreditNo = (sdr["CRNRefNo"].ToString() != "" ? sdr["CRNRefNo"].ToString() : CustPaymentsObj.CreditNo);
                                         CustPaymentsObj.customerObj = new Customer();
@@ -302,6 +303,50 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return new   {  Message = Cobj.DeleteSuccess   };
         }
+
+        public object Validate(CustomerPayments _customerpayObj)
+        {
+            AppConst appcust = new AppConst();
+            SqlParameter outputStatus = null;
+            SqlParameter outputStatus1 = null;
+            try
+            {
+
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[ValidateCustomerPayment]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ReferenceNo", SqlDbType.VarChar, 20).Value = _customerpayObj.PaymentRef;
+                        cmd.Parameters.Add("@id", SqlDbType.UniqueIdentifier).Value = _customerpayObj.ID;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus1 = cmd.Parameters.Add("@message", SqlDbType.VarChar, 100);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        outputStatus1.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+
+                    }
+                }
+
+            }
+
+
+            catch (Exception ex)
+
+            {
+                return new { Message = ex.ToString(), Status = -1 };
+            }
+           
+                return new { Message = outputStatus1.Value.ToString(), Status = outputStatus.Value };
+            
+        }
+
 
         public CustomerPayments InsertPaymentAdjustment(CustomerPayments _custPayObj)
         {

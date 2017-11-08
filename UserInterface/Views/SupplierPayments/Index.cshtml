@@ -42,7 +42,7 @@
            
             <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box" style="cursor:pointer" onclick="Gridfilter('AP');">
-                <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
+                <span class="info-box-icon bg-aqua"><i class="ion ion-ios-cart-outline"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Approved & Not Paid <b><span class="info-box-more" id="Approved">₹0.00</span></b></span>
                 </div>
@@ -58,7 +58,7 @@
                     <span class="info-box-icon bg-orange"><i class="ion ion-ios-cart-outline"></i></span>
 
                     <div class="info-box-content">
-                        <span class="info-box-text">Not approved <b><span class="info-box-more" id="notApproved">₹0.00</span></b></span>
+                        <span class="info-box-text">Pending For Approval<b><span class="info-box-more" id="notApproved">₹0.00</span></b></span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
@@ -81,7 +81,7 @@
         &nbsp;
     </div>
     <div class="row tableContainer">
-        <div class="col-md-12">
+        <div class="col-md-12" style="overflow-x:scroll">
             <table id="SupPayTable" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
                 <thead>
                     <tr class="text-center TableHead">
@@ -92,6 +92,7 @@
                         <th>Reference No</th>
                         <th>Supplier</th>
                         <th>Payment Mode</th>
+                        <th>Paid From</th>
                         <th>Type</th>
                         <th>Credit Note No.</th>
                         <th>Amount Paid(₹)</th>
@@ -212,6 +213,7 @@
                                     <div class="col-md-1"></div>
                                 </div>
                             </div>
+                            <div class="form-group col-md-12"></div> 
                             <div class="form-group col-md-6">
                                 <div class="col-md-12">
                                     @Html.LabelFor(model => model.ChequeDate, htmlAttributes: new { @class = "control-label" })
@@ -220,6 +222,18 @@
                                     <div class="col-md-10">
                                         @Html.EditorFor(model => model.ChequeDate, new { htmlAttributes = new { @class = "form-control HeaderBox datepicker", @id = "ChequeDate", @autofocus = true } })
                                         @Html.ValidationMessageFor(model => model.ChequeDate, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-1"></div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => model.ChequeClearDate, htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.ChequeClearDate, new { htmlAttributes = new { @class = "form-control HeaderBox datepicker", @id = "ChequeClearDate", @autofocus = true } })
                                     </div>
                                     <div class="col-md-1"></div>
                                     <div class="col-md-1"></div>
@@ -561,6 +575,57 @@
 
     </div>
 </section>
+
+@*Model*@
+<div class="modal fade" id="NotificationMessagemodal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true" @*style="overflow-y:hidden !important;"*@>
+    <div class="modal-dialog" role="document" style="min-width:900px !important;">
+        <div class="modal-content">
+            <div class="modal-header" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 36px;padding: 3px;border-bottom:2px solid rgb(149, 76, 132)!important;">
+                <div class="container-fluid" style="padding-right: 0px;">
+                    <div class="col-md-4">
+                        <h3 class="modal-title SCHeader" id="modelContextLabel"></h3>
+                        <div class="col-md-12">
+                            <span style="font-weight: 600;font-size: 20px;" id="AddOrEditSpan">Notification Message</span>
+                        </div>
+                    </div>
+                    <div class="col-md-8" style="padding-right: 4px;">
+                        <a class="close" data-dismiss="modal" aria-label="Close"><i style="font-size: 33px;" class="fa fa-times-circle" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+            </div> 
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="form-group col-md-6">
+                        <div class="col-md-12">
+                            @Html.Label("Additional Message", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-12">
+                                @Html.TextAreaFor(model => model.GeneralNotes, 4, 50, new { @class = "form-control HeaderBox " , maxlength = 250, @onkeyup = "ChangeNotificationMessage();" } )
+                              @*  @Html.EditorFor(model => model.GeneralNotes, new { htmlAttributes = new { @class = "form-control HeaderBox multiline4", @id = "AdditionalMessage", @onkeyup = "ChangeNotificationMessage()",@rows = 4 } })*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="col-md-12">
+                            @Html.Label("Notification Messsage", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-10">
+                                <span id="lblNotyMessage" class=""></span> 
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+             </div>
+            
+            <div class="modal-footer" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 50px;padding: 7px;">
+                <a class="btn btn-primary" onclick="SendNotificationConfirm()"><i class="glyphicon"></i> Send</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @section Scripts {
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")

@@ -210,6 +210,28 @@ namespace UserInterface.Controllers
         }
         #endregion DeleteOtherIncome
 
+        #region validaterefno
+        public string Validate(OtherIncomeViewModel _otherincome)
+        {
+
+
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            object result = null;
+            try
+
+            {
+                result = _otherIncomeBusiness.Validate(Mapper.Map<OtherIncomeViewModel, OtherIncome>(_otherincome));
+                return JsonConvert.SerializeObject(new { Result = "OK", Message = "", Records = result });
+            }
+
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message, Status = -1 });
+            }
+
+        }
+        #endregion validaterefno
         #region ButtonStyling
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "OtherIncome", Mode = "R")]

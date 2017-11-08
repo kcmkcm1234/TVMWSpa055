@@ -92,6 +92,7 @@ namespace UserInterface.Models
         public string TotalInvoiceAmountstring { get; set; }
         public string PaidAmountstring { get; set; }
         public decimal PaidAmount { get; set; }
+        public string Search { get; set; }
 
         
         public Guid hdnFileID { get; set; }
@@ -132,4 +133,16 @@ namespace UserInterface.Models
         public int count { get; set; }
 
     }
+    public class SupplierInvoiceAgeingSummaryViewModel
+    {
+        public int total;
+        public int Todays;
+        public int Count1To30;
+        public int Count31To60;
+        public int Count61To90;
+        public int Count91Above;
+        public int ThisWeek;
+
+    }
+
 }

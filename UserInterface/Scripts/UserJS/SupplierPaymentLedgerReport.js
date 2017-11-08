@@ -1,4 +1,6 @@
 ﻿var DataTables = {};
+var startdate = '';
+var enddate = '';
 $(document).ready(function () {
     try {
         $("#supplierCode").select2({
@@ -78,6 +80,9 @@ $(document).ready(function () {
          });
 
         $(".buttons-excel").hide();
+        startdate = $("#todate").val();
+        enddate = $("#fromdate").val();
+        $("#suppliernameddl").attr('style', 'visibility:true');
 
     } catch (x) {
 
@@ -95,10 +100,10 @@ function GetSupplierPaymentLedger(cur) {
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
         var suppliercode = (cur != "ALL" ? $("#supplierCode").val() : cur);
-            
+        var company = $("#companyCode").val();
 
         if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && suppliercode) {
-            var data = { "FromDate": fromdate, "ToDate": todate, "Suppliercode": suppliercode };
+            var data = { "FromDate": fromdate, "ToDate": todate, "Suppliercode": suppliercode,"Company": company };
             var ds = {};
             ds = GetDataFromServerTraditional("Report/GetSupplierPaymentLedger/", data);
             if (ds != '') {
@@ -127,7 +132,7 @@ function RefreshSupplierPaymentLedgerTable() {
         var suppliercode = $("#supplierCode").val();
 
         if (DataTables.supplierpaymentledgertable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && suppliercode) {
-            DataTables.supplierpaymentledgertable.clear().rows.add(GetSupplierPaymentLedger()).draw(false);
+            DataTables.supplierpaymentledgertable.clear().rows.add(GetSupplierPaymentLedger()).draw(true);
         }
     }
     catch (e) {
@@ -152,7 +157,7 @@ function Back() {
 function OnCallChange() {
     debugger;
     if ($("#supplierCode").val() == '') {
-        DataTables.supplierpaymentledgertable.clear().rows.add(GetSupplierPaymentLedger('ALL')).draw(false);
+        DataTables.supplierpaymentledgertable.clear().rows.add(GetSupplierPaymentLedger('ALL')).draw(true);
     }
    
     RefreshSupplierPaymentLedgerTable();
@@ -161,8 +166,11 @@ function OnCallChange() {
 
 
 function Reset() {
+    $("#todate").val(startdate);
+    $("#fromdate").val(enddate);
     $("#supplierCode").val('').trigger('change')
-    DataTables.supplierpaymentledgertable.clear().rows.add(GetSupplierPaymentLedger('ALL')).draw(false);
+    $("#companyCode").val('ALL');
+    DataTables.supplierpaymentledgertable.clear().rows.add(GetSupplierPaymentLedger('ALL')).draw(true);
 }
 
 

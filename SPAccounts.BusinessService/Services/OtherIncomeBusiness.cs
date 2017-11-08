@@ -70,5 +70,12 @@ namespace SPAccounts.BusinessService.Services
             return result;
         }
 
+
+
+        public object Validate(OtherIncome _otherincome)
+        {
+            return _iOtherIncomeRepository.Validate(_otherincome);
+        }
+
     }
 }

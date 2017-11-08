@@ -1,7 +1,10 @@
 ﻿var DataTables = {};
+var startdate = '';
+var enddate = '';
+var emptyGUID = '00000000-0000-0000-0000-000000000000'
 $(document).ready(function () {
     try {
-        $("#CompanyCode").select2({
+        $("#CompanyCode,#SupplierCode").select2({
         });
 
         DataTables.purchaseDetailReportTable = $('#PurchaseDetailTable').DataTable(
@@ -16,14 +19,14 @@ $(document).ready(function () {
                               }
              }],
              order: [],
-             searching: true,
+             searching: false,
              paging: true,
              data: GetPurchaseDetail(),
              pageLength: 50,
-             language: {
-                 search: "_INPUT_",
-                 searchPlaceholder: "Search"
-             },
+             //language: {
+             //    search: "_INPUT_",
+             //    searchPlaceholder: "Search"
+             //},
              columns: [
 
                { "data": "InvoiceNo", "defaultContent": "<i>-</i>" },
@@ -50,7 +53,7 @@ $(document).ready(function () {
                  var rows = api.rows({ page: 'current' }).nodes();
                  var last = null;
 
-                 api.column(9, { page: 'current' }).data().each(function (group, i) {
+                 api.column(10, { page: 'current' }).data().each(function (group, i) {
                      if (last !== group) {
                          $(rows).eq(i).before('<tr class="group "><td colspan="8" class="rptGrp">' + '<b>Company</b> : ' + group + '</td></tr>');
                          last = group;
@@ -60,9 +63,12 @@ $(document).ready(function () {
          });
 
         $(".buttons-excel").hide();
-        $('input[name="GroupSelect"]').on('change', function () {
-            RefreshPurchaseDetailTable();
-        });
+        startdate = $("#todate").val();
+        enddate = $("#fromdate").val();
+        //$('input[name="GroupSelect"]').on('change', function () {
+        //    RefreshPurchaseDetailTable();
+        //});
+        $("#purchasedetailtotals").attr('style', 'visibility:true');
 
     } catch (x) {
 
@@ -81,6 +87,13 @@ function GetPurchaseDetail() {
         var search = $("#Search").val();
         $('#IncludeInternal').attr('checked', false);
         $('#IncludeTax').attr('checked', true);
+        var supplier = $("#SupplierCode").val();
+        if (supplier == 'ALL') {
+            supplier = emptyGUID;
+        }
+        else {
+            supplier = $("#SupplierCode").val();
+        }
         var internal;
         if ($('#IncludeInternal').prop("checked") == true) {
             internal = true;
@@ -88,16 +101,16 @@ function GetPurchaseDetail() {
         else {
             internal = false;
         }
-        if (companycode === "ALL") {
-            if ($("#all").prop('checked')) {
-                companycode = $("#all").val();
-            }
-            else {
-                companycode = $("#companywise").val();
-            }
-        }
+        //if (companycode === "ALL") {
+        //    if ($("#all").prop('checked')) {
+        //        companycode = $("#all").val();
+        //    }
+        //    else {
+        //        companycode = $("#companywise").val();
+        //    }
+        //}
         if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "search": search, "IsInternal": internal };
+            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "search": search, "IsInternal": internal,"Supplier":supplier };
             var ds = {};
             ds = GetDataFromServer("Report/GetPurchaseDetails/", data);
             if (ds != '') {
@@ -106,6 +119,16 @@ function GetPurchaseDetail() {
             if (ds.TotalAmount != '') {
                 $("#purchasedetailsamount").text(ds.TotalAmount);
             }
+            if (ds.InvoicedAmount != '') {
+                $("#purchasedetailsinvoiceamount").text(ds.InvoicedAmount);
+            }
+            if (ds.PaidAmount != '') {
+                $("#purchasedetailspaidamount").text(ds.PaidAmount);
+            }
+            if (ds.PaymentProcessed != '') {
+                $("#purchasedetailspaymentprocessed").text(ds.PaymentProcessed);
+            }
+            
             if (ds.Result == "OK") {
                 return ds.Records;
             }
@@ -131,21 +154,21 @@ function RefreshPurchaseDetailTable() {
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
         var companycode = $("#CompanyCode").val();
-        if (companycode === "") {
-            return false;
-        }
+        //if (companycode === "") {
+        //    return false;
+        //}
 
-        if (companycode === "ALL") {
-            $("#all").prop("disabled", false);
-            $("#companywise").prop("disabled", false);
-        }
-        else {
-            $("#all").prop("disabled", true);
-            $("#companywise").prop("disabled", true);
+        //if (companycode === "ALL") {
+        //    $("#all").prop("disabled", false);
+        //    $("#companywise").prop("disabled", false);
+        //}
+        //else {
+        //    $("#all").prop("disabled", true);
+        //    $("#companywise").prop("disabled", true);
 
-        }
+        //}
         if (DataTables.purchaseDetailReportTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            DataTables.purchaseDetailReportTable.clear().rows.add(GetPurchaseDetail()).draw(false);
+            DataTables.purchaseDetailReportTable.clear().rows.add(GetPurchaseDetail()).draw(true);
         }
     }
     catch (e) {
@@ -168,10 +191,12 @@ function Back() {
 
 function Reset() {
     debugger;
-
+    $("#todate").val(startdate);
+    $("#fromdate").val(enddate);
     $("#CompanyCode").val('ALL').trigger('change');
     $("#Search").val('');
     $("#all").prop('checked', true).trigger('change');
+    $("#SupplierCode").val('ALL').trigger('change');;
 }
 
 

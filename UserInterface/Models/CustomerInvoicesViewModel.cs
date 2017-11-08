@@ -84,7 +84,7 @@ namespace UserInterface.Models
         public String LastPaymentDateFormatted { get; set; }
         public String Status { get; set; }
         public decimal TotalAmount { get; set; }
-
+        public string Search { get; set; }
         [Display(Name = "Invoice Type")]
         public string InvoiceType { get; set; }
 
@@ -159,5 +159,19 @@ namespace UserInterface.Models
         public string AmountFormatted { get; set; }
         public int count { get; set; }
       
+    }
+
+
+    public class CustomerInvoiceAgeingSummaryViewModel
+    {
+        public int total;
+        public int Todays;
+        public int Count1To30;
+        public int Count31To60;
+        public int Count61To90;
+        public int Count91Above;
+        public int ThisWeek;
+
+
     }
 }

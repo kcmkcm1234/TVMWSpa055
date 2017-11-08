@@ -74,6 +74,12 @@ namespace SPAccounts.DataAccessObject.DTO
             get { return "Updation Successfull! "; }
         }
 
+        public string NotificationSuccess
+        {
+            get { return "Notification Send Successfully ! "; }
+        }
+
+
         public string DeleteFailure
         {
             get { return "Deletion Not Successfull! "; }
@@ -88,7 +94,7 @@ namespace SPAccounts.DataAccessObject.DTO
         }
         public string Duplicate
         {
-            get { return "Allready Exist.."; }
+            get { return "Already Exist.."; }
         }
         
         public string NoItems

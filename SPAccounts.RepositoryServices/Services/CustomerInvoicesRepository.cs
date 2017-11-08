@@ -22,7 +22,7 @@ namespace SPAccounts.RepositoryServices.Services
             _databaseFactory = databaseFactory;
         }
 
-        public List<CustomerInvoice> GetAllCustomerInvoices()
+        public List<CustomerInvoice> GetAllCustomerInvoices(DateTime? FromDate, DateTime? ToDate, string Customer, string InvoiceType, string Company, string Status, string Search)
         {
             List<CustomerInvoice> CustomerInvoicesList = null;
              Settings settings = new Settings();
@@ -38,6 +38,13 @@ namespace SPAccounts.RepositoryServices.Services
                         }
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[GetAllCustomerInvoices]";
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
+                        cmd.Parameters.Add("@CustomerCode", SqlDbType.NVarChar,50).Value = Customer;
+                        cmd.Parameters.Add("@InvoiceType", SqlDbType.NVarChar,50).Value = InvoiceType;
+                        cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar,50).Value = Company;
+                        cmd.Parameters.Add("@search", SqlDbType.NVarChar,250).Value = Search;
+                        cmd.Parameters.Add("@status", SqlDbType.NVarChar,50).Value = Status;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
@@ -704,7 +711,8 @@ namespace SPAccounts.RepositoryServices.Services
                                         CIList.PaidAmount = (sdr["PaidAmount"].ToString() != "" ? Decimal.Parse(sdr["PaidAmount"].ToString()) : CIList.PaidAmount);
                                         
                                         CIList.PaymentDueDateFormatted = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString(settings.dateformat) : CIList.PaymentDueDateFormatted);
-                                        CIList.SpecialPayObj.ChequeDate = (sdr["ChequeDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeDate"].ToString()).ToString(settings.dateformat) : CIList.SpecialPayObj.ChequeDate);
+                                       // CIList.SpecialPayObj = new SpecialPayment();
+                                       // CIList.SpecialPayObj.ChequeDate = (sdr["ChequeDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeDate"].ToString()).ToString(settings.dateformat) : CIList.SpecialPayObj.ChequeDate);
 
                                     }
                                     CustomerInvoicesList.Add(CIList);
@@ -1029,6 +1037,60 @@ namespace SPAccounts.RepositoryServices.Services
 
             return CIList;
         }
+
+
+
+        public CustomerInvoiceAgeingSummary GetCustomerInvoicesAgeingSummary()
+        {
+            CustomerInvoiceAgeingSummary SupplierInvoiceSummaryObj = null;
+            Common C = new Common();
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetCustomerInvAgeingSummary]";
+                        cmd.Parameters.Add("@OnDate", SqlDbType.Date).Value =  C.GetCurrentDateTime().Date;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                SupplierInvoiceSummaryObj = new CustomerInvoiceAgeingSummary();
+                                if (sdr.Read())
+                                {
+
+                                    {
+                                        SupplierInvoiceSummaryObj.Todays = (sdr["Today"].ToString() != "" ? int.Parse(sdr["Today"].ToString()) : SupplierInvoiceSummaryObj.total);
+                                        SupplierInvoiceSummaryObj.Count1To30 = (sdr["Count1to30"].ToString() != "" ? int.Parse(sdr["Count1to30"].ToString()) : SupplierInvoiceSummaryObj.Count1To30);
+                                        SupplierInvoiceSummaryObj.Count31To60 = (sdr["Count31to60"].ToString() != "" ? int.Parse(sdr["Count31to60"].ToString()) : SupplierInvoiceSummaryObj.Count31To60);
+                                        SupplierInvoiceSummaryObj.Count61To90 = (sdr["Count61to90"].ToString() != "" ? int.Parse(sdr["Count61to90"].ToString()) : SupplierInvoiceSummaryObj.Count61To90);
+                                        SupplierInvoiceSummaryObj.Count91Above = (sdr["Count90Above"].ToString() != "" ? int.Parse(sdr["Count90Above"].ToString()) : SupplierInvoiceSummaryObj.Count91Above);
+                                        SupplierInvoiceSummaryObj.ThisWeek = (sdr["ThisWeek"].ToString() != "" ? int.Parse(sdr["ThisWeek"].ToString()) : SupplierInvoiceSummaryObj.ThisWeek);
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return SupplierInvoiceSummaryObj;
+        }
+
+
     }
     
 }

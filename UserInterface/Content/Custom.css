@@ -559,12 +559,13 @@ color: #e32;
     padding-right: 8px;
     text-decoration: none;
     font-size: 12px;
-    color: inherit;     
+    color:  #337ab7;     
     transition: 0.3s;
-}
+} 
 
 .overlay a:hover, .overlay a:focus {
-    color: inherit;
+    color: #337ab7;
+    text-decoration: underline;
 }
 
  
@@ -794,4 +795,46 @@ color: #e32;
 .pager {
     margin:7px 0;
     padding-right:20%;
+}
+
+#RefSearchTable_wrapper {
+margin:20px;
+} 
+ 
+
+ .figuresummary 
+    {
+        border:1px solid rgba(148, 78, 132, 0.16);;
+         background-color: rgba(148, 78, 132, 0.16);;
+         border-radius: 10px;
+    }
+
+
+.border-bottom {
+    border-bottom:1px solid #f4f4f4;
+    
+}
+
+.description-block > .description-text {
+     text-transform: capitalize!important;
+}
+
+.dashLink {
+    cursor:pointer;
+}
+
+
+td.opeingRow {
+
+    background-color:lightblue;
+}
+
+td.closingRow {
+
+    background-color:lightblue;
+}
+
+td.totalRow {
+
+    background-color:darkseagreen;
 }

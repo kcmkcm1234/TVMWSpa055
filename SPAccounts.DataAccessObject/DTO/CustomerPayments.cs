@@ -29,6 +29,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string hdfCreditAmount { get; set; }
         public Guid hdnFileID { get; set; }
         public string PaymentDateFormatted { get; set; }
+        public Companies CompanyObj { get; set; }
         public List<CustomerPaymentsDetail> CustomerPaymentsDetail { get; set; }
         public CustomerPaymentsDetail CustPaymentDetailObj { get; set; }
         public Customer customerObj { get; set; }

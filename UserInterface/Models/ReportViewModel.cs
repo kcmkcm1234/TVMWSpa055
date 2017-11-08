@@ -25,10 +25,13 @@ namespace UserInterface.Models
         [Display(Name = "Company")]
         public string CompanyCode { get; set; }
         public string Search { get; set; }
+        public Guid CustomerID { get; set; }
         public string CustomerName { get; set; }
         public decimal OpeningBalance { get; set; }
         public decimal Invoiced { get; set; }
         public decimal Paid { get; set; }
+        public decimal Total { get; set; }
+        public decimal TaxAmount { get; set; }
         public decimal NetDue { get; set; }
         public decimal Credit { get; set; }
         public decimal Balance { get; set; }
@@ -38,18 +41,28 @@ namespace UserInterface.Models
         public Boolean IncludeTax { get; set; }
         public List<SelectListItem> CompanyList { get; set; }
         public List<CompaniesViewModel> companiesList;
+        public string salesummarySum { get; set; }
+        public string salesummaryInvoiced { get; set; }
+        public string salesummaryTotalInvoice { get; set; }
+        public string salesummarypaid { get; set; }
+        public string salesummaryTax { get; set; }
+        public List<SaleSummaryViewModel> saleSummaryList { get; set; }
     }
     public class SaleDetailReportViewModel
     {
         [Required(ErrorMessage = "Company required")]
         [Display(Name = "Company")]
         public string CompanyCode { get; set; }
+        [Display(Name = "Customer")]
+        public string CustomerCode { get; set; }
         public string InvoiceNo { get; set; }
         public string Date { get; set; }
         public string PaymentDueDate { get; set; }
         public decimal PaidAmount { get; set; }
         public decimal InvoiceAmount { get; set; }
         public decimal BalanceDue { get; set; }
+        public decimal Total { get; set; }
+        public decimal TaxAmount { get; set; }
         public string OriginCompany { get; set; }
         public string Origin { get; set; }        //--To get Company name--
         public string GeneralNotes { get; set; }
@@ -60,7 +73,14 @@ namespace UserInterface.Models
         public Boolean IncludeInternal { get; set; }
         public Boolean IncludeTax { get; set; }
         public List<SelectListItem> CompanyList { get; set; }
+        public List<SelectListItem> customerList { get; set; }
         public List<CompaniesViewModel> companiesList;
+        public string saledetailSum { get; set; }
+        public string saledetailinvoice { get; set; }
+        public string saledetailpaid { get; set; }
+        public string saledetailtax { get; set; }
+        public string saledetailtotalinvoiced { get; set; }
+        public List<SaleDetailReportViewModel> saleDetailList { get; set; }
 
     }
 
@@ -80,6 +100,7 @@ namespace UserInterface.Models
         public List<SelectListItem> SubtypeList { get; set; }
         public string AccountHeadORSubtype { get; set; }
         public string Employee { get; set; }
+        public Guid EmployeeID { get; set; } 
         public string SubTypeDesc { get; set; }
         public decimal Amount { get; set; }
         public string OriginCompany { get; set; }
@@ -121,8 +142,9 @@ namespace UserInterface.Models
         public List<SelectListItem> SubtypeList { get; set; }
         public string Search { get; set; }
         public decimal TotalAmount { get; set; }
-       
-    }
+        public string RowType { get; set; }
+
+            }
 
     public class CustomerContactDetailsReportViewModel
     {
@@ -159,6 +181,7 @@ namespace UserInterface.Models
         [Required(ErrorMessage = "Company required")]
         [Display(Name = "Company")]
         public string CompanyCode { get; set; }
+        public Guid SupplierID { get; set; }
         public string SupplierName { get; set; }
         public decimal OpeningBalance { get; set; }
         public decimal Invoiced { get; set; }
@@ -173,6 +196,11 @@ namespace UserInterface.Models
         public string RowType { get; set; }
         public Boolean IncludeInternal { get; set; }
         public Boolean IncludeTax { get; set; }
+        public string purchaseSummarySum { get; set; }
+        public string purchaseSummaryPaid { get; set; }
+        public string purchaseSummaryInvoice { get; set; }
+        public List<PurchaseSummaryReportViewModel> purchaseSummaryReportList { get; set; }
+
 
     }
 
@@ -181,6 +209,8 @@ namespace UserInterface.Models
         [Required(ErrorMessage = "Company required")]
         [Display(Name = "Company")]
         public string CompanyCode { get; set; }
+        [Display(Name = "Supplier")]
+        public string SupplierCode { get; set; }
         public string InvoiceNo { get; set; }
         public string Date { get; set; }
         public string PaymentDueDate { get; set; }
@@ -194,11 +224,17 @@ namespace UserInterface.Models
         public string SupplierName { get; set; }
         public decimal Credit { get; set; }
         public List<SelectListItem> CompanyList { get; set; }
+        public List<SelectListItem> supplierList { get; set; }
         public List<CompaniesViewModel> companiesList;
         public string Search { get; set; }
         public string RowType { get; set; }
         public Boolean IncludeInternal { get; set; }
         public Boolean IncludeTax { get; set; }
+        public string purchaseDetailSum { get; set; }
+        public string purchaseDetailPaid { get; set; }
+        public string purchaseDetailInvoice { get; set; }
+        public string purchaseDetailPaymentProcess { get; set; }
+        public List<PurchaseDetailReportViewModel> purchaseDetailReportList { get; set; }
 
     }
 
@@ -248,6 +284,9 @@ namespace UserInterface.Models
         public decimal Paid { get; set; }
         public decimal Balance { get; set; }
         public string Group { get; set; }
+        [Display(Name = "Customer")]
+        public string CustomerCode { get; set; }
+        public List<SelectListItem> customerList;
         public List<SelectListItem> CompanyList { get; set; }
         public List<CompaniesViewModel> companiesList;
     }
@@ -264,6 +303,9 @@ namespace UserInterface.Models
         public string ThirtyOneToSixty { get; set; }
         public string SixtyOneToNinety { get; set; }
         public string NinetyOneAndOver { get; set; }
+        [Display(Name = "Customer")]
+        public string CustomerCode { get; set; }
+        public List<SelectListItem> customerList;
         public List<SelectListItem> CompanyList { get; set; }
         public List<CompaniesViewModel> companiesList;
     }
@@ -273,6 +315,8 @@ namespace UserInterface.Models
         [Required(ErrorMessage = "Company required")]
         [Display(Name = "Company")]
         public string CompanyCode { get; set; }
+        [Display(Name = "Supplier")]
+        public string SupplierCode { get; set; }
         public string OriginatedCompany { get; set; }
         public string TransactionDate { get; set; }
         public string DocNo { get; set; }
@@ -283,6 +327,7 @@ namespace UserInterface.Models
         public decimal Paid { get; set; }
         public decimal Balance { get; set; }
         public string Group { get; set; }
+        public List<SelectListItem> supplierList { get; set; }
         public List<SelectListItem> CompanyList { get; set; }
         public List<CompaniesViewModel> companiesList;
     }
@@ -292,6 +337,8 @@ namespace UserInterface.Models
         [Required(ErrorMessage = "Company required")]
         [Display(Name = "Company")]
         public string CompanyCode {get;set;}
+        [Display(Name = "Supplier")]
+        public string SupplierCode { get; set; }
         public string OriginatedCompany {get;set;}
         public string Supplier {get;set;}
         public string Current {get;set;}
@@ -301,7 +348,8 @@ namespace UserInterface.Models
         public string NinetyOneAndOver {get;set;}
         public List<SelectListItem> CompanyList{get;set;}
         public List<CompaniesViewModel> companiesList;
-    }
+        public List<SelectListItem> supplierList { get; set; }
+            }
 
 
 
@@ -375,6 +423,7 @@ namespace UserInterface.Models
         public List<CompaniesViewModel> companiesList;
         public List<SelectListItem> AccountHeadList { get; set; }
         public string Search { get; set; }
+        public string RowType { get; set; }
 
     }
     public class CustomerPaymentLedgerViewModel
@@ -387,11 +436,15 @@ namespace UserInterface.Models
         public decimal Credit { get; set; }
         public decimal Balance { get; set; }
         public List<SelectListItem> customerList { get; set; }
+        public List<SelectListItem> CompanyList { get; set; }
         [Required(ErrorMessage = "Customer required")]
         [Display(Name = "Customer")]
         public string CustomerCode { get; set; }
+        [Display(Name = "Company")]
+        public string CompanyCode { get; set; }
         public Guid CustomerID { get; set; }
         public string CustomerName { get; set; }
+        public List<SelectListItem> companiesList { get; set; }
     }
 
 
@@ -404,12 +457,16 @@ namespace UserInterface.Models
         public decimal Debit { get; set; }
         public decimal Credit { get; set; }
         public decimal Balance { get; set; }
+        public List<SelectListItem> CompanyList { get; set; }
         public List<SelectListItem> supplierList { get; set; }
         [Required(ErrorMessage = "Supplier required")]
         [Display(Name = "Supplier")]
         public string SupplierCode { get; set; }
         public Guid SupplierID { get; set; }
         public string SupplierName { get; set; }
+        [Display(Name = "Company")]
+        public string CompanyCode { get; set; }
+        public List<SelectListItem> companiesList { get; set; }
     }
 
 
@@ -427,11 +484,16 @@ namespace UserInterface.Models
         public string Remarks { get; set; }
         public string Search { get; set; }
         public string Particulars { get; set; }
+        public string BankCode { get; set; }
+        public List<SelectListItem> CustomerList { get; set; }
+        public BankViewModel bankObj { get; set; }
+        public List<SelectListItem> BanksList { get; set; }
     }
 
     public class CustomerExpeditingReportViewModel
     {
         public string CustomerName { get; set; }
+        public string CustomerName1 { get; set; }
         public string ContactNo { get; set; }
         public string LandLine { get; set; }
         public string Mobile { get; set; }
@@ -444,10 +506,17 @@ namespace UserInterface.Models
         public string Date { get; set; }
     }
 
+    public class CustomerExpeditingListViewModel {
+        public List<CustomerExpeditingReportViewModel> customerExpeditingDetailsList { get; set; }
+        [Display(Name = "Filter")]
+        public List<SelectListItem> BasicFilters { get; set; }
+        public string Filter { get; set; }
+    }
 
     public class SupplierExpeditingReportViewModel
     {
         public string SupplierName { get; set; }
+        public string SupplierName1 { get; set; }
         public string ContactNo { get; set; }
         public string LandLine { get; set; }
         public string Mobile { get; set; }
@@ -457,6 +526,14 @@ namespace UserInterface.Models
         public Decimal Amount { get; set; }
         public string NoOfDays { get; set; }
         public string Remarks { get; set; }
+    }
+
+    public class SupplierExpeditingListViewModel
+    {
+        public List<SupplierExpeditingReportViewModel> SupplierExpeditingDetailsList { get; set; }
+        [Display(Name = "Filter")]
+        public List<SelectListItem> BasicFilters { get; set; }
+        public string Filter { get; set; }
     }
 
 }

@@ -3,7 +3,7 @@ var emptyGUID = '00000000-0000-0000-0000-000000000000'
 $(document).ready(function () {
     debugger;
     try {
-        $("#ddlSupplier").select2({
+        $("#ddlSupplier,#Supplierddl").select2({
         });
         $('#btnUpload').click(function () {
             //Pass the controller name
@@ -31,7 +31,7 @@ $(document).ready(function () {
                              }
             }],
             order: [],
-            searching: true,
+            searching: false,
             paging: true,
             data: null,
             pageLength: 15,
@@ -41,7 +41,14 @@ $(document).ready(function () {
             },
             columns: [
               { "data": "ID" },
-              { "data": "InvoiceNo" },
+              {
+                  "data": "InvoiceNo", render: function (data, type, row) {
+                      debugger;
+                      if (row.InvoiceType=='WP')
+                          return data+' (WP)';
+                      return data;
+                  }
+              },
               { "data": "InvoiceDateFormatted" },
               { "data": "suppliersObj.CompanyName", "defaultContent": "<i>-</i>" },
               { "data": "PaymentDueDateFormatted", "defaultContent": "<i>-</i>" },
@@ -278,8 +285,21 @@ function Summary(Records) {
 //---------------Bind logics-------------------
 function GetAllInvoicesAndSummary(filter) {
     try {
-
-        var data = { "filter": filter };
+        if ($("#fromdate").val() !== "")
+            var fromdate = $("#fromdate").val();
+        if ($("#todate").val() !== "")
+            var todate = $("#todate").val();
+        if ($("#Supplierddl").val() != "")
+            var suppliercode = $("#Supplierddl").val();
+        if ($("#ddlInvoiceTypes").val() != "")
+            var invoicetype = $("#ddlInvoiceTypes").val();
+        if ($("#Companyddl").val() != "")
+            var companycode = $("#Companyddl").val();
+        if ($("#ddlInvoiceTypesStatus").val() != "")
+            var status = $("#ddlInvoiceTypesStatus").val();
+        if ($("#search").val() != "")
+            var search = $("#search").val();
+        var data = { "filter": filter, "FromDate": fromdate, "ToDate": todate, "Supplier": suppliercode, "InvoiceType": invoicetype, "Company": companycode, "Status": status, "Search": search };
         var ds = {};
         ds = GetDataFromServer("SupplierInvoices/GetInvoicesAndSummary/", data);
         if (ds != '') {
@@ -291,6 +311,29 @@ function GetAllInvoicesAndSummary(filter) {
         if (ds.Result == "ERROR") {
             alert(ds.Message);
         }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
+
+function RefreshInvoicesAndSummary() {
+    try {
+        debugger;
+        var fromdate = $("#fromdate").val();
+        var todate = $("#todate").val();
+        var companycode = $("#Companyddl").val();
+        var result = GetAllInvoicesAndSummary();
+        if (result != null) {
+                if (result.SupplierInvoices != null)
+                    DataTables.SupplInvTable.clear().rows.add(result.SupplierInvoices).draw(false);
+                if (result.SupplierInvoiceSummary != null) {
+                    Summary(result.SupplierInvoiceSummary);
+                }
+            
+        }
+
     }
     catch (e) {
         notyAlert('error', e.message);
@@ -551,7 +594,6 @@ function AddNew() {
 }
 
 function Reset() {
-    debugger;
     if ($("#ID").val() == "0") {
         ResetFrm();
     }
@@ -560,7 +602,16 @@ function Reset() {
     }
 }
 
-
+function FilterReset() {
+    $("#fromdate").val('');
+    $("#todate").val('');
+    $("#Supplierddl").val('').trigger('change')
+    $("#ddlInvoiceTypes").val('');
+    $("#Companyddl").val('');
+    $("#ddlInvoiceTypesStatus").val('');
+    $("#search").val('');
+    List();
+}
 
 function FillCustomerDefault(this_Obj) {
     try {

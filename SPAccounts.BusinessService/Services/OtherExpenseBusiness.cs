@@ -135,7 +135,7 @@ namespace SPAccounts.BusinessService.Services
                 if (otherExpense != null)
                 {
                     otherExpense.creditAmountFormatted = _commonBusiness.ConvertCurrency(otherExpense.Amount, 2);
-                  
+
                 }
             }
             catch(Exception ex)
@@ -143,6 +143,20 @@ namespace SPAccounts.BusinessService.Services
                 throw ex;
             }
             return otherExpense;
+        }
+        public List<OtherExpense> GetReversalReference(string EmpID, string AccountCode, string EmpTypeCode)
+        {
+            List<OtherExpense> otherExpenseList = null;
+           
+            try
+            {
+                otherExpenseList = _otherExpenseRepository.GetReversalReference(EmpID, AccountCode,EmpTypeCode);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return otherExpenseList;
         }
 
         public OtherExpense UpdateOtherExpense(OtherExpense otherExpense)
@@ -274,6 +288,12 @@ namespace SPAccounts.BusinessService.Services
                 throw ex;
             }
             return otherExpenseList;
+        }
+
+
+        public object Validate(OtherExpense _otherexpenseObj)
+        {
+            return _otherExpenseRepository.Validate(_otherexpenseObj);
         }
     }
 }

@@ -22,13 +22,15 @@ namespace UserInterface.Controllers
         IBankBusiness _bankBusiness;       
         ICommonBusiness _commonBusiness;
         IPaymentModesBusiness _paymentModesBusiness;
+        ICustomerBusiness _customerBusiness;
 
-        public DepositAndWithdrawalsController(IDepositAndWithdrawalsBusiness depositAndWithdrawalsBusiness,IBankBusiness bankBusiness, ICommonBusiness commonBusiness,IPaymentModesBusiness paymentModesBusiness)
+        public DepositAndWithdrawalsController(IDepositAndWithdrawalsBusiness depositAndWithdrawalsBusiness,IBankBusiness bankBusiness, ICommonBusiness commonBusiness,IPaymentModesBusiness paymentModesBusiness, ICustomerBusiness customerBusiness)
         {
             _depositAndWithdrawalsBusiness = depositAndWithdrawalsBusiness;          
             _bankBusiness = bankBusiness;            
             _commonBusiness = commonBusiness;
             _paymentModesBusiness = paymentModesBusiness;
+            _customerBusiness= customerBusiness; ;
         }
         #endregion Constructor_Injection 
 
@@ -70,7 +72,25 @@ namespace UserInterface.Controllers
                         Selected = false
                     });
                 }
+
                 depositAndWithdrwalViewModelObj.paymentModeList = selectListItem;
+
+                selectListItem = null;
+                selectListItem = new List<SelectListItem>();
+                List<CustomerViewModel> customerList = Mapper.Map<List<Customer>, List<CustomerViewModel>>(_customerBusiness.GetAllCustomers());
+                if (customerList != null)
+                {
+                    foreach (CustomerViewModel Cust in customerList)
+                    {
+                        selectListItem.Add(new SelectListItem
+                        {
+                            Text = Cust.CompanyName,
+                            Value = Cust.ID.ToString(),
+                            Selected = false
+                        });
+                    }
+                }
+                depositAndWithdrwalViewModelObj.customerList = selectListItem;
 
             }
             catch (Exception ex)
@@ -144,6 +164,16 @@ namespace UserInterface.Controllers
                     _depositAndWithdrwalObj.CheckedRows  =  JsonConvert.DeserializeObject<List<DepositAndWithdrwalViewModel>>(_depositAndWithdrwalObj.DepositRowValues);//.Select(c => { c.Password = null; return c; }).ToList();
                     _depositAndWithdrwalObj.CheckedRows = _depositAndWithdrwalObj.CheckedRows == null ? null : _depositAndWithdrwalObj.CheckedRows.Select(x => { x.CommonObj = new CommonViewModel { CreatedBy = _appUA.UserName, CreatedDate = _appUA.DateTime };return x;}).ToList();
                   
+                }
+                //Author:Praveena M S
+                //While updating bank ,hidden field values 'Status and ChequeClearDate' are taken and assigned to ChequeClearDate and ChequeStatus for avoiding null entries......
+                if (_depositAndWithdrwalObj.hdnChequeStatus == "Cleared")
+                {
+                    if (_depositAndWithdrwalObj.ChequeClearDate == null && _depositAndWithdrwalObj.ChequeStatus == null)
+                    {
+                        _depositAndWithdrwalObj.ChequeClearDate = _depositAndWithdrwalObj.hdnChequeDate;
+                        _depositAndWithdrwalObj.ChequeStatus = _depositAndWithdrwalObj.hdnChequeStatus;
+                    }
                 }
                 result = _depositAndWithdrawalsBusiness.InsertUpdateDepositAndWithdrawals(Mapper.Map<DepositAndWithdrwalViewModel, DepositAndWithdrawals>(_depositAndWithdrwalObj));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
@@ -343,5 +373,17 @@ namespace UserInterface.Controllers
 
         #endregion
 
-    }
+        //
+        #region BankBalance
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "DepositAndWithdrawals", Mode = "R")]
+        public ActionResult BankBalance()
+        {
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            ViewBag.Currentdate = _appUA.DateTime.ToString("dd-MMM-yyyy");
+            return View();
+        }
+            #endregion
+
+        }
 }

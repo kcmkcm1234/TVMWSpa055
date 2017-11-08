@@ -70,11 +70,20 @@
                 @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @Value = ViewBag.todate, @onchange = "RefreshSupplierPaymentLedgerTable()" })
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6" id="suppliernameddl" style="visibility:hidden;">
             @Html.LabelFor(model => model.SupplierCode, htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
                 @Html.DropDownListFor(model => model.SupplierCode, Model.supplierList, new { @class = "form-control BlockEnter", @id = "supplierCode", @onchange = "OnCallChange()", @multiple = "multiple" })
                 @Html.ValidationMessageFor(model => model.SupplierCode, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.CompanyCode, htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-12">
+                @Html.DropDownListFor(model => model.CompanyCode, Model.companiesList, new { @class = "form-control BlockEnter", @id = "companyCode", @onchange = "OnCallChange()" })
+                @Html.ValidationMessageFor(model => model.CompanyCode, "", new { @class = "text-danger" })
 
             </div>
         </div>

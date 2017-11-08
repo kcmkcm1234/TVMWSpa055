@@ -11,7 +11,7 @@ $(document).ready(function () {
                  extend: 'excel',
                  exportOptions:
                               {
-                                  columns: [0, 1, 2, 3, 4, 5, 6]
+                                  columns: [0, 1, 2, 3, 4, 5, 7]
                               }
              }],
              order: [],
@@ -32,13 +32,16 @@ $(document).ready(function () {
                { "data": "InvoiceDate", "defaultContent": "<i>-</i>" },
                { "data": "Amount", "defaultContent": "<i>-</i>" },
                 { "data": "NoOfDays", "defaultContent": "<i>-</i>" },
+                { "data": "SupplierName1", "defaultContent": "<i></i>" },
                { "data": "Remarks", "defaultContent": "<i></i>" }
 
 
              ],
-             columnDefs: [{ "targets": [6], "visible": false, "searchable": false },
-                  { className: "text-left", "targets": [0, 1, 2, 3] },
-             { className: "text-right", "targets": [4,5] }
+             columnDefs: [{ "targets": [7], "visible": false, "searchable": false },
+                  { "targets": [6], "visible": false },
+                  { className: "text-left", "targets": [0, 1, 2, 3, 4] },
+                  { "width": "20%", "targets": [0,1] },
+             { className: "text-right", "targets": [5] }
 
              ]
 
@@ -58,15 +61,16 @@ $(document).ready(function () {
 function GetSupplierExpeditingDetail() {
     try {
         var todate = $("#todate").val();
+        var filter = $("#BasicFilters").val();
         if (IsVaildDateFormat(todate))
-            var data = { "ToDate": todate };
+            var data = { "ToDate": todate, "Filter": filter };
         var ds = {};
         ds = GetDataFromServer("Report/GetSupplierPaymentExpeditingDetails/", data);
         if (ds != '') {
             ds = JSON.parse(ds);
         }
         if (ds.Result == "OK") {
-            return ds.Records;
+            return ds.Records.SupplierExpeditingDetailsList;
         }
         if (ds.Result == "ERROR") {
             notyAlert('error', ds.Message);
@@ -84,7 +88,7 @@ function RefreshSupplierExpeditingDetailTable() {
         var todate = $("#todate").val();
 
         if (DataTables.SupplierExpeditingDetailTableReportTable != undefined && IsVaildDateFormat(todate)) {
-            DataTables.SupplierExpeditingDetailTableReportTable.clear().rows.add(GetSupplierExpeditingDetail()).draw(false);
+            DataTables.SupplierExpeditingDetailTableReportTable.clear().rows.add(GetSupplierExpeditingDetail()).draw(true);
         }
     }
     catch (e) {
@@ -110,5 +114,6 @@ function Back() {
 function Reset() {
     debugger;
     $("#todate").val(today);
+    $("#BasicFilters").val('ALL');
     RefreshSupplierExpeditingDetailTable();
 }

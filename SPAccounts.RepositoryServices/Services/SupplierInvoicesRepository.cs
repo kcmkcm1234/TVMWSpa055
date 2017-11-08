@@ -24,7 +24,7 @@ namespace SPAccounts.RepositoryServices.Services
             _databaseFactory = databaseFactory;
         }
 
-        public List<SupplierInvoices> GetAllSupplierInvoices()
+        public List<SupplierInvoices> GetAllSupplierInvoices(DateTime? FromDate, DateTime? ToDate, string Supplier, string InvoiceType, string Company, string Status, string Search)
         {
             List<SupplierInvoices> SupplierInvoicesList = null;
             Settings settings = new Settings();
@@ -40,6 +40,13 @@ namespace SPAccounts.RepositoryServices.Services
                         }
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[GetAllSupplierInvoices]";
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
+                        cmd.Parameters.Add("@SupplierCode", SqlDbType.NVarChar, 50).Value = Supplier;
+                        cmd.Parameters.Add("@InvoiceType", SqlDbType.NVarChar, 50).Value = InvoiceType;
+                        cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = Company;
+                        cmd.Parameters.Add("@search", SqlDbType.NVarChar, 250).Value = Search;
+                        cmd.Parameters.Add("@status", SqlDbType.NVarChar, 50).Value = Status;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
@@ -53,6 +60,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         SIList.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : SIList.ID);
                                         SIList.InvoiceDate = (sdr["InvoiceDate"].ToString() != "" ? DateTime.Parse(sdr["InvoiceDate"].ToString()) : SIList.InvoiceDate);
                                         SIList.InvoiceNo = sdr["InvoiceNo"].ToString();
+                                        SIList.InvoiceType = sdr["InvoiceType"].ToString();
                                         SIList.companiesObj = new Companies();
                                         SIList.companiesObj.Name= sdr["OrginCompany"].ToString();
                                         SIList.suppliersObj = new Supplier();
@@ -672,6 +680,56 @@ namespace SPAccounts.RepositoryServices.Services
             }
 
             return SIList;
+        }
+
+        public  SupplierInvoiceAgeingSummary GetSupplierInvoicesAgeingSummary()
+        {
+            SupplierInvoiceAgeingSummary SupplierInvoiceSummaryObj = null;
+            Common C = new Common();
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetSupplierInvAgeingSummary]";
+                        cmd.Parameters.Add("@OnDate", SqlDbType.Date).Value = C.GetCurrentDateTime().Date; ;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                SupplierInvoiceSummaryObj = new SupplierInvoiceAgeingSummary();
+                                if (sdr.Read())
+                                {
+
+                                    {                                       
+                                        SupplierInvoiceSummaryObj.Todays = (sdr["Today"].ToString() != "" ? int.Parse(sdr["Today"].ToString()) : SupplierInvoiceSummaryObj.total);
+                                        SupplierInvoiceSummaryObj.Count1To30 = (sdr["Count1to30"].ToString() != "" ? int.Parse(sdr["Count1to30"].ToString()) : SupplierInvoiceSummaryObj.Count1To30);
+                                        SupplierInvoiceSummaryObj.Count31To60 = (sdr["Count31to60"].ToString() != "" ? int.Parse(sdr["Count31to60"].ToString()) : SupplierInvoiceSummaryObj.Count31To60);
+                                        SupplierInvoiceSummaryObj.Count61To90= (sdr["Count61to90"].ToString() != "" ? int.Parse(sdr["Count61to90"].ToString()) : SupplierInvoiceSummaryObj.Count61To90);
+                                        SupplierInvoiceSummaryObj.Count91Above = (sdr["Count90Above"].ToString() != "" ? int.Parse(sdr["Count90Above"].ToString()) : SupplierInvoiceSummaryObj.Count91Above);
+                                        SupplierInvoiceSummaryObj.ThisWeek = (sdr["ThisWeek"].ToString() != "" ? int.Parse(sdr["ThisWeek"].ToString()) : SupplierInvoiceSummaryObj.ThisWeek);
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return SupplierInvoiceSummaryObj;
         }
     }
 }

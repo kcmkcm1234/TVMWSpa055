@@ -1,4 +1,6 @@
 ﻿var DataTables = {};
+var startdate = '';
+var enddate = '';
 $(document).ready(function () {
    
                
@@ -81,7 +83,10 @@ $(document).ready(function () {
          });
 
         $(".buttons-excel").hide();
-
+        startdate = $("#todate").val();
+        enddate = $("#fromdate").val();
+        $("#customernameddl").attr('style','visibility:true');
+        
     } catch (x) {
 
         notyAlert('error', x.message);
@@ -98,10 +103,11 @@ function GetCustomerPaymentLedger(cur) {
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
         var customerids =(cur!="ALL"? $("#customerCode").val():cur);
-       
-       
+        var company = $("#companyCode").val();
+      
+        
         if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && customerids) {
-            var data = { "FromDate": fromdate, "ToDate": todate, "CustomerIDs": customerids };
+            var data = { "FromDate": fromdate, "ToDate": todate, "CustomerIDs": customerids, "Company": company };
             var ds = {};
             ds = GetDataFromServerTraditional("Report/GetCustomerPaymentLedger/", data);
             if (ds != '') {
@@ -132,7 +138,7 @@ function RefreshCustomerPaymentLedgerTable()
         var customerids = $("#customerCode").val();
           
         if (DataTables.customerpaymentledgertable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && customerids) {
-            DataTables.customerpaymentledgertable.clear().rows.add(GetCustomerPaymentLedger()).draw(false);
+            DataTables.customerpaymentledgertable.clear().rows.add(GetCustomerPaymentLedger()).draw(true);
             }
         }
     catch (e)
@@ -160,7 +166,7 @@ function OnCallChange()
 {
     debugger;
     if ($("#customerCode").val()=='') {
-        DataTables.customerpaymentledgertable.clear().rows.add(GetCustomerPaymentLedger('ALL')).draw(false);
+        DataTables.customerpaymentledgertable.clear().rows.add(GetCustomerPaymentLedger('ALL')).draw(true);
     }
    
     RefreshCustomerPaymentLedgerTable();
@@ -170,8 +176,11 @@ function OnCallChange()
 
 function Reset() {
     debugger;
+    $("#todate").val(startdate);
+    $("#fromdate").val(enddate);
     $("#customerCode").val('').trigger('change')
-    DataTables.customerpaymentledgertable.clear().rows.add(GetCustomerPaymentLedger('ALL')).draw(false);
+    $("#companyCode").val('ALL');
+    DataTables.customerpaymentledgertable.clear().rows.add(GetCustomerPaymentLedger('ALL')).draw(true);
    
 }
 

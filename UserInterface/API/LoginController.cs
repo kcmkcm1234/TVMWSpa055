@@ -31,7 +31,14 @@ namespace UserInterface.API
                 uservm = Mapper.Map<User, UserViewModel>(_userBusiness.CheckUserCredentials(Mapper.Map<LoginViewModel, User>(loginvm)));
                 if (uservm != null)
                 {
-                    return JsonConvert.SerializeObject(new { Result = true, Records = new { ID = uservm.ID, LoginName = uservm.LoginName, RoleCSV = uservm.RoleCSV, RoleDCSV = uservm.RoleIDCSV, UserName = uservm.UserName } });
+                    if ((uservm.RoleCSV.Contains("SAdmin") || uservm.RoleCSV.Contains("CEO")))
+                    {
+                        return JsonConvert.SerializeObject(new { Result = true, Records = new { ID = uservm.ID, LoginName = uservm.LoginName, RoleCSV = uservm.RoleCSV, RoleDCSV = uservm.RoleIDCSV, UserName = uservm.UserName } });
+
+                    }
+                    else {
+                        return JsonConvert.SerializeObject(new { Result = false, Message = "Access Denied" });
+                    }
                 }
 
                 else 

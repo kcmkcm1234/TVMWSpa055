@@ -288,6 +288,30 @@ namespace UserInterface.Controllers
         }
         #endregion GetOutstandingAmountByCustomer
 
+        #region CheckReferenceNo
+        [HttpPost]
+        public string Validate(CustomerPaymentsViewModel _customerpayObj)
+       {
+
+           
+                AppUA _appUA = Session["AppUA"] as AppUA;
+                object result = null;
+                try
+
+                {
+                    result = _CustPaymentBusiness.Validate(Mapper.Map<CustomerPaymentsViewModel, CustomerPayments>(_customerpayObj));
+                    return JsonConvert.SerializeObject(new { Result = "OK", Message = "", Records = result });
+                }
+
+                catch (Exception ex)
+                {
+                    AppConstMessage cm = c.GetMessage(ex.Message);
+                    return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message,Status=-1 });
+                }
+            
+        }
+        #endregion CheckReferenceNo
+
         #region ButtonStyling
         [HttpGet]
         public ActionResult ChangeButtonStyle(string ActionType)

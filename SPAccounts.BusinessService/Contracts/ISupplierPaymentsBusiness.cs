@@ -19,6 +19,9 @@ namespace SPAccounts.BusinessService.Contracts
         SupplierPayments InsertPaymentAdjustment(SupplierPayments _supplierPayObj);
         SupplierPayments GetOutstandingAmountBySupplier(string SupplierID);
         object ApprovedPayment(Guid PaymentID, string UserName,DateTime date);
+        object Validate(SupplierPayments _supplierpayObj);
+        void SendToFCM(string titleString, string descriptionString, Boolean isCommon, string CustomerID = "");
+
 
     }
 }

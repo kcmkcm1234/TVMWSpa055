@@ -56,6 +56,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         PaymentsObj.AdvanceAmount = (sdr["AdvanceAmount"].ToString() != "" ? Decimal.Parse(sdr["AdvanceAmount"].ToString()) : PaymentsObj.AdvanceAmount);
                                         PaymentsObj.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : PaymentsObj.Type);
                                         PaymentsObj.CreditNo = (sdr["CRNRefNo"].ToString() != "" ? sdr["CRNRefNo"].ToString() : PaymentsObj.CreditNo);
+                                        PaymentsObj.GeneralNotes= (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : PaymentsObj.GeneralNotes);
                                         PaymentsObj.ApprovalStatus = (sdr["ApprovalStatus"].ToString() != "" ? Int16.Parse(sdr["ApprovalStatus"].ToString()):PaymentsObj.ApprovalStatus);
                                         PaymentsObj.ApprovalStatusObj = new ApprovalStatus();
                                         PaymentsObj.ApprovalStatusObj.Description = (sdr["StatusDesc"].ToString() != "" ? sdr["StatusDesc"].ToString() : PaymentsObj.ApprovalStatusObj.Description);
@@ -63,6 +64,8 @@ namespace SPAccounts.RepositoryServices.Services
                                         PaymentsObj.supplierObj.CompanyName = (sdr["Supplier"].ToString() != "" ? sdr["Supplier"].ToString() : PaymentsObj.supplierObj.CompanyName);
                                         PaymentsObj.supplierObj.ID = (sdr["SupplierID"].ToString() != "" ? Guid.Parse(sdr["SupplierID"].ToString()) : PaymentsObj.supplierObj.ID);
                                         PaymentsObj.supplierObj.ContactPerson = (sdr["ContactPerson"].ToString() != "" ? sdr["ContactPerson"].ToString() : PaymentsObj.supplierObj.ContactPerson);
+                                        PaymentsObj.CompanyObj = new Companies();
+                                        PaymentsObj.CompanyObj.Name = sdr["PaidFrom"].ToString();
                                     };
                                     SupplierPaylist.Add(PaymentsObj);
                                 }
@@ -165,6 +168,7 @@ namespace SPAccounts.RepositoryServices.Services
                                     PaymentsObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : PaymentsObj.ID);
                                     PaymentsObj.PaidFromComanyCode = (sdr["PaidFromComanyCode"].ToString() != "" ? sdr["PaidFromComanyCode"].ToString() : PaymentsObj.PaidFromComanyCode);
                                     PaymentsObj.PaymentDateFormatted = (sdr["PaymentDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDate"].ToString()).ToString("dd-MMM-yyyy").ToString() : PaymentsObj.PaymentDateFormatted);
+                                    PaymentsObj.ChequeClearDate = (sdr["ChequeClearDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeClearDate"].ToString()).ToString("dd-MMM-yyyy").ToString() : PaymentsObj.ChequeClearDate);
                                     PaymentsObj.ChequeDate = (sdr["ChequeDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeDate"].ToString()).ToString("dd-MMM-yyyy").ToString() : PaymentsObj.ChequeDate);
                                     PaymentsObj.PaymentRef = (sdr["PaymentRef"].ToString() != "" ? sdr["PaymentRef"].ToString() : PaymentsObj.PaymentRef);
                                     PaymentsObj.EntryNo = (sdr["EntryNo"].ToString() != "" ? sdr["EntryNo"].ToString() : PaymentsObj.EntryNo);
@@ -292,6 +296,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = _supplierPayObj.supplierObj.ID;
                         cmd.Parameters.Add("@PaymentDate", SqlDbType.DateTime).Value = _supplierPayObj.PaymentDate;
+                        cmd.Parameters.Add("@ChequeClearDate", SqlDbType.DateTime).Value = _supplierPayObj.ChequeClearDate;
                         cmd.Parameters.Add("@ChequeDate", SqlDbType.DateTime).Value = _supplierPayObj.ChequeDate;
                         cmd.Parameters.Add("@PaymentMode", SqlDbType.VarChar, 10).Value = _supplierPayObj.PaymentMode;
                         cmd.Parameters.Add("@Refbank", SqlDbType.NVarChar, 50).Value = _supplierPayObj.ReferenceBank;
@@ -357,6 +362,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = _supplierPayObj.ID;
                         cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = Guid.Parse(_supplierPayObj.hdfSupplierID);
+                        cmd.Parameters.Add("@ChequeClearDate", SqlDbType.DateTime).Value = _supplierPayObj.ChequeClearDate;
                         cmd.Parameters.Add("@ChequeDate", SqlDbType.DateTime).Value = _supplierPayObj.ChequeDate;
                         cmd.Parameters.Add("@PaymentDate", SqlDbType.DateTime).Value = _supplierPayObj.PaymentDate;
                         cmd.Parameters.Add("@PaymentMode", SqlDbType.VarChar, 10).Value = _supplierPayObj.PaymentMode;
@@ -576,5 +582,48 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return new { Message = Cobj.InsertSuccess };
         }
+
+        public object Validate(SupplierPayments _supplierpayObj)
+        {
+            AppConst appcust = new AppConst();
+            SqlParameter outputStatus = null;
+            SqlParameter outputStatus1 = null;
+            try
+            {
+
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[ValidateSupplierPayment]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ReferenceNo", SqlDbType.VarChar, 20).Value = _supplierpayObj.PaymentRef;
+                        cmd.Parameters.Add("@id", SqlDbType.UniqueIdentifier).Value = _supplierpayObj.ID;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus1 = cmd.Parameters.Add("@message", SqlDbType.VarChar, 100);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        outputStatus1.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+
+                    }
+                }
+
+            }
+
+
+            catch (Exception ex)
+            {
+                return new { Message = ex.ToString(), Status = -1 };
+            }
+
+            return new { Message = outputStatus1.Value.ToString(), Status = outputStatus.Value };
+
+        }
+
     }
 }

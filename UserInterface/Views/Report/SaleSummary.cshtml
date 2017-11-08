@@ -24,6 +24,7 @@
         line-height: 20px !important;
     }
 
+   
 </style>
 }
 <div style="width:100%;">
@@ -50,7 +51,7 @@
     &nbsp;
     &nbsp;
 </div>
-<div class="form-horizontal">
+<div class="form-horizontal" id="main">
 
     <div class="col-md-8" style="margin-top:10px;">
         <div class="col-md-3">
@@ -75,7 +76,7 @@
 
             </div>
         </div>
-        <div class="col-md-3">
+        @*<div class="col-md-3">
             <div class="row">
                 <div class="radio">
                     <label>
@@ -90,10 +91,9 @@
                     </label>
                 </div>
             </div>
-        </div>
-
+        </div>*@
+        <div class="col-md-12"><p></p></div>
         <div class="col-md-6">
-            @Html.LabelFor(model => model.Search, htmlAttributes: new { @class = "control-label", style = "visibility:hidden" })
             <div class="col-md-12">
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="Search" id="Search">
@@ -104,8 +104,8 @@
             </div>
         </div>
 
-        <div class="col-md-6">
-            @Html.LabelFor(model => model.IncludeTax, htmlAttributes: new { @class = "control-label", style = "visibility:hidden" })
+        <div class="col-md-6" style="z-index:999">
+         
             <div class="col-md-12">
                 <div class="row">
                     <div class="checkbox col-md-12">
@@ -140,44 +140,95 @@
                     @Html.Action("ChangeButtonStyle", "Report", data);
                 }
             </div>
-            <div class="row summaryboxes">
-
-                <div class="clearfix visible-sm-block">
-
-                </div>
-
+            
+   
+    <div class="form-group col-md-12">
+        <div class="col-md-8">
+        </div>
+      
+            <div id="saleTotals" class="col-md-4 box-header figuresummary rounded" style="margin-top:-3%;visibility:hidden">
+                <div class="col-md-6 text-right" style="font-size:small">Invoiced(Excl.Tax):</div>
+                <div class="col-md-6 text-right"><small><span id="salessummaryinvoiced" style="font-size:small;font-weight:bold"></span></small></div>
+                <div class="col-md-6 text-right" style="font-size:small">Tax Amount:</div>
+                <div class="col-md-6 text-right"><small><span id="salessummarytax" style="font-size:small;font-weight:bold"></span></small></div>
+                <div class="col-md-6 text-right" style="font-size:small">Total Invoiced:</div>
+                <div class="col-md-6 text-right"> <small><span id="salessummaryinvoiceamount" style="font-size:small;font-weight:bold"></span></small></div>
+                <div class="col-md-6 text-right" style="font-size:small">Paid Amount:</div>
+                <div class="col-md-6 text-right"><small><span id="salessummarypaidamount" style="font-size:small;font-weight:bold"></span></small></div>
+                <div class="col-md-6 text-right" style="font-size:small">Balance:</div>
+                <div class="col-md-6 text-right"><small><span id="salessummaryamount" style="font-size:small;font-weight:bold"></span></small></div>
             </div>
-            <div class="form-group col-md-12">
-                <div class="col-md-12 text-right">
-                    <div style="font-size:medium">NetDue Total: <small><span id="salessummaryamount" style="font-size:medium;font-weight:bold"> 0.00</span></small></div>
-                </div>
+        </div>
+    
+        <div class="row">
+            &nbsp;
+        </div>
+        <div class="row tableContainer">
+            <div class="col-md-12">
+                <table id="saleSummaryTable" class="table stripe" cellspacing="0" width="100%">
+                    <thead>
+                        <tr class="text-center TableHead">
+                            <th>Customer Name</th>
+                            <th>Invoiced(Excl.Tax)(A)</th>
+                            <th>Tax Amount (B)</th>
+                            <th>Total(C=A+B)</th>
+                            <th>Paid (D)</th>
+                            <th>Credit(E)</th>
+                            <th>Balance (F=C-D-E)</th>
+                            <th>Net Due(F=A+E)</th>
+                            <th>Company</th>
+
+                        </tr>
+                    </thead>
+                </table>
             </div>
-            <div class="row">
-                &nbsp;
+        </div>
+
+</div>
+
+
+<div id="myNav" class="overlay"> 
+    <div class="overlay-content"> 
+        <div class="row" id="OverlayHeader">
+            <div class="col-md-6" style="text-align:left">
+                <span id="lblDetailsHead" class="SCHeader"></span>
             </div>
-            <div class="row tableContainer">
+            <div class="col-md-6" id="btnPatchAdd" style="min-height:25px; padding-right:25px;">
+
+                @{
+                    var data1 = new { ActionType = "CustDetail" };
+                    @Html.Action("ChangeButtonStyle", "Report", data1);
+                }
+            </div>
+        </div> 
+        <br />
+        <div class="row tableContainer EntryForms" style="height:550px">
+            <div class="col-md-12">
                 <div class="col-md-12">
-                    <table id="saleSummaryTable" class="table stripe" cellspacing="0" width="100%">
+                    <table id="saleDetailTable" class="table stripe" cellspacing="0" width="100%">
                         <thead>
                             <tr class="text-center TableHead">
+                                <th>Invoice No.</th>
                                 <th>Customer Name</th>
-                                <th>Opening Balance(A)</th>
-                                <th>Invoiced (B)</th>
-                                <th>Paid (C)</th>
-                                <th>Credit(D)</th>
-                                <th>Balance (E = B-C-D)</th>
-                                <th>Net Due(F=A+E)</th>
-                                <th>Company</th>
-
+                                <th>Date</th>
+                                <th>Payment Due Date</th>
+                                <th>Invoiced (Excl.Tax)(A)</th>
+                                <th>Tax Amount (B)</th>
+                                <th>Total Amount (C=A+B)</th>
+                                <th>Paid Amount (D)</th>
+                                <th>Balance Due  (C-D)</th>
+                                <th>Credit</th>
+                                <th>General Notes</th>
+                                <th>Originated Company</th>
+                                <th>Originated Company</th>
                             </tr>
                         </thead>
                     </table>
                 </div>
-            </div>
-
-        </div>
-
-
+            </div>         
+        </div>         
+    </div>
+</div>
 
 
 

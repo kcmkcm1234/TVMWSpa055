@@ -24,9 +24,12 @@ namespace SPAccounts.DataAccessObject.DTO
 
     public class SaleSummary
     {
+        public Guid CustomerID { get; set; }
         public string CustomerName { get; set; }
         public decimal OpeningBalance { get; set; }
         public decimal Invoiced { get; set; }
+        public decimal Total { get; set; }
+        public decimal TaxAmount { get; set; }
         public decimal Paid { get; set; }
         public decimal NetDue { get; set; }
         public decimal Credit { get; set; }
@@ -35,6 +38,12 @@ namespace SPAccounts.DataAccessObject.DTO
         public string RowType { get; set; }
         public Boolean IncludeInternal { get; set; }
         public Boolean IncludeTax { get; set; }
+        public string salesummarySum { get; set; }
+        public string salesummaryTotalInvoice { get; set; }
+        public string salesummaryInvoiced { get; set; }
+        public string salesummarypaid { get; set; }
+        public string salesummaryTax { get; set; }
+        public List<SaleSummary> saleSummaryList { get; set; }
     }
 
     public class SaleDetailReport
@@ -51,8 +60,16 @@ namespace SPAccounts.DataAccessObject.DTO
         public string CustomerName { get; set; }
         public decimal Credit { get; set; }
         public string RowType { get; set; }
+        public decimal Total { get; set; }
+        public decimal TaxAmount { get; set; }
         public Boolean IncludeInternal { get; set; }
         public Boolean IncludeTax { get; set; }
+        public string saledetailSum { get; set; }
+        public string saledetailinvoice { get; set; }
+        public string saledetailpaid { get; set; }
+        public string saledetailtax { get; set; }
+        public string saledetailtotalinvoiced { get; set; }
+        public List<SaleDetailReport> saleDetailList { get; set; }
 
     }
     public class OtherExpenseSummaryReport
@@ -63,6 +80,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string EmpCompany { get; set; }
         public string OriginCompany { get; set; }
         public string Employee { get; set; }
+        public Guid EmployeeID { get; set; }
         public string Search { get; set; }
         public string Subtype { get; set; }
         public string AccountHead { get; set; }
@@ -72,7 +90,7 @@ namespace SPAccounts.DataAccessObject.DTO
 
     }
 
-    
+
     public class OtherExpenseDetailsReport
     {
         public string AccountHeadORSubtype { get; set; }
@@ -88,6 +106,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string EmployeeOrOther { get; set; }
         public decimal TotalAmount { get; set; }
         public string Date { get; set; }
+        public string RowType { get; set; }
     }
 
     public class CustomerContactDetailsReport
@@ -116,7 +135,7 @@ namespace SPAccounts.DataAccessObject.DTO
 
     public class PurchaseSummaryReport
     {
-      
+        public Guid SupplierID { get; set; }
         public string CompanyCode { get; set; }
         public string SupplierName { get; set; }
         public decimal OpeningBalance { get; set; }
@@ -129,8 +148,12 @@ namespace SPAccounts.DataAccessObject.DTO
         public string RowType { get; set; }
         public Boolean IncludeInternal { get; set; }
         public Boolean IncludeTax { get; set; }
+        public string purchaseSummarySum { get; set; }
+        public string purchaseSummaryPaid { get; set; }
+        public string purchaseSummaryInvoice { get; set; }
+        public List<PurchaseSummaryReport> purchaseSummaryReportList { get; set; }
 
-    }
+}
     public class PurchaseDetailReport
     {
         public string CompanyCode { get; set; }
@@ -149,6 +172,11 @@ namespace SPAccounts.DataAccessObject.DTO
         public string RowType { get; set; }
         public Boolean IncludeInternal { get; set; }
         public Boolean IncludeTax { get; set; }
+        public string purchaseDetailSum { get; set; }
+        public string purchaseDetailPaid { get; set; }
+        public string purchaseDetailInvoice { get; set; }
+        public string purchaseDetailPaymentProcess { get; set; }
+        public List<PurchaseDetailReport> purchaseDetailReportList { get; set; }
 
     }
     public class SupplierContactDetailsReport
@@ -283,6 +311,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string CustomerCode { get; set; }
         public Guid CustomerID { get; set; }
         public string CustomerName { get; set; }
+        public string CompanyCode { get; set; }
     }
 
 
@@ -319,6 +348,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string Company { get; set; }
         public string OriginCompany { get; set; }
         public string Date { get; set; }
+        public string RowType { get; set; }
     }
 
     public class DailyLedgerReport
@@ -334,12 +364,13 @@ namespace SPAccounts.DataAccessObject.DTO
         public string PayMode { get; set; }
         public string Remarks { get; set; }
         public string Particulars { get; set; }
-
+        public List<SaleSummary> BankList { get; set; }
     }
 
     public class CustomerExpeditingReport
     {
         public string CustomerName { get; set; }
+        public string CustomerName1 { get; set; }
         public string ContactNo { get; set; }
         public string LandLine { get; set; }
         public string Mobile { get; set; }
@@ -355,6 +386,7 @@ namespace SPAccounts.DataAccessObject.DTO
     public class SupplierExpeditingReport
     {
         public string SupplierName { get; set; }
+        public string SupplierName1 { get; set; }
         public string LandLine { get; set; }
         public string ContactNo { get; set; }
         public string Mobile { get; set; }

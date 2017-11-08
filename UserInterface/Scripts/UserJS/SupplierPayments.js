@@ -48,8 +48,19 @@ $(document).ready(function () {
                  { "data": "ApprovalStatusObj.Description", "defaultContent": "<i>-</i>" },
                  { "data": "PaymentDateFormatted", "defaultContent": "<i>-</i>" },
                  { "data": "PaymentRef", "defaultContent": "<i>-</i>" },
-                 { "data": "supplierObj.CompanyName", "defaultContent": "<i>-</i>" },//render supplierObj.ContactPerson
+                 {
+                     "data": "supplierObj.CompanyName", "defaultContent": "<i>-</i>", 'render': function (data, type, row) {
+                         debugger;
+                         if (row.GeneralNotes!=null)
+                         if (row.GeneralNotes.length>50)
+                             return  data + '<br/>[ ' + row.GeneralNotes.substring(0, 50) + '.... ]'
+                         else
+                             return  data + '<br/>[ ' + row.GeneralNotes+' ]'
+                         return  data 
+                     }
+                 },//render supplierObj.ContactPerson
                  { "data": "PaymentMode", "defaultContent": "<i>-</i>" },
+                 { "data": "CompanyObj.Name", "defaultContent": "<i>-</i>" },
                  {
                      "data": "Type", "defaultContent": "<i>-</i>", 'render': function (data, type, row) {
                          if (data == 'C') {
@@ -66,9 +77,9 @@ $(document).ready(function () {
                  { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink" onclick="Edit(this)"><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
             ],
             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                { className: "text-right", "targets": [9,10] },
-                 { className: "text-Left", "targets": [2,4, 5, 6, 7,8] },
-                { className: "text-center", "targets": [1, 3,11] }
+                { className: "text-right", "targets": [10,11] },
+                 { className: "text-Left", "targets": [2,4, 5, 6, 7,8,9] },
+                { className: "text-center", "targets": [1, 3,12] }
             ]
         });
         $(".buttons-excel").hide();
@@ -297,6 +308,7 @@ function GetSupplierPaymentsByID(PaymentID) {
     $('#Supplier').prop('disabled', true);
     $('#PaymentDate').val(thisitem.PaymentDateFormatted);
     $('#ChequeDate').val(thisitem.ChequeDate);
+    $('#ChequeClearDate').val(thisitem.ChequeClearDate);
     $('#PaymentRef').val(thisitem.PaymentRef);
     $('#ReferenceBank').val(thisitem.ReferenceBank);
     $('#PaidFromComanyCode').val(thisitem.PaidFromComanyCode);
@@ -427,6 +439,7 @@ function openNavClick() {
     $('#ReferenceBank').prop('disabled', true);
     $('#BankCode').prop('disabled', true);
     $('#ChequeDate').prop('disabled', true);
+    $('#ChequeClearDate').prop('disabled', true);
     $('#Type').prop('disabled', false);
     $('#PaymentMode').prop('disabled', false);
     openNav();
@@ -441,6 +454,7 @@ function TypeOnChange() {
         $('#PaymentMode').prop('disabled', true);
         $('#BankCode').prop('disabled', true);
         $('#ChequeDate').prop('disabled', true);
+        $('#ChequeClearDate').prop('disabled', true);
         $('#CreditID').prop('disabled', false);
         $('#TotalPaidAmt').prop('disabled', true);
         CaptionChangeCredit()
@@ -567,39 +581,79 @@ function GetCreditNoteBySupplier(ID) {
     }
 }
 
+function SaveValidatedData()
+{
+    $(".cancel").click();
+ var SelectedRows = DataTables.OutStandingInvoices.rows(".selected").data();
+    if ((SelectedRows) && (SelectedRows.length > 0)) {
+        var ar = [];
+        for (var r = 0; r < SelectedRows.length; r++) {
+            var PaymentDetailViewModel = new Object();
+            PaymentDetailViewModel.InvoiceID = SelectedRows[r].ID;//Invoice ID
+            PaymentDetailViewModel.ID = SelectedRows[r].SuppPaymentObj.supplierPaymentsDetailObj.ID//Detail ID
+            PaymentDetailViewModel.PaidAmount = SelectedRows[r].SuppPaymentObj.supplierPaymentsDetailObj.PaidAmount;
+            ar.push(PaymentDetailViewModel);
+        }
+        $('#paymentDetailhdf').val(JSON.stringify(ar));
+    }
+    if ($("#hdfCreditID").val() == undefined)
+        $("#hdfCreditID").val(emptyGUID);
+    $('#hdfCreditAmount').val($('#lblPaymentApplied').text());
+    $('#AdvanceAmount').val($('#lblCredit').text());
+    setTimeout(function () {
+        $('#btnSave').trigger('click');
+    }, 1000);
+}
+
+
 function savePayments() {
     debugger;
     //if ($('#PaymentMode').val() == "CHEQUE" && $("#BankCode").val() == "")
     //{
     //    notyAlert('error', 'Please Select Bank');
     //}
-    if ($('#PaymentMode').val() == "ONLINE" && $("#BankCode").val() == ""  || $('#PaymentMode').val() == "CHEQUE" && $("#BankCode").val() == "") {
+    if ($('#PaymentMode').val() == "ONLINE" && $("#BankCode").val() == "" || $('#PaymentMode').val() == "CHEQUE" && $("#BankCode").val() == "") {
         notyAlert('error', 'Please Select Bank');
     }
-    //else if ($('#TotalPaidAmt').val() == 0) {
-    //    notyAlert('error', 'Please Enter Amount');
-    //}
+        //else if ($('#TotalPaidAmt').val() == 0) {
+        //    notyAlert('error', 'Please Enter Amount');
+        //}
     else {
-        var SelectedRows = DataTables.OutStandingInvoices.rows(".selected").data();
-        if ((SelectedRows) && (SelectedRows.length > 0)) {
-            var ar = [];
-            for (var r = 0; r < SelectedRows.length; r++) {
-                var PaymentDetailViewModel = new Object();
-                PaymentDetailViewModel.InvoiceID = SelectedRows[r].ID;//Invoice ID
-                PaymentDetailViewModel.ID = SelectedRows[r].SuppPaymentObj.supplierPaymentsDetailObj.ID//Detail ID
-                PaymentDetailViewModel.PaidAmount = SelectedRows[r].SuppPaymentObj.supplierPaymentsDetailObj.PaidAmount;
-                ar.push(PaymentDetailViewModel);
-            }
-            $('#paymentDetailhdf').val(JSON.stringify(ar));
-        }
-        if ($("#hdfCreditID").val() == undefined)
-            $("#hdfCreditID").val(emptyGUID);
-        $('#hdfCreditAmount').val($('#lblPaymentApplied').text());
-        $('#AdvanceAmount').val($('#lblCredit').text());
-        $('#btnSave').trigger('click');
+        validate();
     }
 }
 
+
+   
+
+function validate()
+    {
+        debugger;
+        var SupplierPaymentsViewModel = new Object();
+        SupplierPaymentsViewModel.PaymentRef = $("#PaymentRef").val();
+        SupplierPaymentsViewModel.ID = $("#ID").val();
+        var data = "{'_supplierpayObj': " + JSON.stringify(SupplierPaymentsViewModel) + "}";
+        PostDataToServer("SupplierPayments/Validate/", data, function (JsonResult) {
+            debugger;
+            if (JsonResult != '') {
+                switch (JsonResult.Result) {
+                    case "OK":
+                        if (JsonResult.Records.Status==1)
+                            notyConfirm(JsonResult.Records.Message, 'SaveValidatedData();', '', "Yes,Proceed!", 1);
+                        else
+                        {
+                            SaveValidatedData();
+                        }
+                        break;
+                    case "ERROR":
+                        notyAlert('error', JsonResult.Message);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+}
 
 function DeletePayments() {
     notyConfirm('Are you sure to delete?', 'Delete()', '', "Yes, delete it!");
@@ -735,11 +789,15 @@ function PaymentModeChanged() {
 
         if ($('#PaymentMode').val() == "CHEQUE") {
             $('#ChequeDate').prop('disabled', false);
+            $('#ChequeClearDate').prop('disabled', false);
             $('#ReferenceBank').prop('disabled', true);
         }
         else {
             $("#ChequeDate").val('');
             $('#ChequeDate').prop('disabled', true);
+            $("#ChequeClearDate").val('');
+            $('#ChequeClearDate').prop('disabled', true);
+
             $('#ReferenceBank').prop('disabled', true);
         }
     }
@@ -748,6 +806,8 @@ function PaymentModeChanged() {
         $('#BankCode').prop('disabled', true);
         $("#ChequeDate").val('');
         $('#ChequeDate').prop('disabled', true);
+        $("#ChequeClearDate").val('');
+        $('#ChequeClearDate').prop('disabled', true);
         $('#ReferenceBank').prop('disabled', true);
 
     }
@@ -904,7 +964,52 @@ function Selectcheckbox() {
 }
 //--------------------------------------------Notification,Approval,Payment Proceeding methods ---------------------------------------------------------//
 function SendNotification() {
-    notyAlert('info', 'Under Construction !');
+    $("#NotificationMessagemodal").modal('show');
+    debugger; 
+    $('#GeneralNotes').val($('#Notes').val());
+    var description = $('#lblheader').text() + ", Supplier: " + $('#Supplier').select2('data')[0].text + ", Amount: " + $('#TotalPaidAmt').val();
+    $('#lblNotyMessage').html('<b>' + description + '</b><br/>' + $('#GeneralNotes').val());
+}
+function ChangeNotificationMessage() {
+    debugger;
+    var description = $('#lblheader').text() + ", Supplier: " + $('#Supplier').select2('data')[0].text + ", Amount: " + $('#TotalPaidAmt').val();
+                                
+    $('#lblNotyMessage').html('<b>' + description + '</b><br/>' + $('#GeneralNotes').val());
+
+}
+
+
+
+function SendNotificationConfirm() {
+    try {
+        debugger;
+        var SupplierPaymentsViewModel = new Object();
+        SupplierPaymentsViewModel.EntryNo = $('#lblheader').text()
+        SupplierPaymentsViewModel.TotalPaidAmt = $('#TotalPaidAmt').val();
+        SupplierPaymentsViewModel.GeneralNotes = $('#GeneralNotes').val().substring(0, 250)
+        SupplierPaymentsViewModel.supplierObj = new Object();
+        SupplierPaymentsViewModel.supplierObj.CompanyName = $('#Supplier').select2('data')[0].text;
+
+        var data = "{'supobj':" + JSON.stringify(SupplierPaymentsViewModel) + "}";
+
+        PostDataToServer("SupplierPayments/SendNotification/", data, function (JsonResult) {
+            if (JsonResult != '') {
+                switch (JsonResult.Result) {
+                    case "OK":
+                        notyAlert('success', JsonResult.Message);
+                        break;
+                    case "ERROR":
+                        notyAlert('error', JsonResult.Message);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
 }
 
 function ApprovedPayment() {

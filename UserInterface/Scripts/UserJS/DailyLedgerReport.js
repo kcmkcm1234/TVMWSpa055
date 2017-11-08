@@ -1,9 +1,12 @@
 ﻿var DataTables = {};
+var startdate = '';
+var enddate = '';
 $(document).ready(function () {
     
     try {
         debugger;
         $("#MainHead").select2();
+      
         DataTables.DailyLedgerTable = $('#dailyLedgerDetailAHTable').DataTable(
             {
                 dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
@@ -35,9 +38,28 @@ $(document).ready(function () {
                   { className: "text-right", "targets": [4,5] },
                   { className: "text-center", "targets": [0] }
                     
-                ]
+                ],
+                createdRow: function (row, data, index) {
+                    
+                    if (data.EntryType == "<b>Opening</b>") {
+                        
+                        $('td', row).addClass('opeingRow');
+                    }
+                    if (data.EntryType == "<b>Closing(Cr)</b>" || data.EntryType == "<b>Closing(Dr)</b>") {
+                        
+                        $('td', row).addClass('closingRow');
+                    }
+                    if (data.EntryType == "<b>Total</b>") {
+                        
+                        $('td', row).addClass('totalRow');
+                    }
+
+                }
+               
             });
         $(".buttons-excel").hide();
+        startdate = $("#todate").val();
+        enddate = $("#fromdate").val();
         if($('.DateFilterDiv').is(":hidden"))
         {
             $('.DateFilterDiv').find('input').prop('disabled', true);
@@ -47,7 +69,7 @@ $(document).ready(function () {
             $('.SingleDateFilterDiv').find('input').prop('disabled', true);
         }
                 
-                
+          
 
     } catch (x) {
         //console.Write(x.message);
@@ -63,9 +85,10 @@ function GetDailyLedgerDetails(){
         var ondate = $('.SingleDateFilterDiv').is(":hidden") ? "" : $("#ondate").val();
         var mainHead = $("#MainHead").val();
         var search = $("#Search").val();
+        var bank = $("#BankCode").val();
         if ((IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate)) || IsVaildDateFormat(ondate))
         {
-            var data = { "FromDate": fromdate, "ToDate": todate, "OnDate": ondate, "MainHead": mainHead, "search": search };
+            var data = { "FromDate": fromdate, "ToDate": todate, "OnDate": ondate, "MainHead": mainHead, "search": search, "Bank": bank };
             var ds = {};
             ds = GetDataFromServer("Report/GetDailyLedgerDetails/", data);
             if (ds != '') {
@@ -94,7 +117,7 @@ function RefreshDailyLedgerDetails() {
 
         if ((DataTables.DailyLedgerTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) ) || (DataTables.DailyLedgerTable != undefined && IsVaildDateFormat(ondate)))
         {
-            DataTables.DailyLedgerTable.clear().rows.add(GetDailyLedgerDetails()).draw(false);
+            DataTables.DailyLedgerTable.clear().rows.add(GetDailyLedgerDetails()).draw(true);
         }
     }
     catch (e) {
@@ -104,8 +127,17 @@ function RefreshDailyLedgerDetails() {
 
 
 function OnChangeCall() {
+   
+    if($("#MainHead").val()=='Bank')
+    {
+        $("#BankCode").prop('disabled', false);
+    }
+    else
+    {
+        $("#BankCode").val('ALL');
+        $("#BankCode").prop('disabled', true);
+    }
     RefreshDailyLedgerDetails();
-
 }
 
 
@@ -127,8 +159,11 @@ function PrintReport() {
 
 function Reset() {
     debugger;
+    $("#todate").val(startdate);
+    $("#fromdate").val(enddate);
     $("#MainHead").val('All').trigger('change')
     $("#Search").val('').trigger('change')
+    $("#BankCode").val('').trigger('change')
     RefreshDailyLedgerDetails()
 }
 

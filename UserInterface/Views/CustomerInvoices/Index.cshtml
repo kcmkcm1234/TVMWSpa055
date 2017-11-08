@@ -14,7 +14,6 @@
 @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableButtons")
 
 
- 
 @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/select2")
 
 <style>
@@ -88,39 +87,164 @@
     </div>
 
     <div class="col-md-12">
-    <div id="filter" hidden="hidden" style="position:absolute;padding-top:20px;font-size:medium"><b>Filter:</b>
-        <p id="ODfilter" style="padding-right:20px;font-size:medium" class="fa fa-th ig-yellow">Over Due</p>
-        <p id="OIfilter" style="padding-right:20px;font-size:medium" class="fa fa-th ig-aqua">Open Invoices</p>
-        <p id="FPfilter" style="padding-right:20px;font-size:medium" class="fa fa-th ig-green">Fully Paid</p>
-    </div>
-    
-    </div>
-    
-    <div class="row">
-        &nbsp;
-    </div>
-        <div class="row tableContainer">
-            <div class="col-md-12">
-                <table id="CustInvTable" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
-                    <thead>
-                        <tr class="text-center TableHead">
-                            <th>ID</th>
-                            <th>Invoice No</th>
-                            <th>Invoice Date</th>
-                            <th>Customer</th>
-                            <th>Payment Due Date</th>
-                            <th>Invoice Amount(₹)</th>
-                            <th>Balance Due(₹)</th>
-                            <th>Last Payment Date</th>
-                            <th>Orgin Company</th>
-                            <th>Status</th>
-                            <th>...</th> 
-
-                        </tr>
-                    </thead>
-                </table>
-            </div>
+        <div id="filter" hidden="hidden" style="position:absolute;padding-top:20px;font-size:medium">
+            <b>Filter:</b>
+            <p id="ODfilter" style="padding-right:20px;font-size:medium" class="fa fa-th ig-yellow">Over Due</p>
+            <p id="OIfilter" style="padding-right:20px;font-size:medium" class="fa fa-th ig-aqua">Open Invoices</p>
+            <p id="FPfilter" style="padding-right:20px;font-size:medium" class="fa fa-th ig-green">Fully Paid</p>
         </div>
+
+    </div>
+  
+    <div class="col-md-12">
+        <div class="row">
+            &nbsp;
+            <p id="filter" style="padding-left:800px;font-size:medium"><i class="fa fa-filter" aria-hidden="true" style="color:purple"></i><a href="#" class="accordion" data-toggle="collapse" data-target="#demo">Advanced Filter</a></p>
+
+            <div id="demo" class="collapse" style="border-top:1px solid #d9d9d9">
+                <div class="col-md-12">
+                    <div class="col-md-3">
+                        @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })
+                        <div class="col-md-12" style="padding:0">
+                            @Html.TextBox("fromdate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @Value = ViewBag.fromdate })
+
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        @Html.Label("To Date", htmlAttributes: new { @class = "control-label" })
+                        <div class="col-md-12" style="padding:0">
+                            @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @Value = ViewBag.todate })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="col-md-12" style="padding:0">
+                            @Html.LabelFor(model => model.customerObj.ID, htmlAttributes: new { @class = "control-label " })
+                        </div>
+                        <div class="col-md-12" style="padding:0">
+                            <div class="col-md-12" style="padding:0">
+                                @Html.DropDownListFor(model => model.customerObj.ID, Model.customerObj.CustomerList, "-- Select Customer --", new { @class = "form-control BlockEnter", @id = "Customerddl", @style = "width: 100%" })
+                                @Html.ValidationMessageFor(model => model.customerObj.ID, "", new { @class = "text-danger" })
+                            </div>
+                            @*<div class="col-md-1"></div>
+                    <div class="col-md-1"></div>*@
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="col-md-12">
+                            </div>
+                        </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <div class="col-md-12" style="padding:0">
+                                    @Html.LabelFor(model => model.InvoiceType, htmlAttributes: new { @class = "control-label " })
+                                </div>
+                                <div class="col-md-12" style="padding:0">
+                                    <div class="col-md-12" style="padding:0">
+                                        @{
+                                            List<SelectListItem> InvoiceTypesList = new List<SelectListItem>();
+                                            InvoiceTypesList.Add(new SelectListItem
+                                            { Text = "--Select InvoiceType--", Value = "", Selected = true });
+                                            InvoiceTypesList.Add(new SelectListItem
+                                            { Text = "Regular Invoice", Value = "RB" });
+                                            InvoiceTypesList.Add(new SelectListItem
+                                            { Text = "WB Invoice", Value = "WB" });
+                                            InvoiceTypesList.Add(new SelectListItem
+                                            { Text = "PB Invoice", Value = "PB" });
+                                        }
+                                        @Html.DropDownListFor(model => model.InvoiceType, InvoiceTypesList, new { @class = "form-control BlockEnter", style = "padding:4px 12px;width: 100 %", @id = "ddlInvoiceTypes", @onchange = "InvoicesTypeChange();" })
+                                    </div>
+                                    @*<div class="col-md-1"></div>
+                            <div class="col-md-1"></div>*@
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="col-md-12" style="padding:0">
+                                    @Html.LabelFor(model => model.companiesObj.Code, htmlAttributes: new { @class = "control-label " })
+                                </div>
+                                <div class="col-md-12" style="padding:0">
+                                    <di-v class="col-md-12" style="padding:0">
+                                        @Html.DropDownListFor(model => model.companiesObj.Code, Model.companiesObj.CompanyList, "-- Select Company --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "Companyddl" })
+                                        @Html.ValidationMessageFor(model => model.companiesObj.Code, "", new { @class = "text-danger" })
+                                    </di-v>
+                                    @*<div class="col-md-1"></div>
+                            <div class="col-md-1"></div>*@
+                                </div>
+
+                            </div>
+                            <div class="col-md-3">
+                                <div class="col-md-12" style="padding:0">
+                                    @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label " })
+                                </div>
+                                <div class="col-md-12" style="padding:0">
+                                    <div class="col-md-12" style="padding:0">
+                                        @{
+                                            List<SelectListItem> InvoiceTypesStatus = new List<SelectListItem>();
+                                            InvoiceTypesStatus.Add(new SelectListItem
+                                            { Text = "--Select Status--", Value = "", Selected = true });
+                                            InvoiceTypesStatus.Add(new SelectListItem
+                                            { Text = "Fully Paid", Value = "Fully Paid" });
+                                            InvoiceTypesStatus.Add(new SelectListItem
+                                            { Text = "Partialy Paid", Value = "Partialy Paid" });
+                                            InvoiceTypesStatus.Add(new SelectListItem
+                                            { Text = "Not Paid", Value = "Not Paid" });
+                                        }
+                                        @Html.DropDownListFor(model => model.Status, InvoiceTypesStatus, new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "ddlInvoiceTypesStatus" })
+                                    </div>
+                                    @*<div class="col-md-1"></div>
+                            <div class="col-md-1"></div>*@
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="col-md-12">
+                                    <div class="col-md-10">
+                                        <a class="btn btn-primary" style="right:-750px;margin-top:20px" id="btnadvancesearch" onclick="RefreshInvoicesAndSummary()">Apply</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.Search, htmlAttributes: new { @class = "control-label", style = "visibility:hidden" })
+                            </div>
+                            <div class="col-md-6" style="padding:0">
+                                <div class="col-md-12">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Search" id="search">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-default" type="submit" style="height:28px" onclick="RefreshInvoicesAndSummary()"><i class="glyphicon glyphicon-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+        </div>
+    <div class="row tableContainer">
+        <div class="col-md-12" style="overflow-x:scroll">
+            <table id="CustInvTable" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
+                <thead>
+                    <tr class="text-center TableHead">
+                        <th>ID</th>
+                        <th>Invoice No</th>
+                        <th>Invoice Date</th>
+                        <th>Customer</th>
+                        <th>Payment Due Date</th>
+                        <th>Invoice Amount(₹)</th>
+                        <th>Balance Due(₹)</th>
+                        <th>Last Payment Date</th>
+                        <th>Orgin Company</th>
+                        <th>Status</th>
+                        <th>...</th>
+
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
 
 
 </section>

@@ -336,8 +336,11 @@ function Validation() {
 
 function SaveOtherIncome()
 {
+    debugger;
     try {
-        $("#btnOtherIncomeSave").trigger('click');
+        validate();
+        
+        //$("#btnOtherIncomeSave").trigger('click');
        
     }
     catch (e) {
@@ -346,6 +349,50 @@ function SaveOtherIncome()
     }
 }
 
+
+
+
+
+function validate() {
+    debugger;
+    var OtherIncomeViewModel = new Object();
+    OtherIncomeViewModel.IncomeRef = $("#IncomeRef").val();
+    OtherIncomeViewModel.ID = $("#ID").val();
+    var data = "{'_otherincome': " + JSON.stringify(OtherIncomeViewModel) + "}";
+    PostDataToServer("OtherIncome/Validate/", data, function (JsonResult) {
+        debugger;
+        if (JsonResult != '') {
+            switch (JsonResult.Result) {
+                case "OK":
+                    if (JsonResult.Records.Status == 1)
+                    {
+                        notyConfirm(JsonResult.Records.Message, 'SaveValidatedData();', '', "Yes,Proceed!", 1);
+                        return false;
+                    }
+                    else
+                    {
+                        SaveValidatedData();
+                    }
+                    break;
+                case "ERROR":
+                    notyAlert('error', JsonResult.Message);
+                    break;
+                default:
+                    break;
+            }
+        }
+    });
+}
+
+
+
+function SaveValidatedData() {
+    debugger;
+    $(".cancel").click();
+    setTimeout(function () {
+        $("#btnOtherIncomeSave").trigger('click');
+    }, 1000);
+}
 
 function GetAllOtherIncome(IncomeDate,DefaultDate) {
     try {

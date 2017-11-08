@@ -8,7 +8,7 @@ namespace SPAccounts.RepositoryServices.Contracts
 {
     public interface ISupplierInvoicesRepository
     {
-        List<SupplierInvoices> GetAllSupplierInvoices();
+        List<SupplierInvoices> GetAllSupplierInvoices(DateTime? FromDate, DateTime? ToDate, string Supplier, string InvoiceType, string Company, string Status, string Search);
         SupplierInvoices GetSupplierInvoiceDetails(Guid ID);
         SupplierInvoiceSummary GetSupplierInvoicesSummary(bool IsInternal);
         SupplierInvoices InsertInvoice(SupplierInvoices _supplierInvoicesObj);
@@ -19,6 +19,7 @@ namespace SPAccounts.RepositoryServices.Contracts
         object DeleteSupplierInvoice(Guid ID, string userName);
         List<SupplierInvoices> GetOutStandingInvoicesBySupplier(Guid PaymentID, Guid supplierID);
         SupplierInvoices GetSupplierAdvances(string ID);
+        SupplierInvoiceAgeingSummary GetSupplierInvoicesAgeingSummary();
 
     }
 }

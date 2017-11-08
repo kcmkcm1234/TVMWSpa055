@@ -1547,6 +1547,7 @@
     <Content Include="Scripts\UserJS\AccountReceivableAgeingReport.js" />
     <Content Include="Scripts\UserJS\AccountReceivableAgeingSummaryReport.js" />
     <Content Include="Scripts\UserJS\Bank.js" />
+    <Content Include="Scripts\UserJS\BankBalance.js" />
     <Content Include="Scripts\UserJS\ChartOfAccounts.js" />
     <Content Include="Scripts\UserJS\CustomerContactDetailsReport.js" />
     <Content Include="Scripts\UserJS\CustomerCreditNote.js" />
@@ -1694,6 +1695,7 @@
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SecurityFilter\AuthSecurityFilter.cs" />
+    <Compile Include="SecurityFilter\ToolBarAccess.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config">
@@ -1773,6 +1775,8 @@
     <Content Include="Views\Report\DailyLedgerDetails.cshtml" />
     <Content Include="Views\Report\CustomerPaymentExpeditingDetails.cshtml" />
     <Content Include="Views\Report\SupplierPaymentExpeditingDetails.cshtml" />
+    <Content Include="Views\Dashboard\_InvAgeingSummary.cshtml" />
+    <Content Include="Views\DepositAndWithdrawals\BankBalance.cshtml" />
     <Content Include="Views\PDFGenerator\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
