@@ -86,7 +86,7 @@ namespace SPAccounts.RepositoryServices.Services
         #endregion GetAllSuppliers
 
         #region GetAllSuppliersForMobile
-        public List<Supplier> GetAllSuppliersForMobile()
+        public List<Supplier> GetAllSuppliersForMobile(Supplier supObj)
         {
             List<Supplier> suppliersList = null;
             Settings settings = new Settings();
@@ -102,6 +102,7 @@ namespace SPAccounts.RepositoryServices.Services
                         }
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[GetAllSuppliersForMobile]";
+                        cmd.Parameters.Add("@includeinternal", SqlDbType.Bit).Value = supObj.IsInternalComp;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {

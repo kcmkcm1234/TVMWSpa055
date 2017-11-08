@@ -49,11 +49,11 @@ namespace UserInterface.API
 
         #region GetOpenInvoices
         [HttpPost]
-        public string GetOpenInvoicesForMobile()
+        public string GetOpenInvoicesForMobile(CustomerInvoice CusObj)
         {
             try
             {
-                CustomerInvoicesSummaryForMobileViewModel invoiceObj = Mapper.Map<CustomerInvoicesSummaryForMobile, CustomerInvoicesSummaryForMobileViewModel>(_customerInvoicesBusiness.GetOpeningCustomerInvoices());
+                CustomerInvoicesSummaryForMobileViewModel invoiceObj = Mapper.Map<CustomerInvoicesSummaryForMobile, CustomerInvoicesSummaryForMobileViewModel>(_customerInvoicesBusiness.GetOpeningCustomerInvoices(CusObj));
                 return JsonConvert.SerializeObject(new { Result = true, Records = new { OpeningList = invoiceObj.CustInv, Summary = invoiceObj.CustInvSumObj } });
             }
             catch (Exception ex)

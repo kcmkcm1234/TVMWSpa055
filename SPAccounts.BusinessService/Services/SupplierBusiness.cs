@@ -33,11 +33,11 @@ namespace SPAccounts.BusinessService.Services
 
         }
 
-        public List<Supplier> GetAllSuppliersForMobile()
+        public List<Supplier> GetAllSuppliersForMobile(Supplier supObj)
         {
             try
             {
-                return _supplierRepository.GetAllSuppliersForMobile( );
+                return _supplierRepository.GetAllSuppliersForMobile(supObj);
             }
             catch (Exception)
             {

@@ -34,11 +34,11 @@ namespace UserInterface.API
 
         #region GetAllSuppliersForMobile
         [HttpPost]
-        public string GetAllSuppliersDetailForMobile()
+        public string GetAllSuppliersDetailForMobile(Supplier supObj)
         {
             try
             {
-                List<SuppliersViewModel> suppliersList = Mapper.Map<List<Supplier>, List<SuppliersViewModel>>(_supplierBusiness.GetAllSuppliersForMobile());
+                List<SuppliersViewModel> suppliersList = Mapper.Map<List<Supplier>, List<SuppliersViewModel>>(_supplierBusiness.GetAllSuppliersForMobile(supObj));
                 return JsonConvert.SerializeObject(new { Result = true, Records = suppliersList });
             }
             catch (Exception ex)

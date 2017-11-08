@@ -169,7 +169,7 @@ namespace SPAccounts.BusinessService.Services
             return cusumObj;
         }
 
-        public CustomerInvoicesSummaryForMobile GetOpeningCustomerInvoices()
+        public CustomerInvoicesSummaryForMobile GetOpeningCustomerInvoices(CustomerInvoice CusObj)
         {
 
             CustomerInvoicesSummaryForMobile cusumObj = new CustomerInvoicesSummaryForMobile();
@@ -177,7 +177,7 @@ namespace SPAccounts.BusinessService.Services
             try
             {
                 decimal tmp = 0;
-                cusumObj.CustInv = _customerInvoicesRepository.GetOpeningCustomerInvoices();
+                cusumObj.CustInv = _customerInvoicesRepository.GetOpeningCustomerInvoices(CusObj);
                 if (cusumObj.CustInv == null)
                 {
                     cusumObj.CustInvSumObj.Amount = 0;

@@ -89,14 +89,14 @@ namespace SPAccounts.BusinessService.Services
 
         }
 
-        public SupplierSummaryforMobile GetOpeningSupplierInvoices()
+        public SupplierSummaryforMobile GetOpeningSupplierInvoices(SupplierInvoices SupObj)
         {
             SupplierSummaryforMobile supObj = new SupplierSummaryforMobile();
             supObj.supInvSumObj = new SupplierInvoiceSummaryformobile();
             try
             {
                 decimal tmp = 0;
-                supObj.SupInv = _supplierInvoicesRepository.GetOpeningSupplierInvoices();
+                supObj.SupInv = _supplierInvoicesRepository.GetOpeningSupplierInvoices(SupObj);
                 if (supObj.SupInv == null)
                 {
                     supObj.supInvSumObj.Amount = 0;

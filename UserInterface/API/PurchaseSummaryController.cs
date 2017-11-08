@@ -46,14 +46,13 @@ namespace UserInterface.API
         }
         #endregion GetSupplierOutstandingInvoices
 
-
         #region GetSupplierOpeningInvoices
         [HttpPost]
-        public string GetSupplierOpeningInvoicesForMobile()
+        public string GetSupplierOpeningInvoicesForMobile(SupplierInvoices SupObj)
         {
             try
             {
-                SupplierSummaryforMobileViewModel invoiceObj = Mapper.Map<SupplierSummaryforMobile, SupplierSummaryforMobileViewModel>(_supplierInvoicesBusiness.GetOpeningSupplierInvoices());
+                SupplierSummaryforMobileViewModel invoiceObj = Mapper.Map<SupplierSummaryforMobile, SupplierSummaryforMobileViewModel>(_supplierInvoicesBusiness.GetOpeningSupplierInvoices(SupObj));
                 return JsonConvert.SerializeObject(new { Result = true, Records = new { OpeningList = invoiceObj.SupInv, Summary = invoiceObj.supInvSumObj } });
            
             }
@@ -64,9 +63,9 @@ namespace UserInterface.API
             }
         }
         #endregion GetSupplierOpeningInvoices
-    
 
-    #region GetPurchaseBydate
+
+        #region GetPurchaseBydate
     [HttpPost]
     public string GetSupplierPurchaseByDateWiseForMobile(SupplierInvoices SupObj)
     {
@@ -88,7 +87,7 @@ namespace UserInterface.API
             return JsonConvert.SerializeObject(new { Result = false, Message = ex.Message });
         }
     }
-    #endregion GetPurchaseBydate
+        #endregion GetPurchaseBydate
 
-}
+    }
 }

@@ -21,9 +21,9 @@ namespace SPAccounts.BusinessService.Services
             return _customerRepository.GetAllCustomers();
         }
 
-        public List<Customer> GetAllCustomersForMobile()
+        public List<Customer> GetAllCustomersForMobile(Customer cusObj)
         {
-            return _customerRepository.GetAllCustomersForMobile();
+            return _customerRepository.GetAllCustomersForMobile(cusObj);
         }
         public Customer GetCustomerDetails(Guid ID)
         {

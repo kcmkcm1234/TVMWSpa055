@@ -374,8 +374,11 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[GetAllSupplierOutStandingInvoices]";
                         cmd.CommandType = CommandType.StoredProcedure;
-                        if(SupplierInvoiceObj!=null)
-                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = SupplierInvoiceObj.suppliersObj.ID;
+                        if (SupplierInvoiceObj != null)
+                        {
+                            cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = SupplierInvoiceObj.suppliersObj.ID;
+                            cmd.Parameters.Add("@includeinternal", SqlDbType.Bit).Value = SupplierInvoiceObj.suppliersObj.IsInternalComp;
+                        }                      
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
                             if ((sdr != null) && (sdr.HasRows))
@@ -414,7 +417,7 @@ namespace SPAccounts.RepositoryServices.Services
             return SupplierInvoicesList;
         }
 
-        public List<SupplierInvoices> GetOpeningSupplierInvoices()
+        public List<SupplierInvoices> GetOpeningSupplierInvoices(SupplierInvoices SupObj)
         {
             List<SupplierInvoices> SupplierInvoicesList = null;
             Settings settings = new Settings();
@@ -430,6 +433,7 @@ namespace SPAccounts.RepositoryServices.Services
                         }
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[GetAllSupplierOpeningInvoices]";
+                        cmd.Parameters.Add("@includeinternal", SqlDbType.Bit).Value = SupObj.suppliersObj.IsInternalComp;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
@@ -486,8 +490,11 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandText = "[Accounts].[GetAllPurchaseListByDate]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         if (SupplierInvoiceObj != null)
+                        {
                             cmd.Parameters.Add("@fromdate", SqlDbType.DateTime).Value = SupplierInvoiceObj.FromDate;
-                        cmd.Parameters.Add("@todate", SqlDbType.DateTime).Value = SupplierInvoiceObj.ToDate;
+                            cmd.Parameters.Add("@todate", SqlDbType.DateTime).Value = SupplierInvoiceObj.ToDate;
+                            cmd.Parameters.Add("@includeinternal", SqlDbType.Bit).Value = SupplierInvoiceObj.suppliersObj.IsInternalComp;
+                        }
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
                             if ((sdr != null) && (sdr.HasRows))
