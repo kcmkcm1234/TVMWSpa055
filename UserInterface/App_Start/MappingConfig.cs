@@ -103,6 +103,7 @@ namespace UserInterface.App_Start
                 config.CreateMap<DepositsAndWithdrawalsDetailsReportViewModel, DepositsAndWithdrawalsDetailsReport>().ReverseMap();
                 config.CreateMap<CustomerPaymentLedger,CustomerPaymentLedgerViewModel>().ReverseMap();
                 config.CreateMap<SupplierPaymentLedger, SupplierPaymentLedgerViewModel>().ReverseMap();
+                config.CreateMap<TrialBalance, TrialBalanceViewModel>().ReverseMap();
 
                 config.CreateMap<OtherIncomeSummaryReportViewModel, OtherIncomeSummaryReport>().ReverseMap();
                 config.CreateMap<OtherIncomeDetailsReportViewModel, OtherIncomeDetailsReport>().ReverseMap();

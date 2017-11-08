@@ -328,6 +328,15 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal Balance { get; set; }
         public string SupplierCode { get; set; }
     }
+
+    public class TrialBalance
+    {
+        public string Date { get; set; }
+        public string Account { get; set; }
+        public decimal Debit { get; set; }
+        public decimal Credit { get; set; }
+    }
+
     public class OtherIncomeSummaryReport
     {
         public string AccountHeadORSubtype { get; set; }

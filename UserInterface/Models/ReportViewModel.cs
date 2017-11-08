@@ -470,6 +470,14 @@ namespace UserInterface.Models
     }
 
 
+    public class TrialBalanceViewModel
+    {
+        public string Date { get; set; }
+        public string Account { get; set; }
+        public decimal Debit { get; set; }
+        public decimal Credit { get; set; }
+    }
+
     public class DailyLedgerReportViewModel
     {
         public string TransactionDate { get; set; }

@@ -1,0 +1,81 @@
+﻿@model UserInterface.Models.TrialBalanceViewModel
+@using UserInterface.App_Start
+@{
+    ViewBag.Title = "Trial Balance Report";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+@section styles {
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableButtons")
+   
+}
+<div style="width:100%;">
+    <ol class="breadcrumb">
+        <li><a href=@Url.Action("Index","Report")><i class="fa fa-print"></i> Reports</a></li>
+        <li class="active">@ViewBag.Title</li>
+    </ol>
+</div>
+<div class="preloader" id="prelaoder">
+    <div class="col-md-12">
+        <div class="col-md-12">Loading </div>
+        <div class="col-md-12" style="margin-left:5%;margin-top:-3%;"><img src="~/Content/images/loading.gif" class="preloaderImg" /></div>
+    </div>
+</div>
+<div class="col-md-12">
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+</div>
+
+<div class="form-horizontal">
+
+    <div class="col-md-9" style="margin-top:10px;">
+        <div class="col-md-3">
+            @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-12">
+                @Html.TextBoxFor(model => model.Date, "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @Value = ViewBag.CurrentDate, @onchange = "DateOnChange();" })
+            </div>
+        </div> 
+    </div>
+    <div class="col-md-3" style="min-height:25px">
+        @{
+            var data = new { ActionType = "ListWithReset" };
+            @Html.Action("ChangeButtonStyle", "Report", data);
+        }
+    </div>
+
+    <div class="row summaryboxes">
+        <div class="clearfix visible-sm-block">
+        </div>
+    </div>
+   
+    <div class="row">
+        &nbsp;
+    </div>
+    <div class="row tableContainer">
+        <div class="col-md-12">
+            <table id="tblTrialBalance" class="table stripe" cellspacing="0" width="100%">
+                <thead>
+                    <tr class="text-center TableHead">
+                        <th>Account</th>                   
+                        <th>Debit</th>
+                        <th>Credit</th> 
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+ @section Scripts {
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
+   // @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/TrialBalanceReport")
+
+}
+

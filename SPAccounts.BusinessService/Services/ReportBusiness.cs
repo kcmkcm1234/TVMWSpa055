@@ -18,8 +18,6 @@ namespace SPAccounts.BusinessService.Services
             _commonBusiness = commonBusiness;
         }
 
-   
-
         public List<SystemReport> GetAllSysReports(AppUA appUA)
         {
             List<SystemReport> systemReportList = null;
@@ -257,6 +255,7 @@ namespace SPAccounts.BusinessService.Services
             }
             return supplierContactDetailsReportList;
         }
+
         public List<AccountsReceivableAgeingReport> GetAccountsReceivableAgeingReport(DateTime? FromDate, DateTime? ToDate, string CompanyCode,string Customerids)
         {
             List<AccountsReceivableAgeingReport> accountsReceivableAgeingReportList = null;
@@ -271,6 +270,7 @@ namespace SPAccounts.BusinessService.Services
             }
             return accountsReceivableAgeingReportList;
         }
+
         public List<AccountsReceivableAgeingReport> GetAccountsReceivableAgeingReportForSA(DateTime? FromDate, DateTime? ToDate, string CompanyCode,string Customerids)
         {
             List<AccountsReceivableAgeingReport> accountsReceivableAgeingReportList = null;
@@ -298,6 +298,7 @@ namespace SPAccounts.BusinessService.Services
             }
             return accountsReceivableAgeingSummaryReportList;
         }
+
         public List<AccountsReceivableAgeingSummaryReport> GetAccountsReceivableAgeingSummaryReportForSA(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string Customerids)
         {
             List<AccountsReceivableAgeingSummaryReport> accountsReceivableAgeingSummaryReportList = null;
@@ -340,8 +341,6 @@ namespace SPAccounts.BusinessService.Services
             return accountsPayableAgeingSummaryReportList;
         }
 
-
-
         public List<EmployeeExpenseSummaryReport> GetEmployeeExpenseSummary(DateTime? FromDate, DateTime? ToDate, string EmployeeCode, string OrderBy)
         {
             List<EmployeeExpenseSummaryReport> employeeExpenseSummaryList = null;
@@ -357,7 +356,6 @@ namespace SPAccounts.BusinessService.Services
             return employeeExpenseSummaryList;
         }
 
-
         public List<DepositsAndWithdrawalsDetailsReport> GetDepositAndWithdrawalDetail(DateTime? FromDate, DateTime? ToDate, string BankCode, string search)
         {
             List<DepositsAndWithdrawalsDetailsReport> depositAndWithdrawalDetailList = null;
@@ -372,6 +370,7 @@ namespace SPAccounts.BusinessService.Services
             }
             return depositAndWithdrawalDetailList;
         }
+
         public List<OtherIncomeSummaryReport> GetOtherIncomeSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string accounthead, string search)
         {
             List<OtherIncomeSummaryReport> otherIncomeSummaryList = null;
@@ -403,7 +402,7 @@ namespace SPAccounts.BusinessService.Services
             return otherIncomeDetailsList;
         }
 
-         public List<CustomerPaymentLedger> GetCustomerPaymentLedger(DateTime? FromDate, DateTime? ToDate, string CustomerIDs, string Company)
+        public List<CustomerPaymentLedger> GetCustomerPaymentLedger(DateTime? FromDate, DateTime? ToDate, string CustomerIDs, string Company)
         {
             List<CustomerPaymentLedger> CustomerPaymentsDetailsList = null;
             try
@@ -416,6 +415,7 @@ namespace SPAccounts.BusinessService.Services
             }
             return CustomerPaymentsDetailsList;
         }
+
         public List<SupplierPaymentLedger> GetSupplierPaymentLedger(DateTime? FromDate, DateTime? ToDate, string Suppliercode, string Company)
         {
             List<SupplierPaymentLedger> SupplierPaymentsDetailsList = null;
@@ -429,6 +429,7 @@ namespace SPAccounts.BusinessService.Services
             }
             return SupplierPaymentsDetailsList;
         }
+
         public List<DailyLedgerReport> GetDailyLedgerDetails(DateTime? FromDate, DateTime? ToDate, DateTime? Date, string MainHead, string search,string Bank)
         {
             List<DailyLedgerReport> dailyLedgerList = null;
@@ -444,7 +445,6 @@ namespace SPAccounts.BusinessService.Services
             return dailyLedgerList;
         }
 
-
         public List<CustomerExpeditingReport> GetCustomerExpeditingDetail(DateTime? ToDate,String Filter)
         {
             List<CustomerExpeditingReport> CustomerExpeditingList = null;
@@ -458,11 +458,8 @@ namespace SPAccounts.BusinessService.Services
             }
             return CustomerExpeditingList;
         }
-
-
-        
-
-            public List<SupplierExpeditingReport> GetSupplierExpeditingDetail(DateTime? ToDate, string Filter)
+     
+        public List<SupplierExpeditingReport> GetSupplierExpeditingDetail(DateTime? ToDate, string Filter)
         {
             List<SupplierExpeditingReport> SupplierExpeditingList = null;
             try
@@ -476,6 +473,18 @@ namespace SPAccounts.BusinessService.Services
             return SupplierExpeditingList;
         }
 
-        
+        public List<TrialBalance> GetTrialBalanceReport(DateTime? Date)
+        {
+            List<TrialBalance> TBlist = null;
+            try
+            {
+                TBlist = _reportRepository.GetTrialBalanceReport(Date);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return TBlist;
+        }
     }
 }
