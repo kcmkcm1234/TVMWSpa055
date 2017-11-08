@@ -9,7 +9,7 @@ namespace SPAccounts.RepositoryServices.Contracts
     public interface ICustomerRepository
     {
         List<Customer> GetAllCustomers();
-        List<Customer> GetAllCustomersForMobile();
+        List<Customer> GetAllCustomersForMobile(Customer cusObj);
         Customer GetCustomerDetails(Guid ID);
         Customer GetCustomerDetailsForMobile(Guid ID);
         Customer InsertCustomer(Customer _customerObj);

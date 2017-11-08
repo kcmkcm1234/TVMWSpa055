@@ -15,7 +15,7 @@ namespace SPAccounts.RepositoryServices.Contracts
         CustomerInvoice GetCustomerAdvances(string ID);
         object DeleteInvoices(Guid PaymentID, string UserName);
         List<CustomerInvoice> GetOutstandingCustomerInvoices(CustomerInvoice CusObj);
-        List<CustomerInvoice> GetOpeningCustomerInvoices();
+        List<CustomerInvoice> GetOpeningCustomerInvoices(CustomerInvoice CusObj);
         List<CustomerInvoice> GetCustomerInvoicesByDateWise(CustomerInvoice CusmObj);
 
         CustomerInvoiceSummary GetCustomerInvoicesSummaryForSA();

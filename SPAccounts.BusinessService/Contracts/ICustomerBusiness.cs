@@ -9,7 +9,7 @@ namespace SPAccounts.BusinessService.Contracts
     public interface ICustomerBusiness
     {
         List<Customer> GetAllCustomers();
-        List<Customer> GetAllCustomersForMobile();
+        List<Customer> GetAllCustomersForMobile(Customer cusObj);
         Customer GetCustomerDetails(Guid ID);
         object InsertUpdateCustomer(Customer _customerObj);
         Customer GetCustomerDetailsForMobile(Guid ID);

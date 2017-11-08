@@ -157,6 +157,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[GetSalesSummaryChart]";
                         cmd.Parameters.Add("@duration", SqlDbType.NVarChar, 20).Value = dueObj.duration;
+                        cmd.Parameters.Add("@includeinternal", SqlDbType.Bit).Value = dueObj.IsinternalComp;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {

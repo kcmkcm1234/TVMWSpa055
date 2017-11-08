@@ -10,7 +10,7 @@ namespace SPAccounts.BusinessService.Contracts
    public interface ISupplierBusiness
     {
         List<Supplier> GetAllSuppliers();
-        List<Supplier> GetAllSuppliersForMobile();
+        List<Supplier> GetAllSuppliersForMobile(Supplier supObj);
         Supplier GetSupplierDetailsForMobile(Guid ID);
         Supplier GetSupplierDetails(Guid ID);
         object InsertUpdateSupplier(Supplier _supplierObj);

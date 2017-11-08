@@ -51,6 +51,14 @@
       <HintPath>..\packages\AutoMapper.6.1.0\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="itextsharp, Version=5.5.12.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.12\lib\itextsharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="itextsharp.xmlworker, Version=5.5.12.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itextsharp.xmlworker.5.5.12\lib\itextsharp.xmlworker.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.0.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.6\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -1275,6 +1283,7 @@
     <Content Include="Content\DataTables\images\sort_desc.png" />
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
+    <Content Include="Content\easyeditor.css" />
     <Content Include="Content\filemanage.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
@@ -1286,7 +1295,6 @@
     <Content Include="Content\images\close.png" />
     <Content Include="Content\images\delete.png" />
     <Content Include="Content\images\deposit.png" />
-    <Content Include="Content\images\download.jpg" />
     <Content Include="Content\images\helmet.png" />
     <Content Include="Content\images\listdlt.png" />
     <Content Include="Content\images\loading.gif" />
@@ -1299,7 +1307,6 @@
     <Content Include="Content\images\rupee1.png" />
     <Content Include="Content\images\save.png" />
     <Content Include="Content\images\searchdefault.png" />
-    <Content Include="Content\images\Transfer.png" />
     <Content Include="Content\images\withdraw.png" />
     <Content Include="Content\sweetalert.css" />
     <Content Include="Content\UserCSS\Login.css" />
@@ -1520,6 +1527,7 @@
     <Content Include="Scripts\jquery-3.1.1.min.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.js" />
+    <Content Include="Scripts\jquery.easyeditor.js" />
     <Content Include="Scripts\jquery.form.js" />
     <Content Include="Scripts\jquery.noty.packaged.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
@@ -1539,6 +1547,7 @@
     <Content Include="Scripts\UserJS\AccountReceivableAgeingReport.js" />
     <Content Include="Scripts\UserJS\AccountReceivableAgeingSummaryReport.js" />
     <Content Include="Scripts\UserJS\Bank.js" />
+    <Content Include="Scripts\UserJS\BankBalance.js" />
     <Content Include="Scripts\UserJS\ChartOfAccounts.js" />
     <Content Include="Scripts\UserJS\CustomerContactDetailsReport.js" />
     <Content Include="Scripts\UserJS\CustomerCreditNote.js" />
@@ -1570,6 +1579,7 @@
     <Content Include="Scripts\UserJS\OtherIncomeDetailsReport.js" />
     <Content Include="Scripts\UserJS\OtherIncomeSummaryReport.js" />
     <Content Include="Scripts\UserJS\Outstanding.js" />
+    <Content Include="Scripts\UserJS\PDF.js" />
     <Content Include="Scripts\UserJS\Privileges.js" />
     <Content Include="Scripts\UserJS\PrivilegesView.js" />
     <Content Include="Scripts\UserJS\PurchaseDetailReport.js" />
@@ -1633,6 +1643,7 @@
     <Compile Include="Controllers\FileUploadController.cs" />
     <Compile Include="Controllers\OtherExpensesController.cs" />
     <Compile Include="Controllers\OtherIncomeController.cs" />
+    <Compile Include="Controllers\PDFGeneratorController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\SAMPanelController.cs" />
     <Compile Include="Controllers\ManageAccessController.cs" />
@@ -1671,6 +1682,7 @@
     <Compile Include="Models\OtherIncomeViewModel.cs" />
     <Compile Include="Models\PaymentModesViewModel.cs" />
     <Compile Include="Models\PaymentTermsViewModel.cs" />
+    <Compile Include="Models\PDFGeneratorViewModel.cs" />
     <Compile Include="Models\PrivilegesViewModel.cs" />
     <Compile Include="Models\ReportViewModel.cs" />
     <Compile Include="Models\RolesViewModel.cs" />
@@ -1719,6 +1731,7 @@
     <Content Include="Views\Account\NotAuthorized.cshtml" />
     <Content Include="Views\Account\Down.cshtml" />
     <Content Include="Views\SupplierInvoices\Index.cshtml" />
+    <Content Include="Views\Report\Index.cshtml" />
     <Content Include="Views\Shared\Fileupload.cshtml" />
     <Content Include="Views\Shared\_LayoutPage.cshtml" />
     <Content Include="Views\OtherExpenses\Index.cshtml" />
@@ -1733,37 +1746,38 @@
     <Content Include="Views\Dashboard\_RecentDocs.cshtml" />
     <Content Include="Views\Employee\Index.cshtml" />
     <Content Include="Views\SupplierPayments\Index.cshtml" />
+    <Content Include="Views\Report\SaleSummary.cshtml" />
+    <Content Include="Views\Report\SalesDetail.cshtml" />
     <Content Include="Views\DepositAndWithdrawals\Index.cshtml" />
+    <Content Include="Views\Report\OtherExpenseSummary.cshtml" />
+    <Content Include="Views\Report\OtherExpenseDetails.cshtml" />
     <Content Include="Views\ChartOfAccounts\Index.cshtml" />
+    <Content Include="Views\Report\CustomerContactDetails.cshtml" />
+    <Content Include="Views\Report\SalesTransactionLog.cshtml" />
+    <Content Include="Views\Report\PurchaseSummaryReport.cshtml" />
+    <Content Include="Views\Report\PurchaseDetails.cshtml" />
+    <Content Include="Views\Report\SupplierContactDetails.cshtml" />
+    <Content Include="Views\Report\PurchaseTransactionLog.cshtml" />
+    <Content Include="Views\Report\AccountsReceivableAgeingDetails.cshtml" />
+    <Content Include="Views\Report\AccountsReceivableAgeingSummary.cshtml" />
+    <Content Include="Views\Report\AccountsPayableAgeingDetails.cshtml" />
+    <Content Include="Views\Report\AccountsPayableAgeingSummary.cshtml" />
     <Content Include="Views\SubType\Index.cshtml" />
     <Content Include="Views\Department\Index.cshtml" />
     <Content Include="Views\EmployeeCategory\Index.cshtml" />
-    <Content Include="Views\DepositAndWithdrawals\undeposited.cshtml" />
-    <Content Include="Views\Dashboard\_InvAgeingSummary.cshtml" />
-    <Content Include="Views\Report\AccountsPayableAgeingDetails.cshtml" />
-    <Content Include="Views\Report\AccountsPayableAgeingSummary.cshtml" />
-    <Content Include="Views\Report\AccountsReceivableAgeingDetails.cshtml" />
-    <Content Include="Views\Report\AccountsReceivableAgeingSummary.cshtml" />
-    <Content Include="Views\Report\CustomerContactDetails.cshtml" />
-    <Content Include="Views\Report\CustomerPaymentExpeditingDetails.cshtml" />
-    <Content Include="Views\Report\CustomerPaymentLedger.cshtml" />
-    <Content Include="Views\Report\DailyLedgerDetails.cshtml" />
-    <Content Include="Views\Report\DepositAndWithdrawalDetail.cshtml" />
     <Content Include="Views\Report\EmployeeExpenseSummary.cshtml" />
-    <Content Include="Views\Report\Index.cshtml" />
-    <Content Include="Views\Report\OtherExpenseDetails.cshtml" />
-    <Content Include="Views\Report\OtherExpenseSummary.cshtml" />
-    <Content Include="Views\Report\OtherIncomeDetails.cshtml" />
+    <Content Include="Views\Report\DepositAndWithdrawalDetail.cshtml" />
+    <Content Include="Views\DepositAndWithdrawals\undeposited.cshtml" />
     <Content Include="Views\Report\OtherIncomeSummary.cshtml" />
-    <Content Include="Views\Report\PurchaseDetails.cshtml" />
-    <Content Include="Views\Report\PurchaseSummaryReport.cshtml" />
-    <Content Include="Views\Report\PurchaseTransactionLog.cshtml" />
-    <Content Include="Views\Report\SalesDetail.cshtml" />
-    <Content Include="Views\Report\SalesTransactionLog.cshtml" />
-    <Content Include="Views\Report\SaleSummary.cshtml" />
-    <Content Include="Views\Report\SupplierContactDetails.cshtml" />
-    <Content Include="Views\Report\SupplierPaymentExpeditingDetails.cshtml" />
+    <Content Include="Views\Report\OtherIncomeDetails.cshtml" />
+    <Content Include="Views\Report\CustomerPaymentLedger.cshtml" />
     <Content Include="Views\Report\SupplierPaymentLedger.cshtml" />
+    <Content Include="Views\Report\DailyLedgerDetails.cshtml" />
+    <Content Include="Views\Report\CustomerPaymentExpeditingDetails.cshtml" />
+    <Content Include="Views\Report\SupplierPaymentExpeditingDetails.cshtml" />
+    <Content Include="Views\Dashboard\_InvAgeingSummary.cshtml" />
+    <Content Include="Views\DepositAndWithdrawals\BankBalance.cshtml" />
+    <Content Include="Views\PDFGenerator\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1777,7 +1791,6 @@
     <Folder Include="Content\Uploads\" />
     <Folder Include="Views\FileUplad\" />
     <Folder Include="Views\FileUplaod\" />
-    <Folder Include="Views\Roles\Report\" />
     <Folder Include="Views\Supplier\" />
   </ItemGroup>
   <ItemGroup>

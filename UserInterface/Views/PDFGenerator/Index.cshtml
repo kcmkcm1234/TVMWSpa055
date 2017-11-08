@@ -1,0 +1,137 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+@model UserInterface.Models.PDFTools
+@section styles {
+<link href="~/Content/easyeditor.css" rel="stylesheet" />
+    <style>
+       .switch {
+  position: relative;
+  display: inline-block;
+  width: 100px;
+  height: 34px;
+}
+
+.switch input {display:none;}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #009688;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 30px;
+  width: 30px;
+  left: 4px;
+  bottom: 2px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #4caf50;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(63px);
+  -ms-transform: translateX(63px);
+  transform: translateX(63px);
+}
+
+/*------ ADDED CSS ---------*/
+.custom
+{
+  display: none;
+}
+
+.custom
+{
+  color: white;
+  position: absolute;
+  transform: translate(-50%,-50%);
+  top: 50%;
+  left: 36%;
+  font-size: 12px;
+  font-family: Verdana, sans-serif;
+}
+  .default
+{
+  color: white;
+  position: absolute;
+  transform: translate(-50%,-50%);
+  top: 50%;
+  left: 64%;
+  font-size: 12px;
+  font-family: Verdana, sans-serif;
+}
+
+input:checked+ .slider .custom
+{display: block;}
+
+input:checked + .slider .default
+{display: none;}
+
+/*--------- END --------*/
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;}
+    </style>
+}
+<div style="margin-top:10px;"></div>
+<label class="switch"><input type="checkbox" id="togBtn" onchange="CheckandView();"><div class="slider round"><!--ADDED HTML --><span class="custom">Custom</span><span class="default">Default</span><!--END--></div></label>
+<div id="customtbl" style="display:none;">
+
+</div>
+<div id="richbox" style="display:none;">
+    <div id="editor" placeholder="Type here ... "></div>
+    </div>
+<input type="button" value="Covert" onclick="GetData();"/>
+@using (Ajax.BeginForm("PrintPDF", "PDFGenerator", new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "alert('done')", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", @id = "EmployeeForm" }))
+{
+    @Html.HiddenFor(model => model.Content, htmlAttributes: new { @class = "", Value = "" ,@id="hdnContent"})
+    @Html.HiddenFor(model => model.Headcontent, htmlAttributes: new { @class = "", Value = "", @id = "hdnHeadContent" })
+    <input type="submit" value="Send" onclick="GetData();" />
+}
+@section Scripts {
+
+    <script src="~/Scripts/jquery.easyeditor.js"></script>
+    <script src="~/Scripts/UserJS/PDF.js"></script>
+    <script>
+        function GetData()
+        {
+            DrawTable({
+                Action: "Report/GetCustomerPaymentLedger/",
+                data: { "FromDate": "20-Jun-2017", "ToDate": "21-Oct-2017", "CustomerIDs": "ALL" },
+                Exclude_column: ["CustomerID", "customerList", "CustomerCode", "CustomerName"],
+                Header_column_style: { "Date": "width:110px;font-size:12px;", "Type": "font-size:12px;width:50px;", "Ref": "font-size:12px;", "Company": "font-size:12px;width:90px;", "Debit": "width:150px;text-align: center;font-size:12px;", "Credit": "width:150px;text-align: center;font-size:12px;", "Balance": "width:150px;text-align: center;font-size:12px;" },
+                Row_color: { "Odd": "white", "Even": "white" },
+                Body_Column_style: { "Date": "width:110px;font-size:11px;", "Type": "font-size:11px;width:50px;", "Ref": "font-size:11px;width:90px;", "Company": "font-size:11px;", "Debit": "text-align:right;font-size:11px;width:150px;", "Credit": "width:150px;text-align:right;font-size:11px;", "Balance": "width:150px;text-align:right;font-size:11px;" }
+
+            });
+            $('#hdnHeadContent').val('<table id="tblTechnicianPerformanceList" style="margin-top:30px;" class="table compact" cellspacing="0" width="100%"><thead><tr>' + $("#trTechPerform").html() + '</tr></thead><tbody></tbody></table>');
+            $("#trTechPerform").empty();
+            $('#hdnContent').val($("#customtbl").html());
+            
+            }
+    </script>
+}
+

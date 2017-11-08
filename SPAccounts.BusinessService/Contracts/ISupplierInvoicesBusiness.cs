@@ -14,7 +14,7 @@ namespace SPAccounts.BusinessService.Contracts
         SupplierInvoices InsertUpdateInvoice(SupplierInvoices _supplierInvoicesObj);
         SupplierSummaryforMobile GetOutstandingSupplierInvoices(SupplierInvoices SupObj);
         List<SupplierInvoices> GetOutStandingInvoicesBySupplier(Guid PaymentID,Guid supplierID);
-        SupplierSummaryforMobile GetOpeningSupplierInvoices();
+        SupplierSummaryforMobile GetOpeningSupplierInvoices(SupplierInvoices SupObj);
         SupplierSummaryforMobile GetSupplierPurchasesByDateWise(SupplierInvoices SupObj);
         object DeleteSupplierInvoice(Guid ID, string userName);
         SupplierInvoices GetSupplierAdvances(string ID);

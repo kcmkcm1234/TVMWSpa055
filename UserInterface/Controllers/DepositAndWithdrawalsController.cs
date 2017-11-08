@@ -430,5 +430,17 @@ namespace UserInterface.Controllers
 
         #endregion
 
-    }
+        //
+        #region BankBalance
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "DepositAndWithdrawals", Mode = "R")]
+        public ActionResult BankBalance()
+        {
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            ViewBag.Currentdate = _appUA.DateTime.ToString("dd-MMM-yyyy");
+            return View();
+        }
+            #endregion
+
+        }
 }

@@ -70,5 +70,6 @@ namespace SPAccounts.DataAccessObject.DTO
         public string Period { get; set; }
         public string Amount { get; set; }
         public string duration { get; set; }
+        public Boolean IsinternalComp { get; set; }
     }
 }
