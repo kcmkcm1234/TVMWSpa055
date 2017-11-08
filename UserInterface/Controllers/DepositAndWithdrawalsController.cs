@@ -143,6 +143,27 @@ namespace UserInterface.Controllers
         }
         #endregion  GetDepositAndWithdrawalDetails
 
+
+        #region GetTransferCashByIdDetails
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "DepositAndWithdrawals", Mode = "R")]
+        public string GetTransferCashById(string TransferId)
+        {
+            try
+            {
+
+                DepositAndWithdrwalViewModel depositAndWithdrwalObj = Mapper.Map<DepositAndWithdrawals,DepositAndWithdrwalViewModel>(_depositAndWithdrawalsBusiness.GetTransferCashById(TransferId != null && TransferId != "" ? Guid.Parse(TransferId) : Guid.Empty));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = depositAndWithdrwalObj });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion  GetTransferCashByIdDetails
+
+
         #region InsertUpdateDepositAndWithdrawals
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -265,7 +286,36 @@ namespace UserInterface.Controllers
         }
         #endregion  GetUndepositedChequeCount
 
-        #region ButtonStyling
+        #region Transfer Cash between banks
+        //Insert and Update Cash transferred between banks
+        [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "UndepositedCheque", Mode = "R")]
+        public string InsertUpdateTransferAmount(DepositAndWithdrwalViewModel _depositAndWithdrwalObj)
+        {
+
+            try
+            {
+                object result = null;
+                AppUA _appUA = Session["AppUA"] as AppUA;
+                _depositAndWithdrwalObj.CommonObj = new CommonViewModel();
+                _depositAndWithdrwalObj.CommonObj.CreatedBy = _appUA.UserName;
+                _depositAndWithdrwalObj.CommonObj.CreatedDate = _appUA.DateTime;
+                _depositAndWithdrwalObj.CommonObj.UpdatedBy = _appUA.UserName;
+                _depositAndWithdrwalObj.CommonObj.UpdatedDate = _appUA.DateTime;
+                result = _depositAndWithdrawalsBusiness.InsertUpdateTransferAmount(Mapper.Map<DepositAndWithdrwalViewModel, DepositAndWithdrawals>(_depositAndWithdrwalObj));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+            }
+            catch (Exception ex)
+            {
+
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+         #endregion
+
+
+                #region ButtonStyling
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "DepositAndWithdrawals", Mode = "R")]
         public ActionResult ChangeButtonStyle(string ActionType)
@@ -274,6 +324,11 @@ namespace UserInterface.Controllers
             switch (ActionType)
             {
                 case "List":
+                    ToolboxViewModelObj.TransferBtn.Visible = true;
+                    ToolboxViewModelObj.TransferBtn.Text = "Transfer";
+                    ToolboxViewModelObj.TransferBtn.Title = "CashTransfer";
+                    ToolboxViewModelObj.TransferBtn.Event = "ShowCashTransfer();";
+
                     ToolboxViewModelObj.DepositBtn.Visible = true;
                     ToolboxViewModelObj.DepositBtn.Text = "Deposit";
                     ToolboxViewModelObj.DepositBtn.Title = "Deposit";
@@ -288,6 +343,8 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.ClearBtn.Text = "ChqClr";
                     ToolboxViewModelObj.ClearBtn.Title = "ChqClr";
                     ToolboxViewModelObj.ClearBtn.Event = "ShowChequeClear();";
+
+                   
 
                     break;
 

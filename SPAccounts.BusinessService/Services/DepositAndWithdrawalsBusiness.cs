@@ -38,6 +38,34 @@ namespace SPAccounts.BusinessService.Services
             }
             return depositAndWithdrawalsObj;
         }
+
+        public DepositAndWithdrawals GetTransferCashById(Guid TransferId)
+        {
+            DepositAndWithdrawals depositAndWithdrawalsObj = new DepositAndWithdrawals();
+            depositAndWithdrawalsObj = _depositAndWithdrawalsRepository.GetTransferCashById(TransferId);
+            if (depositAndWithdrawalsObj != null)
+            {
+                depositAndWithdrawalsObj.AmountFormatted = _commonBusiness.ConvertCurrency(depositAndWithdrawalsObj.Amount, 2);
+
+            }
+            return depositAndWithdrawalsObj;
+           
+        }
+
+        public object InsertUpdateTransferAmount(DepositAndWithdrawals _depositAndWithdrwalObj)
+        {
+            object result = null;
+         
+            if (_depositAndWithdrwalObj.TransferID == Guid.Empty)
+            {
+                result = _depositAndWithdrawalsRepository.TransferAmount(_depositAndWithdrwalObj);
+            }
+            else
+            {
+                result = _depositAndWithdrawalsRepository.UpdateTransferAmount(_depositAndWithdrwalObj);
+            }
+            return result; ;
+        }
         public object InsertUpdateDepositAndWithdrawals(DepositAndWithdrawals _depositAndWithdrawalsObj)
         {
             object result = null;

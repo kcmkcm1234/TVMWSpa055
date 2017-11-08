@@ -30,5 +30,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public string ChequeDate { get; set; }
         public string CustomerName { get; set; }
         public Guid CustomerID { get; set; }
+        public Guid TransferID { get; set; }
+        public string FromBank { get; set;}
+        public string ToBank { get; set; }
     }
 }

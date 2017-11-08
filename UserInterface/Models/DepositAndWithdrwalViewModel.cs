@@ -52,7 +52,12 @@ namespace UserInterface.Models
         public string ChequeDate { get; set; }
         public string CustomerName { get; set; }
         [Display(Name = "Customer Name")]
-        public Guid CustomerID { get; set; }
+        public Guid? CustomerID { get; set; }
         public List<SelectListItem> customerList { get; set; }
+        [Display(Name = "From Bank")]
+        public string FromBank { get; set; }
+        [Display(Name = "To Bank")]
+        public string ToBank { get; set; }
+        public Guid TransferID { get; set; }
     }
 }

@@ -251,5 +251,27 @@
         }
 
     }
+
+
+    @if (Model.TransferBtn.Visible)
+    {
+        if (Model.TransferBtn.Disable || Model.TransferBtn.HasAccess == false)
+        {
+
+            <a class="thr_disbtn" title="@Model.TransferBtn.Title-@Model.TransferBtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/Transfer.PNG")">
+                <span class="btnText">@Model.TransferBtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.TransferBtn.Title" class="thr_btn" onclick=@Model.TransferBtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/Transfer.PNG")">
+                <span class="btnText">@Model.TransferBtn.Text</span>
+            </a>
+        }
+
+    }
  
 </div>

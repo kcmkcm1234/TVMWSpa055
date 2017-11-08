@@ -17,20 +17,43 @@ $(document).ready(function () {
              },
              columns: [               
                { "data": "ID" },
-               { "data": "TransactionType", "defaultContent": "<i>-</i>" },
+               {
+                   "data": "TransactionType", render: function (data, type, row) {
+             if (row.TransferID!=emptyGUID) {
+                 var a = (data == "D" ? "Deposit " : "Withdrawal")+ " ( <label><i><b> Transfer </b></i></label> )";
+                 return a;
+             }
+             else {
+                 var b = (data == "D" ? "Deposit " : "Withdrawal");
+                 return b;
+             } 
+         }, "defaultContent": "<i>-</i>"
+         },
                { "data": "ReferenceNo", "defaultContent": "<i>-</i>" },
                { "data": "DateFormatted", "defaultContent": "<i>-</i>" },
                { "data": "BankName", "defaultContent": "<i>-</i>" },
                 { "data": "PaymentMode", "defaultContent": "<i>-</i>" },
                  { "data": "ChequeStatus", "defaultContent": "<i>-</i>" },
                   { "data": "ChequeFormatted", "defaultContent": "<i>-</i>" },
+                   { "data": "TransferID", "defaultContent": "<i>-</i>" },
                { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
-               { "data": null, "orderable": false, "defaultContent": '<a href="#" title="Edit DepositWithdrawal" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }              
-             ],
-             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                  { className: "text-right", "targets": [8] },
+               {
+                   "data": null, render: function (data, type, row) {
+                       if (row.TransferID != emptyGUID)
+                       {
+                           return '<a href="#" title="Edit DepositWithdrawal" class="actionLink"  onclick="EditCashTransfer(this)"><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>';
+                       }   
+                       else{
+
+                           return '<a href="#" title="Edit DepositWithdrawal" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>';
+                       }
+                   }
+               }],              
+               
+             columnDefs: [{ "targets": [0,8], "visible": false, "searchable": false },
+                  { className: "text-right", "targets": [9] },
                     { className: "text-left", "targets": [1,2,4,5,6,7] },
-             { className: "text-center", "targets": [3,8] },
+             { className: "text-center", "targets": [3] },
                           {
                               "render": function (data, type, row) {
                                   if (data == "Cleared")
@@ -49,22 +72,30 @@ $(document).ready(function () {
                               "targets": 6
 
                           },
-                         {
-                             "render": function (data, type, row) {
+                         //{
+                         //    "render": function (data, type, row) {
                                
-                              return (data == "D" ? "Deposit " : "Withdrawal");
-                            },
-                            "targets": 1
+                         //     return (data == "D" ? "Deposit " : "Withdrawal");
+                         //   },
+                         //   "targets": 1
 
-                         }
+                         //}
 
              ]
          });
         
 
         $('#DepositAndWithdrawalsTable tbody').on('dblclick', 'td', function () {
-
-            Edit(this);
+            debugger;
+            var rowData = DataTables.DepositAndWithdrawalsTable.row($(this).parents('tr')).data();
+            if(rowData.TransferID==emptyGUID)
+            {
+                Edit(this);
+            }
+            else
+            {
+                EditCashTransfer(this)
+            }
         });
         DataTables.tblDepositwithdrawalList = $('#tblDepositwithdrawalList').DataTable(
        {
@@ -86,7 +117,7 @@ $(document).ready(function () {
              { "data": "CustomerName", "defaultContent": "<i>-</i>" },
              { "data": "ReferenceNo", "defaultContent": "<i>-</i>" },
              { "data": "BankName", "defaultContent": "<i>-</i>" },
-             { "data": "Amount", render: function (data, type, row) { debugger; return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+             { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
              { "data": null, "orderable": false, "defaultContent": '<a href="#" title="Edit Deposit" class="actionLink"  onclick="EditDeposit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' },
                 { "data": "CustomerID", "defaultContent": "<i>-</i>" }
            ],
@@ -281,7 +312,7 @@ function ClearFields() {
     $("#ChequeStatus").val("");
     $("#ChequeClearDate").val("");
     $("#BankCodeModal").val("");
-    $("#PaymentMode").val("");
+    $("#PaymentMode").val(""); 
  //   $("#lblPaymentMode").text("Deposit Mode");
     ResetForm();
     $("#ChequeStatus").prop('disabled', true);
@@ -628,3 +659,113 @@ function SaveCheckedDeposit()
     }
     
 }
+
+
+//------------------------Transfer-----------------------//
+//Show pop up to add transfer details
+function ShowCashTransfer() {
+    transferclear();
+    $("#AddCashWithdrawalModel").modal('show');
+}
+
+//Trigger the transfer bank
+function TransferCash() {
+    debugger;
+    try {
+        $("#btnBankTransfer").trigger('click');
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+        return 0;
+    }
+}
+
+
+//Clears all textboxes and dropdownlists
+function transferclear() {
+    $("#TransferID").val("");
+    $("#FromBankCode").val("");
+    $("#ToBankCode").val("");
+    $("#TransferAmount").val("");
+    $("#referenceno").val("");
+    $("#TransferDate").val("");
+}
+
+
+//Output Save Success or Failure Message
+function SaveSuccessTransfer(data, status) {
+    debugger;
+    var JsonResult = JSON.parse(data)
+    switch (JsonResult.Result) {
+        case "OK":
+            BindDepositAndWithdrawals();
+            $('#AddCashWithdrawalModel').modal('hide');
+            notyAlert('success', JsonResult.Message);
+            //closepopup
+
+
+            break;
+        case "ERROR":
+            notyAlert('error', JsonResult.Message);
+            break;
+        default:
+            notyAlert('error', JsonResult.Message);
+            break;
+    }
+}
+
+
+//Open the pop up in edit mode
+function EditCashTransfer(currentObj) {
+    //Tab Change on edit click
+    debugger;
+    ShowCashTransfer();
+    ResetForm();
+    var rowData = DataTables.DepositAndWithdrawalsTable.row($(currentObj).parents('tr')).data();
+    if ((rowData != null) && (rowData.TransferID != null)) {
+        FillTransferCash(rowData.TransferID);
+    }
+}
+
+//Fill the fields with values for editing
+function FillTransferCash(TransferID) {
+    debugger;
+    var thisItem = GetCashTransferByID(TransferID);
+    
+    $("#TransferID").val(thisItem.TransferID);//hidden field
+    $("#FromBankCode").val(thisItem.FromBank);
+    $("#ToBankCode").val(thisItem.ToBank);
+    $("#TransferAmount").val(thisItem.Amount);
+    $("#referenceno").val(thisItem.ReferenceNo);
+    $("#depositemode").prop('disabled', true);
+    //$("#depositemode").val(thisItem.DepositMode);
+    $("#TransferDate").val(thisItem.DateFormatted);
+}
+
+
+//Get the Values to the fields based on the Id
+function GetCashTransferByID(TransferID) {
+    try {
+        debugger;
+
+        var data = { "TransferID": TransferID };
+        var ds = {};
+        ds = GetDataFromServer("DepositAndWithdrawals/GetTransferCashById/", data);
+        debugger;
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            alert(ds.Message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
+
+

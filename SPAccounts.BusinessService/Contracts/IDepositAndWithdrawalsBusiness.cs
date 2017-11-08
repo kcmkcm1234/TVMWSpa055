@@ -11,10 +11,12 @@ namespace SPAccounts.BusinessService.Contracts
     {
         List<DepositAndWithdrawals> GetAllDepositAndWithdrawals(string FromDate, string ToDate, string DepositOrWithdrawal,string chqclr);
         DepositAndWithdrawals GetDepositAndWithdrawalDetails(Guid ID);
+        DepositAndWithdrawals GetTransferCashById(Guid TransferId);
         object InsertUpdateDepositAndWithdrawals(DepositAndWithdrawals _depositAndWithdrawalsObj);
         object ClearCheque(string IDS,string date);
         List<DepositAndWithdrawals> GetUndepositedCheque(string FromDate, string ToDate);
         string GetUndepositedChequeCount(string Date);
+        object InsertUpdateTransferAmount(DepositAndWithdrawals _depositAndWithdrwalObj);
 
     }
 }
