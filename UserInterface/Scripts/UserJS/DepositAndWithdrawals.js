@@ -36,6 +36,7 @@ $(document).ready(function () {
                  { "data": "ChequeStatus", "defaultContent": "<i>-</i>" },
                   { "data": "ChequeFormatted", "defaultContent": "<i>-</i>" },
                    { "data": "TransferID", "defaultContent": "<i>-</i>" },
+                      { "data": "GeneralNotes", "defaultContent": "<i>-</i>" },
                { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                {
                    "data": null, render: function (data, type, row) {
@@ -51,8 +52,8 @@ $(document).ready(function () {
                }],              
                
              columnDefs: [{ "targets": [0,8], "visible": false, "searchable": false },
-                  { className: "text-right", "targets": [9] },
-                    { className: "text-left", "targets": [1,2,4,5,6,7] },
+                  { className: "text-right", "targets": [10] },
+                    { className: "text-left", "targets": [1,2,4,5,6,7,9] },
              { className: "text-center", "targets": [3] },
                           {
                               "render": function (data, type, row) {
@@ -80,6 +81,9 @@ $(document).ready(function () {
                          //   "targets": 1
 
                          //}
+                    { "width": "15%", "targets": 1 },
+             { "width": "10%", "targets": 3 },
+                 { "width": "12%", "targets": 4 }
 
              ]
          });

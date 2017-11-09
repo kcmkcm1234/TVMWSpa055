@@ -65,7 +65,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         _depositAndWithdrawalsObj.CustomerName = (sdr["CompanyName"].ToString() != "" ? (sdr["CompanyName"].ToString()) : _depositAndWithdrawalsObj.CustomerName);
                                         _depositAndWithdrawalsObj.TransactionType = (sdr["TransactionType"].ToString() != "" ? (sdr["TransactionType"].ToString()) : _depositAndWithdrawalsObj.TransactionType);
                                         _depositAndWithdrawalsObj.ReferenceNo = (sdr["ReferenceNo"].ToString() != "" ? (sdr["ReferenceNo"].ToString()) : _depositAndWithdrawalsObj.ReferenceNo);
-                                        _depositAndWithdrawalsObj.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : _depositAndWithdrawalsObj.GeneralNotes);                                       
+                                        _depositAndWithdrawalsObj.GeneralNotes = (sdr["GeneralNote"].ToString() != "" ? sdr["GeneralNote"].ToString() : _depositAndWithdrawalsObj.GeneralNotes);                                       
                                         _depositAndWithdrawalsObj.BankCode = (sdr["BankCode"].ToString() != "" ? (sdr["BankCode"].ToString()) : _depositAndWithdrawalsObj.BankCode);                                      
                                         _depositAndWithdrawalsObj.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : _depositAndWithdrawalsObj.Amount);
                                         _depositAndWithdrawalsObj.DateFormatted = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(s.dateformat) : _depositAndWithdrawalsObj.DateFormatted);
