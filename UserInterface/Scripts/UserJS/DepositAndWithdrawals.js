@@ -481,18 +481,22 @@ function ShowModal()
 function ClearCheque()
 {
     debugger;
+    
     if (DataTables.tblDepositwithdrawalList.rows(".selected").data().length==0)
     {
         notyAlert('error',"Please select atleast one");
+    }
+    if ($("#ChequeDate").val() == "") {
+        notyAlert('error', "Please Select Date");
     }
     else
     {
         var SelectedRows = DataTables.tblDepositwithdrawalList.rows(".selected").data();
         if ((SelectedRows) && (SelectedRows.length > 0)) {
             var CheckedIDs = [];
-            var CheckedDate =$("#ChequeDate").val();
-            for (var r = 0; r < SelectedRows.length; r++) {
-                CheckedIDs.push(SelectedRows[r].ID);
+            var CheckedDate = $("#ChequeDate").val();
+                for (var r = 0; r < SelectedRows.length; r++) {
+                    CheckedIDs.push(SelectedRows[r].ID);
             }
 
         }
