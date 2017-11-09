@@ -52,7 +52,8 @@ namespace UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject = "SalesReport", Mode = "R")]
         public ActionResult SaleSummary()
         {
-            DateTime dt = DateTime.Now;
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            DateTime dt = _appUA.DateTime;
             ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
             SaleSummaryViewModel SaleSummary = new SaleSummaryViewModel();
@@ -164,8 +165,9 @@ namespace UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject = "SalesReport", Mode = "R")]
         public ActionResult SalesDetail()
         {
-            
-            DateTime dt = DateTime.Now;
+
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            DateTime dt = _appUA.DateTime;
             ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
             SaleDetailReportViewModel saleDetailReportViewModel = new SaleDetailReportViewModel();
@@ -227,8 +229,9 @@ namespace UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject = "OEReport", Mode = "R")]
         public ActionResult OtherExpenseSummary()
         {
-           
-            DateTime dt = DateTime.Now;
+
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            DateTime dt = _appUA.DateTime;
             ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
             OtherExpenseSummaryReportViewModel otherExpenseSummaryReportViewModel = new OtherExpenseSummaryReportViewModel();
@@ -344,7 +347,8 @@ namespace UserInterface.Controllers
         public ActionResult OtherExpenseDetails()
         {
 
-            DateTime dt = DateTime.Now;
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            DateTime dt = _appUA.DateTime;
             ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
             OtherExpenseDetailsReportViewModel otherExpenseDetailsViewModel = new OtherExpenseDetailsReportViewModel();
@@ -501,7 +505,8 @@ namespace UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject = "SalesReport", Mode = "R")]
         public ActionResult SalesTransactionLog()
         {
-            DateTime dt = DateTime.Now;
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            DateTime dt = _appUA.DateTime;
             ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
             SalesTransactionLogReportViewModel salesTransactionLogReportViewModel = new SalesTransactionLogReportViewModel();
@@ -561,7 +566,8 @@ namespace UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject = "PurchaseReport", Mode = "R")]
         public ActionResult PurchaseSummaryReport()
         {
-            DateTime dt = DateTime.Now;
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            DateTime dt = _appUA.DateTime;
             ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
             PurchaseSummaryReportViewModel purchaseSummaryReportViewModel = new PurchaseSummaryReportViewModel();
@@ -673,7 +679,8 @@ namespace UserInterface.Controllers
         public ActionResult PurchaseDetails()
         {
 
-            DateTime dt = DateTime.Now;
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            DateTime dt = _appUA.DateTime;
             ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
             PurchaseDetailReportViewModel purchaseDetailReportViewModel = new PurchaseDetailReportViewModel();
@@ -757,7 +764,8 @@ namespace UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject = "PurchaseReport", Mode = "R")]
         public ActionResult PurchaseTransactionLog()
         {
-            DateTime dt = DateTime.Now;
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            DateTime dt = _appUA.DateTime;
             ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
             PurchaseTransactionLogReportViewModel purchaseTransactionLogReportViewModel = new PurchaseTransactionLogReportViewModel();
@@ -820,7 +828,8 @@ namespace UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
         public ActionResult AccountsReceivableAgeingDetails()
         {
-            DateTime dt = DateTime.Now;
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            DateTime dt = _appUA.DateTime;
             ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
             AccountsReceivableAgeingReportViewModel accountsReceivableAgeingReportViewModel = new AccountsReceivableAgeingReportViewModel();
@@ -908,7 +917,8 @@ namespace UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
         public ActionResult AccountsReceivableAgeingSummary()
         {
-            DateTime dt = DateTime.Now;
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            DateTime dt = _appUA.DateTime;
             ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
             AccountsReceivableAgeingSummaryReportViewModel accountsReceivableAgeingSummaryReportViewModel = new AccountsReceivableAgeingSummaryReportViewModel();
@@ -995,7 +1005,8 @@ namespace UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
         public ActionResult AccountsPayableAgeingDetails()
         {
-            DateTime dt = DateTime.Now;
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            DateTime dt = _appUA.DateTime;
             ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
             AccountsPayableAgeingReportViewModel accountsPayableAgeingReportViewModel = new AccountsPayableAgeingReportViewModel();
@@ -1071,7 +1082,8 @@ namespace UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
         public ActionResult AccountsPayableAgeingSummary()
         {
-            DateTime dt = DateTime.Now;
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            DateTime dt = _appUA.DateTime;
             ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
             AccountsPayableAgeingSummaryReportViewModel accountsPayableAgeingSummaryReportViewModel = new AccountsPayableAgeingSummaryReportViewModel();
@@ -1148,7 +1160,8 @@ namespace UserInterface.Controllers
         public ActionResult EmployeeExpenseSummary()
         {
 
-            DateTime dt = DateTime.Now;
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            DateTime dt = _appUA.DateTime;
             ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
             EmployeeExpenseSummaryReportViewModel employeeExpenseSummaryReportViewModel = new EmployeeExpenseSummaryReportViewModel();
@@ -1216,7 +1229,8 @@ namespace UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject = "DepositAndWithdrawalDetailReport", Mode = "R")]
         public ActionResult DepositAndWithdrawalDetail()
         {
-            DateTime dt = DateTime.Now;
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            DateTime dt = _appUA.DateTime;
             ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
             DepositsAndWithdrawalsDetailsReportViewModel DWVM = new DepositsAndWithdrawalsDetailsReportViewModel();
@@ -1274,7 +1288,8 @@ namespace UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject = "CustomerPaymentLedgerReport", Mode = "R")]
         public ActionResult CustomerPaymentLedger()
         {
-            DateTime dt = DateTime.Now;
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            DateTime dt = _appUA.DateTime;
             ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
             CustomerPaymentLedgerViewModel CustomerPayments = new CustomerPaymentLedgerViewModel();
@@ -1355,7 +1370,8 @@ namespace UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject = "SupplierPaymentLedgerReport", Mode = "R")]
         public ActionResult SupplierPaymentLedger()
         {
-            DateTime dt = DateTime.Now;
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            DateTime dt = _appUA.DateTime;
             ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
             SupplierPaymentLedgerViewModel SupplierPayments = new SupplierPaymentLedgerViewModel();
@@ -1443,7 +1459,8 @@ namespace UserInterface.Controllers
         public ActionResult OtherIncomeSummary()
         {
 
-            DateTime dt = DateTime.Now;
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            DateTime dt = _appUA.DateTime;
             ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
             OtherIncomeSummaryReportViewModel otherIncomeSummaryReportViewModel = new OtherIncomeSummaryReportViewModel();
@@ -1530,7 +1547,8 @@ namespace UserInterface.Controllers
         public ActionResult OtherIncomeDetails()
         {
 
-            DateTime dt = DateTime.Now;
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            DateTime dt = _appUA.DateTime;
             ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
             OtherIncomeDetailsReportViewModel otherIncomeDetailsViewModel = new OtherIncomeDetailsReportViewModel();
@@ -1634,7 +1652,8 @@ namespace UserInterface.Controllers
         public ActionResult CustomerPaymentExpeditingDetails(string id)
         {
 
-            DateTime dt = DateTime.Now;
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            DateTime dt = _appUA.DateTime;
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
             CustomerExpeditingListViewModel Result = new CustomerExpeditingListViewModel();
             List<SelectListItem> selectListItem = new List<SelectListItem>();
@@ -1697,7 +1716,8 @@ namespace UserInterface.Controllers
         public ActionResult SupplierPaymentExpeditingDetails(string id)
         {
 
-            DateTime dt = DateTime.Now;
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            DateTime dt = _appUA.DateTime;
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
 
             SupplierExpeditingListViewModel Result = new SupplierExpeditingListViewModel();
@@ -1776,7 +1796,8 @@ namespace UserInterface.Controllers
                 ViewBag.SingleDateFilterDisplay = "display:none";
 
             }
-            DateTime dt = DateTime.Now;
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            DateTime dt = _appUA.DateTime;
             ViewBag.fromdate = dt.ToString("dd-MMM-yyyy");
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
             ViewBag.ondate = dt.ToString("dd-MMM-yyyy");
