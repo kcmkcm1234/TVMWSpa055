@@ -1,13 +1,18 @@
 ﻿
 var DataTables = {};
 $(document).ready(function () {
-    debugger; 
     try {
-        debugger;
 
         DataTables.undepositedChequeTable = $('#undepositedChequeTable').DataTable(
          {
-             dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">', 
+             dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
+             buttons: [{
+                 extend: 'excel',
+                 exportOptions:
+                              {
+                                  columns: [0, 1, 2, 3, 4]
+                              }
+             }],
              order: [],
              searching: false,
              paging: true,
@@ -28,14 +33,14 @@ $(document).ready(function () {
              columnDefs: [{ "searchable": false }, 
                   { className: "text-left", "targets": [1, 2,3] },
                   { className: "text-right", "targets": [4] },
-                  { className: "text-center", "targets": [0] }]
+                  { className: "text-center", "targets": [0] }]           
          });
-
         $(".buttons-excel").hide();
 
     } catch (x) {
 
-        notyAlert('error', x.message);
+        //this will show the error msg in the browser console(F12) 
+        console.log(x.message);
     }
 });
 
@@ -53,9 +58,6 @@ function GetUndepositedChequeTable() {
             if (ds != '') {
                 ds = JSON.parse(ds);
             }
-            debugger;
-
-
             if (ds.Result == "OK") {
                
                 $("#fromdate").val(ds.FromDate);
@@ -68,14 +70,14 @@ function GetUndepositedChequeTable() {
         }   
     }
     catch (e) {
-        notyAlert('error', e.message);
+        //this will show the error msg in the browser console(F12) 
+        console.log(e.message);
     }
 }
 
 
 function RefreshUndepositedChequeTable() {
     try {
-        debugger;
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
 
@@ -83,24 +85,22 @@ function RefreshUndepositedChequeTable() {
             var records = GetUndepositedChequeTable();
             if (records != undefined)
                 DataTables.undepositedChequeTable.clear().rows.add(records).draw(false);
-
         }
     }
     catch (e) {
-        notyAlert('error', e.message);
+        //this will show the error msg in the browser console(F12) 
+        console.log(e.message);
     }
 }
 
 
 function PrintReport() {
     try {
-
         $(".buttons-excel").trigger('click');
-
-
 }
     catch (e) {
-        notyAlert('error', e.message);
+        //this will show the error msg in the browser console(F12) 
+        console.log(e.message);
     }
 }
 
