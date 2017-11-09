@@ -77,13 +77,13 @@ namespace SPAccounts.BusinessService.Services
             return otherExpenseSummaryList;
         }
 
-        public PurchaseDetailReport GetPurchaseDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string search, Boolean IsInternal, Guid Supplier)
+        public PurchaseDetailReport GetPurchaseDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string search, Boolean IsInternal, Guid Supplier,string InvoiceType)
         {
             PurchaseDetailReport purchasedetailObj = new PurchaseDetailReport();
             List<PurchaseDetailReport> purchaseDetailReportList = null;
             try
             {
-                purchaseDetailReportList = _reportRepository.GetPurchaseDetails(FromDate, ToDate, CompanyCode,search,IsInternal,Supplier);
+                purchaseDetailReportList = _reportRepository.GetPurchaseDetails(FromDate, ToDate, CompanyCode,search,IsInternal,Supplier, InvoiceType);
                 decimal purchaseDetailSum = purchaseDetailReportList.Where(PD => PD.RowType != "T").Sum(PD => PD.BalanceDue);
                 decimal purchaseDetailInvoiceAmount = purchaseDetailReportList.Where(PS => PS.RowType != "T").Sum(PS => PS.InvoiceAmount);
                 decimal purchaseDetailPaidAmount = purchaseDetailReportList.Where(PS => PS.RowType != "T").Sum(PS => PS.PaidAmount);
@@ -154,14 +154,14 @@ namespace SPAccounts.BusinessService.Services
             return purchaseTransactionLogReportList;
         }
 
-        public SaleDetailReport GetSaleDetail(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string search,Boolean IsInternal,Boolean IsTax, Guid Customer)
+        public SaleDetailReport GetSaleDetail(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string search,Boolean IsInternal,Boolean IsTax, Guid Customer,string InvoiceType)
         {
             SaleDetailReport SaledetailObj = new SaleDetailReport();
             List<SaleDetailReport> saleDetailList = null;
             try
             {
                 
-                saleDetailList = _reportRepository.GetSaleDetail(FromDate,ToDate, CompanyCode,search,IsInternal,IsTax,Customer);
+                saleDetailList = _reportRepository.GetSaleDetail(FromDate,ToDate, CompanyCode,search,IsInternal,IsTax,Customer, InvoiceType);
                 decimal saledetailsum = saleDetailList.Where(SD => SD.RowType != "T").Sum(SD => SD.BalanceDue);
                 decimal saledetailinvoiceamount = saleDetailList.Where(SD => SD.RowType != "T").Sum(SD => SD.InvoiceAmount);
                 decimal saledetailpaidamount = saleDetailList.Where(SD => SD.RowType != "T").Sum(SD => SD.PaidAmount);

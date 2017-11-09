@@ -84,23 +84,24 @@
         </div>
 
         @*<div class="col-md-3">
-            <div class="row">
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="GroupSelect" id="all" value="ALL" checked>
-                        ALL
-                    </label>
+                <div class="row">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="GroupSelect" id="all" value="ALL" checked>
+                            ALL
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="GroupSelect" id="companywise" onchange="RemoveDatatableOrder()" value="companywise">
+                            Company Wise
+                        </label>
+                    </div>
                 </div>
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="GroupSelect" id="companywise" onchange="RemoveDatatableOrder()" value="companywise">
-                        Company Wise
-                    </label>
-                </div>
-            </div>
-        </div>*@
+            </div>*@
         <div class="col-md-12"><p></p></div>
         <div class="col-md-6">
+            @Html.LabelFor(model => model.Search, htmlAttributes: new { @class = "control-label"})
             <div class="col-md-12">
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="Search" id="Search">
@@ -110,8 +111,35 @@
                 </div>
             </div>
         </div>
+        @*Invoicetype filter*@
+        <div class="col-md-3">
+            <div class="col-md-12">
+                @Html.LabelFor(model => model.InvoiceType, htmlAttributes: new { @class = "control-label " })
+            </div>
+            
+                <div class="col-md-12">
+                    @{
+                        List<SelectListItem> InvoiceTypesList = new List<SelectListItem>();
+                        InvoiceTypesList.Add(new SelectListItem
+                        { Text = "-Select-", Value = "", Selected = true });
+                        InvoiceTypesList.Add(new SelectListItem
+                        { Text = "Regular Invoice", Value = "RB" });
+                        InvoiceTypesList.Add(new SelectListItem
+                        { Text = "WB Invoice", Value = "WB" });
+                        InvoiceTypesList.Add(new SelectListItem
+                        { Text = "PB Invoice", Value = "PB" });
+                    }
+                    @Html.DropDownListFor(model => model.InvoiceType, InvoiceTypesList, new { @class = "form-control BlockEnter", style = "padding:4px 12px;width: 100 %", @id = "ddlInvoiceTypes", @onchange = "RefreshSaleDetailTable()" })
+                </div>
+                @*<div class="col-md-1"></div>
+                <div class="col-md-1"></div>*@
+            
+        </div>        @*<div class="col-md-12 filterHead">Filter</div>
+            <div class="col-md-12">
 
-        <div class="col-md-6" style="z-index:999">
+
+            </div>*@
+        <div class="col-md-3" style="z-index:999">
             <div class="col-md-12">
                 <div class="row">
                     <div class="checkbox col-md-12">
@@ -121,21 +149,14 @@
                         </label>
                     </div>
                     @*<div class="checkbox col-md-6">
-                            <label>
-                                @Html.CheckBoxFor(model => model.IncludeTax,htmlAttributes:new { @class = "", @onchange = "OnChangeCall()" } )
-                                IncludeTax
-                            </label>
-                        </div>*@
+                        <label>
+                            @Html.CheckBoxFor(model => model.IncludeTax,htmlAttributes:new { @class = "", @onchange = "OnChangeCall()" } )
+                            IncludeTax
+                        </label>
+                    </div>*@
                 </div>
             </div>
         </div>
-        @*<div class="col-md-12 filterHead">Filter</div>
-            <div class="col-md-12">
-
-
-            </div>*@
-
-
 
 
     </div>

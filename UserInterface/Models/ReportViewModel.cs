@@ -80,6 +80,7 @@ namespace UserInterface.Models
         public string saledetailpaid { get; set; }
         public string saledetailtax { get; set; }
         public string saledetailtotalinvoiced { get; set; }
+        public string InvoiceType { get; set; }
         public List<SaleDetailReportViewModel> saleDetailList { get; set; }
 
     }
@@ -234,6 +235,7 @@ namespace UserInterface.Models
         public string purchaseDetailPaid { get; set; }
         public string purchaseDetailInvoice { get; set; }
         public string purchaseDetailPaymentProcess { get; set; }
+        public string InvoiceType { get; set; }
         public List<PurchaseDetailReportViewModel> purchaseDetailReportList { get; set; }
 
     }

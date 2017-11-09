@@ -88,6 +88,7 @@ function GetSaleDetail() {
         var todate = $("#todate").val();
         var companycode = $("#CompanyCode").val();
         var search = $("#Search").val();
+        var invoicetype = $("#ddlInvoiceTypes").val();
         $('#IncludeInternal').attr('checked', false);
         $('#IncludeTax').attr('checked', true);
         var customer = $("#CustomerCode").val();
@@ -122,7 +123,7 @@ function GetSaleDetail() {
         //    }
         //}
         if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "search": search, "IsInternal": internal, "IsTax": tax, "Customer": customer };
+            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "search": search, "IsInternal": internal, "IsTax": tax, "Customer": customer ,"InvoiceType":invoicetype};
             var ds = {};
             ds = GetDataFromServer("Report/GetSaleDetail/", data);
             if (ds != '') {
@@ -210,7 +211,10 @@ function Reset() {
     $("#fromdate").val(enddate);
     $("#CompanyCode").val('ALL').trigger('change');
     $("#Search").val('').trigger('change');
-    $("#CustomerCode").val('ALL').trigger('change');;
+    $("#CustomerCode").val('ALL').trigger('change');
+    $("#ddlInvoiceTypes").val('');//invoicetype reset
+    RefreshSaleDetailTable();
+
     //$("#all").prop('checked', true).trigger('change');
 }
 

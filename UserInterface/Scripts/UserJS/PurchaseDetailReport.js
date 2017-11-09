@@ -85,6 +85,7 @@ function GetPurchaseDetail() {
         var todate = $("#todate").val();
         var companycode = $("#CompanyCode").val();
         var search = $("#Search").val();
+        var invoicetype = $("#ddlInvoiceTypes").val();
         $('#IncludeInternal').attr('checked', false);
         $('#IncludeTax').attr('checked', true);
         var supplier = $("#SupplierCode").val();
@@ -110,7 +111,7 @@ function GetPurchaseDetail() {
         //    }
         //}
         if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "search": search, "IsInternal": internal,"Supplier":supplier };
+            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "search": search, "IsInternal": internal, "Supplier": supplier, "InvoiceType": invoicetype };
             var ds = {};
             ds = GetDataFromServer("Report/GetPurchaseDetails/", data);
             if (ds != '') {
@@ -196,7 +197,9 @@ function Reset() {
     $("#CompanyCode").val('ALL').trigger('change');
     $("#Search").val('');
     $("#all").prop('checked', true).trigger('change');
-    $("#SupplierCode").val('ALL').trigger('change');;
+    $("#SupplierCode").val('ALL').trigger('change');
+    $("#ddlInvoiceTypes").val('');//invoicetype reset
+    RefreshPurchaseDetailTable();
 }
 
 
