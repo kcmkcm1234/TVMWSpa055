@@ -34,7 +34,7 @@ namespace UserInterface.Controllers
             _commonBusiness = commonBusiness;
             _bankBusiness = bankbusiness;
             _customerBusiness = customerBusiness;
-            _tool = tool;
+            _tool = tool; 
 
         }
         // GET: Report
@@ -1826,6 +1826,34 @@ namespace UserInterface.Controllers
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
             }
         }
+
+        #region TrialBalanceReport
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "TrialBalanceReport", Mode = "R")]
+        public ActionResult TrialBalance()
+        {
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            ViewBag.Currentdate = _appUA.DateTime.ToString("dd-MMM-yyyy");
+
+            return View(); 
+        }
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "DailyLedgerReport", Mode = "R")]
+        public string GetTrialBalanceReport(string Date)
+        {
+            try
+            {
+                DateTime? FDate = string.IsNullOrEmpty(Date) ? (DateTime?)null : DateTime.Parse(Date);
+                List<TrialBalanceViewModel> TBlist =Mapper.Map<List<TrialBalance>, List<TrialBalanceViewModel>>(_reportBusiness.GetTrialBalanceReport(FDate));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = TBlist });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+            }
+        }
+        #endregion TrialBalanceReport
 
         #region ButtonStyling
         [HttpGet]

@@ -37,5 +37,6 @@ namespace SPAccounts.BusinessService.Contracts
         List<DailyLedgerReport> GetDailyLedgerDetails(DateTime? FromDate, DateTime? ToDate, DateTime? Date, string MainHead, string search, string Bank);
         List<CustomerExpeditingReport> GetCustomerExpeditingDetail(DateTime? ToDate,string Filter);
         List<SupplierExpeditingReport> GetSupplierExpeditingDetail(DateTime? ToDate, string Filter);
+        List<TrialBalance> GetTrialBalanceReport(DateTime? Date);
     }
 }

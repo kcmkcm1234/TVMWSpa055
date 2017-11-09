@@ -1515,8 +1515,49 @@ namespace SPAccounts.RepositoryServices.Services
             return SupplierExpeditingList;
         }
 
-      
+        public List<TrialBalance> GetTrialBalanceReport(DateTime? Date)
+        {
+            List<TrialBalance> TBlist = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.Parameters.Add("@OnDate", SqlDbType.DateTime).Value = Date;
+                        cmd.CommandText = "[Accounts].[RPT_TrialBalance]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                TBlist = new List<TrialBalance>();
+                                while (sdr.Read())
+                                {
+                                    TrialBalance tbdetail = new TrialBalance();
+                                    {
+                                        tbdetail.Account = (sdr["Account"].ToString() != "" ? sdr["Account"].ToString() : tbdetail.Account);
+                                        tbdetail.Credit = (sdr["Cr"].ToString() != "" ? decimal.Parse(sdr["Cr"].ToString()) : tbdetail.Credit);
+                                        tbdetail.Debit = (sdr["Dr"].ToString() != "" ? decimal.Parse(sdr["Dr"].ToString()) : tbdetail.Debit);
+                                    }
+                                    TBlist.Add(tbdetail);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return TBlist;
 
-
+        }
     }
 }
