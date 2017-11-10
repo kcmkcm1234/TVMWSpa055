@@ -60,26 +60,35 @@ $(document).ready(function () {
                { "width": "10%", "targets": [1] },
              { className: "text-right", "targets": [] },
          { className: "text-center", "targets": [1] },
-             {"bSortable": false, "aTargets": [0,1,2,3,4,5,6,7,8 ] }], 
-             drawCallback: function (settings) {
-                 var api = this.api();
-                 var rows = api.rows({ page: 'current' }).nodes();
-                 var last = null;
-                 api.column(4, { page: 'current' }).data().each(function (group, i) {
+             { "bSortable": false, "aTargets": [0, 1, 2, 3, 4, 5, 6, 7, 8] }],
+             createdRow: function (row, data, index) {
+                 if (data.Type == "<b>Total</b>") {
+                        
+                     $('td', row).addClass('totalRow');
+                 }
+             },
+             
+                 drawCallback: function (settings) {
+                     var api = this.api();
+                     var rows = api.rows({ page: 'current' }).nodes();
+                     var last = null;
+                     api.column(4, { page: 'current' }).data().each(function (group, i) {
                 
 
-                     if (last !== group) {
+                         if (last !== group) {
                          
-                              $(rows).eq(i).before('<tr class="group "><td colspan="7" class="rptGrp">' + '<b>CustomerName</b> : ' + group + '</td></tr>');  
-                         last = group;
-                     }
-                     //if (api.column(6, { page: 'current' }).data().count() === i)
-                     //{
-                     //    $(rows).eq(i).after('<tr class="group "><td colspan="7" class="rptGrp">' + '<b>Sub Total</b> : ' + group + '</td></tr>');
-                     //}
+                             $(rows).eq(i).before('<tr class="group "><td colspan="7" class="rptGrp">' + '<b>CustomerName</b> : ' + group + '</td></tr>');  
+                             last = group;
+                         }
+                         //if (api.column(6, { page: 'current' }).data().count() === i)
+                         //{
+                         //    $(rows).eq(i).after('<tr class="group "><td colspan="7" class="rptGrp">' + '<b>Sub Total</b> : ' + group + '</td></tr>');
+                         //}
 
-                 });
-             }
+                     });
+
+                 }
+             
          });
 
         $(".buttons-excel").hide();
