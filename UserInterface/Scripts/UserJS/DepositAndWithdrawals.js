@@ -39,7 +39,7 @@ $(document).ready(function () {
                       { "data": "GeneralNotes", "defaultContent": "<i>-</i>" },
                { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                {
-                   "data": null, render: function (data, type, row) {
+                   "data": null, "orderable": false, render: function (data, type, row) {
                        if (row.TransferID != emptyGUID)
                        {
                            return '<a href="#" title="Edit DepositWithdrawal" class="actionLink"  onclick="EditCashTransfer(this)"><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>';
@@ -49,7 +49,21 @@ $(document).ready(function () {
                            return '<a href="#" title="Edit DepositWithdrawal" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>';
                        }
                    }
-               }],              
+               },
+               {
+                   "data": null, "orderable": false, render: function (data, type, row) {
+                       if (row.PaymentMode == 'ONLINE' || row.TransferID != emptyGUID) {
+                           return '-'
+                       }
+                       else
+                       {
+                           return '<a data-toggle="tp" data-placement="top" data-delay={"show":2000, "hide":3000} title="Delete" href="#" class="DeleteLink" onclick="Delete(this)"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>';
+                       }
+
+                   }
+               }
+
+             ],
                
              columnDefs: [{ "targets": [0,8], "visible": false, "searchable": false },
                   { className: "text-right", "targets": [10] },
@@ -64,6 +78,10 @@ $(document).ready(function () {
                                   else if (data == "NotCleared")
                                   {
                                       return "Not Cleared ";
+                                  }
+                                  else if (data == "Bounced")
+                                  {
+                                      return "Bounced";
                                   }
                                   else
                                   {
@@ -212,12 +230,10 @@ function DepositModeOnchange()
     debugger;
     if ($("#PaymentMode").val() == "CHEQUE" && $("#ChequeStatus").val() != "Cleared") {
         $("#ChequeStatus").prop('disabled', false); 
-        //$("#ChequeClearDate").prop('disabled', false);
     }
     else {
         $("#ChequeStatus").prop('disabled', true);
         $("#ChequeClearDate").prop('disabled', true);
-        //$("#ChequeStatus").val("");
     }
 }
 
@@ -246,16 +262,18 @@ function FillDepositWithdrawalDetails(ID) {
         $("#Amount").val(roundoff(thisItem.Amount));
         $("#BankCodeModal").val(thisItem.BankCode);
         $("#GeneralNotes").val(thisItem.GeneralNotes);
-        $("#ChequeStatus").val(thisItem.ChequeStatus);
+        $("#ChequeStatus").val(thisItem.ChequeStatus); 
         $("#PaymentMode").val(thisItem.PaymentMode);
         $("#PaymentMode").prop('disabled', true);
     //Hiding customerid when transaction type is withdrawal
         if (thisItem.TransactionType === "W") {
             $("#customerid").hide();
+            $("#ChequeStatus option[value='Bounced']").attr("disabled", "disabled");
         }
         else
         {
             $("#customerid").show();
+            $("#ChequeStatus option[value='Bounced']").removeAttr("disabled");
         }
         if (thisItem.TransactionType == "D") {
             $("#lblPaymentMode").text("Deposit Mode");
@@ -264,6 +282,21 @@ function FillDepositWithdrawalDetails(ID) {
             $("#lblPaymentMode").text("Withdrawal Mode");
         }
         DepositModeOnchange();
+        if (thisItem.ChequeStatus == 'Bounced') {
+            $('#ChequeStatus').prop('disabled', true)
+            $("#btnSave").attr("disabled", "disabled");
+        }
+        else {
+            $("#btnSave").removeAttr("disabled");
+            if (thisItem.ChequeStatus == 'Cleared')
+            $("#ChequeClearDate").prop('disabled',false);
+
+        }
+
+        if (thisItem.PaymentMode == 'ONLINE') {
+            $("#btnSave").attr("disabled", "disabled");
+            $("#hdnPaymentMode").val(thisItem.PaymentMode); 
+        }
 
         $("#hdnChequeStatus").val(thisItem.ChequeStatus);
         $("#hdnChequeDate").val(thisItem.ChequeFormatted);
@@ -321,6 +354,10 @@ function ClearFields() {
     ResetForm();
     $("#ChequeStatus").prop('disabled', true);
     $("#ChequeClearDate").prop('disabled', true);
+    $("#hdnChequeStatus").val('');
+    $("#hdnChequeDate").val('');
+    $("#hdnPaymentMode").val('');
+    
 }
 
 //-----------------------------------------Reset Validation Messages--------------------------------------//
@@ -426,7 +463,6 @@ function BindDepositWithdrawals(DepositOrWithdrawal,chqclr)
 function ShowDepositModal() {
     debugger;
     $("#PaymentMode").prop('disabled', false);
-    //$("#ChequeClearDate").prop('disabled', false);
     $("#tabs").css('display', '');
     $("#AddDepositAndWithdrawalModel").modal('show');
     $("#UndepositedChequeDate").hide();
@@ -454,6 +490,8 @@ function ShowDepositModal() {
     $("#BankCode").val("");
     $("#lblPaymentMode").text("Deposit Mode");
     $("#customerid").show();
+    $("#ChequeStatus option[value='Bounced']").removeAttr("disabled");
+    $("#btnSave").removeAttr("disabled");
 }
 
 function ShowDepositEdit()
@@ -555,8 +593,10 @@ function SaveDeposit()
             {
                 $("#TransactionType").val('W');
             } 
-        } 
-            $("#btnDepositWithdrawalSave").trigger('click');
+        }
+        if ($("#hdnChequeStatus").val() != 'Bounced')//not bounced save disable
+            if ($("#hdnPaymentMode").val() != 'ONLINE')//on online update save disable
+                $("#btnDepositWithdrawalSave").trigger('click');//save click
     }
     catch (e) {
         notyAlert('error', e.message);
@@ -596,6 +636,8 @@ function ShowWithDrawal()
     $("#lblBankDiv").css('display', '');
     $("#lblPaymentMode").text("Withdrawal Mode");
     $("#customerid").hide();
+    $("#ChequeStatus option[value='Bounced']").attr("disabled", "disabled");
+    $("#btnSave").removeAttr("disabled");
 }
 function ShowChequeClear()
 {
@@ -775,6 +817,46 @@ function GetCashTransferByID(TransferID) {
     catch (e) {
         notyAlert('error', e.message);
     }
+}
+
+//Delete Deposit and withdrawal
+function Delete(currObj) {
+    debugger;
+    var rowData = DataTables.DepositAndWithdrawalsTable.row($(currObj).parents('tr')).data();
+    if ((rowData != null) && (rowData.ID != null)) {
+        notyConfirm('Are you sure to delete?', 'DeleteDepositandwithdrawal("' + rowData.ID + '")', '', "Yes, delete it!");
+    }
+
+}
+
+function DeleteDepositandwithdrawal(ID) {
+    try {
+
+
+        if (ID) {
+            var data = { "ID": ID };
+            var ds = {};
+            ds = GetDataFromServer("DepositAndWithdrawals/DeleteDepositandwithdrawal/", data);
+            if (ds != '') {
+                ds = JSON.parse(ds);
+            }
+            if (ds.Result == "OK") {
+                notyAlert('success', ds.Message.Message); 
+               
+            }
+            if (ds.Result == "ERROR") {
+                notyAlert('error', ds.Message);
+                return 0;
+            }
+            return 1;
+        }
+
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+        return 0;
+    }
+
 }
 
 

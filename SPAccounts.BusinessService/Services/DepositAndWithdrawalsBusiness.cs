@@ -130,5 +130,9 @@ namespace SPAccounts.BusinessService.Services
             return _depositAndWithdrawalsRepository.GetUndepositedChequeCount(Date);
         }
 
+        public object DeleteDepositandwithdrawal(Guid ID, string UserName)
+        {
+            return _depositAndWithdrawalsRepository.DeleteDepositandwithdrawal(ID,UserName);
+        }
     }
 }
