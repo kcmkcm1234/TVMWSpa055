@@ -56,6 +56,10 @@ function GetBankWiseBalance() {
             ds = JSON.parse(ds);
             $("#TotalBlnce").text("");
             $("#TotalBlnce").text(ds.TotalAmount);
+            $("#TotalUnClrAmt").text("");
+            $("#TotalUnClrAmt").text(ds.TotalUnClrAmt);
+            $("#ActualBlnce").text("");
+            $("#ActualBlnce").text(ds.ActualBlnce);
             if (ds.Result == "OK") {
                 return ds.Records;
             }
