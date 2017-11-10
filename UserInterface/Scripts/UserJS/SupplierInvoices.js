@@ -321,6 +321,7 @@ function GetAllInvoicesAndSummary(filter) {
 function RefreshInvoicesAndSummary() {
     try {
         debugger;
+        $('#filter').hide();
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
         var companycode = $("#Companyddl").val();
