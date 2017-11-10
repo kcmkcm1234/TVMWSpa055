@@ -577,13 +577,22 @@ function ClearCheque()
         //})
     }
 
+}
+function SaveDeposit() {
+    if ($("#ChequeStatus").val() == 'Bounced') {
+        notyConfirm('Cheques Status-Bounced', 'SaveDepositConfirm();', '', "Yes,Confirm");
     }
+    else
+    {
+        SaveDepositConfirm();
+    }
+}
 
-function SaveDeposit()
+function SaveDepositConfirm()
 { 
     debugger;
     $("#DepositRowValues").val('');
-    try {
+    try { 
         if ($("#TransactionType").val() == "")
         {
             if ($("#AddOrEditSpan").text() == "Deposit") {
@@ -842,7 +851,7 @@ function DeleteDepositandwithdrawal(ID) {
             }
             if (ds.Result == "OK") {
                 notyAlert('success', ds.Message.Message); 
-               
+                BindDepositAndWithdrawals();
             }
             if (ds.Result == "ERROR") {
                 notyAlert('error', ds.Message);
