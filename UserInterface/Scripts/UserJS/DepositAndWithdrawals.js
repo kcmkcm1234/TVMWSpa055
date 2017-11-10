@@ -716,6 +716,8 @@ function SaveCheckedDeposit()
 function ShowCashTransfer() {
     transferclear();
     $("#AddCashWithdrawalModel").modal('show');
+    $("#TransferAmt").show();
+
 }
 
 //Trigger the transfer bank

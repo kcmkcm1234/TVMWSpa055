@@ -193,7 +193,7 @@ namespace SPAccounts.RepositoryServices.Services
             return otherExpenseDetailList;
         }
 
-        public List<SaleDetailReport> GetSaleDetail(DateTime? FromDate, DateTime? ToDate, string CompanyCode,string search, Boolean IsInternal,Boolean IsTax,Guid Customer)
+        public List<SaleDetailReport> GetSaleDetail(DateTime? FromDate, DateTime? ToDate, string CompanyCode,string search, Boolean IsInternal,Boolean IsTax,Guid Customer,string InvoiceType)
         {
             List<SaleDetailReport> SaleDetailList = null;
             try
@@ -214,6 +214,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@IsInternal", SqlDbType.Bit).Value = IsInternal ;
                         cmd.Parameters.Add("@IsTax", SqlDbType.Bit).Value = IsTax;
                         cmd.Parameters.Add("@Customercode", SqlDbType.UniqueIdentifier).Value = Customer;
+                        cmd.Parameters.Add("@InvoiceType", SqlDbType.NVarChar, 50).Value = InvoiceType != "" ?InvoiceType:null;
                         cmd.CommandText = "[Accounts].[RPT_GetSalesDetail]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -524,7 +525,7 @@ namespace SPAccounts.RepositoryServices.Services
             return purchaseSummaryReportList;
         }
 
-        public List<PurchaseDetailReport> GetPurchaseDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode,string search,Boolean IsInternal, Guid Supplier)
+        public List<PurchaseDetailReport> GetPurchaseDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode,string search,Boolean IsInternal, Guid Supplier,string InvoiceType)
         {
             List<PurchaseDetailReport> purchaseDetailReportList = null;
             try
@@ -544,6 +545,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@search", SqlDbType.NVarChar, 250).Value = search != "" ? search : null;
                         cmd.Parameters.Add("@IsInternal", SqlDbType.Bit).Value = IsInternal;
                         cmd.Parameters.Add("@Suppliercode", SqlDbType.UniqueIdentifier).Value = Supplier;
+                        cmd.Parameters.Add("@InvoiceType", SqlDbType.NVarChar, 50).Value = InvoiceType != "" ? InvoiceType : null;
                         cmd.CommandText = "[Accounts].[RPT_GetPurchaseDetail]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
