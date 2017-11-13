@@ -1860,7 +1860,7 @@ namespace UserInterface.Controllers
         }
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "DailyLedgerReport", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "TrialBalanceReport", Mode = "R")]
         public string GetTrialBalanceReport(string Date)
         {
             try

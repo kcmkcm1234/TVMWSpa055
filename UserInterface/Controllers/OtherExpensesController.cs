@@ -186,9 +186,10 @@ namespace UserInterface.Controllers
             try
             {
                 List<OtherExpenseViewModel> otherExpenseList = Mapper.Map<List<OtherExpense>, List<OtherExpenseViewModel>>(_otherExpenseBusiness.GetBankWiseBalance(Date));
-                decimal otherExpenseSum = otherExpenseList.Sum(OE => OE.TotalAmount);
-                string otherExpenseSumFormatted = _commonBusiness.ConvertCurrency(otherExpenseSum, 2);
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = otherExpenseList,TotalAmount= otherExpenseSumFormatted });
+                string TotalAmountFormatted = _commonBusiness.ConvertCurrency(otherExpenseList.Sum(OE => OE.TotalAmount), 2);
+                string TotalUnClrAmtFormatted = _commonBusiness.ConvertCurrency(otherExpenseList.Sum(OE => OE.UnClearedAmount), 2);
+                string ActualBlnceFormatted = _commonBusiness.ConvertCurrency(otherExpenseList.Sum(OE => OE.TotalAmount)+ otherExpenseList.Sum(OE => OE.UnClearedAmount), 2);
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = otherExpenseList,TotalAmount= TotalAmountFormatted, TotalUnClrAmt= TotalUnClrAmtFormatted, ActualBlnce= ActualBlnceFormatted });
             }
             catch (Exception ex)
             {
