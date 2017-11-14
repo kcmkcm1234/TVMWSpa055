@@ -52,7 +52,13 @@ $(document).ready(function () {
                },
                {
                    "data": null, "orderable": false, render: function (data, type, row) {
-                       if (row.PaymentMode == 'ONLINE' || row.TransferID != emptyGUID) {
+
+                       if (row.TransferID != emptyGUID)
+                       {
+                           return '<a data-toggle="tp" data-placement="top" data-delay={"show":2000, "hide":3000} title="Delete" href="#" class="DeleteLink" onclick="DeleteTransfer(this)"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>';
+
+                       }
+                      else if (row.PaymentMode == 'ONLINE'){
                            return '-'
                        }
                        else
@@ -851,6 +857,48 @@ function DeleteDepositandwithdrawal(ID) {
             }
             if (ds.Result == "OK") {
                 notyAlert('success', ds.Message.Message); 
+                BindDepositAndWithdrawals();
+            }
+            if (ds.Result == "ERROR") {
+                notyAlert('error', ds.Message);
+                return 0;
+            }
+            return 1;
+        }
+
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+        return 0;
+    }
+
+}
+
+
+
+//Delete TransferAmount
+function DeleteTransfer(curObj) {
+    debugger;
+    var rowData = DataTables.DepositAndWithdrawalsTable.row($(curObj).parents('tr')).data();
+    if ((rowData != null) && (rowData.TransferID != null)) {
+        notyConfirm('Are you sure to delete?', 'DeleteTransferAmount("' + rowData.TransferID + '")', '', "Yes, delete it!");
+    }
+
+}
+
+function DeleteTransferAmount(TransferID) {
+    try {
+
+        debugger;
+        if (TransferID) {
+            var data = { "TransferID": TransferID };
+            var ds = {};
+            ds = GetDataFromServer("DepositAndWithdrawals/DeleteTransferAmount/", data);
+            if (ds != '') {
+                ds = JSON.parse(ds);
+            }
+            if (ds.Result == "OK") {
+                notyAlert('success', ds.Message.Message);
                 BindDepositAndWithdrawals();
             }
             if (ds.Result == "ERROR") {

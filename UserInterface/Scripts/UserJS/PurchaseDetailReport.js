@@ -33,8 +33,9 @@ $(document).ready(function () {
                { "data": "SupplierName", "defaultContent": "<i>-</i>" },
                 { "data": "Date", "defaultContent": "<i>-</i>", "width": "10%" },
                 { "data": "PaymentDueDate", "defaultContent": "<i>-</i>", "width": "10%" },
-                
                { "data": "InvoiceAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+               { "data": "Tax", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+               { "data": "TotalInvoice", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                { "data": "PaidAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                { "data": "PaymentProcessed", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                { "data": "BalanceDue", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
@@ -44,24 +45,24 @@ $(document).ready(function () {
              { "data": "Origin", "defaultContent": "<i>-</i>" }
 
              ],
-             columnDefs: [{ "targets": [10, 8], "visible": false, "searchable": false },
+             columnDefs: [{ "targets": [12,10], "visible": false, "searchable": false },
                    { className: "text-left", "targets": [0, 1] },
                    { className: "text-center", "targets": [ 2, 3] },
-                  { className: "text-right", "targets": [4, 5, 6,7,9] }],
+                  { className: "text-right", "targets": [4, 5, 6,7,8,9,11] }],
              drawCallback: function (settings) {
                  var api = this.api();
                  var rows = api.rows({ page: 'current' }).nodes();
                  var last = null;
 
-                 api.column(10, { page: 'current' }).data().each(function (group, i) {
+                 api.column(12, { page: 'current' }).data().each(function (group, i) {
                      if (last !== group) {
                          $(rows).eq(i).before('<tr class="group "><td colspan="8" class="rptGrp">' + '<b>Company</b> : ' + group + '</td></tr>');
                          last = group;
                      }
                  });
              }
-         });
-
+             }); 
+        
         $(".buttons-excel").hide();
         startdate = $("#todate").val();
         enddate = $("#fromdate").val();
@@ -128,6 +129,13 @@ function GetPurchaseDetail() {
             }
             if (ds.PaymentProcessed != '') {
                 $("#purchasedetailspaymentprocessed").text(ds.PaymentProcessed);
+            }
+            if (ds.TaxAmount != '')
+            {
+                $("#purchasedetailstaxamount").text(ds.TaxAmount);
+            }
+            if (ds.TotalInvoice != '') {
+                $("#purchasedetailstotalamount").text(ds.TotalInvoice)
             }
             
             if (ds.Result == "OK") {

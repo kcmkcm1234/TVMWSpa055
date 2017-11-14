@@ -231,6 +231,33 @@ namespace UserInterface.Controllers
         }
         #endregion DeleteDepositAndWithdrawals
 
+
+
+        #region DeleteTransferAmountBetweenBanks
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "DepositAndWithdrawals", Mode = "D")]
+        public string DeleteTransferAmount(string TransferID)
+        {
+
+            try
+            {
+                object result = null;
+                AppUA _appUA = Session["AppUA"] as AppUA;
+                result = _depositAndWithdrawalsBusiness.DeleteTransferAmount(Guid.Parse(TransferID), _appUA.UserName);
+                return JsonConvert.SerializeObject(new { Result = "OK", Message = result });
+
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+
+
+        }
+        #endregion DeleteTransferAmountBetweenBanks
+
+
         #region ClearCheque
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "DepositAndWithdrawals", Mode = "W")]
@@ -334,7 +361,7 @@ namespace UserInterface.Controllers
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
             }
         }
-         #endregion
+        #endregion Transfer Cash between banks
 
         #region ButtonStyling
         [HttpGet]

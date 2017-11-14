@@ -88,10 +88,14 @@ namespace SPAccounts.BusinessService.Services
                 decimal purchaseDetailInvoiceAmount = purchaseDetailReportList.Where(PS => PS.RowType != "T").Sum(PS => PS.InvoiceAmount);
                 decimal purchaseDetailPaidAmount = purchaseDetailReportList.Where(PS => PS.RowType != "T").Sum(PS => PS.PaidAmount);
                 decimal purchaseDetailPaymentProcessed = purchaseDetailReportList.Where(PS => PS.RowType != "T").Sum(PS => PS.PaymentProcessed);
+                decimal purchaseDetailsTax = purchaseDetailReportList.Where(PS => PS.RowType != "T").Sum(PS => PS.Tax);
+                decimal purchaseDetailTotal = purchaseDetailReportList.Where(PS => PS.RowType != "T").Sum(PS => PS.TotalInvoice);
                 purchasedetailObj.purchaseDetailSum = _commonBusiness.ConvertCurrency(purchaseDetailSum, 2);
                 purchasedetailObj.purchaseDetailPaid = _commonBusiness.ConvertCurrency(purchaseDetailPaidAmount, 2);
                 purchasedetailObj.purchaseDetailInvoice = _commonBusiness.ConvertCurrency(purchaseDetailInvoiceAmount, 2);
                 purchasedetailObj.purchaseDetailPaymentProcess= _commonBusiness.ConvertCurrency(purchaseDetailPaymentProcessed, 2);
+                purchasedetailObj.purchaseDetailsTaxAmount = _commonBusiness.ConvertCurrency(purchaseDetailsTax, 2);
+                purchasedetailObj.purchaseDetailsTotalAmount = _commonBusiness.ConvertCurrency(purchaseDetailTotal, 2);
                 purchasedetailObj.purchaseDetailReportList = purchaseDetailReportList;
             }
             catch (Exception ex)
