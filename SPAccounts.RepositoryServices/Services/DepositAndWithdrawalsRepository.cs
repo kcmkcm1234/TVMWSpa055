@@ -617,5 +617,54 @@ namespace SPAccounts.RepositoryServices.Services
             };
         }
         #endregion DeleteDepositandwithdrawal
+
+
+
+        #region DeleteTransferAmountBetweenBanks
+        public object DeleteTransferAmount(Guid TransferID, string UserName)
+        {
+            SqlParameter outputStatus = null;
+            try
+            {
+
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[DeleteTransferAmount]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@TransferID", SqlDbType.UniqueIdentifier).Value = TransferID;
+                        cmd.Parameters.Add("@DeletedBy", SqlDbType.NVarChar, 250).Value = UserName;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        throw new Exception(Cobj.DeleteFailure);
+                    default:
+                        break;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return new
+            {
+                Status = outputStatus.Value.ToString(),
+                Message = Cobj.DeleteSuccess
+            };
+        }
+        #endregion DeleteTransferAmountBetweenBanks
     }
 }

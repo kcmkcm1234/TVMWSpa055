@@ -570,6 +570,9 @@ namespace SPAccounts.RepositoryServices.Services
                                         purchaseDetailReport.RowType = (sdr["RowType"].ToString() != "" ? sdr["RowType"].ToString() : purchaseDetailReport.RowType);
                                         purchaseDetailReport.SupplierName = (sdr["SupplierName"].ToString() != "" ? sdr["SupplierName"].ToString() : purchaseDetailReport.SupplierName);
                                         purchaseDetailReport.Credit = (sdr["Credit"].ToString() != "" ? decimal.Parse(sdr["Credit"].ToString()) : purchaseDetailReport.Credit);
+                                        purchaseDetailReport.Tax = (sdr["Tax"].ToString() != "" ? decimal.Parse(sdr["Tax"].ToString()) : purchaseDetailReport.Tax);
+                                        purchaseDetailReport.TotalInvoice = (sdr["TotalInvoice"].ToString() != "" ? decimal.Parse(sdr["TotalInvoice"].ToString()) : purchaseDetailReport.TotalInvoice);
+
                                     }
                                     purchaseDetailReportList.Add(purchaseDetailReport);
                                 }
