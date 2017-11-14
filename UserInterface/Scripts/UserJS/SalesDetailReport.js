@@ -20,6 +20,9 @@ $(document).ready(function () {
                               }
              }],
              order: [],
+             fixedHeader: {
+                 header: true
+             },
              searching: false,
              paging: true,
              data: GetSaleDetail(),
@@ -50,7 +53,13 @@ $(document).ready(function () {
 
                   { className: "text-left", "targets": [0,1,10] },
                    { className: "text-center", "targets": [2,3] },
-                  { className: "text-right", "targets": [ 4, 5,6,8,7,9] }],
+                  { className: "text-right", "targets": [4, 5, 6, 8, 7, 9] }],
+             createdRow: function (row, data, index) {
+                 if (data.InvoiceNo == "<b>GrantTotal</b>") {
+
+                     $('td', row).addClass('totalRow');
+                 }
+             },
              drawCallback: function (settings) {
                  var api = this.api();
                  var rows = api.rows({ page: 'current' }).nodes();
