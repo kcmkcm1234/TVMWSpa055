@@ -102,6 +102,7 @@ namespace SPAccounts.RepositoryServices.Services
                         }
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[GetAllSuppliersForMobile]";
+                        if(supObj!=null)
                         cmd.Parameters.Add("@includeinternal", SqlDbType.Bit).Value = supObj.IsInternalComp;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())

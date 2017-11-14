@@ -105,6 +105,7 @@ namespace SPAccounts.RepositoryServices.Services
                         }
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[GetCustomersForMobile]";
+                        if (cusObj != null)
                         cmd.Parameters.Add("@includeinternal", SqlDbType.Bit).Value = cusObj.IsInternalComp;
                         cmd.CommandType = CommandType.StoredProcedure;
                     
