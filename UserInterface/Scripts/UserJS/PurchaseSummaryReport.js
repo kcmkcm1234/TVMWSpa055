@@ -18,6 +18,9 @@ $(document).ready(function () {
                               }
              }],
              order: [],
+             fixedHeader: {
+                 header: true
+             },
              searching: false,
              paging: true,
              data: GetPurchaseSummary(),
@@ -46,6 +49,12 @@ $(document).ready(function () {
              columnDefs: [{ "targets": [7], "visible": false, "searchable": false },
                   { className: "text-left", "targets": [0] },
                   { className: "text-right", "targets": [1, 2, 3, 4, 5, 6] }],
+             createdRow: function (row, data, index) {
+                 if (data.SupplierName == "<b>GrantTotal</b>") {
+
+                     $('td', row).addClass('totalRow');
+                 }
+             },
              drawCallback: function (settings) {
                  var api = this.api();
                  var rows = api.rows({ page: 'current' }).nodes();

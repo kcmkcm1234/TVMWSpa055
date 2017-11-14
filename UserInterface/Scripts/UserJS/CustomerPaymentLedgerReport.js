@@ -24,6 +24,9 @@ $(document).ready(function () {
                               }
              }],
              order: [],
+             fixedHeader: {
+                 header: true
+             },
              searching: false,
              paging: true,
              data: GetCustomerPaymentLedger('ALL'),

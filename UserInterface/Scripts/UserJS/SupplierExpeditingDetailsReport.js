@@ -15,6 +15,9 @@ $(document).ready(function () {
                               }
              }],
              order: [],
+             fixedHeader: {
+                 header: true
+             },
              searching: true,
              ordering: false,
              paging: true,
