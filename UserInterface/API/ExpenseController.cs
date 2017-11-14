@@ -35,6 +35,8 @@ namespace UserInterface.API
         {
             try
             {
+                if (expObj == null) throw new Exception(messages.NoItems);
+
                 List<OtherExpenseViewModel> expenseObj = Mapper.Map<List<OtherExpense>, List<OtherExpenseViewModel>>(_otherExpenseBusiness.GetExpenseTypeDetails(expObj));
                  
                 return JsonConvert.SerializeObject(new { Result = true, Records = expenseObj });

@@ -70,7 +70,8 @@ namespace UserInterface.API
         {
             try
             {
-               // AppUA _appUA = Session["AppUA"] as AppUA;
+                if (CusmObj == null) throw new Exception(messages.NoItems);
+
                 if (CusmObj.FromDate==null && CusmObj.ToDate==null)
                 {
                     CusmObj.commonObj = new SPAccounts.DataAccessObject.DTO.Common();

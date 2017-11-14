@@ -577,9 +577,11 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[GetAllOutStandingInvoices]";
                         cmd.CommandType = CommandType.StoredProcedure;
-                        if(CustomerInvoiceObj!=null)
-                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = CustomerInvoiceObj.customerObj.ID;
-                        cmd.Parameters.Add("@includeinternal", SqlDbType.Bit).Value = CustomerInvoiceObj.customerObj.IsInternalComp;
+                        if (CustomerInvoiceObj != null)
+                        {
+                            cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = CustomerInvoiceObj.customerObj.ID;
+                            cmd.Parameters.Add("@includeinternal", SqlDbType.Bit).Value = CustomerInvoiceObj.customerObj.IsInternalComp;
+                        }                      
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
                             if ((sdr != null) && (sdr.HasRows))
@@ -634,7 +636,8 @@ namespace SPAccounts.RepositoryServices.Services
                         }
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[GetAllOpenInvoices]";
-                        cmd.Parameters.Add("@includeinternal", SqlDbType.Bit).Value = CustomerInvoiceObj.customerObj.IsInternalComp;
+                        if (CustomerInvoiceObj != null)
+                            cmd.Parameters.Add("@includeinternal", SqlDbType.Bit).Value = CustomerInvoiceObj.customerObj.IsInternalComp;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
@@ -693,6 +696,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@fromdate", SqlDbType.DateTime).Value = CustomerInvoiceObj.FromDate;
                         cmd.Parameters.Add("@todate", SqlDbType.DateTime).Value = CustomerInvoiceObj.ToDate;
+                        if (CustomerInvoiceObj.customerObj!=null)
                         cmd.Parameters.Add("@includeinternal", SqlDbType.Bit).Value = CustomerInvoiceObj.customerObj.IsInternalComp;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
