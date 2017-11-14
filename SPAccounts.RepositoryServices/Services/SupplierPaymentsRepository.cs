@@ -625,5 +625,49 @@ namespace SPAccounts.RepositoryServices.Services
 
         }
 
+        public SupplierPayments UpdateSupplierPaymentGeneralNotes(SupplierPayments supobj)
+        {
+            try
+            {
+                SqlParameter outputStatus = null;
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[UpdateSupplierPaymentGeneralNotes]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = supobj.ID;
+                        cmd.Parameters.Add("@GeneralNotes", SqlDbType.NVarChar, -1).Value = supobj.GeneralNotes;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        AppConst Cobj = new AppConst();
+                        throw new Exception(Cobj.UpdateFailure);
+                    case "1":
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return supobj;
+
+        }
     }
 }

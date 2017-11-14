@@ -213,5 +213,11 @@ namespace SPAccounts.BusinessService.Services
         {
             return _supplierPaymentsRepository.Validate(_supplierpayObj);
         }
+
+        
+        public SupplierPayments UpdateSupplierPaymentGeneralNotes(SupplierPayments _supplierPayObj)
+            { 
+                return _supplierPaymentsRepository.UpdateSupplierPaymentGeneralNotes(_supplierPayObj);
+            }
     }
 }
