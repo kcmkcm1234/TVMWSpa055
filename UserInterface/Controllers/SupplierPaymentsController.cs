@@ -369,6 +369,7 @@ namespace UserInterface.Controllers
                 string descriptionString = supobj.EntryNo + ", Supplier: " + supobj.supplierObj.CompanyName + ", Amount: " + supobj.TotalPaidAmt + ", Notes: " + supobj.GeneralNotes;
                 Boolean isCommon = true;
                 string CustomerID = "";
+                SupplierPaymentsViewModel CPVM = Mapper.Map<SupplierPayments, SupplierPaymentsViewModel>(_supplierPaymentsBusiness.UpdateSupplierPaymentGeneralNotes(Mapper.Map<SupplierPaymentsViewModel, SupplierPayments>(supobj)));
                 _supplierPaymentsBusiness.SendToFCM(titleString, descriptionString, isCommon, CustomerID);
                 return JsonConvert.SerializeObject(new { Result = "OK", Message = c.NotificationSuccess, Records = result });
 

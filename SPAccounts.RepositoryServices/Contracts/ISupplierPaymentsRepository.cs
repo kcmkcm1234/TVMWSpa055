@@ -21,5 +21,7 @@ namespace SPAccounts.RepositoryServices.Contracts
         SupplierPayments GetOutstandingAmountBySupplier(string SupplierID);
         object ApprovedPayment(Guid PaymentID, string UserName, DateTime date);
         object Validate(SupplierPayments _supplierpayObj);
+        SupplierPayments UpdateSupplierPaymentGeneralNotes(SupplierPayments supobj);
+
     }
 }

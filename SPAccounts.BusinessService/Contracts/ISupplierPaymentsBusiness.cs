@@ -21,7 +21,7 @@ namespace SPAccounts.BusinessService.Contracts
         object ApprovedPayment(Guid PaymentID, string UserName,DateTime date);
         object Validate(SupplierPayments _supplierpayObj);
         void SendToFCM(string titleString, string descriptionString, Boolean isCommon, string CustomerID = "");
-
+        SupplierPayments UpdateSupplierPaymentGeneralNotes(SupplierPayments supobj);
 
     }
 }
