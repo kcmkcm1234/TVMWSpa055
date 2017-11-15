@@ -710,6 +710,7 @@ function GetAllInvoicesAndSummary(filter) {
 //to refresh datatable on clicking button 'Apply'
 function RefreshInvoicesAndSummary() {
     try {
+        $('#filter').hide();
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
         var companycode = $("#Companyddl").val();

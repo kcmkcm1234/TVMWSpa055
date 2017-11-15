@@ -433,6 +433,7 @@ namespace SPAccounts.RepositoryServices.Services
                         }
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[GetAllSupplierOpeningInvoices]";
+                        if (SupObj!=null)
                         cmd.Parameters.Add("@includeinternal", SqlDbType.Bit).Value = SupObj.suppliersObj.IsInternalComp;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -493,6 +494,7 @@ namespace SPAccounts.RepositoryServices.Services
                         {
                             cmd.Parameters.Add("@fromdate", SqlDbType.DateTime).Value = SupplierInvoiceObj.FromDate;
                             cmd.Parameters.Add("@todate", SqlDbType.DateTime).Value = SupplierInvoiceObj.ToDate;
+                            if(SupplierInvoiceObj.suppliersObj!=null)
                             cmd.Parameters.Add("@includeinternal", SqlDbType.Bit).Value = SupplierInvoiceObj.suppliersObj.IsInternalComp;
                         }
                         using (SqlDataReader sdr = cmd.ExecuteReader())

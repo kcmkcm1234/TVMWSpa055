@@ -3,65 +3,80 @@ var startdate = '';
 var enddate = '';
 var emptyGUID = '00000000-0000-0000-0000-000000000000'
 $(document).ready(function () {
+    
     try {
         $("#CompanyCode,#SupplierCode").select2({
         });
-
+        debugger;
         DataTables.purchaseDetailReportTable = $('#PurchaseDetailTable').DataTable(
          {
+             
              // dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
              dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
              buttons: [{
                  extend: 'excel',
                  exportOptions:
                               {
-                                columns: [0, 1, 2, 3, 4, 5, 6,7,8,9,11]
+                                  columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11]
                               }
              }],
+            
              order: [],
-             searching: false,
-             paging: true,
-             data: GetPurchaseDetail(),
-             pageLength: 50,
-             //language: {
-             //    search: "_INPUT_",
-             //    searchPlaceholder: "Search"
-             //},
-             columns: [
+             fixedHeader: {
+                 header: true
+             },
+                 searching: false,
+                 paging: true,
+                 data: GetPurchaseDetail(),
 
-               { "data": "InvoiceNo", "defaultContent": "<i>-</i>" },
-               { "data": "SupplierName", "defaultContent": "<i>-</i>" },
-                { "data": "Date", "defaultContent": "<i>-</i>", "width": "10%" },
-                { "data": "PaymentDueDate", "defaultContent": "<i>-</i>", "width": "10%" },
-                
-               { "data": "InvoiceAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
-               { "data": "PaidAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
-               { "data": "PaymentProcessed", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
-               { "data": "BalanceDue", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
-              { "data": "Credit", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
-                { "data": "GeneralNotes", "defaultContent": "<i></i>" },
-             { "data": "OriginCompany", "defaultContent": "<i>-</i>" },
-             { "data": "Origin", "defaultContent": "<i>-</i>" }
+                 pageLength: 50,
+                 //language: {
+                 //    search: "_INPUT_",
+                 //    searchPlaceholder: "Search"
+                 //},
+                 columns: [
 
-             ],
-             columnDefs: [{ "targets": [10, 8], "visible": false, "searchable": false },
-                   { className: "text-left", "targets": [0, 1] },
-                   { className: "text-center", "targets": [ 2, 3] },
-                  { className: "text-right", "targets": [4, 5, 6,7,9] }],
-             drawCallback: function (settings) {
-                 var api = this.api();
-                 var rows = api.rows({ page: 'current' }).nodes();
-                 var last = null;
+                   { "data": "InvoiceNo", "defaultContent": "<i>-</i>" },
+                   { "data": "SupplierName", "defaultContent": "<i>-</i>" },
+                    { "data": "Date", "defaultContent": "<i>-</i>", "width": "10%" },
+                    { "data": "PaymentDueDate", "defaultContent": "<i>-</i>", "width": "10%" },
+                   { "data": "InvoiceAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+                   { "data": "Tax", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+                   { "data": "TotalInvoice", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+                   { "data": "PaidAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+                   { "data": "PaymentProcessed", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+                   { "data": "BalanceDue", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+                  { "data": "Credit", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+                    { "data": "GeneralNotes", "defaultContent": "<i></i>" },
+                 { "data": "OriginCompany", "defaultContent": "<i>-</i>" },
+                 { "data": "Origin", "defaultContent": "<i>-</i>" }
 
-                 api.column(10, { page: 'current' }).data().each(function (group, i) {
-                     if (last !== group) {
-                         $(rows).eq(i).before('<tr class="group "><td colspan="8" class="rptGrp">' + '<b>Company</b> : ' + group + '</td></tr>');
-                         last = group;
+                 ],
+                 columnDefs: [{ "targets": [12, 10], "visible": false, "searchable": false },
+                       { className: "text-left", "targets": [0, 1] },
+                       { className: "text-center", "targets": [2, 3] },
+                      { className: "text-right", "targets": [4, 5, 6, 7, 8, 9, 11] }],
+                 createdRow: function (row, data, index) {
+                     if (data.InvoiceNo == "<b>GrantTotal</b>") {
+
+                         $('td', row).addClass('totalRow');
                      }
-                 });
-             }
-         });
+                 },
+                 drawCallback: function (settings) {
+                     var api = this.api();
+                     var rows = api.rows({ page: 'current' }).nodes();
+                     var last = null;
 
+                     api.column(12, { page: 'current' }).data().each(function (group, i) {
+                         if (last !== group) {
+                             $(rows).eq(i).before('<tr class="group "><td colspan="8" class="rptGrp">' + '<b>Company</b> : ' + group + '</td></tr>');
+                             last = group;
+                         }
+                     });
+                 }
+
+               });
+        
         $(".buttons-excel").hide();
         startdate = $("#todate").val();
         enddate = $("#fromdate").val();
@@ -69,6 +84,7 @@ $(document).ready(function () {
         //    RefreshPurchaseDetailTable();
         //});
         $("#purchasedetailtotals").attr('style', 'visibility:true');
+       
 
     } catch (x) {
 
@@ -128,6 +144,13 @@ function GetPurchaseDetail() {
             }
             if (ds.PaymentProcessed != '') {
                 $("#purchasedetailspaymentprocessed").text(ds.PaymentProcessed);
+            }
+            if (ds.TaxAmount != '')
+            {
+                $("#purchasedetailstaxamount").text(ds.TaxAmount);
+            }
+            if (ds.TotalInvoice != '') {
+                $("#purchasedetailstotalamount").text(ds.TotalInvoice)
             }
             
             if (ds.Result == "OK") {

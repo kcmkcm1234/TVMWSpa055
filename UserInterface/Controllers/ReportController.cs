@@ -636,7 +636,7 @@ namespace UserInterface.Controllers
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
                   PurchaseDetailReportViewModel purchasedetailObj = Mapper.Map<PurchaseDetailReport, PurchaseDetailReportViewModel>(_reportBusiness.GetPurchaseDetails(FDate, TDate, CompanyCode,search,IsInternal, Guid.Parse(Supplier), InvoiceType));
                     
-                    return JsonConvert.SerializeObject(new { Result = "OK", Records = purchasedetailObj.purchaseDetailReportList, TotalAmount= purchasedetailObj.purchaseDetailSum, InvoicedAmount = purchasedetailObj.purchaseDetailInvoice, PaidAmount = purchasedetailObj.purchaseDetailPaid,PaymentProcessed = purchasedetailObj.purchaseDetailPaymentProcess });
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = purchasedetailObj.purchaseDetailReportList, TotalAmount= purchasedetailObj.purchaseDetailSum, InvoicedAmount = purchasedetailObj.purchaseDetailInvoice, PaidAmount = purchasedetailObj.purchaseDetailPaid,PaymentProcessed = purchasedetailObj.purchaseDetailPaymentProcess,TaxAmount=purchasedetailObj.purchaseDetailsTaxAmount,TotalInvoice=purchasedetailObj.purchaseDetailsTotalAmount });
                 }
                 catch (Exception ex)
                 {
@@ -1860,7 +1860,7 @@ namespace UserInterface.Controllers
         }
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "DailyLedgerReport", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "TrialBalanceReport", Mode = "R")]
         public string GetTrialBalanceReport(string Date)
         {
             try

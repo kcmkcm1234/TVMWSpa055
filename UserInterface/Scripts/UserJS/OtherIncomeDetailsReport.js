@@ -21,6 +21,9 @@ $(document).ready(function () {
                               }
              }],
              order: [],
+             fixedHeader: {
+                 header: true
+             },
              searching: false,
              paging: true,
              data: GetOtherIncomeDetailsReport(),
@@ -42,6 +45,12 @@ $(document).ready(function () {
                { "width": "10%", "targets": [1] },
              { className: "text-right", "targets": [6] },
          { className: "text-center", "targets": [1] }],
+             createdRow: function (row, data, index) {
+                 if (data.Company == "<b>GrantTotal</b>") {
+
+                     $('td', row).addClass('totalRow');
+                 }
+             },
              drawCallback: function (settings) {
                  var api = this.api();
                  var rows = api.rows({ page: 'current' }).nodes();

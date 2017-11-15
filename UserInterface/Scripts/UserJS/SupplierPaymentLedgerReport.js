@@ -20,6 +20,9 @@ $(document).ready(function () {
                               }
              }],
              order: [],
+             fixedHeader: {
+                 header: true
+             },
              searching: false,
              paging: true,
              data: GetSupplierPaymentLedger('ALL'),
@@ -59,6 +62,12 @@ $(document).ready(function () {
              { className: "text-right", "targets": [] },
          { className: "text-center", "targets": [1] },
             { "bSortable": false, "aTargets": [0, 1, 2, 3, 4, 5, 6, 7, 8] }],
+             createdRow: function (row, data, index) {
+                 if (data.Type == "<b>Total</b>") {
+
+                     $('td', row).addClass('totalRow');
+                 }
+             },
              drawCallback: function (settings) {
                  var api = this.api();
                  var rows = api.rows({ page: 'current' }).nodes();

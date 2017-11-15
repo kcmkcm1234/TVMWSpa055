@@ -984,6 +984,7 @@ function SendNotificationConfirm() {
     try {
         debugger;
         var SupplierPaymentsViewModel = new Object();
+        SupplierPaymentsViewModel.ID = $('#ID').val();
         SupplierPaymentsViewModel.EntryNo = $('#lblheader').text()
         SupplierPaymentsViewModel.TotalPaidAmt = $('#TotalPaidAmt').val();
         SupplierPaymentsViewModel.GeneralNotes = $('#GeneralNotes').val().substring(0, 250)
@@ -997,9 +998,14 @@ function SendNotificationConfirm() {
                 switch (JsonResult.Result) {
                     case "OK":
                         notyAlert('success', JsonResult.Message);
+                        GetSupplierPaymentsByID($('#ID').val());
+                        $("#NotificationMessagemodal").modal('hide');
                         break;
                     case "ERROR":
                         notyAlert('error', JsonResult.Message);
+                        GetSupplierPaymentsByID($('#ID').val());
+                        $("#NotificationMessagemodal").modal('hide');
+
                         break;
                     default:
                         break;

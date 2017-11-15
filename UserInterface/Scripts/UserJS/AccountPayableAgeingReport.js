@@ -22,6 +22,9 @@ $(document).ready(function () {
                               }
              }],
              order: [],
+             fixedHeader: {
+                 header: true
+             },
              searching: true,
              paging: true,
              data: GetPayableAgeingReport(),

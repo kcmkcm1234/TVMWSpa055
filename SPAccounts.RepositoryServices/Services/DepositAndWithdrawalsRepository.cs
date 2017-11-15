@@ -158,9 +158,7 @@ namespace SPAccounts.RepositoryServices.Services
             return _depositAndWithdrawalsObj;
         }
         #endregion GetDepositAndWithdrawalDetails
-
-
-
+        
         #region GetTransferCashDetailsById
         public DepositAndWithdrawals GetTransferCashById(Guid TransferId)
         {
@@ -207,10 +205,7 @@ namespace SPAccounts.RepositoryServices.Services
             return _depositAndWithdrawalsObj;
         }
         #endregion GetTransferCashDetailsById
-
-
-
-
+        
         #region InsertDepositAndWithdrawals
         public DepositAndWithdrawals InsertDepositAndWithdrawals(DepositAndWithdrawals _depositAndWithdrawalsObj)
         {
@@ -389,7 +384,6 @@ namespace SPAccounts.RepositoryServices.Services
         }
         #endregion ClearCheque
 
-
         #region GetUndepositedCheque
         public List<DepositAndWithdrawals> GetUndepositedCheque(string FromDate, string ToDate)
         {
@@ -478,10 +472,7 @@ namespace SPAccounts.RepositoryServices.Services
             return _depositAndWithdrawalsObj.UndepositedChequeCount;
         }
         #endregion GetUndepositedChequeCount
-
-
-
-
+        
         #region CashTransferBetweenBanks
 
         public DepositAndWithdrawals TransferAmount(DepositAndWithdrawals _depositAndWithdrwalObj)
@@ -577,7 +568,103 @@ namespace SPAccounts.RepositoryServices.Services
                 Message = Cobj.UpdateSuccess
             };
         }
-#endregion UpdateTransferredAmount
+ 
+        #endregion UpdateTransferredAmount
 
+        #region DeleteDepositandwithdrawal
+        public object DeleteDepositandwithdrawal(Guid ID, string UserName)
+        {
+            SqlParameter outputStatus = null;
+            try
+            {
+
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[DeleteDepositandwithdrawal]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = ID;
+                        cmd.Parameters.Add("@DeletedBy", SqlDbType.NVarChar, 250).Value = UserName;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        throw new Exception(Cobj.DeleteFailure);
+                    default:
+                        break;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return new
+            {
+                Status = outputStatus.Value.ToString(),
+                Message = Cobj.DeleteSuccess
+            };
+        }
+        #endregion DeleteDepositandwithdrawal
+
+
+
+        #region DeleteTransferAmountBetweenBanks
+        public object DeleteTransferAmount(Guid TransferID, string UserName)
+        {
+            SqlParameter outputStatus = null;
+            try
+            {
+
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[DeleteTransferAmount]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@TransferID", SqlDbType.UniqueIdentifier).Value = TransferID;
+                        cmd.Parameters.Add("@DeletedBy", SqlDbType.NVarChar, 250).Value = UserName;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        throw new Exception(Cobj.DeleteFailure);
+                    default:
+                        break;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return new
+            {
+                Status = outputStatus.Value.ToString(),
+                Message = Cobj.DeleteSuccess
+            };
+        }
+        #endregion DeleteTransferAmountBetweenBanks
     }
 }

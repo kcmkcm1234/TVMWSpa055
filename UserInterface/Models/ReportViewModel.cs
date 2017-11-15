@@ -218,12 +218,14 @@ namespace UserInterface.Models
         public decimal PaymentProcessed { get; set; }
         public decimal PaidAmount { get; set; }
         public decimal InvoiceAmount { get; set; }
+        public decimal TotalInvoice { get; set; }
         public decimal BalanceDue { get; set; }
         public string OriginCompany { get; set; }
         public string Origin { get; set; }
         public string GeneralNotes { get; set; }
         public string SupplierName { get; set; }
         public decimal Credit { get; set; }
+        public decimal Tax { get; set; }
         public List<SelectListItem> CompanyList { get; set; }
         public List<SelectListItem> supplierList { get; set; }
         public List<CompaniesViewModel> companiesList;
@@ -235,6 +237,8 @@ namespace UserInterface.Models
         public string purchaseDetailPaid { get; set; }
         public string purchaseDetailInvoice { get; set; }
         public string purchaseDetailPaymentProcess { get; set; }
+        public string purchaseDetailsTaxAmount { get; set; }
+        public string purchaseDetailsTotalAmount { get; set; }
         public string InvoiceType { get; set; }
         public List<PurchaseDetailReportViewModel> purchaseDetailReportList { get; set; }
 

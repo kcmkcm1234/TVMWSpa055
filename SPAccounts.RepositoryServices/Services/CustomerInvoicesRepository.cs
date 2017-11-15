@@ -441,7 +441,8 @@ namespace SPAccounts.RepositoryServices.Services
                                         CIList.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : CIList.ID);
                                         CIList.InvoiceDate = (sdr["InvoiceDate"].ToString() != "" ? DateTime.Parse(sdr["InvoiceDate"].ToString()) : CIList.InvoiceDate);
                                         CIList.InvoiceNo = sdr["InvoiceNo"].ToString();
-
+                                        CIList.companiesObj = new Companies();
+                                        CIList.companiesObj.Name= sdr["OrginCompany"].ToString();
                                         CIList.PaymentDueDate = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()) : CIList.PaymentDueDate);
                                         CIList.TotalInvoiceAmount = (sdr["TotalInvoiceAmount"].ToString() != "" ? Decimal.Parse(sdr["TotalInvoiceAmount"].ToString()) : CIList.TotalInvoiceAmount);
                                         CIList.BalanceDue = (sdr["BalanceDue"].ToString() != "" ? Decimal.Parse(sdr["BalanceDue"].ToString()) : CIList.BalanceDue);
@@ -577,9 +578,11 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[GetAllOutStandingInvoices]";
                         cmd.CommandType = CommandType.StoredProcedure;
-                        if(CustomerInvoiceObj!=null)
-                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = CustomerInvoiceObj.customerObj.ID;
-                        cmd.Parameters.Add("@includeinternal", SqlDbType.Bit).Value = CustomerInvoiceObj.customerObj.IsInternalComp;
+                        if (CustomerInvoiceObj != null)
+                        {
+                            cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = CustomerInvoiceObj.customerObj.ID;
+                            cmd.Parameters.Add("@includeinternal", SqlDbType.Bit).Value = CustomerInvoiceObj.customerObj.IsInternalComp;
+                        }                      
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
                             if ((sdr != null) && (sdr.HasRows))
@@ -634,7 +637,8 @@ namespace SPAccounts.RepositoryServices.Services
                         }
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[GetAllOpenInvoices]";
-                        cmd.Parameters.Add("@includeinternal", SqlDbType.Bit).Value = CustomerInvoiceObj.customerObj.IsInternalComp;
+                        if (CustomerInvoiceObj != null)
+                            cmd.Parameters.Add("@includeinternal", SqlDbType.Bit).Value = CustomerInvoiceObj.customerObj.IsInternalComp;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
@@ -693,6 +697,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@fromdate", SqlDbType.DateTime).Value = CustomerInvoiceObj.FromDate;
                         cmd.Parameters.Add("@todate", SqlDbType.DateTime).Value = CustomerInvoiceObj.ToDate;
+                        if (CustomerInvoiceObj.customerObj!=null)
                         cmd.Parameters.Add("@includeinternal", SqlDbType.Bit).Value = CustomerInvoiceObj.customerObj.IsInternalComp;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {

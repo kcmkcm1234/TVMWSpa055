@@ -19,6 +19,9 @@ $(document).ready(function () {
                               }
              }],
              order: [],
+             fixedHeader: {
+                 header: true
+             },
              searching: false,
              paging: true,
              data: GetDepositAndWithdrawalDetailReportDetailTable(),
@@ -43,7 +46,14 @@ $(document).ready(function () {
              columnDefs: [{  "searchable": false}, //"targets": [0], "visible": false,},
                   { className: "text-left", "targets": [1, 2,3,4] },
                   { className: "text-right", "targets": [6,7,8] },
-                  { className: "text-center", "targets": [0,5] }]
+                  { className: "text-center", "targets": [0, 5] }],
+             createdRow: function (row, data, index) 
+             {
+                 if (data.ReferenceNumber == "<b>Grant Total</b>") {
+
+                     $('td', row).addClass('totalRow');
+                 }
+             },
 
          });
 

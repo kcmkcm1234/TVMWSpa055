@@ -43,8 +43,7 @@ namespace UserInterface.API
             {
                 return JsonConvert.SerializeObject(new { Result = false, Message = ex.Message });
             }
-        }
-
+        }  
 
         #region GetCustomerDetailsByID
         [HttpPost]
@@ -53,6 +52,7 @@ namespace UserInterface.API
             try
             {
 
+                if (cust== null) throw new Exception(messages.NoItems);
                 CustomerViewModel customerObj = Mapper.Map<Customer, CustomerViewModel>(_customerBusiness.GetCustomerDetailsForMobile(cust.ID != null && cust.ID.ToString() != "" ? Guid.Parse(cust.ID.ToString()) : Guid.Empty));
                 return JsonConvert.SerializeObject(new { Result = true, Records = customerObj });
             }

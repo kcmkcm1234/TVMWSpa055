@@ -21,7 +21,7 @@
 </style>
 <div style="width:100%;">
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-truck"></i> Deposit & Withdrwal</a></li>
+        <li><a href="#"><i class="fa fa-money"></i> Deposit & Withdrwal</a></li>
         <li class="active">@ViewBag.Title</li>
     </ol>
 </div>
@@ -122,6 +122,7 @@
                         <th>TransferID</th>
                         <th>Description</th>
                         <th>Amount</th>
+                        <th>...</th>
                         <th>...</th>
                     </tr>
                 </thead>
@@ -231,6 +232,7 @@
                                 @Html.AntiForgeryToken()
                                 @Html.HiddenFor(model => model.hdnChequeStatus)
                                 @Html.HiddenFor(model => model.hdnChequeDate)
+                                @Html.Hidden("hdnPaymentMode")
                                 @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "", Value = "0" })
                                 @Html.HiddenFor(model => model.DepositRowValues, htmlAttributes: new { @class = "", Value = "0" })
 
@@ -353,6 +355,12 @@
                                                     });
                                                     listChequeStatus.Add(new SelectListItem
                                                     { Text = "Not Cleared", Value = "NotCleared"
+                                                    });
+                                                    listChequeStatus.Add(new SelectListItem
+                                                    {
+                                                        Text = "Bounced",
+                                                        Value = "Bounced",
+                                                        Disabled = true
                                                     });
                                                 }
                                                 @Html.DropDownListFor(model => model.ChequeStatus, listChequeStatus, "-- Select Cheque Status --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "ChequeStatus", @onchange = "ChequeStatusModeOnchange();" })

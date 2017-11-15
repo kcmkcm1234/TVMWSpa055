@@ -57,6 +57,7 @@ namespace UserInterface.API
             try
             {
 
+                if (sup == null) throw new Exception(messages.NoItems);
                 SuppliersViewModel supplierObj = Mapper.Map<Supplier, SuppliersViewModel>(_supplierBusiness.GetSupplierDetailsForMobile(sup.ID != null && sup.ID.ToString() != "" ? Guid.Parse(sup.ID.ToString()) : Guid.Empty));
                 return JsonConvert.SerializeObject(new { Result = true, Records = supplierObj });
             }
@@ -91,22 +92,40 @@ namespace UserInterface.API
         [HttpPost]
         public string GetAllSupplierInvoiceAdjustedByPaymentID(SupplierPayments SupObj)
         {
+            try
+            {
+                if (SupObj == null) throw new Exception(messages.NoItems);
+
             List<SupplierPaymentsViewModel> supplierpaylist = Mapper.Map<List<SupplierPayments>, List<SupplierPaymentsViewModel>>(_supplierPaymentsBusiness.GetSupplierInvoiceAdjustedByPaymentID(SupObj));
             return JsonConvert.SerializeObject(new { Result = true, Records = supplierpaylist });
+            }
+            catch (Exception ex)
+            {
 
+                return JsonConvert.SerializeObject(new { Result = false, Message = ex.Message });
+            }
         }
 
         [HttpPost]
         public string GetApprovedSupplierPayment(SupplierPayments SupObj)
         {
-            if (SupObj.ApprovalDate == null)
+            try
             {
-                SupObj.commonObj = new SPAccounts.DataAccessObject.DTO.Common();
-                SupObj.ApprovalDate = SupObj.commonObj.GetCurrentDateTime().ToString();
-            }
-            SupplierPaymentsViewModel supplierpaylist = Mapper.Map<SupplierPayments,SupplierPaymentsViewModel>(_supplierPaymentsBusiness.ApprovedSupplierPayment(SupObj));
-            return JsonConvert.SerializeObject(new { Result = true, Records = supplierpaylist });
+                if (SupObj == null) throw new Exception(messages.NoItems);
 
+                if (SupObj.ApprovalDate == null)
+                {
+                    SupObj.commonObj = new SPAccounts.DataAccessObject.DTO.Common();
+                    SupObj.ApprovalDate = SupObj.commonObj.GetCurrentDateTime().ToString();
+                }
+                SupplierPaymentsViewModel supplierpaylist = Mapper.Map<SupplierPayments,SupplierPaymentsViewModel>(_supplierPaymentsBusiness.ApprovedSupplierPayment(SupObj));
+                return JsonConvert.SerializeObject(new { Result = true, Records = supplierpaylist });
+            }
+            catch (Exception ex)
+            {
+
+                return JsonConvert.SerializeObject(new { Result = false, Message = ex.Message });
+            }
         }
     }
 }

@@ -164,11 +164,13 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal PaymentProcessed { get; set; }
         public decimal InvoiceAmount { get; set; }
         public decimal BalanceDue { get; set; }
+        public decimal TotalInvoice { get; set; }
         public string OriginCompany { get; set; }
         public string Origin { get; set; }
         public string GeneralNotes { get; set; }
         public string SupplierName { get; set; }
         public decimal Credit { get; set; }
+        public decimal Tax { get; set; }
         public string RowType { get; set; }
         public Boolean IncludeInternal { get; set; }
         public Boolean IncludeTax { get; set; }
@@ -176,6 +178,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public string purchaseDetailPaid { get; set; }
         public string purchaseDetailInvoice { get; set; }
         public string purchaseDetailPaymentProcess { get; set; }
+        public string purchaseDetailsTaxAmount { get; set; }
+        public string purchaseDetailsTotalAmount { get; set; }
         public List<PurchaseDetailReport> purchaseDetailReportList { get; set; }
 
     }

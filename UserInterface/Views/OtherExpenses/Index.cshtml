@@ -14,7 +14,7 @@
 }
 <div style="width:100%;">
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-truck"></i> Sales</a></li>
+        <li><a href="#"><i class="fa fa-file-text-o"></i> Sales</a></li>
         <li class="active">@ViewBag.Title</li>
     </ol>
 </div>
@@ -506,15 +506,18 @@
 
 
             <div class="modal-body">
-                <div class="col-md-12">
+                <div class="form-group col-md-12">
                     <div class="col-md-6">
-
                     </div>
-                    <div class="col-md-6 text-right" style="display:inline-flex;">
-                        <div class="col-md-6" style="font-weight: 600;font-size: 14px;padding-top:3%;">Total Balance</div>
-                        <div class="col-md-6" id="TotalBlnce" style="font-family: 'Times New Roman';font-size: 28px;"></div>
+                    <div id="saleTotals" class="col-md-6 box-header figuresummary rounded" >
+                        <div class="col-md-8 text-right" style="font-size:small">Total Sys/Cal Balance:</div>
+                        <div class="col-md-4 text-right"><small><span id="TotalBlnce" style="font-size:small;font-weight:bold"></span></small></div>
+                        <div class="col-md-8 text-right" style="font-size:small">Total UnCleared Amount:</div>
+                        <div class="col-md-4 text-right"><small><span id="TotalUnClrAmt" style="font-size:small;font-weight:bold"></span></small></div>
+                        <div class="col-md-8 text-right" style="font-size:small">Total Actual Balance:</div>
+                        <div class="col-md-4 text-right"> <small><span id="ActualBlnce" style="font-size:small;font-weight:bold"></span></small></div>
                     </div>
-                </div>
+                </div> 
                 <div class="container-fluid">
                     <table id="tblbankWiseBalanceTable" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
                         <thead>

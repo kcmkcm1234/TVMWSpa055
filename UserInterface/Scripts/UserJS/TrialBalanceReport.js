@@ -16,6 +16,9 @@ $(document).ready(function () {
                               }
              }],
              order: [],
+             fixedHeader: {
+                 header: true
+             },
              searching: false,
              paging: true,
              data: GetTrialBalanceReport(),
@@ -42,7 +45,13 @@ $(document).ready(function () {
                { "width": "10%", "targets": [1,2] },
              { className: "text-right", "targets": [1,2] },
          { className: "text-center", "targets": [] },
-            { "bSortable": false, "aTargets": [0, 1, 2] }]
+            { "bSortable": false, "aTargets": [0, 1, 2] }],
+             createdRow: function (row, data, index) {
+                 if (data.Account == "<b>Total</b>") {
+
+                $('td', row).addClass('totalRow');
+            }
+        },
          });
 
         $(".buttons-excel").hide(); 

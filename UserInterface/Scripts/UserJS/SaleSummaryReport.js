@@ -19,6 +19,9 @@ $(document).ready(function () {
                               }
              }],
              order: [],
+             fixedHeader: {
+                 header: true
+             },
              "ordering": false,
              searching: false,
              paging: true,
@@ -52,7 +55,12 @@ $(document).ready(function () {
              columnDefs: [{ "targets": [7,8], "visible": false, "searchable": false },
                   { className: "text-left", "targets": [0] },
                   { className: "text-right", "targets": [1, 2, 3, 4, 5, 6] }],
-             
+             createdRow: function (row, data, index) {
+                 if (data.CustomerName == "<b>GrantTotal</b>") {
+
+                     $('td', row).addClass('totalRow');
+                 }
+             },
              drawCallback: function (settings) {
                  var api = this.api();
                  var rows = api.rows({ page: 'current' }).nodes();

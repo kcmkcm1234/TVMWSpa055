@@ -826,15 +826,15 @@ margin:20px;
 
 td.opeingRow {
 
-    background-color:lightblue;
+    background-color:#f1f7f9;
 }
 
 td.closingRow {
 
-    background-color:lightblue;
+    background-color:#f1f7f9;
 }
 
 td.totalRow {
 
-    background-color:darkseagreen;
+    background-color:rgba(245, 214, 238, 0.63);
 }

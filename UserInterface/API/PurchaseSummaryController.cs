@@ -71,6 +71,8 @@ namespace UserInterface.API
     {
         try
         {
+                if (SupObj == null) throw new Exception(messages.NoItems);
+
                 if (SupObj.FromDate == null && SupObj.ToDate == null)
                 {
                     SupObj.commonObj = new SPAccounts.DataAccessObject.DTO.Common();

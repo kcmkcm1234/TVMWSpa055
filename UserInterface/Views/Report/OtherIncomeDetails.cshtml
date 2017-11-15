@@ -11,6 +11,8 @@
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableButtons")
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/select2")
+@Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableFixedHeader")
+
 
     <style>
         .select2-container--default .select2-selection--single .select2-selection__rendered {
@@ -29,7 +31,7 @@
 
 <div style="width:100%;">
     <ol class="breadcrumb">
-        <li><a href=@Url.Action("Index","Report")><i class="fa fa-truck"></i> Reports</a></li>
+        <li><a href=@Url.Action("Index","Report")><i class="fa fa-print"></i> Reports</a></li>
         <li class="active">@ViewBag.Title</li>
     </ol>
 </div>
