@@ -273,5 +273,27 @@
         }
 
     }
+
+    @*--This is a special case where access resulting visibility--//*@
+    @if (Model.LimitBtn.Visible && Model.LimitBtn.HasAccess)
+    {
+        if (Model.LimitBtn.Disable )
+        {
+
+            <a class="thr_disbtn" title="@Model.LimitBtn.Title-@Model.LimitBtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/MaxLimit.PNG")">
+                <span class="btnText">@Model.LimitBtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.LimitBtn.Title" class="thr_btn" onclick=@Model.LimitBtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/MaxLimit.PNG")">
+                <span class="btnText">@Model.LimitBtn.Text</span>
+            </a>
+        }
+
+    }
  
 </div>

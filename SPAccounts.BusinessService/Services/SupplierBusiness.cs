@@ -99,5 +99,10 @@ namespace SPAccounts.BusinessService.Services
             return result;
         }
 
+        public Supplier UpdateMaxLimit(Supplier _supplierObj)
+        {
+                return _supplierRepository.UpdateMaxLimit(_supplierObj);
+        }
+
     }
 }

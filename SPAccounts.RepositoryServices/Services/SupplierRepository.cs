@@ -231,6 +231,7 @@ namespace SPAccounts.RepositoryServices.Services
                                     _supplierObj.TaxRegNo = (sdr["TaxRegNo"].ToString() != "" ? sdr["TaxRegNo"].ToString() : _supplierObj.TaxRegNo);
                                     _supplierObj.PANNO = (sdr["PANNO"].ToString() != "" ? sdr["PANNO"].ToString() : _supplierObj.PANNO);
                                     _supplierObj.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : _supplierObj.GeneralNotes);
+                                    _supplierObj.MaxLimit = (sdr["MaxLimit"].ToString() != "" ? decimal.Parse(sdr["MaxLimit"].ToString()) : _supplierObj.MaxLimit);
                                     _supplierObj.commonObj = new Common();
                                     _supplierObj.commonObj.CreatedBy = (sdr["CreatedBy"].ToString() != "" ? sdr["CreatedBy"].ToString() : _supplierObj.commonObj.CreatedBy);
                                     _supplierObj.commonObj.CreatedDateString = (sdr["CreatedDate"].ToString() != "" ? DateTime.Parse(sdr["CreatedDate"].ToString()).ToString(s.dateformat) : _supplierObj.commonObj.CreatedDateString);
@@ -441,8 +442,56 @@ namespace SPAccounts.RepositoryServices.Services
         }
         #endregion DeleteSupplier
 
+        #region UpdateMaxLimit
+
+        public Supplier UpdateMaxLimit(Supplier _supplierObj)
+        {
+            try
+            {
+                SqlParameter outputStatus= null;
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[UpdateMaxLimit]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = _supplierObj.ID;
+                        cmd.Parameters.Add("@MaxLimit", SqlDbType.Decimal).Value = _supplierObj.MaxLimit;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = _supplierObj.commonObj.UpdatedBy;
+                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.NVarChar).Value = _supplierObj.commonObj.UpdatedDate;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        AppConst Cobj = new AppConst();
+                        throw new Exception(Cobj.UpdateFailure);
+                    case "1":
+                        _supplierObj.ID = Guid.Parse(_supplierObj.ID.Value.ToString());
+                        break;
+                    default:
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return _supplierObj;
+        }
+
+        #endregion UpdateMaxLimit
 
 
-       
     }
 }

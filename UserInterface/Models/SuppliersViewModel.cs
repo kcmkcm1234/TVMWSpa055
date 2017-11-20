@@ -70,6 +70,10 @@ namespace UserInterface.Models
         public decimal AdvanceAmount { get; set; }
         public decimal OutStanding { get; set; }
         public decimal PaidAmount { get; set; }
+
+        [Required(ErrorMessage = "Maximum Limit is missing")]
+        [Display(Name = "Max Limit Per Month")]
+        public decimal MaxLimit { get; set; }
         public CommonViewModel commonObj { get; set; }
         public PaymentTermsViewModel PaymentTermsObj { get; set; }
         public List<SelectListItem> SupplierList { get; set; }
