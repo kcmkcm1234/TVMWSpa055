@@ -30,6 +30,7 @@ namespace UserInterface.SecurityFilter
                     toolbar.returnBtn = setAccess(toolbar.returnBtn, _permission);
                     toolbar.savebtn = setAccess(toolbar.savebtn, _permission);
                     toolbar.WithdrawBtn = setAccess(toolbar.WithdrawBtn, _permission);
+                    toolbar.LimitBtn = setAccess(toolbar.LimitBtn, _permission);
                 }
 
                 return toolbar;

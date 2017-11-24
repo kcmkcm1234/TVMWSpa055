@@ -12,5 +12,6 @@ namespace SPAccounts.DataAccessObject.DTO
         public string BillingAddress { get; set; }
         public string ShippingAddress { get; set; }
         public Common commonObj { get; set; }
-    }
+        public Guid ApproverID { get; set; }
+      }
 }

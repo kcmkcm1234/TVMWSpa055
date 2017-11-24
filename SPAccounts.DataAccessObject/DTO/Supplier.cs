@@ -31,5 +31,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal AdvanceAmount { get; set; }
         public string ToDate { get; set; }
         public string FromDate { get; set; }
+        public decimal MaxLimit { get; set; }
+
     }
 }

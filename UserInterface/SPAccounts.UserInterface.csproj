@@ -1296,9 +1296,11 @@
     <Content Include="Content\images\delete.png" />
     <Content Include="Content\images\deposit.png" />
     <Content Include="Content\images\helmet.png" />
+    <Content Include="Content\images\indian-rupee.png" />
     <Content Include="Content\images\listdlt.png" />
     <Content Include="Content\images\loading.gif" />
     <Content Include="Content\images\logo.png" />
+    <Content Include="Content\images\MaxLimit.png" />
     <Content Include="Content\images\Notification.png" />
     <Content Include="Content\images\paperclip.png" />
     <Content Include="Content\images\percentage.png" />
@@ -1549,6 +1551,7 @@
     <Content Include="Scripts\UserJS\Bank.js" />
     <Content Include="Scripts\UserJS\BankBalance.js" />
     <Content Include="Scripts\UserJS\ChartOfAccounts.js" />
+    <Content Include="Scripts\UserJS\Company.js" />
     <Content Include="Scripts\UserJS\CustomerContactDetailsReport.js" />
     <Content Include="Scripts\UserJS\CustomerCreditNote.js" />
     <Content Include="Scripts\UserJS\Application.js" />
@@ -1603,6 +1606,7 @@
     <Content Include="Scripts\UserJS\UndepositedCheque.js" />
     <Content Include="Scripts\UserJS\User.js" />
     <Content Include="Scripts\UserJS\Suppliers.js" />
+    <Content Include="Views\Account\NotAuthorized.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1629,6 +1633,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BankController.cs" />
     <Compile Include="Controllers\ChartOfAccountsController.cs" />
+    <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\CustomerCreditNoteController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\CustomerPaymentsController.cs" />
@@ -1729,7 +1734,6 @@
     <Content Include="Views\ManageAccess\Index.cshtml" />
     <Content Include="Views\ManageAccess\SubobjectIndex.cshtml" />
     <Content Include="Views\TaxType\Index.cshtml" />
-    <Content Include="Views\Account\NotAuthorized.cshtml" />
     <Content Include="Views\Account\Down.cshtml" />
     <Content Include="Views\SupplierInvoices\Index.cshtml" />
     <Content Include="Views\Report\Index.cshtml" />
@@ -1780,6 +1784,7 @@
     <Content Include="Views\DepositAndWithdrawals\BankBalance.cshtml" />
     <Content Include="Views\PDFGenerator\Index.cshtml" />
     <Content Include="Views\Report\TrialBalance.cshtml" />
+    <Content Include="Views\Company\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Newtonsoft.Json;
+using SAMTool.DataAccessObject.DTO;
 using SPAccounts.BusinessService.Contracts;
 using SPAccounts.DataAccessObject.DTO;
 using SPAccounts.UserInterface.SecurityFilter;
@@ -20,12 +21,14 @@ namespace UserInterface.Controllers
         ICustomerBusiness _customerBusiness;
         ISupplierBusiness _SupplierBusiness;
         IPaymentTermsBusiness _paymentTermsBusiness;
+        SecurityFilter.ToolBarAccess _tool;
 
-        public SuppliersController(ISupplierBusiness supplierBusiness, ICustomerBusiness customerBusiness, IPaymentTermsBusiness paymentTermsBusiness)
+        public SuppliersController(ISupplierBusiness supplierBusiness, ICustomerBusiness customerBusiness, IPaymentTermsBusiness paymentTermsBusiness, SecurityFilter.ToolBarAccess tool)
         {
             _SupplierBusiness = supplierBusiness;
             _customerBusiness = customerBusiness;
             _paymentTermsBusiness = paymentTermsBusiness;
+            _tool = tool;
         }
         #endregion Constructor_Injection 
         // GET: Suppliers
@@ -167,12 +170,46 @@ namespace UserInterface.Controllers
         }
         #endregion DeleteSupplier
 
+        #region  UpdateMaxLimit
+   
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AuthSecurityFilter(ProjectObject = "Suppliers", Mode = "W")]
+        public string UpdateMaxLimit(SuppliersViewModel _supplierObj)
+        {
+            try
+            {
+
+                object result = null;
+                AppUA _appUA = Session["AppUA"] as AppUA;
+                _supplierObj.commonObj = new CommonViewModel();
+                _supplierObj.commonObj.CreatedBy = _appUA.UserName;
+                _supplierObj.commonObj.CreatedDate = _appUA.DateTime;
+                _supplierObj.commonObj.UpdatedBy = _appUA.UserName;
+                _supplierObj.commonObj.UpdatedDate = _appUA.DateTime;
+
+                result = _SupplierBusiness.UpdateMaxLimit(Mapper.Map<SuppliersViewModel, Supplier>(_supplierObj));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result,Message="Updated Maximum Limit on Amount" });
+
+            }
+            catch (Exception ex)
+            {
+
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion InsertUpdateSupplier
+
+
         #region ButtonStyling
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "Suppliers", Mode = "R")]
         public ActionResult ChangeButtonStyle(string ActionType)
         {
             ToolboxViewModel ToolboxViewModelObj = new ToolboxViewModel();
+            Permission _permission = Session["UserRights"] as Permission;
+
             switch (ActionType)
             {
                 case "List":
@@ -209,6 +246,13 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.CloseBtn.Title = "Close";
                     ToolboxViewModelObj.CloseBtn.Event = "closeNav();";
 
+                    ToolboxViewModelObj.LimitBtn.Visible = true;
+                    ToolboxViewModelObj.LimitBtn.Text = "Limit";
+                    ToolboxViewModelObj.LimitBtn.Title = "Max Limit On Amount";
+                    ToolboxViewModelObj.LimitBtn.Event = "openLimitModal();";
+
+                       ToolboxViewModelObj = _tool.SetToolbarAccess(ToolboxViewModelObj, _permission);
+
                     break;
                 case "Add":
 
@@ -239,5 +283,7 @@ namespace UserInterface.Controllers
         }
 
         #endregion
+
+       
     }
 }

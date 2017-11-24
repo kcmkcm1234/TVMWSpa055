@@ -15,5 +15,6 @@ namespace SPAccounts.BusinessService.Contracts
         Supplier GetSupplierDetails(Guid ID);
         object InsertUpdateSupplier(Supplier _supplierObj);
         object DeleteSupplier(Guid ID);
+        Supplier UpdateMaxLimit(Supplier _supplierObj);
     }
 }

@@ -168,6 +168,8 @@ function ClearFields() {
     $("#TaxRegNo").val("");
     $("#PANNO").val("");
     $("#GeneralNotes").val("");
+    $("#txtMaximum").val("");
+    $("#txtMaximum").prop('disabled', true);
     ResetForm();
     ChangeButtonPatchView("Suppliers", "btnPatchAdd", "Add"); //ControllerName,id of the container div,Name of the action
 }
@@ -276,6 +278,9 @@ function FillSupplierDetails(ID) {
     $("#TaxRegNo").val(thisItem.TaxRegNo);
     $("#PANNO").val(thisItem.PANNO);
     $("#GeneralNotes").val(thisItem.GeneralNotes);
+    $("#hdnID").val(thisItem.ID);
+    $("#txtMaximum").val(thisItem.MaxLimit);
+    $("#txtMaximum").prop('disabled',true);
 }
 
 //---------------------------------------Edit Bank--------------------------------------------------//
@@ -295,4 +300,45 @@ function dashboardBind(ID) {
     openNav("0");
     ResetForm();
     FillSupplierDetails(ID);
+}
+
+//--Function to show modal pop up for editing Maximum amount Limit on Limit button click----//
+function openLimitModal() {
+    debugger;
+    $("#txtMaximumLimit").val($("#txtMaximum").val());
+    $("#MaximumLimitModal").modal('show');
+}
+
+//---Function to save modal popup values to server by triggering UpdateMaxLimit button--//
+function UpdateLimit() {
+    debugger;
+    $("#btnUpdateMaxLimit").trigger('click');
+   
+}
+
+//--Function for call rebind table,fill edit form with new values after successfull updation of maximum limit--// 
+function UpdationSuccess(data,status) {
+    // GetSupplierDetailsByID($("#hdnID").val());
+    //FillSupplierDetails($("#hdnID").val());
+    var JsonResult = JSON.parse(data)
+    switch (JsonResult.Result) {
+        case "OK":
+            BindAllSuppliers();
+            notyAlert('success', JsonResult.Message);
+            debugger;
+            if ($("#ID").val() != "") {
+                FillSupplierDetails($("#hdnID").val());
+                $("#MaximumLimitModal").modal('hide');
+            }
+            else {
+                FillSupplierDetails(JsonResult.Records.ID);
+            }
+            break;
+        case "ERROR":
+            notyAlert('error', JsonResult.Message);
+            break;
+        default:
+            notyAlert('error', JsonResult.Message);
+            break;
+    }
 }

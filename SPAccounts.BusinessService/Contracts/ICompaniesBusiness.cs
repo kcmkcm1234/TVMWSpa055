@@ -9,5 +9,7 @@ namespace SPAccounts.BusinessService.Contracts
     public interface ICompaniesBusiness
     {
         List<Companies> GetAllCompanies();
+        Companies GetCompanyDetailsByCode(string Code);
+        Companies InsertUpdateCompany(Companies _companyObj);
     }
 }
