@@ -17,12 +17,13 @@ namespace UserInterface.Controllers
     {
         private IUserBusiness _userBusiness;
         private IRolesBusiness _rolesBusiness;
+        private IApplicationBusiness _applicationBusiness;
 
-
-        public UserController(IUserBusiness userBusiness, IRolesBusiness rolesBusiness)
+        public UserController(IUserBusiness userBusiness, IRolesBusiness rolesBusiness, IApplicationBusiness applicationBusiness)
         {
             _userBusiness = userBusiness;
             _rolesBusiness = rolesBusiness;
+            _applicationBusiness = applicationBusiness;
         }
 
        [AuthSecurityFilter(ProjectObject = "User", Mode = "R")]
@@ -31,10 +32,29 @@ namespace UserInterface.Controllers
         {
             
             UserViewModel userobj = new UserViewModel();
-            userobj.RoleList = Mapper.Map<List<Roles>, List<RolesViewModel>>(_rolesBusiness.GetAllAppRoles(null));
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            selectListItem = new List<SelectListItem>();
+            List<ApplicationViewModel> ApplicationList = Mapper.Map<List<Application>, List<ApplicationViewModel>>(_applicationBusiness.GetAllApplication());
+            foreach (ApplicationViewModel Appl in ApplicationList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = Appl.Name,
+                    Value = Appl.ID.ToString(),
+                    Selected = false
+                });
+            }
+            userobj.ApplicationList = selectListItem;
+            //userobj.RoleList = Mapper.Map<List<Roles>, List<RolesViewModel>>(_rolesBusiness.GetAllAppRoles(null));
             return View(userobj);
         }
-
+        [HttpGet]
+        public ActionResult GetRolesView(string ID)
+        {
+            UserViewModel userobj = new UserViewModel();
+            userobj.RoleList = Mapper.Map<List<Roles>, List<RolesViewModel>>(_rolesBusiness.GetAllAppRoles(Guid.Parse(ID)));
+            return PartialView("_RoleList", userobj);
+        }
 
         #region InsertUpdateUser
         [AuthSecurityFilter(ProjectObject = "User", Mode = "W")]

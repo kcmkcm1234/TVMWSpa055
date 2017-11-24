@@ -140,16 +140,27 @@
                         </div>
 
                     </div>
+                    <div class="form-group col-md-8">
+                        <div class="col-md-12">
+                            <label class="control-label">Select Application</label>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(model => model.AppID, Model.ApplicationList, "--Select Application--", new { @class = "form-control", @onchange = "ChangeRolesData(this)", @id = "ddlApplication" })
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
+                            </div>
+                        </div>
            
                 </div>
                 <div class="col-md-3 ">
+                    
                     <div class="form-group">
                         @Html.LabelFor(model => model.RoleList, htmlAttributes: new { @class = "control-label" })
-                        <div class="inputForm col-md-12">
-                            &nbsp;
-                        </div>
-                        <div class="col-md-6  form-control" style="height:250px; overflow-y:auto; padding-left:3%;">
-                            @for (int i = 0; i < Model.RoleList.Count; i++)
+                        <div class="col-md-12"> &nbsp;</div>
+                        <div class="col-md-6  form-control" style="height:250px; overflow-y:auto; padding-left:3%;" id="divRoleList">
+                            @*@for (int i = 0; i < Model.RoleList.Count; i++)
                             {
                                 @Html.CheckBox(Model.RoleList[i].RoleName, false, new { id = "Role_" + Model.RoleList[i].ID, @class = "col-md-2" })
                                 @Html.LabelFor(x => x.RoleList[i].RoleName, Model.RoleList[i].RoleName, htmlAttributes: new { @class = "col-md-9" })
@@ -159,7 +170,7 @@
                             {
                                 <br />
                                 @Html.Label("--No Roles Found,Add Roles--");
-                            }
+                            }*@
                         </div>
                         <div hidden="hidden">
                             @Html.EditorFor(model => model.RoleCSV, new { htmlAttributes = new { @class = "form-control" } })

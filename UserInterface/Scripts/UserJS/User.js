@@ -57,7 +57,9 @@ function Edit(currentObj) {
 function Add() { 
     ChangeButtonPatchView("User", "ButtonPatchDiv", "Add");
     $("#ManageUserEditDiv").show();
-    $("#ManageUserTableDiv").hide();    
+    $("#ManageUserTableDiv").hide();
+    $('#ddlApplication').val('');
+    $('#ddlApplication').trigger('change');
 }
 
 
@@ -132,7 +134,23 @@ function Validation() {
     //}
     return true;
 }
-
+function ChangeRolesData(this_Obj)
+{
+    debugger;
+    try {
+        $('#divRoleList').empty();
+        if (this_Obj.value != "") {
+            var data = { "ID": this_Obj.value };
+            var ds = {};
+            ds = GetDataFromServer("User/GetRolesView/", data);
+            $('#divRoleList').html(ds);
+            fillUser($("#ID").val());
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
 function reset() {
     //--------Form Reset Validation Errors----//
         var validator = $("#userform").validate();
