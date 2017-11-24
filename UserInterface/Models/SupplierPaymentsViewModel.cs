@@ -95,17 +95,17 @@ namespace UserInterface.Models
         public Guid PaymentID { get; set; }
         public Guid InvoiceID { get; set; }
         public string InvoiceNo { get; set; }
-        public DateTime InvoiceDate { get; set; }
+        public string InvoiceDate { get; set; }
         public string CreatedDate { get; set; }
         public decimal InvoiceAmount { get; set; }
         public decimal PrevPayment { get; set; }
         public decimal CurrPayment { get; set; }
         public decimal BalancePayment { get; set; }
-        public DateTime PaymentDueDate { get; set; }
+        public string PaymentDueDate { get; set; }
         public decimal OriginalInvoiceAmount { get; set; }
         public decimal BalanceDue { get; set; }
         public decimal PaidAmount { get; set; }
-
+        public string DueDays { get; set; }
         public string PaymentDueDateFormatted { get; set; }
         public SupplierPaymentsDetailViewModel supplierPaymentDetailObj { get; set; }
 

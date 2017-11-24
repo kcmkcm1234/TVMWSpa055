@@ -23,6 +23,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string ReferenceBank { get; set; }
         public string Type { get; set; }
         public Common commonObj { get; set; }
+        public string Date { get; set; }
 
         public Guid CreditID { get; set; }
         public string CreditNo { get; set; }
@@ -63,7 +64,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal PrevPayment { get; set; }
         public decimal CurrPayment { get; set; }
         public decimal BalancePayment { get; set; }
-        public DateTime PaymentDueDate { get; set; }
+        public string PaymentDueDate { get; set; }
+        public string DueDays { get; set; }
         public decimal OriginalInvoiceAmount { get; set; }
         public decimal BalanceDue { get; set; }
         public decimal PaidAmount { get; set; }
