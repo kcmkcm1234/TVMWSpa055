@@ -1447,7 +1447,7 @@ namespace UserInterface.Controllers
             }
 
             //}
-            return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "SupplierCode is required" });
+            //return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "SupplierCode is required" });
         }
 
         /// <summary>
