@@ -77,6 +77,7 @@ namespace UserInterface.API
         {
             try
             {
+
                 List<SupplierPaymentsViewModel> supplierPendingList = Mapper.Map<List<SupplierPayments>, List<SupplierPaymentsViewModel>>(_supplierPaymentsBusiness.GetAllPendingSupplierPayments());
                 return JsonConvert.SerializeObject(new { Result = true, Records = supplierPendingList });
             }
@@ -95,8 +96,9 @@ namespace UserInterface.API
             try
             {
                 if (SupObj == null) throw new Exception(messages.NoItems);
-
-            List<SupplierPaymentsViewModel> supplierpaylist = Mapper.Map<List<SupplierPayments>, List<SupplierPaymentsViewModel>>(_supplierPaymentsBusiness.GetSupplierInvoiceAdjustedByPaymentID(SupObj));
+                SupObj.commonObj = new SPAccounts.DataAccessObject.DTO.Common();
+                SupObj.Date = SupObj.commonObj.GetCurrentDateTime().ToString();
+                List<SupplierPaymentsViewModel> supplierpaylist = Mapper.Map<List<SupplierPayments>, List<SupplierPaymentsViewModel>>(_supplierPaymentsBusiness.GetSupplierInvoiceAdjustedByPaymentID(SupObj));
             return JsonConvert.SerializeObject(new { Result = true, Records = supplierpaylist });
             }
             catch (Exception ex)
