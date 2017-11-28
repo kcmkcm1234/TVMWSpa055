@@ -215,6 +215,7 @@ namespace SPAccounts.RepositoryServices.Services
                         }
                         cmd.Connection = con;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = SupplierObj.ID;
+                        cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = SupplierObj.Date;
                         cmd.CommandText = "[Accounts].[GetAllSupplierInvoiceAdjustedByPaymentID]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -229,8 +230,10 @@ namespace SPAccounts.RepositoryServices.Services
                                     PaymentsObj.supplierPaymentsDetailObj.InvoiceNo = (sdr["InvoiceNo"].ToString() != "" ? sdr["InvoiceNo"].ToString() : PaymentsObj.supplierPaymentsDetailObj.InvoiceNo);
                                     PaymentsObj.supplierPaymentsDetailObj.InvoiceDate = (sdr["InvoiceDate"].ToString() != "" ? DateTime.Parse(sdr["InvoiceDate"].ToString()).ToString("dd-MMM-yyyy").ToString() : PaymentsObj.supplierPaymentsDetailObj.InvoiceDate);
                                     PaymentsObj.supplierPaymentsDetailObj.InvoiceAmount = (sdr["InvoiceAmount"].ToString() != "" ? decimal.Parse(sdr["InvoiceAmount"].ToString()) : PaymentsObj.supplierPaymentsDetailObj.InvoiceAmount);
+                                    PaymentsObj.supplierPaymentsDetailObj.DueDays = (sdr["DueDays"].ToString() != "" ? sdr["DueDays"].ToString() : PaymentsObj.supplierPaymentsDetailObj.DueDays);
                                     PaymentsObj.supplierPaymentsDetailObj.PrevPayment = (sdr["PrevPayment"].ToString() != "" ? decimal.Parse(sdr["PrevPayment"].ToString()) : PaymentsObj.supplierPaymentsDetailObj.PrevPayment);
                                     PaymentsObj.supplierPaymentsDetailObj.CurrPayment = (sdr["CurrPayment"].ToString() != "" ?decimal.Parse( sdr["CurrPayment"].ToString()) : PaymentsObj.supplierPaymentsDetailObj.CurrPayment);
+                                    PaymentsObj.supplierPaymentsDetailObj.PaymentDueDate = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString("dd-MMM-yyyy").ToString() : PaymentsObj.supplierPaymentsDetailObj.PaymentDueDate);
                                     PaymentsObj.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : PaymentsObj.Type);
                                     PaymentsObj.supplierPaymentsDetailObj.BalancePayment = (sdr["BalancePayment"].ToString() != "" ? decimal.Parse(sdr["BalancePayment"].ToString()) : PaymentsObj.supplierPaymentsDetailObj.BalancePayment);
                                   

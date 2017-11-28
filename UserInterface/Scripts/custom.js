@@ -551,10 +551,15 @@ function PaintImages(ID)
                 }
                 $('#hdnFileSizebytes').val(filesize);
             }
+            if(ds.Records === null)
+            {
+                $('#ExistingPreview').empty();
+                $('#hdnFileSizebytes').val(0);
+            }
             
         }
         if (ds.Result == "ERROR") {
-            notyAlert('error', ds.Message);
+            notyAlert('error', ds.Message); 
         }
     }
     catch (e) {
