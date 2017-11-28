@@ -59,10 +59,11 @@ namespace UserInterface.Controllers
                         fileuploadObj.ParentID = Request["ParentID"].ToString()!=""?Guid.Parse(Request["ParentID"].ToString()):FileID;
                         fileuploadObj.ParentType = Request["ParentID"].ToString() != "" ? Request["ParentType"]:null;
                         fileuploadObj.commonObj = new Common();
-                        fileuploadObj.commonObj.CreatedBy = "Thomson";
-                        fileuploadObj.commonObj.CreatedDate = DateTime.Now;
-                        fileuploadObj.commonObj.UpdatedBy = "Thomson";
-                        fileuploadObj.commonObj.UpdatedDate = DateTime.Now;
+                        AppUA _appUA = Session["AppUA"] as AppUA;
+                        fileuploadObj.commonObj.CreatedBy = _appUA.UserName;
+                        fileuploadObj.commonObj.CreatedDate = _appUA.DateTime;
+                        fileuploadObj.commonObj.UpdatedBy = _appUA.UserName;
+                        fileuploadObj.commonObj.UpdatedDate = _appUA.DateTime;
                         _fileObj = _fileUploadBusiness.InsertAttachment(fileuploadObj);
                         fname = Path.Combine(Server.MapPath("~/Content/Uploads/"), fname);
                         file.SaveAs(fname);
