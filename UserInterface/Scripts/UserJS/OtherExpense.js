@@ -708,15 +708,17 @@ function ClearReversalRef() {
 
 function CheckReversableAmount() {
     debugger;
-    var reversableAmt =$("#HdfAmountReversal").val();
-    var EnteredAmt = $("#Amount").val();
-    if (parseInt(EnteredAmt) >parseInt( reversableAmt)) {
-        $("#Amount").val('');
-        $("#ReFAmountMsg").show();
-        $("#ReFAmountMsg").text('* Amount must be lessthan ' + reversableAmt);
-    }
-    else {
-        $("#ReFAmountMsg").hide();
+    if ($("#IsReverse").val()) {
+        var reversableAmt = $("#HdfAmountReversal").val();
+        var EnteredAmt = $("#Amount").val();
+        if (parseInt(EnteredAmt) > parseInt(reversableAmt)) {
+            $("#Amount").val('');
+            $("#ReFAmountMsg").show();
+            $("#ReFAmountMsg").text('* Amount must be lessthan ' + reversableAmt);
+        }
+        else {
+            $("#ReFAmountMsg").hide();
+        }
     }
 }
 
