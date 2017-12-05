@@ -50,7 +50,15 @@ $(document).ready(function () {
                   },
                     {
                         "render": function (data, type, row) {
-                            return (data == "OE" ? "Other Expense" : "Other Income");
+                            if (data == "PURCH") {
+                                return "Purchase";
+                            }
+                            else if (data == "OE") {
+                                return "Other Expenxes";
+                            } else {
+                                return "Other Income";
+                            }
+                            
                         },
                         "targets": 1
 
