@@ -122,6 +122,8 @@
                                            { Text = "Other Expense", Value = "OE" });
                                            listType.Add(new SelectListItem
                                            { Text = "Other Income", Value = "OI" });
+                                           listType.Add(new SelectListItem
+                                           { Text = "Purchase", Value = "PURCH" });
                                     }
                                     @Html.DropDownListFor(model => model.Type, listType, "-- Select Type --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "Type" })
                                         @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
