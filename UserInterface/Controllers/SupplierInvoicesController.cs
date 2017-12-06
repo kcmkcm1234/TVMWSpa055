@@ -20,14 +20,16 @@ namespace UserInterface.Controllers
         ITaxTypesBusiness _taxTypesBusiness;
         ICompaniesBusiness _companiesBusiness;
         IPaymentTermsBusiness _paymentTermsBusiness;
+        IOtherExpenseBusiness _otherExpenseBusiness;
         ICommonBusiness _commonBusiness;
-        public SupplierInvoicesController(ICommonBusiness commonBusiness, IPaymentTermsBusiness paymentTermsBusiness, ICompaniesBusiness companiesBusiness, ISupplierInvoicesBusiness supplierInvoicesBusiness, ISupplierBusiness supplierBusiness, ITaxTypesBusiness taxTypesBusiness)
+        public SupplierInvoicesController(IOtherExpenseBusiness otherExpenseBusiness, ICommonBusiness commonBusiness, IPaymentTermsBusiness paymentTermsBusiness, ICompaniesBusiness companiesBusiness, ISupplierInvoicesBusiness supplierInvoicesBusiness, ISupplierBusiness supplierBusiness, ITaxTypesBusiness taxTypesBusiness)
         {
             _supplierInvoicesBusiness = supplierInvoicesBusiness;
             _supplierBusiness = supplierBusiness;
             _taxTypesBusiness = taxTypesBusiness;
             _companiesBusiness = companiesBusiness;
             _paymentTermsBusiness = paymentTermsBusiness;
+            _otherExpenseBusiness = otherExpenseBusiness;
             _commonBusiness = commonBusiness;
         }
         // GET: SupplierInvoices
@@ -99,6 +101,32 @@ namespace UserInterface.Controllers
                 });
             }
             SI.TaxTypeObj.TaxTypesList = selectListItem;
+
+            selectListItem = new List<SelectListItem>();
+            List<ChartOfAccountsViewModel> chartOfAccountList = Mapper.Map<List<ChartOfAccounts>, List<ChartOfAccountsViewModel>>(_otherExpenseBusiness.GetAllAccountTypes("SUP"));
+            foreach (ChartOfAccountsViewModel cav in chartOfAccountList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = cav.TypeDesc,
+                    Value = cav.Code+":" + cav.ISEmploy,
+                    Selected = false,
+                });
+            }
+            SI.AccountTypesList = selectListItem;
+
+            selectListItem = new List<SelectListItem>();
+            List<EmployeeViewModel> employeeViewModelList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_otherExpenseBusiness.GetAllEmployeesByType("OTH"));
+            foreach (EmployeeViewModel EVM in employeeViewModelList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = EVM.Name,
+                    Value = EVM.ID.ToString(),
+                    Selected = false,
+                });
+            }
+            SI.SubTypeList = selectListItem;
             return View(SI);
         }
 
@@ -111,6 +139,7 @@ namespace UserInterface.Controllers
                 SupplierInvoicesViewModel SupplierInvoiceObj = Mapper.Map<SupplierInvoices, SupplierInvoicesViewModel>(_supplierInvoicesBusiness.GetSupplierInvoiceDetails(Guid.Parse(ID)));
                 if (SupplierInvoiceObj != null)
                 {
+                    SupplierInvoiceObj.AccountCode = SupplierInvoiceObj.AccountCode + ":" + SupplierInvoiceObj.IsEmp;
                     SupplierInvoiceObj.TotalInvoiceAmountstring = _commonBusiness.ConvertCurrency(SupplierInvoiceObj.TotalInvoiceAmount, 0);
                     SupplierInvoiceObj.BalanceDuestring = _commonBusiness.ConvertCurrency(SupplierInvoiceObj.BalanceDue, 0);
                     SupplierInvoiceObj.PaidAmountstring = _commonBusiness.ConvertCurrency((SupplierInvoiceObj.TotalInvoiceAmount - SupplierInvoiceObj.BalanceDue), 0);
@@ -126,7 +155,7 @@ namespace UserInterface.Controllers
         }
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "SupplierInvoices", Mode = "R")]
-        public string GetInvoicesAndSummary(string filter, string FromDate, string ToDate, string Supplier, string InvoiceType, string Company, string Status, string Search)
+        public string GetInvoicesAndSummary(string filter, string FromDate, string ToDate, string Supplier, string InvoiceType, string Company, string Status, string Search,string AccountCode,string EmpID)
         {
             try
             {
@@ -135,7 +164,7 @@ namespace UserInterface.Controllers
                 DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                 DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
                 Result.SupplierInvoiceSummary = Mapper.Map<SupplierInvoiceSummary, SupplierInvoiceSummaryViewModel>(_supplierInvoicesBusiness.GetSupplierInvoicesSummary(true));
-                Result.SupplierInvoices = Mapper.Map<List<SupplierInvoices>, List<SupplierInvoicesViewModel>>(_supplierInvoicesBusiness.GetAllSupplierInvoices(FDate, TDate, Supplier, InvoiceType, Company, Status, Search));
+                Result.SupplierInvoices = Mapper.Map<List<SupplierInvoices>, List<SupplierInvoicesViewModel>>(_supplierInvoicesBusiness.GetAllSupplierInvoices(FDate, TDate, Supplier, InvoiceType, Company, Status, Search, AccountCode, EmpID));
                 if (filter != null && filter == "OD")
                 {
                     Result.SupplierInvoices = Result.SupplierInvoices.Where(m => m.PaymentDueDate < _appUA.DateTime && m.BalanceDue > 0).ToList();

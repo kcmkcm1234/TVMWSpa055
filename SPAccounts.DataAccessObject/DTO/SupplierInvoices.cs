@@ -37,6 +37,11 @@ namespace SPAccounts.DataAccessObject.DTO
         public string ToDate { get; set; }
         public string FromDate { get; set; }
 
+        public string AccountCode { get; set; }
+        public string EmpName { get; set; }
+        public bool IsEmp { get; set; }
+        public Guid? EmpID { get; set; }
+
         public SupplierPayments SuppPaymentObj { get; set; }
         public Guid hdnFileID { get; set; }
         public decimal BalanceDue { get; set; }

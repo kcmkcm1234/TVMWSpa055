@@ -8,7 +8,7 @@ namespace SPAccounts.RepositoryServices.Contracts
 {
     public interface ISupplierInvoicesRepository
     {
-        List<SupplierInvoices> GetAllSupplierInvoices(DateTime? FromDate, DateTime? ToDate, string Supplier, string InvoiceType, string Company, string Status, string Search);
+        List<SupplierInvoices> GetAllSupplierInvoices(DateTime? FromDate, DateTime? ToDate, string Supplier, string InvoiceType, string Company, string Status, string Search, string AccountCode, string EmpID);
         SupplierInvoices GetSupplierInvoiceDetails(Guid ID);
         SupplierInvoiceSummary GetSupplierInvoicesSummary(bool IsInternal);
         SupplierInvoices InsertInvoice(SupplierInvoices _supplierInvoicesObj);
