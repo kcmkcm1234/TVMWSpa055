@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace UserInterface.Models
 {
@@ -85,6 +86,20 @@ namespace UserInterface.Models
         [DataType(DataType.MultilineText)]
         public String Notes { get; set; }
 
+        [Required(ErrorMessage = "Account Head required")]
+        [Display(Name = "Account Head")]
+        public string AccountCode { get; set; }
+        
+        [Required(ErrorMessage = "Sub Type required")]
+        [Display(Name = "Sub Type")]
+        public Guid? EmpID { get; set; }
+
+        public bool IsEmp { get; set; }
+        public string EmpName { get; set; }
+
+        public List<SelectListItem> AccountTypesList { get; set; }
+        public List<SelectListItem> SubTypeList { get; set; }
+        
         public SupplierPaymentsViewModel SuppPaymentObj { get; set; }
         public decimal OtherPayments { get; set; }
 

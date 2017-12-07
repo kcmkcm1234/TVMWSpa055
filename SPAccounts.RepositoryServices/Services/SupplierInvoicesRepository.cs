@@ -24,7 +24,7 @@ namespace SPAccounts.RepositoryServices.Services
             _databaseFactory = databaseFactory;
         }
 
-        public List<SupplierInvoices> GetAllSupplierInvoices(DateTime? FromDate, DateTime? ToDate, string Supplier, string InvoiceType, string Company, string Status, string Search)
+        public List<SupplierInvoices> GetAllSupplierInvoices(DateTime? FromDate, DateTime? ToDate, string Supplier, string InvoiceType, string Company, string Status, string Search, string AccountCode, string EmpID)
         {
             List<SupplierInvoices> SupplierInvoicesList = null;
             Settings settings = new Settings();
@@ -47,6 +47,15 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = Company;
                         cmd.Parameters.Add("@search", SqlDbType.NVarChar, 250).Value = Search;
                         cmd.Parameters.Add("@status", SqlDbType.NVarChar, 50).Value = Status;
+                        if (AccountCode != null)
+                        {
+                            string AccountHeadCode = AccountCode.Split(':')[0];
+                            cmd.Parameters.Add("@AccountCode", SqlDbType.NVarChar, 50).Value = AccountHeadCode;
+
+                        }
+                        if(EmpID!=null)
+                        cmd.Parameters.Add("@EmpID", SqlDbType.UniqueIdentifier).Value = Guid.Parse(EmpID);
+
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
@@ -80,6 +89,8 @@ namespace SPAccounts.RepositoryServices.Services
                                         SIList.PaymentDueDateFormatted = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString(settings.dateformat) : SIList.PaymentDueDateFormatted);
                                         SIList.LastPaymentDateFormatted = (sdr["LastPaymentDate"].ToString() != "" ? DateTime.Parse(sdr["LastPaymentDate"].ToString()).ToString(settings.dateformat) : SIList.LastPaymentDateFormatted);
 
+                                        SIList.AccountCode = (sdr["TypeDesc"].ToString() != "" ? (sdr["TypeDesc"].ToString()) : SIList.AccountCode);
+                                        SIList.EmpName = (sdr["EmpName"].ToString() != "" ? (sdr["EmpName"].ToString()) : SIList.EmpName);
 
                                     }
                                     SupplierInvoicesList.Add(SIList);
@@ -210,6 +221,9 @@ namespace SPAccounts.RepositoryServices.Services
                                     SIList.PaymentDueDateFormatted = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString(settings.dateformat) : SIList.PaymentDueDateFormatted);
                                     SIList.LastPaymentDateFormatted = (sdr["LastPaymentDate"].ToString() != "" ? DateTime.Parse(sdr["LastPaymentDate"].ToString()).ToString(settings.dateformat) : SIList.LastPaymentDateFormatted);
 
+                                    SIList.EmpID = (sdr["SubType"].ToString() != "" ? Guid.Parse(sdr["SubType"].ToString()) : SIList.EmpID );
+                                    SIList.AccountCode = (sdr["AccountCode"].ToString() != "" ? (sdr["AccountCode"].ToString()) : SIList.AccountCode);
+                                    SIList.IsEmp = (sdr["ISEmpApplicable"].ToString() != "" ? bool.Parse(sdr["ISEmpApplicable"].ToString()) : false);
                                 }
                             }
                         }
@@ -245,6 +259,9 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@InvoiceNo", SqlDbType.VarChar, 20).Value = _supplierInvoicesObj.InvoiceNo;
                         cmd.Parameters.Add("@InvoiceType", SqlDbType.VarChar, 2).Value = _supplierInvoicesObj.InvoiceType;
                         cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = _supplierInvoicesObj.SupplierID;
+                        cmd.Parameters.Add("@EmpID", SqlDbType.UniqueIdentifier).Value = _supplierInvoicesObj.EmpID;
+                        _supplierInvoicesObj.AccountCode = _supplierInvoicesObj.AccountCode.Split(':')[0];
+                        cmd.Parameters.Add("@AccountCode", SqlDbType.VarChar, 10).Value = _supplierInvoicesObj.AccountCode;
                         cmd.Parameters.Add("@PaymentTerm", SqlDbType.VarChar, 10).Value = _supplierInvoicesObj.PayCode;
                         cmd.Parameters.Add("@InvoiceDate", SqlDbType.DateTime).Value = _supplierInvoicesObj.InvoiceDateFormatted;
                         cmd.Parameters.Add("@PaymentDueDate", SqlDbType.DateTime).Value = _supplierInvoicesObj.PaymentDueDateFormatted;
@@ -313,6 +330,9 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@CompanyCode", SqlDbType.VarChar, 10).Value = _supplierInvoicesObj.CompanyCode;
                         cmd.Parameters.Add("@InvoiceNo", SqlDbType.VarChar, 20).Value = _supplierInvoicesObj.InvoiceNo;
                         cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = _supplierInvoicesObj.SupplierID;
+                        cmd.Parameters.Add("@EmpID", SqlDbType.UniqueIdentifier).Value = _supplierInvoicesObj.EmpID;
+                        _supplierInvoicesObj.AccountCode = _supplierInvoicesObj.AccountCode.Split(':')[0];
+                        cmd.Parameters.Add("@AccountCode", SqlDbType.VarChar, 10).Value = _supplierInvoicesObj.AccountCode;
                         cmd.Parameters.Add("@PaymentTerm", SqlDbType.VarChar, 10).Value = _supplierInvoicesObj.PayCode;
                         cmd.Parameters.Add("@InvoiceDate", SqlDbType.DateTime).Value = _supplierInvoicesObj.InvoiceDateFormatted;
                         cmd.Parameters.Add("@PaymentDueDate", SqlDbType.DateTime).Value = _supplierInvoicesObj.PaymentDueDateFormatted;

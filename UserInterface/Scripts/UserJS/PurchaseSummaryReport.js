@@ -90,7 +90,17 @@ $(document).ready(function () {
            columns: [
 
              { "data": "InvoiceNo", "defaultContent": "<i>-</i>" },
-             { "data": "SupplierName", "defaultContent": "<i>-</i>" },
+             {
+                 "data": "SupplierName", render: function (data, type, row) {
+                     debugger;
+                     if (row.AccountHead != null && row.EmpName != null)
+                         return data + '<br/><b>Acc.Head:</b>' + row.AccountHead + '<br/><b>Sub Type:</b>' + row.EmpName;
+                     else if (row.AccountHead != null && row.EmpName == null)
+                         return data + '<br/><b>Acc.Head:</b>' + row.AccountHead;
+                     else
+                         return data;
+                 }, "defaultContent": "<i>-</i>"
+             },
               { "data": "Date", "defaultContent": "<i>-</i>", "width": "10%" },
               { "data": "PaymentDueDate", "defaultContent": "<i>-</i>", "width": "10%" },
 

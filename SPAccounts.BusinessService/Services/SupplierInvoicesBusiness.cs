@@ -18,9 +18,9 @@ namespace SPAccounts.BusinessService.Services
             _commonBusiness = commonBusiness;
 
         }
-        public List<SupplierInvoices> GetAllSupplierInvoices(DateTime? FromDate, DateTime? ToDate, string Supplier, string InvoiceType, string Company, string Status, string Search)
+        public List<SupplierInvoices> GetAllSupplierInvoices(DateTime? FromDate, DateTime? ToDate, string Supplier, string InvoiceType, string Company, string Status, string Search, string AccountCode, string EmpID)
         {
-            return _supplierInvoicesRepository.GetAllSupplierInvoices(FromDate, ToDate, Supplier, InvoiceType, Company, Status, Search);
+            return _supplierInvoicesRepository.GetAllSupplierInvoices(FromDate, ToDate, Supplier, InvoiceType, Company, Status, Search,AccountCode,EmpID);
         }
         public SupplierInvoiceSummary GetSupplierInvoicesSummary(bool IsInternal)
         {

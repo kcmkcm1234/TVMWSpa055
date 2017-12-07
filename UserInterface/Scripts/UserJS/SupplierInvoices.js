@@ -47,19 +47,28 @@ $(document).ready(function () {
                       if (row.InvoiceType=='WP')
                           return data+' (WP)';
                       return data;
-                  }
+                  },"width":"5%"
               },
-              { "data": "InvoiceDateFormatted" },
-              { "data": "suppliersObj.CompanyName", "defaultContent": "<i>-</i>" },
-              { "data": "PaymentDueDateFormatted", "defaultContent": "<i>-</i>" },
-              { "data": "TotalInvoiceAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
-               { "data": "PaidAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
-              { "data": "PaymentProcessed", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
-              { "data": "BalanceDue", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>"
-            },
-              { "data": "LastPaymentDateFormatted", "defaultContent": "<i>-</i>" },
+              { "data": "InvoiceDateFormatted","width":"8%" },
+              {
+                  "data": "suppliersObj.CompanyName", render: function (data, type, row) {
+                      debugger;
+                      if (row.AccountCode != null && row.EmpName != null)
+                          return data + '<br/><b>Acc.Head:</b>' + row.AccountCode + '<br/><b>Sub Type:</b>' + row.EmpName;
+                      else if (row.AccountCode != null && row.EmpName == null)
+                          return data + '<br/><b>Acc.Head:</b>' + row.AccountCode;
+                      else
+                          return data;
+                  }, "defaultContent": "<i>-</i>", "width": "15%"
+              },
+              { "data": "PaymentDueDateFormatted", "defaultContent": "<i>-</i>", "width": "8%" },
+              { "data": "TotalInvoiceAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>", "width": "10%" },
+               { "data": "PaidAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>", "width": "10%" },
+              { "data": "PaymentProcessed", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>", "width": "10%" },
+              { "data": "BalanceDue", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>", "width": "10%" },
+              { "data": "LastPaymentDateFormatted", "defaultContent": "<i>-</i>","width":"8%" },
               { "data": "companiesObj.Name", "defaultContent": "<i>-</i>" },
-              { "data": "Status", "defaultContent": "<i>-</i>" },
+              { "data": "Status", "defaultContent": "<i>-</i>"},
               { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
             ],
             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
@@ -256,7 +265,11 @@ function PaintInvoiceDetails() {
     $('#lblinvoicedAmt').text(SupplierInvoiceViewModel.TotalInvoiceAmountstring);
     $('#lblpaidAmt').text(SupplierInvoiceViewModel.PaidAmountstring);
     $('#lblPaymentProcessed').text("(Payment Processed: " + SupplierInvoiceViewModel.PaymentProcessed+" )");
-    
+
+    $("#AccountCode").val(SupplierInvoiceViewModel.AccountCode);
+    $("#EmpID").val(SupplierInvoiceViewModel.EmpID);
+    accountCodeOnChange();
+
     $('#lblbalalnceAmt').text(SupplierInvoiceViewModel.BalanceDuestring);
     clearUploadControl();
     PaintImages(InvoiceID);
@@ -297,9 +310,13 @@ function GetAllInvoicesAndSummary(filter) {
             var companycode = $("#Companyddl").val();
         if ($("#ddlInvoiceTypesStatus").val() != "")
             var status = $("#ddlInvoiceTypesStatus").val();
+        if ($("#ddlfilterAccountCode").val() != "")
+            var AccountCode = $("#ddlfilterAccountCode").val();
+        if ($("#filterEmpID").val() != "")
+            var EmpID = $("#filterEmpID").val();
         if ($("#search").val() != "")
-            var search = $("#search").val();
-        var data = { "filter": filter, "FromDate": fromdate, "ToDate": todate, "Supplier": suppliercode, "InvoiceType": invoicetype, "Company": companycode, "Status": status, "Search": search };
+                var search = $("#search").val();
+        var data = { "filter": filter, "FromDate": fromdate, "ToDate": todate, "Supplier": suppliercode, "InvoiceType": invoicetype, "Company": companycode, "Status": status, "Search": search, "AccountCode": AccountCode, "EmpID": EmpID };
         var ds = {};
         ds = GetDataFromServer("SupplierInvoices/GetInvoicesAndSummary/", data);
         if (ds != '') {
@@ -332,9 +349,7 @@ function RefreshInvoicesAndSummary() {
                 if (result.SupplierInvoiceSummary != null) {
                     Summary(result.SupplierInvoiceSummary);
                 }
-            
         }
-
     }
     catch (e) {
         notyAlert('error', e.message);
@@ -611,6 +626,8 @@ function FilterReset() {
     $("#Companyddl").val('');
     $("#ddlInvoiceTypesStatus").val('');
     $("#search").val('');
+    $("#filterEmpID").val('');
+    $("#ddlfilterAccountCode").val('');
     List();
 }
 
@@ -793,5 +810,30 @@ function Gridfilter(thisobj) {
         if (result.SupplierInvoiceSummary != null) {
             Summary(result.SupplierInvoiceSummary);
         }
+    }
+}
+
+function accountCodeOnChange() {
+    debugger;
+    var AccountCode = [];
+    AccountCode = $("#AccountCode").val().split(':');
+    if (AccountCode[1]=='True') {
+        $('#EmpID').prop('disabled', false);
+    }
+    else {
+        $('#EmpID').prop('disabled', true);
+        $("#EmpID").val('');
+    }
+}
+function onChangeFilterAccountCode() {
+    debugger;
+    var AccountCode = [];
+    AccountCode = $("#ddlfilterAccountCode").val().split(':');
+    if (AccountCode[1] == 'True') {
+        $('#filterEmpID').prop('disabled', false);
+    }
+    else {
+        $('#filterEmpID').prop('disabled', true);
+        $("#filterEmpID").val('');
     }
 }

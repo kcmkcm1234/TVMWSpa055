@@ -638,6 +638,8 @@ namespace SPAccounts.RepositoryServices.Services
                                         purchaseDetailReport.Origin = (sdr["Origin"].ToString() != "" ? sdr["Origin"].ToString() : purchaseDetailReport.Origin);
                                         purchaseDetailReport.RowType = (sdr["RowType"].ToString() != "" ? sdr["RowType"].ToString() : purchaseDetailReport.RowType);
                                         purchaseDetailReport.SupplierName = (sdr["SupplierName"].ToString() != "" ? sdr["SupplierName"].ToString() : purchaseDetailReport.SupplierName);
+                                        purchaseDetailReport.AccountHead = (sdr["TypeDesc"].ToString() != "" ? sdr["TypeDesc"].ToString() : purchaseDetailReport.AccountHead);
+                                        purchaseDetailReport.EmpName = (sdr["EmpName"].ToString() != "" ? sdr["EmpName"].ToString() : purchaseDetailReport.EmpName);
                                         purchaseDetailReport.Credit = (sdr["Credit"].ToString() != "" ? decimal.Parse(sdr["Credit"].ToString()) : purchaseDetailReport.Credit);
                                     }
                                     purchaseDetailReportList.Add(purchaseDetailReport);
