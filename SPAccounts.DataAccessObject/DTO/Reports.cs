@@ -169,6 +169,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public string Origin { get; set; }
         public string GeneralNotes { get; set; }
         public string SupplierName { get; set; }
+        public string AccountHead { get; set; }
+        public string EmpName { get; set; }
         public decimal Credit { get; set; }
         public decimal Tax { get; set; }
         public string RowType { get; set; }
