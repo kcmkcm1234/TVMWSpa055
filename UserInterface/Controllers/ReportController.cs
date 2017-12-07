@@ -18,6 +18,7 @@ namespace UserInterface.Controllers
         IReportBusiness _reportBusiness;
         ICustomerBusiness _customerBusiness;
         ISupplierBusiness _supplierBusiness;
+        IChartOfAccountsBusiness _chartOfAccountsBusiness;
         ICompaniesBusiness _companiesBusiness;
         IBankBusiness _bankBusiness;
         IEmployeeBusiness _employeeBusiness;
@@ -624,9 +625,10 @@ namespace UserInterface.Controllers
             return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
         }
 
+        #region GetPurchaseDetails
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "PurchaseReport", Mode = "R")]
-        public string GetPurchaseDetails(string FromDate, string ToDate, string CompanyCode, string search, Boolean IsInternal,string Supplier,string InvoiceType)
+        public string GetPurchaseDetails(string FromDate, string ToDate, string CompanyCode, string search, Boolean IsInternal,string Supplier,string InvoiceType,string SubType, string AccountCode)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
             {
@@ -634,8 +636,8 @@ namespace UserInterface.Controllers
                 {
                     DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                  PurchaseDetailReportViewModel purchasedetailObj = Mapper.Map<PurchaseDetailReport, PurchaseDetailReportViewModel>(_reportBusiness.GetPurchaseDetails(FDate, TDate, CompanyCode,search,IsInternal, Guid.Parse(Supplier), InvoiceType));
-                    
+                    PurchaseDetailReportViewModel purchasedetailObj = Mapper.Map<PurchaseDetailReport, PurchaseDetailReportViewModel>(_reportBusiness.GetPurchaseDetails(FDate, TDate, CompanyCode, search, IsInternal, Guid.Parse(Supplier), InvoiceType, Guid.Parse(SubType), AccountCode ));
+
                     return JsonConvert.SerializeObject(new { Result = "OK", Records = purchasedetailObj.purchaseDetailReportList, TotalAmount= purchasedetailObj.purchaseDetailSum, InvoicedAmount = purchasedetailObj.purchaseDetailInvoice, PaidAmount = purchasedetailObj.purchaseDetailPaid,PaymentProcessed = purchasedetailObj.purchaseDetailPaymentProcess,TaxAmount=purchasedetailObj.purchaseDetailsTaxAmount,TotalInvoice=purchasedetailObj.purchaseDetailsTotalAmount });
                 }
                 catch (Exception ex)
@@ -646,8 +648,8 @@ namespace UserInterface.Controllers
             }
             return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
         }
+        #endregion GetPurchaseDetails
 
-        
         #region GetRPTViewPurchaseDetail
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "SalesReport", Mode = "R")]
@@ -674,6 +676,7 @@ namespace UserInterface.Controllers
         }
         #endregion GetRPTViewPurchaseDetail
 
+        #region PurchaseDetails
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "PurchaseReport", Mode = "R")]
         public ActionResult PurchaseDetails()
@@ -685,6 +688,54 @@ namespace UserInterface.Controllers
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
             PurchaseDetailReportViewModel purchaseDetailReportViewModel = new PurchaseDetailReportViewModel();
             List<SelectListItem> selectListItem = new List<SelectListItem>();
+
+
+            List<ChartOfAccountsViewModel> chartOfAccountList = Mapper.Map<List<ChartOfAccounts>, List<ChartOfAccountsViewModel>>(_otherExpenseBusiness.GetAllAccountTypes("SUP"));
+            if (chartOfAccountList != null)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "All",
+                    Value = "ALL",
+                    Selected = true
+                });
+                foreach (ChartOfAccountsViewModel cav in chartOfAccountList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = cav.TypeDesc,
+                        Value = cav.Code + ":" + cav.ISEmploy,
+                        Selected = false,
+                    });
+                }
+            }
+            purchaseDetailReportViewModel.AccountList = selectListItem;
+            selectListItem = null;
+            selectListItem = new List<SelectListItem>();
+            List<EmployeeViewModel> employeeViewModelList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_otherExpenseBusiness.GetAllEmployeesByType("OTH"));
+            if (employeeViewModelList != null)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "All",
+                    Value = "ALL",
+                    Selected = true
+                });
+                foreach (EmployeeViewModel EVM in employeeViewModelList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = EVM.Name,
+                        Value = EVM.ID.ToString(),
+                        Selected = false,
+                    });
+                }
+            }
+            purchaseDetailReportViewModel.SubTypeList = selectListItem;
+            selectListItem = null;
+            selectListItem = new List<SelectListItem>();
+
+
             purchaseDetailReportViewModel.companiesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_companiesBusiness.GetAllCompanies());
             if (purchaseDetailReportViewModel.companiesList != null)
             {
@@ -737,6 +788,7 @@ namespace UserInterface.Controllers
             purchaseDetailReportViewModel.supplierList = selectListItem;
             return View(purchaseDetailReportViewModel);
         }
+        #endregion PurchaseDetails
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "SupplierReport", Mode = "R")]

@@ -226,6 +226,15 @@ namespace UserInterface.Models
         public string SupplierName { get; set; }
         public decimal Credit { get; set; }
         public decimal Tax { get; set; }
+
+        [Display(Name = "Account Head")]
+        public string AccountCode { get; set; }
+        public List<SelectListItem> AccountList { get; set; }
+        [Display(Name ="Sub Type")]
+        public string SubType { get; set; }
+        public List<SelectListItem> SubTypeList { get; set; }
+        public string EmpID { get; set; }
+
         public List<SelectListItem> CompanyList { get; set; }
         public List<SelectListItem> supplierList { get; set; }
         public List<CompaniesViewModel> companiesList;

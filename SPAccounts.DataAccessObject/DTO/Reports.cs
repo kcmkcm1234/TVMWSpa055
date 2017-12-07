@@ -181,6 +181,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public string purchaseDetailsTaxAmount { get; set; }
         public string purchaseDetailsTotalAmount { get; set; }
         public List<PurchaseDetailReport> purchaseDetailReportList { get; set; }
+        public string AccountCode { get; set; }
+        public string SubType { get; set; }
 
     }
     public class SupplierContactDetailsReport

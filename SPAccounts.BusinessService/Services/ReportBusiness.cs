@@ -77,13 +77,13 @@ namespace SPAccounts.BusinessService.Services
             return otherExpenseSummaryList;
         }
 
-        public PurchaseDetailReport GetPurchaseDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string search, Boolean IsInternal, Guid Supplier,string InvoiceType)
+        public PurchaseDetailReport GetPurchaseDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string search, Boolean IsInternal, Guid Supplier,string InvoiceType,Guid SubType, string AccountCode)
         {
             PurchaseDetailReport purchasedetailObj = new PurchaseDetailReport();
             List<PurchaseDetailReport> purchaseDetailReportList = null;
             try
             {
-                purchaseDetailReportList = _reportRepository.GetPurchaseDetails(FromDate, ToDate, CompanyCode,search,IsInternal,Supplier, InvoiceType);
+                purchaseDetailReportList = _reportRepository.GetPurchaseDetails(FromDate, ToDate, CompanyCode,search,IsInternal,Supplier, InvoiceType, SubType, AccountCode);
                 decimal purchaseDetailSum = purchaseDetailReportList.Where(PD => PD.RowType != "T").Sum(PD => PD.BalanceDue);
                 decimal purchaseDetailInvoiceAmount = purchaseDetailReportList.Where(PS => PS.RowType != "T").Sum(PS => PS.InvoiceAmount);
                 decimal purchaseDetailPaidAmount = purchaseDetailReportList.Where(PS => PS.RowType != "T").Sum(PS => PS.PaidAmount);

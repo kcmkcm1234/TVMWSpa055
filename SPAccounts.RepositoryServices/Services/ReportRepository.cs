@@ -525,7 +525,7 @@ namespace SPAccounts.RepositoryServices.Services
             return purchaseSummaryReportList;
         }
 
-        public List<PurchaseDetailReport> GetPurchaseDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode,string search,Boolean IsInternal, Guid Supplier,string InvoiceType)
+        public List<PurchaseDetailReport> GetPurchaseDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode,string search,Boolean IsInternal, Guid Supplier,string InvoiceType, Guid SubType, string AccountCode)
         {
             List<PurchaseDetailReport> purchaseDetailReportList = null;
             try
@@ -544,8 +544,16 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = CompanyCode;
                         cmd.Parameters.Add("@search", SqlDbType.NVarChar, 250).Value = search != "" ? search : null;
                         cmd.Parameters.Add("@IsInternal", SqlDbType.Bit).Value = IsInternal;
-                        cmd.Parameters.Add("@Suppliercode", SqlDbType.UniqueIdentifier).Value = Supplier;
+                          cmd.Parameters.Add("@Suppliercode", SqlDbType.UniqueIdentifier).Value = Supplier;
                         cmd.Parameters.Add("@InvoiceType", SqlDbType.NVarChar, 50).Value = InvoiceType != "" ? InvoiceType : null;
+                        if (AccountCode != null && AccountCode != "")
+                        {
+                            string AccountHeadCode = AccountCode.Split(':')[0];
+                        cmd.Parameters.Add("@AccountCode", SqlDbType.NVarChar, 50).Value = AccountHeadCode;
+
+                        }
+                        if(SubType!=Guid.Empty)
+                        cmd.Parameters.Add("@SubType", SqlDbType.UniqueIdentifier).Value = SubType; 
                         cmd.CommandText = "[Accounts].[RPT_GetPurchaseDetail]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -572,7 +580,8 @@ namespace SPAccounts.RepositoryServices.Services
                                         purchaseDetailReport.Credit = (sdr["Credit"].ToString() != "" ? decimal.Parse(sdr["Credit"].ToString()) : purchaseDetailReport.Credit);
                                         purchaseDetailReport.Tax = (sdr["Tax"].ToString() != "" ? decimal.Parse(sdr["Tax"].ToString()) : purchaseDetailReport.Tax);
                                         purchaseDetailReport.TotalInvoice = (sdr["TotalInvoice"].ToString() != "" ? decimal.Parse(sdr["TotalInvoice"].ToString()) : purchaseDetailReport.TotalInvoice);
-
+                                        purchaseDetailReport.AccountCode = (sdr["TypeDesc"].ToString() != "" ? sdr["TypeDesc"].ToString() : purchaseDetailReport.AccountCode);
+                                        purchaseDetailReport.SubType = (sdr["EmpName"].ToString() != "" ?sdr["EmpName"].ToString() : purchaseDetailReport.SubType);
                                     }
                                     purchaseDetailReportList.Add(purchaseDetailReport);
                                 }
