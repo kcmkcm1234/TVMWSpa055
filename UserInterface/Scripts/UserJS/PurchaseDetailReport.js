@@ -188,12 +188,15 @@ function GetPurchaseDetail() {
 
 function AccountHeadOnChange() {
     debugger;
-    var accounthead = $("#AccountCode").val().split(":");
-    if (accounthead[1] == "True") {
-        $("#EmpTypeCode").prop('disabled', false);
-    } else {
-        $("#EmpTypeCode").val("ALL").trigger('change');
-        $("#EmpTypeCode").prop('disabled', true);
+    if ($("#AccountCode").val() !== null) {
+
+        var accounthead = $("#AccountCode").val().split(":");
+        if (accounthead[1] == "True") {
+            $("#EmpTypeCode").prop('disabled', false);
+        } else {
+            $("#EmpTypeCode").val("ALL").trigger('change');
+            $("#EmpTypeCode").prop('disabled', true);
+        }
     }
     RefreshPurchaseDetailTable();
 }
@@ -210,9 +213,11 @@ function RefreshPurchaseDetailTable() {
         //var AccountCode = $("#AccountCode").val();
         //var EmpTypeCode = $("#EmpTypeCode").val();
         $("#EmpTypeCode").prop('disabled', true);
-        var accounthead = $("#AccountCode").val().split(":");
-        if (accounthead[1] == "True") {
-            $("#EmpTypeCode").prop('disabled', false);
+        if ($("#AccountCode").val() !== null) {
+            var accounthead = $("#AccountCode").val().split(":");
+            if (accounthead[1] == "True") {
+                $("#EmpTypeCode").prop('disabled', false);
+            }
         }
         //if (companycode === "") {
         //    return false;
