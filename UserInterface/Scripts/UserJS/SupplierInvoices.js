@@ -266,8 +266,8 @@ function PaintInvoiceDetails() {
     $('#lblpaidAmt').text(SupplierInvoiceViewModel.PaidAmountstring);
     $('#lblPaymentProcessed').text("(Payment Processed: " + SupplierInvoiceViewModel.PaymentProcessed+" )");
 
-    $("#AccountCode").val(SupplierInvoiceViewModel.AccountCode);
-    $("#EmpID").val(SupplierInvoiceViewModel.EmpID);
+    $("#AccountCode").val(SupplierInvoiceViewModel.AccountCode).trigger('change');
+    $("#EmpID").val(SupplierInvoiceViewModel.EmpID).trigger('change');
     accountCodeOnChange();
 
     $('#lblbalalnceAmt').text(SupplierInvoiceViewModel.BalanceDuestring);
@@ -599,6 +599,12 @@ function AddNew() {
     $('#ddlInvoiceType').prop('disabled', false);
     $("#ddlSupplier").select2();
     $("#ddlSupplier").val('').trigger('change');
+
+    $("#AccountCode").select2();
+    $("#AccountCode").val('').trigger('change');
+    $("#EmpID").select2();
+    $("#EmpID").val('').trigger('change');
+
     $('#lblinvoicedAmt').text("₹ 0.00");
     $('#lblpaidAmt').text("₹ 0.00");
     $('#lblbalalnceAmt').text("₹ 0.00");
