@@ -654,7 +654,8 @@ namespace SPAccounts.RepositoryServices.Services
                                         SIList.LastPaymentDateFormatted = (sdr["LastPaymentDate"].ToString() != "" ? DateTime.Parse(sdr["LastPaymentDate"].ToString()).ToString(settings.dateformat) : SIList.LastPaymentDateFormatted);
                                         SIList.AccountCode = (sdr["AccountCode"].ToString() != "" ? sdr["AccountCode"].ToString() : SIList.AccountCode);
                                         SIList.EmpName = (sdr["SubType"].ToString() != "" ? sdr["SubType"].ToString() : SIList.EmpName);
-
+                                        SIList.companiesObj = new Companies();
+                                        SIList.companiesObj.Name = (sdr["InvoiceCompanyName"].ToString() != "" ? sdr["InvoiceCompanyName"].ToString() : SIList.companiesObj.Name);
                                     }
                                     SupplierInvoicesList.Add(SIList);
                                 }
