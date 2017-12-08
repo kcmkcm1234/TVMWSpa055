@@ -105,7 +105,14 @@ $(document).ready(function () {
                  { "data": "Checkbox", "defaultContent": "" },
                  {
                      "data": "Description", 'render': function (data, type, row) {
-                         return ' Invoice # ' + row.InvoiceNo + '(Date:' + row.InvoiceDateFormatted + ')'
+                     //    return ' Invoice # ' + row.InvoiceNo + '(Date:' + row.InvoiceDateFormatted + ')'
+                         if (row.AccountCode != null && row.EmpName != null)
+                             return ' Invoice # ' + row.InvoiceNo + '(Date:' + row.InvoiceDateFormatted + ')' + '<br/><b>Acc.Head:</b>' + row.AccountCode + '<br/><b>Sub Type:</b>' + row.EmpName;
+                         else if (row.AccountCode != null && row.EmpName == null)
+                             return ' Invoice # ' + row.InvoiceNo + '(Date:' + row.InvoiceDateFormatted + ')' + '<br/><b>Acc.Head:</b>' + row.AccountCode;
+                         else
+                             return ' Invoice # ' + row.InvoiceNo + '(Date:' + row.InvoiceDateFormatted + ')';
+
                      }, "width": "30%"
                  },
                  { "data": "PaymentDueDateFormatted", "defaultContent": "<i>-</i>", "width": "10%" },
@@ -141,6 +148,7 @@ $(document).ready(function () {
             ],
             columnDefs: [{ orderable: false, className: 'select-checkbox', targets: 1 }
                 , { className: "text-right", "targets": [4, 5, 6] }
+                , { className: "text-left", "targets": [2] }
                 , { "targets": [0, 8], "visible": false, "searchable": false }
                 , { "targets": [2, 3, 4, 5, 6, 7], "bSortable": false }],
 

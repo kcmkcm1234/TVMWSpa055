@@ -652,6 +652,9 @@ namespace SPAccounts.RepositoryServices.Services
                                         SIList.InvoiceDateFormatted = (sdr["InvoiceDate"].ToString() != "" ? DateTime.Parse(sdr["InvoiceDate"].ToString()).ToString(settings.dateformat) : SIList.InvoiceDateFormatted);
                                         SIList.PaymentDueDateFormatted = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString(settings.dateformat) : SIList.PaymentDueDateFormatted);
                                         SIList.LastPaymentDateFormatted = (sdr["LastPaymentDate"].ToString() != "" ? DateTime.Parse(sdr["LastPaymentDate"].ToString()).ToString(settings.dateformat) : SIList.LastPaymentDateFormatted);
+                                        SIList.AccountCode = (sdr["AccountCode"].ToString() != "" ? sdr["AccountCode"].ToString() : SIList.AccountCode);
+                                        SIList.EmpName = (sdr["SubType"].ToString() != "" ? sdr["SubType"].ToString() : SIList.EmpName);
+
                                     }
                                     SupplierInvoicesList.Add(SIList);
                                 }
