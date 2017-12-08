@@ -195,7 +195,7 @@
                         </div>
                         <div class="col-md-12" style="padding:0">
                             <div class="col-md-12" style="padding:0">
-                                @Html.DropDownListFor(model => model.AccountCode, Model.AccountTypesList, "-- Select Account --", new { @class = "form-control BlockEnter", value = -1, style = "height:30px", id = "ddlfilterAccountCode" ,@onchange= "onChangeFilterAccountCode();" })
+                                @Html.DropDownListFor(model => model.AccountCode, Model.AccountTypesList, "-- Select Account --", new { @class = "form-control BlockEnter", value = -1, style = "height:30px; padding:4px 12px;width: 100 %", @id = "ddlfilterAccountCode" ,@onchange= "onChangeFilterAccountCode();" })
                                 @Html.ValidationMessageFor(model => model.AccountCode, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -206,7 +206,7 @@
                         </div>
                         <div class="col-md-12" style="padding:0">
                             <div class="col-md-12" style="padding:0">
-                                @Html.DropDownListFor(model => model.EmpID, Model.SubTypeList, "-- Select --", new { @class = "form-control BlockEnter", value = -1, style = "height:30px", disabled = "disabled" ,id="filterEmpID"})
+                                @Html.DropDownListFor(model => model.EmpID, Model.SubTypeList, "-- Select Sub Type --", new { @class = "form-control BlockEnter", value = -1, style = "height:30px; padding:4px 12px;width: 100 %", disabled = "disabled" ,@id="filterEmpID"})
                                 @Html.ValidationMessageFor(model => model.EmpID, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -365,7 +365,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="col-md-10">
-                                        @Html.DropDownListFor(model => model.AccountCode, Model.AccountTypesList, "-- Select Account --", new { @class = "form-control BlockEnter", value = -1, style = "height:30px", @onchange = "accountCodeOnChange();" })
+                                        @Html.DropDownListFor(model => model.AccountCode, Model.AccountTypesList, "-- Select Account --", new { @class = "form-control BlockEnter", style = "padding:4px 12px", @onchange = "accountCodeOnChange();", @id = "AccountCode" })
                                         @Html.ValidationMessageFor(model => model.AccountCode, "", new { @class = "text-danger" })
                                     </div>
                                     <div class="col-md-1"></div>
@@ -378,7 +378,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="col-md-10">
-                                        @Html.DropDownListFor(model => model.EmpID,Model.SubTypeList, "-- Select --", new { @class = "form-control BlockEnter", value = -1,style="height:30px", disabled = "disabled" })
+                                        @Html.DropDownListFor(model => model.EmpID,Model.SubTypeList, "-- Select Sub Type --", new { @class = "form-control BlockEnter",style= "padding:4px 12px", disabled = "disabled", @id= "EmpID" })
                                          @Html.ValidationMessageFor(model => model.EmpID, "", new { @class = "text-danger" })
                                     </div>
                                     <div class="col-md-1"></div>

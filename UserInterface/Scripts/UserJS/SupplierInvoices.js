@@ -3,7 +3,7 @@ var emptyGUID = '00000000-0000-0000-0000-000000000000'
 $(document).ready(function () {
     debugger;
     try {
-        $("#ddlSupplier,#Supplierddl").select2({
+        $("#ddlSupplier,#Supplierddl,#filterEmpID,#ddlfilterAccountCode,#AccountCode,#EmpID").select2({
         });
         $('#btnUpload').click(function () {
             //Pass the controller name

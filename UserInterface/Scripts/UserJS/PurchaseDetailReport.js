@@ -63,9 +63,10 @@ $(document).ready(function () {
                  
                  ],
                  columnDefs: [{ "targets": [12, 10], "visible": false, "searchable": false },
-                       { className: "text-left", "targets": [0, 1] },
-                       { className: "text-center", "targets": [2, 3] },
-                      { className: "text-right", "targets": [4, 5, 6, 7, 8, 9, 11] }],
+                      { className: "text-left", "targets": [0, 1] },
+                      { className: "text-center", "targets": [2, 3] },
+                      { className: "text-right", "targets": [4, 5, 6, 7, 8, 9, 11] },
+                      { "targets": [0], "bSortable": false }],
                  createdRow: function (row, data, index) {
                      if (data.InvoiceNo == "<b>GrantTotal</b>") {
 
@@ -190,6 +191,9 @@ function AccountHeadOnChange() {
     var accounthead = $("#AccountCode").val().split(":");
     if (accounthead[1] == "True") {
         $("#EmpTypeCode").prop('disabled', false);
+    } else {
+        $("#EmpTypeCode").val("ALL").trigger('change');
+        $("#EmpTypeCode").prop('disabled', true);
     }
     RefreshPurchaseDetailTable();
 }
