@@ -816,24 +816,28 @@ function Gridfilter(thisobj) {
 function accountCodeOnChange() {
     debugger;
     var AccountCode = [];
-    AccountCode = $("#AccountCode").val().split(':');
-    if (AccountCode[1]=='True') {
-        $('#EmpID').prop('disabled', false);
-    }
-    else {
-        $('#EmpID').prop('disabled', true);
-        $("#EmpID").val('');
+    if ($("#AccountCode").val() !== null) {
+        AccountCode = $("#AccountCode").val().split(':');
+        if (AccountCode[1] == 'True') {
+            $('#EmpID').prop('disabled', false);
+        }
+        else {
+            $('#EmpID').prop('disabled', true);
+            $("#EmpID").val('');
+        }
     }
 }
 function onChangeFilterAccountCode() {
     debugger;
     var AccountCode = [];
-    AccountCode = $("#ddlfilterAccountCode").val().split(':');
-    if (AccountCode[1] == 'True') {
-        $('#filterEmpID').prop('disabled', false);
-    }
-    else {
-        $('#filterEmpID').prop('disabled', true);
-        $("#filterEmpID").val('');
+    if ($("#AccountCode").val() !== null) {
+        AccountCode = $("#ddlfilterAccountCode").val().split(':');
+        if (AccountCode[1] == 'True') {
+            $('#filterEmpID').prop('disabled', false);
+        }
+        else {
+            $('#filterEmpID').prop('disabled', true);
+            $("#filterEmpID").val('');
+        }
     }
 }
