@@ -15,6 +15,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public DateTime OpeningAsOfDate { get; set; }
         public bool ISEmploy {get;set;}
         public bool IsReverse { get; set; }
+        public bool IsPurchase { get; set; }
         public decimal Amount { get; set; }
         //public string account { get; set; }
         public string startdate { get; set; }

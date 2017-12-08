@@ -28,26 +28,27 @@ $(document).ready(function () {
                { "data": "Type", "defaultContent": "<i>-</i>" },
                 { "data": "TypeDesc", "defaultContent": "<i>-</i>" },
                { "data": "ISEmploy", "defaultContent": "<i>-</i>" },
+               { "data": "IsPurchase", "defaultContent": "<i>-</i>" },
                 { "data": "IsReverse", "defaultContent": "<i>-</i>" },
                { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
              ],
              columnDefs: [{ "targets": [], "visible": false, "searchable": false },
-                  { className: "text-left", "targets": [0, 1, 2, 3, 4] },
-             { className: "text-center", "targets": [5] },
+                  { className: "text-left", "targets": [0, 1, 2, 3, 4,5] },
+             { className: "text-center", "targets": [6] },
                {
                    "render": function (data, type, row) {
                        return (data == false ? "No " : "Yes");
                    },
-                   "targets": 3
+                   "targets": [3,4,5]
 
                },
-                  {
-                      "render": function (data, type, row) {
-                          return (data == false ? "No " : "Yes");
-                      },
-                      "targets": 4
+                  //{
+                  //    "render": function (data, type, row) {
+                  //        return (data == false ? "No " : "Yes");
+                  //    },
+                  //    "targets": 5
 
-                  },
+                  //},
                     {
                         "render": function (data, type, row) {
                             if (data == "PURCH") {
@@ -157,6 +158,12 @@ function FillChartOfAccountDetails(Code) {
     {
         $('#ISEmploy').attr('checked', false);
     }
+    if (thisItem.IsPurchase == true) {
+        $('#IsPurchase').attr('checked', true);
+    }
+    else {
+        $('#IsPurchase').attr('checked', false);
+    }
     if (thisItem.IsReverse == true) {
         $('#IsReverse').attr('checked', true);
     }
@@ -239,6 +246,7 @@ function ClearFields() {
     $("#isUpdate").val("0");
     $('#ISEmploy').prop('checked', false);
     $('#IsReverse').prop('checked', false);
+    $('#IsPurchase').prop('checked', false);
     $("#Code").val("");
     $("#Type").val("");
     $("#TypeDesc").val("");

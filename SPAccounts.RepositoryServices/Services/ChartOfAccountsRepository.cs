@@ -102,6 +102,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         _chartOfAccountsObj.OpeningAsOfDate = (sdr["OpeningAsOfDate"].ToString() != "" ? DateTime.Parse(sdr["OpeningAsOfDate"].ToString()) : _chartOfAccountsObj.OpeningAsOfDate);
                                         _chartOfAccountsObj.ISEmploy = (sdr["ISEmpApplicable"].ToString() != "" ? bool.Parse(sdr["ISEmpApplicable"].ToString()) : _chartOfAccountsObj.ISEmploy);
                                         _chartOfAccountsObj.IsReverse = (sdr["IsReverse"].ToString() != "" ? bool.Parse(sdr["IsReverse"].ToString()) : _chartOfAccountsObj.IsReverse);
+                                        _chartOfAccountsObj.IsPurchase = (sdr["IsPurchaseApplicable"].ToString() != "" ? bool.Parse(sdr["IsPurchaseApplicable"].ToString()) : _chartOfAccountsObj.IsPurchase);
                                     }
                                     chartOfAccountsList.Add(_chartOfAccountsObj);
                                 }
@@ -151,6 +152,7 @@ namespace SPAccounts.RepositoryServices.Services
                                     _chartOfAccountsObj.OpeningAsOfDate = (sdr["OpeningAsOfDate"].ToString() != "" ? DateTime.Parse(sdr["OpeningAsOfDate"].ToString()) : _chartOfAccountsObj.OpeningAsOfDate);
                                     _chartOfAccountsObj.ISEmploy = (sdr["ISEmpApplicable"].ToString() != "" ? bool.Parse(sdr["ISEmpApplicable"].ToString()) : _chartOfAccountsObj.ISEmploy);
                                     _chartOfAccountsObj.IsReverse = (sdr["IsReverse"].ToString() != "" ? bool.Parse(sdr["IsReverse"].ToString()) : _chartOfAccountsObj.IsReverse);
+                                    _chartOfAccountsObj.IsPurchase = (sdr["IsPurchase"].ToString() != "" ? bool.Parse(sdr["IsPurchase"].ToString()) : _chartOfAccountsObj.IsPurchase);
 
                                 }
                         }
@@ -192,6 +194,7 @@ namespace SPAccounts.RepositoryServices.Services
                         //cmd.Parameters.Add("@OpeningAsOfDate", SqlDbType.DateTime).Value = _chartOfAccountsObj.OpeningAsOfDate;
                         cmd.Parameters.Add("@ISEmpApplicable", SqlDbType.Bit).Value = _chartOfAccountsObj.ISEmploy;
                         cmd.Parameters.Add("@IsReverse", SqlDbType.Bit).Value = _chartOfAccountsObj.IsReverse;
+                        cmd.Parameters.Add("@IsPurchase", SqlDbType.Bit).Value = _chartOfAccountsObj.IsPurchase;
                         cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = _chartOfAccountsObj.commonObj.CreatedBy;
                         cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = _chartOfAccountsObj.commonObj.CreatedDate;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
@@ -252,6 +255,7 @@ namespace SPAccounts.RepositoryServices.Services
                         //cmd.Parameters.Add("@OpeningAsOfDate", SqlDbType.DateTime).Value = _chartOfAccountsObj.OpeningAsOfDate;
                         cmd.Parameters.Add("@ISEmpApplicable", SqlDbType.Bit).Value = _chartOfAccountsObj.ISEmploy;
                         cmd.Parameters.Add("@IsReverse", SqlDbType.Bit).Value = _chartOfAccountsObj.IsReverse;
+                        cmd.Parameters.Add("@IsPurchase", SqlDbType.Bit).Value = _chartOfAccountsObj.IsPurchase;
                         cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = _chartOfAccountsObj.commonObj.UpdatedBy;
                         cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = _chartOfAccountsObj.commonObj.UpdatedDate;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);

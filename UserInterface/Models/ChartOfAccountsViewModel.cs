@@ -18,7 +18,10 @@ namespace UserInterface.Models
         public string OpeningPaymentMode { get; set; }
         public decimal OpeningBalance { get; set; }
         public DateTime OpeningAsOfDate { get; set; }
+        [Display(Name = "Is Reverse")]
         public bool IsReverse { get; set; }
+        [Display(Name = "Is Purchase")]
+        public bool IsPurchase { get; set; }
         [Display(Name = "Subtype Applicable")]
         [Required(ErrorMessage = "Is Subtype is missing")]
         public bool ISEmploy { get; set; }

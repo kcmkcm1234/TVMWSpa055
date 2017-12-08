@@ -47,6 +47,7 @@
                         <th>Type</th>
                         <th>Type Description</th>                        
                         <th>Is Subtype Applicable</th>
+                        <th>Is Purchase Applicable</th>
                         <th>Is Reverse</th>
                         <th>...</th>
 
@@ -119,11 +120,11 @@
                                        @{
                                            List<SelectListItem> listType = new List<SelectListItem>();
                                            listType.Add(new SelectListItem
-                                           { Text = "Other Expense", Value = "OE" });
+                                           { Text = "Expense", Value = "OE" });
                                            listType.Add(new SelectListItem
                                            { Text = "Other Income", Value = "OI" });
-                                           listType.Add(new SelectListItem
-                                           { Text = "Purchase", Value = "PURCH" });
+                                           //listType.Add(new SelectListItem
+                                           //{ Text = "Purchase", Value = "PURCH" });
                                     }
                                     @Html.DropDownListFor(model => model.Type, listType, "-- Select Type --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "Type" })
                                         @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
@@ -178,6 +179,22 @@
                                     <div class="col-md-10">
                                         @Html.CheckBoxFor(model => model.IsReverse, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter" } })
                                         @Html.ValidationMessageFor(model => model.IsReverse, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-1"></div>
+                                </div>
+
+                            </div>
+                            <div class="form-group col-md-12">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => model.IsPurchase, htmlAttributes: new { @class = "control-label" })
+
+
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-10">
+                                        @Html.CheckBoxFor(model => model.IsPurchase, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter" } })
+                                        @Html.ValidationMessageFor(model => model.IsPurchase, "", new { @class = "text-danger" })
                                     </div>
                                     <div class="col-md-1"></div>
                                     <div class="col-md-1"></div>
