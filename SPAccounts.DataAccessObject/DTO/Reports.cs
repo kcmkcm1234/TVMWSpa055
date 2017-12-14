@@ -107,6 +107,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal TotalAmount { get; set; }
         public string Date { get; set; }
         public string RowType { get; set; }
+        public string ExpenseType { get; set; }
     }
 
     public class CustomerContactDetailsReport

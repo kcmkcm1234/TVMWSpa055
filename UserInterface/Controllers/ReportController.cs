@@ -430,7 +430,7 @@ namespace UserInterface.Controllers
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "OEReport", Mode = "R")]
-        public string GetOtherExpenseDetails(string FromDate, string ToDate, string CompanyCode, string OrderBy, string accounthead, string subtype, string employeeorother,string employeecompany, string search)
+        public string GetOtherExpenseDetails(string FromDate, string ToDate, string CompanyCode, string OrderBy, string accounthead, string subtype, string employeeorother,string employeecompany, string search,string ExpenseType)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
             {
@@ -438,7 +438,7 @@ namespace UserInterface.Controllers
                 {
                     DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                    List<OtherExpenseDetailsReportViewModel> otherExpenseDetailsReportList = Mapper.Map<List<OtherExpenseDetailsReport>, List<OtherExpenseDetailsReportViewModel>>(_reportBusiness.GetOtherExpenseDetails(FDate, TDate, CompanyCode,OrderBy, accounthead.Split(':')[0], subtype, employeeorother, employeecompany,search));
+                    List<OtherExpenseDetailsReportViewModel> otherExpenseDetailsReportList = Mapper.Map<List<OtherExpenseDetailsReport>, List<OtherExpenseDetailsReportViewModel>>(_reportBusiness.GetOtherExpenseDetails(FDate, TDate, CompanyCode,OrderBy, accounthead.Split(':')[0], subtype, employeeorother, employeecompany,search, ExpenseType));
                     decimal otherExpenseDetailsSum = otherExpenseDetailsReportList.Where(OE=>OE.RowType=="N").Sum(OE => OE.Amount);
                     string otherExpenseDetailsSumFormatted = _commonBusiness.ConvertCurrency(otherExpenseDetailsSum, 2);
                     return JsonConvert.SerializeObject(new { Result = "OK", Records = otherExpenseDetailsReportList, TotalAmount = otherExpenseDetailsSumFormatted });
@@ -454,7 +454,7 @@ namespace UserInterface.Controllers
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "OEReport", Mode = "R")]
-        public string GetOtherExpenseDetailsReport(string FromDate, string ToDate, string CompanyCode, string accounthead, string subtype, string employeeorother, string employeecompany)
+        public string GetOtherExpenseDetailsReport(string FromDate, string ToDate, string CompanyCode, string accounthead, string subtype, string employeeorother, string employeecompany,string ExpenseType)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
             {
@@ -462,7 +462,7 @@ namespace UserInterface.Controllers
                 {
                     DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                    List<OtherExpenseDetailsReportViewModel> otherExpenseDetailsReportList = Mapper.Map<List<OtherExpenseDetailsReport>, List<OtherExpenseDetailsReportViewModel>>(_reportBusiness.GetOtherExpenseDetails(FDate, TDate, CompanyCode, null, accounthead.Split(':')[0], subtype, employeeorother, employeecompany,null));
+                    List<OtherExpenseDetailsReportViewModel> otherExpenseDetailsReportList = Mapper.Map<List<OtherExpenseDetailsReport>, List<OtherExpenseDetailsReportViewModel>>(_reportBusiness.GetOtherExpenseDetails(FDate, TDate, CompanyCode, null, accounthead.Split(':')[0], subtype, employeeorother, employeecompany,null, ExpenseType));
                     return JsonConvert.SerializeObject(new { Result = "OK", Records = otherExpenseDetailsReportList});
                 }
                 catch (Exception ex)

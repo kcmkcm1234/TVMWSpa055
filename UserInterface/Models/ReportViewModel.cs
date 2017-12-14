@@ -112,7 +112,9 @@ namespace UserInterface.Models
         public string Search { get; set; }
         public decimal TotalAmount { get; set; }
         public string Description { get; set; }
-       
+
+        [Display(Name = "Expense Type")]
+        public string ExpenseType { get; set; }
     }
 
 
@@ -144,6 +146,9 @@ namespace UserInterface.Models
         public string Search { get; set; }
         public decimal TotalAmount { get; set; }
         public string RowType { get; set; }
+
+        [Display(Name = "Expense Type")]
+        public string ExpenseType { get; set; }
 
             }
 

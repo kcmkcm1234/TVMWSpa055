@@ -133,7 +133,7 @@ namespace SPAccounts.RepositoryServices.Services
             return otherExpenseSummaryList;
         }
 
-        public List<OtherExpenseDetailsReport> GetOtherExpenseDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string accounthead, string subtype, string employeeorother, string employeecompany, string search)
+        public List<OtherExpenseDetailsReport> GetOtherExpenseDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string accounthead, string subtype, string employeeorother, string employeecompany, string search,string ExpenseType)
         {
             List<OtherExpenseDetailsReport> otherExpenseDetailList = null;
             try
@@ -155,6 +155,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@EmployeeOrOther", SqlDbType.NVarChar, 50).Value = employeeorother != "" ? employeeorother : null;
                         cmd.Parameters.Add("@EmployeeCompany", SqlDbType.NVarChar, 50).Value = employeecompany != "" ? employeecompany : null;
                         cmd.Parameters.Add("@Search", SqlDbType.NVarChar, 250).Value = search != "" ? search : null;
+                        cmd.Parameters.Add("@ExpenseType", SqlDbType.NVarChar, 50).Value = ExpenseType != "" ? ExpenseType : "ALL";
                         cmd.CommandText = "[Accounts].[RPT_GetOtherExpenseDetails]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -172,7 +173,8 @@ namespace SPAccounts.RepositoryServices.Services
                                         otherExpenseDetails.OriginCompany = (sdr["OriginCompany"].ToString() != "" ? sdr["OriginCompany"].ToString() : otherExpenseDetails.OriginCompany);
                                         otherExpenseDetails.EmpCompany = (sdr["EmpCompany"].ToString() != "" ? sdr["EmpCompany"].ToString() : otherExpenseDetails.EmpCompany);
                                         otherExpenseDetails.PaymentMode= (sdr["PaymentMode"].ToString() != "" ? sdr["PaymentMode"].ToString() : otherExpenseDetails.PaymentMode);
-                                      
+
+                                        otherExpenseDetails.ExpenseType = (sdr["ExpenseType"].ToString() != "" ? sdr["ExpenseType"].ToString() : otherExpenseDetails.ExpenseType);
                                         otherExpenseDetails.PaymentReference= (sdr["PaymentReference"].ToString() != "" ? sdr["PaymentReference"].ToString() : otherExpenseDetails.PaymentReference);
                                         otherExpenseDetails.Description= (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : otherExpenseDetails.Description);
                                         otherExpenseDetails.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : otherExpenseDetails.Amount);
