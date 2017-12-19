@@ -22,6 +22,6 @@ namespace SPAccounts.RepositoryServices.Contracts
         object ApprovedPayment(Guid PaymentID, string UserName, DateTime date);
         object Validate(SupplierPayments _supplierpayObj);
         SupplierPayments UpdateSupplierPaymentGeneralNotes(SupplierPayments supobj);
-
+        object UpdateNotification(SupplierPayments _supplierpayObj);
     }
 }

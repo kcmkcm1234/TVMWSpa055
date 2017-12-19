@@ -353,6 +353,12 @@ namespace SPAccounts.DataAccessObject.DTO
         public string OriginCompany { get; set; }
         public string Search { get; set; }
         public string AccountHead { get; set; }
+        public string Subtype { get; set; }       
+        public string EmployeeOrOther { get; set; }
+        public string Employee { get; set; }
+        public string SubTypeDesc { get; set; } 
+      
+        public Guid EmployeeID { get; set; }
     }
 
     public class OtherIncomeDetailsReport
@@ -367,6 +373,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public string OriginCompany { get; set; }
         public string Date { get; set; }
         public string RowType { get; set; }
+        public string SubType { get; set; }
+        public string EmployeeOrOther { get; set; }
     }
 
     public class DailyLedgerReport

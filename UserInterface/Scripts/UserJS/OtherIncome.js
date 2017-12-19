@@ -2,8 +2,8 @@
 var DataTables = {};
 var emptyGUID = '00000000-0000-0000-0000-000000000000'
 $(document).ready(function () {
-    try {
-
+    try {      
+    
         DataTables.OtherIncomeTable = $('#OtherIncomeTable').DataTable(
          {
              dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
@@ -477,8 +477,9 @@ function FillOtherIncomeDetails(ID)
     debugger;
 
     $("#ID").val(thisItem.ID);
-    $("#IncomeDateModal").val(thisItem.IncomeDateFormatted);
-    $("#AccountCode").val(thisItem.AccountCode);
+    $("#IncomeDateModal").val(thisItem.IncomeDateFormatted);  
+    $("#AccountCode").val(thisItem.AccountCode).trigger('change');
+   // $("#AccountCode").val(thisItem.AccountCode);     
     $("#PaymentRcdComanyCode").val(thisItem.PaymentRcdComanyCode);
     $("#PaymentMode").val(thisItem.PaymentMode);
     $("#ReferenceBank").val(thisItem.ReferenceBank);
@@ -490,6 +491,14 @@ function FillOtherIncomeDetails(ID)
     $("#DepWithdID").val(thisItem.DepWithdID);
     $("#creditdAmt").text(thisItem.creditAmountFormatted);
     $("#AddOrEditSpan").text("Edit");
+    if (thisItem.EmpTypeCode) {
+        BindEmployeeDropDown(thisItem.EmpTypeCode);
+    }
+    $("#EmpID").val(thisItem.employeeObj.ID);
+    $("#EmployeeType").val(thisItem.EmpTypeCode);
+    //$("#AccountCode").val(thisItem.chartOfAccountsObj.TypeDesc); 
+  
+    
     if (thisItem.PaymentMode != "CHEQUE") {
         $("#ChequeDate").prop('disabled', true);
         $("#ReferenceBank").prop('disabled', true);
@@ -498,7 +507,32 @@ function FillOtherIncomeDetails(ID)
         $("#ChequeDate").prop('disabled', false);
         $("#ReferenceBank").prop('disabled', false);
     }
+
+  
+    if (thisItem.AccountCode) {
+        var AcodeCombined = thisItem.AccountCode;
+        var len = AcodeCombined.indexOf(':');
+        var IsEmploy = AcodeCombined.substring(len + 1, (AcodeCombined.length));
+        // console.log(str.substring(0, (len)));
+        if (IsEmploy == "True") {
+            $("#EmployeeType").prop('disabled', false);
+            $("#EmpID").prop('disabled', false);
+            $("#btnAddEmployee").css("pointer-events", "auto");
+        }
+
+
+
+        //else {
+        //    $("#EmployeeType").val('');
+        //    $("#EmpID").val('');
+        //    $("#EmployeeType").prop('disabled', true);
+        //    $("#EmpID").prop('disabled', true);
+        //    $("#btnAddEmployee").css("pointer-events", "none");
+               
+        //}
+    }
 }
+
 
 function SaveSuccess(data, status)
 {
@@ -537,6 +571,8 @@ function SaveSuccess(data, status)
 function ClearFields()
 {
     $("#AccountCode").val("");
+    $("#EmployeeType").val("");
+    $("#EmpID").val("");
     $("#PaymentRcdComanyCode").val("");
     $("#PaymentMode").val("");
     $("#DepWithdID").val("");
@@ -549,5 +585,146 @@ function ClearFields()
     $("#DepWithdID").val(emptyGUID);
     $("#ChequeDate").val('');
     $("#creditdAmt").text("₹ 0.00");
+
+    //$("#EmpID").prop('disabled', true);
+    //$("#EmployeeType").prop('disabled', true);
+    //$('#EmpID').append(new Option('-- Select Employee --', -1));
+    //$('#EmpID').val("-1");
     ResetForm();
+}
+
+
+function AccountCodeChange(curobj) {
+    debugger;
+    
+    var AcodeCombined = $(curobj).val();
+    if (AcodeCombined) {
+        var len = AcodeCombined.indexOf(':');
+        var IsEmploy = AcodeCombined.substring(len + 1, (AcodeCombined.length));
+        // console.log(str.substring(0, (len)));
+        if (IsEmploy == "True") {
+            $("#EmployeeType").prop('disabled', false);
+            $("#EmpID").prop('disabled', false);
+            $("#btnAddEmployee").css("pointer-events", "auto");
+
+        }
+        else 
+        {
+            $("#EmployeeType").val('');
+            $('#EmpID').empty();
+            $('#EmpID').append(new Option('-- Select Employee --'));
+            //$('#EmpID').val("-1");
+            $("#EmployeeType").prop('disabled', true);
+            $("#EmpID").prop('disabled', true);
+            $("#btnAddEmployee").css("pointer-events", "none");
+            $("#EmployeeDiv").hide();
+        }
+
+    }
+   
+    if (AcodeCombined == "") {
+        $("#EmployeeType").val('');
+        $('#EmpID').empty();
+        $('#EmpID').append(new Option('-- Select Employee --'));
+        $("#EmployeeType").prop('disabled', true);
+        $("#EmpID").prop('disabled', true);
+    }
+   
+}
+
+
+function EmployeeTypeChange(curobj) {
+    debugger;
+    var emptypeselected = $(curobj).val();
+    if (emptypeselected) {
+        BindEmployeeDropDown(emptypeselected);
+        if ($("#EmployeeType").val() != "") $("#sbtyp").html($("#EmployeeType option:selected").text());
+    }
+}
+
+
+function SelectEmployeeChange(curobj)
+{
+    try {
+        debugger;
+       
+
+        if (curobj.value != "-1") {
+            var ID = curobj.value;
+            var OtherIncomeViewModel = GetEmployeesCompany(ID);
+            debugger;
+
+            $('#CompanyCode').val(OtherIncomeViewModel[0].companies.Code);
+        }
+    }
+    catch (e) {
+
+    }
+}
+
+
+function BindEmployeeDropDown(type) {
+    debugger;
+    try {
+        var employees = GetAllEmployeesByType(type);
+        if (employees) {
+            $('#EmpID').empty();
+            $('#EmpID').append(new Option('-- Select Employee --', -1));
+            for (var i = 0; i < employees.length; i++) {
+                var opt = new Option(employees[i].Name, employees[i].ID);
+                $('#EmpID').append(opt);
+
+            }
+        }
+
+
+
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
+
+function GetAllEmployeesByType(type) {
+    try {
+        debugger;
+        var data = { "Type": type };
+        var ds = {};
+        ds = GetDataFromServer("OtherExpenses/GetAllEmployeesByType/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            notyAlert('error', ds.Message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
+
+function GetEmployeesCompany(ID) {
+    try {
+        debugger;
+        var data = { "ID": ID };
+        var ds = {};
+        ds = GetDataFromServer("OtherExpenses/GetEmployeeCompanyDetails/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            alert(ds.Message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
 }

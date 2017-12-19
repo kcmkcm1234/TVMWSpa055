@@ -51,5 +51,22 @@ namespace UserInterface.Models
         public List<SelectListItem> companiesList { get; set; }
         public List<SelectListItem> paymentModeList { get; set; }
         public CommonViewModel commonObj { get; set; }
+        public EmployeeViewModel employeeObj { get; set; }
+
+        [Display(Name = "Employee/Other")]
+        public Guid? EmpID { get; set; }
+        public List<SelectListItem> EmployeeList { get; set; }
+        //public EmployeeViewModel employee { get; set; }
+        public string EmpName { get; set; }
+      
+    
+        public ChartOfAccountsViewModel chartOfAccountsObj { get; set; }
+        public List<SelectListItem> AccountTypes { get; set; }
+
+
+        [Display(Name = "Subtype (Employee,Other,etc.)")]
+        public string EmpTypeCode { get; set; }
+        public List<SelectListItem> EmployeeTypeList { get; set; }
+
     }
 }
