@@ -367,6 +367,7 @@ function Reset() {
     $("#Search").val('').trigger('change')
     $("#EmpCompany").val('ALL').trigger('change')
     $("#headwise").prop('checked', true).trigger('change');
+    $("#ExpenseType").val('ALL').trigger('change')
     RefreshOtherExpenseSummaryAHTable();
 }
 
@@ -398,9 +399,9 @@ function GetOtherExpenseDetailsReport(rowData) {
         else
             var Employeeorother = $("#Employee").val();
         var Employeecompany = $("#EmpCompany").val();
-
+        var ExpenseType = "OE";//should be removed in next commit
         if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode,"accounthead": AccountHead, "subtype": Subtype, "employeeorother": Employeeorother, "employeecompany": Employeecompany};
+            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "accounthead": AccountHead, "subtype": Subtype, "employeeorother": Employeeorother, "employeecompany": Employeecompany, "ExpenseType": ExpenseType };
             var ds = {};
             ds = GetDataFromServer("Report/GetOtherExpenseDetailsReport/", data);
             if (ds != '') {

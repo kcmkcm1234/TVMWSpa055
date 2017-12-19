@@ -46,12 +46,12 @@ namespace SPAccounts.BusinessService.Services
             return CustomerContactDetailsList;
         }
 
-        public List<OtherExpenseDetailsReport> GetOtherExpenseDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string OrderBy, string accounthead, string subtype, string employeeorother, string employeecompany, string search)
+        public List<OtherExpenseDetailsReport> GetOtherExpenseDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string OrderBy, string accounthead, string subtype, string employeeorother, string employeecompany, string search,string ExpenseType)
         {
             List<OtherExpenseDetailsReport> otherExpenseDetailsList = null;
             try
             {
-                otherExpenseDetailsList = _reportRepository.GetOtherExpenseDetails(FromDate, ToDate, CompanyCode, accounthead,  subtype, employeeorother, employeecompany, search);
+                otherExpenseDetailsList = _reportRepository.GetOtherExpenseDetails(FromDate, ToDate, CompanyCode, accounthead,  subtype, employeeorother, employeecompany, search, ExpenseType);
                
             }
             catch (Exception ex)

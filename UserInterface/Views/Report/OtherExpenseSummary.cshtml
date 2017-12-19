@@ -1,7 +1,7 @@
 ﻿@model UserInterface.Models.OtherExpenseSummaryReportViewModel
 @using UserInterface.App_Start
 @{
-    ViewBag.Title = "Other Expense Summary";
+    ViewBag.Title = "Expense Summary";
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
 
@@ -47,29 +47,46 @@
 <div class="form-horizontal" id="main">
 
     <div class="col-md-9" style="margin-top:10px;">
-        <div class="col-md-3">
-            @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })
-            <div class="col-md-12">
-                @Html.TextBox("fromdate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @onchange = "OnChangeCall()", @Value = ViewBag.fromdate })
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.ExpenseType, htmlAttributes: new { @class = "control-label" })
+                <div class="col-md-12">
+                    @{
+                        List<SelectListItem> TypeList = new List<SelectListItem>();
+                        TypeList.Add(new SelectListItem
+                        { Text = "ALL", Value = "ALL" });
+                        TypeList.Add(new SelectListItem
+                        { Text = "Other Expense", Value = "OE" });
+                        TypeList.Add(new SelectListItem
+                        { Text = "Purchase Details", Value = "PUR" });
+                    }
+                    @Html.DropDownListFor(model => model.ExpenseType, TypeList, new { @class = "form-control BlockEnter", @onchange = "OnChangeCall()", value = -1, style = "padding:4px 12px;", @id = "ExpenseType" })
+                    @Html.ValidationMessageFor(model => model.ExpenseType, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-md-12"></div>
+            <div class="col-md-3">
+                @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })
+                <div class="col-md-12">
+                    @Html.TextBox("fromdate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @onchange = "OnChangeCall()", @Value = ViewBag.fromdate })
 
 
+                </div>
             </div>
-        </div>
-        <div class="col-md-3">
-            @Html.Label("To Date", htmlAttributes: new { @class = "control-label" })
-            <div class="col-md-12">
-                @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @onchange = "OnChangeCall()", @Value = ViewBag.todate })
+            <div class="col-md-3">
+                @Html.Label("To Date", htmlAttributes: new { @class = "control-label" })
+                <div class="col-md-12">
+                    @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @onchange = "OnChangeCall()", @Value = ViewBag.todate })
+                </div>
             </div>
-        </div>
-        <div class="col-md-3">
-            @Html.LabelFor(model => model.CompanyCode, htmlAttributes: new { @class = "control-label" })
-            <div class="col-md-12">
-                @Html.DropDownListFor(model => model.CompanyCode, Model.CompanyList, new { @class = "form-control BlockEnter", @onchange = "OnChangeCall()", value = -1, style = "padding:4px 12px;", @id = "CompanyCode" })
-                @Html.ValidationMessageFor(model => model.CompanyCode, "", new { @class = "text-danger" })
-               
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.CompanyCode, htmlAttributes: new { @class = "control-label" })
+                <div class="col-md-12">
+                    @Html.DropDownListFor(model => model.CompanyCode, Model.CompanyList, new { @class = "form-control BlockEnter", @onchange = "OnChangeCall()", value = -1, style = "padding:4px 12px;", @id = "CompanyCode" })
+                    @Html.ValidationMessageFor(model => model.CompanyCode, "", new { @class = "text-danger" })
+
+                </div>
             </div>
-        </div>
-       
+
             <div class="col-md-3">
                 @Html.LabelFor(model => model.AccountHead, htmlAttributes: new { @class = "control-label" })
                 <div class="col-md-12">
@@ -77,7 +94,7 @@
                     @Html.ValidationMessageFor(model => model.AccountHead, "", new { @class = "text-danger" })
                 </div>
             </div>
-       
+
             <div class="col-md-3">
                 @Html.LabelFor(model => model.Subtype, htmlAttributes: new { @class = "control-label" })
                 <div class="col-md-12">
@@ -85,7 +102,7 @@
                     @Html.ValidationMessageFor(model => model.Subtype, "", new { @class = "text-danger" })
                 </div>
             </div>
-       
+
             <div class="col-md-3">
                 @Html.LabelFor(model => model.EmployeeOrOther, htmlAttributes: new { @class = "control-label" })
                 <div class="col-md-12">
@@ -93,32 +110,34 @@
                     @Html.ValidationMessageFor(model => model.Employee, "", new { @class = "text-danger" })
                 </div>
             </div>
-        <div class="col-md-3">
-            @Html.LabelFor(model => model.EmpCompany, htmlAttributes: new { @class = "control-label" })
-            <div class="col-md-12">
-                @Html.DropDownListFor(model => model.EmpCompany, Model.CompanyList, new { @class = "form-control BlockEnter", @onchange = "OnChangeCall()", value = -1, style = "padding:4px 12px;", @id = "EmpCompany" })
-                @Html.ValidationMessageFor(model => model.EmpCompany, "", new { @class = "text-danger" })
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.EmpCompany, htmlAttributes: new { @class = "control-label" })
+                <div class="col-md-12">
+                    @Html.DropDownListFor(model => model.EmpCompany, Model.CompanyList, new { @class = "form-control BlockEnter", @onchange = "OnChangeCall()", value = -1, style = "padding:4px 12px;", @id = "EmpCompany" })
+                    @Html.ValidationMessageFor(model => model.EmpCompany, "", new { @class = "text-danger" })
 
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="row">
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="GroupSelect" id="headwise"  value="HeadWise" checked >
-                        Account head wise
-                    </label>
-                </div>
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="GroupSelect" id="subtypewise" value="SubtypeWise">
-                        Sub type wise
-                    </label>
                 </div>
             </div>
-        </div>
+            <div class="col-md-3">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="GroupSelect" id="headwise" value="HeadWise" checked>
+                                Account head wise
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="GroupSelect" id="subtypewise" value="SubtypeWise">
+                                Sub type wise
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-       
+
             <div class="col-md-12">
                 @Html.LabelFor(model => model.Search, htmlAttributes: new { @class = "control-label", style = "visibility:hidden" })
                 <div class="col-md-12">
@@ -130,15 +149,15 @@
                     </div>
                 </div>
             </div>
-       
-              
-           
-            
+
+
+
+
 
             @*<div class="col-md-12 filterHead">Filter</div>
             <div class="col-md-12">
             </div>*@
-</div>
+        </div>
             <div class="col-md-3" style="min-height:25px">
                 @{
                     var data = new { ActionType = "ListWithReset" };
