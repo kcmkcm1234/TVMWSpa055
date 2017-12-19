@@ -11,8 +11,10 @@ namespace SPAccounts.BusinessService.Contracts
     {
         List<OtherIncome> GetAllOtherIncome(string IncomeDate,string DefaultDate);
         OtherIncome GetOtherIncomeDetails(Guid ID);
-        object InsertUpdateOtherIncome(OtherIncome _otherIncomeObj);
+        //object InsertUpdateOtherIncome(OtherIncome _otherIncomeObj);
         object DeleteOtherIncome(Guid ID, string userName);
         object Validate(OtherIncome _otherincome);
+        OtherIncome InsertOtherIncome(OtherIncome _otherIncomeObj);
+        OtherIncome UpdateOtherIncome(OtherIncome _otherIncomeObj);
     }
 }

@@ -87,6 +87,7 @@ namespace UserInterface.Models
         public string PaymentBooked { get; set; }
 
         public bool HasAccess { get; set; }
+        public string IsNotificationSuccess { get; set; }
 
     }
     public class SupplierPaymentsDetailViewModel

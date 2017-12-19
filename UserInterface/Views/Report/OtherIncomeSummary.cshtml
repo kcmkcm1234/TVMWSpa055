@@ -82,10 +82,27 @@
         <div class="col-md-3">
             @Html.LabelFor(model => model.AccountHead, htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
-                @Html.DropDownListFor(model => model.AccountHead, Model.AccountHeadList, new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "AccountCode", @onchange = "OnChangeCall()" })
+                @Html.DropDownListFor(model => model.AccountHead, Model.AccountHeadList, new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "AccountCode", @onchange = "AccountCodeOnchange(this);" })
                 @Html.ValidationMessageFor(model => model.AccountHead, "", new { @class = "text-danger" })
             </div>
         </div>
+
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.Subtype, htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-12">
+                @Html.DropDownListFor(model => model.Subtype, Model.EmployeeTypeList, "--Select--", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "Subtype", @onchange = "EmployeeTypeOnchange(this)" })
+                @Html.ValidationMessageFor(model => model.Subtype, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.EmployeeOrOther, htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-12">
+                @Html.DropDownListFor(model => model.Employee, Model.EmployeeList, "--Select--", new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "Employee", @onchange = "OnChangeCall()" })
+                @Html.ValidationMessageFor(model => model.Employee, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
 
         <div class="col-md-6">
             @Html.LabelFor(model => model.Search, htmlAttributes: new { @class = "control-label", style = "visibility:hidden" })
@@ -126,9 +143,12 @@
             <table id="otherIncomeSummaryAHTable" class="table stripe" cellspacing="0" width="100%">
                 <thead>
                     <tr class="text-center TableHead">
-
+                        
                         <th>Account Head</th>
-                        <th>Amount</th>
+                        <th>Employee/Other</th>
+                        <th>Origin Company</th>      
+                        <th>Amount</th>     
+                                  
                     </tr>
                 </thead>
             </table>

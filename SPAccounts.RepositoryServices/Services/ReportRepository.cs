@@ -1139,7 +1139,7 @@ namespace SPAccounts.RepositoryServices.Services
         /// <param name="ToDate"></param>
         /// <param name="CompanyCode"></param>
         /// <returns>List</returns>
-        public List<OtherIncomeSummaryReport> GetOtherIncomeSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string accounthead, string search)// string subtype, string employeeorother,
+        public List<OtherIncomeSummaryReport> GetOtherIncomeSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string accounthead,string subtype, string employeeorother, string search)
         {
             List<OtherIncomeSummaryReport> otherIncomeSummaryList = null;
             try
@@ -1157,6 +1157,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
                         cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = CompanyCode;
                         cmd.Parameters.Add("@accounthead", SqlDbType.NVarChar, 50).Value = accounthead != "" ? accounthead : null;
+                        cmd.Parameters.Add("@SubType", SqlDbType.NVarChar, 50).Value = subtype != "" ? subtype : null;
+                        cmd.Parameters.Add("@EmployeeOrOther", SqlDbType.NVarChar, 50).Value = employeeorother != "" ? employeeorother : null;
                         cmd.Parameters.Add("@search", SqlDbType.NVarChar, 250).Value = search != "" ? search : null;
                         cmd.CommandText = "[Accounts].[RPT_GetOtherIncomeSummary]";
                         cmd.CommandType = CommandType.StoredProcedure;
@@ -1173,7 +1175,8 @@ namespace SPAccounts.RepositoryServices.Services
                                         otherIncomeSummaryReport.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : otherIncomeSummaryReport.Amount);
                                         otherIncomeSummaryReport.OriginCompany = (sdr["OriginCompany"].ToString() != "" ? sdr["OriginCompany"].ToString() : otherIncomeSummaryReport.OriginCompany);
                                         otherIncomeSummaryReport.AccountHead= (sdr["AccountCode"].ToString() != "" ? sdr["AccountCode"].ToString() : otherIncomeSummaryReport.AccountHead);
-
+                                        otherIncomeSummaryReport.SubTypeDesc = (sdr["SubTypeDesc"].ToString() != "" ? sdr["SubTypeDesc"].ToString() : otherIncomeSummaryReport.SubTypeDesc);                                       
+                                        otherIncomeSummaryReport.EmployeeID = (sdr["EmpID"].ToString() != "" ? Guid.Parse(sdr["EmpID"].ToString()) : otherIncomeSummaryReport.EmployeeID);
                                     }
                                     otherIncomeSummaryList.Add(otherIncomeSummaryReport);
                                 }
@@ -1198,7 +1201,7 @@ namespace SPAccounts.RepositoryServices.Services
         /// <param name="search"></param>
         /// <returns></returns>
 
-        public List<OtherIncomeDetailsReport> GetOtherIncomeDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string accounthead, string search)
+        public List<OtherIncomeDetailsReport> GetOtherIncomeDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string accounthead,string subtype,string employeeorother, string search)
         {
             List<OtherIncomeDetailsReport> otherIncomeDetailList = null;
             try
@@ -1216,6 +1219,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
                         cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = CompanyCode;
                         cmd.Parameters.Add("@accounthead", SqlDbType.NVarChar, 50).Value = accounthead != "" ? accounthead : null;
+                        cmd.Parameters.Add("@SubType", SqlDbType.NVarChar, 50).Value = subtype != "" ? subtype : null;
+                        cmd.Parameters.Add("@EmployeeOrOther", SqlDbType.NVarChar, 50).Value = employeeorother != "" ? employeeorother : null;
                         cmd.Parameters.Add("@search", SqlDbType.NVarChar, 250).Value = search != "" ? search : null;
                         cmd.CommandText = "[Accounts].[RPT_GetOtherIncomeDetails]";
                         cmd.CommandType = CommandType.StoredProcedure;
@@ -1230,7 +1235,7 @@ namespace SPAccounts.RepositoryServices.Services
                                     {
                                         otherIncomeDetails.AccountHead = (sdr["AccountHead"].ToString() != "" ? sdr["AccountHead"].ToString() : otherIncomeDetails.AccountHead);
                                         otherIncomeDetails.Date = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(settings.dateformat) : otherIncomeDetails.Date);
-
+                                        otherIncomeDetails.SubType = (sdr["SubType"].ToString() != "" ? sdr["SubType"].ToString() : otherIncomeDetails.SubType);
                                         otherIncomeDetails.OriginCompany = (sdr["OriginCompany"].ToString() != "" ? sdr["OriginCompany"].ToString() : otherIncomeDetails.OriginCompany);
                                         otherIncomeDetails.PaymentMode = (sdr["PaymentMode"].ToString() != "" ? sdr["PaymentMode"].ToString() : otherIncomeDetails.PaymentMode);
                                         otherIncomeDetails.PaymentReference = (sdr["PaymentReference"].ToString() != "" ? sdr["PaymentReference"].ToString() : otherIncomeDetails.PaymentReference);

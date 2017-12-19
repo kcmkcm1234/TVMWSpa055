@@ -423,6 +423,15 @@ namespace UserInterface.Models
         public List<SelectListItem> CompanyList { get; set; }
         public List<CompaniesViewModel> companiesList;
         public string Search { get; set; }
+        public List<SelectListItem> EmployeeTypeList { get; set; }
+        public List<SelectListItem> EmployeeList { get; set; }
+        public string Subtype { get; set; }
+        [Display(Name = "Employee/Other")]
+        public string EmployeeOrOther { get; set; }
+        public List<SelectListItem> SubtypeList { get; set; }      
+        public string Employee { get; set; }
+        public Guid EmployeeID { get; set; }
+        public string SubTypeDesc { get; set; }
     }
 
     public class OtherIncomeDetailsReportViewModel
@@ -441,6 +450,16 @@ namespace UserInterface.Models
         public List<SelectListItem> AccountHeadList { get; set; }
         public string Search { get; set; }
         public string RowType { get; set; }
+        [Display(Name = "Employee/Other")]
+        public string EmployeeOrOther { get; set; }
+        public List<SelectListItem> EmployeeTypeList { get; set; }
+        public List<SelectListItem> EmployeeList { get; set; }
+        public string SubType { get; set; }
+        public List<SelectListItem> SubtypeList { get; set; }
+        public string AccountHeadORSubtype { get; set; }
+        public string Employee { get; set; }
+        public Guid EmployeeID { get; set; }
+        public string SubTypeDesc { get; set; }
 
     }
     public class CustomerPaymentLedgerViewModel

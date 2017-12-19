@@ -47,6 +47,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string PaymentOutstanding { get; set; }
         public int ApprovalStatus { get; set; }
         public string ApprovalDate { get; set; }
+        public string IsNotificationSuccess { get; set; }
 
         public ApprovalStatus ApprovalStatusObj { get; set; }
 
