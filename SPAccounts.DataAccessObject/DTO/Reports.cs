@@ -87,7 +87,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string EmployeeOrOther { get; set; }
         public decimal TotalAmount { get; set; }
         public string Description { get; set; }
-
+        public string ExpenseType { get; set; }
     }
 
 

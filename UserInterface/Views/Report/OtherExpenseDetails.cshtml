@@ -58,17 +58,17 @@
                     TypeList.Add(new SelectListItem
                     { Text = "Other Expense", Value = "OE" });
                     TypeList.Add(new SelectListItem
-                    { Text = "Purchase Details", Value = "PUR" });
+                    { Text = "Purchase Details", Value = "SUP" });
                 }
-                @Html.DropDownListFor(model => model.ExpenseType, TypeList, new { @class = "form-control BlockEnter", @onchange = "OnChangeCall()", value = -1, style = "padding:4px 12px;", @id = "ExpenseType" })
+                @Html.DropDownListFor(model => model.ExpenseType, TypeList, new { @class = "form-control BlockEnter", @onchange = "ExpenseTypeOnChange(this)", value = -1, @id = "ExpenseType" })
                 @Html.ValidationMessageFor(model => model.ExpenseType, "", new { @class = "text-danger" })
             </div>
         </div>
-    <div class="col-md-12"><p></p></div>
+        <div class="col-md-12"><p></p></div>
             <div class="col-md-3">
                 @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })
                 <div class="col-md-12">
-                    @Html.TextBox("fromdate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @onchange = "OnChangeCall()", @Value = ViewBag.fromdate })
+                    @Html.TextBox("fromdate", "", new { @class = "form-control datepicker HeaderBox BlockEnter", @onchange = "OnChangeCall()", @Value = ViewBag.fromdate })
 
 
                 </div>
@@ -76,13 +76,13 @@
             <div class="col-md-3">
                 @Html.Label("To Date", htmlAttributes: new { @class = "control-label" })
                 <div class="col-md-12">
-                    @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @onchange = "OnChangeCall()", @Value = ViewBag.todate })
+                    @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter", @onchange = "OnChangeCall()", @Value = ViewBag.todate })
                 </div>
             </div>
             <div class="col-md-3">
                 @Html.LabelFor(model => model.CompanyCode, htmlAttributes: new { @class = "control-label" })
                 <div class="col-md-12">
-                    @Html.DropDownListFor(model => model.CompanyCode, Model.CompanyList, new { @class = "form-control BlockEnter", @onchange = "OnChangeCall()", value = -1, style = "padding:4px 12px;", @id = "CompanyCode" })
+                    @Html.DropDownListFor(model => model.CompanyCode, Model.CompanyList, new { @class = "form-control BlockEnter", @onchange = "OnChangeCall()", @style = "width:100%!imporant", value = -1, @id = "CompanyCode" })
                     @Html.ValidationMessageFor(model => model.CompanyCode, "", new { @class = "text-danger" })
 
                 </div>
@@ -92,7 +92,7 @@
             <div class="col-md-3">
                 @Html.LabelFor(model => model.AccountHead, htmlAttributes: new { @class = "control-label" })
                 <div class="col-md-12">
-                    @Html.DropDownListFor(model => model.AccountHead, Model.AccountHeadList, new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "AccountCode", @onchange = "AccountCodeOnchange(this)" })
+                    @Html.DropDownListFor(model => model.AccountHead, Model.AccountHeadList, new { @class = "form-control BlockEnter", value = -1, @id = "AccountCode", @style = "width:100%!imporant", @onchange = "AccountCodeOnchange(this)" })
                     @Html.ValidationMessageFor(model => model.AccountHead, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -100,7 +100,7 @@
             <div class="col-md-3">
                 @Html.LabelFor(model => model.SubType, htmlAttributes: new { @class = "control-label" })
                 <div class="col-md-12">
-                    @Html.DropDownListFor(model => model.SubType, Model.EmployeeTypeList, "--Select--", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "Subtype", @onchange = "EmployeeTypeOnchange(this)" })
+                    @Html.DropDownListFor(model => model.SubType, Model.EmployeeTypeList, "All", new { @class = "form-control BlockEnter", value = -1, @id = "Subtype", @style = "width:100%!imporant", @onchange = "EmployeeTypeOnchange(this)" })
                     @Html.ValidationMessageFor(model => model.SubType, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -108,14 +108,14 @@
             <div class="col-md-3">
                 @Html.LabelFor(model => model.EmployeeOrOther, htmlAttributes: new { @class = "control-label" })
                 <div class="col-md-12">
-                    @Html.DropDownListFor(model => model.EmployeeOrOther, Model.EmployeeList, "--Select--", new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "Employee", @onchange = "OnChangeCall()" })
+                    @Html.DropDownListFor(model => model.EmployeeOrOther, Model.EmployeeList, "All", new { @class = "form-control BlockEnter", @onchange = "OnChangeCall()", value = -1, @id = "Employee", @style="width:100%!imporant" })
                     @Html.ValidationMessageFor(model => model.EmployeeOrOther, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="col-md-3">
                 @Html.LabelFor(model => model.EmpCompany, htmlAttributes: new { @class = "control-label" })
                 <div class="col-md-12">
-                    @Html.DropDownListFor(model => model.EmpCompany, Model.CompanyList, new { @class = "form-control BlockEnter", @onchange = "OnChangeCall()", value = -1, style = "padding:4px 12px;", @id = "EmpCompany" })
+                    @Html.DropDownListFor(model => model.EmpCompany, Model.CompanyList, new { @class = "form-control BlockEnter", @onchange = "OnChangeCall()", value = -1, @id = "EmpCompany" })
                     @Html.ValidationMessageFor(model => model.EmpCompany, "", new { @class = "text-danger" })
 
                 </div>

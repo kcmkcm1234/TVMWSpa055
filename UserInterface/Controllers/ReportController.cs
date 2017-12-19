@@ -15,6 +15,7 @@ namespace UserInterface.Controllers
 {
     public class ReportController : Controller
     {
+        AppConst c = new AppConst();
         IReportBusiness _reportBusiness;
         ICustomerBusiness _customerBusiness;
         ISupplierBusiness _supplierBusiness;
@@ -39,6 +40,41 @@ namespace UserInterface.Controllers
 
         }
         // GET: Report
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "OEReport", Mode = "R")]
+        public string GetAllAccountTypes(string Type)
+        {
+            string type = (Type == "ALL") ? "OE" : Type;
+            try
+            {
+                List<SelectListItem> selectListItem = new List<SelectListItem>();
+                List<ChartOfAccountsViewModel> chartOfAccountList = Mapper.Map<List<ChartOfAccounts>, List<ChartOfAccountsViewModel>>(_otherExpenseBusiness.GetAllAccountTypes(type));
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "All",
+                    Value = "ALL"
+                });
+                foreach (ChartOfAccountsViewModel cav in chartOfAccountList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = cav.TypeDesc,
+                        Value = cav.Code + ":" + cav.ISEmploy
+                    });
+                }
+                //var empList = employeeViewModelList != null ? employeeViewModelList.Select(i => new { i.ID, i.Name }).ToList() : null;
+                var accountsList = selectListItem != null? selectListItem.Select(i => new { i.Text, i.Value }).ToList() : null;
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = accountsList });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+            
+        }
+
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
         public ActionResult Index()
@@ -318,7 +354,7 @@ namespace UserInterface.Controllers
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "OEReport", Mode = "R")]
-        public string GetOtherExpenseSummary(string FromDate, string ToDate, string CompanyCode,string ReportType, string OrderBy,string accounthead, string subtype,string employeeorother,string employeecompany,string search)
+        public string GetOtherExpenseSummary(string FromDate, string ToDate, string CompanyCode,string ReportType, string OrderBy,string accounthead, string subtype,string employeeorother,string employeecompany,string search, string ExpenseType)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
             {
@@ -326,7 +362,7 @@ namespace UserInterface.Controllers
                 {
                     DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                    List<OtherExpenseSummaryReportViewModel> otherExpenseSummaryReportList = Mapper.Map<List<OtherExpenseSummaryReport>, List<OtherExpenseSummaryReportViewModel>>(_reportBusiness.GetOtherExpenseSummary(FDate, TDate, CompanyCode,ReportType, OrderBy,accounthead.Split(':')[0], subtype, employeeorother, employeecompany, search));
+                    List<OtherExpenseSummaryReportViewModel> otherExpenseSummaryReportList = Mapper.Map<List<OtherExpenseSummaryReport>, List<OtherExpenseSummaryReportViewModel>>(_reportBusiness.GetOtherExpenseSummary(FDate, TDate, CompanyCode,ReportType, OrderBy,accounthead.Split(':')[0], subtype, employeeorother, employeecompany, search, ExpenseType));
                    
                     decimal otherExpenseSum = otherExpenseSummaryReportList.Sum(OE => OE.Amount);
                     string otherExpenseSumFormatted=_commonBusiness.ConvertCurrency(otherExpenseSum, 2);

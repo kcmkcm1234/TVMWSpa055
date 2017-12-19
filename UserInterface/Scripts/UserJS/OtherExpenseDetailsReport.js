@@ -263,4 +263,3 @@ function Reset() {
     $("#ExpenseType").val('ALL').trigger('change')
     RefreshOtherExpenseDetailsAHTable();
 }
-
