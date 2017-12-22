@@ -263,3 +263,52 @@ function Reset() {
     $("#ExpenseType").val('ALL').trigger('change')
     RefreshOtherExpenseDetailsAHTable();
 }
+
+function ExpenseTypeOnChange(curobj) {
+    debugger;
+    var ExpenseTypeSelected = $(curobj).val();
+    if (ExpenseTypeSelected) {
+        BindAccountsDropDown(ExpenseTypeSelected);
+    }
+    OnChangeCall();
+}
+
+function BindAccountsDropDown(type) {
+    debugger;
+    try {
+        var accounts = GetAllAccountsByType(type);
+        if (accounts) {
+            $('#AccountCode').empty();
+            //$('#AccountCode').append(new Option('-- Select--', ''));
+            for (var i = 0; i < accounts.length; i++) {
+                var opt = new Option(accounts[i].Text, accounts[i].Value);
+                $('#AccountCode').append(opt);
+
+            }
+        }
+    }
+    catch (ex) {
+        notyAlert('error', ex.message);
+    }
+}
+
+function GetAllAccountsByType(type) {
+    try {
+        debugger;
+        var data = { "Type": type };
+        var ds = {};
+        ds = GetDataFromServer("Report/GetAllAccountTypes/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            notyAlert('error', ds.Message);
+        }
+    }
+    catch (ex) {
+        notyAlert('error', ex.message);
+    }
+}

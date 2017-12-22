@@ -449,7 +449,7 @@ function BindAccountsDropDown(type) {
     }
 }
 
-function GetAllAccountsByType(type) {/////////////////////////////////////////////////////////////////////////////////////////////
+function GetAllAccountsByType(type) {
     try {
         debugger;
         var data = { "Type": type };
