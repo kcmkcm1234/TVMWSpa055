@@ -231,8 +231,7 @@ namespace UserInterface.Controllers
         }
         #endregion DeleteDepositAndWithdrawals
 
-
-
+        
         #region DeleteTransferAmountBetweenBanks
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "DepositAndWithdrawals", Mode = "D")]
@@ -372,27 +371,31 @@ namespace UserInterface.Controllers
             switch (ActionType)
             {
                 case "List":
-                    ToolboxViewModelObj.TransferBtn.Visible = true;
-                    ToolboxViewModelObj.TransferBtn.Text = "Transfer";
-                    ToolboxViewModelObj.TransferBtn.Title = "CashTransfer";
-                    ToolboxViewModelObj.TransferBtn.Event = "ShowCashTransfer();";
 
                     ToolboxViewModelObj.DepositBtn.Visible = true;
-                    ToolboxViewModelObj.DepositBtn.Text = "Deposit";
+                    ToolboxViewModelObj.DepositBtn.Text = "Deposit  ";
                     ToolboxViewModelObj.DepositBtn.Title = "Deposit";
                     ToolboxViewModelObj.DepositBtn.Event = "ShowDepositModal();";
 
                     ToolboxViewModelObj.WithdrawBtn.Visible = true;
-                    ToolboxViewModelObj.WithdrawBtn.Text = "WDL";
+                    ToolboxViewModelObj.WithdrawBtn.Text = "WDL      ";
                     ToolboxViewModelObj.WithdrawBtn.Title = "WithDrawal";
                     ToolboxViewModelObj.WithdrawBtn.Event = "ShowWithDrawal();";
 
                     ToolboxViewModelObj.ClearBtn.Visible = true;
-                    ToolboxViewModelObj.ClearBtn.Text = "ChqClr";
-                    ToolboxViewModelObj.ClearBtn.Title = "ChqClr";
+                    ToolboxViewModelObj.ClearBtn.Text = "ChqClr (In)";
+                    ToolboxViewModelObj.ClearBtn.Title = "Cheque Clear";
                     ToolboxViewModelObj.ClearBtn.Event = "ShowChequeClear();";
 
-                   
+                    ToolboxViewModelObj.ClearOutBtn.Visible = true;
+                    ToolboxViewModelObj.ClearOutBtn.Text = "ChqClr (Out)";
+                    ToolboxViewModelObj.ClearOutBtn.Title = "Update Cheque clear date";
+                    ToolboxViewModelObj.ClearOutBtn.Event = "ShowChequeClearOut();";
+
+                    ToolboxViewModelObj.TransferBtn.Visible = true;
+                    ToolboxViewModelObj.TransferBtn.Text = "Transfer  ";
+                    ToolboxViewModelObj.TransferBtn.Title = "CashTransfer";
+                    ToolboxViewModelObj.TransferBtn.Event = "ShowCashTransfer();";
 
                     break;
 
@@ -487,7 +490,38 @@ namespace UserInterface.Controllers
             ViewBag.Currentdate = _appUA.DateTime.ToString("dd-MMM-yyyy");
             return View();
         }
-            #endregion
+        #endregion
 
+        #region ClearCheque Out
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "DepositAndWithdrawals", Mode = "W")]
+        public string ClearChequeOut(string ID, string Date)
+        {
+            try
+            {
+                object result = null;
+
+                result = _depositAndWithdrawalsBusiness.ClearChequeOut(ID, Date);
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+
+            }
+            catch (Exception ex)
+            {
+
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
         }
+        #endregion ClearCheque Out
+
+        #region GetAllWithdrawals
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "DepositAndWithdrawals", Mode = "W")]
+        public string GetAllWithdrawals()
+        {
+            List<DepositAndWithdrwalViewModel> depositAndWithdrwalsList = Mapper.Map<List<DepositAndWithdrawals>, List<DepositAndWithdrwalViewModel>>(_depositAndWithdrawalsBusiness.GetAllWithdrawals());
+            return JsonConvert.SerializeObject(new { Result = "OK", Records = depositAndWithdrwalsList });
+        }
+        #endregion GetAllWithdrawals
+    }
 }

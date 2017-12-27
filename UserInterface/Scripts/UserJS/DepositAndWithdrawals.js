@@ -151,14 +151,47 @@ $(document).ready(function () {
            ],
            columnDefs: [{ "targets": [0], "visible": false, "searchable": false }, { orderable: false, className: 'select-checkbox', targets: 1 },
                { orderable: false, "visible": false, targets: [8,9] },
-                { className: "text-right", "targets": [6] },
-                  { className: "text-left", "targets": [] },
-           { className: "text-center", "targets": [1, 2, 3, 4,6,7] }
-          
-
+               { className: "text-right", "targets": [6] },
+               { className: "text-left", "targets": [] },
+               { className: "text-center", "targets": [1, 2, 3, 4,6,7] }
            ],
            select: { style: 'multi', selector: 'td:first-child' }
        });
+
+
+        DataTables.tblWithdrawalList = $('#tblWithdrawalList').DataTable(
+       {
+           dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
+           order: [],
+           searching: true,
+           paging: true,
+           data: GetAllWithdrawals(),
+           pageLength: 8,
+           language: {
+               search: "_INPUT_",
+               searchPlaceholder: "Search"
+           },
+           columns: [
+             { "data": "ID" },//0
+             { "data": "Checkbox", "defaultContent": "" },
+             { "data": "DateFormatted", "defaultContent": "<i>-</i>" },//2
+             { "data": "ChequeDate", "defaultContent": "<i>-</i>" },
+             { "data" :"GeneralNotes", "defaultContent": "<i>-</i>" },//4
+             { "data": "CustomerName", "defaultContent": "<i>-</i>" },
+             { "data": "ReferenceNo", "defaultContent": "<i>-</i>" },//6
+             { "data": "BankName", "defaultContent": "<i>-</i>" },
+             { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },//8
+             { "data": "CustomerID", "defaultContent": "<i>-</i>" }//9
+           ],
+           columnDefs: [{ "targets": [0], "visible": false, "searchable": false }, { orderable: false, className: 'select-checkbox', targets: 1 },
+               { orderable: false, "visible": false, targets: [9] },
+               { className: "text-right", "targets": [7] },
+               { className: "text-left", "targets": [] },
+               { className: "text-center", "targets": [1, 2, 3, 4, 5, 7, 8] }
+           ],
+           select: { style: 'multi', selector: 'td:first-child' }
+       });
+
 
         $("#PaymentMode option[value=ONLINE]").prop('disabled', true); 
         $("#ChequeStatus").prop('disabled', true);
@@ -329,6 +362,7 @@ function GetDepositWithdrawalDetailsByID(ID) {
         notyAlert('error', e.message);
     }
 }
+
 function Reset()
 {
     debugger;
@@ -511,7 +545,7 @@ function ShowDepositEdit()
 
 function ShowModal()
 {   
-    
+
         $("#AddDepositAndWithdrawalModel").modal('show');
         $("#tabDepositwithdrawalEntry").css('display', '');
         $("#DepositwithdrawalEntry").css('display', '');
@@ -917,4 +951,97 @@ function DeleteTransferAmount(TransferID) {
 }
 
 
+function ShowChequeClearOut() {
+    debugger;
+    try{
+        $("#AddWithdrawalModel").modal('show');
+        BindWithdrawals();
+        $('a[href="#WithdrawalList"]').click();
+        $("#btnChequeOut").css('display', '');
+        $('#tblWithdrawalList tbody td:nth-child(1) ').show();
+        $("#editCheckBox1").show();
+        $(".chqHeader").hide();
+        $(".modal-footer").hide();
+    } catch (Ex) {
+        notyAlert('error', Ex.message);
+        return 0;
+    }
+}
 
+function BindWithdrawals() {
+    try {
+        debugger;
+        DataTables.tblWithdrawalList.clear().rows.add(GetAllWithdrawals()).draw(true);
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+        return 0;
+    }
+}
+
+function GetAllWithdrawals() {
+    try{
+        var ds = {};
+        ds = GetDataFromServer("DepositAndWithdrawals/GetAllWithdrawals/");
+        debugger;
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            alert(ds.Message);
+        }
+    }
+    catch (ex) {
+        notyAlert('error', ex.message);
+        return 0;
+    }
+}
+
+function ClearChequeOut() {
+    debugger;
+    try{
+        if (DataTables.tblWithdrawalList.rows(".selected").data().length == 0) {
+            notyAlert('error', "Please select atleast one");
+        }
+        else {
+
+            if ($("#ChequeOutDate").val() == "") {
+                notyAlert('error', "Please Select Date");
+            }
+            else {
+                var SelectedRows = DataTables.tblWithdrawalList.rows(".selected").data();
+                if ((SelectedRows) && (SelectedRows.length > 0)) {
+                    var CheckedIDs = [];
+                    var CheckedDate = $("#ChequeOutDate").val();
+                    for (var r = 0; r < SelectedRows.length; r++) {
+                        CheckedIDs.push(SelectedRows[r].ID);
+                    }
+                }
+                debugger;
+                var data = { "ID": CheckedIDs.join(','), "Date": CheckedDate };
+                ds = GetDataFromServer("DepositAndWithdrawals/ClearChequeOut/", data);
+                if (ds !== '') {
+                    ds = JSON.parse(ds);
+                }
+                if (ds.Result === "OK") {
+                    ShowChequeClearOut();
+                    $("#AddWithdrawalModel").modal('hide');
+                    notyAlert('success', "Success");
+                    CheckedIDs.length = 0;
+                    BindWithdrawals();
+                }
+                if (ds.Result === "ERROR") {
+                    debugger;
+                    notyAlert('error', ds.Message);
+                }
+            }
+        }
+    }
+    catch (Ex) {
+        notyAlert('error', Ex.message)
+        return 0;
+    }
+}

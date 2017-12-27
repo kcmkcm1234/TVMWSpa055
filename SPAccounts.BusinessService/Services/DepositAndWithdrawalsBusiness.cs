@@ -11,6 +11,7 @@ namespace SPAccounts.BusinessService.Services
     public class DepositAndWithdrawalsBusiness : IDepositAndWithdrawalsBusiness
     {
         private ICommonBusiness _commonBusiness;
+
         private IDepositAndWithdrawalsRepository _depositAndWithdrawalsRepository;
 
         public DepositAndWithdrawalsBusiness(IDepositAndWithdrawalsRepository iDepositAndWithdrawalsRepository, ICommonBusiness commonBusiness)
@@ -18,10 +19,12 @@ namespace SPAccounts.BusinessService.Services
             _depositAndWithdrawalsRepository = iDepositAndWithdrawalsRepository;
             _commonBusiness = commonBusiness;
         }
+
         public List<DepositAndWithdrawals> GetAllDepositAndWithdrawals(string FromDate, string ToDate, string DepositOrWithdrawal,string chqclr)
         {
             return _depositAndWithdrawalsRepository.GetAllDepositAndWithdrawals(FromDate, ToDate,DepositOrWithdrawal, chqclr);
         }
+
         public List<DepositAndWithdrawals> GetUndepositedCheque(string FromDate, string ToDate)
         {
             return _depositAndWithdrawalsRepository.GetUndepositedCheque(FromDate, ToDate);
@@ -66,6 +69,7 @@ namespace SPAccounts.BusinessService.Services
             }
             return result; ;
         }
+
         public object InsertUpdateDepositAndWithdrawals(DepositAndWithdrawals _depositAndWithdrawalsObj)
         {
             object result = null;
@@ -125,6 +129,7 @@ namespace SPAccounts.BusinessService.Services
             }
             return result;
         }
+
         public string GetUndepositedChequeCount(string Date)
         {
             return _depositAndWithdrawalsRepository.GetUndepositedChequeCount(Date);
@@ -134,11 +139,35 @@ namespace SPAccounts.BusinessService.Services
         {
             return _depositAndWithdrawalsRepository.DeleteDepositandwithdrawal(ID,UserName);
         }
-
-
+        
         public object DeleteTransferAmount(Guid TransferID, string UserName)
         {
             return _depositAndWithdrawalsRepository.DeleteTransferAmount(TransferID, UserName);
+        }
+
+        public object ClearChequeOut(string ID, string Date)
+        {
+            object result = null;
+            try
+            {
+                string[] data = ID.Split(',');
+                int len = data.Length;
+                for (int i = 0; i < len; i++)
+                {
+                    if (data[i].Trim() != string.Empty)
+                        result = _depositAndWithdrawalsRepository.ClearChequeOut(Guid.Parse(data[i]), Date);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+        
+        public List<DepositAndWithdrawals> GetAllWithdrawals()
+        {
+            return _depositAndWithdrawalsRepository.GetAllWithdrawals();
         }
     }
 }
