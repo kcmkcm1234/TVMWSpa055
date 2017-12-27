@@ -684,7 +684,7 @@ namespace SPAccounts.RepositoryServices.Services
             SqlParameter outputStatus = null;
             try
             {
-                _supplierpayObj = new SupplierPayments();
+               // _supplierpayObj = new SupplierPayments();
                 using (SqlConnection con = _databaseFactory.GetDBConnection())
                 {
                     using (SqlCommand cmd = new SqlCommand())
@@ -698,7 +698,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandText = "[Accounts].[UpdateNotificationStatus]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = _supplierpayObj.ID;                       
-                        cmd.Parameters.Add("@IsNotificationSuccess", SqlDbType.Int).Value = _supplierpayObj.IsNotificationSuccess;                       
+                        cmd.Parameters.Add("@IsNotificationSuccess", SqlDbType.Int).Value = 1;                       
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();
