@@ -20,9 +20,9 @@ namespace UserInterface.Models
         public DateTime OpeningAsOfDate { get; set; }
         [Display(Name = "Is Reverse")]
         public bool IsReverse { get; set; }
-        [Display(Name = "Is Purchase")]
+        [Display(Name = "Head applicable for Purchase Invoice (Y/N)")]
         public bool IsPurchase { get; set; }
-        [Display(Name = "Subtype Applicable")]
+        [Display(Name = "Subtype Applicable (Y/N)")]
         [Required(ErrorMessage = "Is Subtype is missing")]
         public bool ISEmploy { get; set; }
         public decimal Amount { get; set; }
