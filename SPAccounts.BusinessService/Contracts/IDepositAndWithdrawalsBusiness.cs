@@ -19,6 +19,7 @@ namespace SPAccounts.BusinessService.Contracts
         List<DepositAndWithdrawals> GetUndepositedCheque(string FromDate, string ToDate);
         string GetUndepositedChequeCount(string Date);
         object InsertUpdateTransferAmount(DepositAndWithdrawals _depositAndWithdrwalObj);
-
+        object ClearChequeOut(string ID, string Date);
+        List<DepositAndWithdrawals> GetAllWithdrawals();
     }
 }
