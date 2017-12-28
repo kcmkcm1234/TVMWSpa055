@@ -24,6 +24,8 @@ namespace UserInterface.Models
         public ToolBoxStructure PayBtn;
         public ToolBoxStructure TransferBtn;
         public ToolBoxStructure LimitBtn;
+        public ToolBoxStructure ClearOutBtn;
+        public ToolBoxStructure LimitBtn;
         public ToolBoxStructure downloadBtn;
 
         public ToolboxViewModel()
@@ -47,6 +49,8 @@ namespace UserInterface.Models
             downloadBtn.SecurityObject = "ButtonDownload";
 
 
+            ClearOutBtn.SecurityObject = "ButtonClear";
+
             backbtn.HasAccess = true;
             addbtn.HasAccess = true;
             savebtn.HasAccess = true;
@@ -62,6 +66,8 @@ namespace UserInterface.Models
             NotyBtn.HasAccess = true;
             PayBtn.HasAccess = true;
             TransferBtn.HasAccess = true;
+            LimitBtn.HasAccess = true;
+            ClearOutBtn.HasAccess = true;
             LimitBtn.HasAccess = true;
             downloadBtn.HasAccess = true;
         }

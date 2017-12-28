@@ -372,7 +372,7 @@ namespace UserInterface.Controllers
                 SupplierPaymentsViewModel CPVM = Mapper.Map<SupplierPayments, SupplierPaymentsViewModel>(_supplierPaymentsBusiness.UpdateSupplierPaymentGeneralNotes(Mapper.Map<SupplierPaymentsViewModel, SupplierPayments>(supobj)));
                 _supplierPaymentsBusiness.SendToFCM(titleString, descriptionString, isCommon, CustomerID);
                 //Update notification 
-                result = _supplierPaymentsBusiness.UpdateNotification(Mapper.Map<SupplierPaymentsViewModel, SupplierPayments>(CPVM));               
+                result = _supplierPaymentsBusiness.UpdateNotification(Mapper.Map<SupplierPaymentsViewModel, SupplierPayments>(supobj));               
                 return JsonConvert.SerializeObject(new { Result = "OK", Message = c.NotificationSuccess, Records = result });
 
             }

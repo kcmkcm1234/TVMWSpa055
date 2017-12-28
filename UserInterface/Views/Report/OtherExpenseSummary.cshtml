@@ -57,9 +57,9 @@
                         TypeList.Add(new SelectListItem
                         { Text = "Other Expense", Value = "OE" });
                         TypeList.Add(new SelectListItem
-                        { Text = "Purchase Details", Value = "PUR" });
+                        { Text = "Purchase Details", Value = "SUP" });
                     }
-                    @Html.DropDownListFor(model => model.ExpenseType, TypeList, new { @class = "form-control BlockEnter", @onchange = "OnChangeCall()", value = -1, style = "padding:4px 12px;", @id = "ExpenseType" })
+                    @Html.DropDownListFor(model => model.ExpenseType, TypeList, new { @class = "form-control BlockEnter", @onchange = "ExpenseTypeOnChange(this)", value = -1, style = "padding:4px 12px;", @id = "ExpenseType" })
                     @Html.ValidationMessageFor(model => model.ExpenseType, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -81,7 +81,7 @@
             <div class="col-md-3">
                 @Html.LabelFor(model => model.CompanyCode, htmlAttributes: new { @class = "control-label" })
                 <div class="col-md-12">
-                    @Html.DropDownListFor(model => model.CompanyCode, Model.CompanyList, new { @class = "form-control BlockEnter", @onchange = "OnChangeCall()", value = -1, style = "padding:4px 12px;", @id = "CompanyCode" })
+                    @Html.DropDownListFor(model => model.CompanyCode, Model.CompanyList, new { @class = "form-control BlockEnter", @onchange = "OnChangeCall()", value = -1, @style = "width:100%!imporant", @id = "CompanyCode" })
                     @Html.ValidationMessageFor(model => model.CompanyCode, "", new { @class = "text-danger" })
 
                 </div>
@@ -90,7 +90,7 @@
             <div class="col-md-3">
                 @Html.LabelFor(model => model.AccountHead, htmlAttributes: new { @class = "control-label" })
                 <div class="col-md-12">
-                    @Html.DropDownListFor(model => model.AccountHead, Model.AccountHeadList, new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "AccountCode", @onchange = "AccountCodeOnchange(this)" })
+                    @Html.DropDownListFor(model => model.AccountHead, Model.AccountHeadList, new { @class = "form-control BlockEnter", value = -1, @style = "width:100%!imporant", @id = "AccountCode", @onchange = "AccountCodeOnchange(this)" })
                     @Html.ValidationMessageFor(model => model.AccountHead, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -98,7 +98,7 @@
             <div class="col-md-3">
                 @Html.LabelFor(model => model.Subtype, htmlAttributes: new { @class = "control-label" })
                 <div class="col-md-12">
-                    @Html.DropDownListFor(model => model.Subtype, Model.EmployeeTypeList, "--Select--", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "Subtype", @onchange = "EmployeeTypeOnchange(this)" })
+                    @Html.DropDownListFor(model => model.Subtype, Model.EmployeeTypeList, "--Select--", new { @class = "form-control BlockEnter", value = -1, @style = "width:100%!imporant", @id = "Subtype", @onchange = "EmployeeTypeOnchange(this)" })
                     @Html.ValidationMessageFor(model => model.Subtype, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -106,7 +106,7 @@
             <div class="col-md-3">
                 @Html.LabelFor(model => model.EmployeeOrOther, htmlAttributes: new { @class = "control-label" })
                 <div class="col-md-12">
-                    @Html.DropDownListFor(model => model.Employee, Model.EmployeeList, "--Select--", new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "Employee", @onchange = "OnChangeCall()" })
+                    @Html.DropDownListFor(model => model.Employee, Model.EmployeeList, "--Select--", new { @class = "form-control BlockEnter", value = -1, @style = "width:100%!imporant", @id = "Employee", @onchange = "OnChangeCall()" })
                     @Html.ValidationMessageFor(model => model.Employee, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -231,6 +231,7 @@
                         <thead>
                             <tr class="text-center TableHead">
                                 <th>Company</th>
+                                <th>Expense Type</th>
                                 <th>Date</th>
                                 <th>Account Head</th>
                                 <th>Employee/Other</th>

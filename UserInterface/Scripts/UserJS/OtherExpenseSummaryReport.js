@@ -35,17 +35,14 @@ $(document).ready(function () {
              //    searchPlaceholder: "Search"
              //},
              columns: [
-               {
-                   "data": "OriginCompany", "defaultContent": "<i>-</i>"},
-               {
-                   "data": "AccountHeadORSubtype", "defaultContent": "<i>-</i>", render: function (data, type, row) {
+               { "data": "OriginCompany", "defaultContent": "<i>-</i>"},
+               { "data": "AccountHeadORSubtype", "defaultContent": "<i>-</i>", render: function (data, type, row) {
                        return '<a href="#" onclick="ViewOtherExpensesDetail(this);">' + data + ' </a>';
                    }
                },
                { "data": "SubTypeDesc", "defaultContent": "<i>-</i>" },
                //{ "data": "Description", "defaultContent": "<i>-</i>" },
-               { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
-             
+               { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" }
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                   { className: "text-left", "targets": [1,2] },
@@ -81,6 +78,7 @@ $(document).ready(function () {
 
      columns: [
        { "data": "Company", "defaultContent": "<i>-</i>" },
+       { "data": "ExpenseType", "defaultContent": "<i>-</i>" },
         { "data": "Date", "defaultContent": "<i>-</i>" },
        { "data": "AccountHead", "defaultContent": "<i>-</i>" },
        { "data": "SubType", "defaultContent": "<i>-</i>" },
@@ -91,12 +89,12 @@ $(document).ready(function () {
        { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
        { "data": "OriginCompany", "defaultContent": "<i>-</i>" }
      ],
-     columnDefs: [{ "targets": [9], "visible": false, "searchable": false },
-     { className: "text-left", "targets": [0, 2, 3, 4, 5, 6,7] },
+     columnDefs: [{ "targets": [10], "visible": false, "searchable": false },
+     { className: "text-left", "targets": [0, 1, 2, 3, 4, 5, 6, 7, 8] },
       { "width": "15%", "targets": [0] },
-       { "width": "10%", "targets": [1] },
-     { className: "text-right", "targets": [8] },
- { className: "text-center", "targets": [1] }]
+       { "width": "10%", "targets": [2] },
+     { className: "text-right", "targets": [9] },
+ { className: "text-center", "targets": [2] }]
  });
 
 
@@ -179,6 +177,7 @@ function GetExpenseSummaryReport() {
         var Employeeorother = $("#Employee").val();
         var Employeecompany = $("#EmpCompany").val();
         var search = $("#Search").val();
+        var ExpenseType = $("#ExpenseType").val();
         var reporttype = "";
         if ($("#headwise").prop('checked')) {
                 reporttype = $("#headwise").val();
@@ -189,7 +188,7 @@ function GetExpenseSummaryReport() {
      
        
         if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode ) {
-            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode,"ReportType":reporttype,"OrderBy": orderby, "accounthead": AccountHead, "subtype": Subtype, "employeeorother": Employeeorother, "employeecompany": Employeecompany, "search": search };
+            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "ReportType": reporttype, "OrderBy": orderby, "accounthead": AccountHead, "subtype": Subtype, "employeeorother": Employeeorother, "employeecompany": Employeecompany, "search": search, "ExpenseType": ExpenseType };
             var ds = {};
             ds = GetDataFromServer("Report/GetOtherExpenseSummary/", data);
             if (ds != '') {
@@ -388,18 +387,20 @@ function GetOtherExpenseDetailsReport(rowData) {
             $("#lblDetailsHead").text(rowData.AccountHeadORSubtype + '-' + rowData.SubTypeDesc);
         else
             $("#lblDetailsHead").text(rowData.AccountHeadORSubtype);
-
+        if (rowData.AccountHeadORSubtype == "No_Head")
+            var AccountHead = "NO_HEAD";
+        else
+            var AccountHead = rowData.AccountHead;
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
         var companycode = $("#CompanyCode").val();
-        var AccountHead = rowData.AccountHead;
         var Subtype = $("#Subtype").val();
         if (rowData.EmployeeID != '00000000-0000-0000-0000-000000000000')
             var Employeeorother = rowData.EmployeeID;
         else
             var Employeeorother = $("#Employee").val();
         var Employeecompany = $("#EmpCompany").val();
-        var ExpenseType = "OE";//should be removed in next commit
+        var ExpenseType = $("#ExpenseType").val();
         if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
             var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "accounthead": AccountHead, "subtype": Subtype, "employeeorother": Employeeorother, "employeecompany": Employeecompany, "ExpenseType": ExpenseType };
             var ds = {};
@@ -417,5 +418,54 @@ function GetOtherExpenseDetailsReport(rowData) {
     }
     catch (e) {
         notyAlert('error', e.message);
+    }
+}
+
+function ExpenseTypeOnChange(curobj) {
+    debugger;
+    var ExpenseTypeSelected= $(curobj).val();
+    if (ExpenseTypeSelected) {
+        BindAccountsDropDown(ExpenseTypeSelected);
+    }   
+    OnChangeCall();
+}
+
+function BindAccountsDropDown(type) {
+    debugger;
+    try {
+        var accounts = GetAllAccountsByType(type);
+        if (accounts) {
+            $('#AccountCode').empty();
+            //$('#AccountCode').append(new Option('-- Select--', ''));
+            for (var i = 0; i < accounts.length; i++) {
+                var opt = new Option(accounts[i].Text, accounts[i].Value);
+                $('#AccountCode').append(opt);
+
+            }
+        }
+    }
+    catch (ex) {
+        notyAlert('error', ex.message);
+    }
+}
+
+function GetAllAccountsByType(type) {
+    try {
+        debugger;
+        var data = { "Type": type };
+        var ds = {};
+        ds = GetDataFromServer("Report/GetAllAccountTypes/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            notyAlert('error', ds.Message);
+        }
+    }
+    catch (ex) {
+        notyAlert('error', ex.message);
     }
 }

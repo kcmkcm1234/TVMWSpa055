@@ -77,7 +77,7 @@ namespace SPAccounts.RepositoryServices.Services
         /// <param name="ToDate"></param>
         /// <param name="CompanyCode"></param>
         /// <returns>List<OtherExpenseSummaryReport></returns>
-        public List<OtherExpenseSummaryReport> GetOtherExpenseSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string ReportType,string accounthead, string subtype, string employeeorother, string employeecompany,string search)
+        public List<OtherExpenseSummaryReport> GetOtherExpenseSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string ReportType,string accounthead, string subtype, string employeeorother, string employeecompany,string search,string ExpenseType)
         {
             List<OtherExpenseSummaryReport> otherExpenseSummaryList = null;
             try
@@ -100,6 +100,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@EmployeeOrOther", SqlDbType.NVarChar, 50).Value = employeeorother!=""?employeeorother:null;
                         cmd.Parameters.Add("@EmployeeCompany", SqlDbType.NVarChar, 50).Value = employeecompany != "" ? employeecompany : null;
                         cmd.Parameters.Add("@Search", SqlDbType.NVarChar, 250).Value = search!=""?search:null;
+                        cmd.Parameters.Add("@ExpenseType", SqlDbType.NVarChar, 50).Value = ExpenseType != "" ? ExpenseType : null;
                         cmd.CommandText = "[Accounts].[RPT_GetOtherExpenseSummary]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
