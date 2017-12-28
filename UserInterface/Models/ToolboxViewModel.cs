@@ -24,8 +24,7 @@ namespace UserInterface.Models
         public ToolBoxStructure PayBtn;
         public ToolBoxStructure TransferBtn;
         public ToolBoxStructure LimitBtn;
-        public ToolBoxStructure ClearOutBtn;
-        public ToolBoxStructure LimitBtn;
+        public ToolBoxStructure ClearOutBtn;      
         public ToolBoxStructure downloadBtn;
 
         public ToolboxViewModel()
