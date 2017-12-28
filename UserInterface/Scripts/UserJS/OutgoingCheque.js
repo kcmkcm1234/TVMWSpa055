@@ -126,8 +126,8 @@ function SaveSuccessOutGoingCheque(data, status) {
                 notyAlert('success', JsonResult.Message);
             }
             $('#OutGoingObj_ID').val(JsonResult.Records.ID);
-            PaintOutGoingCheques();
             BindAllOutgoingCheques();
+          
             //List();
             break;
         case "ERROR":
