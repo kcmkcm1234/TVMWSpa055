@@ -18,8 +18,13 @@ namespace SPAccounts.RepositoryServices.Contracts
         object DeleteTransferAmount(Guid TransferID, string UserName);
         object ClearCheque(Guid ID,string date);
         List<DepositAndWithdrawals> GetUndepositedCheque(string FromDate, string ToDate);
+        List<OutGoingCheques> GetOutGoingCheques(OutgoingChequeAdvanceSearch advanceSearchObject);
         string GetUndepositedChequeCount(string Date);
         DepositAndWithdrawals TransferAmount(DepositAndWithdrawals _depositAndWithdrwalObj);
         object UpdateTransferAmount(DepositAndWithdrawals _depositAndWithdrwalObj);
+        OutGoingCheques InsertOutgoingCheques(OutGoingCheques outGoingChequeObj);
+        object UpdateOutgoingCheques(OutGoingCheques outGoingChequeObj);
+        object DeleteOutgoingCheque(Guid ID);
+        OutGoingCheques GetOutgoingChequeById(Guid ID);
     }
 }

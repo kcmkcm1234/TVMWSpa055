@@ -39,7 +39,7 @@ namespace UserInterface.Models
         public List<DepositAndWithdrwalViewModel> CheckedRows { get; set; }
         public string DepositMode { get; set; }
         public string hdnChequeStatus { get; set; }
-        public string hdnChequeDate { get;set;}
+        public string hdnChequeDate { get; set; }
         [Display(Name = "Cheque Status")]
         [Required(ErrorMessage = "Cheque Status is missing")]
         public string ChequeStatus { get; set; }
@@ -54,10 +54,36 @@ namespace UserInterface.Models
         [Display(Name = "Customer Name")]
         public Guid? CustomerID { get; set; }
         public List<SelectListItem> customerList { get; set; }
+        public List<SelectListItem> CompanyList { get; set; }
         [Display(Name = "From Bank")]
         public string FromBank { get; set; }
         [Display(Name = "To Bank")]
         public string ToBank { get; set; }
         public Guid TransferID { get; set; }
+        public OutgoingChequeAdvanceSearchViewModel OutAdvanceSearch { get; set; }
+        public OutGoingChequesViewModel OutGoingObj { get; set; }
+    }
+
+    public class OutGoingChequesViewModel
+    { 
+        public Guid ID { get; set; }
+        [Required(ErrorMessage = "ChequeDate Missing")]
+        public string ChequeDate { get; set; }
+        [Required(ErrorMessage = "ChequeNo Missing")]
+        public string ChequeNo { get; set; }
+        public string Bank { get; set; }
+        public string Party { get; set; }
+        public string Status { get; set; }
+        public decimal Amount { get; set; }
+        public string Company { get; set; }
+        public CommonViewModel CommonObj { get; set; }
+    }
+    public class OutgoingChequeAdvanceSearchViewModel
+    {
+        public string ToDate { get; set; }
+        public string FromDate { get; set; }
+        public string Company { get; set; }
+        public string Status { get; set; }
+        public string Search { get; set; }
     }
 }

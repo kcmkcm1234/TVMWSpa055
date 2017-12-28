@@ -228,7 +228,8 @@ function GetDataFromServerTraditional(page, formData) {
     return jsonResult;
 }
 
-function ChangeButtonPatchView(Controller,Dom, Action) {
+function ChangeButtonPatchView(Controller, Dom, Action) {
+    debugger
     var data = { ActionType: Action };
     var ds = {};
     ds = GetDataFromServer(Controller + "/ChangeButtonStyle/", data);

@@ -1581,6 +1581,7 @@
     <Content Include="Scripts\UserJS\OtherExpense.js" />
     <Content Include="Scripts\UserJS\OtherIncomeDetailsReport.js" />
     <Content Include="Scripts\UserJS\OtherIncomeSummaryReport.js" />
+    <Content Include="Scripts\UserJS\OutgoingCheque.js" />
     <Content Include="Scripts\UserJS\Outstanding.js" />
     <Content Include="Scripts\UserJS\PDF.js" />
     <Content Include="Scripts\UserJS\Privileges.js" />
@@ -1786,6 +1787,7 @@
     <Content Include="Views\Report\TrialBalance.cshtml" />
     <Content Include="Views\Company\Index.cshtml" />
     <Content Include="Views\User\_RoleList.cshtml" />
+    <Content Include="Views\DepositAndWithdrawals\OutgoingCheques.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

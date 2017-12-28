@@ -33,5 +33,31 @@ namespace SPAccounts.DataAccessObject.DTO
         public Guid TransferID { get; set; }
         public string FromBank { get; set;}
         public string ToBank { get; set; }
+        public string ChequeNo { get; set; }
+        public OutGoingCheques OutGoingObj { get; set; }
+
+    }
+
+    public class OutGoingCheques
+    {
+        public Guid ID { get; set; }
+        public string ChequeDate { get; set; }
+        public string ChequeNo { get; set; }
+        public string Bank { get; set; }
+        public string Party { get; set; }
+        public string Status { get; set; }
+        public decimal Amount { get; set; }
+        public string Company { get; set; }
+        public string ChequeFormatted { get; set; }
+        public Common commonObj { get; set; }
+    }
+    public class OutgoingChequeAdvanceSearch
+    {
+        public string ToDate { get; set; }
+        public string FromDate { get; set; }
+        public string Company { get; set; }
+        public string Status { get; set; }
+        public string Search { get; set; }
+       
     }
 }

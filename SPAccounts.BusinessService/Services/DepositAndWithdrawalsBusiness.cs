@@ -26,7 +26,10 @@ namespace SPAccounts.BusinessService.Services
         {
             return _depositAndWithdrawalsRepository.GetUndepositedCheque(FromDate, ToDate);
         }
-
+        public List<OutGoingCheques> GetOutGoingCheques(OutgoingChequeAdvanceSearch advanceSearchObject)
+        {
+            return _depositAndWithdrawalsRepository.GetOutGoingCheques(advanceSearchObject);
+        }
         public DepositAndWithdrawals GetDepositAndWithdrawalDetails(Guid ID)
         {
             DepositAndWithdrawals depositAndWithdrawalsObj = new DepositAndWithdrawals();
@@ -139,6 +142,36 @@ namespace SPAccounts.BusinessService.Services
         public object DeleteTransferAmount(Guid TransferID, string UserName)
         {
             return _depositAndWithdrawalsRepository.DeleteTransferAmount(TransferID, UserName);
+        }
+
+
+        public object InsertUpdateOutgoingCheque(OutGoingCheques outGoingChequeObj)
+        {
+            object result = null;
+
+            if (outGoingChequeObj.ID == Guid.Empty)
+            {
+                result = _depositAndWithdrawalsRepository.InsertOutgoingCheques(outGoingChequeObj);
+            }
+            else
+            {
+                result = _depositAndWithdrawalsRepository.UpdateOutgoingCheques(outGoingChequeObj);
+            }
+            return result; ;
+        }
+
+        public object DeleteOutgoingCheque(Guid ID)
+        {
+            return _depositAndWithdrawalsRepository.DeleteOutgoingCheque(ID);
+        }
+
+
+        public OutGoingCheques GetOutgoingChequeById(Guid ID)
+        {
+            OutGoingCheques outGoingChequesObj = new OutGoingCheques();
+            outGoingChequesObj = _depositAndWithdrawalsRepository.GetOutgoingChequeById(ID);
+            return outGoingChequesObj;
+
         }
     }
 }

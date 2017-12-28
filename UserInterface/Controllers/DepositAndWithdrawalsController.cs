@@ -17,20 +17,22 @@ namespace UserInterface.Controllers
 
         #region Constructor_Injection 
 
-        AppConst c = new AppConst();       
-        IDepositAndWithdrawalsBusiness _depositAndWithdrawalsBusiness;       
-        IBankBusiness _bankBusiness;       
+        AppConst c = new AppConst();
+        IDepositAndWithdrawalsBusiness _depositAndWithdrawalsBusiness;
+        IBankBusiness _bankBusiness;
         ICommonBusiness _commonBusiness;
         IPaymentModesBusiness _paymentModesBusiness;
         ICustomerBusiness _customerBusiness;
+        ICompaniesBusiness _companiesBusiness;
 
-        public DepositAndWithdrawalsController(IDepositAndWithdrawalsBusiness depositAndWithdrawalsBusiness,IBankBusiness bankBusiness, ICommonBusiness commonBusiness,IPaymentModesBusiness paymentModesBusiness, ICustomerBusiness customerBusiness)
+        public DepositAndWithdrawalsController(IDepositAndWithdrawalsBusiness depositAndWithdrawalsBusiness, IBankBusiness bankBusiness, ICommonBusiness commonBusiness, IPaymentModesBusiness paymentModesBusiness, ICustomerBusiness customerBusiness, ICompaniesBusiness companiesBusiness)
         {
-            _depositAndWithdrawalsBusiness = depositAndWithdrawalsBusiness;          
-            _bankBusiness = bankBusiness;            
+            _depositAndWithdrawalsBusiness = depositAndWithdrawalsBusiness;
+            _bankBusiness = bankBusiness;
             _commonBusiness = commonBusiness;
             _paymentModesBusiness = paymentModesBusiness;
-            _customerBusiness= customerBusiness; ;
+            _customerBusiness = customerBusiness;
+            _companiesBusiness = companiesBusiness;
         }
         #endregion Constructor_Injection 
 
@@ -39,7 +41,7 @@ namespace UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject = "DepositAndWithdrawals", Mode = "R")]
         public ActionResult Index()
         {
-            DepositAndWithdrwalViewModel    depositAndWithdrwalViewModelObj = null;
+            DepositAndWithdrwalViewModel depositAndWithdrwalViewModelObj = null;
             try
             {
                 depositAndWithdrwalViewModelObj = new DepositAndWithdrwalViewModel();
@@ -104,7 +106,7 @@ namespace UserInterface.Controllers
         #region GetAllDepositAndWithdrawals
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "DepositAndWithdrawals", Mode = "R")]
-        public string GetAllDepositAndWithdrawals(string FromDate, string ToDate, string DepositOrWithdrawal,string chqclr)
+        public string GetAllDepositAndWithdrawals(string FromDate, string ToDate, string DepositOrWithdrawal, string chqclr)
         {
             try
             {
@@ -114,7 +116,7 @@ namespace UserInterface.Controllers
                 var totalDpt = depositAndWithdrwalsList.Where(amt => amt.TransactionType == "D").Sum(amt => amt.Amount);
                 string totalWdlFormatted = _commonBusiness.ConvertCurrency(totalWdl, 2);
                 string totalDptFormatted = _commonBusiness.ConvertCurrency(totalDpt, 2);
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = depositAndWithdrwalsList, totalWdl = totalWdlFormatted, totalDpt= totalDptFormatted });
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = depositAndWithdrwalsList, totalWdl = totalWdlFormatted, totalDpt = totalDptFormatted });
             }
             catch (Exception ex)
             {
@@ -151,7 +153,7 @@ namespace UserInterface.Controllers
             try
             {
 
-                DepositAndWithdrwalViewModel depositAndWithdrwalObj = Mapper.Map<DepositAndWithdrawals,DepositAndWithdrwalViewModel>(_depositAndWithdrawalsBusiness.GetTransferCashById(TransferId != null && TransferId != "" ? Guid.Parse(TransferId) : Guid.Empty));
+                DepositAndWithdrwalViewModel depositAndWithdrwalObj = Mapper.Map<DepositAndWithdrawals, DepositAndWithdrwalViewModel>(_depositAndWithdrawalsBusiness.GetTransferCashById(TransferId != null && TransferId != "" ? Guid.Parse(TransferId) : Guid.Empty));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = depositAndWithdrwalObj });
             }
             catch (Exception ex)
@@ -177,12 +179,12 @@ namespace UserInterface.Controllers
                 _depositAndWithdrwalObj.CommonObj.CreatedDate = _appUA.DateTime;
                 _depositAndWithdrwalObj.CommonObj.UpdatedBy = _appUA.UserName;
                 _depositAndWithdrwalObj.CommonObj.UpdatedDate = _appUA.DateTime;
-               
-                if (_depositAndWithdrwalObj.DepositRowValues != null && _depositAndWithdrwalObj.DepositRowValues!="0")
+
+                if (_depositAndWithdrwalObj.DepositRowValues != null && _depositAndWithdrwalObj.DepositRowValues != "0")
                 {
-                    _depositAndWithdrwalObj.CheckedRows  =  JsonConvert.DeserializeObject<List<DepositAndWithdrwalViewModel>>(_depositAndWithdrwalObj.DepositRowValues);//.Select(c => { c.Password = null; return c; }).ToList();
-                    _depositAndWithdrwalObj.CheckedRows = _depositAndWithdrwalObj.CheckedRows == null ? null : _depositAndWithdrwalObj.CheckedRows.Select(x => { x.CommonObj = new CommonViewModel { CreatedBy = _appUA.UserName, CreatedDate = _appUA.DateTime };return x;}).ToList();
-                  
+                    _depositAndWithdrwalObj.CheckedRows = JsonConvert.DeserializeObject<List<DepositAndWithdrwalViewModel>>(_depositAndWithdrwalObj.DepositRowValues);//.Select(c => { c.Password = null; return c; }).ToList();
+                    _depositAndWithdrwalObj.CheckedRows = _depositAndWithdrwalObj.CheckedRows == null ? null : _depositAndWithdrwalObj.CheckedRows.Select(x => { x.CommonObj = new CommonViewModel { CreatedBy = _appUA.UserName, CreatedDate = _appUA.DateTime }; return x; }).ToList();
+
                 }
                 //Author:Praveena M S
                 //While updating bank ,hidden field values 'Status and ChequeClearDate' are taken and assigned to ChequeClearDate and ChequeStatus for avoiding null entries......
@@ -261,12 +263,12 @@ namespace UserInterface.Controllers
         #region ClearCheque
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "DepositAndWithdrawals", Mode = "W")]
-        public string ClearCheque(string ID,string Date)
+        public string ClearCheque(string ID, string Date)
         {
             try
             {
                 object result = null;
-                 
+
                 result = _depositAndWithdrawalsBusiness.ClearCheque(ID, Date);
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
 
@@ -299,18 +301,18 @@ namespace UserInterface.Controllers
             try
             {
 
-               if(FromDate!=""? Convert.ToDateTime(FromDate)>Convert.ToDateTime(ToDate):false)
+                if (FromDate != "" ? Convert.ToDateTime(FromDate) > Convert.ToDateTime(ToDate) : false)
                 {
                     throw new Exception("Date missmatch");
-                }              
+                }
                 List<DepositAndWithdrwalViewModel> unDepositedChequeList = Mapper.Map<List<DepositAndWithdrawals>, List<DepositAndWithdrwalViewModel>>(_depositAndWithdrawalsBusiness.GetUndepositedCheque(FromDate, ToDate));
                 string MinDate = unDepositedChequeList.Count != 0 ? Convert.ToDateTime((unDepositedChequeList.Min(X => Convert.ToDateTime(X.DateFormatted)))).ToString("dd-MMM-yyyy") : FromDate;
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = unDepositedChequeList,FromDate= MinDate });
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = unDepositedChequeList, FromDate = MinDate });
             }
             catch (Exception ex)
             {
                 AppConstMessage cm = c.GetMessage(ex.Message);
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message, FromDate=FromDate });
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message, FromDate = FromDate });
             }
         }
         #endregion  GetUndepositedCheque
@@ -392,7 +394,7 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.ClearBtn.Title = "ChqClr";
                     ToolboxViewModelObj.ClearBtn.Event = "ShowChequeClear();";
 
-                   
+
 
                     break;
 
@@ -461,7 +463,67 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.CloseBtn.Event = "closeNav();";
 
                     break;
+                case "AddNew":
+                    ToolboxViewModelObj.PrintBtn.Visible = true;
+                    ToolboxViewModelObj.PrintBtn.Text = "Export";
+                    ToolboxViewModelObj.PrintBtn.Event = "PrintReport();";
+
+                    ToolboxViewModelObj.addbtn.Visible = true;
+                    ToolboxViewModelObj.addbtn.Text = "New";
+                    ToolboxViewModelObj.addbtn.Title = "Add New";
+                    ToolboxViewModelObj.addbtn.Event = "AddNew()";
+
+                    ToolboxViewModelObj.resetbtn.Visible = true;
+                    ToolboxViewModelObj.resetbtn.Text = "Reset";
+                    ToolboxViewModelObj.resetbtn.Title = "Reset";
+                    ToolboxViewModelObj.resetbtn.Event = "FilterReset();";
+
+                    break;
                 case "AddSub":
+                    ToolboxViewModelObj.savebtn.Visible = true;
+                    ToolboxViewModelObj.savebtn.Text = "Save";
+                    ToolboxViewModelObj.savebtn.Title = "Save";
+                    ToolboxViewModelObj.savebtn.Event = "Save();";
+
+                    ToolboxViewModelObj.CloseBtn.Visible = true;
+                    ToolboxViewModelObj.CloseBtn.Text = "Close";
+                    ToolboxViewModelObj.CloseBtn.Title = "Close";
+                    ToolboxViewModelObj.CloseBtn.Event = "closeNav();";
+
+                    ToolboxViewModelObj.addbtn.Visible = true;
+                    ToolboxViewModelObj.addbtn.Text = "New";
+                    ToolboxViewModelObj.addbtn.Title = "Add New";
+                    ToolboxViewModelObj.addbtn.Event = "AddNew()";
+
+                    ToolboxViewModelObj.deletebtn.Visible = true;
+                    ToolboxViewModelObj.deletebtn.Disable = true;
+                    ToolboxViewModelObj.deletebtn.Text = "Delete";
+                    ToolboxViewModelObj.deletebtn.Title = "Delete Outgoing Cheques";
+                    ToolboxViewModelObj.deletebtn.Event = "DeleteOutgoingCheque()";
+
+                    break;
+
+
+                case "EditOutGoing":
+                    ToolboxViewModelObj.savebtn.Visible = true;
+                    ToolboxViewModelObj.savebtn.Text = "Save";
+                    ToolboxViewModelObj.savebtn.Title = "Save";
+                    ToolboxViewModelObj.savebtn.Event = "Save();";
+
+                    ToolboxViewModelObj.CloseBtn.Visible = true;
+                    ToolboxViewModelObj.CloseBtn.Text = "Close";
+                    ToolboxViewModelObj.CloseBtn.Title = "Close";
+                    ToolboxViewModelObj.CloseBtn.Event = "closeNav();";
+
+                    ToolboxViewModelObj.addbtn.Visible = true;
+                    ToolboxViewModelObj.addbtn.Text = "New";
+                    ToolboxViewModelObj.addbtn.Title = "Add New";
+                    ToolboxViewModelObj.addbtn.Event = "AddNew()";
+
+                    ToolboxViewModelObj.deletebtn.Visible = true;
+                    ToolboxViewModelObj.deletebtn.Text = "Delete";
+                    ToolboxViewModelObj.deletebtn.Title = "Delete Outgoing Cheques";
+                    ToolboxViewModelObj.deletebtn.Event = "DeleteOutgoingCheque()";
 
                     break;
                 case "tab1":
@@ -487,7 +549,144 @@ namespace UserInterface.Controllers
             ViewBag.Currentdate = _appUA.DateTime.ToString("dd-MMM-yyyy");
             return View();
         }
-            #endregion
+        #endregion
+
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "DepositAndWithdrawals", Mode = "R")]
+        public ActionResult OutgoingCheques()
+        {
+            AppUA appUA = Session["AppUA"] as AppUA;
+            DateTime dateTime = appUA.DateTime;
+            ViewBag.fromdate = dateTime.AddDays(-90).ToString("dd-MMM-yyyy");
+            ViewBag.todate = dateTime.ToString("dd-MMM-yyyy");
+            DepositAndWithdrwalViewModel depositAndWithdrwalViewModelObj = null;
+            try
+            {
+                depositAndWithdrwalViewModelObj = new DepositAndWithdrwalViewModel();
+                depositAndWithdrwalViewModelObj.bankList = new List<SelectListItem>();
+
+
+                List<SelectListItem> selectListItem = new List<SelectListItem>();
+                selectListItem = new List<SelectListItem>();
+                List<BankViewModel> PayTermList = Mapper.Map<List<Bank>, List<BankViewModel>>(_bankBusiness.GetAllBanks());
+                foreach (BankViewModel bvm in PayTermList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = bvm.Name,
+                        Value = bvm.Code,
+                        Selected = false
+                    });
+                }
+                depositAndWithdrwalViewModelObj.bankList = selectListItem;
+
+                depositAndWithdrwalViewModelObj.CompanyList = new List<SelectListItem>();
+                selectListItem = new List<SelectListItem>();
+                List<CompaniesViewModel> CompaniesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_companiesBusiness.GetAllCompanies());
+                foreach (CompaniesViewModel Cmp in CompaniesList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = Cmp.Name,
+                        Value = Cmp.Code,
+                        Selected = false
+                    });
+                }
+                depositAndWithdrwalViewModelObj.CompanyList = selectListItem;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(depositAndWithdrwalViewModelObj);
+        }
+
+       
+        public string GetOutGoingCheques(string outGoingChequesAdvanceSearchObject)
+        {
+
+            try
+            {
+                OutgoingChequeAdvanceSearch outAdvancedSearchObj = outGoingChequesAdvanceSearchObject != null ? JsonConvert.DeserializeObject<OutgoingChequeAdvanceSearch>(outGoingChequesAdvanceSearchObject) : new OutgoingChequeAdvanceSearch();
+                //DateTime? FDate = string.IsNullOrEmpty(OutAdvancedSearchObj.FromDate) ? (DateTime?)null : DateTime.Parse(OutAdvancedSearchObj.FromDate);
+                //DateTime? TDate = string.IsNullOrEmpty(OutAdvancedSearchObj.ToDate) ? (DateTime?)null : DateTime.Parse(OutAdvancedSearchObj.ToDate);
+                List<OutGoingChequesViewModel> OutGoingChequeObj = Mapper.Map<List<OutGoingCheques>, List<OutGoingChequesViewModel>>(_depositAndWithdrawalsBusiness.GetOutGoingCheques(outAdvancedSearchObj));
+
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = OutGoingChequeObj });
+
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+            }
 
         }
+
+
+        public string InsertUpdateOutgoingCheque(DepositAndWithdrwalViewModel depositAndWithdrawalObj)
+        {
+            try
+            {
+               
+                AppUA appUA = Session["AppUA"] as AppUA;
+                depositAndWithdrawalObj.OutGoingObj.CommonObj = new CommonViewModel();
+                depositAndWithdrawalObj.OutGoingObj.CommonObj.CreatedBy = appUA.UserName;
+                depositAndWithdrawalObj.OutGoingObj.CommonObj.CreatedDate = DateTime.Now;
+                depositAndWithdrawalObj.OutGoingObj.CommonObj.UpdatedBy = appUA.UserName;
+                depositAndWithdrawalObj.OutGoingObj.CommonObj.UpdatedDate = DateTime.Now;
+                object OGC =_depositAndWithdrawalsBusiness.InsertUpdateOutgoingCheque(Mapper.Map<OutGoingChequesViewModel, OutGoingCheques>(depositAndWithdrawalObj.OutGoingObj));
+                if (depositAndWithdrawalObj.OutGoingObj.ID != null && depositAndWithdrawalObj.OutGoingObj.ID != Guid.Empty)
+                {
+                    return JsonConvert.SerializeObject(new { Result = "OK", Message = c.UpdateSuccess, Records = OGC });
+                }
+                else
+                {
+                    return JsonConvert.SerializeObject(new { Result = "OK", Message = c.InsertSuccess, Records = OGC });
+                }
+            }
+            catch (Exception ex)
+            {
+
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+
+
+        public string DeleteOutgoingCheque(DepositAndWithdrwalViewModel depositAndWithdrawalObj)
+        {
+
+            try
+            {
+                object result = null;
+                result = _depositAndWithdrawalsBusiness.DeleteOutgoingCheque(depositAndWithdrawalObj.OutGoingObj.ID);
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+
+
+        }
+
+        public string GetOutgoingChequeById(string ID)
+        {
+            try
+            {
+
+                OutGoingChequesViewModel OutGoingChequeObj = Mapper.Map<OutGoingCheques, OutGoingChequesViewModel>(_depositAndWithdrawalsBusiness.GetOutgoingChequeById(ID != null && ID != "" ? Guid.Parse(ID) : Guid.Empty));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = OutGoingChequeObj });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+    }
 }
