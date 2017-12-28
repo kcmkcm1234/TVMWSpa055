@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using iTextSharp.tool.xml;
 using Newtonsoft.Json;
 using SAMTool.DataAccessObject.DTO;
 using SPAccounts.BusinessService.Contracts;
@@ -6,6 +9,7 @@ using SPAccounts.DataAccessObject.DTO;
 using SPAccounts.UserInterface.SecurityFilter;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -15,6 +19,7 @@ namespace UserInterface.Controllers
 {
     public class ReportController : Controller
     {
+        AppConst c = new AppConst();
         IReportBusiness _reportBusiness;
         ICustomerBusiness _customerBusiness;
         ISupplierBusiness _supplierBusiness;
@@ -39,6 +44,41 @@ namespace UserInterface.Controllers
 
         }
         // GET: Report
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "OEReport", Mode = "R")]
+        public string GetAllAccountTypes(string Type)
+        {
+            string type = (Type == "ALL") ? "OE" : Type;
+            try
+            {
+                List<SelectListItem> selectListItem = new List<SelectListItem>();
+                List<ChartOfAccountsViewModel> chartOfAccountList = Mapper.Map<List<ChartOfAccounts>, List<ChartOfAccountsViewModel>>(_otherExpenseBusiness.GetAllAccountTypes(type));
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "All",
+                    Value = "ALL"
+                });
+                foreach (ChartOfAccountsViewModel cav in chartOfAccountList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = cav.TypeDesc,
+                        Value = cav.Code + ":" + cav.ISEmploy
+                    });
+                }
+                //var empList = employeeViewModelList != null ? employeeViewModelList.Select(i => new { i.ID, i.Name }).ToList() : null;
+                var accountsList = selectListItem != null? selectListItem.Select(i => new { i.Text, i.Value }).ToList() : null;
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = accountsList });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+            
+        }
+
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "Report", Mode = "R")]
         public ActionResult Index()
@@ -318,7 +358,7 @@ namespace UserInterface.Controllers
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "OEReport", Mode = "R")]
-        public string GetOtherExpenseSummary(string FromDate, string ToDate, string CompanyCode,string ReportType, string OrderBy,string accounthead, string subtype,string employeeorother,string employeecompany,string search)
+        public string GetOtherExpenseSummary(string FromDate, string ToDate, string CompanyCode,string ReportType, string OrderBy,string accounthead, string subtype,string employeeorother,string employeecompany,string search, string ExpenseType)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
             {
@@ -326,7 +366,7 @@ namespace UserInterface.Controllers
                 {
                     DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                    List<OtherExpenseSummaryReportViewModel> otherExpenseSummaryReportList = Mapper.Map<List<OtherExpenseSummaryReport>, List<OtherExpenseSummaryReportViewModel>>(_reportBusiness.GetOtherExpenseSummary(FDate, TDate, CompanyCode,ReportType, OrderBy,accounthead.Split(':')[0], subtype, employeeorother, employeecompany, search));
+                    List<OtherExpenseSummaryReportViewModel> otherExpenseSummaryReportList = Mapper.Map<List<OtherExpenseSummaryReport>, List<OtherExpenseSummaryReportViewModel>>(_reportBusiness.GetOtherExpenseSummary(FDate, TDate, CompanyCode,ReportType, OrderBy,accounthead.Split(':')[0], subtype, employeeorother, employeecompany, search, ExpenseType));
                    
                     decimal otherExpenseSum = otherExpenseSummaryReportList.Sum(OE => OE.Amount);
                     string otherExpenseSumFormatted=_commonBusiness.ConvertCurrency(otherExpenseSum, 2);
@@ -1564,12 +1604,44 @@ namespace UserInterface.Controllers
             }
             otherIncomeSummaryReportViewModel.AccountHeadList = selectListItem;
 
+
+            selectListItem = null;
+            selectListItem = new List<SelectListItem>();
+            List<EmployeeTypeViewModel> empTypeList = Mapper.Map<List<EmployeeType>, List<EmployeeTypeViewModel>>(_otherExpenseBusiness.GetAllEmployeeTypes());
+            foreach (EmployeeTypeViewModel etvm in empTypeList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = etvm.Name,
+                    Value = etvm.Code,
+                    Selected = false
+                });
+            }
+            otherIncomeSummaryReportViewModel.EmployeeTypeList = selectListItem;
+
+
+            selectListItem = new List<SelectListItem>();
+            List<EmployeeViewModel> empList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_otherExpenseBusiness.GetAllEmployees());
+            foreach (EmployeeViewModel evm in empList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = evm.Name,
+                    Value = evm.ID.ToString(),
+                    Selected = false
+                });
+            }
+            otherIncomeSummaryReportViewModel.EmployeeList = selectListItem;
+
+
+
+
             return View(otherIncomeSummaryReportViewModel);
         }
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "OtherIncomeReport", Mode = "R")]
-        public string GetOtherIncomeSummary(string FromDate, string ToDate, string CompanyCode, string accounthead, string search)
+        public string GetOtherIncomeSummary(string FromDate, string ToDate, string CompanyCode, string accounthead,string subtype, string employeeorother, string search)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
             {
@@ -1577,7 +1649,7 @@ namespace UserInterface.Controllers
                 {
                     DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                    List<OtherIncomeSummaryReportViewModel> otherIncomeSummaryReportList = Mapper.Map<List<OtherIncomeSummaryReport>, List<OtherIncomeSummaryReportViewModel>>(_reportBusiness.GetOtherIncomeSummary(FDate, TDate, CompanyCode, accounthead.Split(':')[0], search));
+                    List<OtherIncomeSummaryReportViewModel> otherIncomeSummaryReportList = Mapper.Map<List<OtherIncomeSummaryReport>, List<OtherIncomeSummaryReportViewModel>>(_reportBusiness.GetOtherIncomeSummary(FDate, TDate, CompanyCode, accounthead.Split(':')[0],subtype,employeeorother, search));
 
                     decimal otherIncomeSum = otherIncomeSummaryReportList.Sum(OE => OE.Amount);
                     string otherIncomeSumFormatted = _commonBusiness.ConvertCurrency(otherIncomeSum, 2);
@@ -1650,12 +1722,40 @@ namespace UserInterface.Controllers
             otherIncomeDetailsViewModel.AccountHeadList = selectListItem;
             selectListItem = null;
 
+            //
+            selectListItem = null;
+            selectListItem = new List<SelectListItem>();
+            List<EmployeeTypeViewModel> empTypeList = Mapper.Map<List<EmployeeType>, List<EmployeeTypeViewModel>>(_otherExpenseBusiness.GetAllEmployeeTypes());
+            foreach (EmployeeTypeViewModel etvm in empTypeList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = etvm.Name,
+                    Value = etvm.Code,
+                    Selected = false
+                });
+            }
+            otherIncomeDetailsViewModel.EmployeeTypeList = selectListItem;
+
+            selectListItem = new List<SelectListItem>();
+            List<EmployeeViewModel> empList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_otherExpenseBusiness.GetAllEmployees());
+            foreach (EmployeeViewModel evm in empList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = evm.Name,
+                    Value = evm.ID.ToString(),
+                    Selected = false
+                });
+            }
+            otherIncomeDetailsViewModel.EmployeeList = selectListItem;
+
             return View(otherIncomeDetailsViewModel);
         }
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "OtherIncomeReport", Mode = "R")]
-        public string GetOtherIncomeDetails(string FromDate, string ToDate, string CompanyCode, string accounthead, string search)
+        public string GetOtherIncomeDetails(string FromDate, string ToDate, string CompanyCode, string accounthead, string subtype, string employeeorother, string search)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
             {
@@ -1663,7 +1763,7 @@ namespace UserInterface.Controllers
                 {
                     DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                    List<OtherIncomeDetailsReportViewModel> otherIncomeDetailsReportList = Mapper.Map<List<OtherIncomeDetailsReport>, List<OtherIncomeDetailsReportViewModel>>(_reportBusiness.GetOtherIncomeDetails(FDate, TDate, CompanyCode, accounthead.Split(':')[0], search));
+                    List<OtherIncomeDetailsReportViewModel> otherIncomeDetailsReportList = Mapper.Map<List<OtherIncomeDetailsReport>, List<OtherIncomeDetailsReportViewModel>>(_reportBusiness.GetOtherIncomeDetails(FDate, TDate, CompanyCode, accounthead.Split(':')[0],subtype,employeeorother, search));
                     decimal otherIncomeDetailsSum = otherIncomeDetailsReportList.Where(OE => OE.RowType == "N").Sum(OE => OE.Amount);
                     string otherIncomeDetailsSumFormatted = _commonBusiness.ConvertCurrency(otherIncomeDetailsSum, 2);
                     return JsonConvert.SerializeObject(new { Result = "OK", Records = otherIncomeDetailsReportList, TotalAmount = otherIncomeDetailsSumFormatted });
@@ -1679,7 +1779,7 @@ namespace UserInterface.Controllers
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "OtherIncomeReport", Mode = "R")]
-        public string GetOtherIncomeDetailsReport(string FromDate, string ToDate, string CompanyCode, string accounthead)
+        public string GetOtherIncomeDetailsReport(string FromDate, string ToDate, string CompanyCode, string accounthead,string subtype, string employeeorother)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
             {
@@ -1687,7 +1787,7 @@ namespace UserInterface.Controllers
                 {
                     DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                    List<OtherIncomeDetailsReportViewModel> otherIncomeDetailsReportList = Mapper.Map<List<OtherIncomeDetailsReport>, List<OtherIncomeDetailsReportViewModel>>(_reportBusiness.GetOtherIncomeDetails(FDate, TDate, CompanyCode, accounthead.Split(':')[0],null));
+                    List<OtherIncomeDetailsReportViewModel> otherIncomeDetailsReportList = Mapper.Map<List<OtherIncomeDetailsReport>, List<OtherIncomeDetailsReportViewModel>>(_reportBusiness.GetOtherIncomeDetails(FDate, TDate, CompanyCode, accounthead.Split(':')[0],subtype,employeeorother, null));
                     return JsonConvert.SerializeObject(new { Result = "OK", Records = otherIncomeDetailsReportList});
                 }
                 catch (Exception ex)
@@ -1928,6 +2028,8 @@ namespace UserInterface.Controllers
         }
         #endregion TrialBalanceReport
 
+
+
         #region ButtonStyling
         [HttpGet]
         public ActionResult ChangeButtonStyle(string ActionType)
@@ -1941,11 +2043,13 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.backbtn.Visible = true;
                     ToolboxViewModelObj.backbtn.Disable = false;
                     ToolboxViewModelObj.backbtn.Text = "Back";
+                    ToolboxViewModelObj.backbtn.Title = "Back";
                     ToolboxViewModelObj.backbtn.DisableReason = "Not applicable";
                     ToolboxViewModelObj.backbtn.Event = "Back();";
 
                     ToolboxViewModelObj.PrintBtn.Visible = true;
                     ToolboxViewModelObj.PrintBtn.Text = "Export";
+                    ToolboxViewModelObj.PrintBtn.Title = "Export";
                     ToolboxViewModelObj.PrintBtn.Event = "PrintReport();";
                    
                     ToolboxViewModelObj = _tool.SetToolbarAccess(ToolboxViewModelObj, _permission);
@@ -1954,6 +2058,7 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.backbtn.Visible = true;
                     ToolboxViewModelObj.backbtn.Disable = false;
                     ToolboxViewModelObj.backbtn.Text = "Back";
+                    ToolboxViewModelObj.backbtn.Title = "Back";
                     ToolboxViewModelObj.backbtn.Event = "closeNav();";
 
                     //ToolboxViewModelObj.PrintBtn.Visible = true;
@@ -1968,21 +2073,50 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.backbtn.Visible = true;
                     ToolboxViewModelObj.backbtn.Disable = false;
                     ToolboxViewModelObj.backbtn.Text = "Back";
+                    ToolboxViewModelObj.backbtn.Title = "Back";
                     ToolboxViewModelObj.backbtn.DisableReason = "Not applicable";
                     ToolboxViewModelObj.backbtn.Event = "Back();";
 
                     ToolboxViewModelObj.PrintBtn.Visible = true;
                     ToolboxViewModelObj.PrintBtn.Text = "Export";
+                    ToolboxViewModelObj.PrintBtn.Title = "Export";                
                     ToolboxViewModelObj.PrintBtn.Event = "PrintReport();";
 
                     ToolboxViewModelObj.resetbtn.Visible = true;
                     ToolboxViewModelObj.resetbtn.Text = "Reset";
                     ToolboxViewModelObj.resetbtn.Event = "Reset();";
+                    ToolboxViewModelObj.resetbtn.Title = "Reset";
 
                    
                     ToolboxViewModelObj = _tool.SetToolbarAccess(ToolboxViewModelObj, _permission);
 
                     break;
+
+                case "ListWithPrint":
+                    ToolboxViewModelObj.backbtn.Visible = true;
+                    ToolboxViewModelObj.backbtn.Text = "Back";
+                    ToolboxViewModelObj.backbtn.Title = "Back";
+                    ToolboxViewModelObj.backbtn.Event = "Back();";
+
+                    ToolboxViewModelObj.resetbtn.Visible = true;
+                    ToolboxViewModelObj.resetbtn.Text = "Reset";
+                    ToolboxViewModelObj.resetbtn.Event = "Reset();";
+                    ToolboxViewModelObj.resetbtn.Title = "Reset";
+
+                    ToolboxViewModelObj.PrintBtn.Visible = true;
+                    ToolboxViewModelObj.PrintBtn.Text = "Export";
+                    ToolboxViewModelObj.PrintBtn.Title = "Export";
+                    ToolboxViewModelObj.PrintBtn.Event = "PrintReport();";
+
+                    ToolboxViewModelObj.downloadBtn.Visible = true;
+                    ToolboxViewModelObj.downloadBtn.Text = "Download";
+                    ToolboxViewModelObj.downloadBtn.Title = "Download";
+                    ToolboxViewModelObj.downloadBtn.Event = "DownloadReport();";
+
+                    ToolboxViewModelObj = _tool.SetToolbarAccess(ToolboxViewModelObj, _permission);
+
+                    break;
+
 
                 default:
                     return Content("Nochange");

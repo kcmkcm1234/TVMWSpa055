@@ -25,8 +25,9 @@ namespace UserInterface.Controllers
         ICompaniesBusiness _companiesBusiness;
         IPaymentModesBusiness _paymentModeBusiness;
         ICommonBusiness _commonBusiness;
+        IOtherExpenseBusiness _otherExpenseBusiness;
 
-        public OtherIncomeController(IOtherIncomeBusiness otherIncomeBusiness, ICustomerBusiness customerBusiness, IChartOfAccountsBusiness chartOfAccountsBusiness,IBankBusiness bankBusiness, ICompaniesBusiness companiesBusiness, IPaymentModesBusiness paymentModeBusiness,ICommonBusiness commonBusiness)
+        public OtherIncomeController(IOtherIncomeBusiness otherIncomeBusiness, ICustomerBusiness customerBusiness, IChartOfAccountsBusiness chartOfAccountsBusiness,IBankBusiness bankBusiness, ICompaniesBusiness companiesBusiness, IPaymentModesBusiness paymentModeBusiness,ICommonBusiness commonBusiness, IOtherExpenseBusiness otherExpenseBusiness)
         {
             _otherIncomeBusiness = otherIncomeBusiness;
             _customerBusiness = customerBusiness;
@@ -35,6 +36,7 @@ namespace UserInterface.Controllers
             _companiesBusiness = companiesBusiness;
             _paymentModeBusiness = paymentModeBusiness;
             _commonBusiness = commonBusiness;
+            _otherExpenseBusiness = otherExpenseBusiness;
         }
         #endregion Constructor_Injection 
 
@@ -101,14 +103,46 @@ namespace UserInterface.Controllers
                     selectListItem.Add(new SelectListItem
                     {
                         Text = COAVM.TypeDesc,
-                        Value = COAVM.Code,
+                        Value = COAVM.Code +":"+COAVM.ISEmploy,
                         Selected = false
                     });
                 }
                 otherIncomeViewModalObj.accountCodeList = selectListItem;
 
+                //selectListItem = new List<SelectListItem>();
+                //List<EmployeeViewModel> empList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_otherExpenseBusiness.GetAllEmployees());
+                //foreach (EmployeeViewModel evm in empList)
+                //{
+                //    selectListItem.Add(new SelectListItem
+                //    {
+                //        Text = evm.Name,
+                //        Value = evm.ID.ToString(),
+                //        Selected = false
+                //    });
+                //}
+                //otherIncomeViewModalObj.EmployeeList = selectListItem;
+
+
+
+
+
+                otherIncomeViewModalObj.EmployeeTypeList = new List<SelectListItem>();
+                selectListItem = new List<SelectListItem>();
+                List<EmployeeTypeViewModel> empTypeList = Mapper.Map<List<EmployeeType>, List<EmployeeTypeViewModel>>(_otherExpenseBusiness.GetAllEmployeeTypes());
+                foreach (EmployeeTypeViewModel etvm in empTypeList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = etvm.Name,
+                        Value = etvm.Code,
+                        Selected = false
+                    });
+                }
+                otherIncomeViewModalObj.EmployeeTypeList = selectListItem;
+
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }           
@@ -146,6 +180,10 @@ namespace UserInterface.Controllers
             {
 
                 OtherIncomeViewModel otherIncomeObj = Mapper.Map<OtherIncome, OtherIncomeViewModel>(_otherIncomeBusiness.GetOtherIncomeDetails(ID != null && ID != "" ? Guid.Parse(ID) : Guid.Empty));
+                if (otherIncomeObj != null)
+                {
+                    otherIncomeObj.AccountCode = otherIncomeObj.AccountCode + ":" + otherIncomeObj.chartOfAccountsObj.ISEmploy;
+                }
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = otherIncomeObj });
             }
             catch (Exception ex)
@@ -162,28 +200,69 @@ namespace UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject = "OtherIncome", Mode = "W")]
         public string InsertUpdateOtherIncome(OtherIncomeViewModel _otherIncomeObj)
         {
-            try
-            {
 
-                object result = null;
-                AppUA _appUA = Session["AppUA"] as AppUA;
-                _otherIncomeObj.commonObj = new CommonViewModel();
-                _otherIncomeObj.commonObj.CreatedBy = _appUA.UserName;
-                _otherIncomeObj.commonObj.CreatedDate = _appUA.DateTime;
-                _otherIncomeObj.commonObj.UpdatedBy = _appUA.UserName;
-                _otherIncomeObj.commonObj.UpdatedDate = _appUA.DateTime;
+            //if (!ModelState.IsValid)
+            //{
+                try
+                {
+                   
+                    //removiing combined code
+                    int len = _otherIncomeObj.AccountCode.IndexOf(':');
+                    _otherIncomeObj.AccountCode = _otherIncomeObj.AccountCode.Remove(len);
+                    //
+                    // try
+                    //{
 
-                result = _otherIncomeBusiness.InsertUpdateOtherIncome(Mapper.Map<OtherIncomeViewModel, OtherIncome>(_otherIncomeObj));
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+                    //object result = null;
+                    AppUA _appUA = Session["AppUA"] as AppUA;
+                    _otherIncomeObj.commonObj = new CommonViewModel();
+                    _otherIncomeObj.commonObj.CreatedBy = _appUA.UserName;
+                    _otherIncomeObj.commonObj.CreatedDate = _appUA.DateTime;
+                    _otherIncomeObj.commonObj.UpdatedBy = _appUA.UserName;
+                    _otherIncomeObj.commonObj.UpdatedDate = _appUA.DateTime;
+                    OtherIncomeViewModel otherIncomeVM = null;
 
+                    switch (_otherIncomeObj.ID == Guid.Empty)
+                    {
+                        //INSERT
+                        case true:
+                            otherIncomeVM = Mapper.Map<OtherIncome, OtherIncomeViewModel>(_otherIncomeBusiness.InsertOtherIncome(Mapper.Map<OtherIncomeViewModel, OtherIncome>(_otherIncomeObj)));
+                            return JsonConvert.SerializeObject(new { Result = "OK", Record = otherIncomeVM,Message =  c.InsertSuccess });
+                        default:
+                            //Getting UA
+                            otherIncomeVM = Mapper.Map<OtherIncome, OtherIncomeViewModel>(_otherIncomeBusiness.UpdateOtherIncome(Mapper.Map<OtherIncomeViewModel, OtherIncome>(_otherIncomeObj)));
+                            return JsonConvert.SerializeObject(new { Result = "OK", Record = otherIncomeVM ,Message = c.UpdateSuccess});
+                    }
+                }
+
+
+                //result = _otherIncomeBusiness.InsertUpdateOtherIncome(Mapper.Map<OtherIncomeViewModel, OtherIncome>(_otherIncomeObj));
+                //return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+
+                // }
+                catch (Exception ex)
+                {
+
+                    AppConstMessage cm = c.GetMessage(ex.Message);
+                    return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+                }
+            
+
+            //Model state errror
+            //else
+            //{
+            //    List<string> modelErrors = new List<string>();
+            //    foreach (var modelState in ModelState.Values)
+            //    {
+            //        foreach (var modelError in modelState.Errors)
+            //        {
+            //            modelErrors.Add(modelError.ErrorMessage);
+            //        }
+            //    }
+            //    return JsonConvert.SerializeObject(new { Result = "VALIDATION", Message = string.Join(",", modelErrors) });
+            //}
             }
-            catch (Exception ex)
-            {
 
-                AppConstMessage cm = c.GetMessage(ex.Message);
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
-            }
-        }
         #endregion InsertUpdateOtherIncome
 
         #region DeleteOtherIncome

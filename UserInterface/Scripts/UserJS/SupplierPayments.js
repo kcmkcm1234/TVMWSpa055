@@ -30,7 +30,7 @@ $(document).ready(function () {
                 extend: 'excel',
                 exportOptions:
                              {
-                                 columns: [ 1, 2, 3, 4, 5, 6,7,8,9,10]
+                                 columns: [ 1, 2, 3, 4, 5, 6,7,8,9,10,11]
                              }
             }],
             order: [],
@@ -330,6 +330,8 @@ function GetSupplierPaymentsByID(PaymentID) {
     $('#Type').val(thisitem.Type);
     $('#hdfType').val(thisitem.Type);
     $('#Type').prop('disabled', true);
+    //to get notification
+    $('#lblIsNotificationSuccess').text(thisitem.IsNotificationSuccess==null?'':'Notification Sent');
     BindOutstandingAmount();
 
     if ($('#Type').val() == 'C') {
@@ -442,6 +444,8 @@ function openNavClick() {
     BindOutstanding();
     $('#lblOutstandingdetails').text('');//gibin
     $('#lblheader').text('New Payment');
+
+    //$("#lblIsNotificationSuccess").text('Notification Not Sent');
     ChangeButtonPatchView('SupplierPayments', 'btnPatchAdd', 'Add');
     $('#Supplier').prop('disabled', false);
     $('#ReferenceBank').prop('disabled', true);
@@ -732,6 +736,7 @@ function fieldsclear() {
     $('#lblPaymentProcessed').text('0');
     $('#lblCreditOutstanding').text('0');
     $('#lblAdvOutstanding').text('0');
+    $("#lblIsNotificationSuccess").text("");
     $('#lblApprovalStatus').text($("#ddlApprovalStatus option:selected").text());
   //  $('#ddlApprovalStatus').prop('disabled', false)s
     $("#ddlCreditDiv").css("visibility", "hidden");
@@ -972,6 +977,7 @@ function Selectcheckbox() {
 }
 //--------------------------------------------Notification,Approval,Payment Proceeding methods ---------------------------------------------------------//
 function SendNotification() {
+    debugger;
     $("#NotificationMessagemodal").modal('show');
     debugger; 
     $('#GeneralNotes').val($('#Notes').val());
@@ -1008,6 +1014,7 @@ function SendNotificationConfirm() {
                         notyAlert('success', JsonResult.Message);
                         GetSupplierPaymentsByID($('#ID').val());
                         $("#NotificationMessagemodal").modal('hide');
+                        $("#IsNotificationSuccess").text('Notification Sent');
                         break;
                     case "ERROR":
                         notyAlert('error', JsonResult.Message);

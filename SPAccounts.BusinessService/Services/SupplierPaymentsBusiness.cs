@@ -176,7 +176,7 @@ namespace SPAccounts.BusinessService.Services
                 string FCMServerKey = ConfigurationManager.AppSettings["FCMServerKey"].ToString();
                 tRequest.Headers.Add(string.Format("Authorization: key={0}", FCMServerKey));
                 //Put here the Sender ID from Firebase
-                string FCMSenderID = ConfigurationManager.AppSettings["FCMSenderID"].ToString();
+               string FCMSenderID = ConfigurationManager.AppSettings["FCMSenderID"].ToString();
                 tRequest.Headers.Add(string.Format("Sender: id={0}", FCMSenderID));
 
                 tRequest.ContentLength = byteArray.Length;
@@ -219,5 +219,22 @@ namespace SPAccounts.BusinessService.Services
             { 
                 return _supplierPaymentsRepository.UpdateSupplierPaymentGeneralNotes(_supplierPayObj);
             }
+
+
+        public object UpdateNotification(SupplierPayments _supplierpayObj)
+        {
+            Object result = null;
+            try
+            {
+
+                result = _supplierPaymentsRepository.UpdateNotification(_supplierpayObj);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+
     }
 }

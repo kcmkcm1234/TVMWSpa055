@@ -233,8 +233,7 @@ namespace UserInterface.Controllers
         }
         #endregion DeleteDepositAndWithdrawals
 
-
-
+        
         #region DeleteTransferAmountBetweenBanks
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "DepositAndWithdrawals", Mode = "D")]
@@ -374,27 +373,32 @@ namespace UserInterface.Controllers
             switch (ActionType)
             {
                 case "List":
-                    ToolboxViewModelObj.TransferBtn.Visible = true;
-                    ToolboxViewModelObj.TransferBtn.Text = "Transfer";
-                    ToolboxViewModelObj.TransferBtn.Title = "CashTransfer";
-                    ToolboxViewModelObj.TransferBtn.Event = "ShowCashTransfer();";
 
                     ToolboxViewModelObj.DepositBtn.Visible = true;
-                    ToolboxViewModelObj.DepositBtn.Text = "Deposit";
+                    ToolboxViewModelObj.DepositBtn.Text = "Deposit  ";
                     ToolboxViewModelObj.DepositBtn.Title = "Deposit";
                     ToolboxViewModelObj.DepositBtn.Event = "ShowDepositModal();";
 
                     ToolboxViewModelObj.WithdrawBtn.Visible = true;
-                    ToolboxViewModelObj.WithdrawBtn.Text = "WDL";
+                    ToolboxViewModelObj.WithdrawBtn.Text = "WDL      ";
                     ToolboxViewModelObj.WithdrawBtn.Title = "WithDrawal";
                     ToolboxViewModelObj.WithdrawBtn.Event = "ShowWithDrawal();";
 
                     ToolboxViewModelObj.ClearBtn.Visible = true;
-                    ToolboxViewModelObj.ClearBtn.Text = "ChqClr";
-                    ToolboxViewModelObj.ClearBtn.Title = "ChqClr";
+                    ToolboxViewModelObj.ClearBtn.Text = "ChqClr (In)";
+                    ToolboxViewModelObj.ClearBtn.Title = "Cheque Clear";
                     ToolboxViewModelObj.ClearBtn.Event = "ShowChequeClear();";
 
 
+                    ToolboxViewModelObj.ClearOutBtn.Visible = true;
+                    ToolboxViewModelObj.ClearOutBtn.Text = "ChqClr (Out)";
+                    ToolboxViewModelObj.ClearOutBtn.Title = "Update Cheque clear date";
+                    ToolboxViewModelObj.ClearOutBtn.Event = "ShowChequeClearOut();";
+
+                    ToolboxViewModelObj.TransferBtn.Visible = true;
+                    ToolboxViewModelObj.TransferBtn.Text = "Transfer  ";
+                    ToolboxViewModelObj.TransferBtn.Title = "CashTransfer";
+                    ToolboxViewModelObj.TransferBtn.Event = "ShowCashTransfer();";
 
                     break;
 

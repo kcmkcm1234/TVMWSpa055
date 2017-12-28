@@ -219,14 +219,50 @@
 
                                     <div class="col-md-12">
 
-                                        @Html.DropDownListFor(model => model.AccountCode, Model.accountCodeList, "-- Select Account --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "AccountCode" })
+                                        @Html.DropDownListFor(model => model.AccountCode, Model.accountCodeList, "-- Select Account --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "AccountCode",@onchange ="AccountCodeChange(this);" })
                                         @Html.ValidationMessageFor(model => model.AccountCode, "", new { @class = "text-danger" })
 
                                     </div>
                                 </div>
                             </div>
 
-                           
+
+                            <div class="form-group col-md-12">
+                                <div class="col-md-6">
+                                    <div class="col-md-12">
+                                        @Html.LabelFor(model => model.EmpTypeCode, htmlAttributes: new { @class = "control-label " })
+                                    </div>
+
+                                    <div class="col-md-12">
+
+                                     @Html.DropDownListFor(model => model.EmpTypeCode, Model.EmployeeTypeList, "-- Select Employee Type --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "EmployeeType", @onchange = "EmployeeTypeChange(this)" })
+
+
+                                        @Html.ValidationMessageFor(model => model.EmpTypeCode, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-md-12">
+                                        @Html.LabelFor(model => model.EmpID, htmlAttributes: new { @class = "control-label" })
+                                    </div>
+
+                                    <div class="col-md-12">
+
+                                        @Html.DropDownListFor(model => model.EmpID, new List<SelectListItem>(), "-- Select Employee --", new { @class = "form-control BlockEnter", value = -1, @style = "width:100%", @onchange = "SelectEmployeeChange(this)" })
+
+                                        @Html.ValidationMessageFor(model => model.EmpID, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
                             <div class="form-group col-md-12">
                                 <div class="col-md-6">
                                     <div class="col-md-12">

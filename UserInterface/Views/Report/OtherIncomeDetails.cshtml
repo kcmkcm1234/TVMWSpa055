@@ -82,10 +82,28 @@
         <div class="col-md-3">
             @Html.LabelFor(model => model.AccountHead, htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
-                @Html.DropDownListFor(model => model.AccountHead, Model.AccountHeadList, new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "AccountCode", @onchange = "OnChangeCall()" })
+                @Html.DropDownListFor(model => model.AccountHead, Model.AccountHeadList, new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "AccountCode", @onchange = "AccountCodeOnchange(this)" })
                 @Html.ValidationMessageFor(model => model.AccountHead, "", new { @class = "text-danger" })
             </div>
         </div>
+
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.SubType, htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-12">
+           
+                     @Html.DropDownListFor(model => model.SubType, Model.EmployeeTypeList, "--Select--", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "Subtype", @onchange = "EmployeeTypeOnChange(this)" })
+                @Html.ValidationMessageFor(model => model.SubType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.EmployeeOrOther, htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-12">
+                @Html.DropDownListFor(model => model.EmployeeOrOther, Model.EmployeeList, "--Select--", new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "Employee", @onchange = "OnChangeCall()" })
+                @Html.ValidationMessageFor(model => model.EmployeeOrOther, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
 
         <div class="col-md-6">
             @Html.LabelFor(model => model.Search, htmlAttributes: new { @class = "control-label", style = "visibility:hidden" })

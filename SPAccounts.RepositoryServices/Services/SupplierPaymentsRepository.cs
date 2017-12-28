@@ -66,6 +66,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         PaymentsObj.supplierObj.ContactPerson = (sdr["ContactPerson"].ToString() != "" ? sdr["ContactPerson"].ToString() : PaymentsObj.supplierObj.ContactPerson);
                                         PaymentsObj.CompanyObj = new Companies();
                                         PaymentsObj.CompanyObj.Name = sdr["PaidFrom"].ToString();
+                                        PaymentsObj.IsNotificationSuccess = sdr["IsNotificationSuccess"].ToString();
                                     };
                                     SupplierPaylist.Add(PaymentsObj);
                                 }
@@ -186,6 +187,7 @@ namespace SPAccounts.RepositoryServices.Services
                                     PaymentsObj.supplierObj.ID = (sdr["SupplierID"].ToString() != "" ? Guid.Parse(sdr["SupplierID"].ToString()) : PaymentsObj.supplierObj.ID);
                                     PaymentsObj.ApprovalStatus=(sdr["ApprovalStatus"].ToString() != "" ? Int32.Parse(sdr["ApprovalStatus"].ToString()) : PaymentsObj.ApprovalStatus);
                                     PaymentsObj.ApprovalDate = (sdr["ApprovalDate"].ToString() != "" ? DateTime.Parse(sdr["ApprovalDate"].ToString()).ToString("dd-MMM-yyyy").ToString() : PaymentsObj.ApprovalDate);
+                                    PaymentsObj.IsNotificationSuccess = (sdr["IsNotificationSuccess"].ToString() != "" ? sdr["IsNotificationSuccess"].ToString() : PaymentsObj.IsNotificationSuccess);
 
                                 }
                             }
@@ -316,6 +318,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = _supplierPayObj.CommonObj.CreatedBy;
                         cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = _supplierPayObj.CommonObj.CreatedDate;
                         cmd.Parameters.Add("@FileDupID", SqlDbType.UniqueIdentifier).Value = _supplierPayObj.hdnFileID;
+                        //cmd.Parameters.Add("@IsNotioficationSuccess", SqlDbType.Int).Value = _supplierPayObj.IsNotificationSuccess;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         outputID = cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier);
@@ -383,6 +386,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@ApprovalStatus", SqlDbType.Int).Value = _supplierPayObj.ApprovalStatus;
                         cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = _supplierPayObj.CommonObj.UpdatedBy;
                         cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = _supplierPayObj.CommonObj.UpdatedDate;
+                        cmd.Parameters.Add("@IsNotioficationSuccess", SqlDbType.Int).Value = _supplierPayObj.IsNotificationSuccess;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();
@@ -672,5 +676,66 @@ namespace SPAccounts.RepositoryServices.Services
             return supobj;
 
         }
+
+
+        public object UpdateNotification(SupplierPayments _supplierpayObj)
+        {
+           
+            SqlParameter outputStatus = null;
+            try
+            {
+               // _supplierpayObj = new SupplierPayments();
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }                       
+                       
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[UpdateNotificationStatus]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = _supplierpayObj.ID;                       
+                        cmd.Parameters.Add("@IsNotificationSuccess", SqlDbType.Int).Value = 1;                       
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                AppConst Cobj = new AppConst();
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+
+                        throw new Exception(Cobj.UpdateFailure);
+
+                    case "1":
+
+                        return new
+                        {
+                            Status = outputStatus.Value.ToString(),
+                            Message = Cobj.UpdateSuccess
+                        };
+                    default:
+                        break;
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return new
+            {
+                Status = outputStatus.Value.ToString(),               
+            };
+        }
+
+
+
+
     }
 }

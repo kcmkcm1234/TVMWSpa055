@@ -1,6 +1,6 @@
 ﻿var DataTables = {};
-var startdate = '';
-var enddate = '';
+var startDate = '';
+var endDate = '';
 $(document).ready(function () {
     try {
         $("#supplierCode").select2({
@@ -89,8 +89,9 @@ $(document).ready(function () {
          });
 
         $(".buttons-excel").hide();
-        startdate = $("#todate").val();
-        enddate = $("#fromdate").val();
+        $("#btnSend").hide();
+        startDate = $("#todate").val();
+        endDate = $("#fromdate").val();
         $("#suppliernameddl").attr('style', 'visibility:true');
 
     } catch (x) {
@@ -106,13 +107,13 @@ $(document).ready(function () {
 function GetSupplierPaymentLedger(cur) {
     try {
         debugger;
-        var fromdate = $("#fromdate").val();
-        var todate = $("#todate").val();
-        var suppliercode = (cur != "ALL" ? $("#supplierCode").val() : cur);
+        var fromDate = $("#fromdate").val();
+        var toDate = $("#todate").val();
+        var supplierCode = (cur != "ALL" ? $("#supplierCode").val() : cur);
         var company = $("#companyCode").val();
 
-        if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && suppliercode) {
-            var data = { "FromDate": fromdate, "ToDate": todate, "Suppliercode": suppliercode,"Company": company };
+        if (IsVaildDateFormat(fromDate) && IsVaildDateFormat(toDate) && supplierCode) {
+            var data = { "FromDate": fromDate, "ToDate": toDate, "Suppliercode": supplierCode,"Company": company };
             var ds = {};
             ds = GetDataFromServerTraditional("Report/GetSupplierPaymentLedger/", data);
             if (ds != '') {
@@ -136,11 +137,11 @@ function GetSupplierPaymentLedger(cur) {
 function RefreshSupplierPaymentLedgerTable() {
     debugger;
     try {
-        var fromdate = $("#fromdate").val();
-        var todate = $("#todate").val();
-        var suppliercode = $("#supplierCode").val();
+        var fromDate = $("#fromdate").val();
+        var toDate = $("#todate").val();
+        var supplierCode = $("#supplierCode").val();
 
-        if (DataTables.supplierpaymentledgertable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && suppliercode) {
+        if (DataTables.supplierpaymentledgertable != undefined && IsVaildDateFormat(fromDate) && IsVaildDateFormat(toDate) && supplierCode) {
             DataTables.supplierpaymentledgertable.clear().rows.add(GetSupplierPaymentLedger()).draw(true);
         }
     }
@@ -175,11 +176,48 @@ function OnCallChange() {
 
 
 function Reset() {
-    $("#todate").val(startdate);
-    $("#fromdate").val(enddate);
+    $("#todate").val(startDate);
+    $("#fromdate").val(endDate);
     $("#supplierCode").val('').trigger('change')
     $("#companyCode").val('ALL');
     DataTables.supplierpaymentledgertable.clear().rows.add(GetSupplierPaymentLedger('ALL')).draw(true);
 }
+
+
+
+
+
+function DownloadReport() {
+    debugger;
+    $('#btnSend').trigger('click');
+}
+
+//To download file in PDF
+function GetHtmlData() {
+    debugger;
+    DrawTable({
+        Action: "Report/GetSupplierPaymentLedger/",
+        data: { "FromDate": $('#fromdate').val(), "ToDate": $('#todate').val(), "Suppliercode": $('#supplierCode').val(), "Company": $('#companyCode').val() },
+        Exclude_column: ["SupplierID", "supplierList", "SupplierCode", "Ref", "pdfToolsObj", "CompanyCode", "CompanyList", "companiesList"],
+        Header_column_style: {
+            "Date": "width:110px;font-size:12px;border-bottom:2px solid grey;font-weight: 600;",
+            "Type": "font-size:12px;border-bottom:2px solid grey;width:110px;font-weight: 600;",
+            "Ref":"width:110px;font-size:12px;border-bottom:2px solid grey;font-weight: 600;",
+            
+            "Company": "width:110px;font-size:12px;border-bottom:2px solid grey;font-weight: 600;",
+            "SupplierName": "width:110px;font-size:12px;border-bottom:2px solid grey;font-weight: 600;",
+            "Debit": "width:150px;text-align: center;font-size:12px;border-bottom:2px solid grey;font-weight: 600;", "Credit": "width:150px;text-align: center;font-size:12px;border-bottom:2px solid grey;font-weight: 600;",
+            "Balance": "width:150px;text-align: center;font-size:12px;border-bottom:2px solid grey;font-weight: 600;"
+        },
+        Row_color: { "Odd": "White", "Even": "white" },
+        Body_Column_style: { "Date": "font-size:11px;font-weight: 100;width:110px;", "Type": "font-size:11px;font-weight: 100;width:150px;", "Ref": "font-size:11px;font-weight: 100;width:150px;", "SupplierName": "font-size:11px;font-weight: 100;width:110px;", "Company": "font-size:11px;font-weight: 100;", "Debit": "text-align:right;font-size:11px;font-weight: 100;width:150px;", "Credit": "text-align:right;font-size:11px;font-weight: 100;width:150px;", "Balance": "text-align:right;font-size:11px;font-weight: 100;width:150px;" }
+
+    });
+    var bodyContent = $('#customtbl').html();
+    var headerContent = $('#divHeader').html();
+    $("#hdnContent").val(bodyContent);
+    $('#hdnHeadContent').val("<h1></h1>");
+}
+
 
 

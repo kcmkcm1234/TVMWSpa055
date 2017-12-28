@@ -3,7 +3,7 @@ var startdate = '';
 var enddate = '';
 $(document).ready(function () {
     debugger;
-    $("#CompanyCode,#AccountCode").select2({
+    $("#CompanyCode,#AccountCode,#Subtype,#Employee").select2({
     });
     $("#STContainer").hide();
     try {
@@ -34,17 +34,22 @@ $(document).ready(function () {
              //},
              columns: [
                
-               {
-                   "data": "AccountHeadORSubtype", "defaultContent": "<i>-</i>", render: function (data, type, row) { 
-                       return '<a href="#" onclick="ViewOtherIncomeDetail(this);">' + data + ' </a>';
-                   }
+               
+             
+               {"data": "AccountHeadORSubtype", "defaultContent": "<i>-</i>", render: function (data, type, row) { 
+                 return '<a href="#" onclick="ViewOtherIncomeDetail(this);">' + data + ' </a>';
+               }
                },
+                { "data": "SubTypeDesc", "defaultContent": "<i>-</i>" },
+                { "data": "OriginCompany", "defaultContent": "<i>-</i>" },
                { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
-             { "data": "OriginCompany", "defaultContent": "<i>-</i>" },
+             
              ],
              columnDefs: [{ "targets": [2], "visible": false, "searchable": false },
-                  { className: "text-left", "targets": [0] },
-                  { className: "text-right", "targets": [1,2] }]
+                  { className: "text-left", "targets": [0,2] },
+                  { className: "text-right", "targets": [3] },
+                  { className: "text-center", "targets": [1] }
+             ]
              ,drawCallback: function (settings) {
                  var api = this.api();
                  var rows = api.rows({ page: 'current' }).nodes();
@@ -106,9 +111,11 @@ function GetIncomeSummaryReport() {
         var todate = $("#todate").val();
         var companycode = $("#CompanyCode").val();
         var AccountHead = $("#AccountCode").val();
+        var Subtype = $("#Subtype").val();
+        var Employeeorother = $("#Employee").val();
         var search = $("#Search").val();
         if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            var data = { "FromDate": fromdate, "ToDate": todate , "CompanyCode": companycode, "accounthead": AccountHead, "search": search };
+            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "accounthead": AccountHead, "subtype": Subtype, "employeeorother": Employeeorother, "search": search };
             var ds = {};
             ds = GetDataFromServer("Report/GetOtherIncomeSummary/", data);
             if (ds != '') {
@@ -180,6 +187,8 @@ function Reset() {
     $("#fromdate").val(enddate);
     $("#CompanyCode").val('ALL').trigger('change')
     $("#AccountCode").val('ALL').trigger('change')
+    $("#Subtype").val('').trigger('change')
+    $("#Employee").val('').trigger('change')
     $("#Search").val('').trigger('change')
     RefreshOtherIncomeSummaryAHTable();
 }
@@ -196,15 +205,27 @@ function ViewOtherIncomeDetail(row_obj) {
 function GetIncomeDetailsReport(rowData) {
     try {
         debugger;
-        $("#lblDetailsHead").text(rowData.AccountHeadORSubtype);
+        // $("#lblDetailsHead").text(rowData.AccountHeadORSubtype);
+
+        if (rowData.SubTypeDesc != null)
+            $("#lblDetailsHead").text(rowData.AccountHeadORSubtype + '-' + rowData.SubTypeDesc);
+        else
+            $("#lblDetailsHead").text(rowData.AccountHeadORSubtype);
+
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
         var companycode = $("#CompanyCode").val();
         var AccountHead = rowData.AccountHead;
+        var Subtype = $("#Subtype").val();
+        if (rowData.EmployeeID != '00000000-0000-0000-0000-000000000000')
+            var Employeeorother = rowData.EmployeeID;
+        else
+            var Employeeorother = $("#Employee").val();
+        //var Employeecompany = $("#EmpCompany").val();
 
 
         if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "accounthead": AccountHead};
+            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "accounthead": AccountHead, "subtype": Subtype, "employeeorother": Employeeorother};
             var ds = {};
             ds = GetDataFromServer("Report/GetOtherIncomeDetailsReport/", data);
             if (ds != '') {
@@ -216,6 +237,88 @@ function GetIncomeDetailsReport(rowData) {
             if (ds.Result == "ERROR") {
                 notyAlert('error', ds.Message);
             }
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
+function AccountCodeOnchange(curobj) {
+    debugger;
+
+    var AcodeCombined = $(curobj).val();
+    if (AcodeCombined) {
+        var len = AcodeCombined.indexOf(':');
+        var IsEmploy = AcodeCombined.substring(len + 1, (AcodeCombined.length));
+        if (IsEmploy == "True") {
+            $("#Subtype").prop('disabled', false);
+            $("#Employee").prop('disabled', false);
+        }
+        else {
+            $("#Subtype").prop('disabled', true);
+            $("#Employee").prop('disabled', true);
+        }
+    }
+
+    if (AcodeCombined == "ALL") {
+
+        $("#Subtype").prop('disabled', false);
+        $("#Employee").prop('disabled', false);
+    }
+
+    OnChangeCall();
+}
+
+
+function BindEmployeeDropDown(type) {
+    debugger;
+    try {
+        var employees = GetAllEmployeesByType(type);
+        if (employees) {
+            $('#Employee').empty();
+            $('#Employee').append(new Option('-- Select--', ''));
+            for (var i = 0; i < employees.length; i++) {
+                var opt = new Option(employees[i].Name, employees[i].ID);
+                $('#Employee').append(opt);
+
+            }
+        }
+
+
+
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
+
+function EmployeeTypeOnchange(curobj) {
+    debugger;
+    var emptypeselected = $(curobj).val();
+    if (emptypeselected) {
+        BindEmployeeDropDown(emptypeselected);
+        //if ($("#Subtype").val() != "") $("#sbtyp").html($("#Subtype option:selected").text());
+    }
+    OnChangeCall();
+}
+
+
+function GetAllEmployeesByType(type) {
+    try {
+        debugger;
+        var data = { "Type": type };
+        var ds = {};
+        ds = GetDataFromServer("OtherExpenses/GetAllEmployeesByType/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            notyAlert('error', ds.Message);
         }
     }
     catch (e) {

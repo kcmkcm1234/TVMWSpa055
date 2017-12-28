@@ -22,6 +22,7 @@ namespace SPAccounts.BusinessService.Contracts
         object Validate(SupplierPayments _supplierpayObj);
         void SendToFCM(string titleString, string descriptionString, Boolean isCommon, string CustomerID = "");
         SupplierPayments UpdateSupplierPaymentGeneralNotes(SupplierPayments supobj);
+        object UpdateNotification(SupplierPayments _supplierpayObj);
 
     }
 }

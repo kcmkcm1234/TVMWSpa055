@@ -428,6 +428,15 @@ namespace UserInterface.Models
         public List<SelectListItem> CompanyList { get; set; }
         public List<CompaniesViewModel> companiesList;
         public string Search { get; set; }
+        public List<SelectListItem> EmployeeTypeList { get; set; }
+        public List<SelectListItem> EmployeeList { get; set; }
+        public string Subtype { get; set; }
+        [Display(Name = "Employee/Other")]
+        public string EmployeeOrOther { get; set; }
+        public List<SelectListItem> SubtypeList { get; set; }      
+        public string Employee { get; set; }
+        public Guid EmployeeID { get; set; }
+        public string SubTypeDesc { get; set; }
     }
 
     public class OtherIncomeDetailsReportViewModel
@@ -446,6 +455,16 @@ namespace UserInterface.Models
         public List<SelectListItem> AccountHeadList { get; set; }
         public string Search { get; set; }
         public string RowType { get; set; }
+        [Display(Name = "Employee/Other")]
+        public string EmployeeOrOther { get; set; }
+        public List<SelectListItem> EmployeeTypeList { get; set; }
+        public List<SelectListItem> EmployeeList { get; set; }
+        public string SubType { get; set; }
+        public List<SelectListItem> SubtypeList { get; set; }
+        public string AccountHeadORSubtype { get; set; }
+        public string Employee { get; set; }
+        public Guid EmployeeID { get; set; }
+        public string SubTypeDesc { get; set; }
 
     }
     public class CustomerPaymentLedgerViewModel
@@ -453,7 +472,9 @@ namespace UserInterface.Models
         public string Date { get; set; }
         public string Type { get; set; }
         public string Ref { get; set; }
+        public string CustomerName { get; set; }
         public string Company { get; set; }
+        
         public decimal Debit { get; set; }
         public decimal Credit { get; set; }
         public decimal Balance { get; set; }
@@ -464,9 +485,9 @@ namespace UserInterface.Models
         public string CustomerCode { get; set; }
         [Display(Name = "Company")]
         public string CompanyCode { get; set; }
-        public Guid CustomerID { get; set; }
-        public string CustomerName { get; set; }
+        public Guid CustomerID { get; set; }        
         public List<SelectListItem> companiesList { get; set; }
+        public PDFTools  pdfToolsObj { get; set; }
     }
 
 
@@ -475,7 +496,8 @@ namespace UserInterface.Models
         public string Date { get; set; }
         public string Type { get; set; }
         public string Ref { get; set; }
-        public string Company { get; set; }
+        public string SupplierName { get; set; }
+        public string Company { get; set; }       
         public decimal Debit { get; set; }
         public decimal Credit { get; set; }
         public decimal Balance { get; set; }
@@ -484,11 +506,11 @@ namespace UserInterface.Models
         [Required(ErrorMessage = "Supplier required")]
         [Display(Name = "Supplier")]
         public string SupplierCode { get; set; }
-        public Guid SupplierID { get; set; }
-        public string SupplierName { get; set; }
+        public Guid SupplierID { get; set; }        
         [Display(Name = "Company")]
         public string CompanyCode { get; set; }
         public List<SelectListItem> companiesList { get; set; }
+        public PDFTools  pdfToolsObj { get; set; }
     }
 
 

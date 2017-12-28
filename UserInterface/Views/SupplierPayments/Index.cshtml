@@ -121,7 +121,18 @@
                         @Html.Action("ChangeButtonStyle", "SupplierPayments", data1);
                     }
                 </div>
-            </div>
+
+                <div class="form-group col-md-12"></div>
+                <div class="form-group col-md-12">
+
+                    <div class="col-md-12 text-right">
+                        <div style="color:green; font-size:14px;text-align:right;" id="lblIsNotificationSuccess"></div>
+                    </div>
+                </div>
+
+                
+
+                </div>
 
             <div class="EntryForms" style="height:550px">
                 @using (Ajax.BeginForm("InsertUpdatePayments", "SupplierPayments", new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccess", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", @id = "SupplierPaymentForm" }))
@@ -305,64 +316,69 @@
                             <div class="form-group col-md-12"></div>
 
                         </div>
+
                         <div class="col-md-4" id="CommonFigure" style="padding-top:2%;border-left:1px solid #64e564">
-                            <div class="form-group col-md-12" id="divStatus">
-                                <div class="col-md-12 text-right">
-                                    <div class="rightAmtCaption">Status</div>
-                                    <div class="ig-aqua" style="margin-right: 45%;font-size:18px; font-weight:bold" id="lblApprovalStatus"></div>
+                            
+                           
+
+
+                                <div class="form-group col-md-12" id="divStatus">
+                                    <div class="col-md-12 text-right">
+                                        <div class="rightAmtCaption">Status</div>
+                                        <div class="ig-aqua" style="margin-right: 45%;font-size:18px; font-weight:bold" id="lblApprovalStatus"></div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-12 text-right">
+                                        <div class="rightAmtCaption">Outstanding  Amount</div>
+                                    </div>
+                                    <div class="col-md-12 text-right">
+                                        <div class="rightAmt" id="invoicedAmt">₹ 0.00</div>
+                                    </div>
+                                    <div class="col-md-12" id="outstandingdetailsdiv" @*style="text-size-adjust:10%"*@>
+                                        <table style="margin-right: 45%">
+                                            <tr>
+                                                <th class="text-right" width="150px">Invoices:</th>
+                                                <th class="text-right" width="100px">
+                                                    <div id="lblInvoiceOutstanding"></div>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-right" width="150px">Payment Booked:</th>
+                                                <th class="text-right" width="100px">
+                                                    <div id="lblPaymentBooked"></div>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-right" width="150px">Payment Processed:</th>
+                                                <th class="text-right" width="100px">
+                                                    <div id="lblPaymentProcessed"></div>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-right" width="150px">Credit Note:</th>
+                                                <th class="text-right" width="100px">
+                                                    <div id="lblCreditOutstanding"></div>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-right" width="150px">Advance:</th>
+                                                <th class="text-right" width="100px">
+                                                    <div id="lblAdvOutstanding"></div>
+                                                </th>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-12 text-right">
+                                        <div class="rightAmtCaption">Amount Paid</div>
+                                    </div>
+                                    <div class="col-md-12 text-right">
+                                        <div class="rightAmt" id="paidAmt">₹ 0.00</div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group col-md-12">
-                                <div class="col-md-12 text-right">
-                                    <div class="rightAmtCaption">Outstanding  Amount</div>
-                                </div>
-                                <div class="col-md-12 text-right">
-                                    <div class="rightAmt" id="invoicedAmt">₹ 0.00</div>
-                                </div>
-                                <div class="col-md-12"  id="outstandingdetailsdiv" @*style="text-size-adjust:10%"*@>
-                                    <table  style="margin-right: 45%">
-                                        <tr>
-                                            <th class="text-right" width="150px">Invoices:</th>
-                                            <th class="text-right" width="100px">
-                                                <div id="lblInvoiceOutstanding"></div>
-                                            </th> 
-                                        </tr>
-                                        <tr>
-                                            <th class="text-right" width="150px">Payment Booked:</th>
-                                            <th class="text-right" width="100px">
-                                                <div id="lblPaymentBooked"></div>
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <th class="text-right" width="150px">Payment Processed:</th>
-                                            <th class="text-right" width="100px">
-                                                <div id="lblPaymentProcessed"></div>
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <th class="text-right" width="150px">Credit Note:</th>
-                                            <th class="text-right" width="100px">
-                                                <div id="lblCreditOutstanding"></div>
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <th class="text-right" width="150px">Advance:</th>
-                                            <th class="text-right" width="100px">
-                                                <div id="lblAdvOutstanding"></div>
-                                            </th>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="form-group col-md-12">
-                                <div class="col-md-12 text-right">
-                                    <div class="rightAmtCaption">Amount Paid</div>
-                                </div>
-                                <div class="col-md-12 text-right">
-                                    <div class="rightAmt" id="paidAmt">₹ 0.00</div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                     <div class="col-md-12  ">&nbsp;</div>
@@ -515,7 +531,7 @@
                     <div class="col-md-12  ">&nbsp;</div>
                     <div class="col-md-12 headSeperator"><i class="fa fa-th ig-green" aria-hidden="true"></i> Other Details</div>
 
-                    <div class="col-md-12  ">
+                    <div class="col-md-12">
                         <div class="col-md-10">
                             <div class="form-group col-md-12">
                                 <div class="col-md-12">
@@ -537,7 +553,7 @@
                     <div class="col-md-12  ">&nbsp;</div>
                     <div class="col-md-12  ">&nbsp;</div>
                     <div>
-                        @Html.Partial("Fileupload");
+                        @Html.Partial("Fileupload")
                     </div>
 
 

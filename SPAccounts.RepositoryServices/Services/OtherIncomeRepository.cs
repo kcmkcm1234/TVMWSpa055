@@ -57,8 +57,16 @@ namespace SPAccounts.RepositoryServices.Services
                                         _otherIncomeObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : _otherIncomeObj.ID);
                                         _otherIncomeObj.IncomeDate = (sdr["IncomeDate"].ToString() != "" ? DateTime.Parse(sdr["IncomeDate"].ToString()) : _otherIncomeObj.IncomeDate);
                                         _otherIncomeObj.AccountCode = (sdr["AccountCode"].ToString() != "" ? (sdr["AccountCode"].ToString()) : _otherIncomeObj.AccountCode);
+                                       // _otherIncomeObj.EmpTypeCode = (sdr["EmpType"].ToString() != "" ? sdr["EmpType"].ToString() : string.Empty);
                                         _otherIncomeObj.PaymentRcdComanyCode = (sdr["PaymentRcdComanyCode"].ToString() != "" ? sdr["PaymentRcdComanyCode"].ToString() : _otherIncomeObj.PaymentRcdComanyCode);
                                         _otherIncomeObj.PaymentMode = (sdr["PaymentMode"].ToString() != "" ? sdr["PaymentMode"].ToString() : _otherIncomeObj.PaymentMode);
+
+                                        //_otherIncomeObj.employeeObj = new Employee()
+                                        //{
+                                        //    ID = (sdr["EmpID"].ToString() != "" ? Guid.Parse(sdr["EmpID"].ToString()) : Guid.Empty),
+                                        //    Name = (sdr["EmpName"].ToString() != "" ? sdr["EmpName"].ToString() : string.Empty)
+                                        //};
+
                                         _otherIncomeObj.DepWithdID = (sdr["DepWithdID"].ToString() != "" ? Guid.Parse(sdr["DepWithdID"].ToString()) : _otherIncomeObj.DepWithdID);
                                         _otherIncomeObj.BankCode = (sdr["BankCode"].ToString() != "" ? (sdr["BankCode"].ToString()) : _otherIncomeObj.BankCode);
                                         _otherIncomeObj.IncomeRef = (sdr["IncomeRef"].ToString() != "" ? sdr["IncomeRef"].ToString() : _otherIncomeObj.IncomeRef);
@@ -114,7 +122,6 @@ namespace SPAccounts.RepositoryServices.Services
                                 {
                                     _otherIncomeObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : _otherIncomeObj.ID);
                                     _otherIncomeObj.IncomeDate = (sdr["IncomeDate"].ToString() != "" ? DateTime.Parse(sdr["IncomeDate"].ToString()) : _otherIncomeObj.IncomeDate);
-                                    _otherIncomeObj.AccountCode = (sdr["AccountCode"].ToString() != "" ? (sdr["AccountCode"].ToString()) : _otherIncomeObj.AccountCode);
                                     _otherIncomeObj.PaymentRcdComanyCode = (sdr["PaymentRcdComanyCode"].ToString() != "" ? sdr["PaymentRcdComanyCode"].ToString() : _otherIncomeObj.PaymentRcdComanyCode);
                                     _otherIncomeObj.PaymentMode = (sdr["PaymentMode"].ToString() != "" ? sdr["PaymentMode"].ToString() : _otherIncomeObj.PaymentMode);
                                     _otherIncomeObj.DepWithdID = (sdr["DepWithdID"].ToString() != "" ? Guid.Parse(sdr["DepWithdID"].ToString()) : _otherIncomeObj.DepWithdID);
@@ -125,6 +132,25 @@ namespace SPAccounts.RepositoryServices.Services
                                     _otherIncomeObj.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : _otherIncomeObj.Amount);
                                     _otherIncomeObj.IncomeDateFormatted = (sdr["IncomeDate"].ToString() != "" ? DateTime.Parse(sdr["IncomeDate"].ToString()).ToString(s.dateformat) : _otherIncomeObj.IncomeDateFormatted);
                                     _otherIncomeObj.ChequeDate = (sdr["ChequeDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeDate"].ToString()).ToString(s.dateformat) : _otherIncomeObj.ChequeDate);
+                                    _otherIncomeObj.EmpTypeCode = (sdr["EmpType"].ToString() != "" ? sdr["EmpType"].ToString() : string.Empty);
+                                    
+                                    _otherIncomeObj.employeeObj = new Employee();
+                                    {
+
+                                        _otherIncomeObj.employeeObj.ID = (sdr["EmpID"].ToString() != "" ? Guid.Parse(sdr["EmpID"].ToString()) : _otherIncomeObj.employeeObj.ID);
+                                        _otherIncomeObj.employeeObj.Name = (sdr["EmpName"].ToString() != "" ? sdr["EmpName"].ToString() : _otherIncomeObj.employeeObj.Name);
+                                         
+
+                                    };
+                                  
+                                    _otherIncomeObj.chartOfAccountsObj = new ChartOfAccounts();
+                                    {
+                                        _otherIncomeObj.chartOfAccountsObj.Code = (sdr["AccountCode"].ToString() != "" ? sdr["AccountCode"].ToString() : string.Empty);
+                                        _otherIncomeObj.chartOfAccountsObj.TypeDesc = (sdr["AccountTypeDescription"].ToString() != "" ? sdr["AccountTypeDescription"].ToString() : string.Empty);
+                                        _otherIncomeObj.chartOfAccountsObj.ISEmploy = (sdr["ISEmpApplicable"].ToString() != "" ? bool.Parse(sdr["ISEmpApplicable"].ToString()) : false);
+                                    };
+                                    _otherIncomeObj.AccountCode = (sdr["AccountCode"].ToString() != "" ? (sdr["AccountCode"].ToString()) : _otherIncomeObj.AccountCode);
+
                                 }
                         }
                     }
@@ -159,6 +185,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@IncomeDate", SqlDbType.DateTime).Value = _otherIncomeObj.IncomeDateFormatted;
                         cmd.Parameters.Add("@AccountCode", SqlDbType.VarChar, 10).Value = _otherIncomeObj.AccountCode;
+                        cmd.Parameters.Add("@EmpID", SqlDbType.UniqueIdentifier).Value = _otherIncomeObj.EmpID;
                         cmd.Parameters.Add("@PaymentRcdComanyCode", SqlDbType.VarChar, 10).Value = _otherIncomeObj.PaymentRcdComanyCode;
                         cmd.Parameters.Add("@PaymentMode", SqlDbType.VarChar, 10).Value = _otherIncomeObj.PaymentMode;
                         if (_otherIncomeObj.DepWithdID != Guid.Empty)
@@ -206,7 +233,7 @@ namespace SPAccounts.RepositoryServices.Services
         #endregion InsertOtherIncome
 
         #region UpdateOtherIncome
-        public object UpdateOtherIncome(OtherIncome _otherIncomeObj)
+        public OtherIncome UpdateOtherIncome(OtherIncome _otherIncomeObj)
         {
             SqlParameter outputStatus = null;
             try
@@ -226,6 +253,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = _otherIncomeObj.ID;
                         cmd.Parameters.Add("@IncomeDate", SqlDbType.DateTime).Value = _otherIncomeObj.IncomeDateFormatted;
                         cmd.Parameters.Add("@AccountCode", SqlDbType.VarChar, 10).Value = _otherIncomeObj.AccountCode;
+                        cmd.Parameters.Add("@EmpID", SqlDbType.UniqueIdentifier).Value = _otherIncomeObj.EmpID;
                         cmd.Parameters.Add("@PaymentRcdComanyCode", SqlDbType.VarChar, 10).Value = _otherIncomeObj.PaymentRcdComanyCode;
                         cmd.Parameters.Add("@PaymentMode", SqlDbType.VarChar, 10).Value = _otherIncomeObj.PaymentMode;
                         if (_otherIncomeObj.DepWithdID != Guid.Empty)
@@ -252,9 +280,10 @@ namespace SPAccounts.RepositoryServices.Services
                 switch (outputStatus.Value.ToString())
                 {
                     case "0":
-
+                        AppConst Cobj = new AppConst();
                         throw new Exception(Cobj.UpdateFailure);
-
+                    case "1":
+                        break;
                     default:
                         break;
                 }
@@ -265,15 +294,33 @@ namespace SPAccounts.RepositoryServices.Services
 
                 throw ex;
             }
-            return new
-            {
-                Status = outputStatus.Value.ToString(),
-                Message = Cobj.UpdateSuccess
-            };
+            return _otherIncomeObj;
         }
-        #endregion UpdateOtherIncome
+            //    switch (outputStatus.Value.ToString())
+            //    {
+            //        case "0":
 
-        #region DeleteOtherIncome
+            //            throw new Exception(Cobj.UpdateFailure);
+
+            //        default:
+            //            break;
+            //    }
+
+            //}
+            //catch (Exception ex)
+            //{
+
+            //    throw ex;
+            //}
+            //return new
+            //{
+            //    Status = outputStatus.Value.ToString(),
+            //    Message = Cobj.UpdateSuccess
+            //};
+            //}
+            #endregion UpdateOtherIncome
+
+            #region DeleteOtherIncome
         public object DeleteOtherIncome(Guid ID, string userName)
         {
             SqlParameter outputStatus = null;

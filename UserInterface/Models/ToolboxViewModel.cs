@@ -24,6 +24,8 @@ namespace UserInterface.Models
         public ToolBoxStructure PayBtn;
         public ToolBoxStructure TransferBtn;
         public ToolBoxStructure LimitBtn;
+        public ToolBoxStructure ClearOutBtn;      
+        public ToolBoxStructure downloadBtn;
 
         public ToolboxViewModel()
         {
@@ -43,6 +45,10 @@ namespace UserInterface.Models
             PayBtn.SecurityObject = "ButtonPay";
             TransferBtn.SecurityObject = "ButtonCashTransfer";
             LimitBtn.SecurityObject = "ButtonLimit";
+            downloadBtn.SecurityObject = "ButtonDownload";
+
+
+            ClearOutBtn.SecurityObject = "ButtonClear";
 
             backbtn.HasAccess = true;
             addbtn.HasAccess = true;
@@ -60,6 +66,9 @@ namespace UserInterface.Models
             PayBtn.HasAccess = true;
             TransferBtn.HasAccess = true;
             LimitBtn.HasAccess = true;
+            ClearOutBtn.HasAccess = true;
+            LimitBtn.HasAccess = true;
+            downloadBtn.HasAccess = true;
         }
 
     }

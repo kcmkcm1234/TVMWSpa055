@@ -252,6 +252,27 @@
 
     }
 
+    @if (Model.ClearOutBtn.Visible)
+    {
+        if (Model.ClearOutBtn.Disable || Model.ClearOutBtn.HasAccess == false)
+        {
+
+            <a class="thr_disbtn" title="@Model.ClearOutBtn.Title-@Model.ClearOutBtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/save.PNG")">
+                <span class="btnText">@Model.ClearOutBtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.ClearOutBtn.Title" class="thr_btn" onclick=@Model.ClearOutBtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/save.PNG")">
+                <span class="btnText">@Model.ClearOutBtn.Text</span>
+            </a>
+        }
+
+    }
+
 
     @if (Model.TransferBtn.Visible)
     {
@@ -295,5 +316,29 @@
         }
 
     }
+
+
+    @if (Model.downloadBtn.Visible) 
+    {
+        if (Model.downloadBtn.Disable)
+        {
+
+            <a class="thr_disbtn" title="@Model.downloadBtn.Title-@Model.downloadBtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/Download.PNG")">
+                <span class="btnText">@Model.downloadBtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.downloadBtn.Title" class="thr_btn" onclick=@Model.downloadBtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/Download.PNG")">
+                <span class="btnText">@Model.downloadBtn.Text</span>
+            </a>
+        }
+
+    }
+
+
  
 </div>

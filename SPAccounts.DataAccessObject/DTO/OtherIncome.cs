@@ -26,5 +26,10 @@ namespace SPAccounts.DataAccessObject.DTO
         public string creditAmountFormatted { get; set; }
         public string ChequeDate { get; set; }
         public Common commonObj { get; set; }
+        public Employee employeeObj { get; set; }
+        public Guid EmpID { get; set; }
+        public string EmpTypeCode { get; set; }
+        public string EmpName { get; set; }
+        public ChartOfAccounts chartOfAccountsObj { get; set; }
     }
 }

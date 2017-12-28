@@ -22,6 +22,8 @@ namespace SPAccounts.RepositoryServices.Contracts
         string GetUndepositedChequeCount(string Date);
         DepositAndWithdrawals TransferAmount(DepositAndWithdrawals _depositAndWithdrwalObj);
         object UpdateTransferAmount(DepositAndWithdrawals _depositAndWithdrwalObj);
+        object ClearChequeOut(Guid ID, string Date);
+        List<DepositAndWithdrawals> GetAllWithdrawals();
         OutGoingCheques InsertOutgoingCheques(OutGoingCheques outGoingChequeObj);
         object UpdateOutgoingCheques(OutGoingCheques outGoingChequeObj);
         object DeleteOutgoingCheque(Guid ID);

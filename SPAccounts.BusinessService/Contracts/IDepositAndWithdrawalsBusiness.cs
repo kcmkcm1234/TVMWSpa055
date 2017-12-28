@@ -23,6 +23,7 @@ namespace SPAccounts.BusinessService.Contracts
         object DeleteOutgoingCheque(Guid ID);
         string GetUndepositedChequeCount(string Date);
         object InsertUpdateTransferAmount(DepositAndWithdrawals _depositAndWithdrwalObj);
-
+        object ClearChequeOut(string ID, string Date);
+        List<DepositAndWithdrawals> GetAllWithdrawals();
     }
 }

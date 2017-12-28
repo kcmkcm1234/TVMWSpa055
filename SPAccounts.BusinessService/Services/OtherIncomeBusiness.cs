@@ -35,26 +35,52 @@ namespace SPAccounts.BusinessService.Services
             }
             return otherIncomeObj;
         }
-        public object InsertUpdateOtherIncome(OtherIncome _otherIncomeObj)
+        //public object InsertUpdateOtherIncome(OtherIncome _otherIncomeObj)
+        //{
+        //    object result = null;
+        //    try
+        //    {
+        //        if (_otherIncomeObj.ID == Guid.Empty)
+        //        {                    
+        //            result = _iOtherIncomeRepository.InsertOtherIncome(_otherIncomeObj);
+        //        }
+        //        else
+        //        {
+        //            result = _iOtherIncomeRepository.UpdateOtherIncome(_otherIncomeObj);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    return result;
+        //}
+
+        public OtherIncome InsertOtherIncome(OtherIncome _otherIncomeObj)
         {
-            object result = null;
             try
             {
-                if (_otherIncomeObj.ID == Guid.Empty)
-                {                    
-                    result = _iOtherIncomeRepository.InsertOtherIncome(_otherIncomeObj);
-                }
-                else
-                {
-                    result = _iOtherIncomeRepository.UpdateOtherIncome(_otherIncomeObj);
-                }
+                return _iOtherIncomeRepository.InsertOtherIncome(_otherIncomeObj);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-            return result;
         }
+
+
+        public OtherIncome UpdateOtherIncome(OtherIncome _otherIncomeObj)
+        {
+            try
+            {
+                return _iOtherIncomeRepository.UpdateOtherIncome(_otherIncomeObj);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public object DeleteOtherIncome(Guid ID, string userName)
         {
             object result = null;
