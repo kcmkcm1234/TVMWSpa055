@@ -94,7 +94,7 @@
     </div>
     <div class="col-md-3" style="min-height:25px">
         @{
-            var data = new { ActionType = "ListWithReset" };
+            var data = new { ActionType = "ListWithPrint" };
             @Html.Action("ChangeButtonStyle", "Report", data);
         }
     </div>
@@ -114,8 +114,9 @@
         <div class="row">
             &nbsp;
         </div>
+    <div id="divHeader"></div>
         <div class="row tableContainer">
-            <div class="col-md-12">
+            <div class="col-md-12" id="divCustomerPaymentLedger">
                 <table id="customerpaymentledgertable" class="table stripe" cellspacing="0" width="100%">
                     <thead>
                         <tr class="text-center TableHead">
@@ -127,15 +128,25 @@
                             <th>Company</th>
                             <th>Debit</th>
                             <th>Credit</th>
-                            <th>Balance</th>
-                           
+                            <th>Balance</th>                           
 
                         </tr>
                     </thead>
                 </table>
             </div>
+            
+            
         </div>
+    @using (Ajax.BeginForm("Download", "PDFGenerator", null, new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "alert('done')", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", @id = "EmployeeForm" }))
+            {
+        @Html.HiddenFor(model => model.pdfToolsObj.Content, htmlAttributes: new { @class = "", Value = "", @id = "hdnContent" })
+        @Html.HiddenFor(model => model.pdfToolsObj.Headcontent, htmlAttributes: new { @class = "", Value = "", @id = "hdnHeadContent" })
+        @Html.HiddenFor(model => model.pdfToolsObj.HeaderText, htmlAttributes: new { @class = "", Value = "Customer Payement Ledger Report" })
+        <input type="submit" value="Download" id="btnSend" onclick="GetHtmlData();" />
+    }
+    <div id="customtbl" style="display:none">
 
+    </div>
     </div>
 
 
@@ -149,6 +160,7 @@
         @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
         @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
         @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
+        <script src="~/Scripts/UserJS/PDF.js"></script>
         @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/CustomerPaymentLedger")
        
     }

@@ -1,6 +1,6 @@
 ﻿var DataTables = {};
-var startdate = '';
-var enddate = '';
+var startDate = '';
+var endDate = '';
 $(document).ready(function () {
    
                
@@ -95,8 +95,9 @@ $(document).ready(function () {
          });
 
         $(".buttons-excel").hide();
-        startdate = $("#todate").val();
-        enddate = $("#fromdate").val();
+        $("#btnSend").hide();
+        startDate = $("#todate").val();
+        endDate = $("#fromdate").val();
         $("#customernameddl").attr('style','visibility:true');
         
     } catch (x) {
@@ -112,14 +113,14 @@ $(document).ready(function () {
 function GetCustomerPaymentLedger(cur) {
     try {
         debugger;
-        var fromdate = $("#fromdate").val();
-        var todate = $("#todate").val();
-        var customerids =(cur!="ALL"? $("#customerCode").val():cur);
+        var fromDate = $("#fromdate").val();
+        var toDate = $("#todate").val();
+        var customerIds =(cur!="ALL"? $("#customerCode").val():cur);
         var company = $("#companyCode").val();
       
         
-        if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && customerids) {
-            var data = { "FromDate": fromdate, "ToDate": todate, "CustomerIDs": customerids, "Company": company };
+        if (IsVaildDateFormat(fromDate) && IsVaildDateFormat(toDate) && customerIds) {
+            var data = { "FromDate": fromDate, "ToDate": toDate, "CustomerIDs": customerIds, "Company": company };
             var ds = {};
             ds = GetDataFromServerTraditional("Report/GetCustomerPaymentLedger/", data);
             if (ds != '') {
@@ -145,11 +146,11 @@ function RefreshCustomerPaymentLedgerTable()
     debugger;
     try
     {
-        var fromdate = $("#fromdate").val();
-        var todate = $("#todate").val();
-        var customerids = $("#customerCode").val();
+        var fromDate = $("#fromdate").val();
+        var toDate = $("#todate").val();
+        var customerIds = $("#customerCode").val();
           
-        if (DataTables.customerpaymentledgertable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && customerids) {
+        if (DataTables.customerpaymentledgertable != undefined && IsVaildDateFormat(fromDate) && IsVaildDateFormat(toDate) && customerIds) {
             DataTables.customerpaymentledgertable.clear().rows.add(GetCustomerPaymentLedger()).draw(true);
             }
         }
@@ -188,11 +189,49 @@ function OnCallChange()
 
 function Reset() {
     debugger;
-    $("#todate").val(startdate);
-    $("#fromdate").val(enddate);
+    $("#todate").val(startDate);
+    $("#fromdate").val(endDate);
     $("#customerCode").val('').trigger('change')
     $("#companyCode").val('ALL');
     DataTables.customerpaymentledgertable.clear().rows.add(GetCustomerPaymentLedger('ALL')).draw(true);
    
 }
+
+
+function DownloadReport()
+{
+    $('#btnSend').trigger('click');
+}
+
+//To download file in PDF
+function GetHtmlData()
+{
+    debugger;
+    DrawTable({
+        Action: "Report/GetCustomerPaymentLedger/",
+        data: { "FromDate": $('#fromdate').val(), "ToDate": $('#todate').val(), "CustomerIDs": $('#customerCode').val(), "Company": $('#companyCode').val() },
+        Exclude_column: ["CustomerID", "customerList", "CustomerCode", "Ref", "pdfToolsObj","CompanyCode","CompanyList","companiesList"],
+        Header_column_style: {
+            "Date": "width:110px;font-size:12px;border-bottom:2px solid grey;font-weight: 600;", "Type": "font-size:12px;border-bottom:2px solid grey;width:110px;font-weight: 600;",
+            "Company": "width:110px;font-size:12px;border-bottom:2px solid grey;font-weight: 600;",
+            "CustomerName": "width:110px;font-size:12px;border-bottom:2px solid grey;font-weight: 600;",
+            "Debit": "width:150px;text-align: center;font-size:12px;border-bottom:2px solid grey;font-weight: 600;", "Credit": "width:150px;text-align: center;font-size:12px;border-bottom:2px solid grey;font-weight: 600;",
+             "Balance": "width:150px;text-align: center;font-size:12px;border-bottom:2px solid grey;font-weight: 600;"
+        },
+        Row_color: { "Odd": "White", "Even": "white" },
+        Body_Column_style: {
+            "Date": "font-size:11px;font-weight: 100;width:110px;", "Type": "font-size:11px;font-weight: 100;width:150px;", "Company": "font-size:11px;font-weight: 100;",
+            "CustomerName": "font-size:11px;font-weight: 100;width:150px;",
+            "Debit": "text-align:right;font-size:11px;font-weight: 100;width:150px;", "Credit": "text-align:right;font-size:11px;font-weight: 100;width:150px;", "Balance": "text-align:right;font-size:11px;font-weight: 100;width:150px;"
+        }
+
+    });
+        var bodyContent = $('#customtbl').html();
+        var headerContent = $('#divHeader').html();
+        $("#hdnContent").val(bodyContent);
+        $('#hdnHeadContent').val("<h1></h1>");
+}
+
+
+
 

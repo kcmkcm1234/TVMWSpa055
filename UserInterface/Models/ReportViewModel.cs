@@ -472,7 +472,9 @@ namespace UserInterface.Models
         public string Date { get; set; }
         public string Type { get; set; }
         public string Ref { get; set; }
+        public string CustomerName { get; set; }
         public string Company { get; set; }
+        
         public decimal Debit { get; set; }
         public decimal Credit { get; set; }
         public decimal Balance { get; set; }
@@ -483,9 +485,9 @@ namespace UserInterface.Models
         public string CustomerCode { get; set; }
         [Display(Name = "Company")]
         public string CompanyCode { get; set; }
-        public Guid CustomerID { get; set; }
-        public string CustomerName { get; set; }
+        public Guid CustomerID { get; set; }        
         public List<SelectListItem> companiesList { get; set; }
+        public PDFTools  pdfToolsObj { get; set; }
     }
 
 
@@ -494,7 +496,8 @@ namespace UserInterface.Models
         public string Date { get; set; }
         public string Type { get; set; }
         public string Ref { get; set; }
-        public string Company { get; set; }
+        public string SupplierName { get; set; }
+        public string Company { get; set; }       
         public decimal Debit { get; set; }
         public decimal Credit { get; set; }
         public decimal Balance { get; set; }
@@ -503,11 +506,11 @@ namespace UserInterface.Models
         [Required(ErrorMessage = "Supplier required")]
         [Display(Name = "Supplier")]
         public string SupplierCode { get; set; }
-        public Guid SupplierID { get; set; }
-        public string SupplierName { get; set; }
+        public Guid SupplierID { get; set; }        
         [Display(Name = "Company")]
         public string CompanyCode { get; set; }
         public List<SelectListItem> companiesList { get; set; }
+        public PDFTools  pdfToolsObj { get; set; }
     }
 
 

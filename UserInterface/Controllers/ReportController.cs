@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using iTextSharp.tool.xml;
 using Newtonsoft.Json;
 using SAMTool.DataAccessObject.DTO;
 using SPAccounts.BusinessService.Contracts;
@@ -6,6 +9,7 @@ using SPAccounts.DataAccessObject.DTO;
 using SPAccounts.UserInterface.SecurityFilter;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -1988,6 +1992,8 @@ namespace UserInterface.Controllers
         }
         #endregion TrialBalanceReport
 
+
+
         #region ButtonStyling
         [HttpGet]
         public ActionResult ChangeButtonStyle(string ActionType)
@@ -2048,8 +2054,34 @@ namespace UserInterface.Controllers
                    
                     ToolboxViewModelObj = _tool.SetToolbarAccess(ToolboxViewModelObj, _permission);
 
-                    break;      
-                                   
+                    break;
+
+                case "ListWithPrint":
+                    ToolboxViewModelObj.backbtn.Visible = true;
+                    ToolboxViewModelObj.backbtn.Text = "Back";
+                    ToolboxViewModelObj.backbtn.Title = "Back";
+                    ToolboxViewModelObj.backbtn.Event = "Back();";
+
+                    ToolboxViewModelObj.resetbtn.Visible = true;
+                    ToolboxViewModelObj.resetbtn.Text = "Reset";
+                    ToolboxViewModelObj.resetbtn.Event = "Reset();";
+                    ToolboxViewModelObj.resetbtn.Title = "Reset";
+
+                    ToolboxViewModelObj.PrintBtn.Visible = true;
+                    ToolboxViewModelObj.PrintBtn.Text = "Export";
+                    ToolboxViewModelObj.PrintBtn.Title = "Export";
+                    ToolboxViewModelObj.PrintBtn.Event = "PrintReport();";
+
+                    ToolboxViewModelObj.downloadBtn.Visible = true;
+                    ToolboxViewModelObj.downloadBtn.Text = "Download";
+                    ToolboxViewModelObj.downloadBtn.Title = "Download";
+                    ToolboxViewModelObj.downloadBtn.Event = "DownloadReport();";
+
+                    ToolboxViewModelObj = _tool.SetToolbarAccess(ToolboxViewModelObj, _permission);
+
+                    break;
+
+
                 default:
                     return Content("Nochange");
             }
