@@ -9,7 +9,7 @@ namespace SPAccounts.RepositoryServices.Contracts
 {
     public interface ICustomerPaymentsRepository
     {
-        List<CustomerPayments> GetAllCustomerPayments();
+        List<CustomerPayments> GetAllCustomerPayments(CustomerPaymentsSearch customerPaymentsSearch);
         CustomerPayments GetCustomerPaymentsByID(string ID);
         CustomerPayments InsertCustomerPayments(CustomerPayments _custPayObj);
         CustomerPayments UpdateCustomerPayments(CustomerPayments _custPayObj);

@@ -120,9 +120,10 @@ namespace UserInterface.Controllers
         #region GetAllCustomerPayments
         [AuthSecurityFilter(ProjectObject = "CustomerPayments", Mode = "R")]
         [HttpGet]       
-        public string GetAllCustomerPayments(string FromDate, string ToDate)
-        { 
-            List<CustomerPaymentsViewModel> CustPayList = Mapper.Map<List<CustomerPayments>, List<CustomerPaymentsViewModel>>(_CustPaymentBusiness.GetAllCustomerPayments());
+        public string GetAllCustomerPayments(string customerPaymentsSearchObject)
+        {
+            CustomerPaymentsSearch CustomerPaymentsAdvancedSearchObj = customerPaymentsSearchObject != null ? JsonConvert.DeserializeObject<CustomerPaymentsSearch>(customerPaymentsSearchObject) : new CustomerPaymentsSearch();
+            List<CustomerPaymentsViewModel> CustPayList = Mapper.Map<List<CustomerPayments>, List<CustomerPaymentsViewModel>>(_CustPaymentBusiness.GetAllCustomerPayments(CustomerPaymentsAdvancedSearchObj));
             return JsonConvert.SerializeObject(new { Result = "OK", Records = CustPayList });
         }
         #endregion GetAllCustomerPayments
@@ -325,6 +326,11 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.addbtn.Title = "Add New";
                     ToolboxViewModelObj.addbtn.Event = "openNavClick();";
 
+                    ToolboxViewModelObj.resetbtn.Visible = true;
+                    ToolboxViewModelObj.resetbtn.Text = "Reset";
+                    ToolboxViewModelObj.resetbtn.Title = "Reset";
+                    ToolboxViewModelObj.resetbtn.Event = "Reset();";
+
                     //ToolboxViewModelObj.backbtn.Visible = true;
                     //ToolboxViewModelObj.backbtn.Disable = true;
                     //ToolboxViewModelObj.backbtn.Text = "Back";
@@ -354,6 +360,10 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.CloseBtn.Title = "Close";
                     ToolboxViewModelObj.CloseBtn.Event = "closeNav();";
 
+                    ToolboxViewModelObj.resetbtn.Visible = true;
+                    ToolboxViewModelObj.resetbtn.Text = "Reset";
+                    ToolboxViewModelObj.resetbtn.Title = "Reset";
+                    ToolboxViewModelObj.resetbtn.Event = "Reset();";
 
                     break;
                 case "Add":

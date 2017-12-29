@@ -62,8 +62,10 @@ namespace UserInterface.Models
 
         public CustomerViewModel customerObj { get; set; }
         public CommonViewModel commonObj { get; set; }
+        [Display(Name = "Payment Mode")]
         public PaymentModesViewModel PaymentModesObj { get; set; }
         public BankViewModel bankObj { get; set; }
+        [Display(Name = "Recieved to Company")]
         public CompaniesViewModel CompanyObj { get; set; }
         public CustomerCreditNoteViewModel CreditObj { get; set; }
 
@@ -75,6 +77,7 @@ namespace UserInterface.Models
         public string CreditOutstanding { get; set; }
         public string AdvOutstanding { get; set; }
         public string PaymentOutstanding { get; set; }
+        public string Search { get; set; }
 
     }
     public class CustomerPaymentsDetailViewModel
@@ -90,5 +93,14 @@ namespace UserInterface.Models
         public string PaymentDueDateFormatted { get; set; }
         public CustomerPaymentsDetailViewModel CustPaymentDetailObj { get; set; }
 
+    }
+    public class CustomerPaymentsSearchViewModel
+    {
+        public string ToDate { get; set; }
+        public string FromDate { get; set; }
+        public string Company { get; set; }
+        public string PaymentMode { get; set; }
+        public string Customer { get; set; }
+        public string Search { get; set; }
     }
 }

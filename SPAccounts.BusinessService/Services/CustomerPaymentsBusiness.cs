@@ -19,10 +19,10 @@ namespace SPAccounts.BusinessService.Services
             _commonBusiness= commonBusiness;
         }
 
-        public List<CustomerPayments> GetAllCustomerPayments()
+        public List<CustomerPayments> GetAllCustomerPayments(CustomerPaymentsSearch CustomerPaymentsSearch)
         {
             List<CustomerPayments> custPayObj = null;
-            custPayObj = _customerPaymentsRepository.GetAllCustomerPayments();
+            custPayObj = _customerPaymentsRepository.GetAllCustomerPayments(CustomerPaymentsSearch);
             return custPayObj;
         }
 

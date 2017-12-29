@@ -9,7 +9,7 @@ namespace SPAccounts.BusinessService.Contracts
 {
     public interface ICustomerPaymentsBusiness
     {
-        List<CustomerPayments> GetAllCustomerPayments();
+        List<CustomerPayments> GetAllCustomerPayments(CustomerPaymentsSearch customerPaymentsSearch);
         CustomerPayments GetCustomerPaymentsByID(string ID);
         CustomerPayments InsertUpdatePayments(CustomerPayments _custPayObj);
         object DeletePayments(Guid PaymentID,string UserName);
