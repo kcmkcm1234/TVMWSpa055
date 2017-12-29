@@ -25,5 +25,6 @@ namespace SPAccounts.BusinessService.Contracts
         object InsertUpdateTransferAmount(DepositAndWithdrawals _depositAndWithdrwalObj);
         object ClearChequeOut(string ID, string Date);
         List<DepositAndWithdrawals> GetAllWithdrawals();
+        object ValidateChequeNo(OutGoingCheques outGoingChequeObj);
     }
 }

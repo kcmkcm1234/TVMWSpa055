@@ -1021,5 +1021,49 @@ namespace SPAccounts.RepositoryServices.Services
             return outGoingChequesObj;
         }
 
+
+        public object ValidateChequeNo(OutGoingCheques outGoingChequeObj)
+        {
+            AppConst appcust = new AppConst();
+            SqlParameter outputStatus = null;
+            SqlParameter outputStatus1 = null;
+            try
+            {
+
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[ValidateChequeNo]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ChequeNo", SqlDbType.VarChar, 20).Value = outGoingChequeObj.ChequeNo;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = outGoingChequeObj.ID;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus1 = cmd.Parameters.Add("@message", SqlDbType.VarChar, 100);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        outputStatus1.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+
+                    }
+                }
+
+            }
+
+
+            catch (Exception ex)
+            {
+                return new { Message = ex.ToString(), Status = -1 };
+            }
+
+            return new { Message = outputStatus1.Value.ToString(), Status = outputStatus.Value };
+
+        }
+
+
     }
 }
