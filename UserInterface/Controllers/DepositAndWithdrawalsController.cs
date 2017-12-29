@@ -487,7 +487,7 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.savebtn.Visible = true;
                     ToolboxViewModelObj.savebtn.Text = "Save";
                     ToolboxViewModelObj.savebtn.Title = "Save";
-                    ToolboxViewModelObj.savebtn.Event = "Save();";
+                    ToolboxViewModelObj.savebtn.Event = "SaveForm();";
 
                     ToolboxViewModelObj.CloseBtn.Visible = true;
                     ToolboxViewModelObj.CloseBtn.Text = "Close";
@@ -512,7 +512,7 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.savebtn.Visible = true;
                     ToolboxViewModelObj.savebtn.Text = "Save";
                     ToolboxViewModelObj.savebtn.Title = "Save";
-                    ToolboxViewModelObj.savebtn.Event = "Save();";
+                    ToolboxViewModelObj.savebtn.Event = "SaveForm();";
 
                     ToolboxViewModelObj.CloseBtn.Visible = true;
                     ToolboxViewModelObj.CloseBtn.Text = "Close";
@@ -557,7 +557,7 @@ namespace UserInterface.Controllers
 
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "DepositAndWithdrawals", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "OutGoingCheques", Mode = "R")]
         public ActionResult OutgoingCheques()
         {
             AppUA appUA = Session["AppUA"] as AppUA;
@@ -607,7 +607,9 @@ namespace UserInterface.Controllers
             return View(depositAndWithdrwalViewModelObj);
         }
 
-       
+        #region To List all Outgoingcheques
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "OutGoingCheques", Mode = "R")]
         public string GetOutGoingCheques(string outGoingChequesAdvanceSearchObject)
         {
 
@@ -627,8 +629,11 @@ namespace UserInterface.Controllers
             }
 
         }
+        #endregion To List all Outgoingcheques
 
-
+        #region To add outgoing cheques or edit it
+        [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "OutGoingCheques", Mode = "R")]
         public string InsertUpdateOutgoingCheque(DepositAndWithdrwalViewModel depositAndWithdrawalObj)
         {
             try
@@ -657,8 +662,11 @@ namespace UserInterface.Controllers
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
             }
         }
+        #endregion To add outgoing cheques or edit it
 
-
+        #region To delete a record of outgoingcheque
+        [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "OutGoingCheques", Mode = "D")]
         public string DeleteOutgoingCheque(DepositAndWithdrwalViewModel depositAndWithdrawalObj)
         {
 
@@ -677,7 +685,11 @@ namespace UserInterface.Controllers
 
 
         }
+        #endregion To delete a record of outgoingcheque
 
+        #region Get Details of outgoingcheques based on ID
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "OutGoingCheques", Mode = "R")]
         public string GetOutgoingChequeById(string ID)
         {
             try
@@ -692,5 +704,28 @@ namespace UserInterface.Controllers
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
             }
         }
+        #endregion Get Details of outgoingcheques based on ID
+
+        #region To Check Whether the same ChequeNo exists or not
+        [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "OutGoingCheques", Mode = "R")]
+        public string ValidateChequeNo(OutGoingChequesViewModel OutGoingChequeObj)
+        {
+            object result = null;
+            try
+
+            {
+                result = _depositAndWithdrawalsBusiness.ValidateChequeNo(Mapper.Map<OutGoingChequesViewModel, OutGoingCheques>(OutGoingChequeObj));
+                return JsonConvert.SerializeObject(new { Result = "OK", Message = "", Records = result });
+            }
+
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message, Status = -1 });
+            }
+
+        }
+        #endregion To Check Whether the same ChequeNo exists or not
     }
 }

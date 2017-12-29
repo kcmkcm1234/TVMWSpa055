@@ -202,5 +202,11 @@ namespace SPAccounts.BusinessService.Services
         {
             return _depositAndWithdrawalsRepository.GetAllWithdrawals();
         }
+
+        public object ValidateChequeNo(OutGoingCheques outGoingChequeObj)
+        {
+            return _depositAndWithdrawalsRepository.ValidateChequeNo(outGoingChequeObj);
+        }
+
     }
 }

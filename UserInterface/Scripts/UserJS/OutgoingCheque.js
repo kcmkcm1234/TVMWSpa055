@@ -34,7 +34,7 @@ $(document).ready(function () {
                { "data": "Party", "defaultContent": "<i>-</i>" },
                { "data": "Status", "defaultContent": "<i>-</i>"},
                { "data": "Company", "defaultContent": "<i>-</i>" },
-               { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
+               { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="EditRecord(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false }, 
                   { className: "text-left", "targets": [1] },
@@ -111,10 +111,13 @@ function AddNew()
 }
 
 //Save the added data to database
-function Save() {
+function SaveForm() {
     debugger;
-    $('#btnSave').trigger('click');
+  
+    ValidateChequeNo();
 }
+
+
 
 //Message alerts for Save Sucess or Failure
 function SaveSuccessOutGoingCheque(data, status) {
@@ -163,7 +166,7 @@ function GetOutgoingCheques(ID) {
 }
 
 //Opens Edit form to edit data
-function Edit(Obj) {
+function EditRecord(Obj) {
     debugger;
     ChangeButtonPatchView('DepositAndWithdrawals', 'btnPatchAdd', 'EditOutGoing');
     var rowData = DataTables.OutGoingChequeTable.row($(Obj).parents('tr')).data();
@@ -203,17 +206,19 @@ function PaintOutGoingCheques(ID) {
     }
 }
 
-//Delete the Current record
+//Deletes the Current record
 function DeleteOutgoingCheque() {
     debugger
-    notyConfirm('Are you sure to delete?', 'Delete()', '', "Yes, delete it!");
+    notyConfirm('Are you sure to delete?', 'DeleteRecord()', '', "Yes, delete it!");
 }
 
-function Delete() {
+//To trigger the delete button
+function DeleteRecord() {
     debugger
     $('#btnFormDelete').trigger('click');
 }
 
+//Shows Success or Failure Message
 function DeleteSuccess(data, status) {
     debugger;
     var JsonResult = JSON.parse(data)
@@ -235,9 +240,8 @@ function DeleteSuccess(data, status) {
 }
 
 
- 
 
-
+//Bind the Datatable
 function BindAllOutgoingCheques() {
     try {
        
@@ -270,4 +274,45 @@ function FilterReset() {
     $("#txtOutSearch").val('');
   
     BindAllOutgoingCheques();
+}
+
+//Saves the validated data
+function SaveValidatedData() {
+    debugger;
+    $(".cancel").click();
+    setTimeout(function () {
+        $('#btnSave').trigger('click');
+    }, 1000);
+}
+
+
+
+
+//Validate Whether same chequeno exists or not
+
+function ValidateChequeNo() {
+    debugger;
+    var OutGoingChequesViewModel = new Object();
+    OutGoingChequesViewModel.ChequeNo = $("#txtChequeNo").val();
+    OutGoingChequesViewModel.ID = $("#OutGoingObj_ID").val();
+    var data = "{'outGoingChequeObj': " + JSON.stringify(OutGoingChequesViewModel) + "}";
+    PostDataToServer("DepositAndWithdrawals/ValidateChequeNo/", data, function (JsonResult) {
+        debugger;
+        if (JsonResult != '') {
+            switch (JsonResult.Result) {
+                case "OK":
+                    if (JsonResult.Records.Status == 1)
+                        notyConfirm(JsonResult.Records.Message, 'SaveValidatedData();', '', "Yes,Proceed!", 1);
+                    else {
+                        SaveValidatedData();
+                    }
+                    break;
+                case "ERROR":
+                    notyAlert('error', JsonResult.Message);
+                    break;
+                default:
+                    break;
+            }
+        }
+    });
 }

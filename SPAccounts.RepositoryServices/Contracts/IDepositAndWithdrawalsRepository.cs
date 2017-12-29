@@ -28,5 +28,6 @@ namespace SPAccounts.RepositoryServices.Contracts
         object UpdateOutgoingCheques(OutGoingCheques outGoingChequeObj);
         object DeleteOutgoingCheque(Guid ID);
         OutGoingCheques GetOutgoingChequeById(Guid ID);
+        object ValidateChequeNo(OutGoingCheques outGoingChequeObj);
     }
 }
