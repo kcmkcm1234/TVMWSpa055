@@ -9,7 +9,7 @@ namespace SPAccounts.BusinessService.Contracts
 {
     public interface ISupplierPaymentsBusiness
     {
-        List<SupplierPayments> GetAllSupplierPayments();
+        List<SupplierPayments> GetAllSupplierPayments(SupplierPaymentsAdvanceSearch supplierPaymentsAdvanceSearch);
         List<SupplierPayments> GetAllPendingSupplierPayments();
         SupplierPayments GetSupplierPaymentsByID(string ID);
         List<SupplierPayments> GetSupplierInvoiceAdjustedByPaymentID(SupplierPayments SupObj);

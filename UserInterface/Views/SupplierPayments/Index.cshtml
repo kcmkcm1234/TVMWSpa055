@@ -76,6 +76,117 @@
         </div>
 
     </div>
+
+    <div class="col-md-12">&nbsp;</div>
+    
+    <div class="col-md-12">
+        <div class="row">
+            &nbsp;
+            <p id="afilter" style="float:right;font-size:small"><i class="fa fa-filter" aria-hidden="true" style="color:purple"></i><a href="#" class="accordion" data-toggle="collapse" data-target="#demo" id="advfilter">Advanced Filter</a></p>
+
+            <div id="demo" class="collapse" style="border-top:1px solid #d9d9d9">
+                <div class="col-md-12">&nbsp;</div>
+                <div class="col-md-12">
+                    <div class="col-md-3">
+                        @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })
+                        <div class="col-md-12" style="padding:0">
+                            @Html.TextBox("fromdate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @Value = ViewBag.fromdate })
+
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        @Html.Label("To Date", htmlAttributes: new { @class = "control-label" })
+                        <div class="col-md-12" style="padding:0">
+                            @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @Value = ViewBag.todate })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="col-md-12" style="padding:0">
+                            @Html.LabelFor(model => model.supplierObj.ID, htmlAttributes: new { @class = "control-label " })
+                        </div>
+                        <div class="col-md-12" style="padding:0">
+                            <div class="col-md-12" style="padding:0">
+                                @Html.DropDownListFor(model => model.supplierObj.ID, Model.supplierObj.SupplierList, "-- Select Supplier --", new { @class = "form-control BlockEnter", @id = "Supplierddl", @style = "width: 100%" })
+                                @Html.ValidationMessageFor(model => model.supplierObj.ID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="col-md-12">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">&nbsp;</div>
+                <div class="col-md-12">
+
+                    <div class="col-md-3">
+                        <div class="col-md-12" style="padding:0">
+                            @Html.LabelFor(model => model.PaymentMode, htmlAttributes: new { @class = "control-label " })
+                        </div>
+                        <div class="col-md-12" style="padding:0">
+                            <di-v class="col-md-12" style="padding:0">
+                                @Html.DropDownListFor(model => model.PaymentModesObj, Model.PaymentModesObj.PaymentModesList, "-- Select Payment Mode --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "paymode" })
+                                @Html.ValidationMessageFor(model => model.PaymentModesObj, "", new { @class = "text-danger" })
+                            </di-v>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="col-md-12" style="padding:0">
+                            @Html.LabelFor(model => model.PaidFromComanyCode, htmlAttributes: new { @class = "control-label " })
+                        </div>
+                        <div class="col-md-12" style="padding:0">
+                            <di-v class="col-md-12" style="padding:0">
+                                @Html.DropDownListFor(model => model.CompanyObj, Model.CompanyObj.CompanyList, "-- Select Company --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "Companyddl" })
+                                @Html.ValidationMessageFor(model => model.CompanyObj, "", new { @class = "text-danger" })
+                            </di-v>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="col-md-12" style="padding:0">
+                            @Html.LabelFor(model => model.ApprovalStatus, htmlAttributes: new { @class = "control-label " })
+                        </div>
+                        <div class="col-md-12" style="padding:0">
+                            <di-v class="col-md-12" style="padding:0">
+                                @Html.DropDownListFor(model => model.ApproveStatusObj, Model.ApproveStatusObj.ApprovalStatusList, "-- Select Company --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "Statusddl" })
+                                @Html.ValidationMessageFor(model => model.ApproveStatusObj, "", new { @class = "text-danger" })
+                            </di-v>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="col-md-12">
+                            <div class="col-md-10">
+                                <a class="btn btn-primary" style="right:-750px;margin-top:20px" id="btnadvancesearch" onclick="BindSupplierPaymentsHeader()">Apply</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">&nbsp;</div>
+                <!----------------------------------------------------------------------------------------------------------------------->
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.Search, htmlAttributes: new { @class = "control-label", style = "visibility:hidden" })@**@
+                    </div>
+                    <div class="col-md-6" style="padding:0">
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search" id="search">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit" style="height:28px" onclick="BindSupplierPaymentsHeader()"><i class="glyphicon glyphicon-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-12">&nbsp;</div>
+
+            </div>
+        </div>
+    </div>
+    
   
     <div class="row">
         &nbsp;

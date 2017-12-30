@@ -140,6 +140,21 @@ namespace UserInterface.Controllers
                 });
             }
             SP.ApprovalStatusObj.ApprovalStatusList = selectListItem;
+            //-------------5.Approve Status-------------------//
+            SP.ApproveStatusObj = new ApprovalStatusViewModel();
+            SP.ApproveStatusObj.ApprovalStatusList = new List<SelectListItem>();
+            selectListItem = new List<SelectListItem>();
+            foreach (ApprovalStatusViewModel BL in ApprovalStatus)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = BL.Description,
+                    Value = BL.Code,
+                    Selected = false
+                });
+            }
+            SP.ApproveStatusObj.ApprovalStatusList = selectListItem;
+
             return View(SP);
         }
         #endregion Index 
@@ -147,9 +162,10 @@ namespace UserInterface.Controllers
         #region GetAllSupplierPayments
         [AuthSecurityFilter(ProjectObject = "SupplierPayments", Mode = "R")]
         [HttpGet]
-        public string GetAllSupplierPayments(string filter)
+        public string GetAllSupplierPayments(string filter,string supplierPaymentsAdvanceSearch)
         {
-            List<SupplierPaymentsViewModel> supplierPayList = Mapper.Map<List<SupplierPayments>, List<SupplierPaymentsViewModel>>(_supplierPaymentsBusiness.GetAllSupplierPayments());
+            SupplierPaymentsAdvanceSearch supplierPaymentsAdvanceSearchObj = supplierPaymentsAdvanceSearch != null ?  (JsonConvert.DeserializeObject<SupplierPaymentsAdvanceSearch>(supplierPaymentsAdvanceSearch)) : new SupplierPaymentsAdvanceSearch();
+            List<SupplierPaymentsViewModel> supplierPayList = Mapper.Map<List<SupplierPayments>, List<SupplierPaymentsViewModel>>(_supplierPaymentsBusiness.GetAllSupplierPayments(supplierPaymentsAdvanceSearchObj));
 
             if (filter != null && filter == "NA")
             {
