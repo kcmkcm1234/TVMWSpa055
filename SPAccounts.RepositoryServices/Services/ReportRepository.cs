@@ -1433,7 +1433,7 @@ namespace SPAccounts.RepositoryServices.Services
             return dailyLedgerList;
         }
 
-        public List<CustomerExpeditingReport> GetCustomerExpeditingDetail(DateTime? ToDate,string Filter)
+        public List<CustomerExpeditingReport> GetCustomerExpeditingDetail(DateTime? ToDate,string Filter,string Company,string Customer)
         {
             List<CustomerExpeditingReport> CustomerExpeditingList = null;
             try
@@ -1448,7 +1448,10 @@ namespace SPAccounts.RepositoryServices.Services
                         }
                         cmd.Connection = con;
                         cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = ToDate;
-                        cmd.Parameters.Add("@Filter", SqlDbType.NVarChar,50).Value = Filter;
+                        cmd.Parameters.Add("@Filter", SqlDbType.NVarChar, 50).Value = Filter;
+                        cmd.Parameters.Add("@Company", SqlDbType.NVarChar, 50).Value = Company;
+                        if (Customer!="")
+                        cmd.Parameters.Add("@Customer",SqlDbType.NVarChar, -1).Value = Customer ;
                         cmd.CommandText = "[Accounts].[RPT_CustomerPaymentExpeditingDetail]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -1462,15 +1465,22 @@ namespace SPAccounts.RepositoryServices.Services
                                     {
                                         customerexpeditingdetail.CustomerName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : customerexpeditingdetail.CustomerName);
                                         customerexpeditingdetail.CustomerName1 = (sdr["CompanyName1"].ToString() != "" ? sdr["CompanyName1"].ToString() : customerexpeditingdetail.CustomerName1);
-                                        customerexpeditingdetail.ContactNo = (sdr["Mobile"].ToString() != "" ? ("☎"+sdr["Mobile"].ToString()) : "") +
-                                            (sdr["LandLine"].ToString() != "" ? (", ☎"+sdr["LandLine"].ToString()) : "" )+
-                                            (sdr["OtherPhoneNos"].ToString() != "" ? (", ☎"+sdr["OtherPhoneNos"].ToString()) : "");
+                                        customerexpeditingdetail.customerContactObj = new CustomerContactDetailsReport();                                      
+                                        
+                                        customerexpeditingdetail.customerContactObj.ContactName = (sdr["ContactName"].ToString() != "" ? sdr["ContactName"].ToString() : customerexpeditingdetail.customerContactObj.ContactName);
+                                                                                
+                                        customerexpeditingdetail.ContactNo = (sdr["Mobile"].ToString() != "" ? ("☎" + sdr["Mobile"].ToString()) : "") +
+                                            (sdr["LandLine"].ToString() != "" ? (", ☎" + sdr["LandLine"].ToString()) : "") +
+                                            (sdr["OtherPhoneNos"].ToString() != "" ? (", ☎" + sdr["OtherPhoneNos"].ToString()) : "");
+
+                                        customerexpeditingdetail.companyObj = new Companies();
+                                        //customerexpeditingdetail.companyObj.Code = (sdr["Code"].ToString() != "" ? sdr["code"].ToString() : customerexpeditingdetail.companyObj.Code);
+                                        customerexpeditingdetail.companyObj.Name = (sdr["Company"].ToString() != "" ? sdr["Company"].ToString() : customerexpeditingdetail.companyObj.Name);
+
                                         customerexpeditingdetail.InvoiceNo = (sdr["InvoiceNo"].ToString() != "" ? sdr["InvoiceNo"].ToString() : customerexpeditingdetail.InvoiceNo);
                                         customerexpeditingdetail.InvoiceDate = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(settings.dateformat) : customerexpeditingdetail.InvoiceDate);
                                         customerexpeditingdetail.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : customerexpeditingdetail.Amount);
                                         customerexpeditingdetail.NoOfDays = (sdr["NoOfDays"].ToString() != "" ? sdr["NoOfDays"].ToString() : customerexpeditingdetail.NoOfDays);
-                                       
-
                                     }
                                     CustomerExpeditingList.Add(customerexpeditingdetail);
                                 }
@@ -1478,7 +1488,8 @@ namespace SPAccounts.RepositoryServices.Services
                         }
                     }
                 }
-            }
+                }
+    
             catch (Exception ex)
             {
                 throw ex;

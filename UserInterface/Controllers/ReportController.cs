@@ -1839,20 +1839,70 @@ namespace UserInterface.Controllers
 
             Result.BasicFilters = selectListItem;
 
-          
+            selectListItem = new List<SelectListItem>();
+            Result.customerObj = new CustomerViewModel();
+            List<CustomerViewModel> customerList = Mapper.Map<List<Customer>, List<CustomerViewModel>>(_customerBusiness.GetAllCustomers());
+            if (customerList != null)
+            {
+                //selectListItem.Add(new SelectListItem
+                //{
+                //    Text = "All",
+                //    Value = "ALL",
+                //    Selected = true
+                //});
+
+                foreach (CustomerViewModel Cust in customerList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = Cust.CompanyName,
+                        Value = Cust.CompanyName.ToString(),
+                        Selected = false
+                    });
+                }
+            }
+            Result.customerObj.CustomerList = selectListItem;
+
+            selectListItem = new List<SelectListItem>();
+            Result.companyObj = new CompaniesViewModel();
+            List<CompaniesViewModel> companiesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_otherExpenseBusiness.GetAllCompanies());
+            if (companiesList != null)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "All",
+                    Value = "ALL",
+                    Selected = true
+                });
+
+                foreach (CompaniesViewModel cvm in companiesList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = cvm.Name,
+                        Value = cvm.Name.ToString(),
+                        Selected = false
+                    });
+                }
+            }            
+            Result.companyObj.CompanyList = selectListItem;
+
+
+
+
             return View(Result);
         }
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
-        public string GetCustomerPaymentExpeditingDetails(string ToDate,string Filter)
+        public string GetCustomerPaymentExpeditingDetails(string ToDate,string Filter,string Company, string[] Customer)       
         {
             try
-            { 
-            DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-            CustomerExpeditingListViewModel Result = new CustomerExpeditingListViewModel();
-            Result.customerExpeditingDetailsList = Mapper.Map<List<CustomerExpeditingReport>, List<CustomerExpeditingReportViewModel>>(_reportBusiness.GetCustomerExpeditingDetail(TDate,Filter));
-            return JsonConvert.SerializeObject(new { Result = "OK", Records = Result });
+            {               
+                DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
+                CustomerExpeditingListViewModel Result = new CustomerExpeditingListViewModel();
+                Result.customerExpeditingDetailsList = Mapper.Map<List<CustomerExpeditingReport>, List<CustomerExpeditingReportViewModel>>(_reportBusiness.GetCustomerExpeditingDetail(TDate,Filter,Company,Customer != null ? String.Join(",", Customer) : "ALL"));              
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = Result });
             }
                 catch (Exception ex)
                 {

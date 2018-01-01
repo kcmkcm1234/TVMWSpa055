@@ -556,6 +556,9 @@ namespace UserInterface.Models
         public string NoOfDays { get; set; }
         public string Remarks { get; set; }
         public string Date { get; set; }
+        public CompaniesViewModel companyObj { get; set; }
+        public CustomerViewModel customerObj { get; set; }
+        public CustomerContactDetailsReportViewModel customerContactObj { get; set; }       
     }
 
     public class CustomerExpeditingListViewModel {
@@ -563,6 +566,11 @@ namespace UserInterface.Models
         [Display(Name = "Filter")]
         public List<SelectListItem> BasicFilters { get; set; }
         public string Filter { get; set; }
+        public CompaniesViewModel companyObj { get; set; }
+        public CustomerViewModel customerObj { get; set; }        
+        public string Search { get; set; }
+        public string Company { get; set; }
+        public string Customer { get; set; }       
     }
 
     public class SupplierExpeditingReportViewModel
@@ -577,7 +585,7 @@ namespace UserInterface.Models
         public string InvoiceDate { get; set; }
         public Decimal Amount { get; set; }
         public string NoOfDays { get; set; }
-        public string Remarks { get; set; }
+        public string Remarks { get; set; }        
     }
 
     public class SupplierExpeditingListViewModel
@@ -585,7 +593,7 @@ namespace UserInterface.Models
         public List<SupplierExpeditingReportViewModel> SupplierExpeditingDetailsList { get; set; }
         [Display(Name = "Filter")]
         public List<SelectListItem> BasicFilters { get; set; }
-        public string Filter { get; set; }
+        public string Filter { get; set; }     
     }
-
+  
 }
