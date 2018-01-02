@@ -21,7 +21,7 @@ namespace SPAccounts.RepositoryServices.Services
             _databaseFactory = databaseFactory;
         }
 
-        public List<CustomerPayments> GetAllCustomerPayments()
+        public List<CustomerPayments> GetAllCustomerPayments(CustomerPaymentsSearch customerPaymentsSearch)
         {
             List<CustomerPayments> ExpenseTypelist = null;
             try
@@ -36,6 +36,14 @@ namespace SPAccounts.RepositoryServices.Services
                         }
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[GetAllCustomerPayments]";
+                        //DateTime? FromDate = string.IsNullOrEmpty(customerPaymentsSearch.FromDate) ? (DateTime?)null : DateTime.Parse();
+                        //DateTime? ToDate = string.IsNullOrEmpty(customerPaymentsSearch.ToDate) ? (DateTime?)null : DateTime.Parse();
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = customerPaymentsSearch.FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = customerPaymentsSearch.ToDate;
+                        cmd.Parameters.Add("@CustomerCode", SqlDbType.NVarChar, 50).Value = customerPaymentsSearch.Customer;
+                        cmd.Parameters.Add("@PaymentMode", SqlDbType.NVarChar, 50).Value = customerPaymentsSearch.PaymentMode;
+                        cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = customerPaymentsSearch.Company;
+                        cmd.Parameters.Add("@search", SqlDbType.NVarChar, 250).Value = customerPaymentsSearch.Search;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {

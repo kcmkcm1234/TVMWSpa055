@@ -449,12 +449,12 @@ namespace SPAccounts.BusinessService.Services
             return dailyLedgerList;
         }
 
-        public List<CustomerExpeditingReport> GetCustomerExpeditingDetail(DateTime? ToDate,String Filter)
+        public List<CustomerExpeditingReport> GetCustomerExpeditingDetail(DateTime? ToDate,String Filter,string Company,string Customer)
         {
             List<CustomerExpeditingReport> CustomerExpeditingList = null;
             try
             {
-                CustomerExpeditingList = _reportRepository.GetCustomerExpeditingDetail(ToDate, Filter);
+                CustomerExpeditingList = _reportRepository.GetCustomerExpeditingDetail(ToDate, Filter,Company,Customer);                  
             }
             catch (Exception ex)
             {

@@ -25,13 +25,15 @@ $(document).ready(function () {
             FileObject.Controller = "FileUpload";
             UploadFile(FileObject);
         });
+
+        $("#Customerddl").select2();
     DataTables.CustomerPaymentTable = $('#CustPayTable').DataTable(
     {
         dom: '<"pull-left"f>rt<"bottom"ip><"clear">',
         order: [],
-        searching: true,    
+        searching: false,    
         paging: true,
-        data: GetAllCustomerPayments(),
+        data: GetAllCustomerPayments(0),
         columns: [
              { "data": "ID", "defaultContent": "<i>-</i>" },
              { "data": "EntryNo", "defaultContent": "<i>-</i>" },
@@ -241,9 +243,16 @@ function GetOutstandingAmountByCustomer(CustomerID) {
 //--------------------------------------------------------------------------------------
 
 
-function GetAllCustomerPayments() {
-    try { 
-        var data = {};
+function GetAllCustomerPayments(customerPaymentsSearchObject) {
+    try {
+        debugger;
+        if (customerPaymentsSearchObject === 0) {
+            var data = {};
+        }
+        else {
+            var data = { "customerPaymentsSearchObject": JSON.stringify(customerPaymentsSearchObject) };
+        }
+        
         var ds = {};
         ds = GetDataFromServer("CustomerPayments/GetAllCustomerPayments/", data);
         if (ds != '') {
@@ -880,4 +889,41 @@ function Selectcheckbox() {
             DataTables.OutStandingInvoices.rows(i).select();
         }
     }
+}
+
+function RefreshCustomerPayments() {
+    try {
+        debugger
+        var fromdate = $("#fromdate");
+        var todate = $("#todate");
+        var customercode = $("#Customerddl");
+        var paymentMode = $("#paymode");
+        var companycode = $("#Companyddl");
+        var search = $("#search");
+
+        var CustomerPaymentsSearch = new Object();
+        CustomerPaymentsSearch.FromDate = fromdate[0].value !== "" ? fromdate[0].value : null;
+        CustomerPaymentsSearch.ToDate = todate[0].value !== "" ? todate[0].value : null;
+        CustomerPaymentsSearch.Customer = customercode[0].value !== "" ? customercode[0].value : null;
+        CustomerPaymentsSearch.PaymentMode = paymentMode[0].value !== "" ? paymentMode[0].value : null;
+        CustomerPaymentsSearch.Company = companycode[0].value !== "" ? companycode[0].value : null;
+        CustomerPaymentsSearch.Search = search[0].value !== "" ? search[0].value : null;
+
+        DataTables.CustomerPaymentTable.clear().rows.add(GetAllCustomerPayments(CustomerPaymentsSearch)).draw(false);
+        
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
+function Reset() {
+    $("#fromdate").val('');
+    $("#todate").val('');
+    $("#Customerddl").select2();
+    $("#Customerddl").val('').trigger('change');
+    $("#paymode").val('');
+    $("#Companyddl").val('');
+    $("#search").val('');
+    RefreshCustomerPayments();
 }

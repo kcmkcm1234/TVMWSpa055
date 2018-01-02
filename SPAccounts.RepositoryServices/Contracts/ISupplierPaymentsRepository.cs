@@ -9,7 +9,7 @@ namespace SPAccounts.RepositoryServices.Contracts
 {
     public interface ISupplierPaymentsRepository
     {
-        List<SupplierPayments> GetAllSupplierPayments();
+        List<SupplierPayments> GetAllSupplierPayments(SupplierPaymentsAdvanceSearch supplierPaymentsAdvanceSearch);
         List<SupplierPayments> GetAllPendingSupplierPayments();
         SupplierPayments GetSupplierPaymentsByID(string ID);
         List<SupplierPayments> GetSupplierInvoiceAdjustedByPaymentID(SupplierPayments SupObj );

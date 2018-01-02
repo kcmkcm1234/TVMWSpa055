@@ -21,7 +21,7 @@ namespace SPAccounts.RepositoryServices.Services
             _databaseFactory = databaseFactory;
         }
 
-        public List<SupplierPayments> GetAllSupplierPayments()
+        public List<SupplierPayments> GetAllSupplierPayments(SupplierPaymentsAdvanceSearch supplierPaymentsAdvanceSearch)
         {
             List<SupplierPayments> SupplierPaylist = null;
             try
@@ -35,6 +35,13 @@ namespace SPAccounts.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = supplierPaymentsAdvanceSearch.FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = supplierPaymentsAdvanceSearch.ToDate;
+                        cmd.Parameters.Add("@SupplierCode", SqlDbType.NVarChar, 50).Value = supplierPaymentsAdvanceSearch.Supplier;
+                        cmd.Parameters.Add("@PaymentMode", SqlDbType.NVarChar, 50).Value = supplierPaymentsAdvanceSearch.PaymentMode;
+                        cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = supplierPaymentsAdvanceSearch.Company;
+                        cmd.Parameters.Add("@ApprovalStatus", SqlDbType.NVarChar, 50).Value = supplierPaymentsAdvanceSearch.ApprovalStatus;
+                        cmd.Parameters.Add("@search", SqlDbType.NVarChar, 250).Value = supplierPaymentsAdvanceSearch.Search;
                         cmd.CommandText = "[Accounts].[GetAllSupplierPayments]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -386,7 +393,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@ApprovalStatus", SqlDbType.Int).Value = _supplierPayObj.ApprovalStatus;
                         cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = _supplierPayObj.CommonObj.UpdatedBy;
                         cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = _supplierPayObj.CommonObj.UpdatedDate;
-                        cmd.Parameters.Add("@IsNotioficationSuccess", SqlDbType.Int).Value = _supplierPayObj.IsNotificationSuccess;
+                        cmd.Parameters.Add("@IsNotificationSuccess", SqlDbType.Int).Value = _supplierPayObj.IsNotificationSuccess;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();

@@ -75,6 +75,7 @@ namespace UserInterface.Models
         public CompaniesViewModel CompanyObj { get; set; }
         public SupplierCreditNoteViewModel CreditObj { get; set; }
         public ApprovalStatusViewModel ApprovalStatusObj { get; set; }
+        public ApprovalStatusViewModel ApproveStatusObj { get; set; }
 
         public string paymentDetailhdf { get; set; }
         public string hdfSupplierID { get; set; }
@@ -88,6 +89,7 @@ namespace UserInterface.Models
 
         public bool HasAccess { get; set; }
         public string IsNotificationSuccess { get; set; }
+        public string Search { get; set; }
 
     }
     public class SupplierPaymentsDetailViewModel
@@ -111,4 +113,15 @@ namespace UserInterface.Models
         public SupplierPaymentsDetailViewModel supplierPaymentDetailObj { get; set; }
 
     }
+    
+    public class SupplierPaymentsAdvanceSearchViewModel
+    {
+        public string ToDate { get; set; }
+        public string FromDate { get; set; }
+        public string Company { get; set; }
+        public string PaymentMode { get; set; }
+        public string Customer { get; set; }
+        public string Search { get; set; }
+    }
+
 }

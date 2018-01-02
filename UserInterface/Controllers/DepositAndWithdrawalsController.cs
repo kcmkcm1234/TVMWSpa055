@@ -555,6 +555,38 @@ namespace UserInterface.Controllers
         }
         #endregion
 
+        #region ClearCheque Out
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "DepositAndWithdrawals", Mode = "W")]
+        public string ClearChequeOut(string ID, string Date)
+        {
+            try
+            {
+                object result = null;
+
+                result = _depositAndWithdrawalsBusiness.ClearChequeOut(ID, Date);
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+
+            }
+            catch (Exception ex)
+            {
+
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion ClearCheque Out
+
+        #region GetAllWithdrawals
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "DepositAndWithdrawals", Mode = "W")]
+        public string GetAllWithdrawals()
+        {
+            List<DepositAndWithdrwalViewModel> depositAndWithdrwalsList = Mapper.Map<List<DepositAndWithdrawals>, List<DepositAndWithdrwalViewModel>>(_depositAndWithdrawalsBusiness.GetAllWithdrawals());
+            return JsonConvert.SerializeObject(new { Result = "OK", Records = depositAndWithdrwalsList });
+        }
+        #endregion GetAllWithdrawals
+
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "OutGoingCheques", Mode = "R")]

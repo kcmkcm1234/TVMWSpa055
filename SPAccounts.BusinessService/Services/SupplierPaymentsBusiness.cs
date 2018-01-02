@@ -26,10 +26,10 @@ namespace SPAccounts.BusinessService.Services
 
         }
 
-        public List<SupplierPayments> GetAllSupplierPayments()
+        public List<SupplierPayments> GetAllSupplierPayments(SupplierPaymentsAdvanceSearch supplierPaymentsAdvanceSearch)
         {
             List<SupplierPayments> supplierPayObj = null;
-            supplierPayObj = _supplierPaymentsRepository.GetAllSupplierPayments();
+            supplierPayObj = _supplierPaymentsRepository.GetAllSupplierPayments(supplierPaymentsAdvanceSearch);
             return supplierPayObj;
         }
         public List<SupplierPayments> GetAllPendingSupplierPayments()

@@ -50,6 +50,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string IsNotificationSuccess { get; set; }
 
         public ApprovalStatus ApprovalStatusObj { get; set; }
+        public string Search { get; set; }
 
         public decimal Amount { get; set; }
     }
@@ -74,4 +75,16 @@ namespace SPAccounts.DataAccessObject.DTO
         public string PaymentDueDateFormatted { get; set; }
 
     }
+
+    public class SupplierPaymentsAdvanceSearch
+    {
+        public string ToDate { get; set; }
+        public string FromDate { get; set; }
+        public string Company { get; set; }
+        public string PaymentMode { get; set; }
+        public string Supplier { get; set; }
+        public string ApprovalStatus { get; set; }
+        public string Search { get; set; }
+    }
+
 }

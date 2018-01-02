@@ -125,7 +125,7 @@ namespace SPAccounts.DataAccessObject.DTO
 
     public class SalesTransactionLogReport
     {
-        
+
         public string CompanyCode { get; set; }
         public string OriginatedCompany { get; set; }
         public string Date { get; set; }
@@ -133,7 +133,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string DocNo { get; set; }
         public decimal Amount { get; set; }
         public string Remarks { get; set; }
-       
+
     }
 
     public class PurchaseSummaryReport
@@ -156,7 +156,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string purchaseSummaryInvoice { get; set; }
         public List<PurchaseSummaryReport> purchaseSummaryReportList { get; set; }
 
-}
+    }
     public class PurchaseDetailReport
     {
         public string CompanyCode { get; set; }
@@ -205,7 +205,7 @@ namespace SPAccounts.DataAccessObject.DTO
     }
     public class PurchaseTransactionLogReport
     {
-       
+
         public string CompanyCode { get; set; }
         public string OriginatedCompany { get; set; }
         public string Date { get; set; }
@@ -213,7 +213,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string DocNo { get; set; }
         public decimal Amount { get; set; }
         public string Remarks { get; set; }
-       
+
     }
 
     public class AccountsReceivableAgeingReport
@@ -234,7 +234,7 @@ namespace SPAccounts.DataAccessObject.DTO
     }
     public class AccountsReceivableAgeingSummaryReport
     {
-      
+
         public string CompanyCode { get; set; }
         public string OriginatedCompany { get; set; }
         public string Customer { get; set; }
@@ -243,7 +243,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string ThirtyOneToSixty { get; set; }
         public string SixtyOneToNinety { get; set; }
         public string NinetyOneAndOver { get; set; }
-       
+
     }
     public class AccountsPayableAgeingReport
     {
@@ -355,11 +355,11 @@ namespace SPAccounts.DataAccessObject.DTO
         public string OriginCompany { get; set; }
         public string Search { get; set; }
         public string AccountHead { get; set; }
-        public string Subtype { get; set; }       
+        public string Subtype { get; set; }
         public string EmployeeOrOther { get; set; }
         public string Employee { get; set; }
-        public string SubTypeDesc { get; set; } 
-      
+        public string SubTypeDesc { get; set; }
+
         public Guid EmployeeID { get; set; }
     }
 
@@ -408,6 +408,9 @@ namespace SPAccounts.DataAccessObject.DTO
         public Decimal Amount { get; set; }
         public string NoOfDays { get; set; }
         public string Remarks { get; set; }
+        public CustomerContactDetailsReport customerContactObj { get; set; }
+        public Companies companyObj { get; set; }
+        public Customer customerObj { get; set; }     
     }
 
 
@@ -423,6 +426,10 @@ namespace SPAccounts.DataAccessObject.DTO
         public string InvoiceDate { get; set; }
         public Decimal Amount { get; set; }
         public string NoOfDays { get; set; }
-        public string Remarks { get; set; }
+        public string Remarks { get; set; }  
+
     }
+
 }
+
+

@@ -55,7 +55,17 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal PaidAmountEdit { get; set; }
         public string PaymentDueDateFormatted { get; set; }
        
-
-
     }
+
+
+    public class CustomerPaymentsSearch
+    {
+        public string ToDate { get; set; }
+        public string FromDate { get; set; }
+        public string Company { get; set; }
+        public string PaymentMode { get; set; }
+        public string Customer { get; set; }
+        public string Search { get; set; }
+    }
+
 }

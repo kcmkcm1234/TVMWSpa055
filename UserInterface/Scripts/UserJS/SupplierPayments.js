@@ -6,7 +6,7 @@ var AmountReceived = 0;
 $(document).ready(function () {
     try {
         debugger;
-        $("#Supplier").select2();
+        $("#Supplier,#Supplierddl").select2();
         $('#btnUpload').click(function () {
             //Pass the controller name
             debugger;
@@ -34,7 +34,7 @@ $(document).ready(function () {
                              }
             }],
             order: [],
-            searching: true,
+            searching: false,
             paging: true,
             data: GetAllSupplierPayments(),
             pageLength: 15,
@@ -77,9 +77,9 @@ $(document).ready(function () {
                  { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink" onclick="Edit(this)"><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
             ],
             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                { className: "text-right", "targets": [10,11] },
+                 { className: "text-right", "targets": [10,11] },
                  { className: "text-Left", "targets": [2,4, 5, 6, 7,8,9] },
-                { className: "text-center", "targets": [1, 3,12] }
+                 { className: "text-center", "targets": [1, 3,12] }
             ]
         });
         $(".buttons-excel").hide();
@@ -264,9 +264,11 @@ function GetOutstandingAmountBySupplier(SupplierID) {
 ////--------------------------------------------------------------------------------------
 
 
-function GetAllSupplierPayments(filter) {
+function GetAllSupplierPayments(filter, supplierPaymentsAdvanceSearchObj) {
     try {
-        var data = { "filter": filter };
+        debugger;
+        var supplierPaymentsAdvanceSearch = JSON.stringify(supplierPaymentsAdvanceSearchObj);
+        var data = { "filter": filter , "supplierPaymentsAdvanceSearch" : supplierPaymentsAdvanceSearch };
         var ds = {};
         ds = GetDataFromServer("SupplierPayments/GetAllSupplierPayments/", data);
         if (ds != '') {
@@ -769,7 +771,31 @@ function BindOutstanding() {
 }
 
 function BindSupplierPaymentsHeader() {
-    DataTables.SupplierPaymentTable.clear().rows.add(GetAllSupplierPayments()).draw(false);
+    try{
+        debugger;
+        $("#filter").hide();
+
+        var fromdate = $("#fromdate");
+        var todate = $("#todate");
+        var suppliercode = $("#Supplierddl");
+        var paymentMode = $("#paymode");
+        var companycode = $("#Companyddl");
+        var approvalStatus = $("#Statusddl");
+        var search = $("#search");
+
+        var SupplierPaymentsSearch = new Object();
+        SupplierPaymentsSearch.FromDate = fromdate[0].value !== "" ? fromdate[0].value : null;
+        SupplierPaymentsSearch.ToDate = todate[0].value !== "" ? todate[0].value : null;
+        SupplierPaymentsSearch.Supplier = suppliercode[0].value !== "" ? suppliercode[0].value : null;
+        SupplierPaymentsSearch.PaymentMode = paymentMode[0].value !== "" ? paymentMode[0].value : null;
+        SupplierPaymentsSearch.Company = companycode[0].value !== "" ? companycode[0].value : null;
+        SupplierPaymentsSearch.ApprovalStatus = approvalStatus[0].value !== "" ? approvalStatus[0].value : null;
+        SupplierPaymentsSearch.Search = search[0].value !== "" ? search[0].value : null;
+
+        DataTables.SupplierPaymentTable.clear().rows.add(GetAllSupplierPayments(undefined, SupplierPaymentsSearch)).draw(false);
+    } catch (Ex) {
+        notyAlert('error',Ex.message)
+    }
 }
 
 function PaymentModeChanged() {
@@ -1035,6 +1061,7 @@ function SendNotificationConfirm() {
 
 function ApprovedPayment() {
     try {
+        debugger;
         var ID = $('#ID').val();
         var SupplierPaymentsViewModel = new Object();
         SupplierPaymentsViewModel.ID = ID;
@@ -1068,8 +1095,8 @@ function ApprovedPayment() {
 //------------------------------------------------Summary Filter clicks------------------------------------------------------------//
 
 function Gridfilter(thisobj) {
+    debugger;
     $('#filter').show();
-
     $('#APfilter').hide();
     $('#NAfilter').hide();
 
@@ -1079,8 +1106,18 @@ function Gridfilter(thisobj) {
     else if (thisobj == 'NA') {
         $('#NAfilter').show();
     } 
-
-    var result = GetAllSupplierPayments(thisobj);
+    $("#fromdate").val('');
+    $("#todate").val('');
+    $("#Supplierddl").select2();
+    $("#Supplierddl").val('').trigger('change');
+    $("#paymode").val('');
+    $("#Statusddl").val('');
+    $("#Companyddl").val('');
+    $("#search").val('');
+    if ($("#demo").is(":visible")) {
+        $("#advfilter").click();//toggle("collapse");
+    }
+    var result = GetAllSupplierPayments(thisobj,undefined);
     if (result != null) {
         if (result!= null)
             DataTables.SupplierPaymentTable.clear().rows.add(result).draw(false); 
@@ -1088,9 +1125,21 @@ function Gridfilter(thisobj) {
 }
 
 function Reset() {
+    debugger;
+    $("#fromdate").val('');
+    $("#todate").val('');
+    $("#Supplierddl").select2();
+    $("#Supplierddl").val('').trigger('change');
+    $("#paymode").val('');
+    $("#Statusddl").val('');
+    $("#Companyddl").val('');
+    $("#search").val('');
+    if($( "#demo" ).is( ":visible" )){
+        $("#advfilter").click();//toggle("collapse");
+    }
     $('#filter').hide();
     DataTables.SupplierPaymentTable.clear().rows.add(GetAllSupplierPayments()).draw(false);
-   
+    
 }
 
 
