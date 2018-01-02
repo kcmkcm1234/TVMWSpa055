@@ -11,18 +11,7 @@
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableButtons")
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableFixedHeader")
 
-    <style>
-        table.dataTable tr.odd {
-            background-color: rgba(148, 78, 132, 0.16);
-        }
-
-        table.dataTable tr.even {
-            background-color: white;
-        }
-        .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus{
-            z-index:0!important;
-        }
-    </style>
+  
 }
 
 <div style="width:100%;">
@@ -162,7 +151,7 @@
 
 <div class="row tableContainer">
     <div class="col-md-12" id="OGContainer">
-        <table id="OutGoingChequeTable" class="table stripe" cellspacing="0" width="100%">
+        <table id="OutGoingChequeTable" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
             <thead>
                 <tr class="text-center TableHead">
                     <th>ID</th>

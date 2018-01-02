@@ -115,6 +115,7 @@ namespace UserInterface.Models
 
         [Display(Name = "Expense Type")]
         public string ExpenseType { get; set; }
+        public decimal ReversedAmount { get; set; }
     }
 
 
@@ -135,6 +136,7 @@ namespace UserInterface.Models
         public string PaymentReference { get; set; }
         public string Description { get; set; }
         public decimal Amount { get; set; }
+        public decimal ReversedAmount { get; set; }
         public string OriginCompany { get; set; }
         public string Company { get; set; }
         public List<SelectListItem> CompanyList { get; set; }
@@ -145,6 +147,7 @@ namespace UserInterface.Models
         public List<SelectListItem> SubtypeList { get; set; }
         public string Search { get; set; }
         public decimal TotalAmount { get; set; }
+        public decimal ReversedTotal { get; set; }
         public string RowType { get; set; }
 
         [Display(Name = "Expense Type")]

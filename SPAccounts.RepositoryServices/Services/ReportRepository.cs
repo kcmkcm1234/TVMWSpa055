@@ -114,7 +114,8 @@ namespace SPAccounts.RepositoryServices.Services
                                     {
                                         otherExpenseSummary.AccountHeadORSubtype = (sdr["AccountHeadORSubtype"].ToString() != "" ? sdr["AccountHeadORSubtype"].ToString() : otherExpenseSummary.AccountHeadORSubtype);
                                         otherExpenseSummary.SubTypeDesc = (sdr["SubTypeDesc"].ToString() != "" ? sdr["SubTypeDesc"].ToString() : otherExpenseSummary.SubTypeDesc);
-                                        otherExpenseSummary.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : otherExpenseSummary.Amount);
+                                        otherExpenseSummary.Amount = (sdr["PaidAmount"].ToString() != "" ? decimal.Parse(sdr["PaidAmount"].ToString()) : otherExpenseSummary.Amount);
+                                        otherExpenseSummary.ReversedAmount = (sdr["ReversedAmount"].ToString() != "" ? decimal.Parse(sdr["ReversedAmount"].ToString()) : otherExpenseSummary.ReversedAmount);
                                         otherExpenseSummary.OriginCompany = (sdr["OriginCompany"].ToString() != "" ? sdr["OriginCompany"].ToString() : otherExpenseSummary.OriginCompany);
                                         otherExpenseSummary.AccountHead = (sdr["AccountHeadCode"].ToString() != "" ? sdr["AccountHeadCode"].ToString() : otherExpenseSummary.AccountHead);
                                         otherExpenseSummary.EmployeeID = (sdr["EmpID"].ToString() != "" ? Guid.Parse(sdr["EmpID"].ToString()) : otherExpenseSummary.EmployeeID);
@@ -178,7 +179,8 @@ namespace SPAccounts.RepositoryServices.Services
                                         otherExpenseDetails.ExpenseType = (sdr["ExpenseType"].ToString() != "" ? sdr["ExpenseType"].ToString() : otherExpenseDetails.ExpenseType);
                                         otherExpenseDetails.PaymentReference= (sdr["PaymentReference"].ToString() != "" ? sdr["PaymentReference"].ToString() : otherExpenseDetails.PaymentReference);
                                         otherExpenseDetails.Description= (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : otherExpenseDetails.Description);
-                                        otherExpenseDetails.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : otherExpenseDetails.Amount);
+                                        otherExpenseDetails.Amount = (sdr["PaidAmount"].ToString() != "" ? decimal.Parse(sdr["PaidAmount"].ToString()) : otherExpenseDetails.Amount);
+                                        otherExpenseDetails.ReversedAmount = (sdr["ReversedAmount"].ToString() != "" ? decimal.Parse(sdr["ReversedAmount"].ToString()) : otherExpenseDetails.ReversedAmount);
                                         otherExpenseDetails.RowType = (sdr["RowType"].ToString() != "" ? sdr["RowType"].ToString() : otherExpenseDetails.RowType);
                                         otherExpenseDetails.Company= (sdr["Company"].ToString() != "" ? sdr["Company"].ToString() : otherExpenseDetails.Company);
                                     }

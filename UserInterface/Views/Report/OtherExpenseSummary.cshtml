@@ -46,6 +46,7 @@
 </div>
 <div class="form-horizontal" id="main">
 
+
     <div class="col-md-9" style="margin-top:10px;">
             <div class="col-md-3">
                 @Html.LabelFor(model => model.ExpenseType, htmlAttributes: new { @class = "control-label" })
@@ -63,6 +64,15 @@
                     @Html.ValidationMessageFor(model => model.ExpenseType, "", new { @class = "text-danger" })
                 </div>
             </div>
+        </div>
+    <div class="col-md-3" style="min-height:25px">
+        @{
+            var data = new { ActionType = "ListWithReset" };
+            @Html.Action("ChangeButtonStyle", "Report", data);
+        }
+    </div>
+
+    <div class="col-md-9">
             <div class="col-md-12"></div>
             <div class="col-md-3">
                 @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })
@@ -138,7 +148,7 @@
             </div>
 
 
-            <div class="col-md-12">
+            <div class="col-md-8">
                 @Html.LabelFor(model => model.Search, htmlAttributes: new { @class = "control-label", style = "visibility:hidden" })
                 <div class="col-md-12">
                     <div class="input-group">
@@ -149,7 +159,7 @@
                     </div>
                 </div>
             </div>
-
+     
 
 
 
@@ -159,10 +169,20 @@
             </div>*@
         </div>
             <div class="col-md-3" style="min-height:25px">
-                @{
-                    var data = new { ActionType = "ListWithReset" };
-                    @Html.Action("ChangeButtonStyle", "Report", data);
-                }
+                <div id="otherexpensetotal" class="col-md-12 box-header figuresummary rounded" style="margin-top:-3%;visibility:hidden">
+                    <div class="col-md-12">
+                        <div class="col-md-6 text-left" style="font-size:small">Expense:</div>
+                        <div class="col-md-6 text-right"><small><span id="otherexpenseamount" style="font-size:small;font-weight:bold"></span></small></div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-6 text-left" style="font-size:small">Reversed:</div>
+                        <div class="col-md-6 text-right"><small><span id="otherexpensereversed" style="font-size:small;font-weight:bold"></span></small></div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-6 text-left" style="font-size:small">Total:</div>
+                        <div class="col-md-6 text-right"><small><span id="otherexpensereversedtotal" style="font-size:small;font-weight:bold"></span></small></div>
+                    </div>
+                </div>
             </div>
             <div class="row summaryboxes">
 
@@ -171,11 +191,8 @@
                 </div>
 
             </div>
-    <div class="form-group col-md-12">
-        <div class="col-md-12 text-right">
-            <div style="font-size:medium">Total: <small><span id="otherexpenseamount" style="font-size:medium;font-weight:bold"> 0.00</span></small></div>
-        </div>
-    </div>
+  
+    
             <div class="row">
                 &nbsp;
             </div>
@@ -188,6 +205,7 @@
                                 <th>Account Head</th>
                                 <th>Employee/Other</th>
                                 <th>Amount</th>
+                                <th>Reversed Amount</th>
                             </tr>
                         </thead>
                     </table>
@@ -240,6 +258,7 @@
                                 <th>Payment Reference</th>
                                 <th>Description</th>
                                 <th>Amount</th>
+                                <th>Reversed Amount</th>
                                 <th>Origin Company</th>
                             </tr>
                         </thead>
