@@ -67,15 +67,19 @@ namespace UserInterface.Models
     public class OutGoingChequesViewModel
     { 
         public Guid ID { get; set; }
-        [Required(ErrorMessage = "ChequeDate Missing")]
+        [Required(ErrorMessage = "Cheque Date Missing")]
+        [Display(Name = "Cheque Date")]
         public string ChequeDate { get; set; }
-        [Required(ErrorMessage = "ChequeNo Missing")]
+        [Required(ErrorMessage = "Cheque No Missing")]
+        [Display(Name = "Cheque No")]
         public string ChequeNo { get; set; }
         public string Bank { get; set; }
         public string Party { get; set; }
         public string Status { get; set; }
         public decimal Amount { get; set; }
         public string Company { get; set; }
+        public string Remarks { get; set; }
+        public string CreatedDate { get; set; }
         public CommonViewModel CommonObj { get; set; }
     }
     public class OutgoingChequeAdvanceSearchViewModel

@@ -48,6 +48,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public string Status { get; set; }
         public decimal Amount { get; set; }
         public string Company { get; set; }
+        public string Remarks { get; set; }
+        public string CreatedDate { get; set; }
         public string ChequeFormatted { get; set; }
         public Common commonObj { get; set; }
     }
