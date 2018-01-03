@@ -369,10 +369,12 @@ namespace UserInterface.Controllers
                     List<OtherExpenseSummaryReportViewModel> otherExpenseSummaryReportList = Mapper.Map<List<OtherExpenseSummaryReport>, List<OtherExpenseSummaryReportViewModel>>(_reportBusiness.GetOtherExpenseSummary(FDate, TDate, CompanyCode,ReportType, OrderBy,accounthead.Split(':')[0], subtype, employeeorother, employeecompany, search, ExpenseType));
                    
                     decimal otherExpenseSum = otherExpenseSummaryReportList.Sum(OE => OE.Amount);
+                    decimal otherExpenseReversed = otherExpenseSummaryReportList.Sum(OE => OE.ReversedAmount);
                     string otherExpenseSumFormatted=_commonBusiness.ConvertCurrency(otherExpenseSum, 2);
-
-
-                    return JsonConvert.SerializeObject(new { Result = "OK", Records = otherExpenseSummaryReportList, TotalAmount= otherExpenseSumFormatted });
+                    string otherExpenseReversedFormatted = _commonBusiness.ConvertCurrency(otherExpenseReversed, 2);
+                    decimal total = otherExpenseSum - otherExpenseReversed;
+                    string totalFormatted= _commonBusiness.ConvertCurrency(total, 2);
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = otherExpenseSummaryReportList, TotalAmount= otherExpenseSumFormatted,ReversedAmount=otherExpenseReversedFormatted,Total= totalFormatted });
                 }
                 catch (Exception ex)
                 {
@@ -481,7 +483,11 @@ namespace UserInterface.Controllers
                     List<OtherExpenseDetailsReportViewModel> otherExpenseDetailsReportList = Mapper.Map<List<OtherExpenseDetailsReport>, List<OtherExpenseDetailsReportViewModel>>(_reportBusiness.GetOtherExpenseDetails(FDate, TDate, CompanyCode,OrderBy, accounthead.Split(':')[0], subtype, employeeorother, employeecompany,search, ExpenseType));
                     decimal otherExpenseDetailsSum = otherExpenseDetailsReportList.Where(OE=>OE.RowType=="N").Sum(OE => OE.Amount);
                     string otherExpenseDetailsSumFormatted = _commonBusiness.ConvertCurrency(otherExpenseDetailsSum, 2);
-                    return JsonConvert.SerializeObject(new { Result = "OK", Records = otherExpenseDetailsReportList, TotalAmount = otherExpenseDetailsSumFormatted });
+                    decimal otherExpenseDetailsReversed = otherExpenseDetailsReportList.Where(x => x.RowType == "T").Sum(x => x.ReversedAmount);
+                    string otherExpenseDetailsReversedFormatted = _commonBusiness.ConvertCurrency(otherExpenseDetailsReversed, 2);
+                    decimal total = otherExpenseDetailsSum - otherExpenseDetailsReversed;
+                    string totalFormatted = _commonBusiness.ConvertCurrency(total, 2);
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = otherExpenseDetailsReportList, TotalAmount = otherExpenseDetailsSumFormatted ,ReversedTotal= otherExpenseDetailsReversedFormatted, Total = totalFormatted });
                 }
                 catch (Exception ex)
                 {

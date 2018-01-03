@@ -476,9 +476,11 @@ namespace SPAccounts.RepositoryServices.Services
                                         _depositAndWithdrawalsObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : _depositAndWithdrawalsObj.ID);
                                         _depositAndWithdrawalsObj.ChequeNo= (sdr["ChequeNo"].ToString() != "" ? (sdr["ChequeNo"].ToString()) : _depositAndWithdrawalsObj.ChequeNo);
                                         _depositAndWithdrawalsObj.ChequeDate = (sdr["ChequeDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeDate"].ToString()).ToString(s.dateformat) : _depositAndWithdrawalsObj.ChequeDate);
+                                        _depositAndWithdrawalsObj.CreatedDate = (sdr["CreatedDate"].ToString() != "" ? DateTime.Parse(sdr["CreatedDate"].ToString()).ToString(s.dateformat) : _depositAndWithdrawalsObj.CreatedDate);
                                         _depositAndWithdrawalsObj.Bank = (sdr["BankName"].ToString() != "" ? (sdr["BankName"].ToString()) : _depositAndWithdrawalsObj.Bank);
                                         _depositAndWithdrawalsObj.Party = (sdr["Party"].ToString() != "" ? (sdr["Party"].ToString()) : _depositAndWithdrawalsObj.Party);
                                         _depositAndWithdrawalsObj.Status = (sdr["Status"].ToString() != "" ? (sdr["Status"].ToString()) : _depositAndWithdrawalsObj.Status);
+                                        _depositAndWithdrawalsObj.Remarks = (sdr["Remarks"].ToString() != "" ? (sdr["Remarks"].ToString()) : _depositAndWithdrawalsObj.Remarks);
                                         _depositAndWithdrawalsObj.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : _depositAndWithdrawalsObj.Amount);
                                         _depositAndWithdrawalsObj.Company = (sdr["Company"].ToString() != "" ?(sdr["Company"].ToString()) : _depositAndWithdrawalsObj.Company);
 
@@ -845,6 +847,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = outGoingChequeObj.Amount;
                         cmd.Parameters.Add("@Status", SqlDbType.NVarChar, 50).Value = outGoingChequeObj.Status;
                         cmd.Parameters.Add("@Party", SqlDbType.NVarChar, 50).Value = outGoingChequeObj.Party;
+                        cmd.Parameters.Add("@Remarks", SqlDbType.NVarChar, -1).Value = outGoingChequeObj.Remarks;
                         cmd.Parameters.Add("@FromCompany", SqlDbType.NVarChar, 50).Value = outGoingChequeObj.Company;
                         cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = outGoingChequeObj.commonObj.CreatedBy;
                         cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = outGoingChequeObj.commonObj.CreatedDate;
@@ -904,6 +907,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@Bank", SqlDbType.NVarChar, 50).Value = outGoingChequeObj.Bank;
                         cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = outGoingChequeObj.Amount;
                         cmd.Parameters.Add("@Status", SqlDbType.NVarChar, 50).Value = outGoingChequeObj.Status;
+                        cmd.Parameters.Add("@Remarks", SqlDbType.NVarChar, -1).Value = outGoingChequeObj.Remarks;
                         cmd.Parameters.Add("@Party", SqlDbType.NVarChar, 50).Value = outGoingChequeObj.Party;
                         cmd.Parameters.Add("@Company", SqlDbType.NVarChar, 50).Value = outGoingChequeObj.Company;
                         cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = outGoingChequeObj.commonObj.CreatedBy;
@@ -1005,6 +1009,7 @@ namespace SPAccounts.RepositoryServices.Services
                                     outGoingChequesObj.Bank = (sdr["Bank"].ToString() != "" ? (sdr["Bank"].ToString()) : outGoingChequesObj.Bank);
                                     outGoingChequesObj.Party = (sdr["Party"].ToString() != "" ? (sdr["Party"].ToString()) : outGoingChequesObj.Party);
                                     outGoingChequesObj.Status = (sdr["Status"].ToString() != "" ? (sdr["Status"].ToString()) : outGoingChequesObj.Status);
+                                    outGoingChequesObj.Remarks = (sdr["Remarks"].ToString() != "" ? (sdr["Remarks"].ToString()) : outGoingChequesObj.Remarks);
                                     outGoingChequesObj.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : outGoingChequesObj.Amount);
                                     outGoingChequesObj.Company = (sdr["FromCompany"].ToString() != "" ? (sdr["FromCompany"].ToString()) : outGoingChequesObj.Company);
                                 }
@@ -1042,6 +1047,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandText = "[Accounts].[ValidateChequeNo]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@ChequeNo", SqlDbType.VarChar, 20).Value = outGoingChequeObj.ChequeNo;
+                        cmd.Parameters.Add("@Bank", SqlDbType.NVarChar, 50).Value = outGoingChequeObj.Bank;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = outGoingChequeObj.ID;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus1 = cmd.Parameters.Add("@message", SqlDbType.VarChar, 100);

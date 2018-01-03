@@ -88,6 +88,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal TotalAmount { get; set; }
         public string Description { get; set; }
         public string ExpenseType { get; set; }
+        public decimal ReversedAmount { get; set; }
     }
 
 
@@ -101,6 +102,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string PaymentReference { get; set; }
         public string Description { get; set; }
         public decimal Amount { get; set; }
+        public decimal ReversedAmount { get; set; }
         public string Company { get; set; }
         public string OriginCompany { get; set; }
         public string EmployeeOrOther { get; set; }
