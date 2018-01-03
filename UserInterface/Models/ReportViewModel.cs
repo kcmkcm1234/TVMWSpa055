@@ -471,7 +471,7 @@ namespace UserInterface.Models
     {
         public string Date { get; set; }
         public string Type { get; set; }
-        public string Ref { get; set; }
+        public string Ref { get; set; }        
         public string CustomerName { get; set; }
         public string Company { get; set; }
         
@@ -585,7 +585,10 @@ namespace UserInterface.Models
         public string InvoiceDate { get; set; }
         public Decimal Amount { get; set; }
         public string NoOfDays { get; set; }
-        public string Remarks { get; set; }        
+        public string Remarks { get; set; }
+        public CompaniesViewModel companyObj { get; set; }
+        public SupplierContactDetailsReportViewModel supplierContactObj { get; set; }
+        public SuppliersViewModel supplierObj { get; set; }
     }
 
     public class SupplierExpeditingListViewModel
@@ -593,7 +596,22 @@ namespace UserInterface.Models
         public List<SupplierExpeditingReportViewModel> SupplierExpeditingDetailsList { get; set; }
         [Display(Name = "Filter")]
         public List<SelectListItem> BasicFilters { get; set; }
-        public string Filter { get; set; }     
+        public string Filter { get; set; }
+        public CompaniesViewModel companyObj { get; set; }
+        public SupplierContactDetailsReportViewModel supplierContactObj { get; set; }
+        public SuppliersViewModel supplierObj { get; set; }
+        public string Search { get; set; }
+        public string Company { get; set; }
+        public string Supplier { get; set; }
     }
-  
+
+    public class ReportAdvanceSearchViewModel
+    {
+        public string ToDate { get; set; }
+        public string Filter { get; set; }
+        public string Company { get; set; }
+        public string Supplier { get; set; }
+    }
+
+
 }

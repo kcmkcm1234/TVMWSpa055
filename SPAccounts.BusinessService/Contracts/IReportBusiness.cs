@@ -36,7 +36,8 @@ namespace SPAccounts.BusinessService.Contracts
         List<OtherIncomeDetailsReport> GetOtherIncomeDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string accounthead, string subtype, string employeeorother, string search);
         List<DailyLedgerReport> GetDailyLedgerDetails(DateTime? FromDate, DateTime? ToDate, DateTime? Date, string MainHead, string search, string Bank);
         List<CustomerExpeditingReport> GetCustomerExpeditingDetail(DateTime? ToDate,string Filter, string Company, string Customer);     
-        List<SupplierExpeditingReport> GetSupplierExpeditingDetail(DateTime? ToDate, string Filter);
+        //List<SupplierExpeditingReport> GetSupplierExpeditingDetail(DateTime? ToDate, string Filter,string Company,string Supplier);
+        List<SupplierExpeditingReport> GetSupplierExpeditingDetail(ReportAdvanceSearch supplierPayementAdvanceSearchObj);
         List<TrialBalance> GetTrialBalanceReport(DateTime? Date);
     }
 }

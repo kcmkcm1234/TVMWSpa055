@@ -318,7 +318,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal Credit { get; set; }
         public decimal Balance { get; set; }
         public string CustomerCode { get; set; }
-        public Guid CustomerID { get; set; }
+        public Guid CustomerID { get; set; }      
         public string CustomerName { get; set; }
         public string CompanyCode { get; set; }
     }
@@ -424,8 +424,20 @@ namespace SPAccounts.DataAccessObject.DTO
         public string InvoiceDate { get; set; }
         public Decimal Amount { get; set; }
         public string NoOfDays { get; set; }
-        public string Remarks { get; set; }  
+        public string Remarks { get; set; }
+        public SupplierContactDetailsReport supplierContactObj { get; set; }
+        public Companies companyObj { get; set; }   
+        public Supplier supplierObj { get; set; }    
 
+    }
+
+
+    public class ReportAdvanceSearch
+    {
+        public string ToDate { get; set; }
+        public string Filter { get; set; }
+        public string Company { get; set; }
+        public string Supplier { get; set; }
     }
 
 }

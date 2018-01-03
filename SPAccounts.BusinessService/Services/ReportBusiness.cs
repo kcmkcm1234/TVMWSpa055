@@ -463,12 +463,12 @@ namespace SPAccounts.BusinessService.Services
             return CustomerExpeditingList;
         }
      
-        public List<SupplierExpeditingReport> GetSupplierExpeditingDetail(DateTime? ToDate, string Filter)
+        public List<SupplierExpeditingReport> GetSupplierExpeditingDetail(ReportAdvanceSearch advanceSearchObject)//(DateTime? ToDate, string Filter,string Company,string Supplier)
         {
             List<SupplierExpeditingReport> SupplierExpeditingList = null;
             try
             {
-                SupplierExpeditingList = _reportRepository.GetSupplierExpeditingDetail(ToDate,Filter);
+                SupplierExpeditingList = _reportRepository.GetSupplierExpeditingDetail(advanceSearchObject);// (ToDate,Filter,Company,Supplier);
             }
             catch (Exception ex)
             {

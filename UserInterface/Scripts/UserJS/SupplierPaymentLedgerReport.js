@@ -200,19 +200,19 @@ function GetHtmlData() {
         data: { "FromDate": $('#fromdate').val(), "ToDate": $('#todate').val(), "Suppliercode": $('#supplierCode').val(), "Company": $('#companyCode').val() },
         Exclude_column: ["SupplierID", "supplierList", "SupplierCode", "Ref", "pdfToolsObj", "CompanyCode", "CompanyList", "companiesList"],
         Header_column_style: {
-            "Date": "width:110px;font-size:12px;border-bottom:2px solid grey;font-weight: 600;",
-            "Type": "font-size:12px;border-bottom:2px solid grey;width:110px;font-weight: 600;",
-            "Ref":"width:110px;font-size:12px;border-bottom:2px solid grey;font-weight: 600;",
-            
-            "Company": "width:110px;font-size:12px;border-bottom:2px solid grey;font-weight: 600;",
-            "SupplierName": "width:110px;font-size:12px;border-bottom:2px solid grey;font-weight: 600;",
-            "Debit": "width:150px;text-align: center;font-size:12px;border-bottom:2px solid grey;font-weight: 600;", "Credit": "width:150px;text-align: center;font-size:12px;border-bottom:2px solid grey;font-weight: 600;",
-            "Balance": "width:150px;text-align: center;font-size:12px;border-bottom:2px solid grey;font-weight: 600;"
+            "Date":{"style": "width:110px;font-size:12px;border-bottom:2px solid grey;font-weight: 600;","custom_name":"Date"},
+            "Type":{ "style": "font-size:12px;border-bottom:2px solid grey;width:110px;font-weight: 600;", "custom_name": "Type" },            
+            "Company":{ "style": "width:110px;font-size:12px;border-bottom:2px solid grey;font-weight: 600;", "custom_name": "Company" },
+            "SupplierName":{ "style": "width:110px;font-size:12px;border-bottom:2px solid grey;font-weight: 600;", "custom_name": "Supplier" },
+            "Debit":{ "style": "width:150px;text-align: center;font-size:12px;border-bottom:2px solid grey;font-weight: 600;", "custom_name": "Debit" },
+            "Credit":{ "style": "width:150px;text-align: center;font-size:12px;border-bottom:2px solid grey;font-weight: 600;", "custom_name": "Credit" },
+            "Balance":{ "style": "width:150px;text-align: center;font-size:12px;border-bottom:2px solid grey;font-weight: 600;", "custom_name": "Balance" }
         },
         Row_color: { "Odd": "White", "Even": "white" },
         Body_Column_style: { "Date": "font-size:11px;font-weight: 100;width:110px;", "Type": "font-size:11px;font-weight: 100;width:150px;", "Ref": "font-size:11px;font-weight: 100;width:150px;", "SupplierName": "font-size:11px;font-weight: 100;width:110px;", "Company": "font-size:11px;font-weight: 100;", "Debit": "text-align:right;font-size:11px;font-weight: 100;width:150px;", "Credit": "text-align:right;font-size:11px;font-weight: 100;width:150px;", "Balance": "text-align:right;font-size:11px;font-weight: 100;width:150px;" }
 
     });
+    $('.balanceRowColor').parent('tr').css('background-color', '#d98cd9');
     var bodyContent = $('#customtbl').html();
     var headerContent = $('#divHeader').html();
     $("#hdnContent").val(bodyContent);

@@ -168,19 +168,19 @@ namespace UserInterface.Controllers
 
                 iTextSharp.text.Image jpg = iTextSharp.text.Image.GetInstance(imageURL);
                 //Resize image depend upon your need
-                jpg.ScaleToFit(60f, 50f);
+                jpg.ScaleToFit(50f, 40f);
                 jpg.SpacingBefore = 10f;
                 jpg.SpacingAfter = 1f;
                 jpg.Alignment = Element.ALIGN_LEFT;
                 //jpg.SetAbsolutePosition(document.Left, document.Top - 60);
                 Font companyFont = FontFactory.GetFont(FontFactory.TIMES_BOLD, 14, iTextSharp.text.Font.BOLD);
-                Font documentFont = FontFactory.GetFont(FontFactory.TIMES, 12, iTextSharp.text.Font.BOLD);
-                string companyName = "Santhi Plastic Private Limited" + "\n";
+                Font documentFont = FontFactory.GetFont(FontFactory.TIMES, 13, iTextSharp.text.Font.BOLD);
+                //string companyName = "Santhi Plastic Private Limited" + "\n";
                 string documentName = Tableheader;
                 Paragraph header = new Paragraph();
-                Phrase phraseCompanyName=new Phrase(companyName, companyFont);
+                //Phrase phraseCompanyName=new Phrase(companyName, companyFont);
                 Phrase phraseDocumentName = new Phrase(documentName, documentFont);
-                header.Add(phraseCompanyName);
+                //header.Add(phraseCompanyName);
                 header.Add(phraseDocumentName);
                 header.Alignment = Element.ALIGN_LEFT;
                 PdfPTable headerTbl = new PdfPTable(2);

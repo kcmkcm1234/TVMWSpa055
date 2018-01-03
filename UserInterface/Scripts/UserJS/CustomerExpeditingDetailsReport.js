@@ -2,6 +2,9 @@
 var today = '';
 $(document).ready(function () {
     try {
+        $("#Company,#Customer").select2({
+
+        });
        
         DataTables.CustomerExpeditingDetailTableReportTable = $('#CustomerExpeditingDetailTable').DataTable(
          {
@@ -135,7 +138,7 @@ function Reset()
     debugger;
     $("#todate").val(today);
     $("#BasicFilters").val('ALL');
-    $("#Company").val('ALL');
+    $("#Company").val('ALL').trigger('change')
     $("#Customer").val('').trigger('change')
     RefreshCustomerExpeditingDetailTable();
 }
