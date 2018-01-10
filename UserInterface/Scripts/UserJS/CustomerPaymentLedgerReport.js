@@ -1,18 +1,15 @@
 ﻿var DataTables = {};
 var startDate = '';
 var endDate = '';
-$(document).ready(function () {
-   
+$(document).ready(function () {   
                
     try {
         $("#customerCode").select2({
             placeholder: "Select a Customers..",
            
-        });
+        });     
         
-        
-        DataTables.customerpaymentledgertable = $('#customerpaymentledgertable').DataTable(
-         {
+        DataTables.customerpaymentledgertable = $('#customerpaymentledgertable').DataTable(         {
 
              // dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
              dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
@@ -68,7 +65,8 @@ $(document).ready(function () {
                  if (data.Type == "<b>Total</b>") {
                         
                      $('td', row).addClass('totalRow');
-                 }
+                 }                 
+                 
              },
              
                  drawCallback: function (settings) {
@@ -87,11 +85,8 @@ $(document).ready(function () {
                          //{
                          //    $(rows).eq(i).after('<tr class="group "><td colspan="7" class="rptGrp">' + '<b>Sub Total</b> : ' + group + '</td></tr>');
                          //}
-
                      });
-
-                 }
-             
+                 }             
          });
 
         $(".buttons-excel").hide();
@@ -100,24 +95,22 @@ $(document).ready(function () {
         endDate = $("#fromdate").val();
         $("#customernameddl").attr('style','visibility:true');
         
-    } catch (x) {
-
+    } catch (x)
+    {
         notyAlert('error', x.message);
-
     }
-
 
 });
 
 
 function GetCustomerPaymentLedger(cur) {
-    try {
+    try
+    {
         debugger;
         var fromDate = $("#fromdate").val();
         var toDate = $("#todate").val();
         var customerIds =(cur!="ALL"? $("#customerCode").val():cur);
-        var company = $("#companyCode").val();
-      
+        var company = $("#companyCode").val();      
         
         if (IsVaildDateFormat(fromDate) && IsVaildDateFormat(toDate) && customerIds) {
             var data = { "FromDate": fromDate, "ToDate": toDate, "CustomerIDs": customerIds, "Company": company };
@@ -140,7 +133,6 @@ function GetCustomerPaymentLedger(cur) {
     }
 }
 
-
 function RefreshCustomerPaymentLedgerTable()
 {
     debugger;
@@ -157,15 +149,17 @@ function RefreshCustomerPaymentLedgerTable()
     catch (e)
     {
             notyAlert('error', e.message);
-        }
+    }
  }
 
 function PrintReport() {
-    try {
+    try
+    {
         $(".buttons-excel").trigger('click');
 
     }
-    catch (e) {
+    catch (e)
+    {
         notyAlert('error', e.message);
     }
 }
@@ -178,7 +172,8 @@ function Back()
 function OnCallChange()
 {
     debugger;
-    if ($("#customerCode").val()=='') {
+    if ($("#customerCode").val() == '')
+    {
         DataTables.customerpaymentledgertable.clear().rows.add(GetCustomerPaymentLedger('ALL')).draw(true);
     }
    
@@ -187,14 +182,13 @@ function OnCallChange()
 
 
 
-function Reset() {
-    debugger;
+function Reset()
+{   
     $("#todate").val(startDate);
     $("#fromdate").val(endDate);
     $("#customerCode").val('').trigger('change')
     $("#companyCode").val('ALL');
-    DataTables.customerpaymentledgertable.clear().rows.add(GetCustomerPaymentLedger('ALL')).draw(true);
-   
+    DataTables.customerpaymentledgertable.clear().rows.add(GetCustomerPaymentLedger('ALL')).draw(true);   
 }
 
 
@@ -212,13 +206,15 @@ function GetHtmlData()
         data: { "FromDate": $('#fromdate').val(), "ToDate": $('#todate').val(), "CustomerIDs": $('#customerCode').val(), "Company": $('#companyCode').val() },
         Exclude_column: ["CustomerID", "customerList", "CustomerCode", "Ref", "pdfToolsObj","CompanyCode","CompanyList","companiesList"],
         Header_column_style: {
-            "Date": "width:110px;font-size:12px;border-bottom:2px solid grey;font-weight: 600;", "Type": "font-size:12px;border-bottom:2px solid grey;width:110px;font-weight: 600;",
-            "Company": "width:110px;font-size:12px;border-bottom:2px solid grey;font-weight: 600;",
-            "CustomerName": "width:110px;font-size:12px;border-bottom:2px solid grey;font-weight: 600;",
-            "Debit": "width:150px;text-align: center;font-size:12px;border-bottom:2px solid grey;font-weight: 600;", "Credit": "width:150px;text-align: center;font-size:12px;border-bottom:2px solid grey;font-weight: 600;",
-             "Balance": "width:150px;text-align: center;font-size:12px;border-bottom:2px solid grey;font-weight: 600;"
-        },
-        Row_color: { "Odd": "White", "Even": "white" },
+            "Date": {"style":"width:110px;font-size:12px;border-bottom:2px solid grey;font-weight: 600;","custom_name":"Date"},
+            "Type":{ "style":"font-size:12px;border-bottom:2px solid grey;width:110px;font-weight: 600;","custom_name":"Type"},
+            "Company":{"style": "width:110px;font-size:12px;border-bottom:2px solid grey;font-weight: 600;","custom_name":"Company"},
+            "CustomerName":{"style": "width:110px;font-size:12px;border-bottom:2px solid grey;font-weight: 600;","custom_name":"Customer"},
+            "Debit":{"style": "width:150px;text-align: center;font-size:12px;border-bottom:2px solid grey;font-weight: 600;","custom_name":"Customer"},
+            "Credit": {"style":"width:150px;text-align: center;font-size:12px;border-bottom:2px solid grey;font-weight: 600;","custom_name":"Credit"},
+            "Balance": { "style": "width:150px;text-align: center;font-size:12px;border-bottom:2px solid grey;font-weight: 600;", "custom_name": "Balance" }
+        },      
+        Row_color: { "Odd": "White", "Even": " White" },
         Body_Column_style: {
             "Date": "font-size:11px;font-weight: 100;width:110px;", "Type": "font-size:11px;font-weight: 100;width:150px;", "Company": "font-size:11px;font-weight: 100;",
             "CustomerName": "font-size:11px;font-weight: 100;width:150px;",
@@ -226,6 +222,8 @@ function GetHtmlData()
         }
 
     });
+    //to give backround color to balance row
+    $('.balanceRowColor').parent('tr').css('background-color', '#d98cd9');
         var bodyContent = $('#customtbl').html();
         var headerContent = $('#divHeader').html();
         $("#hdnContent").val(bodyContent);

@@ -2080,6 +2080,54 @@ namespace UserInterface.Controllers
 
             Result.BasicFilters = selectListItem;
 
+            selectListItem = new List<SelectListItem>();
+            Result.companyObj = new CompaniesViewModel();
+            List<CompaniesViewModel> companiesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_otherExpenseBusiness.GetAllCompanies());
+            if (companiesList != null)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "All",
+                    Value = "ALL",
+                    Selected = true
+                });
+
+                foreach (CompaniesViewModel cvm in companiesList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = cvm.Name,
+                        Value = cvm.Name.ToString(),
+                        Selected = false
+                    });
+                }
+            }
+            Result.companyObj.CompanyList = selectListItem;
+
+            Result.supplierObj = new SuppliersViewModel();
+            selectListItem = new List<SelectListItem>();
+            List<SuppliersViewModel> supplierList = Mapper.Map<List<Supplier>, List<SuppliersViewModel>>(_supplierBusiness.GetAllSuppliers());
+            if (supplierList != null)
+            {
+                //selectListItem.Add(new SelectListItem
+                //{
+                //    Text = "All",
+                //    Value = "ALL",
+                //    Selected = true
+                //});
+
+                foreach (SuppliersViewModel Supp in supplierList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = Supp.CompanyName,
+                        Value = Supp.CompanyName.ToString(),
+                        Selected = false
+                    });
+                }
+            }
+            Result.supplierObj.SupplierList = selectListItem;
+
 
             return View(Result);
 
@@ -2089,13 +2137,19 @@ namespace UserInterface.Controllers
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
-        public string GetSupplierPaymentExpeditingDetails(string ToDate, string Filter)
+        public string GetSupplierPaymentExpeditingDetails(string supplierPayementAdvanceSearchObj)//(string ToDate, string Filter,string Company,string Supplier)
         {
             try
             {
-                DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
+                AppUA _appUA = Session["AppUA"] as AppUA;
+                ReportAdvanceSearch supplierAdvanceSearchObj = supplierPayementAdvanceSearchObj != null? JsonConvert.DeserializeObject<ReportAdvanceSearch>(supplierPayementAdvanceSearchObj) : new ReportAdvanceSearch();
+                if(supplierPayementAdvanceSearchObj==null)
+                {
+                    supplierAdvanceSearchObj.ToDate = _appUA.DateTime.ToString("dd-MMM-yyyy");
+                }
+                //DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
                 SupplierExpeditingListViewModel Result = new SupplierExpeditingListViewModel();
-                Result.SupplierExpeditingDetailsList = Mapper.Map<List<SupplierExpeditingReport>, List<SupplierExpeditingReportViewModel>>(_reportBusiness.GetSupplierExpeditingDetail(TDate, Filter));
+                Result.SupplierExpeditingDetailsList = Mapper.Map<List<SupplierExpeditingReport>, List<SupplierExpeditingReportViewModel>>(_reportBusiness.GetSupplierExpeditingDetail(supplierAdvanceSearchObj)); //(TDate, Filter,Company,Supplier));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = Result });
             }
             catch (Exception ex)

@@ -3,6 +3,7 @@
         window.open("../PDFGenerator/RecieptPrint");
     });
 });
+
 function CheckandView()
 {
     debugger;
@@ -12,7 +13,6 @@ function CheckandView()
         $('#richbox').show();
         $('#editor').easyEditor({
             buttons: ['bold', 'italic', 'h2', 'h3', 'h4', 'alignleft', 'aligncenter', 'alignright']
-
         });
     }
     if($('.default').is(":visible"))
@@ -24,12 +24,15 @@ function CheckandView()
             data: { "FromDate": "20-Jun-2017", "ToDate": "21-Oct-2017", "CustomerIDs": "ALL" },
             Exclude_column: ["CustomerID", "customerList", "CustomerCode", "CustomerName"],
             Header_column_style: { "Date": "width:110px;font-size:12px;border-bottom:2px solid grey;font-weight: 600;", "Type": "font-size:12px;border-bottom:2px solid grey;width:110px;font-weight: 600;", "Ref": "font-size:12px;border-bottom:2px solid grey;width:150px;font-weight: 600;", "Debit": "width:150px;text-align: center;font-size:12px;border-bottom:2px solid grey;font-weight: 600;", "Credit": "width:150px;text-align: center;font-size:12px;border-bottom:2px solid grey;font-weight: 600;", "Balance": "width:150px;text-align: center;font-size:12px;border-bottom:2px solid grey;font-weight: 600;" },
-            Row_color: { "Odd": "White", "Even": "white" },
+            Row_color: {
+                "Odd": "White", "Even": "yellow"
+          },
             Body_Column_style: { "Date": "font-size:11px;font-weight: 100;width:110px;", "Type": "font-size:11px;font-weight: 100;width:150px;", "Ref": "font-size:11px;font-weight: 100;", "Debit": "text-align:right;font-size:11px;font-weight: 100;width:150px;", "Credit": "text-align:right;font-size:11px;font-weight: 100;width:150px;", "Balance": "text-align:right;font-size:11px;font-weight: 100;width:150px;" }
             
         });
     }
 }
+
 function GetHtmlValue()
 {
     debugger;
@@ -41,8 +44,7 @@ function GetHtmlValue()
     if ($('.default').is(":visible"))
     {
         SendToGenerate($("#customtbl").html())
-    }
-    
+    }   
 
 }
 
@@ -61,9 +63,7 @@ function DrawTable(options) {
                             + '<tbody id="tbodyPerform"></tbody>'
                         + '</table>')
         var Header = [];
-        debugger;
         $.each(Records, function (index, Records) {
-            debugger;
             if (Header.length == 0) {
                 $.each(Records, function (key, value) {
                     Header.push(key);
@@ -72,10 +72,11 @@ function DrawTable(options) {
                 for (var i = 0; i < Header.length; i++) {
                     Performed = 0;
                         $.each(options.Header_column_style, function (key, value) {
-                            debugger;
                             if (key == Header[i])
                             {
-                                $("#trTechPerform").append('<th style="' + value + '">' + Header[i] + '</th>')
+                               // $("#trTechPerform").append('<th style="' + value + '">' + Header[i] + '</th>')
+                                $("#trTechPerform").append('<th style="' + (value.style !== undefined ? value.style : "") + '">' + (value.custom_name !== undefined ? value.custom_name : Header[i]) + '</th>')
+                                //('<th style="' + (value.style !== undefined ? value.style : "") + '">' + (value.custom_name !== undefined ? value.custom_name : Header[i]) + '</th>')
                                 Performed = 1;
                             }
                             
@@ -89,9 +90,9 @@ function DrawTable(options) {
             }
             var html = "";
             $.each(Records, function (key, value) {
+                debugger;
                 PerformedCol = 0;
                 $.each(options.Body_Column_style, function (keyCol, valueCol) {
-                    debugger;
                     if (keyCol == key) {
                         if (value === null)
                         {
@@ -99,11 +100,10 @@ function DrawTable(options) {
                         }
                         else
                         {
-                            html = html + '<td style="' + valueCol + '">' + (($.isNumeric(value)) ? roundoff(value) : value) + '</td>'
+                            html = html + '<td class="' + (value === "<b>Balance Due</b>" ? "balanceRowColor" : "") + '" style="' + valueCol + '">' + (($.isNumeric(value)) ? roundoff(value) : value) + '</td>'                           
                         }                        
                         PerformedCol = 1;
                     }
-
                 });
                 if (PerformedCol == 0)
                 {
@@ -113,30 +113,32 @@ function DrawTable(options) {
                     else
                     {
                         html = html + '<td>' + ($.isNumeric(value) ? roundoff(value) : value) + '</td>'
-                    }
-                        
+                        //html = html + '<td style="' + value === "<b>Balance Due</b>" ? "background-color:red;" : "" + '">' + ($.isNumeric(value) ? roundoff(value) : value) + '</td>'
+                    }                       
                    
-                }                   
+                }                 
 
             });
             if (index % 2 === 0)
             {
                 $("#tbodyPerform").append('<tr style="padding-top:1px;padding-botton:1px;min-height:14px;background-color:' + options.Row_color.Even + '">' + html + '</tr>')
+               
             }
             else
             {
                 $("#tbodyPerform").append('<tr style="padding-top:1px;padding-botton:1px;min-height:14px;background-color:' + options.Row_color.Odd + '">' + html + '</tr>')
-            }
-            
-
+                
+            }           
         });
     }
-
 }
-function SaveSuccess(data, status) {
+
+function SaveSuccess(data, status)
+{
     debugger;
     var JsonResult = JSON.parse(data)
-    switch (JsonResult.Result) {
+    switch (JsonResult.Result)
+    {
         case "OK":
             debugger;
             w = window.open(JsonResult.URL);
@@ -150,16 +152,21 @@ function SaveSuccess(data, status) {
             break;
     }
 }
-function GetItemsSummary(options) {
+
+function GetItemsSummary(options)
+{
     debugger;
-    try {
+    try
+    {
         var data = options.data;
         var ds = {};
         ds = GetDataFromServerTraditional(options.Action, data);
-            if (ds != '') {
+        if (ds != '')
+        {
                 ds = JSON.parse(ds);                 
-            }
-            if (ds.Result == "OK") {
+        }
+        if (ds.Result == "OK")
+        {
                 debugger;
                 //var result = ds.Records.reduce(function (res, obj) {
                 //    if (!(obj.CustomerName in res))
@@ -172,15 +179,18 @@ function GetItemsSummary(options) {
                 //}, { __array: [] }).__array
                 //.sort();
                 return ds.Records;
-            }
-            if (ds.Result == "ERROR") {
+         }
+        if (ds.Result == "ERROR")
+        {
                 notyAlert('error', ds.Message);
-            }
+        }
     }
-    catch (e) {
+    catch (e)
+    {
         notyAlert('error', e.message);
     }
 }
+
 function SendToGenerate(BodyContent) {
     debugger;
     try {
@@ -197,9 +207,12 @@ function SendToGenerate(BodyContent) {
         //    notyAlert('error', ds.Message);
         //}
         var data = "{'MailBody':" + JSON.stringify(BodyContent) + "}";
-        PostDataToServer("PDFGenerator/SendPDFDoc/", data, function (JsonResult) {
-            if (JsonResult != '') {
-                switch (JsonResult.Result) {
+        PostDataToServer("PDFGenerator/SendPDFDoc/", data, function (JsonResult)
+        {
+            if (JsonResult != '')
+            {
+                switch (JsonResult.Result)
+                {
                     case "OK":
                         notyAlert('success', JsonResult.Message);
                         List();

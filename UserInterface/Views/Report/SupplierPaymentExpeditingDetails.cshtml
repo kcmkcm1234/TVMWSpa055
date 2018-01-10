@@ -8,7 +8,8 @@
 @section styles {
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableButtons")
-@Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableFixedHeader")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableFixedHeader")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/select2")
 
     <style>
         table.dataTable tr.odd {
@@ -48,17 +49,32 @@
 <div class="form-horizontal">
 
     <div class="col-md-8" style="margin-top:10px;">
-        <div class="col-md-6">
+        <div class="col-md-3">
             @Html.Label("As On Date", htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
                 @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @Value = ViewBag.todate, @onchange = "RefreshSupplierExpeditingDetailTable()" })
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             @Html.LabelFor(model => model.BasicFilters, htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
                 @Html.DropDownListFor(model => model.Filter, Model.BasicFilters, new { @class = "form-control BlockEnter", value = 0, style = "padding:4px 12px;", @id = "BasicFilters", @onchange = "RefreshSupplierExpeditingDetailTable()" })
                 @Html.ValidationMessageFor(model => model.Filter, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.Company, htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-12">
+                @Html.DropDownListFor(model => model.Company, Model.companyObj.CompanyList, new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "Company", @onchange = "RefreshSupplierExpeditingDetailTable()" })
+                @Html.ValidationMessageFor(model => model.Company, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.Supplier, htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-12">
+                @Html.DropDownListFor(model => model.Supplier, Model.supplierObj.SupplierList, "--Select--", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "Supplier", @onchange = "RefreshSupplierExpeditingDetailTable()" })
+                @Html.ValidationMessageFor(model => model.Supplier, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -88,7 +104,9 @@
             <thead>
                 <tr class="text-center TableHead">
                     <th>Supplier Name</th>
+                    <th>Contact Name</th>
                     <th>Contact Number</th>
+                    <th>Company</th>
                     <th>Invoice No</th>                   
                     <th>Invoice Date</th>
                     <th> Balance Amount</th>
@@ -111,6 +129,7 @@
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/SupplierExpeditingReport")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
 }
 
 
