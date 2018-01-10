@@ -340,5 +340,28 @@
     }
 
 
+
+    @if (Model.AssignBtn.Visible && Model.AssignBtn.HasAccess)
+    {
+        if (Model.AssignBtn.Disable)
+        {
+
+            <a class="thr_disbtn" title="@Model.AssignBtn.Title-@Model.AssignBtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/Assign.PNG")">
+                <span class="btnText">@Model.AssignBtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.AssignBtn.Title" class="thr_btn" onclick=@Model.AssignBtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/Assign.PNG")">
+                <span class="btnText">@Model.AssignBtn.Text</span>
+            </a>
+        }
+
+    }
+
+
  
 </div>

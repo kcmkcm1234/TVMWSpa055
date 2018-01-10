@@ -30,17 +30,17 @@ namespace UserInterface.Controllers
         IOtherExpenseBusiness _otherExpenseBusiness;
         ICommonBusiness _commonBusiness;
         SecurityFilter.ToolBarAccess _tool;
-        public ReportController(IReportBusiness reportBusiness, ICompaniesBusiness companiesBusiness,IEmployeeBusiness employeeBusiness, IOtherExpenseBusiness otherExpenseBusiness, ICommonBusiness commonBusiness, IBankBusiness bankbusiness, ICustomerBusiness customerBusiness, ISupplierBusiness supplierBusiness, SecurityFilter.ToolBarAccess tool)
+        public ReportController(IReportBusiness reportBusiness, ICompaniesBusiness companiesBusiness, IEmployeeBusiness employeeBusiness, IOtherExpenseBusiness otherExpenseBusiness, ICommonBusiness commonBusiness, IBankBusiness bankbusiness, ICustomerBusiness customerBusiness, ISupplierBusiness supplierBusiness, SecurityFilter.ToolBarAccess tool)
         {
             _reportBusiness = reportBusiness;
             _supplierBusiness = supplierBusiness;
-             _companiesBusiness = companiesBusiness;
+            _companiesBusiness = companiesBusiness;
             _employeeBusiness = employeeBusiness;
             _otherExpenseBusiness = otherExpenseBusiness;
             _commonBusiness = commonBusiness;
             _bankBusiness = bankbusiness;
             _customerBusiness = customerBusiness;
-            _tool = tool; 
+            _tool = tool;
 
         }
         // GET: Report
@@ -76,7 +76,7 @@ namespace UserInterface.Controllers
                 AppConstMessage cm = c.GetMessage(ex.Message);
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
             }
-            
+
         }
 
         [HttpGet]
@@ -124,7 +124,7 @@ namespace UserInterface.Controllers
                     });
                 }
             }
-          
+
             SaleSummary.CompanyList = selectListItem;
             return View(SaleSummary);
         }
@@ -137,18 +137,18 @@ namespace UserInterface.Controllers
             {
                 try
                 {
-                   DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
-                   DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                   SaleSummaryViewModel saleObj = Mapper.Map<SaleSummary,SaleSummaryViewModel>(_reportBusiness.GetSaleSummary(FDate, TDate, CompanyCode,search,IsInternal, IsTax));
-                   
+                    DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
+                    DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
+                    SaleSummaryViewModel saleObj = Mapper.Map<SaleSummary,SaleSummaryViewModel>(_reportBusiness.GetSaleSummary(FDate, TDate, CompanyCode,search,IsInternal, IsTax));
+
                     return JsonConvert.SerializeObject(new { Result = "OK", Records = saleObj.saleSummaryList, TotalAmount = saleObj.salesummarySum, InvoicedAmount = saleObj.salesummaryTotalInvoice, PaidAmount= saleObj.salesummarypaid,TaxAmount=saleObj.salesummaryTax,Invoiced= saleObj.salesummaryInvoiced });
-                
+
                 }
                 catch(Exception ex)
                 {
                     return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
                 }
-            
+
             }
             return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
         }
@@ -164,7 +164,7 @@ namespace UserInterface.Controllers
                     DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
                     SaleDetailReportViewModel SaledetailObj = Mapper.Map<SaleDetailReport,SaleDetailReportViewModel>(_reportBusiness.GetSaleDetail(FDate, TDate, CompanyCode,search,IsInternal,IsTax, Guid.Parse(Customer), InvoiceType));
-                    
+
                     return JsonConvert.SerializeObject(new { Result = "OK", Records = SaledetailObj.saleDetailList, TotalAmount = SaledetailObj.saledetailSum, InvoicedAmount= SaledetailObj.saledetailinvoice, PaidAmount= SaledetailObj.saledetailpaid,TaxAmount= SaledetailObj.saledetailtax,TotalInvoiced= SaledetailObj.saledetailtotalinvoiced });
                 }
                 catch (Exception ex)
@@ -281,14 +281,14 @@ namespace UserInterface.Controllers
 
             otherExpenseSummaryReportViewModel.companiesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_companiesBusiness.GetAllCompanies());
             if (otherExpenseSummaryReportViewModel.companiesList != null)
-            { 
+            {
                 selectListItem.Add(new SelectListItem
                 {
                     Text = "All",
                     Value = "ALL",
                     Selected = true
                 });
-               
+
                 foreach (CompaniesViewModel cvm in otherExpenseSummaryReportViewModel.companiesList)
                 {
                     selectListItem.Add(new SelectListItem
@@ -367,7 +367,7 @@ namespace UserInterface.Controllers
                     DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
                     List<OtherExpenseSummaryReportViewModel> otherExpenseSummaryReportList = Mapper.Map<List<OtherExpenseSummaryReport>, List<OtherExpenseSummaryReportViewModel>>(_reportBusiness.GetOtherExpenseSummary(FDate, TDate, CompanyCode,ReportType, OrderBy,accounthead.Split(':')[0], subtype, employeeorother, employeecompany, search, ExpenseType));
-                   
+
                     decimal otherExpenseSum = otherExpenseSummaryReportList.Sum(OE => OE.Amount);
                     decimal otherExpenseReversed = otherExpenseSummaryReportList.Sum(OE => OE.ReversedAmount);
                     string otherExpenseSumFormatted=_commonBusiness.ConvertCurrency(otherExpenseSum, 2);
@@ -405,7 +405,7 @@ namespace UserInterface.Controllers
                     Value = "ALL",
                     Selected = true
                 });
-                               foreach (CompaniesViewModel cvm in otherExpenseDetailsViewModel.companiesList)
+                foreach (CompaniesViewModel cvm in otherExpenseDetailsViewModel.companiesList)
                 {
                     selectListItem.Add(new SelectListItem
                     {
@@ -487,7 +487,7 @@ namespace UserInterface.Controllers
                     string otherExpenseDetailsReversedFormatted = _commonBusiness.ConvertCurrency(otherExpenseDetailsReversed, 2);
                     decimal total = otherExpenseDetailsSum - otherExpenseDetailsReversed;
                     string totalFormatted = _commonBusiness.ConvertCurrency(total, 2);
-                    return JsonConvert.SerializeObject(new { Result = "OK", Records = otherExpenseDetailsReportList, TotalAmount = otherExpenseDetailsSumFormatted ,ReversedTotal= otherExpenseDetailsReversedFormatted, Total = totalFormatted });
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = otherExpenseDetailsReportList, TotalAmount = otherExpenseDetailsSumFormatted,ReversedTotal= otherExpenseDetailsReversedFormatted, Total = totalFormatted });
                 }
                 catch (Exception ex)
                 {
@@ -519,6 +519,126 @@ namespace UserInterface.Controllers
             }
             return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
         }
+
+
+
+        #region Limited Expense Report For OtherExpenseReport
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "OEReport", Mode = "R")]
+        public ActionResult OtherExpenseLimitedDetails()
+        {
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            DateTime dt = _appUA.DateTime;
+            ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+            ViewBag.todate = dt.ToString("dd-MMM-yyyy");
+            OtherExpenseDetailsReportViewModel otherExpenseLimitedDetailsVM = new OtherExpenseDetailsReportViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            otherExpenseLimitedDetailsVM.companiesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_companiesBusiness.GetAllCompanies());
+            if (otherExpenseLimitedDetailsVM.companiesList != null)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "All",
+                    Value = "ALL",
+                    Selected = true
+                });
+                foreach (CompaniesViewModel cvm in otherExpenseLimitedDetailsVM.companiesList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = cvm.Name,
+                        Value = cvm.Code.ToString(),
+                        Selected = false
+                    });
+                }
+            }
+
+            otherExpenseLimitedDetailsVM.CompanyList = selectListItem;
+            selectListItem = null;
+            selectListItem = new List<SelectListItem>();
+            List<ChartOfAccountsViewModel> chartOfAccountList = Mapper.Map<List<ChartOfAccounts>, List<ChartOfAccountsViewModel>>(_otherExpenseBusiness.GetAllAccountTypes("LE"));
+            selectListItem.Add(new SelectListItem
+            {
+                Text = "All",
+                Value = "ALL",
+                Selected = true
+            });
+            foreach (ChartOfAccountsViewModel cav in chartOfAccountList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = cav.TypeDesc,
+                    Value = cav.Code ,
+                    Selected = false,
+
+
+                });
+            }
+            otherExpenseLimitedDetailsVM.AccountHeadList = selectListItem;
+            selectListItem = null;
+            selectListItem = new List<SelectListItem>();
+            List<EmployeeTypeViewModel> empTypeList = Mapper.Map<List<EmployeeType>, List<EmployeeTypeViewModel>>(_otherExpenseBusiness.GetAllEmployeeTypes());
+            foreach (EmployeeTypeViewModel etvm in empTypeList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = etvm.Name,
+                    Value = etvm.Code,
+                    Selected = false
+                });
+            }
+            otherExpenseLimitedDetailsVM.EmployeeTypeList = selectListItem;
+
+
+            selectListItem = new List<SelectListItem>();
+            List<EmployeeViewModel> empList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_otherExpenseBusiness.GetAllEmployees());
+            foreach (EmployeeViewModel evm in empList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = evm.Name,
+                    Value = evm.ID.ToString(),
+                    Selected = false
+                });
+            }
+            otherExpenseLimitedDetailsVM.EmployeeList = selectListItem;
+            return View(otherExpenseLimitedDetailsVM);
+        }
+        #endregion Limited Expense Report For OtherExpenseReport
+
+
+
+        public string GetOtherExpenseLimitedDetailReport(string otherExpenseLimitedDetailsAdvanceSearchObject)
+        {
+            try
+            {
+                OtherExpenseLimitedExpenseAdvanceSearchViewModel otherExpenseLESearchObj = otherExpenseLimitedDetailsAdvanceSearchObject != null ? JsonConvert.DeserializeObject<OtherExpenseLimitedExpenseAdvanceSearchViewModel>(otherExpenseLimitedDetailsAdvanceSearchObject) : new OtherExpenseLimitedExpenseAdvanceSearchViewModel();
+                if (otherExpenseLimitedDetailsAdvanceSearchObject == null)
+                {
+                    AppUA _appUA = Session["AppUA"] as AppUA;
+                    DateTime dt = _appUA.DateTime;
+                    ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+                    ViewBag.todate = dt.ToString("dd-MMM-yyyy");
+                    otherExpenseLESearchObj.FromDate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+                    otherExpenseLESearchObj.ToDate = dt.ToString("dd-MMM-yyyy");
+                    otherExpenseLESearchObj.Company = "ALL";
+                }
+                
+                List<OtherExpenseDetailsReportViewModel> otherExpenseLimitedReportList = Mapper.Map<List<OtherExpenseDetailsReport>, List<OtherExpenseDetailsReportViewModel>>(_reportBusiness.GetOtherExpenseLimitedDetailReport(Mapper.Map<OtherExpenseLimitedExpenseAdvanceSearchViewModel, OtherExpenseLimitedExpenseAdvanceSearch>(otherExpenseLESearchObj)));
+                decimal otherExpenseLimitedDetailsSum = otherExpenseLimitedReportList.Where(OE => OE.RowType == "N").Sum(OE => OE.Amount);
+                string otherExpenseLimitedDetailsSumFormatted = _commonBusiness.ConvertCurrency(otherExpenseLimitedDetailsSum, 2);
+                decimal otherExpenseLimitedDetailsReversed = otherExpenseLimitedReportList.Where(x => x.RowType == "T").Sum(x => x.ReversedAmount);
+                string otherExpenseLimitedDetailsReversedFormatted = _commonBusiness.ConvertCurrency(otherExpenseLimitedDetailsReversed, 2);
+                decimal total = otherExpenseLimitedDetailsSum - otherExpenseLimitedDetailsReversed;
+                string totalFormatted = _commonBusiness.ConvertCurrency(total, 2);
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = otherExpenseLimitedReportList, TotalAmount = otherExpenseLimitedDetailsSumFormatted, ReversedTotal = otherExpenseLimitedDetailsReversedFormatted, Total = totalFormatted });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+            }
+        }
+
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "CustomerReport", Mode = "R")]

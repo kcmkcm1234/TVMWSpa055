@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Newtonsoft.Json;
+using SAMTool.DataAccessObject.DTO;
 using SPAccounts.BusinessService.Contracts;
 using SPAccounts.DataAccessObject.DTO;
 using SPAccounts.UserInterface.SecurityFilter;
@@ -18,10 +19,14 @@ namespace UserInterface.Controllers
 
         AppConst c = new AppConst();
         IChartOfAccountsBusiness _chartOfAccountsBusiness;
-       
-        public ChartOfAccountsController(IChartOfAccountsBusiness chartOfAccountsBusiness)
+        ICommonBusiness _commonBusiness;
+        SecurityFilter.ToolBarAccess _tool;
+
+        public ChartOfAccountsController(IChartOfAccountsBusiness chartOfAccountsBusiness, ICommonBusiness commonBusiness, SecurityFilter.ToolBarAccess tool)
         {
-            _chartOfAccountsBusiness = chartOfAccountsBusiness;           
+            _chartOfAccountsBusiness = chartOfAccountsBusiness;
+            _commonBusiness = commonBusiness;
+            _tool = tool;
         }
         #endregion Constructor_Injection 
 
@@ -37,12 +42,12 @@ namespace UserInterface.Controllers
         #region GetAllChartOfAccounts
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "ChartOfAccounts", Mode = "R")]
-        public string GetAllChartOfAccounts()
+        public string GetAllChartOfAccounts(string type)
         {
             try
             {
 
-                List<ChartOfAccountsViewModel> ChartOfAccountsList = Mapper.Map<List<ChartOfAccounts>, List<ChartOfAccountsViewModel>>(_chartOfAccountsBusiness.GetAllChartOfAccounts());
+                List<ChartOfAccountsViewModel> ChartOfAccountsList = Mapper.Map<List<ChartOfAccounts>, List<ChartOfAccountsViewModel>>(_chartOfAccountsBusiness.GetAllChartOfAccounts(type));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = ChartOfAccountsList });
             }
             catch (Exception ex)
@@ -132,12 +137,32 @@ namespace UserInterface.Controllers
         }
         #endregion DeleteChartOfAccounts 
 
+
+        public string UpdateAssignments(string code)
+        {
+            try
+            {
+                object result = null;
+                result = _chartOfAccountsBusiness.UpdateAssignments(code);
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+
+            }
+            catch (Exception ex)
+            {
+
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+
+
         #region ButtonStyling
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "ChartOfAccounts", Mode = "R")]
         public ActionResult ChangeButtonStyle(string ActionType)
         {
             ToolboxViewModel ToolboxViewModelObj = new ToolboxViewModel();
+            Permission _permission = Session["UserRights"] as Permission;
             switch (ActionType)
             {
                 case "List":
@@ -154,6 +179,12 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.PrintBtn.Event = "PrintReport();";
 
                     //---------------------------------------
+                    ToolboxViewModelObj.AssignBtn.Visible = true;
+                    ToolboxViewModelObj.AssignBtn.Text = "Assign";
+                    ToolboxViewModelObj.AssignBtn.Title = "Assign";
+                    ToolboxViewModelObj.AssignBtn.Event = "ShowAssignModal();";
+
+                    ToolboxViewModelObj = _tool.SetToolbarAccess(ToolboxViewModelObj, _permission);
 
                     break;
                 case "Edit":

@@ -21,9 +21,9 @@ namespace SPAccounts.BusinessService.Services
         {
             return _chartOfAccountsRepository.GetChartOfAccountsByType(type);
         }
-        public List<ChartOfAccounts> GetAllChartOfAccounts()
+        public List<ChartOfAccounts> GetAllChartOfAccounts(string type)
         {
-            return _chartOfAccountsRepository.GetAllChartOfAccounts();
+            return _chartOfAccountsRepository.GetAllChartOfAccounts(type);
         }
 
         public ChartOfAccounts GetChartOfAccountDetails(string Code)
@@ -52,6 +52,22 @@ namespace SPAccounts.BusinessService.Services
             return result;
         }
 
+
+        public object UpdateAssignments(string code)
+        {
+            object result = null;
+            try
+            {
+
+             result = _chartOfAccountsRepository.UpdateAssignments(code);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+    
         public object DeleteChartOfAccounts(string Code)
         {
             object result = null;

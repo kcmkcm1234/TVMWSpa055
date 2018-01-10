@@ -11,13 +11,13 @@ $(document).ready(function () {
                  extend: 'excel',
                  exportOptions:
                               {
-                                  columns: [0, 1, 2, 3, 4 ]
+                                  columns: [0, 1, 2, 3, 4]
                               }
              }],
              order: [],
              searching: true,
              paging: true,
-             data: GetAllChartOfAccounts(),
+             data: GetAllChartOfAccounts(null),
              pageLength: 10,
              language: {
                  search: "_INPUT_",
@@ -33,13 +33,13 @@ $(document).ready(function () {
                { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
              ],
              columnDefs: [{ "targets": [], "visible": false, "searchable": false },
-                  { className: "text-left", "targets": [0, 1, 2, 3, 4,5] },
+                  { className: "text-left", "targets": [0, 1, 2, 3, 4, 5] },
              { className: "text-center", "targets": [6] },
                {
                    "render": function (data, type, row) {
                        return (data == false ? "No " : "Yes");
                    },
-                   "targets": [3,4,5]
+                   "targets": [3, 4, 5]
 
                },
                   //{
@@ -59,7 +59,7 @@ $(document).ready(function () {
                             } else {
                                 return "Other Income";
                             }
-                            
+
                         },
                         "targets": 1
 
@@ -83,8 +83,60 @@ $(document).ready(function () {
         notyAlert('error', x.message);
 
     }
-
 });
+
+
+function InitializeAssignPermissions() {
+    try {
+        if (DataTables.tblChartOfAccountList != undefined)
+        {
+            DataTables.tblChartOfAccountList.destroy();
+        }        
+        DataTables.tblChartOfAccountList = $('#tblAssignmentList').DataTable(
+              {
+                  dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
+                  order: [],
+                  //scrollY: "500px",
+                  //scrollCollapse: true,
+                  searching: false,
+                  paging: false,
+                  data: GetAllChartOfAccounts('OE'),
+                  pageLength: 7,
+                  language: {
+                      search: "_INPUT_",
+                      searchPlaceholder: "Search"
+                  },
+                  columns: [
+                    { "data": "Checkbox", "defaultContent": "" },
+                    { "data": "Code", "defaultContent": "<i>-</i>" },
+                    { "data": "Type", "defaultContent": "<i>-</i>" },
+                    { "data": "TypeDesc", "defaultContent": "<i>-</i>" },
+                  ],
+                  columnDefs: [{ className: 'select-checkbox', targets: 0 },
+                      { className: "text-right", "targets": [] },
+                      { className: "text-left", "targets": [1, 2, 3] },
+                      { className: "text-center", "targets": [0] }
+                  ],
+                  select: { style: 'multi', selector: 'td:first-child' },
+                  rowCallback: function (row, data) {
+                      if (data.IsAvailLEReport) {
+                          $(row).addClass("selected");
+                      }
+                  },
+                  //initComplete: function (settings, json) {
+                  //    debugger;
+                  //    for (var i = 0; i < json.data.length; i++) {
+                  //        if (json.data[i].IsAvailLEReport) {
+                  //            $(row).addClass("selected");
+                  //        }
+                  //    }
+                  //}
+              });
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
 
 function PrintReport() {
     try {
@@ -106,7 +158,6 @@ function Edit(currentObj) {
     debugger;
     openNav("0");
     ResetForm();
-
 
     var rowData = DataTables.ChartOfAccounts.row($(currentObj).parents('tr')).data();
     if ((rowData != null) && (rowData.Code != null)) {
@@ -219,10 +270,10 @@ function ResetForm() {
 }
 
 
-function GetAllChartOfAccounts() {
+function GetAllChartOfAccounts(type) {
     try {
 
-        var data = {};
+        var data = {"type":type};
         var ds = {};
         ds = GetDataFromServer("ChartOfAccounts/GetAllChartOfAccounts/", data);
         debugger;
@@ -334,3 +385,50 @@ function DeleteChartOfAccounts() {
         return 0;
     }
 }
+
+function ShowAssignModal() {
+    debugger;
+    InitializeAssignPermissions();
+    $("#AddAssignChartOfAccountsModel").modal('show');
+    $("#editCheckBox").show();
+}
+
+function SaveCheckedAssignments() {
+        debugger;
+        try {
+            if (DataTables.tblChartOfAccountList.rows(".selected").data().length == 0) {
+                notyAlert('error', "Please select atleast one");
+            }
+               
+                else {
+                var SelectedRows = DataTables.tblChartOfAccountList.rows(".selected").data();
+                    if ((SelectedRows) && (SelectedRows.length > 0)) {
+                        var CheckedCodes = [];
+                        for (var r = 0; r < SelectedRows.length; r++) {
+                            CheckedCodes.push(SelectedRows[r].Code);
+                        }
+                    }
+                    debugger;
+                    var data = { "code": CheckedCodes.join(',')};
+                    ds = GetDataFromServer("ChartOfAccounts/UpdateAssignments/", data);
+                    if (ds !== '') {
+                        ds = JSON.parse(ds);
+                    }
+                    if (ds.Result === "OK") {
+                        DataTables.tblChartOfAccountList.clear().rows.add(GetAllChartOfAccounts()).draw(false);
+                        notyAlert('success', "Success");
+                        CheckedCodes.length = 0;
+                    }
+                    if (ds.Result === "ERROR") {
+                        debugger;
+                        notyAlert('error', ds.Message);
+                    }
+                }
+            }
+        
+        catch (Ex) {
+            notyAlert('error', Ex.message)
+            return 0;
+        }
+    }
+

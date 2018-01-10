@@ -25,6 +25,7 @@ namespace UserInterface.Models
         [Display(Name = "Subtype Applicable (Y/N)")]
         [Required(ErrorMessage = "Is Subtype is missing")]
         public bool ISEmploy { get; set; }
+        public bool IsAvailLEReport { get; set; }
         public decimal Amount { get; set; }
         //public string account { get; set; }
         public string startdate { get; set; }
@@ -34,5 +35,8 @@ namespace UserInterface.Models
         public string isUpdate { get; set; }
         public string hdnCode { get; set; }
         public string hdnType { get; set; }
+        public CommonViewModel CommonObj { get; set; }
+        public string AssignRowValues { get; set; }
+        public List<ChartOfAccountsViewModel> CheckedRows { get; set; }
     }
 }

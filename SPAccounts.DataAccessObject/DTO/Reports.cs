@@ -112,6 +112,19 @@ namespace SPAccounts.DataAccessObject.DTO
         public string ExpenseType { get; set; }
     }
 
+    public class OtherExpenseLimitedExpenseAdvanceSearch
+    {
+        public string ToDate { get; set; }
+        public string FromDate { get; set; }
+        public string ExpenseType { get; set; }
+        public string Company { get; set; }
+        public string Search { get; set; }
+        public string EmployeeOrOther { get; set; }
+        public string EmpCompany { get; set; }
+        public string AccountHead { get; set; }
+        public string SubType { get; set; }
+    }
+
     public class CustomerContactDetailsReport
     {
         public string CustomerName { get; set; }
@@ -429,6 +442,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public string Remarks { get; set; }  
 
     }
+
+   
 
 }
 

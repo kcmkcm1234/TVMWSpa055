@@ -149,11 +149,26 @@ namespace UserInterface.Models
         public decimal TotalAmount { get; set; }
         public decimal ReversedTotal { get; set; }
         public string RowType { get; set; }
-
+        public CompaniesViewModel CompanyObj { get; set; }
+        public OtherExpenseViewModel OtherExpenseObj { get; set; }
         [Display(Name = "Expense Type")]
         public string ExpenseType { get; set; }
+        public OtherExpenseLimitedExpenseAdvanceSearchViewModel OtherExpenseLEAdvSearch {get;set;}
+    }
 
-            }
+    public class OtherExpenseLimitedExpenseAdvanceSearchViewModel
+    {
+        public string ToDate { get; set; }
+        public string FromDate { get; set; }
+        public string ExpenseType { get; set; }
+        public string Company { get; set; }
+        public string Search { get; set; }
+        [Display(Name = "Employee/Other")]
+        public string EmployeeOrOther { get; set; }
+        public string EmpCompany { get; set; }
+        public string AccountHead { get; set; }
+        public string SubType { get; set; }
+    }
 
     public class CustomerContactDetailsReportViewModel
     {
@@ -598,5 +613,8 @@ namespace UserInterface.Models
         public List<SelectListItem> BasicFilters { get; set; }
         public string Filter { get; set; }     
     }
+
+
+   
   
 }
