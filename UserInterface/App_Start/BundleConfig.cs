@@ -110,7 +110,9 @@ namespace UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/CustomerExpeditingReport").Include("~/Scripts/UserJS/CustomerExpeditingDetailsReport.js"));
             bundles.Add(new ScriptBundle("~/bundles/SupplierExpeditingReport").Include("~/Scripts/UserJS/SupplierExpeditingDetailsReport.js"));
             bundles.Add(new ScriptBundle("~/bundles/OutgoingCheque").Include("~/Scripts/UserJS/OutgoingCheque.js"));
-        }
+            bundles.Add(new ScriptBundle("~/bundles/OtherExpenseLimitedDetailsReport").Include("~/Scripts/UserJS/OtherExpenseLimitedDetailsReport.js"));
+        
+    }
           
         }
             

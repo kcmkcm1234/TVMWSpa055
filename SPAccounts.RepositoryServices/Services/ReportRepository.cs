@@ -198,6 +198,70 @@ namespace SPAccounts.RepositoryServices.Services
             return otherExpenseDetailList;
         }
 
+        public List<OtherExpenseDetailsReport> GetOtherExpenseLimitedDetailReport(OtherExpenseLimitedExpenseAdvanceSearch limitedExpenseAdvanceSearchObject)
+        {
+            List<OtherExpenseDetailsReport> otherExpenseLimitedList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if(con.State==ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                    cmd.Connection = con;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = limitedExpenseAdvanceSearchObject.FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = limitedExpenseAdvanceSearchObject.ToDate;
+                        cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = limitedExpenseAdvanceSearchObject.Company != "" ? limitedExpenseAdvanceSearchObject.Company : null;
+                        cmd.Parameters.Add("@AccountHead", SqlDbType.NVarChar, 50).Value = limitedExpenseAdvanceSearchObject.AccountHead != "" ? limitedExpenseAdvanceSearchObject.AccountHead : null;
+                        cmd.Parameters.Add("@SubType", SqlDbType.NVarChar, 50).Value = limitedExpenseAdvanceSearchObject.SubType != "" ? limitedExpenseAdvanceSearchObject.SubType : null;
+                        cmd.Parameters.Add("@EmployeeOrOther", SqlDbType.NVarChar, 50).Value = limitedExpenseAdvanceSearchObject.EmployeeOrOther != "" ? limitedExpenseAdvanceSearchObject.EmployeeOrOther : null;
+                        cmd.Parameters.Add("@EmployeeCompany", SqlDbType.NVarChar, 50).Value = limitedExpenseAdvanceSearchObject.EmpCompany != "" ? limitedExpenseAdvanceSearchObject.EmpCompany : null;
+                        cmd.Parameters.Add("@Search", SqlDbType.NVarChar, 250).Value = limitedExpenseAdvanceSearchObject.Search != "" ? limitedExpenseAdvanceSearchObject.Search : null;
+                        cmd.Parameters.Add("@ExpenseType", SqlDbType.NVarChar, 50).Value = limitedExpenseAdvanceSearchObject.ExpenseType != "" ? limitedExpenseAdvanceSearchObject.ExpenseType : "ALL";
+                        cmd.CommandText = "[Accounts].[RPT_GetOtherExpenseLimitedDetails]";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    using (SqlDataReader sdr = cmd.ExecuteReader())
+                    {
+                        if ((sdr != null) && (sdr.HasRows))
+                        {
+                            otherExpenseLimitedList = new List<OtherExpenseDetailsReport>();
+                            while (sdr.Read())
+                            {
+                                OtherExpenseDetailsReport otherExpenseDetails = new OtherExpenseDetailsReport();
+                                {
+                                    otherExpenseDetails.AccountHead = (sdr["AccountHead"].ToString() != "" ? sdr["AccountHead"].ToString() : otherExpenseDetails.AccountHead);
+                                    otherExpenseDetails.Date = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(settings.dateformat) : otherExpenseDetails.Date);
+                                    otherExpenseDetails.SubType = (sdr["Subtype"].ToString() != "" ? sdr["Subtype"].ToString() : otherExpenseDetails.SubType);
+                                    otherExpenseDetails.OriginCompany = (sdr["OriginCompany"].ToString() != "" ? sdr["OriginCompany"].ToString() : otherExpenseDetails.OriginCompany);
+                                    otherExpenseDetails.EmpCompany = (sdr["EmpCompany"].ToString() != "" ? sdr["EmpCompany"].ToString() : otherExpenseDetails.EmpCompany);
+                                    otherExpenseDetails.PaymentMode = (sdr["PaymentMode"].ToString() != "" ? sdr["PaymentMode"].ToString() : otherExpenseDetails.PaymentMode);
+
+                                    otherExpenseDetails.ExpenseType = (sdr["ExpenseType"].ToString() != "" ? sdr["ExpenseType"].ToString() : otherExpenseDetails.ExpenseType);
+                                    otherExpenseDetails.PaymentReference = (sdr["PaymentReference"].ToString() != "" ? sdr["PaymentReference"].ToString() : otherExpenseDetails.PaymentReference);
+                                    otherExpenseDetails.Description = (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : otherExpenseDetails.Description);
+                                    otherExpenseDetails.Amount = (sdr["PaidAmount"].ToString() != "" ? decimal.Parse(sdr["PaidAmount"].ToString()) : otherExpenseDetails.Amount);
+                                    otherExpenseDetails.ReversedAmount = (sdr["ReversedAmount"].ToString() != "" ? decimal.Parse(sdr["ReversedAmount"].ToString()) : otherExpenseDetails.ReversedAmount);
+                                    otherExpenseDetails.RowType = (sdr["RowType"].ToString() != "" ? sdr["RowType"].ToString() : otherExpenseDetails.RowType);
+                                    otherExpenseDetails.Company = (sdr["Company"].ToString() != "" ? sdr["Company"].ToString() : otherExpenseDetails.Company);
+                                }
+                                    otherExpenseLimitedList.Add(otherExpenseDetails);
+                            }
+                        }
+                    }
+                }
+            }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return otherExpenseLimitedList;
+         }
+          
+
         public List<SaleDetailReport> GetSaleDetail(DateTime? FromDate, DateTime? ToDate, string CompanyCode,string search, Boolean IsInternal,Boolean IsTax,Guid Customer,string InvoiceType)
         {
             List<SaleDetailReport> SaleDetailList = null;
