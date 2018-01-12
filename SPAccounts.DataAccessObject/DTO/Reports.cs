@@ -323,6 +323,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public Guid CustomerID { get; set; }      
         public string CustomerName { get; set; }
         public string CompanyCode { get; set; }
+        public string InvoiceType { get; set; }
     }
 
 
@@ -338,6 +339,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string SupplierName { get; set; }
         public decimal Balance { get; set; }
         public string SupplierCode { get; set; }
+        public string InvoiceType { get; set; }
     }
 
     public class TrialBalance
@@ -408,9 +410,9 @@ namespace SPAccounts.DataAccessObject.DTO
         public Decimal Amount { get; set; }
         public string NoOfDays { get; set; }
         public string Remarks { get; set; }
-        public CustomerContactDetailsReport customerContactObj { get; set; }
-        public Companies companyObj { get; set; }
-        public Customer customerObj { get; set; }     
+        public CustomerContactDetailsReport CustomerContactObj { get; set; }
+        public Companies CompanyObj { get; set; }
+        public Customer CustomerObj { get; set; }     
     }
 
 
@@ -427,9 +429,9 @@ namespace SPAccounts.DataAccessObject.DTO
         public Decimal Amount { get; set; }
         public string NoOfDays { get; set; }
         public string Remarks { get; set; }
-        public SupplierContactDetailsReport supplierContactObj { get; set; }
-        public Companies companyObj { get; set; }   
-        public Supplier supplierObj { get; set; }    
+        public SupplierContactDetailsReport SupplierContactObj { get; set; }
+        public Companies CompanyObj { get; set; }   
+        public Supplier SupplierObj { get; set; }    
 
     }
 
@@ -440,6 +442,9 @@ namespace SPAccounts.DataAccessObject.DTO
         public string Filter { get; set; }
         public string Company { get; set; }
         public string Supplier { get; set; }
+        public string FromDate { get; set; }
+        public string InvoiceType { get; set; }
+        public string Customer { get; set; }
     }
 
 }

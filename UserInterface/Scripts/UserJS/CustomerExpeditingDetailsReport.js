@@ -66,7 +66,7 @@ $(document).ready(function () {
 
 });
 
-
+//to bind values to report
 function GetCustomerExpeditingDetail() {
     try {
         debugger;       
@@ -101,7 +101,7 @@ function OnCallChange() {
     RefreshCustomerExpeditingDetailTable();
 }
 
-
+//To refresh report based on filter
 function RefreshCustomerExpeditingDetailTable() {
     debugger;
     try {
@@ -119,7 +119,7 @@ function RefreshCustomerExpeditingDetailTable() {
     }
 }
 
-
+//To trigger export button
 function PrintReport() {
     try {
         $(".buttons-excel").trigger('click');
@@ -133,6 +133,7 @@ function Back() {
     window.location = appAddress + "Report/Index/";
 }
 
+//To reset report
 function Reset()
 {
     debugger;

@@ -132,7 +132,7 @@ function RefreshSupplierExpeditingDetailTable()
     }
 }
 
-
+//to trigger export button
 function PrintReport()
 {
     try
@@ -150,7 +150,7 @@ function Back()
     window.location = appAddress + "Report/Index/";
 }
 
-
+//To reset report
 function Reset()
 {
     debugger;

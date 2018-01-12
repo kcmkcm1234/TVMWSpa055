@@ -491,6 +491,8 @@ namespace UserInterface.Models
         public Guid CustomerID { get; set; }        
         public List<SelectListItem> companiesList { get; set; }
         public PDFTools  pdfToolsObj { get; set; }
+        [Display(Name = "Invoice Type")]
+        public string InvoiceType { get; set; }
     }
 
 
@@ -514,6 +516,8 @@ namespace UserInterface.Models
         public string CompanyCode { get; set; }
         public List<SelectListItem> companiesList { get; set; }
         public PDFTools  pdfToolsObj { get; set; }
+        [Display(Name = "Invoice Type")]
+        public string InvoiceType { get; set; }
     }
 
 
@@ -614,6 +618,9 @@ namespace UserInterface.Models
         public string Filter { get; set; }
         public string Company { get; set; }
         public string Supplier { get; set; }
+        public string FromDate { get; set; }
+        public string InvoiceType { get; set; }
+        public string Customer { get; set; }
     }
 
 

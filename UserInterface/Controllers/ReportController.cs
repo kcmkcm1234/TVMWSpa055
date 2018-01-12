@@ -1386,11 +1386,11 @@ namespace UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject = "CustomerPaymentLedgerReport", Mode = "R")]
         public ActionResult CustomerPaymentLedger()
         {
-            AppUA _appUA = Session["AppUA"] as AppUA;
-            DateTime dt = _appUA.DateTime;
+            AppUA appUA = Session["AppUA"] as AppUA;
+            DateTime dt = appUA.DateTime;
             ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
-            CustomerPaymentLedgerViewModel CustomerPayments = new CustomerPaymentLedgerViewModel();
+            CustomerPaymentLedgerViewModel customerPayments = new CustomerPaymentLedgerViewModel();
             List<SelectListItem> selectListItem = new List<SelectListItem>();
             List<CustomerViewModel> customerList = Mapper.Map<List<Customer>, List<CustomerViewModel>>(_customerBusiness.GetAllCustomers());
             if (customerList != null)
@@ -1402,19 +1402,19 @@ namespace UserInterface.Controllers
                 //    Selected = true
                 //});
 
-                foreach (CustomerViewModel Cust in customerList)
+                foreach (CustomerViewModel customerVM in customerList)
                 {
                     selectListItem.Add(new SelectListItem
                     {
-                        Text = Cust.CompanyName,
-                        Value = Cust.ID.ToString(),
+                        Text = customerVM.CompanyName,
+                        Value = customerVM.ID.ToString(),
                         Selected = false
                     });
                 }
             }
-                CustomerPayments.customerList = selectListItem;
+                customerPayments.customerList = selectListItem;
 
-                CustomerPayments.CompanyList = new List<SelectListItem>();
+                customerPayments.CompanyList = new List<SelectListItem>();
                 selectListItem = new List<SelectListItem>();
                 List<CompaniesViewModel> companiesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_otherExpenseBusiness.GetAllCompanies());
             if (companiesList != null)
@@ -1426,34 +1426,37 @@ namespace UserInterface.Controllers
                     Selected = true
                 });
 
-                foreach (CompaniesViewModel cvm in companiesList)
+                foreach (CompaniesViewModel companiesVM in companiesList)
                 {
                     selectListItem.Add(new SelectListItem
                     {
-                        Text = cvm.Name,
-                        Value = cvm.Code.ToString(),
+                        Text = companiesVM.Name,
+                        Value = companiesVM.Code.ToString(),
                         Selected = false
                     });
                 }
             }
-                CustomerPayments.companiesList = selectListItem;
+                customerPayments.companiesList = selectListItem;
 
-               return View(CustomerPayments);
+               return View(customerPayments);
         }
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "CustomerPaymentLedgerReport", Mode = "R")]
-        public string GetCustomerPaymentLedger(string FromDate, string ToDate, string[] CustomerIDs, string Company)
+        public string GetCustomerPaymentLedger(string fromDate, string toDate, string[] customerIDs, string company,string invoiceType)
         {
             //if (!string.IsNullOrEmpty(CustomerCode))
             //{
             try
             {
-                DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
-                DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                List<CustomerPaymentLedgerViewModel> customerpaymentledgerList = Mapper.Map<List<CustomerPaymentLedger>, List<CustomerPaymentLedgerViewModel>>(_reportBusiness.GetCustomerPaymentLedger(FDate, TDate, CustomerIDs != null ? String.Join(",", CustomerIDs) : "ALL", Company));
 
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = customerpaymentledgerList });
+                //DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
+
+                DateTime? fDate = string.IsNullOrEmpty(fromDate) ? (DateTime?)null : DateTime.Parse(fromDate);
+                DateTime? tDate = string.IsNullOrEmpty(toDate) ? (DateTime?)null : DateTime.Parse(toDate);
+                List<CustomerPaymentLedgerViewModel> customerPaymentLedgerList = Mapper.Map<List<CustomerPaymentLedger>, List<CustomerPaymentLedgerViewModel>>(_reportBusiness.GetCustomerPaymentLedger(fDate, tDate, customerIDs != null ? String.Join(",", customerIDs) : "ALL", company, invoiceType));                
+
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = customerPaymentLedgerList });
             }
             catch (Exception ex)
             {
@@ -1468,11 +1471,11 @@ namespace UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject = "SupplierPaymentLedgerReport", Mode = "R")]
         public ActionResult SupplierPaymentLedger()
         {
-            AppUA _appUA = Session["AppUA"] as AppUA;
-            DateTime dt = _appUA.DateTime;
+            AppUA appUA = Session["AppUA"] as AppUA;
+            DateTime dt = appUA.DateTime;
             ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
-            SupplierPaymentLedgerViewModel SupplierPayments = new SupplierPaymentLedgerViewModel();
+            SupplierPaymentLedgerViewModel supplierPayments = new SupplierPaymentLedgerViewModel();
             List<SelectListItem> selectListItem = new List<SelectListItem>();
             List<SuppliersViewModel> supplierList = Mapper.Map<List<Supplier>, List<SuppliersViewModel>>(_supplierBusiness.GetAllSuppliers());
             if (supplierList != null)
@@ -1484,20 +1487,20 @@ namespace UserInterface.Controllers
                 //    Selected = true
                 //});
 
-                foreach (SuppliersViewModel Supp in supplierList)
+                foreach (SuppliersViewModel supplierVM in supplierList)
                 {
                     selectListItem.Add(new SelectListItem
                     {
-                        Text = Supp.CompanyName,
-                        Value = Supp.ID.ToString(),
+                        Text = supplierVM.CompanyName,
+                        Value = supplierVM.ID.ToString(),
                         Selected = false
                     });
                 }
             }
-                SupplierPayments.supplierList = selectListItem;
+                supplierPayments.supplierList = selectListItem;
 
 
-                SupplierPayments.CompanyList = new List<SelectListItem>();
+                supplierPayments.CompanyList = new List<SelectListItem>();
                 selectListItem = new List<SelectListItem>();
                 List<CompaniesViewModel> companiesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_otherExpenseBusiness.GetAllCompanies());
                 if (companiesList != null)
@@ -1509,35 +1512,35 @@ namespace UserInterface.Controllers
                         Selected = true
                     });
 
-                    foreach (CompaniesViewModel cvm in companiesList)
+                    foreach (CompaniesViewModel companiesVM in companiesList)
                     {
                         selectListItem.Add(new SelectListItem
                         {
-                            Text = cvm.Name,
-                            Value = cvm.Code.ToString(),
+                            Text = companiesVM.Name,
+                            Value = companiesVM.Code.ToString(),
                             Selected = false
                         });
                     }
                 
-                SupplierPayments.companiesList = selectListItem;
+                supplierPayments.companiesList = selectListItem;
 
             }
-            return View(SupplierPayments);
+            return View(supplierPayments);
         }
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "SupplierPaymentLedgerReport", Mode = "R")]
-        public string GetSupplierPaymentLedger(string FromDate, string ToDate, string[] Suppliercode, string Company)
+        public string GetSupplierPaymentLedger(string fromDate, string toDate, string[] supplierCode, string company,string invoiceType)
         {
             //if (!string.IsNullOrEmpty(CustomerCode))
             //{
             try
             {
-                DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
-                DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                List<SupplierPaymentLedgerViewModel> supplierpaymentledgerList = Mapper.Map<List<SupplierPaymentLedger>, List<SupplierPaymentLedgerViewModel>>(_reportBusiness.GetSupplierPaymentLedger(FDate, TDate, Suppliercode!=null? String.Join(",", Suppliercode):"ALL",Company));
+                DateTime? fDate = string.IsNullOrEmpty(fromDate) ? (DateTime?)null : DateTime.Parse(fromDate);
+                DateTime? tDate = string.IsNullOrEmpty(toDate) ? (DateTime?)null : DateTime.Parse(toDate);
+                List<SupplierPaymentLedgerViewModel> supplierPaymentLedgerList = Mapper.Map<List<SupplierPaymentLedger>, List<SupplierPaymentLedgerViewModel>>(_reportBusiness.GetSupplierPaymentLedger(fDate, tDate, supplierCode!=null? String.Join(",", supplierCode):"ALL",company, invoiceType));
 
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = supplierpaymentledgerList });
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = supplierPaymentLedgerList });
             }
             catch (Exception ex)
             {
@@ -1809,11 +1812,10 @@ namespace UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
         public ActionResult CustomerPaymentExpeditingDetails(string id)
         {
-
-            AppUA _appUA = Session["AppUA"] as AppUA;
-            DateTime dt = _appUA.DateTime;
+            AppUA appUA = Session["AppUA"] as AppUA;
+            DateTime dt = appUA.DateTime;
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
-            CustomerExpeditingListViewModel Result = new CustomerExpeditingListViewModel();
+            CustomerExpeditingListViewModel result = new CustomerExpeditingListViewModel();
             List<SelectListItem> selectListItem = new List<SelectListItem>();
             selectListItem.Add(new SelectListItem {Text = "--Select--", Value = "ALL", Selected = false});
             selectListItem.Add(new SelectListItem { Text = "Coming Week", Value = "ThisWeek", Selected = false });
@@ -1837,16 +1839,13 @@ namespace UserInterface.Controllers
                 }
                 catch (Exception)
                 {
-
-                    Result.Filter = "ALL";
+                    result.Filter = "ALL";
                 }
 
             }
-
-            Result.BasicFilters = selectListItem;
-
+            result.BasicFilters = selectListItem;
             selectListItem = new List<SelectListItem>();
-            Result.customerObj = new CustomerViewModel();
+            result.customerObj = new CustomerViewModel();
             List<CustomerViewModel> customerList = Mapper.Map<List<Customer>, List<CustomerViewModel>>(_customerBusiness.GetAllCustomers());
             if (customerList != null)
             {
@@ -1857,20 +1856,20 @@ namespace UserInterface.Controllers
                 //    Selected = true
                 //});
 
-                foreach (CustomerViewModel Cust in customerList)
+                foreach (CustomerViewModel customerVM in customerList)
                 {
                     selectListItem.Add(new SelectListItem
                     {
-                        Text = Cust.CompanyName,
-                        Value = Cust.CompanyName.ToString(),
+                        Text = customerVM.CompanyName,
+                        Value = customerVM.CompanyName.ToString(),
                         Selected = false
                     });
                 }
             }
-            Result.customerObj.CustomerList = selectListItem;
+            result.customerObj.CustomerList = selectListItem;
 
             selectListItem = new List<SelectListItem>();
-            Result.companyObj = new CompaniesViewModel();
+            result.companyObj = new CompaniesViewModel();
             List<CompaniesViewModel> companiesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_otherExpenseBusiness.GetAllCompanies());
             if (companiesList != null)
             {
@@ -1881,22 +1880,18 @@ namespace UserInterface.Controllers
                     Selected = true
                 });
 
-                foreach (CompaniesViewModel cvm in companiesList)
+                foreach (CompaniesViewModel companiesVM in companiesList)
                 {
                     selectListItem.Add(new SelectListItem
                     {
-                        Text = cvm.Name,
-                        Value = cvm.Name.ToString(),
+                        Text = companiesVM.Name,
+                        Value = companiesVM.Name.ToString(),
                         Selected = false
                     });
                 }
-            }            
-            Result.companyObj.CompanyList = selectListItem;
-
-
-
-
-            return View(Result);
+            }
+            result.companyObj.CompanyList = selectListItem;
+            return View(result);
         }
 
         [HttpGet]
@@ -1906,9 +1901,9 @@ namespace UserInterface.Controllers
             try
             {               
                 DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                CustomerExpeditingListViewModel Result = new CustomerExpeditingListViewModel();
-                Result.customerExpeditingDetailsList = Mapper.Map<List<CustomerExpeditingReport>, List<CustomerExpeditingReportViewModel>>(_reportBusiness.GetCustomerExpeditingDetail(TDate,Filter,Company,Customer != null ? String.Join(",", Customer) : "ALL"));              
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = Result });
+                CustomerExpeditingListViewModel result = new CustomerExpeditingListViewModel();
+                result.customerExpeditingDetailsList = Mapper.Map<List<CustomerExpeditingReport>, List<CustomerExpeditingReportViewModel>>(_reportBusiness.GetCustomerExpeditingDetail(TDate,Filter,Company,Customer != null ? String.Join(",", Customer) : "ALL"));              
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
             }
                 catch (Exception ex)
                 {
@@ -1924,11 +1919,11 @@ namespace UserInterface.Controllers
         public ActionResult SupplierPaymentExpeditingDetails(string id)
         {
 
-            AppUA _appUA = Session["AppUA"] as AppUA;
-            DateTime dt = _appUA.DateTime;
+            AppUA appUA = Session["AppUA"] as AppUA;
+            DateTime dt = appUA.DateTime;
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
 
-            SupplierExpeditingListViewModel Result = new SupplierExpeditingListViewModel();
+            SupplierExpeditingListViewModel result = new SupplierExpeditingListViewModel();
             List<SelectListItem> selectListItem = new List<SelectListItem>();
             selectListItem.Add(new SelectListItem { Text = "--Select--", Value = "ALL", Selected = false });
             selectListItem.Add(new SelectListItem { Text = "Coming Week", Value = "ThisWeek", Selected = false });
@@ -1953,15 +1948,14 @@ namespace UserInterface.Controllers
                 catch (Exception)
                 {
 
-                    Result.Filter = "ALL";
+                    result.Filter = "ALL";
                 }
-
             }
 
-            Result.BasicFilters = selectListItem;
+            result.BasicFilters = selectListItem;
 
             selectListItem = new List<SelectListItem>();
-            Result.companyObj = new CompaniesViewModel();
+            result.companyObj = new CompaniesViewModel();
             List<CompaniesViewModel> companiesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_otherExpenseBusiness.GetAllCompanies());
             if (companiesList != null)
             {
@@ -1972,19 +1966,19 @@ namespace UserInterface.Controllers
                     Selected = true
                 });
 
-                foreach (CompaniesViewModel cvm in companiesList)
+                foreach (CompaniesViewModel companiesVM in companiesList)
                 {
                     selectListItem.Add(new SelectListItem
                     {
-                        Text = cvm.Name,
-                        Value = cvm.Name.ToString(),
+                        Text = companiesVM.Name,
+                        Value = companiesVM.Name.ToString(),
                         Selected = false
                     });
                 }
             }
-            Result.companyObj.CompanyList = selectListItem;
+            result.companyObj.CompanyList = selectListItem;
 
-            Result.supplierObj = new SuppliersViewModel();
+            result.supplierObj = new SuppliersViewModel();
             selectListItem = new List<SelectListItem>();
             List<SuppliersViewModel> supplierList = Mapper.Map<List<Supplier>, List<SuppliersViewModel>>(_supplierBusiness.GetAllSuppliers());
             if (supplierList != null)
@@ -1995,24 +1989,18 @@ namespace UserInterface.Controllers
                 //    Value = "ALL",
                 //    Selected = true
                 //});
-
-                foreach (SuppliersViewModel Supp in supplierList)
+                foreach (SuppliersViewModel supplierVM in supplierList)
                 {
                     selectListItem.Add(new SelectListItem
                     {
-                        Text = Supp.CompanyName,
-                        Value = Supp.CompanyName.ToString(),
+                        Text = supplierVM.CompanyName,
+                        Value = supplierVM.CompanyName.ToString(),
                         Selected = false
                     });
                 }
             }
-            Result.supplierObj.SupplierList = selectListItem;
-
-
-            return View(Result);
-
-
-            
+            result.supplierObj.SupplierList = selectListItem;
+            return View(result);            
         }
 
         [HttpGet]
@@ -2021,16 +2009,16 @@ namespace UserInterface.Controllers
         {
             try
             {
-                AppUA _appUA = Session["AppUA"] as AppUA;
+                AppUA appUA = Session["AppUA"] as AppUA;
                 ReportAdvanceSearch supplierAdvanceSearchObj = supplierPayementAdvanceSearchObj != null? JsonConvert.DeserializeObject<ReportAdvanceSearch>(supplierPayementAdvanceSearchObj) : new ReportAdvanceSearch();
-                if(supplierPayementAdvanceSearchObj==null)
+                if(supplierPayementAdvanceSearchObj == null)
                 {
-                    supplierAdvanceSearchObj.ToDate = _appUA.DateTime.ToString("dd-MMM-yyyy");
+                    supplierAdvanceSearchObj.ToDate = appUA.DateTime.ToString("dd-MMM-yyyy");
                 }
                 //DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                SupplierExpeditingListViewModel Result = new SupplierExpeditingListViewModel();
-                Result.SupplierExpeditingDetailsList = Mapper.Map<List<SupplierExpeditingReport>, List<SupplierExpeditingReportViewModel>>(_reportBusiness.GetSupplierExpeditingDetail(supplierAdvanceSearchObj)); //(TDate, Filter,Company,Supplier));
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = Result });
+                SupplierExpeditingListViewModel result = new SupplierExpeditingListViewModel();
+                result.SupplierExpeditingDetailsList = Mapper.Map<List<SupplierExpeditingReport>, List<SupplierExpeditingReportViewModel>>(_reportBusiness.GetSupplierExpeditingDetail(supplierAdvanceSearchObj)); //(TDate, Filter,Company,Supplier));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
             }
             catch (Exception ex)
             {

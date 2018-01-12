@@ -406,12 +406,12 @@ namespace SPAccounts.BusinessService.Services
             return otherIncomeDetailsList;
         }
 
-        public List<CustomerPaymentLedger> GetCustomerPaymentLedger(DateTime? FromDate, DateTime? ToDate, string CustomerIDs, string Company)
+        public List<CustomerPaymentLedger> GetCustomerPaymentLedger(DateTime? fromDate, DateTime? toDate, string customerIDs, string company,string invoiceType)
         {
             List<CustomerPaymentLedger> CustomerPaymentsDetailsList = null;
             try
             {
-                CustomerPaymentsDetailsList = _reportRepository.GetCustomerPaymentLedger(FromDate,ToDate, CustomerIDs, Company);
+                CustomerPaymentsDetailsList = _reportRepository.GetCustomerPaymentLedger(fromDate,toDate, customerIDs, company,invoiceType);
             }
             catch (Exception ex)
             {
@@ -420,12 +420,12 @@ namespace SPAccounts.BusinessService.Services
             return CustomerPaymentsDetailsList;
         }
 
-        public List<SupplierPaymentLedger> GetSupplierPaymentLedger(DateTime? FromDate, DateTime? ToDate, string Suppliercode, string Company)
+        public List<SupplierPaymentLedger> GetSupplierPaymentLedger(DateTime? fromDate, DateTime? toDate, string supplierCode, string company,string invoiceType)
         {
             List<SupplierPaymentLedger> SupplierPaymentsDetailsList = null;
             try
             {
-                SupplierPaymentsDetailsList = _reportRepository.GetSupplierPaymentLedger(FromDate, ToDate, Suppliercode,Company);
+                SupplierPaymentsDetailsList = _reportRepository.GetSupplierPaymentLedger(fromDate, toDate, supplierCode,company,invoiceType);
             }
             catch (Exception ex)
             {
@@ -451,30 +451,30 @@ namespace SPAccounts.BusinessService.Services
 
         public List<CustomerExpeditingReport> GetCustomerExpeditingDetail(DateTime? ToDate,String Filter,string Company,string Customer)
         {
-            List<CustomerExpeditingReport> CustomerExpeditingList = null;
+            List<CustomerExpeditingReport> customerExpeditingList = null;
             try
             {
-                CustomerExpeditingList = _reportRepository.GetCustomerExpeditingDetail(ToDate, Filter,Company,Customer);                  
+                customerExpeditingList = _reportRepository.GetCustomerExpeditingDetail(ToDate, Filter,Company,Customer);                  
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-            return CustomerExpeditingList;
+            return customerExpeditingList;
         }
      
         public List<SupplierExpeditingReport> GetSupplierExpeditingDetail(ReportAdvanceSearch advanceSearchObject)//(DateTime? ToDate, string Filter,string Company,string Supplier)
         {
-            List<SupplierExpeditingReport> SupplierExpeditingList = null;
+            List<SupplierExpeditingReport> supplierExpeditingList = null;
             try
             {
-                SupplierExpeditingList = _reportRepository.GetSupplierExpeditingDetail(advanceSearchObject);// (ToDate,Filter,Company,Supplier);
+                supplierExpeditingList = _reportRepository.GetSupplierExpeditingDetail(advanceSearchObject);// (ToDate,Filter,Company,Supplier);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-            return SupplierExpeditingList;
+            return supplierExpeditingList;
         }
 
         public List<TrialBalance> GetTrialBalanceReport(DateTime? Date)

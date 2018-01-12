@@ -1263,7 +1263,7 @@ namespace SPAccounts.RepositoryServices.Services
             return otherIncomeDetailList;
         }
 
-        public List<CustomerPaymentLedger> GetCustomerPaymentLedger(DateTime? FromDate, DateTime? ToDate, string CustomerIDs, string Company)
+        public List<CustomerPaymentLedger> GetCustomerPaymentLedger(DateTime? fromDate, DateTime? toDate, string customerIDs, string company,string invoiceType)
         {
             List<CustomerPaymentLedger> customerpaymentList = null;
             try
@@ -1277,10 +1277,11 @@ namespace SPAccounts.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
-                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
-                        cmd.Parameters.Add("@CustomerIDs", SqlDbType.NVarChar,-1).Value = CustomerIDs;
-                        cmd.Parameters.Add("@Companycode", SqlDbType.NVarChar,50).Value = Company;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = fromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value =  toDate;
+                        cmd.Parameters.Add("@CustomerIDs", SqlDbType.NVarChar, -1).Value =customerIDs;
+                        cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = company;
+                        cmd.Parameters.Add("@InvoiceType", SqlDbType.NVarChar, 50).Value = invoiceType == "ALL" ? null : invoiceType; 
                         cmd.CommandText = "[Accounts].[RPT_GetCustomerPaymentLedger]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -1316,7 +1317,7 @@ namespace SPAccounts.RepositoryServices.Services
             return customerpaymentList;
         }
 
-        public List<SupplierPaymentLedger> GetSupplierPaymentLedger(DateTime? FromDate, DateTime? ToDate, string Suppliercode, string Company)
+        public List<SupplierPaymentLedger> GetSupplierPaymentLedger(DateTime? fromDate, DateTime? toDate, string supplierCode, string company,string invoiceType)
         {
             List<SupplierPaymentLedger> supplierpaymentList = null;
             try
@@ -1330,10 +1331,11 @@ namespace SPAccounts.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
-                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
-                        cmd.Parameters.Add("@SupplierIDs", SqlDbType.NVarChar, -1).Value = Suppliercode;
-                        cmd.Parameters.Add("@Companycode", SqlDbType.NVarChar, -1).Value = Company;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = fromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = toDate;
+                        cmd.Parameters.Add("@SupplierIDs", SqlDbType.NVarChar, -1).Value = supplierCode;
+                        cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, -1).Value = company;
+                        cmd.Parameters.Add("@InvoiceType", SqlDbType.NVarChar, 50).Value = invoiceType=="ALL"?null:invoiceType;
                         cmd.CommandText = "[Accounts].[RPT_GetSupplierPaymentLedger]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -1437,7 +1439,7 @@ namespace SPAccounts.RepositoryServices.Services
 
         public List<CustomerExpeditingReport> GetCustomerExpeditingDetail(DateTime? ToDate,string Filter,string Company,string Customer)
         {
-            List<CustomerExpeditingReport> CustomerExpeditingList = null;
+            List<CustomerExpeditingReport> customerExpeditingList = null;
             try
             {
                 using (SqlConnection con = _databaseFactory.GetDBConnection())
@@ -1460,48 +1462,43 @@ namespace SPAccounts.RepositoryServices.Services
                         {
                             if ((sdr != null) && (sdr.HasRows))
                             {
-                                CustomerExpeditingList = new List<CustomerExpeditingReport>();
+                                customerExpeditingList = new List<CustomerExpeditingReport>();
                                 while (sdr.Read())
                                 {
-                                    CustomerExpeditingReport customerexpeditingdetail = new CustomerExpeditingReport();
+                                    CustomerExpeditingReport customerExpeditingDetail = new CustomerExpeditingReport();
                                     {
-                                        customerexpeditingdetail.CustomerName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : customerexpeditingdetail.CustomerName);
-                                        customerexpeditingdetail.CustomerName1 = (sdr["CompanyName1"].ToString() != "" ? sdr["CompanyName1"].ToString() : customerexpeditingdetail.CustomerName1);
-                                        customerexpeditingdetail.customerContactObj = new CustomerContactDetailsReport();                                      
-                                        
-                                        customerexpeditingdetail.customerContactObj.ContactName = (sdr["ContactName"].ToString() != "" ? sdr["ContactName"].ToString() : customerexpeditingdetail.customerContactObj.ContactName);
-                                                                                
-                                        customerexpeditingdetail.ContactNo = (sdr["Mobile"].ToString() != "" ? ("☎" + sdr["Mobile"].ToString()) : "") +
+                                        customerExpeditingDetail.CustomerName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : customerExpeditingDetail.CustomerName);
+                                        customerExpeditingDetail.CustomerName1 = (sdr["CompanyName1"].ToString() != "" ? sdr["CompanyName1"].ToString() : customerExpeditingDetail.CustomerName1);
+                                        customerExpeditingDetail.CustomerContactObj = new CustomerContactDetailsReport();
+                                        customerExpeditingDetail.CustomerContactObj.ContactName = (sdr["ContactName"].ToString() != "" ? sdr["ContactName"].ToString() : customerExpeditingDetail.CustomerContactObj.ContactName);
+                                        customerExpeditingDetail.ContactNo = (sdr["Mobile"].ToString() != "" ? ("☎" + sdr["Mobile"].ToString()) : "") +
                                             (sdr["LandLine"].ToString() != "" ? (", ☎" + sdr["LandLine"].ToString()) : "") +
                                             (sdr["OtherPhoneNos"].ToString() != "" ? (", ☎" + sdr["OtherPhoneNos"].ToString()) : "");
-
-                                        customerexpeditingdetail.companyObj = new Companies();
+                                        customerExpeditingDetail.CompanyObj = new Companies();
                                         //customerexpeditingdetail.companyObj.Code = (sdr["Code"].ToString() != "" ? sdr["code"].ToString() : customerexpeditingdetail.companyObj.Code);
-                                        customerexpeditingdetail.companyObj.Name = (sdr["Company"].ToString() != "" ? sdr["Company"].ToString() : customerexpeditingdetail.companyObj.Name);
-
-                                        customerexpeditingdetail.InvoiceNo = (sdr["InvoiceNo"].ToString() != "" ? sdr["InvoiceNo"].ToString() : customerexpeditingdetail.InvoiceNo);
-                                        customerexpeditingdetail.InvoiceDate = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(settings.dateformat) : customerexpeditingdetail.InvoiceDate);
-                                        customerexpeditingdetail.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : customerexpeditingdetail.Amount);
-                                        customerexpeditingdetail.NoOfDays = (sdr["NoOfDays"].ToString() != "" ? sdr["NoOfDays"].ToString() : customerexpeditingdetail.NoOfDays);
+                                        customerExpeditingDetail.CompanyObj.Name = (sdr["Company"].ToString() != "" ? sdr["Company"].ToString() : customerExpeditingDetail.CompanyObj.Name);
+                                        customerExpeditingDetail.InvoiceNo = (sdr["InvoiceNo"].ToString() != "" ? sdr["InvoiceNo"].ToString() : customerExpeditingDetail.InvoiceNo);
+                                        customerExpeditingDetail.InvoiceDate = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(settings.dateformat) : customerExpeditingDetail.InvoiceDate);
+                                        customerExpeditingDetail.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : customerExpeditingDetail.Amount);
+                                        customerExpeditingDetail.NoOfDays = (sdr["NoOfDays"].ToString() != "" ? sdr["NoOfDays"].ToString() : customerExpeditingDetail.NoOfDays);
                                     }
-                                    CustomerExpeditingList.Add(customerexpeditingdetail);
+                                    customerExpeditingList.Add(customerExpeditingDetail);
                                 }
                             }
                         }
                     }
                 }
-                }
-    
-            catch (Exception ex)
-            {
+             }     
+             catch (Exception ex)
+             {
                 throw ex;
-            }
-            return CustomerExpeditingList;
+             }
+            return customerExpeditingList;
         }
 
         public List<SupplierExpeditingReport> GetSupplierExpeditingDetail(ReportAdvanceSearch advanceSearchObject)//(DateTime? ToDate, string Filter,string Company,string Supplier)
         {
-            List<SupplierExpeditingReport> SupplierExpeditingList = null;
+            List<SupplierExpeditingReport> supplierExpeditingList = null;
             try
             {
                 using (SqlConnection con = _databaseFactory.GetDBConnection())
@@ -1513,7 +1510,7 @@ namespace SPAccounts.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.Parameters.Add("@date", SqlDbType.DateTime).Value = advanceSearchObject.ToDate;
+                        cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = advanceSearchObject.ToDate;
                         cmd.Parameters.Add("@Filter", SqlDbType.NVarChar, 50).Value = advanceSearchObject.Filter;
                         cmd.Parameters.Add("@Company", SqlDbType.NVarChar, 50).Value = advanceSearchObject.Company;
                         if (advanceSearchObject.Supplier != "")
@@ -1524,29 +1521,26 @@ namespace SPAccounts.RepositoryServices.Services
                         {
                             if ((sdr != null) && (sdr.HasRows))
                             {
-                                SupplierExpeditingList = new List<SupplierExpeditingReport>();
+                                supplierExpeditingList = new List<SupplierExpeditingReport>();
                                 while (sdr.Read())
                                 {
-                                    SupplierExpeditingReport supplierexpeditingdetail = new SupplierExpeditingReport();
+                                    SupplierExpeditingReport supplierExpeditingDetail = new SupplierExpeditingReport();
                                     {
-                                        supplierexpeditingdetail.SupplierName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : supplierexpeditingdetail.SupplierName);
-                                        supplierexpeditingdetail.SupplierName1 = (sdr["CompanyName1"].ToString() != "" ? sdr["CompanyName1"].ToString() : supplierexpeditingdetail.SupplierName1);
-                                        supplierexpeditingdetail.supplierContactObj = new SupplierContactDetailsReport();
-
-                                        supplierexpeditingdetail.supplierContactObj.ContactName = (sdr["ContactName"].ToString() != "" ? sdr["ContactName"].ToString() : supplierexpeditingdetail.supplierContactObj.ContactName);
-                                        supplierexpeditingdetail.ContactNo = (sdr["Mobile"].ToString() != "" ? ("☎" + sdr["Mobile"].ToString()) : "") +
+                                        supplierExpeditingDetail.SupplierName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : supplierExpeditingDetail.SupplierName);
+                                        supplierExpeditingDetail.SupplierName1 = (sdr["CompanyName1"].ToString() != "" ? sdr["CompanyName1"].ToString() : supplierExpeditingDetail.SupplierName1);
+                                        supplierExpeditingDetail.SupplierContactObj = new SupplierContactDetailsReport();
+                                        supplierExpeditingDetail.SupplierContactObj.ContactName = (sdr["ContactName"].ToString() != "" ? sdr["ContactName"].ToString() : supplierExpeditingDetail.SupplierContactObj.ContactName);
+                                        supplierExpeditingDetail.ContactNo = (sdr["Mobile"].ToString() != "" ? ("☎" + sdr["Mobile"].ToString()) : "") +
                                             (sdr["LandLine"].ToString() != "" ? (", ☎" + sdr["LandLine"].ToString()) : "") +
                                             (sdr["OtherPhoneNos"].ToString() != "" ? (", ☎" + sdr["OtherPhoneNos"].ToString()) : "");
-                                        supplierexpeditingdetail.companyObj = new Companies();
-                                        supplierexpeditingdetail.companyObj.Name = (sdr["Company"].ToString() != "" ? sdr["Company"].ToString() : supplierexpeditingdetail.companyObj.Name);
-                                        supplierexpeditingdetail.InvoiceNo = (sdr["InvoiceNo"].ToString() != "" ? sdr["InvoiceNo"].ToString() : supplierexpeditingdetail.InvoiceNo);
-                                        supplierexpeditingdetail.InvoiceDate = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(settings.dateformat) : supplierexpeditingdetail.InvoiceDate);
-                                        supplierexpeditingdetail.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : supplierexpeditingdetail.Amount);
-                                        supplierexpeditingdetail.NoOfDays = (sdr["NoOfDays"].ToString() != "" ? sdr["NoOfDays"].ToString() : supplierexpeditingdetail.NoOfDays);
-
-
+                                        supplierExpeditingDetail.CompanyObj = new Companies();
+                                        supplierExpeditingDetail.CompanyObj.Name = (sdr["Company"].ToString() != "" ? sdr["Company"].ToString() : supplierExpeditingDetail.CompanyObj.Name);
+                                        supplierExpeditingDetail.InvoiceNo = (sdr["InvoiceNo"].ToString() != "" ? sdr["InvoiceNo"].ToString() : supplierExpeditingDetail.InvoiceNo);
+                                        supplierExpeditingDetail.InvoiceDate = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(settings.dateformat) : supplierExpeditingDetail.InvoiceDate);
+                                        supplierExpeditingDetail.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : supplierExpeditingDetail.Amount);
+                                        supplierExpeditingDetail.NoOfDays = (sdr["NoOfDays"].ToString() != "" ? sdr["NoOfDays"].ToString() : supplierExpeditingDetail.NoOfDays);
                                     }
-                                    SupplierExpeditingList.Add(supplierexpeditingdetail);
+                                    supplierExpeditingList.Add(supplierExpeditingDetail);
                                 }
                             }
                         }
@@ -1557,7 +1551,7 @@ namespace SPAccounts.RepositoryServices.Services
             {
                 throw ex;
             }
-            return SupplierExpeditingList;
+            return supplierExpeditingList;
         }
 
         public List<TrialBalance> GetTrialBalanceReport(DateTime? Date)
