@@ -23,6 +23,12 @@ namespace UserInterface.Models
         [Display(Name = "Company")]
         [MaxLength(10)]
         public string CompanyCode { get; set; }
+        [Display(Name = "Actual OD Limit")]
+        [Required(ErrorMessage = "Actual OD Limit")]
+        public decimal? ActualODLimit { get; set; }
+        [Display(Name = "OD Limit")]
+        public decimal? DisplayODLimit { get; set; }
+        public bool ShowODLimit { get; set; }
         public CommonViewModel commonObj { get; set; }
         public List<SelectListItem> BanksList { get; set; }
         public List<SelectListItem> CompaniesList { get; set; }
