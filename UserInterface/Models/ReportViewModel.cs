@@ -638,9 +638,12 @@ namespace UserInterface.Models
         public string Customer { get; set; }
     }
 
+    public class ReportAccountsReceivableAgeingSearchViewModel
+    {
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+        public string CompanyCode { get; set; }
+        public string[] Customerids { get; set; }
+    }
 
-
-
-   
-  
 }

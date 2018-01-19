@@ -824,7 +824,7 @@ namespace SPAccounts.RepositoryServices.Services
             return purchaseTransactionLogReportList;
         }
 
-        public List<AccountsReceivableAgeingReport> GetAccountsReceivableAgeingReport(DateTime? FromDate, DateTime? ToDate, string CompanyCode,string Customerids)
+        public List<AccountsReceivableAgeingReport> GetAccountsReceivableAgeingReport(ReportAccountsReceivableAgeingSearch accountsReceivableAgeingSearchObj)
         {
             List<AccountsReceivableAgeingReport> accountsReceivableAgeingReportList = null;
             try
@@ -838,11 +838,11 @@ namespace SPAccounts.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
-                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
-                        cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = CompanyCode;
-                        cmd.Parameters.Add("@Customerids", SqlDbType.NVarChar, -1).Value = Customerids;
-
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = DateTime.Parse(accountsReceivableAgeingSearchObj.FromDate);
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = DateTime.Parse(accountsReceivableAgeingSearchObj.ToDate);
+                        cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = accountsReceivableAgeingSearchObj.CompanyCode;
+                        cmd.Parameters.Add("@Customerids", SqlDbType.NVarChar, -1).Value = accountsReceivableAgeingSearchObj.CustomerIDs;
+                        cmd.Parameters.Add("@Search", SqlDbType.VarChar, -1).Value = accountsReceivableAgeingSearchObj.Search;
                         cmd.CommandText = "[Accounts].[RPT_GetAccountsReceivableAgeingDetail]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())

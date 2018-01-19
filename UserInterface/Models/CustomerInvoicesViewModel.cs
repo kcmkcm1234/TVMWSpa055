@@ -10,6 +10,7 @@ namespace UserInterface.Models
     public class CustomerInvoiceBundleViewModel {
         public List<CustomerInvoicesViewModel> CustomerInvoices { get; set; }
         public CustomerInvoiceSummaryViewModel CustomerInvoiceSummary { get; set; }
+        public Boolean PBAccess { get; set; }
 
     }
 

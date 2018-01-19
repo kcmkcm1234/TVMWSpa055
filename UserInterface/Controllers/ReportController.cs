@@ -1096,25 +1096,27 @@ namespace UserInterface.Controllers
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
-        public string GetAccountsReceivableAgeingDetails(string FromDate, string ToDate, string CompanyCode, string[] Customerids)
+        public string GetAccountsReceivableAgeingDetails( string receivableAgeingSearch)
         {
-            if (!string.IsNullOrEmpty(CompanyCode))
+            ReportAccountsReceivableAgeingSearch AccountsReceivableAgeingSearchObj = receivableAgeingSearch != null ? (JsonConvert.DeserializeObject<ReportAccountsReceivableAgeingSearch>(receivableAgeingSearch)) : new ReportAccountsReceivableAgeingSearch();
+            if (!string.IsNullOrEmpty(AccountsReceivableAgeingSearchObj.CompanyCode))
             {
                 try
                 {
                     AppUA _appUA = Session["AppUA"] as AppUA;
                     List<AccountsReceivableAgeingReportViewModel> accountsReceivableAgeingReportList = new List<AccountsReceivableAgeingReportViewModel>();
-                    DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
-                    DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-
+                    if (AccountsReceivableAgeingSearchObj.CustomerIDs != null)
+                        AccountsReceivableAgeingSearchObj.CustomerIDs=String.Join(",", AccountsReceivableAgeingSearchObj.CustomerIDs);
+                    else
+                        AccountsReceivableAgeingSearchObj.CustomerIDs="ALL";
                     string[] arr = _appUA.RolesCSV.Split(',');
                     if (arr.Contains("SAdmin") || arr.Contains("CEO"))
                     {
-                        accountsReceivableAgeingReportList = Mapper.Map<List<AccountsReceivableAgeingReport>, List<AccountsReceivableAgeingReportViewModel>>(_reportBusiness.GetAccountsReceivableAgeingReportForSA(FDate, TDate, CompanyCode, Customerids != null ? String.Join(",", Customerids) : "ALL"));
+                        accountsReceivableAgeingReportList = Mapper.Map<List<AccountsReceivableAgeingReport>, List<AccountsReceivableAgeingReportViewModel>>(_reportBusiness.GetAccountsReceivableAgeingReportForSA(AccountsReceivableAgeingSearchObj));
                     }
                     else
                     {
-                        accountsReceivableAgeingReportList = Mapper.Map<List<AccountsReceivableAgeingReport>, List<AccountsReceivableAgeingReportViewModel>>(_reportBusiness.GetAccountsReceivableAgeingReport(FDate, TDate, CompanyCode, Customerids != null ? String.Join(",", Customerids) : "ALL"));
+                        accountsReceivableAgeingReportList = Mapper.Map<List<AccountsReceivableAgeingReport>, List<AccountsReceivableAgeingReportViewModel>>(_reportBusiness.GetAccountsReceivableAgeingReport(AccountsReceivableAgeingSearchObj));
                     }
                     return JsonConvert.SerializeObject(new { Result = "OK", Records = accountsReceivableAgeingReportList });
                 }
@@ -2269,7 +2271,12 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.PrintBtn.Text = "Export";
                     ToolboxViewModelObj.PrintBtn.Title = "Export";
                     ToolboxViewModelObj.PrintBtn.Event = "PrintReport();";
-                   
+
+                    ToolboxViewModelObj.resetbtn.Visible = true;
+                    ToolboxViewModelObj.resetbtn.Text = "Reset";
+                    ToolboxViewModelObj.resetbtn.Event = "Reset();";
+                    ToolboxViewModelObj.resetbtn.Title = "Reset";
+
                     ToolboxViewModelObj = _tool.SetToolbarAccess(ToolboxViewModelObj, _permission);
                     break;
                 case "CustDetail":

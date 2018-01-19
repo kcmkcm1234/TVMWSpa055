@@ -1,4 +1,6 @@
 ﻿var DataTables = {};
+var today = '';
+var fromday = '';
 $(document).ready(function () {
 
 
@@ -23,7 +25,7 @@ $(document).ready(function () {
              fixedHeader: {
                  header: true
              },
-             searching: true,
+             searching: false,
              paging: true,
              data: GetReceivableAgeingReport(),
              pageLength: 50,
@@ -66,6 +68,8 @@ $(document).ready(function () {
          });
 
         $(".buttons-excel").hide();
+        today = $("#todate").val();
+        fromday = $("#fromdate").val();
         $("#ddlCustomer").attr('style', 'visibility:true');
 
     } catch (x) {
@@ -76,13 +80,21 @@ $(document).ready(function () {
 
 function GetReceivableAgeingReport() {
     try {
-        var fromdate = $("#fromdate").val();
-        var todate = $("#todate").val();
-        var companycode = $("#CompanyCode").val();
-        var customerids = $("#customerCode").val();
+   
+    
+        var customerids = $("#customerCode");
+        var fromdate = $("#fromdate");
+        var todate = $("#todate");
+        var companycode = $("#CompanyCode");
+        var search = $("#Search");
+        var receivableAgeingSearch = new Object();
+        receivableAgeingSearch.ToDate = todate[0].value !== "" ? todate[0].value : null;
+        receivableAgeingSearch.FromDate = fromdate[0].value !== "" ? fromdate[0].value : null;
+        receivableAgeingSearch.CompanyCode = companycode[0].value !== "" ? companycode[0].value : null;
+        receivableAgeingSearch.Customerids = customerids[0].value !== "" ? customerids[0].value : null;
+        receivableAgeingSearch.Search = search[0].value !== "" ? search[0].value : null;
 
-        if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "Customerids": customerids };
+        var data = { "receivableAgeingSearch": JSON.stringify(receivableAgeingSearch) };
             var ds = {};
             ds = GetDataFromServerTraditional("Report/GetAccountsReceivableAgeingDetails/", data);
             if (ds != '') {
@@ -94,11 +106,7 @@ function GetReceivableAgeingReport() {
             if (ds.Result == "ERROR") {
                 notyAlert('error', ds.Message);
             }
-        }
-
-
-
-    }
+        }    
     catch (e) {
         notyAlert('error', e.message);
     }
@@ -106,10 +114,7 @@ function GetReceivableAgeingReport() {
 
 function RefreshReceivableAgeingReportTable() {
     try {
-        var fromdate = $("#fromdate").val();
-        var todate = $("#todate").val();
-        var companycode = $("#CompanyCode").val();
-        if (DataTables.ReceivableAgeingReportTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
+            if (DataTables.ReceivableAgeingReportTable != undefined) {
             DataTables.ReceivableAgeingReportTable.clear().rows.add(GetReceivableAgeingReport()).draw(true);
         }
     }
@@ -136,6 +141,13 @@ function Back() {
     window.location = appAddress + "Report/Index/";
 }
 
-
-
+function Reset() {
+    debugger;
+    $("#todate").val(today);
+    $("#fromdate").val(fromday);
+    $("#CompanyCode").val('ALL');
+    $("#customerCode").val('').trigger('change');
+    $("#Search").val('');
+    RefreshReceivableAgeingReportTable();
+}
 

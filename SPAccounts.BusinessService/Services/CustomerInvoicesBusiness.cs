@@ -18,32 +18,26 @@ namespace SPAccounts.BusinessService.Services
 
         }
 
-        public List<CustomerInvoice> GetAllCustomerInvoices(DateTime? FromDate, DateTime? ToDate, string Customer, string InvoiceType, string Company, string Status, string Search)
+        public List<CustomerInvoice> GetAllCustomerInvoicesForSA(DateTime? FromDate, DateTime? ToDate, string Customer, string InvoiceType, string Company, string Status, string Search,bool PBAccess)
         {
-            try
-            {
-                List<CustomerInvoice> custlist = new List<CustomerInvoice>();
-                custlist= _customerInvoicesRepository.GetAllCustomerInvoices(FromDate,ToDate,Customer,InvoiceType,Company,Status,Search);
-                if(custlist!=null)
-                custlist = custlist.Where(C => C.InvoiceType == "RB").ToList();
-                return custlist;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public List<CustomerInvoice> GetAllCustomerInvoicesForSA(DateTime? FromDate, DateTime? ToDate, string Customer, string InvoiceType, string Company, string Status, string Search)
-        {
-            try
-            {
+            try { 
+            if (PBAccess == true)
+            {         
                 return _customerInvoicesRepository.GetAllCustomerInvoices(FromDate, ToDate, Customer, InvoiceType, Company, Status, Search);
             }
+            else
+            {   
+                    List<CustomerInvoice> custlist = new List<CustomerInvoice>();
+                    custlist = _customerInvoicesRepository.GetAllCustomerInvoices(FromDate, ToDate, Customer, InvoiceType, Company, Status, Search);
+                    if (custlist != null)
+                        custlist = custlist.Where(C => C.InvoiceType == "RB").ToList();
+                    return custlist;
+            }
+            }
             catch (Exception ex)
             {
                 throw ex;
-            } 
+            }
         }
 
         public List<CustomerInvoice> GetAllCustomerInvociesByCustomerID(Guid CustomerID)
@@ -68,44 +62,24 @@ namespace SPAccounts.BusinessService.Services
         }
         public CustomerInvoiceSummary GetCustomerInvoicesSummaryForSA() {
             try
-            {
-                CustomerInvoiceSummary result= new CustomerInvoiceSummary();
-                result= _customerInvoicesRepository.GetCustomerInvoicesSummaryForSA();
-                if (result != null) {
+            { 
+                    CustomerInvoiceSummary result = new CustomerInvoiceSummary();
+                    result = _customerInvoicesRepository.GetCustomerInvoicesSummaryForSA();
+                    if (result != null)
+                    {
 
-                    result.OpenAmountFormatted = _commonBusiness.ConvertCurrency(result.OpenAmount, 2);
-                    result.PaidAmountFormatted = _commonBusiness.ConvertCurrency(result.PaidAmount, 2);
-                    result.OverdueAmountFormatted = _commonBusiness.ConvertCurrency(result.OverdueAmount, 2);
-                }
-                return result;
+                        result.OpenAmountFormatted = _commonBusiness.ConvertCurrency(result.OpenAmount, 2);
+                        result.PaidAmountFormatted = _commonBusiness.ConvertCurrency(result.PaidAmount, 2);
+                        result.OverdueAmountFormatted = _commonBusiness.ConvertCurrency(result.OverdueAmount, 2);
+                    }
+                    return result;
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
-        }
-        public CustomerInvoiceSummary GetCustomerInvoicesSummary(bool IsInternal)
-        {
-            try
-            {
-                CustomerInvoiceSummary result = new CustomerInvoiceSummary();
-                result = _customerInvoicesRepository.GetCustomerInvoicesSummary(IsInternal);
-                if (result != null)
-                {
-
-                    result.OpenAmountFormatted = _commonBusiness.ConvertCurrency(result.OpenAmount, 2);
-                    result.PaidAmountFormatted = _commonBusiness.ConvertCurrency(result.PaidAmount, 2);
-                    result.OverdueAmountFormatted = _commonBusiness.ConvertCurrency(result.OverdueAmount, 2);
-                }
-                return result;
-            }
-            catch (Exception ex)
+         catch (Exception ex)
             {
                 throw ex;
             }
 
-        }
+}
         public CustomerInvoice InsertUpdateInvoice(CustomerInvoice _customerInvoicesObj, AppUA ua)
         {
             if(_customerInvoicesObj.ID!=null&& _customerInvoicesObj.ID!=Guid.Empty)

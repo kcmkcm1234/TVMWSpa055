@@ -275,12 +275,13 @@ namespace SPAccounts.BusinessService.Services
             return supplierContactDetailsReportList;
         }
 
-        public List<AccountsReceivableAgeingReport> GetAccountsReceivableAgeingReport(DateTime? FromDate, DateTime? ToDate, string CompanyCode,string Customerids)
+        public List<AccountsReceivableAgeingReport> GetAccountsReceivableAgeingReport(ReportAccountsReceivableAgeingSearch AccountsReceivableAgeingSearchObj)
         {
             List<AccountsReceivableAgeingReport> accountsReceivableAgeingReportList = null;
             try
             {
-                accountsReceivableAgeingReportList = _reportRepository.GetAccountsReceivableAgeingReport(FromDate, ToDate, CompanyCode, Customerids);
+                accountsReceivableAgeingReportList = _reportRepository.GetAccountsReceivableAgeingReport(AccountsReceivableAgeingSearchObj);
+                if(accountsReceivableAgeingReportList!=null)
                 accountsReceivableAgeingReportList=accountsReceivableAgeingReportList.Where(C => C.InvoiceType == "RB").ToList();
             }
             catch (Exception ex)
@@ -290,12 +291,12 @@ namespace SPAccounts.BusinessService.Services
             return accountsReceivableAgeingReportList;
         }
 
-        public List<AccountsReceivableAgeingReport> GetAccountsReceivableAgeingReportForSA(DateTime? FromDate, DateTime? ToDate, string CompanyCode,string Customerids)
+        public List<AccountsReceivableAgeingReport> GetAccountsReceivableAgeingReportForSA(ReportAccountsReceivableAgeingSearch AccountsReceivableAgeingSearchObj)
         {
             List<AccountsReceivableAgeingReport> accountsReceivableAgeingReportList = null;
             try
             {
-                accountsReceivableAgeingReportList = _reportRepository.GetAccountsReceivableAgeingReport(FromDate, ToDate, CompanyCode, Customerids);
+                accountsReceivableAgeingReportList = _reportRepository.GetAccountsReceivableAgeingReport(AccountsReceivableAgeingSearchObj);
             }
             catch (Exception ex)
             {
