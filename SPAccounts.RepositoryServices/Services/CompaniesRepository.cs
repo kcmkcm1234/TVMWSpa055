@@ -48,7 +48,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         _companyObj.ShippingAddress = (sdr["ShippingAddress"].ToString() != "" ? sdr["ShippingAddress"].ToString() : _companyObj.ShippingAddress);
                                         _companyObj.BillingAddress = (sdr["BillingAddress"].ToString() != "" ? sdr["BillingAddress"].ToString() : _companyObj.BillingAddress);
                                         _companyObj.ApproverID = (sdr["ApproverID"].ToString() != "" ? Guid.Parse(sdr["ApproverID"].ToString()) : _companyObj.ApproverID);
-
+                                       
                                     }
                                     companyList.Add(_companyObj);
                                 }
@@ -95,6 +95,8 @@ namespace SPAccounts.RepositoryServices.Services
                                     _companyObj.BillingAddress = (sdr["BillingAddress"].ToString() != "" ? sdr["BillingAddress"].ToString() : _companyObj.BillingAddress);
                                     _companyObj.ShippingAddress = (sdr["ShippingAddress"].ToString() != "" ? sdr["ShippingAddress"].ToString() : _companyObj.ShippingAddress);
                                     _companyObj.ApproverID = (sdr["ApproverID"].ToString() != "" ? Guid.Parse(sdr["ApproverID"].ToString()) : _companyObj.ApproverID);
+                                    _companyObj.LogoURL = (sdr["LogoURL"].ToString() != "" ? sdr["LogoURL"].ToString() : _companyObj.LogoURL);
+
                                 }
                         }
                     }
@@ -133,6 +135,7 @@ namespace SPAccounts.RepositoryServices.Services
             //            cmd.Parameters.Add("@BillingAddress", SqlDbType.VarChar, 10).Value = _companyObj.BillingAddress;
             //            cmd.Parameters.Add("@ShippingAddress", SqlDbType.VarChar, 10).Value = _companyObj.ShippingAddress;
             //            cmd.Parameters.Add("@ApproverID", SqlDbType.VarChar, 10).Value = _companyObj.ApproverID;
+            //            cmd.Parameters.Add("@LogoURL", SqlDbType.NVarChar).Value = _companyObj.LogoURL;
 
             //            cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = _companyObj.commonObj.CreatedBy;
             //            cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = _companyObj.commonObj.CreatedDate;
@@ -191,6 +194,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@BillingAddress", SqlDbType.VarChar, 10).Value = _companyObj.BillingAddress;
                         cmd.Parameters.Add("@ShippingAddress", SqlDbType.VarChar, 10).Value = _companyObj.ShippingAddress;
                         cmd.Parameters.Add("@ApproverID", SqlDbType.UniqueIdentifier).Value = _companyObj.ApproverID;
+                        cmd.Parameters.Add("@LogoURL", SqlDbType.NVarChar).Value = _companyObj.LogoURL;
                         cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = _companyObj.commonObj.UpdatedBy;
                         cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = _companyObj.commonObj.UpdatedDate;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
