@@ -47,7 +47,6 @@ namespace SPAccounts.DataAccessObject.DTO
         public Guid? RefInvoice { get; set; }
         public string SpecialPayStatus { get; set; }
         public SpecialPayment SpecialPayObj { get; set; }
-
     }
     public class SpecialPayment
     {
@@ -78,6 +77,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal PaidAmount { get; set; }
         public string PaidAmountFormatted { get; set; }
         public int PaidInvoices { get; set; }
+
+        public Boolean PBAccess { get; set; }
 
     }
 

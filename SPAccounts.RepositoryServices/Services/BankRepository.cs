@@ -44,15 +44,17 @@ namespace SPAccounts.RepositoryServices.Services
                                 bankList = new List<Bank>();
                                 while (sdr.Read())
                                 {
-                                    Bank _bankObj = new Bank();
+                                    Bank bankObj = new Bank();
                                     {
-                                        _bankObj.Code = (sdr["Code"].ToString() != "" ? sdr["Code"].ToString() : _bankObj.Code);
-                                        _bankObj.Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : _bankObj.Name);
-                                        _bankObj.CompanyCode = (sdr["CompanyCode"].ToString() != "" ? sdr["CompanyCode"].ToString() : _bankObj.CompanyCode);
-                                        _bankObj.Company = new Companies();
-                                       _bankObj.Company.Name= (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : _bankObj.Company.Name);
+                                        bankObj.Code = (sdr["Code"].ToString() != "" ? sdr["Code"].ToString() : bankObj.Code);
+                                        bankObj.Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : bankObj.Name);
+                                        bankObj.CompanyCode = (sdr["CompanyCode"].ToString() != "" ? sdr["CompanyCode"].ToString() : bankObj.CompanyCode);
+                                        bankObj.ActualODLimit = (sdr["ActualODLimit"].ToString() != "" ? Convert.ToDecimal(sdr["ActualODLimit"].ToString()) : bankObj.ActualODLimit);
+                                        bankObj.DisplayODLimit = (sdr["DisplayODLimit"].ToString() != "" ? Convert.ToDecimal(sdr["DisplayODLimit"].ToString()) : bankObj.DisplayODLimit);
+                                        bankObj.Company = new Companies();
+                                       bankObj.Company.Name= (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : bankObj.Company.Name);
                                     }
-                                    bankList.Add(_bankObj);
+                                    bankList.Add(bankObj);
                                 }
                             }
                         }
@@ -116,7 +118,7 @@ namespace SPAccounts.RepositoryServices.Services
         #region GetBankDetailsByCode
         public Bank GetBankDetailsByCode(string Code)
         {
-            Bank _bankObj = null;
+            Bank bankObj = null;
             try
             {
                 using (SqlConnection con = _databaseFactory.GetDBConnection())
@@ -136,10 +138,12 @@ namespace SPAccounts.RepositoryServices.Services
                             if ((sdr != null) && (sdr.HasRows))
                                 if (sdr.Read())
                                 {
-                                    _bankObj = new Bank();
-                                    _bankObj.Code = (sdr["Code"].ToString() != "" ? (sdr["Code"].ToString()) : _bankObj.Code);
-                                    _bankObj.Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : _bankObj.Name);
-                                    _bankObj.CompanyCode = (sdr["CompanyCode"].ToString() != "" ? sdr["CompanyCode"].ToString() : _bankObj.CompanyCode);
+                                    bankObj = new Bank();
+                                    bankObj.Code = (sdr["Code"].ToString() != "" ? (sdr["Code"].ToString()) : bankObj.Code);
+                                    bankObj.Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : bankObj.Name);
+                                    bankObj.CompanyCode = (sdr["CompanyCode"].ToString() != "" ? sdr["CompanyCode"].ToString() : bankObj.CompanyCode);
+                                    bankObj.ActualODLimit = (sdr["ActualODLimit"].ToString() != "" ? Convert.ToDecimal(sdr["ActualODLimit"].ToString()) : bankObj.ActualODLimit);
+                                    bankObj.DisplayODLimit = (sdr["DisplayODLimit"].ToString() != "" ? Convert.ToDecimal(sdr["DisplayODLimit"].ToString()) : bankObj.DisplayODLimit);
 
                                 }
                         }
@@ -152,16 +156,16 @@ namespace SPAccounts.RepositoryServices.Services
                 throw ex;
             }
 
-            return _bankObj;
+            return bankObj;
         }
         #endregion GetBankDetailsByCode
 
         #region InsertBank
-        public Bank InsertBank(Bank _bankObj)
+        public object InsertBank(Bank bankObj)
         {
+            SqlParameter outputStatus, outputCode = null;
             try
             {
-                SqlParameter outputStatus, outputCode = null;
                 using (SqlConnection con = _databaseFactory.GetDBConnection())
                 {
                     using (SqlCommand cmd = new SqlCommand())
@@ -173,11 +177,13 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[InsertBank]";
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@Code", SqlDbType.VarChar, 5).Value = _bankObj.Code;
-                        cmd.Parameters.Add("@Name", SqlDbType.VarChar, 100).Value = _bankObj.Name;
-                        cmd.Parameters.Add("@CompanyCode", SqlDbType.VarChar,10).Value = _bankObj.CompanyCode;                        
-                        cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value =_bankObj.commonObj.CreatedBy;
-                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = _bankObj.commonObj.CreatedDate;
+                        cmd.Parameters.Add("@Code", SqlDbType.VarChar, 5).Value = bankObj.Code;
+                        cmd.Parameters.Add("@Name", SqlDbType.VarChar, 100).Value = bankObj.Name;
+                        cmd.Parameters.Add("@CompanyCode", SqlDbType.VarChar,10).Value = bankObj.CompanyCode;                        
+                        cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value =bankObj.commonObj.CreatedBy;
+                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = bankObj.commonObj.CreatedDate;
+                        cmd.Parameters.Add("@ActualODLimit", SqlDbType.Decimal).Value = bankObj.ActualODLimit;
+                        cmd.Parameters.Add("@DisplayODLimit", SqlDbType.Decimal).Value = bankObj.DisplayODLimit;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         outputCode = cmd.Parameters.Add("@CodeOut", SqlDbType.VarChar,5);
@@ -194,10 +200,14 @@ namespace SPAccounts.RepositoryServices.Services
                         AppConst Cobj = new AppConst();
                         throw new Exception(Cobj.InsertFailure);
                     case "1":
-                        _bankObj.Code = outputCode.Value.ToString();
-                        break;
-                    default:
-                        break;
+                        bankObj.Code = outputCode.Value.ToString();
+                        return new
+                        {
+                            Code = outputCode.Value.ToString(),
+                            Status = outputStatus.Value.ToString(),
+                            Message = "InsertSuccess"
+                        };
+                       
                 }
 
             }
@@ -206,12 +216,17 @@ namespace SPAccounts.RepositoryServices.Services
 
                 throw ex;
             }
-            return _bankObj;
+            return new
+            {
+                Code = outputCode.Value.ToString(),
+                Status = outputStatus.Value.ToString(),
+                Message = "InsertSuccess"
+            };
         }
         #endregion InsertBank
 
         #region UpdateBank
-        public object UpdateBank(Bank _bankObj)
+        public object UpdateBank(Bank bankObj)
         {
             SqlParameter outputStatus = null;
             try
@@ -228,11 +243,13 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[UpdateBank]";
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@Code", SqlDbType.VarChar, 5).Value = _bankObj.Code;
-                        cmd.Parameters.Add("@Name", SqlDbType.VarChar, 100).Value = _bankObj.Name;
-                        cmd.Parameters.Add("@CompanyCode", SqlDbType.VarChar, 10).Value = _bankObj.CompanyCode;
-                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = _bankObj.commonObj.UpdatedBy;
-                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = _bankObj.commonObj.UpdatedDate;
+                        cmd.Parameters.Add("@Code", SqlDbType.VarChar, 5).Value = bankObj.Code;
+                        cmd.Parameters.Add("@Name", SqlDbType.VarChar, 100).Value = bankObj.Name;
+                        cmd.Parameters.Add("@CompanyCode", SqlDbType.VarChar, 10).Value = bankObj.CompanyCode;
+                        cmd.Parameters.Add("@ActualODLimit", SqlDbType.Decimal).Value = bankObj.ActualODLimit;
+                        cmd.Parameters.Add("@DisplayODLimit", SqlDbType.Decimal).Value = bankObj.DisplayODLimit;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = bankObj.commonObj.UpdatedBy;
+                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = bankObj.commonObj.UpdatedDate;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();
@@ -247,7 +264,7 @@ namespace SPAccounts.RepositoryServices.Services
                         
                         throw new Exception(Cobj.UpdateFailure);
                     case "1":
-                        _bankObj.Code = outputStatus.Value.ToString();
+                        bankObj.Code = outputStatus.Value.ToString();
                         break;
                     default:
                         break;

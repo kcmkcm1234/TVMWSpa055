@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Newtonsoft.Json;
+using SAMTool.DataAccessObject.DTO;
 using SPAccounts.BusinessService.Contracts;
 using SPAccounts.DataAccessObject.DTO;
 using SPAccounts.UserInterface.SecurityFilter;
@@ -50,7 +51,17 @@ namespace UserInterface.Controllers
                         Selected = false
                     });
                 }
-                bankViewModel.CompaniesList = selectListItem;                
+                bankViewModel.CompaniesList = selectListItem;
+                Permission _permission = Session["UserRights"] as Permission;
+                string p = _permission.SubPermissionList.Where(li => li.Name == "ODLimit").First().AccessCode;
+                if (p.Contains("R") || p.Contains("W"))
+                {
+                    bankViewModel.ShowODLimit = true;
+                }
+                else
+                {
+                    bankViewModel.ShowODLimit = false;
+                }
             }
             catch (Exception ex)
             {
@@ -68,6 +79,19 @@ namespace UserInterface.Controllers
             {
 
                 List<BankViewModel> BankList = Mapper.Map<List<Bank>, List<BankViewModel>>(_bankBusiness.GetAllBanks());
+                Permission _permission = Session["UserRights"] as Permission;
+                string p = _permission.SubPermissionList.Where(li => li.Name == "ODLimit").First().AccessCode;
+                foreach (var Item in BankList)
+                {
+                    if (p.Contains("R") || p.Contains("W"))
+                    {
+                        Item.ShowODLimit = true;
+                    }
+                    else
+                    {
+                        Item.ShowODLimit = false;
+                    }
+                }
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = BankList });
             }
             catch (Exception ex)
