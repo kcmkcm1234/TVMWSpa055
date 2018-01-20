@@ -175,7 +175,7 @@ namespace SPAccounts.RepositoryServices.Services
         #region InsertValidateRows
         public List<ImportOtherExpenses> InsertValidateExpenseData(List<ImportOtherExpenses> importOtherExpenseList,bool flag)
         {
-            List<ChartOfAccounts>   chartOfAccountsList   = _chartOfAccountsRepository.GetAllChartOfAccounts();
+            List<ChartOfAccounts>   chartOfAccountsList   = _chartOfAccountsRepository.GetAllChartOfAccounts("OE");
             List<Companies>         companiesList         = _companiesRepository.GetAllCompanies();
             List<Employee>          employeeList          = _employeeRepository.GetAllEmployees();
             try

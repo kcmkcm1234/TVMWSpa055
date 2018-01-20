@@ -78,7 +78,7 @@ namespace UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/Employee").Include("~/Scripts/UserJS/Employee.js"));
             bundles.Add(new ScriptBundle("~/bundles/BankBalance").Include("~/Scripts/UserJS/BankBalance.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/AdminDash").Include("~/Scripts/UserJS/MonthlyRecap.js", "~/Scripts/UserJS/ExpenseSummary.js","~/Scripts/UserJS/Outstanding.js", "~/Scripts/UserJS/TopCustomers.js", "~/Scripts/UserJS/TopSuppliers.js", "~/Scripts/UserJS/Dashboard.js"));
+            bundles.Add(new ScriptBundle("~/bundles/AdminDash").Include("~/Scripts/UserJS/MonthlyRecap.js", "~/Scripts/UserJS/ExpenseSummary.js", "~/Scripts/UserJS/Outstanding.js", "~/Scripts/UserJS/TopCustomers.js", "~/Scripts/UserJS/TopSuppliers.js", "~/Scripts/UserJS/Dashboard.js"));
             bundles.Add(new ScriptBundle("~/bundles/SaleSummaryReport").Include("~/Scripts/UserJS/SaleSummaryReport.js"));
             bundles.Add(new ScriptBundle("~/bundles/SalesDetailReport").Include("~/Scripts/UserJS/SalesDetailReport.js"));
             bundles.Add(new ScriptBundle("~/bundles/OtherExpenseSummaryReport").Include("~/Scripts/UserJS/OtherExpenseSummaryReport.js"));
@@ -98,7 +98,7 @@ namespace UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/OtherIncomeDetailsReport").Include("~/Scripts/UserJS/OtherIncomeDetailsReport.js"));
             bundles.Add(new ScriptBundle("~/bundles/DailyLedgerReport").Include("~/Scripts/UserJS/DailyLedgerReport.js"));
             bundles.Add(new ScriptBundle("~/bundles/TrialBalanceReport").Include("~/Scripts/UserJS/TrialBalanceReport.js"));
-            
+
             bundles.Add(new ScriptBundle("~/bundles/UndepositedCheque").Include("~/Scripts/UserJS/UndepositedCheque.js"));
             bundles.Add(new ScriptBundle("~/bundles/DepositAndWithdrawals").Include("~/Scripts/UserJS/DepositAndWithdrawals.js"));
             bundles.Add(new ScriptBundle("~/bundles/ChartOfAccounts").Include("~/Scripts/UserJS/ChartOfAccounts.js"));
@@ -111,7 +111,7 @@ namespace UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/SupplierExpeditingReport").Include("~/Scripts/UserJS/SupplierExpeditingDetailsReport.js"));
             bundles.Add(new ScriptBundle("~/bundles/OutgoingCheque").Include("~/Scripts/UserJS/OutgoingCheque.js"));
             bundles.Add(new ScriptBundle("~/bundles/ImportOtherExpenses").Include("~/Scripts/UserJS/ImportOtherExpenses.js"));
-        }
+
             bundles.Add(new ScriptBundle("~/bundles/OtherExpenseLimitedDetailsReport").Include("~/Scripts/UserJS/OtherExpenseLimitedDetailsReport.js"));
         
     }
