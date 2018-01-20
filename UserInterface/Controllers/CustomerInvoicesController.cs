@@ -10,6 +10,7 @@ using System.Web;
 using System.IO;
 using SPAccounts.UserInterface.SecurityFilter;
 using System.Linq;
+using SAMTool.DataAccessObject.DTO;
 
 namespace UserInterface.Controllers
 {
@@ -48,6 +49,18 @@ namespace UserInterface.Controllers
             ViewBag.value = id;
             List<SelectListItem> selectListItem = new List<SelectListItem>();
             CustomerInvoicesViewModel CI = new CustomerInvoicesViewModel();
+
+            Permission permission = Session["UserRights"] as Permission;
+            string permissionAccess = permission.SubPermissionList.Where(li => li.Name == "PBAccess").First().AccessCode;
+
+            if (permissionAccess.Contains("R") || permissionAccess.Contains("W"))
+            {
+                CI.PBAccess = true;
+            }
+            else
+            {
+                CI.PBAccess = false;
+            }
 
             CI.customerObj = new CustomerViewModel();
             CI.paymentTermsObj = new PaymentTermsViewModel();
@@ -167,22 +180,24 @@ namespace UserInterface.Controllers
             {
                 AppUA _appUA = Session["AppUA"] as AppUA;
                 CustomerInvoiceBundleViewModel Result = new CustomerInvoiceBundleViewModel();
+                Permission permission = Session["UserRights"] as Permission;
+                string permissionAccess = permission.SubPermissionList.Where(li => li.Name == "PBAccess").First().AccessCode;
 
-                string[] arr = _appUA.RolesCSV.Split(',');
-                if (arr.Contains("SAdmin")|| arr.Contains("CEO"))
+                if (permissionAccess.Contains("R") || permissionAccess.Contains("W"))
                 {
-                    DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
-                    DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                    Result.CustomerInvoiceSummary = Mapper.Map<CustomerInvoiceSummary, CustomerInvoiceSummaryViewModel>(_customerInvoicesBusiness.GetCustomerInvoicesSummaryForSA());
-                    Result.CustomerInvoices = Mapper.Map<List<CustomerInvoice>, List<CustomerInvoicesViewModel>>(_customerInvoicesBusiness.GetAllCustomerInvoicesForSA(FDate,TDate, Customer, InvoiceType, Company, Status, Search));
-                } 
+                    Result.PBAccess = true;
+                }
                 else
                 {
-                    DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
-                    DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                    Result.CustomerInvoiceSummary = Mapper.Map<CustomerInvoiceSummary, CustomerInvoiceSummaryViewModel>(_customerInvoicesBusiness.GetCustomerInvoicesSummary(true));
-                    Result.CustomerInvoices = Mapper.Map<List<CustomerInvoice>, List<CustomerInvoicesViewModel>>(_customerInvoicesBusiness.GetAllCustomerInvoices(FDate, TDate, Customer, InvoiceType, Company, Status, Search));
+                    Result.PBAccess = false;
                 }
+
+                DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
+                DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
+                Result.CustomerInvoiceSummary = Mapper.Map<CustomerInvoiceSummary, CustomerInvoiceSummaryViewModel>(_customerInvoicesBusiness.GetCustomerInvoicesSummaryForSA());
+                Result.CustomerInvoices = Mapper.Map<List<CustomerInvoice>, List<CustomerInvoicesViewModel>>(_customerInvoicesBusiness.GetAllCustomerInvoicesForSA(FDate,TDate, Customer, InvoiceType, Company, Status, Search,Result.PBAccess));
+
+                
                 if (filter != null && filter=="OD")
                 {
                     Result.CustomerInvoices = Result.CustomerInvoices.Where(m => m.PaymentDueDate < _appUA.DateTime && m.BalanceDue > 0).ToList();
@@ -232,7 +247,7 @@ namespace UserInterface.Controllers
             try
             {
                 string DuePaymentDueDateFormatted;
-                Common com = new Common();
+                SAMTool.DataAccessObject.DTO.Common com = new SAMTool.DataAccessObject.DTO.Common();
                 DateTime Datenow = com.GetCurrentDateTime();
                 PaymentTermsViewModel payTermsObj= Mapper.Map<PaymentTerms, PaymentTermsViewModel>(_paymentTermsBusiness.GetPayTermDetails(Code));
                 if (InvDate == "") {

@@ -101,6 +101,8 @@ function GetAllCompanies() {
         $("#BillingAddress").val(thisItem.BillingAddress);
         $("#ShippingAddress").val(thisItem.ShippingAddress);
         $("#ddlApprover").val(thisItem.ApproverID);
+        $("#LogoURL").val(thisItem.LogoURL);
+        $('#imgid').attr('src', thisItem.LogoURL);
         $("#hdnCode").val(thisItem.Code);
         $("#Code").prop('disabled', true);
     }

@@ -465,6 +465,15 @@ namespace SPAccounts.DataAccessObject.DTO
         public string Search { get; set; }
     }
 
+    public class ReportAccountsReceivableAgeingSearch
+    {
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+        public string CompanyCode { get; set; }
+        public string CustomerIDs { get; set; }
+        public string Search { get; set; }
+    }
+
 
 }
 
