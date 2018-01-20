@@ -1572,6 +1572,7 @@
     <Content Include="Scripts\UserJS\EmployeeCategory.js" />
     <Content Include="Scripts\UserJS\EmployeeExpenseSummaryReport.js" />
     <Content Include="Scripts\UserJS\ExpenseSummary.js" />
+    <Content Include="Scripts\UserJS\ImportOtherExpenses.js" />
     <Content Include="Scripts\UserJS\MonthlyRecap.js" />
     <Content Include="Scripts\UserJS\Login.js" />
     <Content Include="Scripts\UserJS\ManageAccess.js" />
@@ -1649,6 +1650,7 @@
     <Compile Include="Controllers\EmployeeCategoryController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\FileUploadController.cs" />
+    <Compile Include="Controllers\ImportOtherExpensesController.cs" />
     <Compile Include="Controllers\OtherExpensesController.cs" />
     <Compile Include="Controllers\OtherIncomeController.cs" />
     <Compile Include="Controllers\PDFGeneratorController.cs" />
@@ -1676,6 +1678,8 @@
     <Compile Include="Models\DepositAndWithdrwalViewModel.cs" />
     <Compile Include="Models\EmployeeViewModel.cs" />
     <Compile Include="Models\ChartOfAccountsViewModel.cs" />
+    <Compile Include="Models\ImportOtherExpensesViewModel.cs" />
+    <Compile Include="Models\UploadedFilesViewModel.cs" />
     <Compile Include="Models\OtherExpenseViewModel.cs" />
     <Compile Include="Models\CommonViewModel.cs" />
     <Compile Include="Models\CompaniesViewModel.cs" />
@@ -1789,6 +1793,7 @@
     <Content Include="Views\Company\Index.cshtml" />
     <Content Include="Views\User\_RoleList.cshtml" />
     <Content Include="Views\DepositAndWithdrawals\OutgoingCheques.cshtml" />
+    <Content Include="Views\ImportOtherExpenses\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
