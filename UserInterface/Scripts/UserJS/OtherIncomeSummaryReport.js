@@ -1,6 +1,6 @@
 ﻿var DataTables = {};
-var startdate = '';
-var enddate = '';
+var StartDate = '';
+var EndDate = '';
 $(document).ready(function () {
     debugger;
     $("#CompanyCode,#AccountCode,#Subtype,#Employee").select2({
@@ -66,8 +66,8 @@ $(document).ready(function () {
          });
 
         $(".buttons-excel").hide();
-        startdate = $("#todate").val();
-        enddate = $("#fromdate").val();
+        StartDate = $("#todate").val();
+        EndDate = $("#fromdate").val();
 
         DataTables.otherIncomeDetailsReportAHTable = $('#otherIncomeDetailsAHTable').DataTable(
          {
@@ -183,8 +183,8 @@ function OnChangeCall() {
 function Reset() {
     debugger;
 
-    $("#todate").val(startdate);
-    $("#fromdate").val(enddate);
+    $("#todate").val(StartDate);
+    $("#fromdate").val(EndDate);
     $("#CompanyCode").val('ALL').trigger('change')
     $("#AccountCode").val('ALL').trigger('change')
     $("#Subtype").val('').trigger('change')
@@ -197,7 +197,6 @@ function Reset() {
 function ViewOtherIncomeDetail(row_obj) {
     debugger;
     var rowData = DataTables.otherIncomeSummaryReportAHTable.row($(row_obj).parents('tr')).data();
-
     openNav();
     DataTables.otherIncomeDetailsReportAHTable.clear().rows.add(GetIncomeDetailsReport(rowData)).draw(true);
 }
@@ -206,7 +205,6 @@ function GetIncomeDetailsReport(rowData) {
     try {
         debugger;
         // $("#lblDetailsHead").text(rowData.AccountHeadORSubtype);
-
         if (rowData.SubTypeDesc != null)
             $("#lblDetailsHead").text(rowData.AccountHeadORSubtype + '-' + rowData.SubTypeDesc);
         else
@@ -222,8 +220,6 @@ function GetIncomeDetailsReport(rowData) {
         else
             var Employeeorother = $("#Employee").val();
         //var Employeecompany = $("#EmpCompany").val();
-
-
         if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
             var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "accounthead": AccountHead, "subtype": Subtype, "employeeorother": Employeeorother};
             var ds = {};
@@ -246,7 +242,6 @@ function GetIncomeDetailsReport(rowData) {
 
 function AccountCodeOnchange(curobj) {
     debugger;
-
     var AcodeCombined = $(curobj).val();
     if (AcodeCombined) {
         var len = AcodeCombined.indexOf(':');
@@ -270,7 +265,6 @@ function AccountCodeOnchange(curobj) {
     OnChangeCall();
 }
 
-
 function BindEmployeeDropDown(type) {
     debugger;
     try {
@@ -281,12 +275,8 @@ function BindEmployeeDropDown(type) {
             for (var i = 0; i < employees.length; i++) {
                 var opt = new Option(employees[i].Name, employees[i].ID);
                 $('#Employee').append(opt);
-
             }
         }
-
-
-
     }
     catch (e) {
         notyAlert('error', e.message);

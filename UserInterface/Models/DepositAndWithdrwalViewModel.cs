@@ -62,6 +62,14 @@ namespace UserInterface.Models
         public Guid TransferID { get; set; }
         public OutgoingChequeAdvanceSearchViewModel OutAdvanceSearch { get; set; }
         public OutGoingChequesViewModel OutGoingObj { get; set; }
+        public CompaniesViewModel CompanyObj { get; set; }
+        public UndepositedChequeAdvanceSearchViewModel undepositedChequeAdvanceSearchObj { get; set; }
+        public CustomerViewModel CustomerObj { get; set; }
+        public string Company { get; set; }
+        public string Customer { get; set; }
+        public BankViewModel BankObj { get; set; }
+        public string Bank { get; set; }
+        public string Search { get; set; }
     }
 
     public class OutGoingChequesViewModel
@@ -88,6 +96,16 @@ namespace UserInterface.Models
         public string FromDate { get; set; }
         public string Company { get; set; }
         public string Status { get; set; }
+        public string Search { get; set; }
+    }
+
+    public class UndepositedChequeAdvanceSearchViewModel
+    {
+        public string ToDate { get; set; }
+        public string FromDate { get; set; }
+        public string Company { get; set; }
+        public string Customer { get; set; }
+        public string BankCode { get; set; }
         public string Search { get; set; }
     }
 }

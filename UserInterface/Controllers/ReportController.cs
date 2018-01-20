@@ -1269,18 +1269,42 @@ namespace UserInterface.Controllers
                 return View(accountsPayableAgeingReportViewModel);
         }
 
-
+        /// <summary>
+        /// To get AccountsPayableAgeingDetails
+        /// </summary>
+        /// <param name="reportAdvanceSearchObject"></param>
+        /// <returns></returns>
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
-        public string GetAccountsPayableAgeingDetails(string FromDate, string ToDate, string CompanyCode,string[] SupplierIDs)
+        public string GetAccountsPayableAgeingDetails(string reportAdvanceSearchObject)
         {
-            if (!string.IsNullOrEmpty(CompanyCode))
+            AppUA appUA = Session["AppUA"] as AppUA;
+            ReportAdvanceSearch reportAdvanceSearchObj = reportAdvanceSearchObject != null ? JsonConvert.DeserializeObject<ReportAdvanceSearch>(reportAdvanceSearchObject) : new ReportAdvanceSearch();
+            
+            
+            if(reportAdvanceSearchObject == null)
+            {
+                reportAdvanceSearchObj.CompanyCode = "ALL";
+                reportAdvanceSearchObj.FromDate = appUA.DateTime.AddDays(-90).ToString("dd-MMM-yyyy");
+                reportAdvanceSearchObj.ToDate = appUA.DateTime.ToString("dd-MMM-yyyy");
+            }
+           
+           
+            if (reportAdvanceSearchObj.SupplierIDs != null)
+            {
+                reportAdvanceSearchObj.SupplierIDs = String.Join(",", reportAdvanceSearchObj.SupplierIDs);
+            }
+            else
+            {
+                reportAdvanceSearchObj.SupplierIDs = "ALL";
+            }
+            if (!string.IsNullOrEmpty(reportAdvanceSearchObj.CompanyCode))
             {
                 try
                 {
-                    DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
-                    DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                    List<AccountsPayableAgeingReportViewModel> accountsPayableAgeingReportList = Mapper.Map<List<AccountsPayableAgeingReport>, List<AccountsPayableAgeingReportViewModel>>(_reportBusiness.GetAccountsPayableAgeingReport(FDate, TDate, CompanyCode, SupplierIDs != null ? String.Join(",", SupplierIDs) : "ALL"));
+                    //DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
+                    //DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
+                    List<AccountsPayableAgeingReportViewModel> accountsPayableAgeingReportList = Mapper.Map<List<AccountsPayableAgeingReport>, List<AccountsPayableAgeingReportViewModel>>(_reportBusiness.GetAccountsPayableAgeingReport(reportAdvanceSearchObj));
                     return JsonConvert.SerializeObject(new { Result = "OK", Records = accountsPayableAgeingReportList });
                 }
                 catch (Exception ex)
@@ -1288,7 +1312,6 @@ namespace UserInterface.Controllers
                     return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
                 }
             }
-
             return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
         }
 
@@ -1658,8 +1681,8 @@ namespace UserInterface.Controllers
             {
                 DateTime? fDate = string.IsNullOrEmpty(fromDate) ? (DateTime?)null : DateTime.Parse(fromDate);
                 DateTime? tDate = string.IsNullOrEmpty(toDate) ? (DateTime?)null : DateTime.Parse(toDate);
-                List<SupplierPaymentLedgerViewModel> supplierPaymentLedgerList = Mapper.Map<List<SupplierPaymentLedger>, List<SupplierPaymentLedgerViewModel>>(_reportBusiness.GetSupplierPaymentLedger(fDate, tDate, supplierCode!=null? String.Join(",", supplierCode):"ALL",company, invoiceType));
-
+                List<SupplierPaymentLedgerViewModel> supplierPaymentLedgerList = Mapper.Map<List<SupplierPaymentLedger>, List<SupplierPaymentLedgerViewModel>>(_reportBusiness.GetSupplierPaymentLedger(fDate, tDate, supplierCode!=null? String.Join(",", supplierCode):"ALL",company, invoiceType));  
+                            
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = supplierPaymentLedgerList });
             }
             catch (Exception ex)
@@ -1767,7 +1790,18 @@ namespace UserInterface.Controllers
 
             return View(otherIncomeSummaryReportViewModel);
         }
-
+        #region GetOtherIncomeSummary
+        /// <summary>
+        /// To get otherincome summary
+        /// </summary>
+        /// <param name="FromDate"></param>
+        /// <param name="ToDate"></param>
+        /// <param name="CompanyCode"></param>
+        /// <param name="accounthead"></param>
+        /// <param name="subtype"></param>
+        /// <param name="employeeorother"></param>
+        /// <param name="search"></param>
+        /// <returns></returns>
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "OtherIncomeReport", Mode = "R")]
         public string GetOtherIncomeSummary(string FromDate, string ToDate, string CompanyCode, string accounthead,string subtype, string employeeorother, string search)
@@ -1779,8 +1813,8 @@ namespace UserInterface.Controllers
                     DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
                     List<OtherIncomeSummaryReportViewModel> otherIncomeSummaryReportList = Mapper.Map<List<OtherIncomeSummaryReport>, List<OtherIncomeSummaryReportViewModel>>(_reportBusiness.GetOtherIncomeSummary(FDate, TDate, CompanyCode, accounthead.Split(':')[0],subtype,employeeorother, search));
-
-                    decimal otherIncomeSum = otherIncomeSummaryReportList.Sum(OE => OE.Amount);
+                    //to claculte otherincomesum using linq
+                    decimal otherIncomeSum = otherIncomeSummaryReportList.Where(OE=>OE.AccountHead=="GTL").Select(OE => OE.Amount).ToArray()[0];
                     string otherIncomeSumFormatted = _commonBusiness.ConvertCurrency(otherIncomeSum, 2);
 
 
@@ -1794,7 +1828,7 @@ namespace UserInterface.Controllers
             }
             return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CompanyCode is required" });
         }
-
+        #endregion GetOtherIncomeSummary
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "OtherIncomeReport", Mode = "R")]
         public ActionResult OtherIncomeDetails()

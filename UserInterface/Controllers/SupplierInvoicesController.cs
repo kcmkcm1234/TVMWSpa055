@@ -287,6 +287,34 @@ namespace UserInterface.Controllers
         }
         #endregion DeleteSupplierInvoice
 
+        #region CheckProfileExists
+        /// <summary>
+        ///  To check profile exists or not
+        /// </summary>
+        /// <param name="invoiceNo"></param>
+        /// <param name="supplierID"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "SupplierInvoices", Mode = "R")]
+        public string CheckProfileExists(string invoiceNo, Guid supplierID)
+        {
+            try
+            {            
+                bool result;
+                AppUA _appUA = Session["AppUA"] as AppUA;
+                result = _supplierInvoicesBusiness.CheckProfileExists(invoiceNo, supplierID);
+                return JsonConvert.SerializeObject(new { Result = "OK", Message = result });        
+               
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion CheckProfileExists
+
+
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "SupplierInvoices", Mode = "R")]
         public string GetTaxRate(string Code)

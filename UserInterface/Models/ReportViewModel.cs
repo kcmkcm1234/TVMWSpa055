@@ -370,6 +370,8 @@ namespace UserInterface.Models
         public List<SelectListItem> supplierList { get; set; }
         public List<SelectListItem> CompanyList { get; set; }
         public List<CompaniesViewModel> companiesList;
+        public ReportAdvanceSearchViewModel reportAdvanceSearchObj { get; set; }
+        public string Search { get; set; }
     }
 
     public class AccountsPayableAgeingSummaryReportViewModel
@@ -635,12 +637,10 @@ namespace UserInterface.Models
         public string Supplier { get; set; }
         public string FromDate { get; set; }
         public string InvoiceType { get; set; }
-        public string Customer { get; set; }
-    }
-
-
-
-
-   
+        public string Customer { get; set; }  
+        public string CompanyCode { get; set; }      
+        public string SupplierIDs { get; set; }
+        public string Search { get; set; }
+    }  
   
 }
