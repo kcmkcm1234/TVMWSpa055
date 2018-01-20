@@ -31,6 +31,7 @@ namespace UserInterface.SecurityFilter
                     toolbar.savebtn = setAccess(toolbar.savebtn, _permission);
                     toolbar.WithdrawBtn = setAccess(toolbar.WithdrawBtn, _permission);
                     toolbar.LimitBtn = setAccess(toolbar.LimitBtn, _permission);
+                    toolbar.HistoryBtn = setAccess(toolbar.HistoryBtn, _permission);
                 }
 
                 return toolbar;

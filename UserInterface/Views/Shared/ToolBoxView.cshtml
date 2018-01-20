@@ -340,5 +340,27 @@
     }
 
 
- 
+    @if (Model.HistoryBtn.Visible)
+    {
+        if (Model.HistoryBtn.Disable)
+        {
+
+            <a class="thr_disbtn" title="@Model.HistoryBtn.Title-@Model.HistoryBtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/history.PNG")">
+                <span class="btnText">@Model.HistoryBtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.HistoryBtn.Title" class="thr_btn" onclick=@Model.HistoryBtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/history.PNG")">
+                <span class="btnText">@Model.HistoryBtn.Text</span>
+            </a>
+        }
+
+    }
+
+
+
 </div>
