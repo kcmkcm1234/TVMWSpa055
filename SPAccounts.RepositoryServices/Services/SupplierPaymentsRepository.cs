@@ -245,7 +245,8 @@ namespace SPAccounts.RepositoryServices.Services
                                     PaymentsObj.supplierPaymentsDetailObj.PaymentDueDate = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString("dd-MMM-yyyy").ToString() : PaymentsObj.supplierPaymentsDetailObj.PaymentDueDate);
                                     PaymentsObj.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : PaymentsObj.Type);
                                     PaymentsObj.supplierPaymentsDetailObj.BalancePayment = (sdr["BalancePayment"].ToString() != "" ? decimal.Parse(sdr["BalancePayment"].ToString()) : PaymentsObj.supplierPaymentsDetailObj.BalancePayment);
-                                  
+                                    PaymentsObj.CompanyObj = new Companies();
+                                    PaymentsObj.CompanyObj.Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : PaymentsObj.CompanyObj.Name);
                                 }
                                 PaymentsList.Add(PaymentsObj);
                             }

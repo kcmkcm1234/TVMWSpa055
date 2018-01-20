@@ -5,13 +5,15 @@ $(document).ready(function () {
     try {
         $("#ddlSupplier,#Supplierddl,#filterEmpID,#ddlfilterAccountCode,#AccountCode,#EmpID").select2({
         });
-        $('#btnUpload').click(function () {
+        $('#btnUpload').click(function ()
+        {
             //Pass the controller name
             var FileObject = new Object;
             if ($('#hdnFileDupID').val() != emptyGUID) {
                 FileObject.ParentID = (($('#ID').val()) != "" ? ($('#ID').val()) : $('#hdnFileDupID').val());
             }
-            else {
+            else
+            {
                 FileObject.ParentID = $('#ID').val();
             }
 
@@ -63,7 +65,7 @@ $(document).ready(function () {
               },
               { "data": "PaymentDueDateFormatted", "defaultContent": "<i>-</i>", "width": "8%" },
               { "data": "TotalInvoiceAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>", "width": "10%" },
-               { "data": "PaidAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>", "width": "10%" },
+              { "data": "PaidAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>", "width": "10%" },
               { "data": "PaymentProcessed", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>", "width": "10%" },
               { "data": "BalanceDue", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>", "width": "10%" },
               { "data": "LastPaymentDateFormatted", "defaultContent": "<i>-</i>","width":"8%" },
@@ -72,15 +74,12 @@ $(document).ready(function () {
               { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
             ],
             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                 { className: "text-right", "targets": [5, 6,7,8] },
+               { className: "text-right", "targets": [5, 6,7,8] },
                { className: "text-Left", "targets": [1,3,10] },
-            { className: "text-center", "targets": [ 2,4,9,11] }
-
+               { className: "text-center", "targets": [ 2,4,9,11] }
             ]
         });
-
-        $(".buttons-excel").hide();
-        
+        $(".buttons-excel").hide();        
         $('.Roundoff').on('change', function () {
             debugger;
             if ((parseFloat($('#txtDiscount').val())) > (parseFloat($('#txtGrossAmt').val())) || $("#txtDiscount").val() == "") {
@@ -97,12 +96,11 @@ $(document).ready(function () {
             $('#txtNetTaxableAmt').val(SupplierInvoiceViewModel.NetTaxableAmount);
             $('#ShippingCharge').val(roundoff(SupplierInvoiceViewModel.ShippingCharge));
             $('#txtTaxAmt').val(roundoff(SupplierInvoiceViewModel.TaxAmount));
-            $('#txtTotalInvAmt').val(SupplierInvoiceViewModel.TotalInvoiceAmount);
-           
+            $('#txtTotalInvAmt').val(SupplierInvoiceViewModel.TotalInvoiceAmount);         
 
         });
-        $('#txtTaxPercApp').on('keypress', function () {
-            debugger;
+        $('#txtTaxPercApp').on('keypress', function ()
+        {
             if ($('#ddlTaxType').val() != "")
                 $('#ddlTaxType').val('')
         });
@@ -136,19 +134,22 @@ $(document).ready(function () {
                  { "data": "PaymentDueDateFormatted", "defaultContent": "<i>-</i>", "width": "10%" },
                  {
                      "data": "TotalInvoiceAmount", "defaultContent": "<i>-</i>", "width": "15%",
-                     'render': function (data, type, row) {
+                     'render': function (data, type, row)
+                     {
                          return roundoff(row.TotalInvoiceAmount)
                      }
                  },
                  {
                      "data": "OtherPayments", "defaultContent": "<i>-</i>", "width": "15%",
-                     'render': function (data, type, row) {
+                     'render': function (data, type, row)
+                     {
                          return roundoff(row.OtherPayments)
                      }
                  },
                  {
                      "data": "BalanceDue", "defaultContent": "<i>-</i>", "width": "10%",
-                     'render': function (data, type, row) {
+                     'render': function (data, type, row)
+                     {
                          return roundoff(row.BalanceDue)
                      }
                  },
@@ -190,13 +191,16 @@ $(document).ready(function () {
 
     }
 
-    if ($('#BindValue').val() != '') {
+    if ($('#BindValue').val() != '')
+    {
         dashboardBind($('#BindValue').val())
     }
 
 });
 
-function PrintReport() {
+//To trigger export button
+function PrintReport()
+{
     try {
         debugger;
 
@@ -204,19 +208,21 @@ function PrintReport() {
 
 
     }
-    catch (e) {
+    catch (e)
+    {
         notyAlert('error', e.message);
     }
 }
 
-function dashboardBind(ID){
+function dashboardBind(ID)
+{
     ResetForm(); 
     $('#ID').val(ID);
     PaintInvoiceDetails();
     openNav();
 }
 
-
+//To reset form
 function ResetForm() {
     var validator = $("#SupplierInvoiceForm").validate();
     $('#SupplierInvoiceForm').find('.field-validation-error span').each(function () {
@@ -225,7 +231,9 @@ function ResetForm() {
     validator.resetForm();
     $('#SupplierInvoiceForm')[0].reset();
 }
-function Edit(Obj) {
+
+function Edit(Obj)
+{
     debugger;
     ResetForm(); 
     var rowData = DataTables.SupplInvTable.row($(Obj).parents('tr')).data();
@@ -233,8 +241,9 @@ function Edit(Obj) {
     PaintInvoiceDetails();
     openNav();
 }
-function PaintInvoiceDetails() {
-    debugger;
+
+function PaintInvoiceDetails()
+{
     ChangeButtonPatchView("SupplierInvoices", "btnPatchAdd", "Edit"); //ControllerName,id of the container div,Name of the action
     var InvoiceID = $('#ID').val();
     var SupplierInvoiceViewModel = GetSupplierInvoiceDetails(InvoiceID);
@@ -274,20 +283,23 @@ function PaintInvoiceDetails() {
     clearUploadControl();
     PaintImages(InvoiceID);
 }
-function List() {
-    debugger;
+function List()
+{
     $('#filter').hide();
     var result = GetAllInvoicesAndSummary();
-    if (result != null) {
+    if (result != null)
+    {
         if (result.SupplierInvoices != null)
             DataTables.SupplInvTable.clear().rows.add(result.SupplierInvoices).draw(false);
-        if (result.SupplierInvoiceSummary != null) {
+        if (result.SupplierInvoiceSummary != null)
+        {
             Summary(result.SupplierInvoiceSummary);
         }
     }
-
 }
-function Summary(Records) {
+
+function Summary(Records)
+{
     $('#overdueamt').html(Records.OverdueAmountFormatted);
     $('#overdueinvoice').html(Records.OverdueInvoices);
     $('#openamt').html(Records.OpenAmountFormatted);
@@ -296,8 +308,10 @@ function Summary(Records) {
     $('#paidinvoice').html(Records.PaidInvoices);
 }
 //---------------Bind logics-------------------
-function GetAllInvoicesAndSummary(filter) {
-    try {
+function GetAllInvoicesAndSummary(filter)
+{
+    try
+    {
         if ($("#fromdate").val() !== "")
             var fromdate = $("#fromdate").val();
         if ($("#todate").val() !== "")
@@ -335,9 +349,10 @@ function GetAllInvoicesAndSummary(filter) {
 }
 
 
-function RefreshInvoicesAndSummary() {
-    try {
-        debugger;
+function RefreshInvoicesAndSummary()
+{
+    try
+    {
         $('#filter').hide();
         var fromdate = $("#fromdate").val();
         var todate = $("#todate").val();
@@ -346,24 +361,79 @@ function RefreshInvoicesAndSummary() {
         if (result != null) {
                 if (result.SupplierInvoices != null)
                     DataTables.SupplInvTable.clear().rows.add(result.SupplierInvoices).draw(false);
-                if (result.SupplierInvoiceSummary != null) {
+                if (result.SupplierInvoiceSummary != null)
+                {
                     Summary(result.SupplierInvoiceSummary);
                 }
         }
     }
-    catch (e) {
+    catch (e)
+    {
         notyAlert('error', e.message);
     }
+}
+
+function save()
+{
+    debugger;
+
+    $('#btnSave').trigger('click');
 }
 
 function saveInvoices() {
     debugger;
     //if ($('#txtTotalInvAmt').val() == 0) {
     //    notyAlert('error', 'Please Enter Amount');
-    //}
-    //else {
-        $('#btnSave').trigger('click');
-   // }
+    //}   
+    try
+    {
+     var invoiceNo = $('#txtInvNo').val();
+     var supplierID = $('#ddlSupplier').val();
+     var id = $("#ID").val();
+     if (id == "" || id == null)
+     {
+         if ((invoiceNo != '' && invoiceNo != null) && (supplierID != '' && supplierID != null)) {
+             var data = { "InvoiceNo": invoiceNo, "SupplierID": supplierID };
+             var ds = {};
+             ds = GetDataFromServer("SupplierInvoices/CheckProfileExists/", data);
+             debugger;
+
+             if (ds != '') {
+                 ds = JSON.parse(ds);
+                 if (ds.Message == true) {
+                     notyConfirm('Same Invoice No Already Exists,Do You Want To Continue?', 'save()', '', "Continue!");
+                 }
+                 if (ds.Message == false) {
+                     save();
+                 }
+             }
+             if (ds.Result == "OK") {
+                 //save();
+                 //notyAlert('success', ds.Message.Message);
+
+             }
+             if (ds.Result == "ERROR") {
+                 notyAlert('error', ds.Message);
+                 return 0;
+             }
+             return 1;
+         }
+         else {
+             save();
+              }
+     }
+     else
+     {
+         save();
+     }
+     
+}
+    catch (e)
+    {
+        notyAlert('error', e.message);
+        return 0;
+    }       
+         
 }
 
 function SaveSuccess(data, status) {

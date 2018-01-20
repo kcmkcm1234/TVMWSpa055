@@ -49,15 +49,15 @@
 <div class="form-horizontal">
 
     <div class="col-md-9" style="margin-top:10px;">
-        <div class="col-md-3" hidden>
+        <div class="col-md-3">
             @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
-                @Html.TextBox("fromdate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @onchange = "RefreshPayableAgeingReportTable()", @Value = ViewBag.fromdate })
+                @Html.TextBox("fromdate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @onchange = "RefreshPayableAgeingReportTable()" , @Value = ViewBag.fromdate })
 
 
             </div>
         </div>
-        <div class="col-md-3" hidden>
+        <div class="col-md-3">
             @Html.Label("To Date", htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
                 @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @onchange = "RefreshPayableAgeingReportTable()", @Value = ViewBag.todate })
@@ -77,11 +77,22 @@
                 @Html.DropDownListFor(model => model.SupplierCode, Model.supplierList, new { @class = "form-control BlockEnter", @id = "supplierCode", @onchange = "RefreshPayableAgeingReportTable()", @multiple = "multiple" })
             </div>
         </div>
+        <div class="col-md-6">
+            @Html.LabelFor(model => model.Search, htmlAttributes: new { @class = "control-label", style = "visibility:hidden" })
+            <div class="col-md-12">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search" id="Search">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="submit" style="height:28px" onclick="RefreshPayableAgeingReportTable()"><i class="glyphicon glyphicon-search"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
     <div class="col-md-3" style="min-height:25px">
         @{
-            var data = new { ActionType = "List" };
+            var data = new { ActionType = "ListWithReset" };
             @Html.Action("ChangeButtonStyle", "Report", data);
         }
     </div>

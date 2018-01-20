@@ -80,7 +80,7 @@ namespace UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject = "Dashboard", Mode = "R")]
         public ActionResult OutstandingSummary(OutstandingSummaryViewModel data)
         {
-            CustomerInvoiceSummaryViewModel CustomerInvoiceSummary = Mapper.Map<CustomerInvoiceSummary, CustomerInvoiceSummaryViewModel>(_customerInvoiceBusiness.GetCustomerInvoicesSummary(data.IsInternal));
+            CustomerInvoiceSummaryViewModel CustomerInvoiceSummary = Mapper.Map<CustomerInvoiceSummary, CustomerInvoiceSummaryViewModel>(_customerInvoiceBusiness.GetCustomerInvoicesSummaryForSA());
             SupplierInvoiceSummaryViewModel SupplierInvoiceSummary = Mapper.Map<SupplierInvoiceSummary, SupplierInvoiceSummaryViewModel>(_supplierInvoicesBusiness.GetSupplierInvoicesSummary(data.IsInternal));
             data.OutstandingInv = CustomerInvoiceSummary.OpenAmount + CustomerInvoiceSummary.OverdueAmount;
             data.OuttandingPay = SupplierInvoiceSummary.OpenAmount + SupplierInvoiceSummary.OverdueAmount;

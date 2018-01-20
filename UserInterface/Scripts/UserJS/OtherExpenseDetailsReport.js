@@ -44,13 +44,14 @@ $(document).ready(function () {
                { "data": "PaymentReference", "defaultContent": "<i>-</i>" },
                { "data": "Description", "defaultContent": "<i>-</i>" },
                { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+                { "data": "ReversedAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                { "data": "OriginCompany", "defaultContent": "<i>-</i>" }
              ],
-             columnDefs: [{ "targets": [10], "visible": false, "searchable": false },
+             columnDefs: [{ "targets": [11], "visible": false, "searchable": false },
              { className: "text-left", "targets": [0, 1, 2, 3, 4, 5,6,7,8] },
              { "width": "15%", "targets": [0] },
              { "width": "10%", "targets": [2] },
-             { className: "text-right", "targets": [9] },
+             { className: "text-right", "targets": [9,10] },
              { className: "text-center", "targets": [2] }],
              createdRow: function (row, data, index) {
                  if (data.AccountHead == "<b>GrantTotal</b>") {
@@ -62,7 +63,7 @@ $(document).ready(function () {
                  var rows = api.rows({ page: 'current' }).nodes();
                  var last = null;
 
-                 api.column(10, { page: 'current' }).data().each(function (group, i) {
+                 api.column(11, { page: 'current' }).data().each(function (group, i) {
                    
                      if (last !== group) {
                          $(rows).eq(i).before('<tr class="group "><td colspan="8" class="rptGrp">' + '<b>Company</b> : ' + group + '</td></tr>');
@@ -80,7 +81,7 @@ $(document).ready(function () {
         $(".buttons-excel").hide();
         startdate = $("#todate").val();
         enddate = $("#fromdate").val();
-
+        $("#otherexpensedetailtotalreversed").attr('style', 'visibility:true');
     } catch (x) {
 
         notyAlert('error', x.message);
@@ -115,6 +116,12 @@ function GetOtherExpenseDetailsReport() {
             debugger;
             if (ds.TotalAmount != '') {
                 $("#otherexpenseamount").text(ds.TotalAmount);
+            }
+            if (ds.ReversedTotal != '') {
+                $("#otherexpensereversed").text(ds.ReversedTotal);
+            }
+            if (ds.Total != '') {
+                $("#otherexpensereversedtotaldetail").text(ds.Total);
             }
             if (ds.Result == "OK") {
                 return ds.Records;

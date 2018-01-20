@@ -6,10 +6,8 @@ namespace SPAccounts.BusinessService.Contracts
 {
     public interface ICustomerInvoicesBusiness
     {
-        List<CustomerInvoice> GetAllCustomerInvoices(DateTime? FromDate, DateTime? ToDate, string Customer, string InvoiceType, string Company, string Status, string Search);
         List<CustomerInvoice> GetAllCustomerInvociesByCustomerID(Guid CustomerID);
         CustomerInvoice GetCustomerInvoiceDetails(Guid ID);
-        CustomerInvoiceSummary GetCustomerInvoicesSummary(bool IsInternal);
         CustomerInvoice InsertUpdateInvoice(CustomerInvoice _customerInvoicesObj, AppUA ua);
         List<CustomerInvoice> GetOutStandingInvoices(Guid PaymentID,Guid CustID);
         CustomerInvoice GetCustomerAdvances(string ID);
@@ -19,7 +17,7 @@ namespace SPAccounts.BusinessService.Contracts
         CustomerInvoicesSummaryForMobile GetCustomerInvoicesByDateWise(CustomerInvoice CusmObj);
 
         //special Permission SAdmin and CEO case
-        List<CustomerInvoice> GetAllCustomerInvoicesForSA(DateTime? FromDate, DateTime? ToDate, string Customer, string InvoiceType, string Company, string Status, string Search);
+        List<CustomerInvoice> GetAllCustomerInvoicesForSA(DateTime? FromDate, DateTime? ToDate, string Customer, string InvoiceType, string Company, string Status, string Search,bool PBAccess);
         CustomerInvoiceSummary GetCustomerInvoicesSummaryForSA();
         //SpecialPayments
         

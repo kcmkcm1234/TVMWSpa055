@@ -62,20 +62,32 @@ namespace UserInterface.Models
         public Guid TransferID { get; set; }
         public OutgoingChequeAdvanceSearchViewModel OutAdvanceSearch { get; set; }
         public OutGoingChequesViewModel OutGoingObj { get; set; }
+        public CompaniesViewModel CompanyObj { get; set; }
+        public UndepositedChequeAdvanceSearchViewModel undepositedChequeAdvanceSearchObj { get; set; }
+        public CustomerViewModel CustomerObj { get; set; }
+        public string Company { get; set; }
+        public string Customer { get; set; }
+        public BankViewModel BankObj { get; set; }
+        public string Bank { get; set; }
+        public string Search { get; set; }
     }
 
     public class OutGoingChequesViewModel
     { 
         public Guid ID { get; set; }
-        [Required(ErrorMessage = "ChequeDate Missing")]
+        [Required(ErrorMessage = "Cheque Date Missing")]
+        [Display(Name = "Cheque Date")]
         public string ChequeDate { get; set; }
-        [Required(ErrorMessage = "ChequeNo Missing")]
+        [Required(ErrorMessage = "Cheque No Missing")]
+        [Display(Name = "Cheque No")]
         public string ChequeNo { get; set; }
         public string Bank { get; set; }
         public string Party { get; set; }
         public string Status { get; set; }
         public decimal Amount { get; set; }
         public string Company { get; set; }
+        public string Remarks { get; set; }
+        public string CreatedDate { get; set; }
         public CommonViewModel CommonObj { get; set; }
     }
     public class OutgoingChequeAdvanceSearchViewModel
@@ -84,6 +96,16 @@ namespace UserInterface.Models
         public string FromDate { get; set; }
         public string Company { get; set; }
         public string Status { get; set; }
+        public string Search { get; set; }
+    }
+
+    public class UndepositedChequeAdvanceSearchViewModel
+    {
+        public string ToDate { get; set; }
+        public string FromDate { get; set; }
+        public string Company { get; set; }
+        public string Customer { get; set; }
+        public string BankCode { get; set; }
         public string Search { get; set; }
     }
 }

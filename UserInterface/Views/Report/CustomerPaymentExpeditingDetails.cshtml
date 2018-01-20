@@ -7,9 +7,12 @@
 @section styles {
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableButtons")
-@Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableFixedHeader")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/select2")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableFixedHeader")
 
     <style>
+        
+
         table.dataTable tr.odd {
             background-color: rgba(148, 78, 132, 0.16);
         }
@@ -17,6 +20,9 @@
         table.dataTable tr.even {
             background-color: white;
         }
+
+     
+
     </style>
 }
 
@@ -47,75 +53,93 @@
 <div class="form-horizontal">
 
     <div class="col-md-8" style="margin-top:10px;">
-        <div class="col-md-6">
+        <div class="col-md-3">
             @Html.Label("As On Date", htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
                 @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @Value = ViewBag.todate, @onchange = "RefreshCustomerExpeditingDetailTable()" })
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             @Html.LabelFor(model => model.BasicFilters, htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
                 @Html.DropDownListFor(model => model.Filter, Model.BasicFilters, new { @class = "form-control BlockEnter", value = 0, style = "padding:4px 12px;", @id = "BasicFilters", @onchange = "RefreshCustomerExpeditingDetailTable()" })              
                 @Html.ValidationMessageFor(model => model.Filter, "", new { @class = "text-danger" })
             </div>
         </div>
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.Company, htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-12">
+                @Html.DropDownListFor(model => model.Company, Model.companyObj.CompanyList , new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "Company", @onchange = "OnCallChange()" })
+                @Html.ValidationMessageFor(model => model.Company, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.Customer, htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-12">
+                @Html.DropDownListFor(model => model.Customer, Model.customerObj.CustomerList, "--Select--", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "Customer", @onchange = "OnCallChange()" })
+                @Html.ValidationMessageFor(model => model.Customer, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
     </div>
 
 </div>
-<div class="col-md-4" style="min-height:25px">
-    @{
-        var data = new { ActionType = "ListWithReset" };
-        @Html.Action("ChangeButtonStyle", "Report", data);
+
+    <div class="col-md-4" style="min-height:25px">
+        @{
+            var data = new { ActionType = "ListWithReset" };
+            @Html.Action("ChangeButtonStyle", "Report", data);
+        }
+    </div>
+    <div class="row summaryboxes">
+
+        <div class="clearfix visible-sm-block">
+
+        </div>
+
+    </div>
+    <div class="row">
+        &nbsp;
+    </div>
+
+    <div class="row tableContainer">
+        <div class="col-md-12">
+            <table id="CustomerExpeditingDetailTable" class="table stripe" cellspacing="0" width="100%">
+                <thead>
+                    <tr class="text-center TableHead">
+                        <th>Customer Name</th>
+                        <th>Contact Name</th>
+                        <th>Contact Number</th>
+                        <th>Company</th>
+                        <th>Invoice No</th>
+                        <th>Invoice Date</th>
+                        <th>Balance Amount</th>
+                        <th>No Of Days</th>
+                        <th>Customer Name1</th>
+                        <th>Remarks</th>
+
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+
+
+    <script type="text/javascript">
+        var today = @Html.Raw(@ViewBag.todate);
+
+    </script>
+
+
+
+    @section Scripts {
+        @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
+        @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
+        @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
+        @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/CustomerExpeditingReport")
+        @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
+
     }
-</div>
-<div class="row summaryboxes">
-
-    <div class="clearfix visible-sm-block">
-
-    </div>
-
-</div>
-<div class="row">
-    &nbsp;
-</div>
-
-<div class="row tableContainer">
-    <div class="col-md-12">
-        <table id="CustomerExpeditingDetailTable" class="table stripe" cellspacing="0" width="100%">
-            <thead>
-                <tr class="text-center TableHead">
-                    <th>Customer Name</th>
-                    <th>Contact Number</th>
-                    <th>Invoice No</th>                  
-                    <th>Invoice Date</th>
-                    <th>Balance Amount</th>
-                    <th>No Of Days</th>
-                    <th>Customer Name1</th>
-                    <th>Remarks</th>
-
-                </tr>
-            </thead>
-        </table>
-    </div>
-</div>
-
-
-<script type="text/javascript">
-    var today = @Html.Raw(@ViewBag.todate);
-
-</script>
-
-
-
-@section Scripts {
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/CustomerExpeditingReport")
-
-}
 
 
 
@@ -144,6 +168,6 @@
 
 
 
-            
+
 
 

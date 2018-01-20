@@ -22,7 +22,8 @@
 
         table.dataTable tr.even {
             background-color: white;
-        }
+        }        
+   
         .select2-container--default .select2-selection--multiple .select2-selection__choice{
             color:black;
         }
@@ -61,7 +62,7 @@
         <div class="col-md-3">
             @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
-                @Html.TextBox("fromdate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @Value = ViewBag.fromdate ,@onchange= "RefreshCustomerPaymentLedgerTable()" })
+                @Html.TextBox("fromdate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @Value = ViewBag.fromdate ,@onchange= "OnCallChange()" })
 
 
             </div>
@@ -69,13 +70,13 @@
         <div class="col-md-3">
             @Html.Label("To Date", htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
-                @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3",  @Value = ViewBag.todate, @onchange = "RefreshCustomerPaymentLedgerTable()" })
+                @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3",  @Value = ViewBag.todate, @onchange = "OnCallChange()" })
             </div>
         </div>
         <div class="col-md-6" id="customernameddl" style="visibility:hidden;">
             @Html.LabelFor(model => model.CustomerCode, htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
-                @Html.DropDownListFor(model => model.CustomerCode, Model.customerList, new { @class = "form-control BlockEnter", @id = "customerCode", @onchange = "OnCallChange()", @multiple = "multiple" })
+                @Html.DropDownListFor(model => model.CustomerCode, Model.customerList, new { @class = "form-control BlockEnter", @id = "customerCode", @onchange = "RefreshCustomerPaymentLedgerTable()", @multiple = "multiple" })
                 @Html.ValidationMessageFor(model => model.CustomerCode, "", new { @class = "text-danger" })
 
             </div>
@@ -90,7 +91,30 @@
                 </div>
             </div>
 
-        
+
+        <div class="col-md-3">
+            @*<div class="col-md-12" style="padding:0">*@
+                @Html.LabelFor(model => model.InvoiceType, htmlAttributes: new { @class = "control-label " })
+            @*</div>*@
+            <div class="col-md-12" style="padding:0">
+                <div class="col-md-12">
+                    @{
+                        List<SelectListItem> InvoiceTypesList = new List<SelectListItem>();
+                        InvoiceTypesList.Add(new SelectListItem
+                        { Text = "--Select--", Value = "ALL", Selected = true });
+                        InvoiceTypesList.Add(new SelectListItem
+                        { Text = "Regular Invoice", Value = "RB" });
+                        InvoiceTypesList.Add(new SelectListItem
+                        { Text = "WB Invoice", Value = "WB" });
+                        InvoiceTypesList.Add(new SelectListItem
+                        { Text = "PB Invoice", Value = "PB" });
+                    }
+                    @Html.DropDownListFor(model => model.InvoiceType, InvoiceTypesList, new { @class = "form-control BlockEnter", style = "padding:4px 12px;width: 100 %", @id = "ddlInvoiceTypes", @onchange = "OnCallChange();" })
+                </div>
+                @*<div class="col-md-1"></div>
+                <div class="col-md-1"></div>*@
+            </div>
+        </div>           
     </div>
     <div class="col-md-3" style="min-height:25px">
         @{
@@ -99,13 +123,13 @@
         }
     </div>
 
-        <div class="row summaryboxes">
+    <div class="row summaryboxes">
 
-            <div class="clearfix visible-sm-block">
-
-            </div>
+        <div class="clearfix visible-sm-block">
 
         </div>
+
+    </div>
         @*<div class="form-group col-md-12">
             <div class="col-md-12 text-right">
                 <div style="font-size:medium">NetDue Total: <small><span id="salessummaryamount" style="font-size:medium;font-weight:bold"> 0.00</span></small></div>
@@ -141,7 +165,7 @@
             {
         @Html.HiddenFor(model => model.pdfToolsObj.Content, htmlAttributes: new { @class = "", Value = "", @id = "hdnContent" })
         @Html.HiddenFor(model => model.pdfToolsObj.Headcontent, htmlAttributes: new { @class = "", Value = "", @id = "hdnHeadContent" })
-        @Html.HiddenFor(model => model.pdfToolsObj.HeaderText, htmlAttributes: new { @class = "", Value = "Customer Payement Ledger Report" })
+        @Html.HiddenFor(model => model.pdfToolsObj.HeaderText, htmlAttributes: new { @class = "", Value = "Customer Payment Ledger Report" })
         <input type="submit" value="Download" id="btnSend" onclick="GetHtmlData();" />
     }
     <div id="customtbl" style="display:none">

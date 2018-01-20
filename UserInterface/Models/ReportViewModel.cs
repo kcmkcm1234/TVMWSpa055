@@ -115,6 +115,7 @@ namespace UserInterface.Models
 
         [Display(Name = "Expense Type")]
         public string ExpenseType { get; set; }
+        public decimal ReversedAmount { get; set; }
     }
 
 
@@ -135,6 +136,7 @@ namespace UserInterface.Models
         public string PaymentReference { get; set; }
         public string Description { get; set; }
         public decimal Amount { get; set; }
+        public decimal ReversedAmount { get; set; }
         public string OriginCompany { get; set; }
         public string Company { get; set; }
         public List<SelectListItem> CompanyList { get; set; }
@@ -145,12 +147,28 @@ namespace UserInterface.Models
         public List<SelectListItem> SubtypeList { get; set; }
         public string Search { get; set; }
         public decimal TotalAmount { get; set; }
+        public decimal ReversedTotal { get; set; }
         public string RowType { get; set; }
-
+        public CompaniesViewModel CompanyObj { get; set; }
+        public OtherExpenseViewModel OtherExpenseObj { get; set; }
         [Display(Name = "Expense Type")]
         public string ExpenseType { get; set; }
+        public OtherExpenseLimitedExpenseAdvanceSearchViewModel OtherExpenseLEAdvSearch {get;set;}
+    }
 
-            }
+    public class OtherExpenseLimitedExpenseAdvanceSearchViewModel
+    {
+        public string ToDate { get; set; }
+        public string FromDate { get; set; }
+        public string ExpenseType { get; set; }
+        public string Company { get; set; }
+        public string Search { get; set; }
+        [Display(Name = "Employee/Other")]
+        public string EmployeeOrOther { get; set; }
+        public string EmpCompany { get; set; }
+        public string AccountHead { get; set; }
+        public string SubType { get; set; }
+    }
 
     public class CustomerContactDetailsReportViewModel
     {
@@ -352,6 +370,8 @@ namespace UserInterface.Models
         public List<SelectListItem> supplierList { get; set; }
         public List<SelectListItem> CompanyList { get; set; }
         public List<CompaniesViewModel> companiesList;
+        public ReportAdvanceSearchViewModel reportAdvanceSearchObj { get; set; }
+        public string Search { get; set; }
     }
 
     public class AccountsPayableAgeingSummaryReportViewModel
@@ -471,7 +491,7 @@ namespace UserInterface.Models
     {
         public string Date { get; set; }
         public string Type { get; set; }
-        public string Ref { get; set; }
+        public string Ref { get; set; }        
         public string CustomerName { get; set; }
         public string Company { get; set; }
         
@@ -488,6 +508,8 @@ namespace UserInterface.Models
         public Guid CustomerID { get; set; }        
         public List<SelectListItem> companiesList { get; set; }
         public PDFTools  pdfToolsObj { get; set; }
+        [Display(Name = "Invoice Type")]
+        public string InvoiceType { get; set; }
     }
 
 
@@ -511,6 +533,8 @@ namespace UserInterface.Models
         public string CompanyCode { get; set; }
         public List<SelectListItem> companiesList { get; set; }
         public PDFTools  pdfToolsObj { get; set; }
+        [Display(Name = "Invoice Type")]
+        public string InvoiceType { get; set; }
     }
 
 
@@ -556,6 +580,9 @@ namespace UserInterface.Models
         public string NoOfDays { get; set; }
         public string Remarks { get; set; }
         public string Date { get; set; }
+        public CompaniesViewModel companyObj { get; set; }
+        public CustomerViewModel customerObj { get; set; }
+        public CustomerContactDetailsReportViewModel customerContactObj { get; set; }       
     }
 
     public class CustomerExpeditingListViewModel {
@@ -563,6 +590,11 @@ namespace UserInterface.Models
         [Display(Name = "Filter")]
         public List<SelectListItem> BasicFilters { get; set; }
         public string Filter { get; set; }
+        public CompaniesViewModel companyObj { get; set; }
+        public CustomerViewModel customerObj { get; set; }        
+        public string Search { get; set; }
+        public string Company { get; set; }
+        public string Customer { get; set; }       
     }
 
     public class SupplierExpeditingReportViewModel
@@ -578,6 +610,9 @@ namespace UserInterface.Models
         public Decimal Amount { get; set; }
         public string NoOfDays { get; set; }
         public string Remarks { get; set; }
+        public CompaniesViewModel companyObj { get; set; }
+        public SupplierContactDetailsReportViewModel supplierContactObj { get; set; }
+        public SuppliersViewModel supplierObj { get; set; }
     }
 
     public class SupplierExpeditingListViewModel
@@ -586,6 +621,32 @@ namespace UserInterface.Models
         [Display(Name = "Filter")]
         public List<SelectListItem> BasicFilters { get; set; }
         public string Filter { get; set; }
+        public CompaniesViewModel companyObj { get; set; }
+        public SupplierContactDetailsReportViewModel supplierContactObj { get; set; }
+        public SuppliersViewModel supplierObj { get; set; }
+        public string Search { get; set; }
+        public string Company { get; set; }
+        public string Supplier { get; set; }
     }
 
+    public class ReportAdvanceSearchViewModel
+    {
+        public string ToDate { get; set; }
+        public string Filter { get; set; }
+        public string Company { get; set; }
+        public string Supplier { get; set; }
+        public string FromDate { get; set; }
+        public string InvoiceType { get; set; }
+        public string Customer { get; set; }  
+        public string CompanyCode { get; set; }      
+        public string SupplierIDs { get; set; }
+        public string Search { get; set; }
+    }
+    public class ReportAccountsReceivableAgeingSearchViewModel
+    {
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+        public string CompanyCode { get; set; }
+        public string[] Customerids { get; set; }
+    }
 }

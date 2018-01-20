@@ -136,6 +136,31 @@ namespace SPAccounts.BusinessService.Services
             return result;
         }
 
+        #region CheckProfileExists
+        /// <summary>
+        /// To Check Profile Exists or not
+        /// </summary>
+        /// <param name="invoiceNo"></param>
+        /// <param name="supplierID"></param>
+        /// <returns>result</returns>
+
+        public bool CheckProfileExists(string invoiceNo, Guid supplierID)
+        {
+            bool result;
+            try
+            {
+                result = _supplierInvoicesRepository.CheckProfileExists(invoiceNo, supplierID);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+
+        #endregion CheckProfileExists
+
         public List<SupplierInvoices> GetOutStandingInvoicesBySupplier(Guid PaymentID, Guid supplierID)
         {
             return _supplierInvoicesRepository.GetOutStandingInvoicesBySupplier(PaymentID, supplierID);

@@ -42,7 +42,9 @@
                     <tr class="text-center TableHead">
                         <th>Code</th>
                         <th>Name</th>
-                        <th>Company</th>                      
+                        <th>Company</th> 
+                        <th id="ODLimit">Actual OD Limit</th>
+                        <th>OD Limit</th>                                      
                         <th>...</th>
 
                     </tr>
@@ -136,6 +138,35 @@
 
                             </div>
 
+                            <div class="form-group col-md-12">
+                                @if (Model.ShowODLimit == true)
+                                {
+                                    <div class="col-md-12">
+
+                                        @Html.LabelFor(model => model.ActualODLimit, htmlAttributes: new { @class = "control-label " })
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.ActualODLimit, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter", @id = "ActualODLimit", @style = "text-align: right", placeholder = "0.00", @onkeypress = "return isNumber(event)", @onfocus ="SelectAllValue(this)" } })
+                                            @Html.ValidationMessageFor(model => model.ActualODLimit, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-1 mandatory"></div>
+                                        <div class="col-md-1"></div>
+                                    </div>
+                                }
+                            </div>
+                            <div class="form-group col-md-12">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => model.DisplayODLimit, htmlAttributes: new { @class = "control-label " })
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.DisplayODLimit, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter", @id = "DisplayODLimit", @style = "text-align: right", placeholder = "0.00", @onkeypress = "return isNumber(event)", @onfocus = "SelectAllValue(this)" } })
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                </div>
+
+                            </div>
 
                         </div>
            

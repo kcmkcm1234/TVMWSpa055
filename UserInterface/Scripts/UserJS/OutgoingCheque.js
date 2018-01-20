@@ -1,7 +1,7 @@
 ﻿//Declare Global Variables
 var DataTables = {};
-var startDate = '';
-var endDate = '';
+////var startDate = '';
+////var endDate = '';
 
 $(document).ready(function () {
     try {
@@ -13,7 +13,7 @@ $(document).ready(function () {
                  extend: 'excel',
                  exportOptions:
                     {
-                        columns: [1, 2, 3, 4,5,6,7]
+                        columns: [1, 2, 3, 4,5,6,7,8,9]
                     }
              }],
              order: [],
@@ -31,15 +31,17 @@ $(document).ready(function () {
                                       return roundoff(data, 1);
                                   }, "defaultContent": "<i>-</i>"
                               },
-               { "data": "Party", "defaultContent": "<i>-</i>" },
-               { "data": "Status", "defaultContent": "<i>-</i>"},
+               { "data": "Party", "defaultContent": "<i>-</i>", "width": "10%" },
+               { "data": "Status", "defaultContent": "<i>-</i>" },
+                { "data": "Remarks", "defaultContent": "<i>-</i>", "width": "20%" },
                { "data": "Company", "defaultContent": "<i>-</i>" },
+               { "data": "CreatedDate", "defaultContent": "<i>-</i>" },
                { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="EditRecord(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false }, 
                   { className: "text-left", "targets": [1] },
                   { className: "text-right", "targets": [4] },
-                  { className: "text-center", "targets": [2,3,6,5,7] }]
+                  { className: "text-center", "targets": [2,3,6,5,7,8,9] }]
          });
         $(".buttons-excel").hide();
         startDate = $("#todate").val();
@@ -179,7 +181,6 @@ function EditRecord(Obj) {
 //Resets the form
 function Resetform() {
     $("#OutGoingObj_ID").val("");
-    $("#txtChequeNo").prop("readonly", false);
     var validator = $("#OutgoingForm").validate();
     $('#OutgoingForm').find('.field-validation-error span').each(function () {
         validator.settings.success($(this));
@@ -195,13 +196,13 @@ function PaintOutGoingCheques(ID) {
         $('#OutGoingObj_ID').val(thisItem.ID);
         $('#hdnOutgoingChequeDeleteID').val(thisItem.ID);
         $('#txtChequeNo').val(thisItem.ChequeNo);
-        $("#txtChequeNo").prop('readonly', 'true');
         $('#txtChequeDate').val(thisItem.ChequeDate);
         $('#ddlBank').val(thisItem.Bank);
         $('#ddlCompany').val(thisItem.Company);
         $('#ddlStatusType').val(thisItem.Status);
         $('#txtAmount').val(thisItem.Amount);
         $('#txtParty').val(thisItem.Party);
+        $('#OutGoingObj_Remarks').val(thisItem.Remarks);
 
     }
 }
@@ -267,8 +268,8 @@ function PrintReport() {
 //Resets advanced Search
 function FilterReset() {
   
-    $("#todate").val(startDate);
-    $("#fromdate").val(endDate);
+    $("#todate").val('');
+    $("#fromdate").val('');
     $("#CompanyCode").val('')
     $("#ddlStatus").val('');
     $("#txtOutSearch").val('');
@@ -295,6 +296,7 @@ function ValidateChequeNo() {
     var OutGoingChequesViewModel = new Object();
     OutGoingChequesViewModel.ChequeNo = $("#txtChequeNo").val();
     OutGoingChequesViewModel.ID = $("#OutGoingObj_ID").val();
+    OutGoingChequesViewModel.Bank = $("#ddlBank").val();
     var data = "{'outGoingChequeObj': " + JSON.stringify(OutGoingChequesViewModel) + "}";
     PostDataToServer("DepositAndWithdrawals/ValidateChequeNo/", data, function (JsonResult) {
         debugger;

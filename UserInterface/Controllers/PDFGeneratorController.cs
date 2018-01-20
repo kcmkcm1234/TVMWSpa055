@@ -146,7 +146,7 @@ namespace UserInterface.Controllers
 
         {
             public string imageURL { get; set; }
-            public string Tableheader { get; set; }
+            public string Tableheader { get; set; }            
             public ElementList Header;
             public override void OnEndPage(PdfWriter writer, Document doc)
 
@@ -165,29 +165,35 @@ namespace UserInterface.Controllers
             }
             public override void OnStartPage(PdfWriter writer, Document document)
             {
-
                 iTextSharp.text.Image jpg = iTextSharp.text.Image.GetInstance(imageURL);
                 //Resize image depend upon your need
-                jpg.ScaleToFit(60f, 50f);
+                jpg.ScaleToFit(50f, 40f);
                 jpg.SpacingBefore = 10f;
                 jpg.SpacingAfter = 1f;
                 jpg.Alignment = Element.ALIGN_LEFT;
                 //jpg.SetAbsolutePosition(document.Left, document.Top - 60);
                 Font companyFont = FontFactory.GetFont(FontFactory.TIMES_BOLD, 14, iTextSharp.text.Font.BOLD);
-                Font documentFont = FontFactory.GetFont(FontFactory.TIMES, 12, iTextSharp.text.Font.BOLD);
-                string companyName = "Santhi Plastic Private Limited" + "\n";
+                Font documentFont = FontFactory.GetFont(FontFactory.TIMES, 14, iTextSharp.text.Font.BOLD);
+                //string companyName = "Santhi Plastic Private Limited" + "\n";
                 string documentName = Tableheader;
-                Paragraph header = new Paragraph();
-                Phrase phraseCompanyName=new Phrase(companyName, companyFont);
+
+                Chunk chunkHeader = new Chunk(documentName);
+                //chunkHeader.SetUnderline(1f, -6f);
+                //Add Chunk to paragraph
+                Paragraph header = new Paragraph(chunkHeader);
+                Chunk linebreak = new Chunk(new LineSeparator(1f, document.PageSize.Width, BaseColor.BLACK, Element.ALIGN_CENTER, -3f));
+                header.Add(linebreak);
+
+                //Phrase phraseCompanyName=new Phrase(companyName, companyFont);
                 Phrase phraseDocumentName = new Phrase(documentName, documentFont);
-                header.Add(phraseCompanyName);
-                header.Add(phraseDocumentName);
+                //header.Add(phraseCompanyName);
+               // header.Add(phraseDocumentName);
                 header.Alignment = Element.ALIGN_LEFT;
                 PdfPTable headerTbl = new PdfPTable(2);
                 headerTbl.TotalWidth = document.PageSize.Width;
                 //headerTbl.HeaderHeight = 60;
                 headerTbl.HorizontalAlignment = Element.ALIGN_LEFT;
-                float[] widths = new float[] { 100f, document.PageSize.Width - 100 };
+                float[] widths = new float[] { 180f, document.PageSize.Width - 100 };
                 headerTbl.SetWidths(widths);
                 PdfPCell cell = new PdfPCell(jpg);
                 cell.Border = 0;
@@ -196,6 +202,7 @@ namespace UserInterface.Controllers
                 PdfPCell cell1 = new PdfPCell(header);
                 cell1.Border = 0;
                 cell1.PaddingLeft = 50;
+                cell1.PaddingTop = 40;
                 //cell1.Width = document.PageSize.Width - 90;
                 headerTbl.AddCell(cell1);
                 ColumnText ct = new ColumnText(writer.DirectContent);
@@ -210,13 +217,11 @@ namespace UserInterface.Controllers
             }
         }
 
-
-
         public FileResult Download(PDFTools pDFToolsObj)
         {
             //jpg.Alignment = Element.ALIGN_LEFT;
             string htmlBody = pDFToolsObj.Content.Replace("<br>", "<br/>").ToString();
-            StringReader reader = new StringReader(htmlBody.ToString());
+            StringReader reader = new StringReader(htmlBody.ToString());            
             Document pdfDoc = new Document(PageSize.A4, 10f, 10f, 85f, 30f);
             byte[] bytes = null;
             using (MemoryStream memoryStream = new MemoryStream())
@@ -280,7 +285,7 @@ namespace UserInterface.Controllers
             //3. The parameter for the file save by the browser
             return File(fname, contentType, "Report.pdf");
         }
-
+       
     }
 
 }

@@ -2,6 +2,9 @@
 var today = '';
 $(document).ready(function () {
     try {
+        $("#Company,#Customer").select2({
+
+        });
        
         DataTables.CustomerExpeditingDetailTableReportTable = $('#CustomerExpeditingDetailTable').DataTable(
          {
@@ -11,7 +14,7 @@ $(document).ready(function () {
                  extend: 'excel',
                  exportOptions:
                               {
-                                  columns: [0, 1, 2, 3, 4, 5,7]
+                                  columns: [0, 1, 2, 3, 4, 5,6,7]
                               }
              }],
              order: [],
@@ -30,7 +33,9 @@ $(document).ready(function () {
              columns: [
 
                { "data": "CustomerName", "defaultContent": "<i></i>" },
+               { "data": "customerContactObj.ContactName", "defaultContent": "<i></i>" },
                { "data": "ContactNo", "defaultContent": "<i>-</i>" },
+               { "data": "companyObj.Name", "defaultContent": "<i>-<i>" },
                { "data": "InvoiceNo", "defaultContent": "<i>-</i>" },             
                { "data": "InvoiceDate", "defaultContent": "<i>-</i>" },
                { "data": "Amount", "defaultContent": "<i>-</i>" },
@@ -40,11 +45,12 @@ $(document).ready(function () {
 
 
              ],
-             columnDefs: [{ "targets": [7], "visible": false, "searchable": false },
-                 { "targets": [6], "visible": false },
-                  { className: "text-left", "targets": [0,1,2, 3, 4,5] },
-                  { "width": "20%", "targets": [0,1] },
-             { className: "text-right", "targets": [4] }
+             columnDefs: [{ "targets": [9], "visible": false, "searchable": false },
+                 { "targets": [8], "visible": false },
+                  { className: "text-left", "targets": [0,1,2, 3, 4] },
+                  { "width": "15%", "targets": [0] },
+             { className: "text-right", "targets": [4, 6] },
+             { className: "text-center", "targets": [5,7] }
 
                  ]
 
@@ -60,13 +66,16 @@ $(document).ready(function () {
 
 });
 
-
+//to bind values to report
 function GetCustomerExpeditingDetail() {
     try {
-        var todate = $("#todate").val();
+        debugger;       
+        var toDate = $("#todate").val();
         var filter = $("#BasicFilters").val();
-        if (IsVaildDateFormat(todate))
-            var data = {"ToDate": todate,"Filter": filter};
+        var company = $("#Company").val();
+        var customer = $("#Customer").val();       
+        if (IsVaildDateFormat(toDate))
+            var data = { "ToDate": toDate, "Filter": filter, "Company": company, "Customer": customer };        
         var ds = {};
         ds = GetDataFromServer("Report/GetCustomerPaymentExpeditingDetails/", data);
         if (ds != '') {
@@ -84,25 +93,33 @@ function GetCustomerExpeditingDetail() {
     }
 }
 
- 
+function OnCallChange() {
+    debugger;   
+    //if ($("#Customer").val() == '') {
+    //    DataTables.customerpaymentledgertable.clear().rows.add(GetCustomerPaymentLedger('ALL')).draw(true);
+    //}
+    RefreshCustomerExpeditingDetailTable();
+}
 
-
+//To refresh report based on filter
 function RefreshCustomerExpeditingDetailTable() {
     debugger;
     try {
-        var todate = $("#todate").val();
+        var toDate = $("#todate").val();
         var filter = $("#BasicFilters").val();
-
-        if (DataTables.CustomerExpeditingDetailTableReportTable != undefined && IsVaildDateFormat(todate)) {
+        var company = $("#Company").val();
+        var customer = $("#Customer").val();   
+            
+        if (DataTables.CustomerExpeditingDetailTableReportTable != undefined && IsVaildDateFormat(toDate)) {
             DataTables.CustomerExpeditingDetailTableReportTable.clear().rows.add(GetCustomerExpeditingDetail()).draw(true);
-        }
+        }        
     }
     catch (e) {
         notyAlert('error', e.message);
     }
 }
 
-
+//To trigger export button
 function PrintReport() {
     try {
         $(".buttons-excel").trigger('click');
@@ -116,10 +133,13 @@ function Back() {
     window.location = appAddress + "Report/Index/";
 }
 
+//To reset report
 function Reset()
 {
     debugger;
     $("#todate").val(today);
     $("#BasicFilters").val('ALL');
+    $("#Company").val('ALL').trigger('change')
+    $("#Customer").val('').trigger('change')
     RefreshCustomerExpeditingDetailTable();
 }

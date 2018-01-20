@@ -24,6 +24,7 @@ namespace UserInterface.Models
         //public string hdnCode { get; set; }
         public CommonViewModel commonObj { get; set; }
         public List<SelectListItem> CompanyList { get; set; }
+        public string LogoURL { get; set; }
 
     }
 }

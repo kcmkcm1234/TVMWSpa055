@@ -27,14 +27,43 @@ $(document).ready(function () {
                { "data": "Code", "defaultContent": "<i>-</i>" },
                { "data": "Name", "defaultContent": "<i>-</i>" },
                { "data": "Company.Name", "defaultContent": "<i>-</i>" },
+               {
+                   "data": "ActualODLimit", render: function (data, type, row) {
+                       if (data == 0)
+                           return '-'
+                       else
+                           return roundoff(data, 1);
+                   },
+                   "defaultContent": "<i>-</i>"
+               },
+               {
+                   "data": "DisplayODLimit", render: function (data, type, row) {
+                       if (data == 0)
+                           return '-'
+                       else
+                           return roundoff(data, 1);
+                   }, "defaultContent": "<i>-</i>"
+               },
                { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
              ],
              columnDefs: [{ "targets": [], "visible": false, "searchable": false },
-                  { className: "text-right", "targets": [] },
-                   { className: "text-left", "targets": [1,2] },
-             { className: "text-center", "targets": [0] }
+                 { "width": "15%", "targets": [3, 4] },
+                 { className: "text-right", "targets": [3, 4] },
+                  { className: "text-left", "targets": [1, 2, 3] },
+            { className: "text-center", "targets": [0] }
 
-             ]
+             ],
+             rowCallback: function (row, data) {
+                 var table = $('#BankTable').DataTable();
+                 if (data.ShowODLimit == true) {
+                     $("#ODLimit").show();
+                     table.column(3).visible(true);
+                 }
+                 else {
+                     $("#ODLimit").hide();
+                     table.column(3).visible(false);
+                 }
+             }
          });
 
         $('#BankTable tbody').on('dblclick', 'td', function () {
@@ -43,7 +72,7 @@ $(document).ready(function () {
         });
        
          $(".buttons-excel").hide();
-
+         
 
     } catch (x) {
 
@@ -86,7 +115,7 @@ function openNav(id)
 {
     var left = $(".main-sidebar").width();
     var total = $(document).width();
-  
+    
     $('.main').fadeOut();
     document.getElementById("myNav").style.left = "3%";
     $('#main').fadeOut();
@@ -119,7 +148,9 @@ function FillBankDetails(Code) {
     debugger;
     $("#Code").val(thisItem.Code);
     $("#Name").val(thisItem.Name);
-    $("#CompanyCode").val(thisItem.CompanyCode)    
+    $("#CompanyCode").val(thisItem.CompanyCode)
+    $("#ActualODLimit").val(roundoff(thisItem.ActualODLimit,1));
+    $("#DisplayODLimit").val(roundoff(thisItem.DisplayODLimit,1));
    // $("#deleteId").val(thisItem[0].Code);
     $("#isUpdate").val("1");
     $("#hdnCode").val(thisItem.Code);
@@ -200,6 +231,8 @@ function ClearFields()
     $("#Code").val("");
     $("#Name").val("");
     $("#CompanyCode").val("");
+    $("#DisplayODLimit").val("");
+    $("#ActualODLimit").val("");
     $("#Code").prop('disabled', false);
     $("#hdnCode").val("");
     ResetForm();
@@ -213,7 +246,7 @@ function SaveSuccess(data, status) {
     switch (JsonResult.Result) {
         case "OK":
             BindAllBanks();
-            notyAlert('success', JsonResult.Message);
+            notyAlert('success', JsonResult.Records.Message);
             debugger;
             if ($("#hdnCode").val() != "")
             {

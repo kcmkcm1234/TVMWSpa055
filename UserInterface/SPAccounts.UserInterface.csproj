@@ -1288,7 +1288,9 @@
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\images\abhiramiindustry.png" />
     <Content Include="Content\images\add.png" />
+    <Content Include="Content\images\Assign.png" />
     <Content Include="Content\images\back.png" />
     <Content Include="Content\images\bgTest1.JPG" />
     <Content Include="Content\images\circle.png" />
@@ -1307,9 +1309,13 @@
     <Content Include="Content\images\percentage.png" />
     <Content Include="Content\images\printer.png" />
     <Content Include="Content\images\reset.png" />
+    <Content Include="Content\images\revathiplastics.png" />
     <Content Include="Content\images\rupee1.png" />
+    <Content Include="Content\images\santhipacking.png" />
+    <Content Include="Content\images\santhipetlogo.png" />
     <Content Include="Content\images\save.png" />
     <Content Include="Content\images\searchdefault.png" />
+    <Content Include="Content\images\suryapetpreforms.png" />
     <Content Include="Content\images\withdraw.png" />
     <Content Include="Content\sweetalert.css" />
     <Content Include="Content\UserCSS\Login.css" />
@@ -1578,6 +1584,7 @@
     <Content Include="Scripts\UserJS\ManageAccess.js" />
     <Content Include="Scripts\UserJS\ManageSubObjectAccess.js" />
     <Content Include="Scripts\UserJS\OtherExpenseDetailsReport.js" />
+    <Content Include="Scripts\UserJS\OtherExpenseLimitedDetailsReport.js" />
     <Content Include="Scripts\UserJS\OtherExpenseSummaryReport.js" />
     <Content Include="Scripts\UserJS\OtherIncome.js" />
     <Content Include="Scripts\UserJS\OtherExpense.js" />
@@ -1793,6 +1800,7 @@
     <Content Include="Views\Company\Index.cshtml" />
     <Content Include="Views\User\_RoleList.cshtml" />
     <Content Include="Views\DepositAndWithdrawals\OutgoingCheques.cshtml" />
+    <Content Include="Views\Report\OtherExpenseLimitedDetails.cshtml" />
     <Content Include="Views\ImportOtherExpenses\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

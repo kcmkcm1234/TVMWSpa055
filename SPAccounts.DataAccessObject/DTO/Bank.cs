@@ -12,6 +12,9 @@ namespace SPAccounts.DataAccessObject.DTO
         public string CompanyCode { get; set; }
         public Common commonObj { get; set; }
         public Companies Company { get; set; }
-        public string isUpdate { get; set; }        
+        public string isUpdate { get; set; }
+        public decimal ActualODLimit { get; set; }
+        public decimal DisplayODLimit { get; set; }
+        public bool ShowODLimit { get; set; }
     }
 }

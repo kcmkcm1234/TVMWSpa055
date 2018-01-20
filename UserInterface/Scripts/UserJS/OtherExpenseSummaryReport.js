@@ -19,7 +19,7 @@ $(document).ready(function () {
                  
                  exportOptions:
                               {
-                                  columns: [0, 1, 2,3]
+                                  columns: [1, 2,3,4]
                               }
              }],
              order: [],
@@ -42,11 +42,18 @@ $(document).ready(function () {
                },
                { "data": "SubTypeDesc", "defaultContent": "<i>-</i>" },
                //{ "data": "Description", "defaultContent": "<i>-</i>" },
-               { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" }
+               { "data": "Amount", render: function (data, type, row) { 
+                   return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+               {
+                   "data": "ReversedAmount", render: function (data, type, row) {
+                           return roundoff(data, 1);
+                   }, "defaultContent": "<i>-</i>"
+               }
+             
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                   { className: "text-left", "targets": [1,2] },
-                  { className: "text-right", "targets": [3] }],
+                  { className: "text-right", "targets": [3,4] }],
              drawCallback: function (settings) {
                  var api = this.api();
                  var rows = api.rows({ page: 'current' }).nodes();
@@ -65,7 +72,7 @@ $(document).ready(function () {
         $(".buttons-excel").hide();
         startdate = $("#todate").val();
         enddate = $("#fromdate").val();
-
+        $("#otherexpensetotal").attr('style', 'visibility:true');
         DataTables.otherExpenseDetailsReportAHTable = $('#otherExpenseDetailsAHTable').DataTable(
  {
 
@@ -87,13 +94,16 @@ $(document).ready(function () {
        { "data": "PaymentReference", "defaultContent": "<i>-</i>" },
        { "data": "Description", "defaultContent": "<i>-</i>" },
        { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+        {
+            "data": "ReversedAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>"
+        },
        { "data": "OriginCompany", "defaultContent": "<i>-</i>" }
      ],
-     columnDefs: [{ "targets": [10], "visible": false, "searchable": false },
+     columnDefs: [{ "targets": [11], "visible": false, "searchable": false },
      { className: "text-left", "targets": [0, 1, 2, 3, 4, 5, 6, 7, 8] },
       { "width": "15%", "targets": [0] },
        { "width": "10%", "targets": [2] },
-     { className: "text-right", "targets": [9] },
+     { className: "text-right", "targets": [9,10] },
  { className: "text-center", "targets": [2] }]
  });
 
@@ -198,8 +208,12 @@ function GetExpenseSummaryReport() {
             if (ds.TotalAmount != '') {
                 $("#otherexpenseamount").text(ds.TotalAmount);
             }
-
-
+            if (ds.ReversedAmount != '') {
+                $("#otherexpensereversed").text(ds.ReversedAmount);
+            }
+            if (ds.Total != '') {
+                $("#otherexpensereversedtotal").text(ds.Total);
+            }
             if (ds.Result == "OK") {
                 return ds.Records;
             }

@@ -2,7 +2,9 @@
 var today = '';
 $(document).ready(function () {
     try {
+        $("#Company,#Supplier").select2({
 
+        });
         DataTables.SupplierExpeditingDetailTableReportTable = $('#SupplierExpeditingDetailTable').DataTable(
          {
 
@@ -11,7 +13,7 @@ $(document).ready(function () {
                  extend: 'excel',
                  exportOptions:
                               {
-                                  columns: [0, 1, 2, 3, 4, 5, 7]
+                                  columns: [0, 1, 2, 3, 4, 5,6, 7,9]
                               }
              }],
              order: [],
@@ -21,7 +23,7 @@ $(document).ready(function () {
              searching: true,
              ordering: false,
              paging: true,
-             data: GetSupplierExpeditingDetail(),
+             data:GetSupplierExpeditingDetail(),
              pageLength: 50,
              language: {
                  search: "_INPUT_",
@@ -30,93 +32,131 @@ $(document).ready(function () {
              columns: [
 
                { "data": "SupplierName", "defaultContent": "<i></i>" },
+               { "data": "supplierContactObj.ContactName", "defaultContent": "<i>-</i>" },
                { "data": "ContactNo", "defaultContent": "<i>-</i>" },
+               { "data": "companyObj.Name", "defaultContent": "<i>-</i>" },
                { "data": "InvoiceNo", "defaultContent": "<i>-</i>" },              
                { "data": "InvoiceDate", "defaultContent": "<i>-</i>" },
                { "data": "Amount", "defaultContent": "<i>-</i>" },
-                { "data": "NoOfDays", "defaultContent": "<i>-</i>" },
-                { "data": "SupplierName1", "defaultContent": "<i></i>" },
+               { "data": "NoOfDays", "defaultContent": "<i>-</i>" },
+               { "data": "SupplierName1", "defaultContent": "<i></i>" },
                { "data": "Remarks", "defaultContent": "<i></i>" }
 
-
              ],
-             columnDefs: [{ "targets": [7], "visible": false, "searchable": false },
-                  { "targets": [6], "visible": false },
+             columnDefs: [{ "targets": [9], "visible": false, "searchable": false },
+                  { "targets": [8], "visible": false },
                   { className: "text-left", "targets": [0, 1, 2, 3, 4] },
-                  { "width": "20%", "targets": [0,1] },
-             { className: "text-right", "targets": [5] }
-
+                  { "width": "15%", "targets": [0,1,2] },
+                  { className: "text-right", "targets": [6] },
+                  {className:"text-center","targets":[5,7]}
              ]
-
          });
 
         $(".buttons-excel").hide();
         today = $("#todate").val();
-    } catch (x) {
-
-        notyAlert('error', x.message);
-
     }
-
+    catch (x)
+    {
+        notyAlert('error', x.message);
+    }
 });
 
-
-function GetSupplierExpeditingDetail() {
-    try {
-        var todate = $("#todate").val();
-        var filter = $("#BasicFilters").val();
-        if (IsVaildDateFormat(todate))
-            var data = { "ToDate": todate, "Filter": filter };
-        var ds = {};
+//Bind Values to Datatable
+function GetSupplierExpeditingDetail(supplierPayementAdvanceSearchObj)
+{
+    debugger;
+    try
+    {       
+        if (supplierPayementAdvanceSearchObj === 0)
+        {
+          var data = {};
+        }
+        else
+        {
+          var data = { "supplierPayementAdvanceSearchObj": JSON.stringify(supplierPayementAdvanceSearchObj) };
+        }
+          var ds = {};
+        //var todate = $("#todate").val();
+        //var filter = $("#BasicFilters").val();
+        //var company = $("#Company").val();
+        //var supplier = $("#Supplier").val();
+        //if (IsVaildDateFormat(todate))
+        //    var data = { "ToDate": todate, "Filter": filter, "Company":company, "Supplier":supplier };
+        //var ds = {};
         ds = GetDataFromServer("Report/GetSupplierPaymentExpeditingDetails/", data);
-        if (ds != '') {
+        if (ds != '')
+        {
             ds = JSON.parse(ds);
         }
-        if (ds.Result == "OK") {
+        if (ds.Result == "OK")
+        {
             return ds.Records.SupplierExpeditingDetailsList;
         }
         if (ds.Result == "ERROR") {
             notyAlert('error', ds.Message);
         }
     }
-    catch (e) {
+    catch (e)
+    {
         notyAlert('error', e.message);
     }
 }
 
-
-function RefreshSupplierExpeditingDetailTable() {
+//advanced filter
+function RefreshSupplierExpeditingDetailTable()
+{
     debugger;
-    try {
-        var todate = $("#todate").val();
-
-        if (DataTables.SupplierExpeditingDetailTableReportTable != undefined && IsVaildDateFormat(todate)) {
-            DataTables.SupplierExpeditingDetailTableReportTable.clear().rows.add(GetSupplierExpeditingDetail()).draw(true);
+    try
+    {
+        var toDate = $("#todate");
+        var filter = $("#BasicFilters");
+        var company = $("#Company");
+        var supplier = $("#Supplier");
+        var supplierAdvanceSearch = new Object();
+        supplierAdvanceSearch.ToDate = toDate[0].value !== "" ? toDate[0].value : null;
+        supplierAdvanceSearch.Filter = filter[0].value !== "" ? filter[0].value : null;
+        supplierAdvanceSearch.Company = company[0].value !== "" ? company[0].value : null;
+        supplierAdvanceSearch.Supplier = supplier[0].value !== "" ? supplier[0].value : null;
+        //if (DataTables.SupplierExpeditingDetailTableReportTable != undefined && IsVaildDateFormat(todate)) {
+        //    DataTables.SupplierExpeditingDetailTableReportTable.clear().rows.add(GetSupplierExpeditingDetail()).draw(true);
+        //}  
+        if (DataTables.SupplierExpeditingDetailTableReportTable != undefined )
+        {       
+        DataTables.SupplierExpeditingDetailTableReportTable.clear().rows.add(GetSupplierExpeditingDetail(supplierAdvanceSearch)).draw(false);
         }
-    }
-    catch (e) {
+        }       
+   
+    catch (e)
+    {
         notyAlert('error', e.message);
     }
 }
 
-
-function PrintReport() {
-    try {
+//to trigger export button
+function PrintReport()
+{
+    try
+    {
         $(".buttons-excel").trigger('click');
     }
-    catch (e) {
+    catch (e)
+    {
         notyAlert('error', e.message);
     }
 }
 
-function Back() {
+function Back()
+{
     window.location = appAddress + "Report/Index/";
 }
 
-
-function Reset() {
+//To reset report
+function Reset()
+{
     debugger;
     $("#todate").val(today);
     $("#BasicFilters").val('ALL');
+    $("#Company").val('ALL').trigger('change')
+    $("#Supplier").val('').trigger('change')
     RefreshSupplierExpeditingDetailTable();
 }

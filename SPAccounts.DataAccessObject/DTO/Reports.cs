@@ -88,6 +88,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal TotalAmount { get; set; }
         public string Description { get; set; }
         public string ExpenseType { get; set; }
+        public decimal ReversedAmount { get; set; }
     }
 
 
@@ -101,6 +102,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string PaymentReference { get; set; }
         public string Description { get; set; }
         public decimal Amount { get; set; }
+        public decimal ReversedAmount { get; set; }
         public string Company { get; set; }
         public string OriginCompany { get; set; }
         public string EmployeeOrOther { get; set; }
@@ -108,6 +110,19 @@ namespace SPAccounts.DataAccessObject.DTO
         public string Date { get; set; }
         public string RowType { get; set; }
         public string ExpenseType { get; set; }
+    }
+
+    public class OtherExpenseLimitedExpenseAdvanceSearch
+    {
+        public string ToDate { get; set; }
+        public string FromDate { get; set; }
+        public string ExpenseType { get; set; }
+        public string Company { get; set; }
+        public string Search { get; set; }
+        public string EmployeeOrOther { get; set; }
+        public string EmpCompany { get; set; }
+        public string AccountHead { get; set; }
+        public string SubType { get; set; }
     }
 
     public class CustomerContactDetailsReport
@@ -123,7 +138,7 @@ namespace SPAccounts.DataAccessObject.DTO
 
     public class SalesTransactionLogReport
     {
-        
+
         public string CompanyCode { get; set; }
         public string OriginatedCompany { get; set; }
         public string Date { get; set; }
@@ -131,7 +146,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string DocNo { get; set; }
         public decimal Amount { get; set; }
         public string Remarks { get; set; }
-       
+
     }
 
     public class PurchaseSummaryReport
@@ -154,7 +169,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string purchaseSummaryInvoice { get; set; }
         public List<PurchaseSummaryReport> purchaseSummaryReportList { get; set; }
 
-}
+    }
     public class PurchaseDetailReport
     {
         public string CompanyCode { get; set; }
@@ -203,7 +218,7 @@ namespace SPAccounts.DataAccessObject.DTO
     }
     public class PurchaseTransactionLogReport
     {
-       
+
         public string CompanyCode { get; set; }
         public string OriginatedCompany { get; set; }
         public string Date { get; set; }
@@ -211,7 +226,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string DocNo { get; set; }
         public decimal Amount { get; set; }
         public string Remarks { get; set; }
-       
+
     }
 
     public class AccountsReceivableAgeingReport
@@ -232,7 +247,7 @@ namespace SPAccounts.DataAccessObject.DTO
     }
     public class AccountsReceivableAgeingSummaryReport
     {
-      
+
         public string CompanyCode { get; set; }
         public string OriginatedCompany { get; set; }
         public string Customer { get; set; }
@@ -241,7 +256,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string ThirtyOneToSixty { get; set; }
         public string SixtyOneToNinety { get; set; }
         public string NinetyOneAndOver { get; set; }
-       
+
     }
     public class AccountsPayableAgeingReport
     {
@@ -256,6 +271,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal Paid { get; set; }
         public decimal Balance { get; set; }
         public string Group { get; set; }
+        public ReportAdvanceSearch ReportAdvanceSearchObj { get; set; }
+        public string Search { get; set; }
     }
     public class AccountsPayableAgeingSummaryReport
     {
@@ -321,6 +338,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public Guid CustomerID { get; set; }
         public string CustomerName { get; set; }
         public string CompanyCode { get; set; }
+        public string InvoiceType { get; set; }
     }
 
 
@@ -336,6 +354,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string SupplierName { get; set; }
         public decimal Balance { get; set; }
         public string SupplierCode { get; set; }
+        public string InvoiceType { get; set; }
     }
 
     public class TrialBalance
@@ -353,11 +372,11 @@ namespace SPAccounts.DataAccessObject.DTO
         public string OriginCompany { get; set; }
         public string Search { get; set; }
         public string AccountHead { get; set; }
-        public string Subtype { get; set; }       
+        public string Subtype { get; set; }
         public string EmployeeOrOther { get; set; }
         public string Employee { get; set; }
-        public string SubTypeDesc { get; set; } 
-      
+        public string SubTypeDesc { get; set; }
+
         public Guid EmployeeID { get; set; }
     }
 
@@ -406,6 +425,9 @@ namespace SPAccounts.DataAccessObject.DTO
         public Decimal Amount { get; set; }
         public string NoOfDays { get; set; }
         public string Remarks { get; set; }
+        public CustomerContactDetailsReport CustomerContactObj { get; set; }
+        public Companies CompanyObj { get; set; }
+        public Customer CustomerObj { get; set; }
     }
 
 
@@ -422,5 +444,37 @@ namespace SPAccounts.DataAccessObject.DTO
         public Decimal Amount { get; set; }
         public string NoOfDays { get; set; }
         public string Remarks { get; set; }
+        public SupplierContactDetailsReport SupplierContactObj { get; set; }
+        public Companies CompanyObj { get; set; }
+        public Supplier SupplierObj { get; set; }
+
     }
+
+
+    public class ReportAdvanceSearch
+    {
+        public string ToDate { get; set; }
+        public string Filter { get; set; }
+        public string Company { get; set; }
+        public string Supplier { get; set; }
+        public string FromDate { get; set; }
+        public string InvoiceType { get; set; }
+        public string Customer { get; set; }
+        public string CompanyCode { get; set; }
+        public string SupplierIDs { get; set; }
+        public string Search { get; set; }
+    }
+
+    public class ReportAccountsReceivableAgeingSearch
+    {
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+        public string CompanyCode { get; set; }
+        public string CustomerIDs { get; set; }
+        public string Search { get; set; }
+    }
+
+
 }
+
+

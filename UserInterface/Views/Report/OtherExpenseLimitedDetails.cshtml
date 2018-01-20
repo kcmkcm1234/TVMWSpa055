@@ -1,0 +1,214 @@
+﻿@model UserInterface.Models.OtherExpenseDetailsReportViewModel
+   
+@using UserInterface.App_Start
+@{
+    ViewBag.Title = "Limited Expense Details";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+@section styles {
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableButtons")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/select2")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableFixedHeader")
+
+
+<style>
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: 20px !important;
+    }
+
+    table.dataTable tr.odd {
+        background-color: rgba(148, 78, 132, 0.16);
+    }
+
+    table.dataTable tr.even {
+        background-color: white;
+    }
+</style>
+}
+
+<div style="width:100%;">
+    <ol class="breadcrumb">
+        <li><a href=@Url.Action("Index","Report")><i class="fa fa-print"></i> Reports</a></li>
+        <li class="active">@ViewBag.Title</li>
+    </ol>
+</div>
+
+<div class="preloader" id="preloader">
+    <div col-md-12>
+        <div class="col-md-5">Loading</div>
+        <div class="col-md-12" style="margin-left:5%;margin-top:3%;"><img src="~/Content/images/loading.gif" class="preloaderImg" /></div>
+    </div>
+</div>
+<div class="col-md-5">
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+
+</div>
+<div class="col-md-9" style="margin-top:10px;">
+    <div class="col-md-3">
+        @Html.LabelFor(model => model.ExpenseType, htmlAttributes: new { @class = "control-label" })
+        <div class="col-md-12">
+            @{
+                List<SelectListItem> TypeList = new List<SelectListItem>();
+                TypeList.Add(new SelectListItem
+                { Text = "ALL", Value = "ALL" });
+                TypeList.Add(new SelectListItem
+                { Text = "Other Expense", Value = "OE" });
+                TypeList.Add(new SelectListItem
+                { Text = "Purchase Details", Value = "SUP" });
+            }
+            @Html.DropDownListFor(model => model.ExpenseType, TypeList, new { @class = "form-control BlockEnter", value = -1 })
+            @Html.ValidationMessageFor(model => model.ExpenseType, "", new { @class = "text-danger" })
+        </div>
+    </div>
+</div>
+    <div class="col-md-3" style="min-height:25px">
+        @{
+            var data = new { ActionType = "ListWithReset" };
+            @Html.Action("ChangeButtonStyle", "Report", data);
+        }
+    </div>
+<div class="col-md-9">
+    <div class="col-md-12"><p></p></div>
+    <div class="col-md-3">
+        @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })
+        <div class="col-md-12">
+            @Html.TextBox("fromdate", "", new { @class = "form-control datepicker HeaderBox BlockEnter" ,@Value=ViewBag.fromdate})
+
+
+        </div>
+    </div>
+    <div class="col-md-3">
+        @Html.Label("To Date", htmlAttributes: new { @class = "control-label" })
+        <div class="col-md-12">
+            @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter", @Value = ViewBag.todate })
+        </div>
+    </div>
+    <div class="col-md-3">
+        @Html.LabelFor(model => model.OtherExpenseLEAdvSearch.Company, htmlAttributes: new { @class = "control-label" })
+        <div class="col-md-12">
+            @Html.DropDownListFor(model => model.OtherExpenseLEAdvSearch.Company, Model.CompanyList, new { @class = "form-control BlockEnter", @style = "width:100%!imporant", value = -1 })
+            @Html.ValidationMessageFor(model => model.OtherExpenseLEAdvSearch.Company, "", new { @class = "text-danger" })
+
+        </div>
+    </div>
+
+
+    <div class="col-md-3">
+        @Html.LabelFor(model => model.OtherExpenseLEAdvSearch.AccountHead, htmlAttributes: new { @class = "control-label" })
+        <div class="col-md-12">
+            @Html.DropDownListFor(model => model.OtherExpenseLEAdvSearch.AccountHead, Model.AccountHeadList, new { @class = "form-control BlockEnter", value = -1, @style = "width:100%!imporant" })
+            @Html.ValidationMessageFor(model => model.OtherExpenseLEAdvSearch.AccountHead, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="col-md-3">
+        @Html.LabelFor(model => model.OtherExpenseLEAdvSearch.SubType, htmlAttributes: new { @class = "control-label" })
+        <div class="col-md-12">
+            @Html.DropDownListFor(model => model.OtherExpenseLEAdvSearch.SubType, Model.EmployeeTypeList, "All", new { @class = "form-control BlockEnter", value = -1, @style = "width:100%!imporant" ,@onchange="EmployeeTypeOnchange(this)" })
+            @Html.ValidationMessageFor(model => model.OtherExpenseLEAdvSearch.SubType, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        @Html.LabelFor(model => model.OtherExpenseLEAdvSearch.EmployeeOrOther, htmlAttributes: new { @class = "control-label" })
+        <div class="col-md-12">
+            @Html.DropDownListFor(model => model.OtherExpenseLEAdvSearch.EmployeeOrOther, Model.EmployeeList, "All", new { @class = "form-control BlockEnter", value = -1, @style = "width:100%!imporant" })
+            @Html.ValidationMessageFor(model => model.OtherExpenseLEAdvSearch.EmployeeOrOther, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="col-md-3">
+        @Html.LabelFor(model => model.OtherExpenseLEAdvSearch.EmpCompany, htmlAttributes: new { @class = "control-label" })
+        <div class="col-md-12">
+            @Html.DropDownListFor(model => model.OtherExpenseLEAdvSearch.EmpCompany, Model.CompanyList, new { @class = "form-control BlockEnter", value = -1 })
+            @Html.ValidationMessageFor(model => model.OtherExpenseLEAdvSearch.EmpCompany, "", new { @class = "text-danger" })
+
+        </div>
+    </div>
+
+    <div class="col-md-9">
+        @Html.LabelFor(model => model.OtherExpenseLEAdvSearch.Search, htmlAttributes: new { @class = "control-label", style = "visibility:hidden" })
+        <div class="col-md-12">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search" id="search">
+                <div class="input-group-btn">
+                    <button class="btn btn-default" type="submit" style="height:28px" onclick="AdvanceSearchContent()"><i class="glyphicon glyphicon-search"></i></button>
+                </div>
+            </div>
+        </div>
+        </div>
+
+    <div class="col-md-3">
+        <div class="col-md-12">
+            <div class="col-md-10">
+                <a class="btn btn-primary" style="right:-750px;margin-top:20px" id="btnadvancesearch" onclick="AdvanceSearchContent()">Apply</a>
+            </div>
+        </div>
+    </div>
+    </div>
+<div class="col-md-3" style="min-height:25px">
+    <div id="otherexpenselimiteddetailtotalreversed" class="col-md-12 box-header figuresummary rounded" style="margin-top:-3%;visibility:hidden">
+        <div class="col-md-12">
+            <div class="col-md-6 text-left" style="font-size:small">Expense:</div>
+            <div class="col-md-6 text-right"><small><span id="otherexpenselimitedamount" style="font-size:small;font-weight:bold"></span></small></div>
+        </div>
+        <div class="col-md-12">
+
+            <div class="col-md-6 text-left" style="font-size:small">Reversed:</div>
+            <div class="col-md-6 text-right"><small><span id="otherexpenselimitedreversed" style="font-size:small;font-weight:bold"></span></small></div>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-6 text-left" style="font-size:small">Total:</div>
+            <div class="col-md-6 text-right"><small><span id="otherexpenselimitedreversedtotaldetail" style="font-size:small;font-weight:bold"></span></small></div>
+        </div>
+    </div>
+</div>
+<div class="row summaryboxes">
+
+    <div class="clearfix visible-sm-block">
+
+    </div>
+
+</div>
+
+<div class="row">
+    &nbsp;
+</div>
+<div class="form-horizontal"></div>
+<div class="row tableContainer">
+    <div class="col-md-12" id="OEContainer">
+        <table id="OtherExpenseLimitedTable" class="table stripe" cellspacing="0" width="100%">
+            <thead>
+                <tr class="text-center TableHead">
+                    <th>Company</th>
+                    <th>Expense Type</th>
+                    <th>Date</th>
+                    <th>Account Head</th>
+                    <th>Employee/Other</th>
+                    <th>Employee Company</th>
+                    <th>Payment Mode</th>
+                    <th>Payment Reference</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Reversed Amount</th>
+                    <th>Origin Company</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+</div>
+
+
+@section Scripts {
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/OtherExpenseLimitedDetailsReport")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
+}
+

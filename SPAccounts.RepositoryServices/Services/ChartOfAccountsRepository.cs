@@ -69,7 +69,7 @@ namespace SPAccounts.RepositoryServices.Services
         #endregion GetChartOfAccountsByType
 
         #region GetAllChartOfAccounts
-        public List<ChartOfAccounts> GetAllChartOfAccounts()
+        public List<ChartOfAccounts> GetAllChartOfAccounts(string type)
         {
             List<ChartOfAccounts> chartOfAccountsList = null;
             try
@@ -84,6 +84,7 @@ namespace SPAccounts.RepositoryServices.Services
                         }
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[GetAllChartOfAccounts]";
+                        cmd.Parameters.Add("@Type", SqlDbType.VarChar, 50).Value = type;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
@@ -103,6 +104,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         _chartOfAccountsObj.ISEmploy = (sdr["ISEmpApplicable"].ToString() != "" ? bool.Parse(sdr["ISEmpApplicable"].ToString()) : _chartOfAccountsObj.ISEmploy);
                                         _chartOfAccountsObj.IsReverse = (sdr["IsReverse"].ToString() != "" ? bool.Parse(sdr["IsReverse"].ToString()) : _chartOfAccountsObj.IsReverse);
                                         _chartOfAccountsObj.IsPurchase = (sdr["IsPurchaseApplicable"].ToString() != "" ? bool.Parse(sdr["IsPurchaseApplicable"].ToString()) : _chartOfAccountsObj.IsPurchase);
+                                        _chartOfAccountsObj.IsAvailLEReport = (sdr["IsAvailLEReport"].ToString() != "" ? bool.Parse(sdr["IsAvailLEReport"].ToString()) : _chartOfAccountsObj.IsAvailLEReport);
                                     }
                                     chartOfAccountsList.Add(_chartOfAccountsObj);
                                 }
@@ -343,5 +345,57 @@ namespace SPAccounts.RepositoryServices.Services
         }
         #endregion DeleteChartOfAccounts
 
+      
+
+        #region Update assigned permissions
+        public object UpdateAssignments(string code)
+        {
+            SqlParameter outputStatus = null;
+            try
+            {
+
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[UpdateAssignmentPermissions]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@CheckedCode", SqlDbType.VarChar, -1).Value = code;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+
+
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+
+                        throw new Exception(Cobj.UpdateFailure);
+
+                    default:
+                        break;
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return new
+            {
+                Status = outputStatus.Value.ToString(),
+                Message = Cobj.UpdateSuccess
+            };
+        }
+        #endregion Update assigned permissions
     }
 }

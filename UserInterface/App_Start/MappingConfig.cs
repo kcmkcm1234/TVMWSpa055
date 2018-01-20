@@ -115,6 +115,9 @@ namespace UserInterface.App_Start
                 config.CreateMap<SupplierInvoiceAgeingSummaryViewModel, SupplierInvoiceAgeingSummary>().ReverseMap();
                 config.CreateMap<CustomerInvoiceAgeingSummaryViewModel, CustomerInvoiceAgeingSummary>().ReverseMap();
                 config.CreateMap<OutGoingChequesViewModel, OutGoingCheques>().ReverseMap();
+                config.CreateMap<OtherExpenseLimitedExpenseAdvanceSearchViewModel, OtherExpenseLimitedExpenseAdvanceSearch>().ReverseMap();
+                config.CreateMap<OutGoingChequesViewModel, OutGoingCheques>().ReverseMap();
+                config.CreateMap<ReportAdvanceSearchViewModel, ReportAdvanceSearch>().ReverseMap();             
             });
         }
     }

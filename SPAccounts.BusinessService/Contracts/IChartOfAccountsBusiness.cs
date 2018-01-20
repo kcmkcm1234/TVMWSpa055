@@ -10,9 +10,10 @@ namespace SPAccounts.BusinessService.Contracts
    public interface IChartOfAccountsBusiness
     {
         List<ChartOfAccounts> GetChartOfAccountsByType(string type);
-        List<ChartOfAccounts> GetAllChartOfAccounts();
+        List<ChartOfAccounts> GetAllChartOfAccounts(string type);
         ChartOfAccounts GetChartOfAccountDetails(string Code);
         object InsertUpdateChartOfAccounts(ChartOfAccounts chartOfAccountsObj);
+        object UpdateAssignments(string code);
         object DeleteChartOfAccounts(string Code);
     }
 }
