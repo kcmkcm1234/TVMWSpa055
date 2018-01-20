@@ -101,6 +101,7 @@ namespace UserInterface.Models
 
         public SpecialPaymentViewModel SpecialPayObj { get; set; }
 
+        public Boolean PBAccess { get; set; }
     }
 
     public class SpecialPaymentViewModel

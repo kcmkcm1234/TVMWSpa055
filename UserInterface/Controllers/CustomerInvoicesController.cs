@@ -50,6 +50,18 @@ namespace UserInterface.Controllers
             List<SelectListItem> selectListItem = new List<SelectListItem>();
             CustomerInvoicesViewModel CI = new CustomerInvoicesViewModel();
 
+            Permission permission = Session["UserRights"] as Permission;
+            string permissionAccess = permission.SubPermissionList.Where(li => li.Name == "PBAccess").First().AccessCode;
+
+            if (permissionAccess.Contains("R") || permissionAccess.Contains("W"))
+            {
+                CI.PBAccess = true;
+            }
+            else
+            {
+                CI.PBAccess = false;
+            }
+
             CI.customerObj = new CustomerViewModel();
             CI.paymentTermsObj = new PaymentTermsViewModel();
             CI.companiesObj = new CompaniesViewModel();

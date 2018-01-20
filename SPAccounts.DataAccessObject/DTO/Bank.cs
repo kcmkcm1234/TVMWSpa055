@@ -15,5 +15,6 @@ namespace SPAccounts.DataAccessObject.DTO
         public string isUpdate { get; set; }
         public decimal ActualODLimit { get; set; }
         public decimal DisplayODLimit { get; set; }
+        public bool ShowODLimit { get; set; }
     }
 }
