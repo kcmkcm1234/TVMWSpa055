@@ -320,6 +320,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public string Withdrawal { get; set; }
         public string Deposit { get; set; }
         public string DepositNotCleared { get; set; }
+        public string CompanyName { get; set; }
+        public string GeneralNotes { get; set; }
     }
 
     public class CustomerPaymentLedger
