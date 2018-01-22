@@ -3,6 +3,7 @@ using SPAccounts.RepositoryServices.Contracts;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Data.OleDb;
 
 
 namespace SPAccounts.RepositoryServices.Services
@@ -11,6 +12,7 @@ namespace SPAccounts.RepositoryServices.Services
     {
         private SqlConnection SQLCon = null;
 
+        private OleDbConnection OleDbCon = null;
 
         public SqlConnection GetDBConnection()
         {
@@ -47,6 +49,32 @@ namespace SPAccounts.RepositoryServices.Services
                 throw ex;
             }
             return false;
+        }
+
+        public OleDbConnection GetOleDBConnection(int flag, string fname)
+        {
+            try
+            {
+                string conString = string.Empty;
+                switch (flag)
+                {
+                    case 1: //Excel 97-03
+                        conString = string.Format(ConfigurationManager.ConnectionStrings["Excel03ConString"].ConnectionString, fname);
+                        break;
+                    case 2: //Excel 07 or higher
+                        conString = string.Format(ConfigurationManager.ConnectionStrings["Excel07+ConString"].ConnectionString, fname);
+                        break;
+                    case 3: //
+                        conString = string.Format(ConfigurationManager.ConnectionStrings["Excel12+ConString"].ConnectionString, fname);
+                        break;
+                }
+                OleDbCon = new OleDbConnection(conString);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return OleDbCon;
         }
     }
 }

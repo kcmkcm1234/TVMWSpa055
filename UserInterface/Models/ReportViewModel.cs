@@ -434,7 +434,9 @@ namespace UserInterface.Models
         public string Deposit { get; set; }
         public string DepositNotCleared { get; set; }
         public string Search { get; set; }
-        public BankViewModel bankObj { get; set; }        
+        public BankViewModel bankObj { get; set; } 
+        public string CompanyName { get; set;}
+        public string GeneralNotes { get; set; }       
     }
 
     public class OtherIncomeSummaryReportViewModel

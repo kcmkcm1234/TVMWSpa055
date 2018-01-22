@@ -27,6 +27,7 @@ namespace UserInterface.Models
         public ToolBoxStructure ClearOutBtn;      
         public ToolBoxStructure downloadBtn;
         public ToolBoxStructure AssignBtn;
+        public ToolBoxStructure HistoryBtn;
 
         public ToolboxViewModel()
         {
@@ -48,6 +49,7 @@ namespace UserInterface.Models
             LimitBtn.SecurityObject = "ButtonLimit";
             downloadBtn.SecurityObject = "ButtonDownload";
             AssignBtn.SecurityObject = "ButtonAssign";
+            HistoryBtn.SecurityObject = "ButtonHistory";
 
             ClearOutBtn.SecurityObject = "ButtonClear";
 
@@ -71,6 +73,7 @@ namespace UserInterface.Models
             LimitBtn.HasAccess = true;
             downloadBtn.HasAccess = true;
             AssignBtn.HasAccess = true;
+            HistoryBtn.HasAccess = true;
         }
 
     }
