@@ -17,7 +17,7 @@ namespace SPAccounts.RepositoryServices.Contracts
         object DeleteDepositandwithdrawal(Guid ID, string UserName);
         object DeleteTransferAmount(Guid TransferID, string UserName);
         object ClearCheque(Guid ID,string date);
-        List<DepositAndWithdrawals> GetUndepositedCheque(string FromDate, string ToDate);
+        List<DepositAndWithdrawals> GetUndepositedCheque(UndepositedChequeAdvanceSearch undepositedChequeAdvanceSearchObject);
         List<OutGoingCheques> GetOutGoingCheques(OutgoingChequeAdvanceSearch advanceSearchObject);
         string GetUndepositedChequeCount(string Date);
         DepositAndWithdrawals TransferAmount(DepositAndWithdrawals _depositAndWithdrwalObj);

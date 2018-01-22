@@ -1,4 +1,6 @@
 ﻿var DataTables = {};
+var startDate = '';
+var endDate = '';
 $(document).ready(function () {
 
 
@@ -25,7 +27,7 @@ $(document).ready(function () {
              fixedHeader: {
                  header: true
              },
-             searching: true,
+             searching: false,
              paging: true,
              data: GetPayableAgeingReport(),
              pageLength: 50,
@@ -69,49 +71,71 @@ $(document).ready(function () {
 
         $(".buttons-excel").hide();
         $("#ddlSupplier").attr('style', 'visibility:true');
-
+        startDate = $("#todate").val();
+        endDate = $("#fromdate").val();
     } catch (x) {
         notyAlert('error', x.message);
     }
 });
 
 
-function GetPayableAgeingReport() {
-    try {
-        var fromdate = $("#fromdate").val();
-        var todate = $("#todate").val();
-        var companycode = $("#CompanyCode").val();
-        var supplierids = $("#supplierCode").val();
-        if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "SupplierIDs": supplierids };
+function GetPayableAgeingReport(reportAdvanceSearchObject) {
+    try 
+    {
+        debugger;      
+        if (reportAdvanceSearchObject == 0) {
+            var data = {};
+        }
+        else {
+            var data = { "reportAdvanceSearchObject": JSON.stringify(reportAdvanceSearchObject) };
+        }
+        //var fromdate = $("#fromdate").val();
+        //var todate = $("#todate").val();
+        //var companycode = $("#CompanyCode").val();
+        //var supplierids = $("#supplierCode").val();
+        //if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
+        //    var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "SupplierIDs": supplierids };
             var ds = {};
             ds = GetDataFromServerTraditional("Report/GetAccountsPayableAgeingDetails/", data);
-            if (ds != '') {
+            if (ds != '')
+            {
                 ds = JSON.parse(ds);
             }
-            if (ds.Result == "OK") {
+            if (ds.Result == "OK") 
+            {
                 return ds.Records;
             }
-            if (ds.Result == "ERROR") {
+            if (ds.Result == "ERROR")
+            {
                 notyAlert('error', ds.Message);
             }
         }
-
-
-
-    }
-    catch (e) {
+    catch (e)
+    {
         notyAlert('error', e.message);
     }
 }
 
 function RefreshPayableAgeingReportTable() {
     try {
-        var fromdate = $("#fromdate").val();
-        var todate = $("#todate").val();
-        var companycode = $("#CompanyCode").val();
-        if (DataTables.PayableAgeingReportTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            DataTables.PayableAgeingReportTable.clear().rows.add(GetPayableAgeingReport()).draw(true);
+        debugger;
+        var fromDate = $("#fromdate");
+        var toDate = $("#todate");
+        var companyCode = $("#CompanyCode");
+        var supplierIds = $("#supplierCode");
+        var search = $("#Search");
+        var PayableAdvanceSearch = new Object();
+        PayableAdvanceSearch.FromDate = fromDate[0].value !== "" ? fromDate[0].value : null;
+        PayableAdvanceSearch.ToDate = toDate[0].value !== "" ? toDate[0].value : null;
+        PayableAdvanceSearch.CompanyCode = companyCode[0].value !== "" ? companyCode[0].value : null;
+        PayableAdvanceSearch.SupplierIDs = supplierIds[0].value !== "" ? supplierIds[0].value : null;
+        PayableAdvanceSearch.Search = search[0].value !== "" ? search[0].value : null;
+        //if (DataTables.PayableAgeingReportTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
+        //    DataTables.PayableAgeingReportTable.clear().rows.add(GetPayableAgeingReport()).draw(true);
+        //}
+
+        if (DataTables.PayableAgeingReportTable != undefined ){//&& IsVaildDateFormat(fromDate) && IsVaildDateFormat(toDate) && companyCode) {
+            DataTables.PayableAgeingReportTable.clear().rows.add(GetPayableAgeingReport(PayableAdvanceSearch)).draw(false);
         }
     }
     catch (e) {
@@ -135,6 +159,16 @@ function PrintReport() {
 
 function Back() {
     window.location = appAddress + "Report/Index/";
+}
+
+function Reset()
+{
+    $("#fromdate").val(endDate);
+    $("#todate").val(startDate);
+    $("#CompanyCode").val('ALL');
+    $("#supplierCode").val('').trigger('change')
+    $("#Search").val('');
+    RefreshPayableAgeingReportTable()
 }
 
 

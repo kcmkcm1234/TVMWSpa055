@@ -613,13 +613,12 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = CompanyCode;
                         cmd.Parameters.Add("@search", SqlDbType.NVarChar, 250).Value = search != "" ? search : null;
                         cmd.Parameters.Add("@IsInternal", SqlDbType.Bit).Value = IsInternal;
-                          cmd.Parameters.Add("@Suppliercode", SqlDbType.UniqueIdentifier).Value = Supplier;
+                        cmd.Parameters.Add("@Suppliercode", SqlDbType.UniqueIdentifier).Value = Supplier;
                         cmd.Parameters.Add("@InvoiceType", SqlDbType.NVarChar, 50).Value = InvoiceType != "" ? InvoiceType : null;
                         if (AccountCode != null && AccountCode != "")
                         {
                             string AccountHeadCode = AccountCode.Split(':')[0];
-                        cmd.Parameters.Add("@AccountCode", SqlDbType.NVarChar, 50).Value = AccountHeadCode;
-
+                            cmd.Parameters.Add("@AccountCode", SqlDbType.NVarChar, 50).Value = AccountHeadCode;
                         }
                         if(SubType!=Guid.Empty)
                         cmd.Parameters.Add("@SubType", SqlDbType.UniqueIdentifier).Value = SubType; 
@@ -985,8 +984,13 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return accountsReceivableAgeingSummaryReportList;
         }
-
-        public List<AccountsPayableAgeingReport> GetAccountsPayableAgeingReport(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string SupplierIDs)
+        #region GetAccountsPayableAgeingReport
+        /// <summary>
+        /// To get GetAccountsPayableAgeingReport
+        /// </summary>
+        /// <param name="reportAdvanceSearchObj"></param>
+        /// <returns>List</returns>
+        public List<AccountsPayableAgeingReport> GetAccountsPayableAgeingReport(ReportAdvanceSearch reportAdvanceSearchObj)
         {
             List<AccountsPayableAgeingReport> accountsPayableAgeingReportList = null;
             try
@@ -1000,10 +1004,11 @@ namespace SPAccounts.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
-                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
-                        cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = CompanyCode;
-                        cmd.Parameters.Add("@SupplierIDs", SqlDbType.NVarChar, -1).Value = SupplierIDs;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = reportAdvanceSearchObj.FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = reportAdvanceSearchObj.ToDate;
+                        cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = reportAdvanceSearchObj.CompanyCode;
+                        cmd.Parameters.Add("@SupplierIDs", SqlDbType.NVarChar, -1).Value = reportAdvanceSearchObj.SupplierIDs;
+                        cmd.Parameters.Add("@Search", SqlDbType.NVarChar, 250).Value = reportAdvanceSearchObj.Search != "" ? reportAdvanceSearchObj.Search : null;
                         cmd.CommandText = "[Accounts].[RPT_GetAccountsPayableAgeingDetail]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -1040,6 +1045,7 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return accountsPayableAgeingReportList;
         }
+        #endregion GetAccountsPayableAgeingReport
 
         public List<AccountsPayableAgeingSummaryReport> GetAccountsPayableAgeingSummaryReport(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string SupplierIDs)
         {
@@ -1070,14 +1076,12 @@ namespace SPAccounts.RepositoryServices.Services
                                 {
                                     AccountsPayableAgeingSummaryReport AccountsPayableAgeingSummaryReport = new AccountsPayableAgeingSummaryReport();
                                     {
-
                                         AccountsPayableAgeingSummaryReport.Supplier = (sdr["SupplierName"].ToString() != "" ? sdr["SupplierName"].ToString() : AccountsPayableAgeingSummaryReport.Supplier);
                                         AccountsPayableAgeingSummaryReport.Current = (sdr["Current"].ToString() != "" ? sdr["Current"].ToString() : AccountsPayableAgeingSummaryReport.Current);
                                         AccountsPayableAgeingSummaryReport.OneToThirty = (sdr["1-30"].ToString() != "" ? sdr["1-30"].ToString() : AccountsPayableAgeingSummaryReport.OneToThirty);
                                         AccountsPayableAgeingSummaryReport.ThirtyOneToSixty = (sdr["31-60"].ToString() != "" ? sdr["31-60"].ToString() : AccountsPayableAgeingSummaryReport.ThirtyOneToSixty);
                                         AccountsPayableAgeingSummaryReport.SixtyOneToNinety = (sdr["61-90"].ToString() != "" ? sdr["61-90"].ToString() : AccountsPayableAgeingSummaryReport.SixtyOneToNinety);
                                         AccountsPayableAgeingSummaryReport.NinetyOneAndOver = (sdr["91 And Over"].ToString() != "" ? sdr["91 And Over"].ToString() : AccountsPayableAgeingSummaryReport.NinetyOneAndOver);
-
                                     }
                                     accountsPayableAgeingSummaryReportList.Add(AccountsPayableAgeingSummaryReport);
                                 }
@@ -1209,6 +1213,9 @@ namespace SPAccounts.RepositoryServices.Services
         /// <param name="FromDate"></param>
         /// <param name="ToDate"></param>
         /// <param name="CompanyCode"></param>
+        /// <param name="accounthead"></param>
+        /// <param name="employeeorother"></param>
+        /// <param name="search"></param>
         /// <returns>List</returns>
         public List<OtherIncomeSummaryReport> GetOtherIncomeSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string accounthead,string subtype, string employeeorother, string search)
         {
@@ -1269,8 +1276,9 @@ namespace SPAccounts.RepositoryServices.Services
         /// <param name="ToDate"></param>
         /// <param name="CompanyCode"></param>
         /// <param name="accounthead"></param>
+        /// <param name="employeeorother"></param>
         /// <param name="search"></param>
-        /// <returns></returns>
+        /// <returns>List</returns>
 
         public List<OtherIncomeDetailsReport> GetOtherIncomeDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string accounthead,string subtype,string employeeorother, string search)
         {

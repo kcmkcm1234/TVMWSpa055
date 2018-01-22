@@ -24,8 +24,9 @@ namespace UserInterface.Controllers
         IPaymentModesBusiness _paymentModesBusiness;
         ICustomerBusiness _customerBusiness;
         ICompaniesBusiness _companiesBusiness;
+        IOtherExpenseBusiness _otherExpenseBusiness;
 
-        public DepositAndWithdrawalsController(IDepositAndWithdrawalsBusiness depositAndWithdrawalsBusiness, IBankBusiness bankBusiness, ICommonBusiness commonBusiness, IPaymentModesBusiness paymentModesBusiness, ICustomerBusiness customerBusiness, ICompaniesBusiness companiesBusiness)
+        public DepositAndWithdrawalsController(IDepositAndWithdrawalsBusiness depositAndWithdrawalsBusiness, IBankBusiness bankBusiness, ICommonBusiness commonBusiness, IPaymentModesBusiness paymentModesBusiness, ICustomerBusiness customerBusiness, ICompaniesBusiness companiesBusiness,IOtherExpenseBusiness otherExpenseBusiness)
         {
             _depositAndWithdrawalsBusiness = depositAndWithdrawalsBusiness;
             _bankBusiness = bankBusiness;
@@ -33,6 +34,7 @@ namespace UserInterface.Controllers
             _paymentModesBusiness = paymentModesBusiness;
             _customerBusiness = customerBusiness;
             _companiesBusiness = companiesBusiness;
+            _otherExpenseBusiness = otherExpenseBusiness;
         }
         #endregion Constructor_Injection 
 
@@ -288,30 +290,99 @@ namespace UserInterface.Controllers
         public ActionResult undeposited()
         {
             DateTime dt = DateTime.Now;
-            //ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+            ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
-            return View();
+
+            DepositAndWithdrwalViewModel result = new DepositAndWithdrwalViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            result.CompanyObj = new CompaniesViewModel();
+            List<CompaniesViewModel> companiesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_otherExpenseBusiness.GetAllCompanies());
+            if (companiesList != null)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "All",
+                    Value = "ALL",
+                    Selected = true
+                });
+
+                foreach (CompaniesViewModel companiesVM in companiesList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = companiesVM.Name,
+                        Value = companiesVM.Name.ToString(),
+                        Selected = false
+                    });
+                }
+            }
+            result.CompanyObj.CompanyList = selectListItem;
+
+
+            selectListItem = new List<SelectListItem>();
+            result.CustomerObj = new CustomerViewModel();
+            List<CustomerViewModel> customerList = Mapper.Map<List<Customer>, List<CustomerViewModel>>(_customerBusiness.GetAllCustomers());
+            if (customerList != null)
+            {
+                //selectListItem.Add(new SelectListItem
+                //{
+                //    Text = "All",
+                //    Value = "ALL",
+                //    Selected = true
+                //});
+
+                foreach (CustomerViewModel customerVM in customerList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = customerVM.CompanyName,
+                        Value = customerVM.CompanyName.ToString(),
+                        Selected = false
+                    });
+                }
+            }
+            result.CustomerObj.CustomerList = selectListItem;
+            selectListItem = new List<SelectListItem>();
+            result.BankObj = new BankViewModel();
+            List<BankViewModel> PayTermList = Mapper.Map<List<Bank>, List<BankViewModel>>(_bankBusiness.GetAllBanks());
+            foreach (BankViewModel bankvm in PayTermList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = bankvm.Name,
+                    Value = bankvm.Name,
+                    Selected = false
+                });
+            }
+            result.BankObj.BanksList = selectListItem;
+            return View(result);
         }
 
+       
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "UndepositedCheque", Mode = "R")]
-        public string GetUndepositedCheque(string FromDate, string ToDate)
+        public string GetUndepositedCheque(string undepositedChequeAdvanceSearchObject)//FromDate, string ToDate)
         {
             try
-            {
-
-                if (FromDate != "" ? Convert.ToDateTime(FromDate) > Convert.ToDateTime(ToDate) : false)
+            {                
+                //if (fromDate != "" ? Convert.ToDateTime(fromDate) > Convert.ToDateTime(chequeAdvanceSearchObj.ToDate) : false)
+                //{
+                //    throw new Exception("Date missmatch");
+                //}
+                AppUA appUA = Session["AppUA"] as AppUA;
+                UndepositedChequeAdvanceSearch undepositedChequeAdvanceSearchObj = undepositedChequeAdvanceSearchObject != null ? JsonConvert.DeserializeObject<UndepositedChequeAdvanceSearch>(undepositedChequeAdvanceSearchObject) : new UndepositedChequeAdvanceSearch();
+                if (undepositedChequeAdvanceSearchObject == null)
                 {
-                    throw new Exception("Date missmatch");
+                    undepositedChequeAdvanceSearchObj.ToDate = appUA.DateTime.ToString("dd-MMM-yyyy");
                 }
-                List<DepositAndWithdrwalViewModel> unDepositedChequeList = Mapper.Map<List<DepositAndWithdrawals>, List<DepositAndWithdrwalViewModel>>(_depositAndWithdrawalsBusiness.GetUndepositedCheque(FromDate, ToDate));
-                string MinDate = unDepositedChequeList.Count != 0 ? Convert.ToDateTime((unDepositedChequeList.Min(X => Convert.ToDateTime(X.DateFormatted)))).ToString("dd-MMM-yyyy") : FromDate;
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = unDepositedChequeList, FromDate = MinDate });
+                List<DepositAndWithdrwalViewModel> unDepositedChequeList = Mapper.Map<List<DepositAndWithdrawals>, List<DepositAndWithdrwalViewModel>>(_depositAndWithdrawalsBusiness.GetUndepositedCheque(undepositedChequeAdvanceSearchObj));
+                string MinDate = unDepositedChequeList.Count != 0 ? Convert.ToDateTime((unDepositedChequeList.Min(X => Convert.ToDateTime(X.DateFormatted)))).ToString("dd-MMM-yyyy") : undepositedChequeAdvanceSearchObj.FromDate;
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = unDepositedChequeList, FromDate = MinDate });                
             }
             catch (Exception ex)
             {
                 AppConstMessage cm = c.GetMessage(ex.Message);
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message, FromDate = FromDate });
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });//, FromDate = FromDate });
             }
         }
         #endregion  GetUndepositedCheque
@@ -448,6 +519,13 @@ namespace UserInterface.Controllers
                     break;
 
                 case "Export":
+
+                    ToolboxViewModelObj.resetbtn.Visible = true;
+                    ToolboxViewModelObj.resetbtn.Text = "Reset";
+                    ToolboxViewModelObj.resetbtn.Title = "Reset";
+                    ToolboxViewModelObj.resetbtn.Event = "Reset();";
+
+
                     ToolboxViewModelObj.PrintBtn.Visible = true;
                     ToolboxViewModelObj.PrintBtn.Text = "Export";
                     ToolboxViewModelObj.PrintBtn.Event = "PrintReport();";

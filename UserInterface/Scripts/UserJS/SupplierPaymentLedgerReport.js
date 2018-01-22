@@ -6,10 +6,8 @@ $(document).ready(function () {
         $("#supplierCode").select2({
             placeholder: "Select a Suppliers.."
         });
-
         DataTables.supplierPaymentLedgerTable = $('#supplierpaymentledgertable').DataTable(
          {
-
              // dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
              dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
              buttons: [{
@@ -29,39 +27,38 @@ $(document).ready(function () {
              pageLength: 50,
 
              columns: [
-                { "data": "Date", "defaultContent": "<i>-</i>" },
+               { "data": "Date", "defaultContent": "<i>-</i>" },
                { "data": "Type", "width": "20%", "defaultContent": "<i>-</i>" },
                { "data": "Ref", "defaultContent": "<i>-</i>" },
-                { "data": "ID", "defaultContent": "<i>-</i>" },
-                 { "data": "SupplierName", "defaultContent": "<i>-</i>" },
+               { "data": "ID", "defaultContent": "<i>-</i>" },
+               { "data": "SupplierName", "defaultContent": "<i>-</i>" },
                { "data": "Company", "defaultContent": "<i>-</i>" },
-               {
-                   "data": "Debit", render: function (data, type, row) {
-                       
-                           return roundoff(data, 1);
-                       
-                   }, "defaultContent": "<i>-</i>"
+               { "data": "Debit", render: function (data, type, row)
+                  {
+                   return roundoff(data, 1);                       
+               }, "defaultContent": "<i>-</i>"
                },
                {
                    "data": "Credit", render: function (data, type, row) {
-                       return roundoff(data, 1);
+                    return roundoff(data, 1);
                    }, "defaultContent": "<i>-</i>"
                },
                {
-                   "data": "Balance", render: function (data, type, row) {
+                   "data": "Balance", render: function (data, type, row) {                      
+                                             
+                           return roundoff(data, 1);                    
 
-                       return roundoff(data, 1);
                    }, "defaultContent": "<i>-</i>"
                },
 
              ],
              columnDefs: [{ "targets": [3,4], "visible": false, "searchable": false },
              { className: "text-left", "targets": [0, 2, 5, 6,7,8] },
-              { "width": "15%", "targets": [0] },
-               { "width": "10%", "targets": [1] },
+             { "width": "15%", "targets": [0] },
+             { "width": "10%", "targets": [1] },
              { className: "text-right", "targets": [] },
-         { className: "text-center", "targets": [1] },
-            { "bSortable": false, "aTargets": [0, 1, 2, 3, 4, 5, 6, 7, 8] }],
+             { className: "text-center", "targets": [1] },
+             { "bSortable": false, "aTargets": [0, 1, 2, 3, 4, 5, 6, 7, 8] }],
              createdRow: function (row, data, index) {
                  if (data.Type == "<b>Total</b>") {
 
@@ -74,7 +71,6 @@ $(document).ready(function () {
                  var last = null;
 
                  api.column(4, { page: 'current' }).data().each(function (group, i) {
-
                      if (last !== group) {
                          $(rows).eq(i).before('<tr class="group "><td colspan="7" class="rptGrp">' + '<b>SupplierName</b> : ' + group + '</td></tr>');
                          last = group;
@@ -83,24 +79,20 @@ $(document).ready(function () {
                      //{
                      //    $(rows).eq(i).after('<tr class="group "><td colspan="7" class="rptGrp">' + '<b>Sub Total</b> : ' + group + '</td></tr>');
                      //}
-
                  });
              }
          });
-
         $(".buttons-excel").hide();
         $("#btnSend").hide();
         startDate = $("#todate").val();
         endDate = $("#fromdate").val();
         $("#suppliernameddl").attr('style', 'visibility:true');
 
-    } catch (x) {
-
-        notyAlert('error', x.message);
-
     }
-
-
+    catch (x)
+    {
+        notyAlert('error', x.message);
+    }
 });
 
 //To bind values to report
@@ -146,33 +138,36 @@ function RefreshSupplierPaymentLedgerTable() {
             DataTables.supplierPaymentLedgerTable.clear().rows.add(GetSupplierPaymentLedger()).draw(true);
         }
     }
-    catch (e) {
+    catch (e)
+    {
         notyAlert('error', e.message);
     }
 }
 
 //to trigger export button
-function PrintReport() {
+function PrintReport()
+{
     try {
         $(".buttons-excel").trigger('click');
 
-    }
-    catch (e) {
+        }
+    catch (e)
+    {
         notyAlert('error', e.message);
     }
 }
 
 
-function Back() {
+function Back()
+{
     window.location = appAddress + "Report/Index/";
 }
 
-function OnCallChange() {
-    debugger;
+function OnCallChange()
+{
     if ($("#supplierCode").val() == '') {
         DataTables.supplierPaymentLedgerTable.clear().rows.add(GetSupplierPaymentLedger('ALL')).draw(true);
-    }
-   
+    }   
     RefreshSupplierPaymentLedgerTable();
 }
 
@@ -189,14 +184,14 @@ function Reset() {
 
 
 //To trigger download button
-function DownloadReport() {
-    debugger;
+function DownloadReport()
+{
     $('#btnSend').trigger('click');
 }
 
 //To download file in PDF
-function GetHtmlData() {
-    debugger;
+function GetHtmlData()
+{
     DrawTable({
         Action: "Report/GetSupplierPaymentLedger/",
         data: { "FromDate": $('#fromdate').val(), "ToDate": $('#todate').val(), "Suppliercode": $('#supplierCode').val(), "Company": $('#companyCode').val(), "InvoiceType": $('#ddlInvoiceType').val() },

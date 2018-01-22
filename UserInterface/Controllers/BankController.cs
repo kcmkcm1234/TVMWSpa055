@@ -130,8 +130,18 @@ namespace UserInterface.Controllers
         {
             try
             {
-                
-                    object result = null;
+                Permission _permission = Session["UserRights"] as Permission;
+                string permissionAccess = _permission.SubPermissionList.Where(li => li.Name == "ODLimit").First().AccessCode;
+                if (permissionAccess.Contains("R") || permissionAccess.Contains("W"))
+                {
+                    _bankObj.ShowODLimit = true;
+                }
+                else
+                {
+                    _bankObj.ShowODLimit = false;
+                }
+
+                object result = null;
                 AppUA _appUA = Session["AppUA"] as AppUA;
                 _bankObj.commonObj = new CommonViewModel();
                 _bankObj.commonObj.CreatedBy = _appUA.UserName;

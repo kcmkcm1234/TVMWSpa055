@@ -271,6 +271,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal Paid { get; set; }
         public decimal Balance { get; set; }
         public string Group { get; set; }
+        public ReportAdvanceSearch ReportAdvanceSearchObj { get; set; }
+        public string Search { get; set; }
     }
     public class AccountsPayableAgeingSummaryReport
     {
@@ -335,7 +337,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal Credit { get; set; }
         public decimal Balance { get; set; }
         public string CustomerCode { get; set; }
-        public Guid CustomerID { get; set; }      
+        public Guid CustomerID { get; set; }
         public string CustomerName { get; set; }
         public string CompanyCode { get; set; }
         public string InvoiceType { get; set; }
@@ -427,7 +429,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string Remarks { get; set; }
         public CustomerContactDetailsReport CustomerContactObj { get; set; }
         public Companies CompanyObj { get; set; }
-        public Customer CustomerObj { get; set; }     
+        public Customer CustomerObj { get; set; }
     }
 
 
@@ -445,8 +447,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public string NoOfDays { get; set; }
         public string Remarks { get; set; }
         public SupplierContactDetailsReport SupplierContactObj { get; set; }
-        public Companies CompanyObj { get; set; }   
-        public Supplier SupplierObj { get; set; }    
+        public Companies CompanyObj { get; set; }
+        public Supplier SupplierObj { get; set; }
 
     }
 
@@ -460,6 +462,9 @@ namespace SPAccounts.DataAccessObject.DTO
         public string FromDate { get; set; }
         public string InvoiceType { get; set; }
         public string Customer { get; set; }
+        public string CompanyCode { get; set; }
+        public string SupplierIDs { get; set; }
+        public string Search { get; set; }
     }
 
     public class ReportAccountsReceivableAgeingSearch

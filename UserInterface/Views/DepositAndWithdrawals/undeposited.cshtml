@@ -63,7 +63,20 @@
             </div>
         </div>
 
-
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.Company, htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-12">
+                @Html.DropDownListFor(model => model.Company, Model.CompanyObj.CompanyList, new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "ddlCompany", @onchange = "RefreshUndepositedChequeTable()" })
+                @Html.ValidationMessageFor(model => model.Company, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.Customer, htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-12">
+                @Html.DropDownListFor(model => model.Customer, Model.CustomerObj.CustomerList, "--Select--", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "ddlCustomer", @onchange = "RefreshUndepositedChequeTable()" })
+                @Html.ValidationMessageFor(model => model.Customer, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
 
     </div>
@@ -75,43 +88,74 @@
         }
     </div>
 
-    <div class="row summaryboxes">
+    <div class="form-horizontal">
 
-        <div class="clearfix visible-sm-block">
+        <div class="col-md-9" style="margin-top:10px;">
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.Bank, htmlAttributes: new { @class = "control-label" })
+                <div class="col-md-12">
+                    @Html.DropDownListFor(model => model.Bank, Model.BankObj.BanksList, "--Select--", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "ddlBank", @onchange = "RefreshUndepositedChequeTable()" })
+                    @Html.ValidationMessageFor(model => model.Bank, "", new { @class = "text-danger" })
+                </div>
+                </div>
+
+            <div class="col-md-6">
+                @Html.LabelFor(model => model.Search, htmlAttributes: new { @class = "control-label", style = "visibility:hidden" })
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" id="Search">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" type="submit" style="height:28px" onclick="RefreshUndepositedChequeTable()"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+                </div>
+            </div>
+
+           
+
+            <div class="row summaryboxes">
+
+                <div class="clearfix visible-sm-block">
+
+                </div>
+
+            </div>
+
+            <div class="row">
+                &nbsp;
+            </div>
+            <div class="row tableContainer">
+                <div class="col-md-12" id="AHContainer">
+                    <table id="undepositedChequeTable" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
+                        <thead>
+                            <tr class="text-center TableHead">
+                                <th>Date</th>
+                                <th>Reference No</th>
+                                <th>Customer/Ref Desciption</th>
+                                <th>Company</th>
+                                <th>Reference Bank</th>
+                                <th>General Notes</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
 
         </div>
 
-    </div>
-
-    <div class="row">
-        &nbsp;
-    </div>
-    <div class="row tableContainer">
-        <div class="col-md-12" id="AHContainer">
-            <table id="undepositedChequeTable" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
-                <thead>
-                    <tr class="text-center TableHead">
-                        <th>Date</th>
-                        <th>Reference No</th>
-                        <th>Customer/Ref Desciption</th>
-                        <th>Reference Bank</th>
-                        <th>Amount</th>                                              
-                    </tr>
-                </thead>
-            </table>
-        </div>
-    </div>
-
-</div>
-
-@section Scripts {
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
-   @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UndepositedCheque")
-}
+        @section Scripts {
+            @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
+            @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
+            @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
+            @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
+            @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
+            @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UndepositedCheque")
+        }
 
 
 

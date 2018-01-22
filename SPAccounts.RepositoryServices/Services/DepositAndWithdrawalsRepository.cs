@@ -113,7 +113,7 @@ namespace SPAccounts.RepositoryServices.Services
         #region GetDepositAndWithdrawalDetails
         public DepositAndWithdrawals GetDepositAndWithdrawalDetails(Guid ID)
         {
-            DepositAndWithdrawals _depositAndWithdrawalsObj = new DepositAndWithdrawals();
+            DepositAndWithdrawals depositAndWithdrawalsObj = new DepositAndWithdrawals();
             try
             {
                 using (SqlConnection con = _databaseFactory.GetDBConnection())
@@ -133,17 +133,17 @@ namespace SPAccounts.RepositoryServices.Services
                             if ((sdr != null) && (sdr.HasRows))
                                 if (sdr.Read())
                                 {
-                                    _depositAndWithdrawalsObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : _depositAndWithdrawalsObj.ID);
-                                    _depositAndWithdrawalsObj.CustomerID = (sdr["CustomerID"].ToString() != "" ? Guid.Parse(sdr["CustomerID"].ToString()):Guid.Empty);
-                                    _depositAndWithdrawalsObj.TransactionType = (sdr["TransactionType"].ToString() != "" ? (sdr["TransactionType"].ToString()) : _depositAndWithdrawalsObj.TransactionType);
-                                    _depositAndWithdrawalsObj.ReferenceNo = (sdr["ReferenceNo"].ToString() != "" ? (sdr["ReferenceNo"].ToString()) : _depositAndWithdrawalsObj.ReferenceNo);
-                                    _depositAndWithdrawalsObj.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : _depositAndWithdrawalsObj.GeneralNotes);
-                                    _depositAndWithdrawalsObj.BankCode = (sdr["BankCode"].ToString() != "" ? (sdr["BankCode"].ToString()) : _depositAndWithdrawalsObj.BankCode);
-                                    _depositAndWithdrawalsObj.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : _depositAndWithdrawalsObj.Amount);
-                                    _depositAndWithdrawalsObj.DateFormatted = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(s.dateformat) : _depositAndWithdrawalsObj.DateFormatted);
-                                    _depositAndWithdrawalsObj.ChequeFormatted = (sdr["ChequeClearDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeClearDate"].ToString()).ToString(s.dateformat) : _depositAndWithdrawalsObj.ChequeFormatted);
-                                    _depositAndWithdrawalsObj.ChequeStatus = (sdr["ChequeStatus"].ToString() != "" ? (sdr["ChequeStatus"].ToString()) : _depositAndWithdrawalsObj.ChequeStatus);
-                                    _depositAndWithdrawalsObj.PaymentMode = (sdr["DepositMode"].ToString() != "" ? (sdr["DepositMode"].ToString()) : _depositAndWithdrawalsObj.PaymentMode);
+                                    depositAndWithdrawalsObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : depositAndWithdrawalsObj.ID);
+                                    depositAndWithdrawalsObj.CustomerID = (sdr["CustomerID"].ToString() != "" ? Guid.Parse(sdr["CustomerID"].ToString()):Guid.Empty);
+                                    depositAndWithdrawalsObj.TransactionType = (sdr["TransactionType"].ToString() != "" ? (sdr["TransactionType"].ToString()) : depositAndWithdrawalsObj.TransactionType);
+                                    depositAndWithdrawalsObj.ReferenceNo = (sdr["ReferenceNo"].ToString() != "" ? (sdr["ReferenceNo"].ToString()) : depositAndWithdrawalsObj.ReferenceNo);
+                                    depositAndWithdrawalsObj.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : depositAndWithdrawalsObj.GeneralNotes);
+                                    depositAndWithdrawalsObj.BankCode = (sdr["BankCode"].ToString() != "" ? (sdr["BankCode"].ToString()) : depositAndWithdrawalsObj.BankCode);
+                                    depositAndWithdrawalsObj.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : depositAndWithdrawalsObj.Amount);
+                                    depositAndWithdrawalsObj.DateFormatted = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(s.dateformat) : depositAndWithdrawalsObj.DateFormatted);
+                                    depositAndWithdrawalsObj.ChequeFormatted = (sdr["ChequeClearDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeClearDate"].ToString()).ToString(s.dateformat) : depositAndWithdrawalsObj.ChequeFormatted);
+                                    depositAndWithdrawalsObj.ChequeStatus = (sdr["ChequeStatus"].ToString() != "" ? (sdr["ChequeStatus"].ToString()) : depositAndWithdrawalsObj.ChequeStatus);
+                                    depositAndWithdrawalsObj.PaymentMode = (sdr["DepositMode"].ToString() != "" ? (sdr["DepositMode"].ToString()) : depositAndWithdrawalsObj.PaymentMode);
                                 }
                         }
                     }
@@ -155,14 +155,14 @@ namespace SPAccounts.RepositoryServices.Services
                 throw ex;
             }
 
-            return _depositAndWithdrawalsObj;
+            return depositAndWithdrawalsObj;
         }
         #endregion GetDepositAndWithdrawalDetails
         
         #region GetTransferCashDetailsById
         public DepositAndWithdrawals GetTransferCashById(Guid TransferId)
         {
-            DepositAndWithdrawals _depositAndWithdrawalsObj = new DepositAndWithdrawals();
+            DepositAndWithdrawals depositAndWithdrawalsObj = new DepositAndWithdrawals();
             try
             {
                 using (SqlConnection con = _databaseFactory.GetDBConnection())
@@ -182,12 +182,12 @@ namespace SPAccounts.RepositoryServices.Services
                             if ((sdr != null) && (sdr.HasRows))
                                 if (sdr.Read())
                                 {
-                                    _depositAndWithdrawalsObj.TransferID = (sdr["TransferId"].ToString() != "" ? Guid.Parse(sdr["TransferId"].ToString()) : _depositAndWithdrawalsObj.TransferID);
-                                    _depositAndWithdrawalsObj.FromBank = (sdr["FromBank"].ToString() != "" ? (sdr["FromBank"].ToString()) : _depositAndWithdrawalsObj.FromBank);
-                                    _depositAndWithdrawalsObj.ToBank = (sdr["ToBank"].ToString() != "" ? (sdr["ToBank"].ToString()) : _depositAndWithdrawalsObj.ToBank);
-                                    _depositAndWithdrawalsObj.ReferenceNo = (sdr["ReferenceNo"].ToString() != "" ? (sdr["ReferenceNo"].ToString()) : _depositAndWithdrawalsObj.ReferenceNo);
-                                    _depositAndWithdrawalsObj.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : _depositAndWithdrawalsObj.Amount);
-                                    _depositAndWithdrawalsObj.DateFormatted = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(s.dateformat) : _depositAndWithdrawalsObj.DateFormatted);
+                                    depositAndWithdrawalsObj.TransferID = (sdr["TransferId"].ToString() != "" ? Guid.Parse(sdr["TransferId"].ToString()) : depositAndWithdrawalsObj.TransferID);
+                                    depositAndWithdrawalsObj.FromBank = (sdr["FromBank"].ToString() != "" ? (sdr["FromBank"].ToString()) : depositAndWithdrawalsObj.FromBank);
+                                    depositAndWithdrawalsObj.ToBank = (sdr["ToBank"].ToString() != "" ? (sdr["ToBank"].ToString()) : depositAndWithdrawalsObj.ToBank);
+                                    depositAndWithdrawalsObj.ReferenceNo = (sdr["ReferenceNo"].ToString() != "" ? (sdr["ReferenceNo"].ToString()) : depositAndWithdrawalsObj.ReferenceNo);
+                                    depositAndWithdrawalsObj.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : depositAndWithdrawalsObj.Amount);
+                                    depositAndWithdrawalsObj.DateFormatted = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(s.dateformat) : depositAndWithdrawalsObj.DateFormatted);
                                     //_depositAndWithdrawalsObj.ChequeFormatted = (sdr["ChequeClearDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeClearDate"].ToString()).ToString(s.dateformat) : _depositAndWithdrawalsObj.ChequeFormatted);
                                     //_depositAndWithdrawalsObj.ChequeStatus = (sdr["ChequeStatus"].ToString() != "" ? (sdr["ChequeStatus"].ToString()) : _depositAndWithdrawalsObj.ChequeStatus);
                                     //_depositAndWithdrawalsObj.PaymentMode = (sdr["DepositMode"].ToString() != "" ? (sdr["DepositMode"].ToString()) : _depositAndWithdrawalsObj.PaymentMode);
@@ -202,12 +202,12 @@ namespace SPAccounts.RepositoryServices.Services
                 throw ex;
             }
 
-            return _depositAndWithdrawalsObj;
+            return depositAndWithdrawalsObj;
         }
         #endregion GetTransferCashDetailsById
         
         #region InsertDepositAndWithdrawals
-        public DepositAndWithdrawals InsertDepositAndWithdrawals(DepositAndWithdrawals _depositAndWithdrawalsObj)
+        public DepositAndWithdrawals InsertDepositAndWithdrawals(DepositAndWithdrawals depositAndWithdrawalsObj)
         {
             try
             {
@@ -223,28 +223,28 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[InsertDepositAndWithdrawals]";
                         cmd.CommandType = CommandType.StoredProcedure;
-                        if(_depositAndWithdrawalsObj.Date!=default(DateTime))
+                        if(depositAndWithdrawalsObj.Date!=default(DateTime))
                         {
-                            cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = _depositAndWithdrawalsObj.Date;
+                            cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = depositAndWithdrawalsObj.Date;
                         }
                         else
                         {
                             cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = null;
                         }                       
-                         cmd.Parameters.Add("@TransactionType", SqlDbType.Char, 1).Value = _depositAndWithdrawalsObj.TransactionType;
-                        cmd.Parameters.Add("@ReferenceNo", SqlDbType.VarChar, 20).Value = _depositAndWithdrawalsObj.ReferenceNo;                                     
-                        cmd.Parameters.Add("@BankCode", SqlDbType.VarChar, 5).Value = _depositAndWithdrawalsObj.BankCode;                       
-                        cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = _depositAndWithdrawalsObj.Amount;
-                        cmd.Parameters.Add("@ChequeStatus", SqlDbType.NVarChar, 10).Value = _depositAndWithdrawalsObj.ChequeStatus;
-                        cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = _depositAndWithdrawalsObj.CustomerID;
-                        cmd.Parameters.Add("@DepositMode", SqlDbType.NVarChar, 10).Value = _depositAndWithdrawalsObj.PaymentMode;
-                        if (_depositAndWithdrawalsObj.ChequeClearDate != default(DateTime))
+                         cmd.Parameters.Add("@TransactionType", SqlDbType.Char, 1).Value = depositAndWithdrawalsObj.TransactionType;
+                        cmd.Parameters.Add("@ReferenceNo", SqlDbType.VarChar, 20).Value = depositAndWithdrawalsObj.ReferenceNo;                                     
+                        cmd.Parameters.Add("@BankCode", SqlDbType.VarChar, 5).Value = depositAndWithdrawalsObj.BankCode;                       
+                        cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = depositAndWithdrawalsObj.Amount;
+                        cmd.Parameters.Add("@ChequeStatus", SqlDbType.NVarChar, 10).Value = depositAndWithdrawalsObj.ChequeStatus;
+                        cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = depositAndWithdrawalsObj.CustomerID;
+                        cmd.Parameters.Add("@DepositMode", SqlDbType.NVarChar, 10).Value = depositAndWithdrawalsObj.PaymentMode;
+                        if (depositAndWithdrawalsObj.ChequeClearDate != default(DateTime))
                         {
-                            cmd.Parameters.Add("@ChequeClearDate", SqlDbType.DateTime).Value = _depositAndWithdrawalsObj.ChequeClearDate;
+                            cmd.Parameters.Add("@ChequeClearDate", SqlDbType.DateTime).Value = depositAndWithdrawalsObj.ChequeClearDate;
                         } 
-                        cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = _depositAndWithdrawalsObj.commonObj.CreatedBy;
-                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = _depositAndWithdrawalsObj.commonObj.CreatedDate;
-                        cmd.Parameters.Add("@GeneralNotes", SqlDbType.VarChar, -1).Value = _depositAndWithdrawalsObj.GeneralNotes;
+                        cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = depositAndWithdrawalsObj.commonObj.CreatedBy;
+                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = depositAndWithdrawalsObj.commonObj.CreatedDate;
+                        cmd.Parameters.Add("@GeneralNotes", SqlDbType.VarChar, -1).Value = depositAndWithdrawalsObj.GeneralNotes;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         outputID = cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier);
@@ -261,7 +261,7 @@ namespace SPAccounts.RepositoryServices.Services
                         AppConst Cobj = new AppConst();
                         throw new Exception(Cobj.InsertFailure);
                     case "1":
-                        _depositAndWithdrawalsObj.ID = Guid.Parse(outputID.Value.ToString());
+                        depositAndWithdrawalsObj.ID = Guid.Parse(outputID.Value.ToString());
                         break;
                     default:
                         break;
@@ -273,12 +273,12 @@ namespace SPAccounts.RepositoryServices.Services
 
                 throw ex;
             }
-            return _depositAndWithdrawalsObj;
+            return depositAndWithdrawalsObj;
         }
         #endregion InsertDepositAndWithdrawals
 
         #region UpdateDepositAndWithdrawals
-        public object UpdateDepositAndWithdrawals(DepositAndWithdrawals _depositAndWithdrawalsObj)
+        public object UpdateDepositAndWithdrawals(DepositAndWithdrawals depositAndWithdrawalsObj)
         {
             SqlParameter outputStatus = null;
             try
@@ -295,23 +295,23 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[UpdateDepositAndWithdrawals]";
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = _depositAndWithdrawalsObj.ID;
-                        cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = _depositAndWithdrawalsObj.CustomerID;
-                        cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = _depositAndWithdrawalsObj.Date;
-                        cmd.Parameters.Add("@TransactionType", SqlDbType.Char, 1).Value = _depositAndWithdrawalsObj.TransactionType;
-                        cmd.Parameters.Add("@ReferenceNo", SqlDbType.VarChar, 20).Value = _depositAndWithdrawalsObj.ReferenceNo;
-                        cmd.Parameters.Add("@BankCode", SqlDbType.VarChar, 5).Value = _depositAndWithdrawalsObj.BankCode;
-                        cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = _depositAndWithdrawalsObj.Amount;
-                        cmd.Parameters.Add("@ChequeStatus", SqlDbType.NVarChar, 10).Value = _depositAndWithdrawalsObj.ChequeStatus;
-                        if (_depositAndWithdrawalsObj.ChequeClearDate != default(DateTime))
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = depositAndWithdrawalsObj.ID;
+                        cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = depositAndWithdrawalsObj.CustomerID;
+                        cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = depositAndWithdrawalsObj.Date;
+                        cmd.Parameters.Add("@TransactionType", SqlDbType.Char, 1).Value = depositAndWithdrawalsObj.TransactionType;
+                        cmd.Parameters.Add("@ReferenceNo", SqlDbType.VarChar, 20).Value = depositAndWithdrawalsObj.ReferenceNo;
+                        cmd.Parameters.Add("@BankCode", SqlDbType.VarChar, 5).Value = depositAndWithdrawalsObj.BankCode;
+                        cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = depositAndWithdrawalsObj.Amount;
+                        cmd.Parameters.Add("@ChequeStatus", SqlDbType.NVarChar, 10).Value = depositAndWithdrawalsObj.ChequeStatus;
+                        if (depositAndWithdrawalsObj.ChequeClearDate != default(DateTime))
                         {
-                            cmd.Parameters.Add("@ChequeClearDate", SqlDbType.DateTime).Value = _depositAndWithdrawalsObj.ChequeClearDate;
+                            cmd.Parameters.Add("@ChequeClearDate", SqlDbType.DateTime).Value = depositAndWithdrawalsObj.ChequeClearDate;
                         }
                         //cmd.Parameters.Add("@ChequeClearDate", SqlDbType.DateTime).Value = _depositAndWithdrawalsObj.ChequeClearDate;
-                        cmd.Parameters.Add("@DepositMode", SqlDbType.NVarChar, 10).Value = _depositAndWithdrawalsObj.PaymentMode;
-                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = _depositAndWithdrawalsObj.commonObj.UpdatedBy;
-                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = _depositAndWithdrawalsObj.commonObj.UpdatedDate;
-                        cmd.Parameters.Add("@GeneralNotes", SqlDbType.VarChar, -1).Value = _depositAndWithdrawalsObj.GeneralNotes;
+                        cmd.Parameters.Add("@DepositMode", SqlDbType.NVarChar, 10).Value = depositAndWithdrawalsObj.PaymentMode;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = depositAndWithdrawalsObj.commonObj.UpdatedBy;
+                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = depositAndWithdrawalsObj.commonObj.UpdatedDate;
+                        cmd.Parameters.Add("@GeneralNotes", SqlDbType.VarChar, -1).Value = depositAndWithdrawalsObj.GeneralNotes;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();
@@ -385,7 +385,12 @@ namespace SPAccounts.RepositoryServices.Services
         #endregion ClearCheque
 
         #region GetUndepositedCheque
-        public List<DepositAndWithdrawals> GetUndepositedCheque(string FromDate, string ToDate)
+        /// <summary>
+        /// To get Undeposited cheques
+        /// </summary>
+        /// <param name="undepositedChequeAdvanceSearchObject"></param>
+        /// <returns>unDepositedChequeList</returns>
+        public List<DepositAndWithdrawals> GetUndepositedCheque(UndepositedChequeAdvanceSearch undepositedChequeAdvanceSearchObject)
         {
             List<DepositAndWithdrawals> unDepositedChequeList = null;
             try
@@ -399,10 +404,14 @@ namespace SPAccounts.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate == "" ? null : FromDate; 
-                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
                         cmd.CommandText = "[Accounts].[GetUndepositedCheques]";
                         cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = undepositedChequeAdvanceSearchObject.FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = undepositedChequeAdvanceSearchObject.ToDate;
+                        cmd.Parameters.Add("@Company", SqlDbType.NVarChar).Value = undepositedChequeAdvanceSearchObject.Company;
+                        cmd.Parameters.Add("@Customer", SqlDbType.NVarChar).Value = undepositedChequeAdvanceSearchObject.Customer;
+                        cmd.Parameters.Add("@BankCode", SqlDbType.NVarChar).Value = undepositedChequeAdvanceSearchObject.BankCode;
+                        cmd.Parameters.Add("@Search", SqlDbType.NVarChar, 250).Value = undepositedChequeAdvanceSearchObject.Search;                     
 
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
@@ -411,31 +420,31 @@ namespace SPAccounts.RepositoryServices.Services
                                 unDepositedChequeList = new List<DepositAndWithdrawals>();
                                 while (sdr.Read())
                                 {
-                                    DepositAndWithdrawals _depositAndWithdrawalsObj = new DepositAndWithdrawals();
+                                    DepositAndWithdrawals depositAndWithdrawalsObj = new DepositAndWithdrawals();
                                     {
-                                        _depositAndWithdrawalsObj.DateFormatted = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(s.dateformat) : _depositAndWithdrawalsObj.DateFormatted);
+                                        depositAndWithdrawalsObj.DateFormatted = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(s.dateformat) : depositAndWithdrawalsObj.DateFormatted);
                                         //_depositAndWithdrawalsObj.Date = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(settings.dateformat) : _depositAndWithdrawalsObj.Date);
-                                        _depositAndWithdrawalsObj.ReferenceNo = (sdr["ReferenceNo"].ToString() != "" ? (sdr["ReferenceNo"].ToString()) : _depositAndWithdrawalsObj.ReferenceNo);
-                                        _depositAndWithdrawalsObj.CustomerName = (sdr["CustomerName"].ToString() != "" ? (sdr["CustomerName"].ToString()) : _depositAndWithdrawalsObj.CustomerName);
-                                        _depositAndWithdrawalsObj.ReferenceBank = (sdr["ReferenceBank"].ToString() != "" ? (sdr["ReferenceBank"].ToString()) : _depositAndWithdrawalsObj.ReferenceBank);
-                                        _depositAndWithdrawalsObj.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : _depositAndWithdrawalsObj.Amount);
-
-                                    
+                                        depositAndWithdrawalsObj.ReferenceNo = (sdr["ReferenceNo"].ToString() != "" ? (sdr["ReferenceNo"].ToString()) : depositAndWithdrawalsObj.ReferenceNo);
+                                        depositAndWithdrawalsObj.CustomerName = (sdr["CustomerName"].ToString() != "" ? (sdr["CustomerName"].ToString()) : depositAndWithdrawalsObj.CustomerName);
+                                        depositAndWithdrawalsObj.CompanyObj = new Companies();
+                                        {
+                                            depositAndWithdrawalsObj.CompanyObj.Name = (sdr["Company"].ToString() != "" ? sdr["Company"].ToString() : depositAndWithdrawalsObj.CompanyObj.Name);
+                                        }                                       
+                                        depositAndWithdrawalsObj.ReferenceBank = (sdr["ReferenceBank"].ToString() != "" ? (sdr["ReferenceBank"].ToString()) : depositAndWithdrawalsObj.ReferenceBank);
+                                        depositAndWithdrawalsObj.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? (sdr["GeneralNotes"].ToString()) : depositAndWithdrawalsObj.GeneralNotes);
+                                        depositAndWithdrawalsObj.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : depositAndWithdrawalsObj.Amount);                                    
                                     }
-
-                                    unDepositedChequeList.Add(_depositAndWithdrawalsObj);
+                                    unDepositedChequeList.Add(depositAndWithdrawalsObj);
                                 }
                             }
                         }
                     }
                 }
             }
-
             catch (Exception ex)
             {
                 throw ex;
             }
-
             return unDepositedChequeList;
         }
         #endregion GetUndepositedCheque
@@ -471,22 +480,22 @@ namespace SPAccounts.RepositoryServices.Services
                                 outgoingcheque = new List<OutGoingCheques>();
                                 while (sdr.Read())
                                 {
-                                    OutGoingCheques _depositAndWithdrawalsObj = new OutGoingCheques();
+                                    OutGoingCheques depositAndWithdrawalsObj = new OutGoingCheques();
                                     {
-                                        _depositAndWithdrawalsObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : _depositAndWithdrawalsObj.ID);
-                                        _depositAndWithdrawalsObj.ChequeNo= (sdr["ChequeNo"].ToString() != "" ? (sdr["ChequeNo"].ToString()) : _depositAndWithdrawalsObj.ChequeNo);
-                                        _depositAndWithdrawalsObj.ChequeDate = (sdr["ChequeDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeDate"].ToString()).ToString(s.dateformat) : _depositAndWithdrawalsObj.ChequeDate);
-                                        _depositAndWithdrawalsObj.CreatedDate = (sdr["CreatedDate"].ToString() != "" ? DateTime.Parse(sdr["CreatedDate"].ToString()).ToString(s.dateformat) : _depositAndWithdrawalsObj.CreatedDate);
-                                        _depositAndWithdrawalsObj.Bank = (sdr["BankName"].ToString() != "" ? (sdr["BankName"].ToString()) : _depositAndWithdrawalsObj.Bank);
-                                        _depositAndWithdrawalsObj.Party = (sdr["Party"].ToString() != "" ? (sdr["Party"].ToString()) : _depositAndWithdrawalsObj.Party);
-                                        _depositAndWithdrawalsObj.Status = (sdr["Status"].ToString() != "" ? (sdr["Status"].ToString()) : _depositAndWithdrawalsObj.Status);
-                                        _depositAndWithdrawalsObj.Remarks = (sdr["Remarks"].ToString() != "" ? (sdr["Remarks"].ToString()) : _depositAndWithdrawalsObj.Remarks);
-                                        _depositAndWithdrawalsObj.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : _depositAndWithdrawalsObj.Amount);
-                                        _depositAndWithdrawalsObj.Company = (sdr["Company"].ToString() != "" ?(sdr["Company"].ToString()) : _depositAndWithdrawalsObj.Company);
+                                        depositAndWithdrawalsObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : depositAndWithdrawalsObj.ID);
+                                        depositAndWithdrawalsObj.ChequeNo= (sdr["ChequeNo"].ToString() != "" ? (sdr["ChequeNo"].ToString()) : depositAndWithdrawalsObj.ChequeNo);
+                                        depositAndWithdrawalsObj.ChequeDate = (sdr["ChequeDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeDate"].ToString()).ToString(s.dateformat) : depositAndWithdrawalsObj.ChequeDate);
+                                        depositAndWithdrawalsObj.CreatedDate = (sdr["CreatedDate"].ToString() != "" ? DateTime.Parse(sdr["CreatedDate"].ToString()).ToString(s.dateformat) : depositAndWithdrawalsObj.CreatedDate);
+                                        depositAndWithdrawalsObj.Bank = (sdr["BankName"].ToString() != "" ? (sdr["BankName"].ToString()) : depositAndWithdrawalsObj.Bank);
+                                        depositAndWithdrawalsObj.Party = (sdr["Party"].ToString() != "" ? (sdr["Party"].ToString()) : depositAndWithdrawalsObj.Party);
+                                        depositAndWithdrawalsObj.Status = (sdr["Status"].ToString() != "" ? (sdr["Status"].ToString()) : depositAndWithdrawalsObj.Status);
+                                        depositAndWithdrawalsObj.Remarks = (sdr["Remarks"].ToString() != "" ? (sdr["Remarks"].ToString()) : depositAndWithdrawalsObj.Remarks);
+                                        depositAndWithdrawalsObj.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : depositAndWithdrawalsObj.Amount);
+                                        depositAndWithdrawalsObj.Company = (sdr["Company"].ToString() != "" ?(sdr["Company"].ToString()) : depositAndWithdrawalsObj.Company);
 
                                     }
 
-                                    outgoingcheque.Add(_depositAndWithdrawalsObj);
+                                    outgoingcheque.Add(depositAndWithdrawalsObj);
                                 }
                             }
                         }
@@ -504,7 +513,7 @@ namespace SPAccounts.RepositoryServices.Services
         #region GetUndepositedChequeCount
         public string GetUndepositedChequeCount(string Date)
         {
-            DepositAndWithdrawals _depositAndWithdrawalsObj = new DepositAndWithdrawals();
+            DepositAndWithdrawals depositAndWithdrawalsObj = new DepositAndWithdrawals();
             try
             {
                 using (SqlConnection con = _databaseFactory.GetDBConnection())
@@ -519,7 +528,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = Date;
                         cmd.CommandText = "[Accounts].[GetUndepositedChequesCount]";
                         cmd.CommandType = CommandType.StoredProcedure;
-                        _depositAndWithdrawalsObj.UndepositedChequeCount=cmd.ExecuteScalar().ToString();
+                        depositAndWithdrawalsObj.UndepositedChequeCount=cmd.ExecuteScalar().ToString();
                       
                     }
                 }
@@ -530,7 +539,7 @@ namespace SPAccounts.RepositoryServices.Services
                 throw ex;
             }
 
-            return _depositAndWithdrawalsObj.UndepositedChequeCount;
+            return depositAndWithdrawalsObj.UndepositedChequeCount;
         }
         #endregion GetUndepositedChequeCount
         
@@ -538,7 +547,7 @@ namespace SPAccounts.RepositoryServices.Services
 
         public DepositAndWithdrawals TransferAmount(DepositAndWithdrawals _depositAndWithdrwalObj)
         {
-            DepositAndWithdrawals _WithdrawalsAndObjdeposit = new DepositAndWithdrawals();
+            DepositAndWithdrawals WithdrawalsAndObjdeposit = new DepositAndWithdrawals();
             try
             {
                 SqlParameter outputID = null;
@@ -570,7 +579,7 @@ namespace SPAccounts.RepositoryServices.Services
 
                 if (outputID.Value != null)
                 {
-                    _WithdrawalsAndObjdeposit.TransferID = Guid.Parse(outputID.Value.ToString());
+                    WithdrawalsAndObjdeposit.TransferID = Guid.Parse(outputID.Value.ToString());
                 }
 
             }
@@ -579,14 +588,14 @@ namespace SPAccounts.RepositoryServices.Services
 
                 throw ex;
             }
-            return _WithdrawalsAndObjdeposit;
+            return WithdrawalsAndObjdeposit;
         }
 
 
         #endregion CashTransferBetweenBanks
 
         #region UpdateTransferredAmount
-        public object UpdateTransferAmount(DepositAndWithdrawals _depositAndWithdrwalObj)
+        public object UpdateTransferAmount(DepositAndWithdrawals depositAndWithdrwalObj)
         {
             SqlParameter outputStatus = null;
             try
@@ -603,14 +612,14 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[UpdateTransferAmount]";
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@TransferId", SqlDbType.UniqueIdentifier).Value = _depositAndWithdrwalObj.TransferID;
-                        cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = _depositAndWithdrwalObj.Date;
-                        cmd.Parameters.Add("@ReferenceNo", SqlDbType.VarChar, 20).Value = _depositAndWithdrwalObj.ReferenceNo;
-                        cmd.Parameters.Add("@FromBankCode", SqlDbType.VarChar, 20).Value = _depositAndWithdrwalObj.FromBank;
-                        cmd.Parameters.Add("@ToBankCode", SqlDbType.VarChar, 20).Value = _depositAndWithdrwalObj.ToBank;
-                        cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = _depositAndWithdrwalObj.Amount;
-                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = _depositAndWithdrwalObj.commonObj.UpdatedBy;
-                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = _depositAndWithdrwalObj.commonObj.UpdatedDate;
+                        cmd.Parameters.Add("@TransferId", SqlDbType.UniqueIdentifier).Value = depositAndWithdrwalObj.TransferID;
+                        cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = depositAndWithdrwalObj.Date;
+                        cmd.Parameters.Add("@ReferenceNo", SqlDbType.VarChar, 20).Value = depositAndWithdrwalObj.ReferenceNo;
+                        cmd.Parameters.Add("@FromBankCode", SqlDbType.VarChar, 20).Value = depositAndWithdrwalObj.FromBank;
+                        cmd.Parameters.Add("@ToBankCode", SqlDbType.VarChar, 20).Value = depositAndWithdrwalObj.ToBank;
+                        cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = depositAndWithdrwalObj.Amount;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = depositAndWithdrwalObj.commonObj.UpdatedBy;
+                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = depositAndWithdrwalObj.commonObj.UpdatedDate;
                         cmd.ExecuteNonQuery();
 
 
@@ -737,26 +746,26 @@ namespace SPAccounts.RepositoryServices.Services
                                 depositAndWithdrawalsList = new List<DepositAndWithdrawals>();
                                 while (sdr.Read())
                                 {
-                                    DepositAndWithdrawals _depositAndWithdrawalsObj = new DepositAndWithdrawals();
+                                    DepositAndWithdrawals depositAndWithdrawalsObj = new DepositAndWithdrawals();
                                     {
-                                        _depositAndWithdrawalsObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : _depositAndWithdrawalsObj.ID);
+                                        depositAndWithdrawalsObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : depositAndWithdrawalsObj.ID);
                                         
-                                        _depositAndWithdrawalsObj.CustomerID = (sdr["CustomerID"].ToString() != "" ? Guid.Parse(sdr["CustomerID"].ToString()) : _depositAndWithdrawalsObj.CustomerID);
-                                        _depositAndWithdrawalsObj.CustomerName = (sdr["CompanyName"].ToString() != "" ? (sdr["CompanyName"].ToString()) : _depositAndWithdrawalsObj.CustomerName);
-                                        _depositAndWithdrawalsObj.TransactionType = (sdr["TransactionType"].ToString() != "" ? (sdr["TransactionType"].ToString()) : _depositAndWithdrawalsObj.TransactionType);
-                                        _depositAndWithdrawalsObj.ReferenceNo = (sdr["ReferenceNo"].ToString() != "" ? (sdr["ReferenceNo"].ToString()) : _depositAndWithdrawalsObj.ReferenceNo);
-                                        _depositAndWithdrawalsObj.GeneralNotes = (sdr["GeneralNote"].ToString() != "" ? sdr["GeneralNote"].ToString() : _depositAndWithdrawalsObj.GeneralNotes);
-                                        _depositAndWithdrawalsObj.BankCode = (sdr["BankCode"].ToString() != "" ? (sdr["BankCode"].ToString()) : _depositAndWithdrawalsObj.BankCode);
-                                        _depositAndWithdrawalsObj.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : _depositAndWithdrawalsObj.Amount);
-                                        _depositAndWithdrawalsObj.DateFormatted = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(s.dateformat) : _depositAndWithdrawalsObj.DateFormatted);
-                                        _depositAndWithdrawalsObj.ChequeFormatted = (sdr["ChequeClearDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeClearDate"].ToString()).ToString(s.dateformat) : _depositAndWithdrawalsObj.ChequeFormatted);
-                                        _depositAndWithdrawalsObj.ChequeDate = (sdr["ChequeDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeDate"].ToString()).ToString(s.dateformat) : _depositAndWithdrawalsObj.ChequeDate);
-                                        _depositAndWithdrawalsObj.BankName = (sdr["BankName"].ToString() != "" ? (sdr["BankName"].ToString()) : _depositAndWithdrawalsObj.BankName);
+                                        depositAndWithdrawalsObj.CustomerID = (sdr["CustomerID"].ToString() != "" ? Guid.Parse(sdr["CustomerID"].ToString()) : depositAndWithdrawalsObj.CustomerID);
+                                        depositAndWithdrawalsObj.CustomerName = (sdr["CompanyName"].ToString() != "" ? (sdr["CompanyName"].ToString()) : depositAndWithdrawalsObj.CustomerName);
+                                        depositAndWithdrawalsObj.TransactionType = (sdr["TransactionType"].ToString() != "" ? (sdr["TransactionType"].ToString()) : depositAndWithdrawalsObj.TransactionType);
+                                        depositAndWithdrawalsObj.ReferenceNo = (sdr["ReferenceNo"].ToString() != "" ? (sdr["ReferenceNo"].ToString()) : depositAndWithdrawalsObj.ReferenceNo);
+                                        depositAndWithdrawalsObj.GeneralNotes = (sdr["GeneralNote"].ToString() != "" ? sdr["GeneralNote"].ToString() : depositAndWithdrawalsObj.GeneralNotes);
+                                        depositAndWithdrawalsObj.BankCode = (sdr["BankCode"].ToString() != "" ? (sdr["BankCode"].ToString()) : depositAndWithdrawalsObj.BankCode);
+                                        depositAndWithdrawalsObj.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : depositAndWithdrawalsObj.Amount);
+                                        depositAndWithdrawalsObj.DateFormatted = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(s.dateformat) : depositAndWithdrawalsObj.DateFormatted);
+                                        depositAndWithdrawalsObj.ChequeFormatted = (sdr["ChequeClearDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeClearDate"].ToString()).ToString(s.dateformat) : depositAndWithdrawalsObj.ChequeFormatted);
+                                        depositAndWithdrawalsObj.ChequeDate = (sdr["ChequeDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeDate"].ToString()).ToString(s.dateformat) : depositAndWithdrawalsObj.ChequeDate);
+                                        depositAndWithdrawalsObj.BankName = (sdr["BankName"].ToString() != "" ? (sdr["BankName"].ToString()) : depositAndWithdrawalsObj.BankName);
 
-                                        _depositAndWithdrawalsObj.PaymentMode = (sdr["DepositMode"].ToString() != "" ? (sdr["DepositMode"].ToString()) : _depositAndWithdrawalsObj.PaymentMode);
+                                        depositAndWithdrawalsObj.PaymentMode = (sdr["DepositMode"].ToString() != "" ? (sdr["DepositMode"].ToString()) : depositAndWithdrawalsObj.PaymentMode);
                                         
                                     }
-                                    depositAndWithdrawalsList.Add(_depositAndWithdrawalsObj);
+                                    depositAndWithdrawalsList.Add(depositAndWithdrawalsObj);
 
                                 }
                             }

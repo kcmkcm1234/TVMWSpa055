@@ -35,7 +35,14 @@ namespace SPAccounts.DataAccessObject.DTO
         public string ToBank { get; set; }
         public string ChequeNo { get; set; }
         public OutGoingCheques OutGoingObj { get; set; }
-
+        public Companies CompanyObj { get; set; }
+        public Customer CustomerObj { get; set; }
+        public UndepositedChequeAdvanceSearch UndepositedChequeAdvanceSearchObj { get; set; }
+        public string Company { get; set; }
+        public string Customer { get; set; }
+        public string Bank { get; set; }
+        public Bank BankObj { get; set; }
+        public string Search { get; set; }
     }
 
     public class OutGoingCheques
@@ -59,7 +66,17 @@ namespace SPAccounts.DataAccessObject.DTO
         public string FromDate { get; set; }
         public string Company { get; set; }
         public string Status { get; set; }
-        public string Search { get; set; }
-       
+        public string Search { get; set; }       
     }
+
+    public class UndepositedChequeAdvanceSearch
+    {
+        public string ToDate { get; set; }
+        public string FromDate { get; set; }
+        public string Company { get; set; }
+        public string Customer { get; set; }
+        public string BankCode { get; set; }
+        public string Search { get; set; }
+    }
+
 }

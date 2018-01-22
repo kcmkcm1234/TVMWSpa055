@@ -279,13 +279,10 @@ namespace SPAccounts.RepositoryServices.Services
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         outputID = cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier);
-                        outputID.Direction = ParameterDirection.Output;
+                        outputID.Direction = ParameterDirection.Output;                                            
                         cmd.ExecuteNonQuery();
-
-
                     }
                 }
-
                 switch (outputStatus.Value.ToString())
                 {
                     case "0":
@@ -300,11 +297,9 @@ namespace SPAccounts.RepositoryServices.Services
                     default:
                         break;
                 }
-
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
             return _supplierInvoicesObj;
@@ -606,6 +601,42 @@ namespace SPAccounts.RepositoryServices.Services
             };
         }
         #endregion DeleteSupplierInvoice
+
+
+        #region CheckProfileExists
+        /// <summary>
+        /// To Check Profile Exists or not
+        /// </summary>
+        /// <param name="invoiceNo"></param>
+        /// <param name="supplierID"></param>
+        /// <returns></returns>
+        public bool CheckProfileExists(string invoiceNo,Guid supplierID)
+        {            
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[InsertSupplierInvoiceByInvoiceNo]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@InvoiceNo", SqlDbType.VarChar).Value = invoiceNo;
+                        cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = supplierID;
+                        return bool.Parse(cmd.ExecuteScalar().ToString());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion CheckProfileExists
 
         public List<SupplierInvoices> GetOutStandingInvoicesBySupplier(Guid PaymentID, Guid supplierID)
         {

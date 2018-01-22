@@ -25,9 +25,9 @@ namespace SPAccounts.BusinessService.Services
             return _depositAndWithdrawalsRepository.GetAllDepositAndWithdrawals(FromDate, ToDate,DepositOrWithdrawal, chqclr);
         }
 
-        public List<DepositAndWithdrawals> GetUndepositedCheque(string FromDate, string ToDate)
+        public List<DepositAndWithdrawals> GetUndepositedCheque(UndepositedChequeAdvanceSearch undepositedChequeAdvanceSearchObject)
         {
-            return _depositAndWithdrawalsRepository.GetUndepositedCheque(FromDate, ToDate);
+            return _depositAndWithdrawalsRepository.GetUndepositedCheque(undepositedChequeAdvanceSearchObject);
         }
         public List<OutGoingCheques> GetOutGoingCheques(OutgoingChequeAdvanceSearch advanceSearchObject)
         {

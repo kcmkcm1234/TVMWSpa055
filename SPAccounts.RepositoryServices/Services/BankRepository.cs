@@ -246,6 +246,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@Code", SqlDbType.VarChar, 5).Value = bankObj.Code;
                         cmd.Parameters.Add("@Name", SqlDbType.VarChar, 100).Value = bankObj.Name;
                         cmd.Parameters.Add("@CompanyCode", SqlDbType.VarChar, 10).Value = bankObj.CompanyCode;
+                        if(bankObj.ActualODLimit !=0)
                         cmd.Parameters.Add("@ActualODLimit", SqlDbType.Decimal).Value = bankObj.ActualODLimit;
                         cmd.Parameters.Add("@DisplayODLimit", SqlDbType.Decimal).Value = bankObj.DisplayODLimit;
                         cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = bankObj.commonObj.UpdatedBy;

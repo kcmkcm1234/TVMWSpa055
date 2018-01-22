@@ -165,7 +165,7 @@
             {
         @Html.HiddenFor(model => model.pdfToolsObj.Content, htmlAttributes: new { @class = "", Value = "", @id = "hdnContent" })
         @Html.HiddenFor(model => model.pdfToolsObj.Headcontent, htmlAttributes: new { @class = "", Value = "", @id = "hdnHeadContent" })
-        @Html.HiddenFor(model => model.pdfToolsObj.HeaderText, htmlAttributes: new { @class = "", Value = "Customer Payement Ledger Report" })
+        @Html.HiddenFor(model => model.pdfToolsObj.HeaderText, htmlAttributes: new { @class = "", Value = "Customer Payment Ledger Report" })
         <input type="submit" value="Download" id="btnSend" onclick="GetHtmlData();" />
     }
     <div id="customtbl" style="display:none">

@@ -272,11 +272,11 @@
             </div>
 
             <div class="EntryForms" style="height:550px">
-                    @using (Ajax.BeginForm("InsertUpdateInvoice", "CustomerInvoices", new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccess", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", @id = "CustomerInvoiceForm" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        @Html.Hidden("BindValue", "", htmlAttributes: new { @class = "", Value = ViewBag.value });
-                    <div class="col-md-12 headSeperator"><i  class="fa fa-th ig-yellow" aria-hidden="true"></i> Basic Details</div> 
+    @using (Ajax.BeginForm("InsertUpdateInvoice", "CustomerInvoices", new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccess", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", @id = "CustomerInvoiceForm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Hidden("BindValue", "", htmlAttributes: new { @class = "", Value = ViewBag.value });
+        <div class="col-md-12 headSeperator"><i class="fa fa-th ig-yellow" aria-hidden="true"></i> Basic Details</div>
                     <div class="col-md-12">
                         <div class="col-md-8">
                             <div class="form-group col-md-6">
@@ -288,11 +288,14 @@
                                         @{
                                             List<SelectListItem> InvoiceTypeList = new List<SelectListItem>();
                                             InvoiceTypeList.Add(new SelectListItem
-                                            { Text = "Regular Invoice", Value = "RB", Selected = true });
+                                            { Text = "Regular Invoice", Value = "RB", Selected = true
+                                            });
                                             InvoiceTypeList.Add(new SelectListItem
-                                            { Text = "WB Invoice", Value = "WB" });
+                                            { Text = "WB Invoice", Value = "WB"
+                                            });
                                             InvoiceTypeList.Add(new SelectListItem
-                                            { Text = "PB Invoice", Value = "PB" });
+                                            { Text = "PB Invoice", Value = "PB"
+                                            });
                                         }
                                         @Html.DropDownListFor(model => model.InvoiceType, InvoiceTypeList, new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "ddlInvoiceType", @onchange = "InvoicesTypeChange();" })
                                     </div>
@@ -318,8 +321,8 @@
                                     <div class="col-md-1"></div>
                                 </div>
                             </div>
-                            <div class="form-group col-md-12"></div>  
-                           
+                            <div class="form-group col-md-12"></div>
+
                             <div class="form-group col-md-6">
                                 <div class="col-md-12">
                                     @Html.LabelFor(model => model.customerObj.ID, htmlAttributes: new { @class = "control-label " })
@@ -371,7 +374,7 @@
                                     <div class="col-md-1"></div>
                                 </div>
 
-                            </div> 
+                            </div>
 
                             <div class="form-group col-md-6">
                                 <div class="col-md-12">
@@ -476,211 +479,220 @@
 
 
                     </div>
-                    <div class="col-md-12  ">&nbsp;</div> 
-                    <div class="col-md-12  ">&nbsp;</div> 
+                    <div class="col-md-12  ">&nbsp;</div>
+                    <div class="col-md-12  ">&nbsp;</div>
                     <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Commercials</div>
                     <div class="col-md-12">
-                    <div class="col-md-12">
-                    <div class="form-group col-md-4">
                         <div class="col-md-12">
-                            @Html.LabelFor(model => model.GrossAmount, htmlAttributes: new { @class = "control-label" })
-
-
-                        </div>
-                        <div class="col-md-12">
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.GrossAmount, new { htmlAttributes = new { @class = "form-control HeaderBox Amount Roundoff", onkeypress = "return isNumber(event)",@id = "txtGrossAmt" } })
-                                @Html.ValidationMessageFor(model => model.GrossAmount, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-md-1"></div>
-                            <div class="col-md-1"></div>
-                        </div>
-
-                    </div>
-                    <div class="form-group col-md-4">
-                        <div class="col-md-12">
-                            @Html.LabelFor(model => model.Discount, htmlAttributes: new { @class = "control-label" })
-
-
-                        </div>
-                        <div class="col-md-12">
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.Discount, new { htmlAttributes = new { @class = "form-control HeaderBox Amount Roundoff", onkeypress = "return isNumber(event)", onblur = "CheckAmount()", @id = "txtDiscount" } })
-                            </div>
-                            <div class="col-md-1"></div>
-                            <div class="col-md-1"></div>
-                        </div>
-
-                    </div>
-                    <div class="form-group col-md-12"></div>
-                    <div class="form-group col-md-4">
-                        <div class="col-md-12">
-                            @Html.LabelFor(model => model.NetTaxableAmount, htmlAttributes: new { @class = "control-label" })
-
-
-                        </div>
-                        <div class="col-md-12">
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.NetTaxableAmount, new { htmlAttributes = new { @class = "form-control HeaderBox Amount", onkeypress = "return isNumber(event)", @id = "txtNetTaxableAmt", @readonly = "true" } })
-                                @Html.ValidationMessageFor(model => model.NetTaxableAmount, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-md-1"></div>
-                            <div class="col-md-1"></div>
-                        </div>
-
-                    </div>
-                    <div class="form-group col-md-4">
-                        <div class="col-md-12">
-                            @Html.LabelFor(model => model.TaxTypeObj.Code, htmlAttributes: new { @class = "control-label " })
-
-
-                        </div>
-                        <div class="col-md-12">
-                            <div class="col-md-10">
-                                @Html.DropDownListFor(model => model.TaxTypeObj.Code, Model.TaxTypeObj.TaxTypesList, "-- Select Tax Type --", new { @class = "form-control BlockEnter Roundoff", value = 0, style = "padding:4px 12px;", @id = "ddlTaxType" })
-                                @*@Html.ValidationMessageFor(model => model.TaxTypeObj.Code, "", new { @class = "text-danger" })*@
-                            </div>
-                            <div class="col-md-1"></div>
-                            <div class="col-md-1"></div>
-                        </div>
-
-                    </div>
-                    <div class="form-group col-md-4" @*style="margin-top:15%"*@>
-                        <div class="col-md-12">
-                            @Html.LabelFor(model => model.TaxPercApplied, htmlAttributes: new { @class = "control-label" })
-
-
-                        </div>
-                        <div class="col-md-12">
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.TaxPercApplied, new { htmlAttributes = new { @class = "form-control HeaderBox Roundoff ApplyPer", onkeypress = "return isNumber(event)",@id = "txtTaxPercApp" } })
-                                @Html.ValidationMessageFor(model => model.TaxPercApplied, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-md-1"></div>
-                            <div class="col-md-1"></div>
-                        </div>
-
-                    </div>
-                    <div class="form-group col-md-12"></div>
-                    <div class="form-group col-md-4">
-                        <div class="col-md-12">
-                            @Html.LabelFor(model => model.TaxAmount, htmlAttributes: new { @class = "control-label" })
-
-
-                        </div>
-                        <div class="col-md-12">
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.TaxAmount, new { htmlAttributes = new { @class = "form-control HeaderBox Amount", onkeypress = "return isNumber(event)", @id = "txtTaxAmt", @readonly = "true" } })
-                                @Html.ValidationMessageFor(model => model.TaxAmount, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-md-1"></div>
-                            <div class="col-md-1"></div>
-                        </div>
-
-                    </div>
-                    <div class="form-group col-md-4">
-                        <div class="col-md-12">
-                            @Html.LabelFor(model => model.TotalInvoiceAmount, htmlAttributes: new { @class = "control-label" })
-
-
-                        </div>
-                        <div class="col-md-12">
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.TotalInvoiceAmount, new { htmlAttributes = new { @class = "form-control HeaderBox Amount", onkeypress = "return isNumber(event)", @id = "txtTotalInvAmt", @readonly = "true" } })
-                                @Html.ValidationMessageFor(model => model.TotalInvoiceAmount, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-md-1"></div>
-                            <div class="col-md-1"></div>
-                        </div>
-
-                    </div>
-                    </div>
-                    </div>
-                    <div class="col-md-12  ">&nbsp;</div>
-                    <div class="col-md-12  ">&nbsp;</div>
-
-                    <div class="col-md-12" id="paymentStatus" hidden="hidden" >
-                    <div class="col-md-12 headSeperator"><i class="fa fa-th ig-yellow" aria-hidden="true"></i> Payment Status</div>
-                    <div class="col-md-12">
-                        <div class="col-md-8">
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
                                 <div class="col-md-12">
-                                    @Html.LabelFor(model => model.SpecialPayStatus, htmlAttributes: new { @class = "control-label " })
+                                    @Html.LabelFor(model => model.GrossAmount, htmlAttributes: new { @class = "control-label" })
+
+
                                 </div>
                                 <div class="col-md-12">
                                     <div class="col-md-10">
-                                        @{
-                                            List<SelectListItem> PaymentStatus = new List<SelectListItem>();
-                                            PaymentStatus.Add(new SelectListItem
-                                            { Text = "Not Paid", Value = "NP", Selected = true });
-                                            PaymentStatus.Add(new SelectListItem
-                                            { Text = "Fully Paid", Value = "FP"}); 
-                                            PaymentStatus.Add(new SelectListItem
-                                            { Text = "Partially Paid", Value = "PP" });
-                                        }
-                                        @Html.DropDownListFor(model => model.SpecialPayStatus, PaymentStatus, new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "ddlSpecialPayStatus" })
+                                        @Html.EditorFor(model => model.GrossAmount, new { htmlAttributes = new { @class = "form-control HeaderBox Amount Roundoff", onkeypress = "return isNumber(event)", @id = "txtGrossAmt" } })
+                                        @Html.ValidationMessageFor(model => model.GrossAmount, "", new { @class = "text-danger" })
                                     </div>
                                     <div class="col-md-1"></div>
                                     <div class="col-md-1"></div>
                                 </div>
+
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
                                 <div class="col-md-12">
-                                    &nbsp;
+                                    @Html.LabelFor(model => model.Discount, htmlAttributes: new { @class = "control-label" })
+
+
                                 </div>
                                 <div class="col-md-12">
                                     <div class="col-md-10">
-                                        <a herf="#" class="actionLink" style="color:blue; cursor:pointer" onclick="SpecialPayments();"><i class="glyphicon glyphicon-share-alt"></i><u>Payment Details</u></a>
+                                        @Html.EditorFor(model => model.Discount, new { htmlAttributes = new { @class = "form-control HeaderBox Amount Roundoff", onkeypress = "return isNumber(event)", onblur = "CheckAmount()", @id = "txtDiscount" } })
                                     </div>
                                     <div class="col-md-1"></div>
                                     <div class="col-md-1"></div>
                                 </div>
-                            </div> 
-                        </div>
-                    </div>
-                </div> 
 
-                    <div class="col-md-12 headSeperator"><i class="fa fa-th ig-green" aria-hidden="true"></i> Other Details</div>
-
-                    <div class="col-md-12  ">
-                        <div class="col-md-10">
-                            <div class="form-group col-md-12">
+                            </div>
+                            <div class="form-group col-md-12"></div>
+                            <div class="form-group col-md-4">
                                 <div class="col-md-12">
-                                    @Html.LabelFor(model => model.Notes, htmlAttributes: new { @class = "control-label" })
+                                    @Html.LabelFor(model => model.NetTaxableAmount, htmlAttributes: new { @class = "control-label" })
+
+
                                 </div>
                                 <div class="col-md-12">
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.NetTaxableAmount, new { htmlAttributes = new { @class = "form-control HeaderBox Amount", onkeypress = "return isNumber(event)", @id = "txtNetTaxableAmt", @readonly = "true" } })
+                                        @Html.ValidationMessageFor(model => model.NetTaxableAmount, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-1"></div>
+                                </div>
+
+                            </div>
+                            <div class="form-group col-md-4">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => model.TaxTypeObj.Code, htmlAttributes: new { @class = "control-label " })
+
+
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-10">
+                                        @Html.DropDownListFor(model => model.TaxTypeObj.Code, Model.TaxTypeObj.TaxTypesList, "-- Select Tax Type --", new { @class = "form-control BlockEnter Roundoff", value = 0, style = "padding:4px 12px;", @id = "ddlTaxType" })
+                                        @*@Html.ValidationMessageFor(model => model.TaxTypeObj.Code, "", new { @class = "text-danger" })*@
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-1"></div>
+                                </div>
+
+                            </div>
+                            <div class="form-group col-md-4" @*style="margin-top:15%"*@>
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => model.TaxPercApplied, htmlAttributes: new { @class = "control-label" })
+
+
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.TaxPercApplied, new { htmlAttributes = new { @class = "form-control HeaderBox Roundoff ApplyPer", onkeypress = "return isNumber(event)",@id = "txtTaxPercApp" } })
+                                        @Html.ValidationMessageFor(model => model.TaxPercApplied, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-1"></div>
+                                </div>
+
+                            </div>
+                            <div class="form-group col-md-12"></div>
+                            <div class="form-group col-md-4">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => model.TaxAmount, htmlAttributes: new { @class = "control-label" })
+
+
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.TaxAmount, new { htmlAttributes = new { @class = "form-control HeaderBox Amount", onkeypress = "return isNumber(event)", @id = "txtTaxAmt", @readonly = "true" } })
+                                        @Html.ValidationMessageFor(model => model.TaxAmount, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-1"></div>
+                                </div>
+
+                            </div>
+                            <div class="form-group col-md-4">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => model.TotalInvoiceAmount, htmlAttributes: new { @class = "control-label" })
+
+
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.TotalInvoiceAmount, new { htmlAttributes = new { @class = "form-control HeaderBox Amount", onkeypress = "return isNumber(event)", @id = "txtTotalInvAmt", @readonly = "true" } })
+                                        @Html.ValidationMessageFor(model => model.TotalInvoiceAmount, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-1"></div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12  ">&nbsp;</div>
+                    <div class="col-md-12  ">&nbsp;</div>
+
+
+                    <div class="col-md-12" id="paymentStatus">
+
+                        @if (Model.PBAccess == true)
+                        {
+                            <div class="col-md-12 headSeperator"><i class="fa fa-th ig-yellow"></i> Payment Status</div>
+                            <div class="col-md-12">
+                                <div class="col-md-8">
+                                    <div class="form-group col-md-6">
+                                        <div class="col-md-12">
+                                            @Html.LabelFor(model => model.SpecialPayStatus, htmlAttributes: new { @class = "control-label " })
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="col-md-10">
+                                                @{
+                                                    List<SelectListItem> PaymentStatus = new List<SelectListItem>();
+                                                    PaymentStatus.Add(new SelectListItem
+                                                    { Text = "Not Paid", Value = "NP", Selected = true
+                                                    });
+                                                    PaymentStatus.Add(new SelectListItem
+                                                    { Text = "Fully Paid", Value = "FP"
+                                                    });
+                                                    PaymentStatus.Add(new SelectListItem
+                                                    { Text = "Partially Paid", Value = "PP"
+                                                    });
+                                                }
+                                                @Html.DropDownListFor(model => model.SpecialPayStatus, PaymentStatus, new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "ddlSpecialPayStatus" })
+                                            </div>
+                                            <div class="col-md-1"></div>
+                                            <div class="col-md-1"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <div class="col-md-12">
+                                            &nbsp;
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="col-md-10">
+                                                <a herf="#" class="actionLink" style="color:blue; cursor:pointer" onclick="SpecialPayments();"><i class="glyphicon glyphicon-share-alt"></i><u>Payment Details</u></a>
+                                            </div>
+                                            <div class="col-md-1"></div>
+                                            <div class="col-md-1"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                                                    }
+
+                    </div>
+                        <div class="col-md-12 headSeperator"><i class="fa fa-th ig-green" aria-hidden="true"></i> Other Details</div>
+
+                        <div class="col-md-12  ">
+                            <div class="col-md-10">
+                                <div class="form-group col-md-12">
                                     <div class="col-md-12">
-                                        @Html.EditorFor(model => model.Notes, new { htmlAttributes = new { @class = "form-control HeaderBox multiline4", @id = "txtNotes", @rows = 4 } })
-                                        @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
+                                        @Html.LabelFor(model => model.Notes, htmlAttributes: new { @class = "control-label" })
                                     </div>
-                                    <div class="col-md-1"></div>
-                                    <div class="col-md-1"></div>
-                                </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-12">
+                                            @Html.EditorFor(model => model.Notes, new { htmlAttributes = new { @class = "form-control HeaderBox multiline4", @id = "txtNotes", @rows = 4 } })
+                                            @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-1"></div>
+                                        <div class="col-md-1"></div>
+                                    </div>
 
+                                </div>
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
+                        </div>
+                        <div class="col-md-12  ">&nbsp;</div>
+                        <div class="col-md-12  ">&nbsp;</div>
+                        <div>
+                            @Html.Partial("Fileupload");
+                        </div>
+
+                        <div class="col-md-12  ">&nbsp;</div>
+                        <div class="col-md-12  ">&nbsp;</div>
+                        <div class="col-md-12  ">&nbsp;</div>
+                        <div class="col-md-12  ">&nbsp;</div>
+                        <div class="col-md-12  ">&nbsp;</div>
+                        <div class="col-md-12  ">&nbsp;</div>
+                        <div class="form-group" hidden="hidden">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input id="btnSave" type="submit" value="Create" class="btn btn-default" />
                             </div>
                         </div>
-                        <div class="col-md-1"></div>
-                        <div class="col-md-1"></div>
+                        }
                     </div>
-                    <div class="col-md-12  ">&nbsp;</div>
-                    <div class="col-md-12  ">&nbsp;</div>
-                    <div>
-                        @Html.Partial("Fileupload");
-                    </div>
-
-                    <div class="col-md-12  ">&nbsp;</div>
-                    <div class="col-md-12  ">&nbsp;</div>
-                    <div class="col-md-12  ">&nbsp;</div>
-                    <div class="col-md-12  ">&nbsp;</div>
-                    <div class="col-md-12  ">&nbsp;</div>
-                    <div class="col-md-12  ">&nbsp;</div>
-                    <div class="form-group" hidden="hidden">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input id="btnSave" type="submit" value="Create" class="btn btn-default" />
-                        </div>
-                    </div>
-                    }
-                        </div>
                     </div>
 
     </div>
