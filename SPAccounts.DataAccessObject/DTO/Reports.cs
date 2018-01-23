@@ -470,8 +470,9 @@ namespace SPAccounts.DataAccessObject.DTO
         public string FromDate { get; set; }
         public string ToDate { get; set; }
         public string CompanyCode { get; set; }
-        public string CustomerIDs { get; set; }
+        public string[] CustomerIDs { get; set; }
         public string Search { get; set; }
+        public string InvoiceType { get; set; }
     }
 
 

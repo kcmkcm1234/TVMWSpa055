@@ -70,23 +70,50 @@
                 @Html.ValidationMessageFor(model => model.CompanyCode, "", new { @class = "text-danger" })
 
             </div>
-        </div>       
+        </div>   
+        <div class="col-md-3">
+            <div class="col-md-12" style="padding:0">
+                @Html.LabelFor(model => model.InvoiceType, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="col-md-12" style="padding:0">
+                <div class="col-md-12" style="padding:0">
+                    @{
+                        List<SelectListItem> InvoiceTypesList = new List<SelectListItem>();
+                        InvoiceTypesList.Add(new SelectListItem
+                        { Text = "ALL", Value = "" });
+                        InvoiceTypesList.Add(new SelectListItem
+                        { Text = "Regular Invoice", Value = "RB", Selected = true });
+                        InvoiceTypesList.Add(new SelectListItem
+                        { Text = "WB Invoice", Value = "WB" });
+                        InvoiceTypesList.Add(new SelectListItem
+                        { Text = "PB Invoice", Value = "PB" });
+                    }
+                    @Html.DropDownListFor(model => model.InvoiceType, InvoiceTypesList, new { @class = "form-control BlockEnter", style = "padding:4px 12px;width: 100 %", @id = "ddlInvoiceTypes", @onchange = "RefreshReceivableAgeingReportTable();" })
+                </div>
+                @*<div class="col-md-1"></div>
+                <div class="col-md-1"></div>*@
+            </div>
+        </div>    
         <div class="col-md-6" id="ddlCustomer" style="visibility:hidden;">
             @Html.LabelFor(model => model.CustomerCode, htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
                 @Html.DropDownListFor(model => model.CustomerCode, Model.customerList, new { @class = "form-control BlockEnter", @id = "customerCode", @onchange = "RefreshReceivableAgeingReportTable()", @multiple = "multiple" })
             </div>
         </div>
-        <div class="col-md-6">
-            &nbsp;
-            <div class="col-md-12">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search" id="Search">
-                    <div class="input-group-btn">
-                        <button class="btn btn-default" type="submit" style="height:28px" onclick="RefreshReceivableAgeingReportTable()"><i class="glyphicon glyphicon-search"></i></button>
+    
+
+        @*<div class="col-md-6">
+            &nbsp;*@
+            <div class="col-md-6">
+                @Html.LabelFor(model => model.Search, htmlAttributes: new { @class = "control-label" })
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" id="Search">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" type="submit" style="height:28px" onclick="RefreshReceivableAgeingReportTable()"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
                     </div>
                 </div>
-            </div>
             </div>
         </div>
     <div class="col-md-3" style="min-height:25px">

@@ -840,7 +840,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = DateTime.Parse(accountsReceivableAgeingSearchObj.FromDate);
                         cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = DateTime.Parse(accountsReceivableAgeingSearchObj.ToDate);
                         cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = accountsReceivableAgeingSearchObj.CompanyCode;
-                        cmd.Parameters.Add("@Customerids", SqlDbType.NVarChar, -1).Value = accountsReceivableAgeingSearchObj.CustomerIDs;
+                        cmd.Parameters.Add("@CustomerIDs", SqlDbType.NVarChar, -1).Value = accountsReceivableAgeingSearchObj.CustomerIDs!=null?string.Join(",",accountsReceivableAgeingSearchObj.CustomerIDs):"ALL";
+                        cmd.Parameters.Add("@InvoiceType", SqlDbType.NVarChar, 50).Value = accountsReceivableAgeingSearchObj.InvoiceType;
                         cmd.Parameters.Add("@Search", SqlDbType.VarChar, -1).Value = accountsReceivableAgeingSearchObj.Search;
                         cmd.CommandText = "[Accounts].[RPT_GetAccountsReceivableAgeingDetail]";
                         cmd.CommandType = CommandType.StoredProcedure;

@@ -81,17 +81,19 @@ $(document).ready(function () {
 function GetReceivableAgeingReport() {
     try {
    
-    
+        debugger;
         var customerids = $("#customerCode");
         var fromdate = $("#fromdate");
         var todate = $("#todate");
         var companycode = $("#CompanyCode");
+        var invoicetype = $("#ddlInvoiceTypes");
         var search = $("#Search");
         var receivableAgeingSearch = new Object();
         receivableAgeingSearch.ToDate = todate[0].value !== "" ? todate[0].value : null;
         receivableAgeingSearch.FromDate = fromdate[0].value !== "" ? fromdate[0].value : null;
         receivableAgeingSearch.CompanyCode = companycode[0].value !== "" ? companycode[0].value : null;
-        receivableAgeingSearch.Customerids = customerids[0].value !== "" ? customerids[0].value : null;
+        receivableAgeingSearch.Customerids = customerids[0].value !== "" ? $("#customerCode").val() : null;
+        receivableAgeingSearch.InvoiceType = invoicetype[0].value !== "" ? invoicetype[0].value : null;
         receivableAgeingSearch.Search = search[0].value !== "" ? search[0].value : null;
 
         var data = { "receivableAgeingSearch": JSON.stringify(receivableAgeingSearch) };
@@ -146,6 +148,7 @@ function Reset() {
     $("#todate").val(today);
     $("#fromdate").val(fromday);
     $("#CompanyCode").val('ALL');
+    $("#ddlInvoiceTypes").val('RB');
     $("#customerCode").val('').trigger('change');
     $("#Search").val('');
     RefreshReceivableAgeingReportTable();
