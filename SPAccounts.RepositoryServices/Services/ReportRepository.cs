@@ -1191,6 +1191,8 @@ namespace SPAccounts.RepositoryServices.Services
                                         depositAndWithdrawalDetailReport.Withdrawal = (sdr["Withdrawal"].ToString() != "" ? sdr["Withdrawal"].ToString() : depositAndWithdrawalDetailReport.Withdrawal);
                                         depositAndWithdrawalDetailReport.Deposit = (sdr["Deposit"].ToString() != "" ? sdr["Deposit"].ToString() : depositAndWithdrawalDetailReport.Deposit);
                                         depositAndWithdrawalDetailReport.DepositNotCleared = (sdr["DepositNotCleared"].ToString() != "" ? sdr["DepositNotCleared"].ToString() : depositAndWithdrawalDetailReport.DepositNotCleared);
+                                        depositAndWithdrawalDetailReport.CompanyName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : depositAndWithdrawalDetailReport.CompanyName);
+                                        depositAndWithdrawalDetailReport.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : depositAndWithdrawalDetailReport.GeneralNotes);
                                     }
                                     depositAndWithdrawalDetailList.Add(depositAndWithdrawalDetailReport);
                                 }
