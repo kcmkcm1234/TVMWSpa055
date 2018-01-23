@@ -324,8 +324,10 @@ namespace UserInterface.Models
         public decimal Paid { get; set; }
         public decimal Balance { get; set; }
         public string Group { get; set; }
+        public string InvoiceType { get; set; }
         [Display(Name = "Customer")]
         public string CustomerCode { get; set; }
+        public string Search { get; set; }
         public List<SelectListItem> customerList;
         public List<SelectListItem> CompanyList { get; set; }
         public List<CompaniesViewModel> companiesList;
@@ -434,7 +436,9 @@ namespace UserInterface.Models
         public string Deposit { get; set; }
         public string DepositNotCleared { get; set; }
         public string Search { get; set; }
-        public BankViewModel bankObj { get; set; }        
+        public BankViewModel bankObj { get; set; } 
+        public string CompanyName { get; set;}
+        public string GeneralNotes { get; set; }       
     }
 
     public class OtherIncomeSummaryReportViewModel
@@ -647,6 +651,6 @@ namespace UserInterface.Models
         public string FromDate { get; set; }
         public string ToDate { get; set; }
         public string CompanyCode { get; set; }
-        public string[] Customerids { get; set; }
+        public string[] CustomerIDs { get; set; }
     }
 }

@@ -322,6 +322,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public string Withdrawal { get; set; }
         public string Deposit { get; set; }
         public string DepositNotCleared { get; set; }
+        public string CompanyName { get; set; }
+        public string GeneralNotes { get; set; }
     }
 
     public class CustomerPaymentLedger
@@ -470,8 +472,9 @@ namespace SPAccounts.DataAccessObject.DTO
         public string FromDate { get; set; }
         public string ToDate { get; set; }
         public string CompanyCode { get; set; }
-        public string CustomerIDs { get; set; }
+        public string[] CustomerIDs { get; set; }
         public string Search { get; set; }
+        public string InvoiceType { get; set; }
     }
 
 

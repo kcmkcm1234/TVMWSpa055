@@ -840,7 +840,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = DateTime.Parse(accountsReceivableAgeingSearchObj.FromDate);
                         cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = DateTime.Parse(accountsReceivableAgeingSearchObj.ToDate);
                         cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = accountsReceivableAgeingSearchObj.CompanyCode;
-                        cmd.Parameters.Add("@Customerids", SqlDbType.NVarChar, -1).Value = accountsReceivableAgeingSearchObj.CustomerIDs;
+                        cmd.Parameters.Add("@CustomerIDs", SqlDbType.NVarChar, -1).Value = accountsReceivableAgeingSearchObj.CustomerIDs!=null?string.Join(",",accountsReceivableAgeingSearchObj.CustomerIDs):"ALL";
+                        cmd.Parameters.Add("@InvoiceType", SqlDbType.NVarChar, 50).Value = accountsReceivableAgeingSearchObj.InvoiceType;
                         cmd.Parameters.Add("@Search", SqlDbType.VarChar, -1).Value = accountsReceivableAgeingSearchObj.Search;
                         cmd.CommandText = "[Accounts].[RPT_GetAccountsReceivableAgeingDetail]";
                         cmd.CommandType = CommandType.StoredProcedure;
@@ -1190,6 +1191,8 @@ namespace SPAccounts.RepositoryServices.Services
                                         depositAndWithdrawalDetailReport.Withdrawal = (sdr["Withdrawal"].ToString() != "" ? sdr["Withdrawal"].ToString() : depositAndWithdrawalDetailReport.Withdrawal);
                                         depositAndWithdrawalDetailReport.Deposit = (sdr["Deposit"].ToString() != "" ? sdr["Deposit"].ToString() : depositAndWithdrawalDetailReport.Deposit);
                                         depositAndWithdrawalDetailReport.DepositNotCleared = (sdr["DepositNotCleared"].ToString() != "" ? sdr["DepositNotCleared"].ToString() : depositAndWithdrawalDetailReport.DepositNotCleared);
+                                        depositAndWithdrawalDetailReport.CompanyName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : depositAndWithdrawalDetailReport.CompanyName);
+                                        depositAndWithdrawalDetailReport.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : depositAndWithdrawalDetailReport.GeneralNotes);
                                     }
                                     depositAndWithdrawalDetailList.Add(depositAndWithdrawalDetailReport);
                                 }
