@@ -1105,10 +1105,10 @@ namespace UserInterface.Controllers
                 {
                     AppUA _appUA = Session["AppUA"] as AppUA;
                     List<AccountsReceivableAgeingReportViewModel> accountsReceivableAgeingReportList = new List<AccountsReceivableAgeingReportViewModel>();
-                    if (AccountsReceivableAgeingSearchObj.CustomerIDs != null)
-                        AccountsReceivableAgeingSearchObj.CustomerIDs=String.Join(",", AccountsReceivableAgeingSearchObj.CustomerIDs);
-                    else
-                        AccountsReceivableAgeingSearchObj.CustomerIDs="ALL";
+                    //if (AccountsReceivableAgeingSearchObj.CustomerIDs != null)
+                       // AccountsReceivableAgeingSearchObj.CustomerIDs=String.Join(",", AccountsReceivableAgeingSearchObj.CustomerIDs);
+                    //else
+                        //AccountsReceivableAgeingSearchObj.CustomerIDs="ALL";
                     string[] arr = _appUA.RolesCSV.Split(',');
                     if (arr.Contains("SAdmin") || arr.Contains("CEO"))
                     {

@@ -30,8 +30,9 @@
             }
         </div>
     </div>
-    
-    <div class="container container-fluid" style="min-height:600px;text-align:left;position:relative;background-color:white;border:1px solid purple;margin-top:80px">
+
+    <div class="col-md-1"></div>
+    <div class="container container-fluid col-md-10" style="min-height:420px;height:450px;text-align:left;position:relative;background-color:white;border:1px solid purple;vertical-align:middle;margin-top:0.8%">
         <legend style="text-align:center;"></legend>
         <ul class="nav nav-pills nav-justified">
             <li id="li1" role="presentation" class="active"><a>Upload File</a></li>
@@ -39,12 +40,9 @@
             <li id="li3" role="presentation"><a>Import Result</a></li>
         </ul>
 
-        <div class="row form-horizontal" id="uploadRow" style="position:relative;height:100%;">
-            <div class="row" style="min-height:480px;">
+        <div class="row" id="uploadRow" style="position:relative;height:100%;">
+            <div class="row" style="min-height:330px;">
                 <div class="form-group" style="position:relative">
-                    <div class="col-md-12" style="top:100px">&nbsp;</div>
-                    <div class="col-md-12" style="top:100px">&nbsp;</div>
-                    <div class="col-md-12" style="top:100px">&nbsp;</div>
                     <div class="col-md-12" style="top:100px">&nbsp;</div>
                     <div class="col-md-12" style="top:100px">&nbsp;</div>
                     <div class="col-md-12" style="top:100px">&nbsp;</div>
@@ -53,7 +51,7 @@
                     <div class="col-md-1">
                         <input type="file" id="FileUpload1" onchange="BindFileName()" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" name="FileData" style="display:none;">
                     </div>
-                    <div class="form-group col-md-10" onclick="$('#FileUpload1').click();" style="min-width:80%;" required>
+                    <div class="form-group col-md-10" onclick="$('#FileUpload1').click();" required>
                         <div class="input-group" style="text-align:center;">
                             <div class="input-group-addon" style="height:100px;">
                                 <i class="glyphicon glyphicon-save" style="font-size:2em;"></i>
@@ -76,14 +74,14 @@
         </div>
 
         <div class="row" id="importRow">
-            <div class="row" style="height:480px">
+            <div class="row" style="height:330px">
                 <div class="col-md-1">&nbsp;</div>
-                <div id="ErrorData" class="col-md-10" style="left:8%;margin-top:2%;color:red;font-size:2em;">
+                <div id="ErrorData" class="col-md-10" style="left:8%;color:red;font-size:2em;">@*margin-top:2%;*@
                     <i class="glyphicon glyphicon-remove-circle" aria-hidden="true"></i>
                     <span id="dataErrorList"></span>
                 </div>
 
-                <div id="ErrorBar" class="col-md-12" style="margin-top:20%">
+                <div id="ErrorBar" class="col-md-12" style="margin-top:10%">@* style="margin-top:20%"*@
                     <div class="col-md-1">&nbsp;</div>
                     <div class="col-md-10">
                         <span style="color:red;font-size:2em">
@@ -138,10 +136,10 @@
             </div>
 
             <div class="form-group col-md-12" style="vertical-align: bottom;position:relative;width:95%;">
-                <span id="fileError" style="color:red;font-size:large;">* Error file uploaded, Upload a proper one</span>
-                <span id="dataError" style="color:red;font-size:large;">* Contains Invalid Data as given above please resolve them and upload</span>
-                <span id="sysError" style="color:red;font-size:large;">* Error in uploaded file please upload after resolving the issue</span>
-                <span id="noError" style="color:green;font-size:large;">
+                <span id="fileError" style="color:red;font-size:medium;float:left;">* Error file uploaded, Upload a proper one</span>
+                <span id="dataError" style="color:red;font-size:medium;float:left;">* Contains Invalid Data as given above please resolve them and upload</span>
+                <span id="sysError" style="color:red;font-size:medium;float:left;">* Error in uploaded file please upload after resolving the issue</span>
+                <span id="noError" style="color:green;font-size:medium;float:left;">
                     <i class="glyphicon glyphicon-check"></i> File Validated Successfully click Continue to import data
                 </span>
                 <button class="btn btn-primary" id="btnUpload" onclick="SaveSuccess()" style="float:right;">
@@ -155,14 +153,14 @@
         </div>
 
         <div class="row" id="finalRow">
-            <div class="row" style="height:480px;">
+            <div class="row" style="height:330px;">
                 <div class="col-md-12">&nbsp;</div>
                 <div class="col-md-12">&nbsp;</div>
 
                 <div class="form-group" style="position:relative;">
 
 
-                    <div class="col-md-9 figuresummary box-header text-center" style="white-space:nowrap;margin-top:7%;left:12%;">
+                    <div class="col-md-9 figuresummary box-header text-center" style="white-space:nowrap;margin-top:3%;left:12%;">
 
                         <div class="col-md-5 text-right" style="font-size:large;">File Name </div>      <div class="col-md-1">:</div>
                         <div class="col-md-6 text-left"><large><span id="fileName" style="font-size:large;font-weight:bold"></span></large></div>
@@ -193,6 +191,7 @@
         </div>
 
     </div>
+    <div class="col-md-1"></div>
 
     <div class="modal fade" id="HistoryModel" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document" style="min-width:900px !important;">

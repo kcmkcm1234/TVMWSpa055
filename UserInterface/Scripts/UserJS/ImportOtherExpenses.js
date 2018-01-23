@@ -12,7 +12,7 @@ $(document).ready(function () {
                  searching: true,
                  paging: true,
                  data: null,
-                 pageLength: 4,
+                 pageLength: 2,
                  columns: [
                    {"data": "ErrorRow",
                     render: function (data, type, row) { return ((data !== null) || (data !== undefined)) ?
@@ -33,7 +33,8 @@ $(document).ready(function () {
                    }
                  ],
                  columnDefs: [  { className: "text-left", "targets": [ 2, 3, 4, 5, 6, 8] },
-                                { "width": "20%", "targets": [8] },
+                                { "width": "10%", "targets": [1] },
+                                { "width": "17%", "targets": [8] },
                                 { className: "text-right", "targets": [7] },
                                 { className: "text-center", "targets": [0, 1] }]
         });
@@ -47,7 +48,7 @@ $(document).ready(function () {
             searching: true,
             paging: true,
             data: null,
-            pageLength: 4,
+            pageLength: 2,
             columns: [
               { "data": "ExpenseDate", "defaultContent": "<i>-</i>" },
               { "data": "AccountCode", "defaultContent": "<i>-</i>" },
@@ -220,7 +221,7 @@ function BindImportExpenseTable(ImportExpenseList, Count, TotalCount, RemovedCou
             ds = JSON.parse(ds);
         }
         if (ds.Result === "OK") {
-            DataTables.UploadedFilesHistoryTable.clear().rows.add(ds.Records).draw(false);
+            DataTables.UploadedFilesHistoryTable.clear().rows.add(ds.Records).draw(true);
         }
         if (ds.Result === "ERROR") {
             alert(ds.Message);
@@ -266,6 +267,7 @@ function BindImportExpenseTable(ImportExpenseList, Count, TotalCount, RemovedCou
      $("#SideBar").hide();
      $("#btnUpload").prop('disabled',true);
      $('#UploadPreview').empty();
+     //$("#uploadRow").hide(); //given for testing requirement (not necessarily needed)
      $("#uploadRow").show();
      $("#importRow").hide();
      $("#finalRow").hide(); 
