@@ -580,7 +580,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandType = CommandType.StoredProcedure;
                         if (CustomerInvoiceObj != null)
                         {
-                            cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = CustomerInvoiceObj.customerObj.ID;
+                            cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = CustomerInvoiceObj.ID;
                             cmd.Parameters.Add("@includeinternal", SqlDbType.Bit).Value = CustomerInvoiceObj.customerObj.IsInternalComp;
                         }                      
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -603,7 +603,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         CIList.PaidAmount=(sdr["PaidAmount"].ToString()!=""?Decimal.Parse(sdr["PaidAmount"].ToString()):CIList.PaidAmount);
                                         CIList.DueDays = (sdr["DueDays"].ToString() != "" ? int.Parse(sdr["DueDays"].ToString()) : CIList.DueDays);
                                         CIList.PaymentDueDateFormatted = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString(settings.dateformat) : CIList.PaymentDueDateFormatted);
-                                      
+                                        CIList.InvoiceType = sdr["InvoiceType"].ToString();
                                     }
                                     CustomerInvoicesList.Add(CIList);
                                 }
@@ -659,6 +659,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         CIList.BalanceDue = (sdr["BalanceDue"].ToString() != "" ? Decimal.Parse(sdr["BalanceDue"].ToString()) : CIList.BalanceDue);
                                         CIList.PaidAmount = (sdr["PaidAmount"].ToString() != "" ? Decimal.Parse(sdr["PaidAmount"].ToString()) : CIList.PaidAmount);
                                         CIList.PaymentDueDateFormatted = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString(settings.dateformat) : CIList.PaymentDueDateFormatted);
+                                        CIList.InvoiceType= sdr["InvoiceType"].ToString();
 
                                     }
                                     CustomerInvoicesList.Add(CIList);
@@ -719,9 +720,8 @@ namespace SPAccounts.RepositoryServices.Services
                                         CIList.PaidAmount = (sdr["PaidAmount"].ToString() != "" ? Decimal.Parse(sdr["PaidAmount"].ToString()) : CIList.PaidAmount);
                                         
                                         CIList.PaymentDueDateFormatted = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString(settings.dateformat) : CIList.PaymentDueDateFormatted);
-                                       // CIList.SpecialPayObj = new SpecialPayment();
-                                       // CIList.SpecialPayObj.ChequeDate = (sdr["ChequeDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeDate"].ToString()).ToString(settings.dateformat) : CIList.SpecialPayObj.ChequeDate);
-
+                                        // CIList.SpecialPayObj = new SpecialPayment();
+                                        // CIList.SpecialPayObj.ChequeDate = (sdr["ChequeDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeDate"].ToString()).ToString(settings.dateformat) : CIList.SpecialPayObj.ChequeDate);
                                     }
                                     CustomerInvoicesList.Add(CIList);
                                 }

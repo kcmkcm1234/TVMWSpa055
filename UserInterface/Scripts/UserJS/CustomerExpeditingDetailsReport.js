@@ -73,9 +73,10 @@ function GetCustomerExpeditingDetail() {
         var toDate = $("#todate").val();
         var filter = $("#BasicFilters").val();
         var company = $("#Company").val();
-        var customer = $("#Customer").val();       
+        var customer = $("#Customer").val();
+        var invoicetype = $("#ddlInvoiceTypes").val();
         if (IsVaildDateFormat(toDate))
-            var data = { "ToDate": toDate, "Filter": filter, "Company": company, "Customer": customer };        
+            var data = { "ToDate": toDate, "Filter": filter, "Company": company, "Customer": customer,"InvoiceType":invoicetype };        
         var ds = {};
         ds = GetDataFromServer("Report/GetCustomerPaymentExpeditingDetails/", data);
         if (ds != '') {
@@ -139,7 +140,8 @@ function Reset()
     debugger;
     $("#todate").val(today);
     $("#BasicFilters").val('ALL');
-    $("#Company").val('ALL').trigger('change')
-    $("#Customer").val('').trigger('change')
+    $("#Company").val('ALL').trigger('change');
+    $("#Customer").val('').trigger('change');
+    $("#ddlInvoiceTypes").val('RB');
     RefreshCustomerExpeditingDetailTable();
 }
