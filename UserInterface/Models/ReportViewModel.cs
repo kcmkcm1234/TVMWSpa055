@@ -386,6 +386,8 @@ namespace UserInterface.Models
         public List<CompaniesViewModel> companiesList;
         public ReportAdvanceSearchViewModel reportAdvanceSearchObj { get; set; }
         public string Search { get; set; }
+        [Display(Name = "Invoice Type")]
+        public string InvoiceType { get; set; }
     }
 
     public class AccountsPayableAgeingSummaryReportViewModel
@@ -405,7 +407,10 @@ namespace UserInterface.Models
         public List<SelectListItem> CompanyList{get;set;}
         public List<CompaniesViewModel> companiesList;
         public List<SelectListItem> supplierList { get; set; }
-            }
+        [Display(Name = "Invoice Type")]
+        public string InvoiceType { get; set; }
+        public bool ShowInvoiceTypes { get; set; }
+    }
 
 
 
@@ -643,6 +648,8 @@ namespace UserInterface.Models
         public CompaniesViewModel companyObj { get; set; }
         public SupplierContactDetailsReportViewModel supplierContactObj { get; set; }
         public SuppliersViewModel supplierObj { get; set; }
+        [Display(Name = "Invoice Type")]
+        public string InvoiceType { get; set; }
     }
 
     public class SupplierExpeditingListViewModel
@@ -657,6 +664,8 @@ namespace UserInterface.Models
         public string Search { get; set; }
         public string Company { get; set; }
         public string Supplier { get; set; }
+        [Display(Name = "Invoice Type")]
+        public string InvoiceType { get; set; }
     }
 
     public class ReportAdvanceSearchViewModel
@@ -669,7 +678,7 @@ namespace UserInterface.Models
         public string InvoiceType { get; set; }
         public string Customer { get; set; }  
         public string CompanyCode { get; set; }      
-        public string SupplierIDs { get; set; }
+        public string[] SupplierIDs { get; set; }
         public string Search { get; set; }
     }
     public class ReportAccountsReceivableAgeingSearchViewModel

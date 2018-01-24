@@ -38,7 +38,7 @@ $(document).ready(function () {
                { "data": "companyObj.Name", "defaultContent": "<i>-<i>" },
                { "data": "InvoiceNo", "defaultContent": "<i>-</i>" },             
                { "data": "InvoiceDate", "defaultContent": "<i>-</i>" },
-               { "data": "Amount", "defaultContent": "<i>-</i>" },
+               { "data": "Amount", "defaultContent": "<i>-</i>", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                  { "data": "NoOfDays", "defaultContent": "<i>-</i>" },
                   { "data": "CustomerName1", "defaultContent": "<i></i>" },
                { "data": "Remarks", "defaultContent": "<i></i>" }

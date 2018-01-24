@@ -285,7 +285,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string ThirtyOneToSixty { get; set; }
         public string SixtyOneToNinety { get; set; }
         public string NinetyOneAndOver { get; set; }
-
+        public ReportAdvanceSearch ReportAdvanceSearchObj { get; set; }
     }
 
     public class EmployeeExpenseSummaryReport
@@ -463,7 +463,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string InvoiceType { get; set; }
         public string Customer { get; set; }
         public string CompanyCode { get; set; }
-        public string SupplierIDs { get; set; }
+        public string[] SupplierIDs { get; set; }
         public string Search { get; set; }
     }
 

@@ -1008,7 +1008,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = reportAdvanceSearchObj.FromDate;
                         cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = reportAdvanceSearchObj.ToDate;
                         cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = reportAdvanceSearchObj.CompanyCode;
-                        cmd.Parameters.Add("@SupplierIDs", SqlDbType.NVarChar, -1).Value = reportAdvanceSearchObj.SupplierIDs;
+                        cmd.Parameters.Add("@SupplierIDs", SqlDbType.NVarChar, -1).Value = reportAdvanceSearchObj.SupplierIDs!=null?string.Join(",", reportAdvanceSearchObj.SupplierIDs):null;
+                        cmd.Parameters.Add("@InvoiceType", SqlDbType.NVarChar, -1).Value = reportAdvanceSearchObj.InvoiceType;
                         cmd.Parameters.Add("@Search", SqlDbType.NVarChar, 250).Value = reportAdvanceSearchObj.Search != "" ? reportAdvanceSearchObj.Search : null;
                         cmd.CommandText = "[Accounts].[RPT_GetAccountsPayableAgeingDetail]";
                         cmd.CommandType = CommandType.StoredProcedure;
@@ -1048,7 +1049,7 @@ namespace SPAccounts.RepositoryServices.Services
         }
         #endregion GetAccountsPayableAgeingReport
 
-        public List<AccountsPayableAgeingSummaryReport> GetAccountsPayableAgeingSummaryReport(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string SupplierIDs)
+        public List<AccountsPayableAgeingSummaryReport> GetAccountsPayableAgeingSummaryReport(ReportAdvanceSearch reportAdvanceSearchObj)
         {
             List<AccountsPayableAgeingSummaryReport> accountsPayableAgeingSummaryReportList = null;
             try
@@ -1062,10 +1063,11 @@ namespace SPAccounts.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
-                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
-                        cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = CompanyCode;
-                        cmd.Parameters.Add("@SupplierIDs", SqlDbType.NVarChar, -1).Value = SupplierIDs;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = reportAdvanceSearchObj.FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = reportAdvanceSearchObj.ToDate;
+                        cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = reportAdvanceSearchObj.CompanyCode;
+                        cmd.Parameters.Add("@SupplierIDs", SqlDbType.NVarChar, -1).Value = reportAdvanceSearchObj.SupplierIDs != null ? string.Join(",", reportAdvanceSearchObj.SupplierIDs) : null;
+                        cmd.Parameters.Add("@InvoiceType", SqlDbType.NVarChar, -1).Value = reportAdvanceSearchObj.InvoiceType;
                         cmd.CommandText = "[Accounts].[RPT_GetAccountsPayableAgeingSummary]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -1591,6 +1593,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@Company", SqlDbType.NVarChar, 50).Value = advanceSearchObject.Company;
                         if (advanceSearchObject.Supplier != "")
                             cmd.Parameters.Add("@Supplier", SqlDbType.NVarChar, -1).Value = advanceSearchObject.Supplier;
+                        cmd.Parameters.Add("@InvoiceType", SqlDbType.NVarChar, -1).Value = advanceSearchObject.InvoiceType;
                         cmd.CommandText = "[Accounts].[RPT_SupplierPaymentExpeditingDetail]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())

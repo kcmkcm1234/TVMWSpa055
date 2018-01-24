@@ -71,6 +71,29 @@
 
             </div>
         </div>
+        <div class="col-md-3">
+            <div class="col-md-12" style="padding:0">
+                @Html.LabelFor(model => model.InvoiceType, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="col-md-12" style="padding:0">
+                <div class="col-md-12" style="padding:0">
+                    @{
+                        List<SelectListItem> InvoiceTypesList = new List<SelectListItem>();
+                        InvoiceTypesList.Add(new SelectListItem
+                        { Text = "ALL", Value = "RB" });
+                        InvoiceTypesList.Add(new SelectListItem
+                        { Text = "Regular Invoice", Value = "RB", Selected = true });
+                        InvoiceTypesList.Add(new SelectListItem
+                        { Text = "WB Invoice", Value = "WB" });
+                        InvoiceTypesList.Add(new SelectListItem
+                        { Text = "WP Invoice", Value = "WP" });
+                    }
+                    @Html.DropDownListFor(model => model.InvoiceType, InvoiceTypesList, new { @class = "form-control BlockEnter", style = "padding:4px 12px;width: 100 %", @id = "ddlInvoiceTypes", @onchange = "RefreshPayableAgeingReportTable();" })
+                </div>
+                @*<div class="col-md-1"></div>
+                <div class="col-md-1"></div>*@
+            </div>
+        </div>  
         <div class="col-md-6" id="ddlSupplier" style="visibility:hidden;">
             @Html.LabelFor(model => model.SupplierCode, htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">

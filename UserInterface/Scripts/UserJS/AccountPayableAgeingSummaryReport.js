@@ -1,4 +1,6 @@
 ﻿var DataTables = {};
+var today = '';
+var fromday = '';
 $(document).ready(function () {
 
 
@@ -49,22 +51,23 @@ $(document).ready(function () {
 
         $(".buttons-excel").hide();
         $("#ddlSupplier").attr('style', 'visibility:true');
-
+        today = $("#todate").val();
+        fromday = $("#fromdate").val();
     } catch (x) {
         notyAlert('error', x.message);
     }
 });
 
 
-function GetPayableAgeingSummaryReport() {
+function GetPayableAgeingSummaryReport(reportAdvanceSearchObject) {
     try {
-        var fromdate = $("#fromdate").val();
-        var todate = $("#todate").val();
-        var companycode = $("#CompanyCode").val();
-        var supplierids = $("#supplierCode").val();
-
-        if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "SupplierIDs": supplierids };
+        debugger;
+        if (reportAdvanceSearchObject == 0) {
+            var data = {};
+        }
+        else {
+            var data = { "reportAdvanceSearchObject": JSON.stringify(reportAdvanceSearchObject) };
+        }
             var ds = {};
             ds = GetDataFromServerTraditional("Report/GetAccountsPayableAgeingSummary/", data);
             if (ds != '') {
@@ -77,10 +80,6 @@ function GetPayableAgeingSummaryReport() {
                 notyAlert('error', ds.Message);
             }
         }
-
-
-
-    }
     catch (e) {
         notyAlert('error', e.message);
     }
@@ -88,11 +87,20 @@ function GetPayableAgeingSummaryReport() {
 
 function RefreshPayableAgeingSummaryReportTable() {
     try {
-        var fromdate = $("#fromdate").val();
-        var todate = $("#todate").val();
-        var companycode = $("#CompanyCode").val();
-        if (DataTables.PayableAgeingSummaryReportTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            DataTables.PayableAgeingSummaryReportTable.clear().rows.add(GetPayableAgeingSummaryReport()).draw(true);
+        debugger;
+        var fromDate = $("#fromdate");
+        var toDate = $("#todate");
+        var companyCode = $("#CompanyCode");
+        var supplierIds = $("#supplierCode");
+        var invoicetype = $("#ddlInvoiceTypes");
+        var PayableAdvanceSearch = new Object();
+        PayableAdvanceSearch.FromDate = fromDate[0].value !== "" ? fromDate[0].value : null;
+        PayableAdvanceSearch.ToDate = toDate[0].value !== "" ? toDate[0].value : null;
+        PayableAdvanceSearch.CompanyCode = companyCode[0].value !== "" ? companyCode[0].value : null;
+        PayableAdvanceSearch.InvoiceType = invoicetype[0].value !== "" ? invoicetype[0].value : null;
+        PayableAdvanceSearch.SupplierIDs = supplierIds[0].value !== "" ? $("#supplierCode").val() : null;
+        if (DataTables.PayableAgeingSummaryReportTable != undefined ) {
+            DataTables.PayableAgeingSummaryReportTable.clear().rows.add(GetPayableAgeingSummaryReport(PayableAdvanceSearch)).draw(true);
         }
     }
     catch (e) {
@@ -116,6 +124,18 @@ function PrintReport() {
 
 function Back() {
     window.location = appAddress + "Report/Index/";
+}
+
+
+function Reset()
+{
+    debugger;
+    $("#todate").val(today);
+    $("#fromdate").val(fromday);
+    $("#CompanyCode").val('ALL');
+    $("#ddlInvoiceTypes").val('RB');
+    $("#supplierCode").val('').trigger('change');
+    RefreshPayableAgeingSummaryReportTable();
 }
 
 

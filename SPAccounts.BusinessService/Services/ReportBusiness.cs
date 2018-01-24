@@ -347,12 +347,12 @@ namespace SPAccounts.BusinessService.Services
             return accountsPayableAgeingReportList;
         }
 
-        public List<AccountsPayableAgeingSummaryReport> GetAccountsPayableAgeingSummaryReport(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string SupplierIDs)
+        public List<AccountsPayableAgeingSummaryReport> GetAccountsPayableAgeingSummaryReport(ReportAdvanceSearch reportAdvanceSearchObj)
         {
             List<AccountsPayableAgeingSummaryReport> accountsPayableAgeingSummaryReportList = null;
             try
             {
-                accountsPayableAgeingSummaryReportList = _reportRepository.GetAccountsPayableAgeingSummaryReport(FromDate, ToDate, CompanyCode,SupplierIDs);
+                accountsPayableAgeingSummaryReportList = _reportRepository.GetAccountsPayableAgeingSummaryReport(reportAdvanceSearchObj);
             }
             catch (Exception ex)
             {

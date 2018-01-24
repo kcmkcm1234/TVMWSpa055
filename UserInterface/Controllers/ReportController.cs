@@ -1302,17 +1302,15 @@ namespace UserInterface.Controllers
                 reportAdvanceSearchObj.FromDate = appUA.DateTime.AddDays(-90).ToString("dd-MMM-yyyy");
                 reportAdvanceSearchObj.ToDate = appUA.DateTime.ToString("dd-MMM-yyyy");
             }
-           
-           
-            if (reportAdvanceSearchObj.SupplierIDs != null)
-            {
-                reportAdvanceSearchObj.SupplierIDs = String.Join(",", reportAdvanceSearchObj.SupplierIDs);
-            }
-            else
-            {
-                reportAdvanceSearchObj.SupplierIDs = "ALL";
-            }
-            if (!string.IsNullOrEmpty(reportAdvanceSearchObj.CompanyCode))
+                //if (reportAdvanceSearchObj.SupplierIDs != null)
+                //{
+                //    reportAdvanceSearchObj.SupplierIDs = String.Join(",", reportAdvanceSearchObj.SupplierIDs);
+                //}
+                //else
+                //{
+                //    reportAdvanceSearchObj.SupplierIDs = "ALL";
+                //}
+                if (!string.IsNullOrEmpty(reportAdvanceSearchObj.CompanyCode))
             {
                 try
                 {
@@ -1380,21 +1378,30 @@ namespace UserInterface.Controllers
                 }
                 accountsPayableAgeingSummaryReportViewModel.supplierList = selectListItem;
             }
+
             return View(accountsPayableAgeingSummaryReportViewModel);
         }
 
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
-        public string GetAccountsPayableAgeingSummary(string FromDate, string ToDate, string CompanyCode, string[] SupplierIDs)
+        public string GetAccountsPayableAgeingSummary(string reportAdvanceSearchObject)
         {
-            if (!string.IsNullOrEmpty(CompanyCode))
+            AppUA appUA = Session["AppUA"] as AppUA;
+            ReportAdvanceSearch reportAdvanceSearchObj = reportAdvanceSearchObject != null ? JsonConvert.DeserializeObject<ReportAdvanceSearch>(reportAdvanceSearchObject) : new ReportAdvanceSearch();
+
+
+            if (reportAdvanceSearchObject == null)
+            {
+                reportAdvanceSearchObj.CompanyCode = "ALL";
+                reportAdvanceSearchObj.FromDate = appUA.DateTime.AddDays(-90).ToString("dd-MMM-yyyy");
+                reportAdvanceSearchObj.ToDate = appUA.DateTime.ToString("dd-MMM-yyyy");
+            }
+            if (!string.IsNullOrEmpty(reportAdvanceSearchObj.CompanyCode))
             {
                 try
                 {
-                    DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
-                    DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                    List<AccountsPayableAgeingSummaryReportViewModel> accountsPayableAgeingSummaryReportList = Mapper.Map<List<AccountsPayableAgeingSummaryReport>, List<AccountsPayableAgeingSummaryReportViewModel>>(_reportBusiness.GetAccountsPayableAgeingSummaryReport(FDate, TDate, CompanyCode, SupplierIDs != null ? String.Join(",", SupplierIDs) : "ALL"));
+                    List<AccountsPayableAgeingSummaryReportViewModel> accountsPayableAgeingSummaryReportList = Mapper.Map<List<AccountsPayableAgeingSummaryReport>, List<AccountsPayableAgeingSummaryReportViewModel>>(_reportBusiness.GetAccountsPayableAgeingSummaryReport(reportAdvanceSearchObj));
                     return JsonConvert.SerializeObject(new { Result = "OK", Records = accountsPayableAgeingSummaryReportList });
                 }
                 catch (Exception ex)
