@@ -899,7 +899,6 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
                         cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = CompanyCode;
                         cmd.Parameters.Add("@Customerids", SqlDbType.NVarChar, -1).Value = Customerids;
-
                         cmd.CommandText = "[Accounts].[RPT_GetAccountsReceivableAgeingSummary]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -934,7 +933,7 @@ namespace SPAccounts.RepositoryServices.Services
             return accountsReceivableAgeingSummaryReportList;
         }
 
-        public List<AccountsReceivableAgeingSummaryReport> GetAccountsReceivableAgeingSummaryReportForSA(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string Customerids)
+        public List<AccountsReceivableAgeingSummaryReport> GetAccountsReceivableAgeingSummaryReportForSA(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string Customerids,string InvoiceType)
         {
             List<AccountsReceivableAgeingSummaryReport> accountsReceivableAgeingSummaryReportList = null;
             try
@@ -952,6 +951,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
                         cmd.Parameters.Add("@Customerids", SqlDbType.NVarChar, -1).Value = Customerids;
                         cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = CompanyCode;
+                        cmd.Parameters.Add("@InvoiceType", SqlDbType.NVarChar, 50).Value = InvoiceType;
                         cmd.CommandText = "[Accounts].[RPT_GetAccountsReceivableAgeingSummaryForSA]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -1512,7 +1512,7 @@ namespace SPAccounts.RepositoryServices.Services
             return dailyLedgerList;
         }
 
-        public List<CustomerExpeditingReport> GetCustomerExpeditingDetail(DateTime? ToDate,string Filter,string Company,string Customer)
+        public List<CustomerExpeditingReport> GetCustomerExpeditingDetail(DateTime? ToDate,string Filter,string Company,string Customer,string InvoiceType)
         {
             List<CustomerExpeditingReport> customerExpeditingList = null;
             try
@@ -1531,6 +1531,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@Company", SqlDbType.NVarChar, 50).Value = Company;
                         if (Customer!="")
                         cmd.Parameters.Add("@Customer",SqlDbType.NVarChar, -1).Value = Customer ;
+                        cmd.Parameters.Add("@InvoiceType", SqlDbType.NVarChar, -1).Value = InvoiceType;
                         cmd.CommandText = "[Accounts].[RPT_CustomerPaymentExpeditingDetail]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())

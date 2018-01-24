@@ -256,7 +256,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string ThirtyOneToSixty { get; set; }
         public string SixtyOneToNinety { get; set; }
         public string NinetyOneAndOver { get; set; }
-
+        public string InvoiceType { get; set; }
     }
     public class AccountsPayableAgeingReport
     {
