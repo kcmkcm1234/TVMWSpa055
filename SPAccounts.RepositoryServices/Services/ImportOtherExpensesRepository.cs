@@ -15,6 +15,7 @@ namespace SPAccounts.RepositoryServices.Services
     {
         #region Constructor Injection
         AppConst Cobj = new AppConst();
+        Settings settings = new Settings();
         private IDatabaseFactory _databaseFactory;
         private ICompaniesRepository _companiesRepository;
         private IEmployeeRepository _employeeRepository;
@@ -192,7 +193,7 @@ namespace SPAccounts.RepositoryServices.Services
                     {
                         if ( CompanyNames.Contains(anImportOtherExpense.Company) )
                         {
-                            if ( (anImportOtherExpense.EmpName.Equals("-") || EmployeeNames.Contains(anImportOtherExpense.EmpName)) && (anImportOtherExpense.EmpCode.Equals("-") || EmployeeCodes.Contains(anImportOtherExpense.EmpCode)))
+                            if ( (anImportOtherExpense.EmpName.Equals("-") || anImportOtherExpense.EmpName.Equals("") || EmployeeNames.Contains(anImportOtherExpense.EmpName)) && (anImportOtherExpense.EmpCode.Equals("-") || anImportOtherExpense.EmpCode.Equals("") || EmployeeCodes.Contains(anImportOtherExpense.EmpCode)))
                             {
                                 ImportOtherExpenses importExpenseReturn = ModifyRow(anImportOtherExpense, companiesList, employeeList);
                                 if (flag == true)
@@ -204,6 +205,7 @@ namespace SPAccounts.RepositoryServices.Services
                             {
                                 anImportOtherExpense.ErrorRow   = count;
                                 anImportOtherExpense.Error      = "Invalid Employee";
+                                anImportOtherExpense.ExpenseDate = DateTime.Parse(anImportOtherExpense.ExpenseDate).ToString(settings.dateformat);
                                 removedDataList.Add(anImportOtherExpense);
                             }
                         }
@@ -211,6 +213,7 @@ namespace SPAccounts.RepositoryServices.Services
                         {
                             anImportOtherExpense.ErrorRow   = count;
                             anImportOtherExpense.Error      = "Invalid Company";
+                            anImportOtherExpense.ExpenseDate = DateTime.Parse(anImportOtherExpense.ExpenseDate).ToString(settings.dateformat);
                             removedDataList.Add(anImportOtherExpense);
                         }
                     }
@@ -218,6 +221,7 @@ namespace SPAccounts.RepositoryServices.Services
                     {
                         anImportOtherExpense.ErrorRow   = count;
                         anImportOtherExpense.Error      = "Invalid Account Code";
+                        anImportOtherExpense.ExpenseDate = DateTime.Parse(anImportOtherExpense.ExpenseDate).ToString(settings.dateformat);
                         removedDataList.Add(anImportOtherExpense);
                     }
                     count++;
@@ -235,12 +239,17 @@ namespace SPAccounts.RepositoryServices.Services
         #region ModifyRow
         ImportOtherExpenses ModifyRow(ImportOtherExpenses importOtherExpense, List<Companies> companiesList, List<Employee> employeeList)
         {
+
             try
             {
                 importOtherExpense.PaidFromCompanyCode = (from aCompany in companiesList where aCompany.Name == importOtherExpense.Company select aCompany.Code).ToArray()[0].ToString();
                 if (!importOtherExpense.EmpName.Equals("-") || !importOtherExpense.EmpCode.Equals("-"))
                 {
-                    importOtherExpense.EmpID = Guid.Parse((from anEmployee in employeeList where anEmployee.Name == importOtherExpense.EmpName && anEmployee.Code == importOtherExpense.EmpCode select anEmployee.ID).First().ToString());
+                    if(!importOtherExpense.EmpName.Equals("") || !importOtherExpense.EmpCode.Equals(""))
+                    {
+                        importOtherExpense.EmpID = Guid.Parse((from anEmployee in employeeList where anEmployee.Name == importOtherExpense.EmpName && anEmployee.Code == importOtherExpense.EmpCode select anEmployee.ID).First().ToString());
+
+                    }
 
                 }
                 return importOtherExpense;
