@@ -146,6 +146,7 @@ $(document).ready(function () {
     } catch (x) {
             notyAlert('error', x.message);
     }
+    $("#HdfReducibleAmt").val(0);
 
 
 });
@@ -306,8 +307,6 @@ function validate() {
                 case "OK":
                     if (JsonResult.Records.Status == 1)
                     {
-                        debugger;
-
                         notyConfirm(JsonResult.Records.Message, 'SaveValidatedData();', '', "Yes,Proceed!", 1);
                         return false;
                     }
@@ -338,7 +337,6 @@ function SaveValidatedData() {
 
 
 function PaymentModeOnchange(curobj) {  
-
     if (curobj.value == "ONLINE" || curobj.value == "CHEQUE") {
         $("#BankCode").prop('disabled', false);
         $("#ReferenceBank").prop('disabled', true);
@@ -351,7 +349,6 @@ function PaymentModeOnchange(curobj) {
         else {
             $("#ChequeDate").prop('disabled', true);
             $("#ChequeClearDate").prop('disabled', true);
-            
           }
     }
     else {
@@ -378,7 +375,6 @@ function Validation()
         if($("#BankCode").val()=="")
         {
             fl = false;
-           
             $('span[data-valmsg-for="BankCode"]').append('<span for="EmpID" class="">BankCode required</span>')
         }
         else
@@ -432,8 +428,6 @@ function Validation()
                 $('span[data-valmsg-for="EmpID"]').empty();
             }
             
-            
-           
         }
         else
         {
@@ -484,7 +478,6 @@ function ClearFields() {
         validator.settings.success($(this));
     });
     validator.resetForm();
-   
 }
 
 
@@ -499,7 +492,6 @@ function BindAllExpenseDetails(ExpenseDate, DefaultDate) {
 }
 
 function SaveSuccess(data, status) {
-   
     var JsonResult = JSON.parse(data)
     switch (JsonResult.Result) {
         case "OK":
@@ -545,7 +537,6 @@ function Reset() {
 
 function GetExpenseDetailsByID(ID) {
     try {
-
         var data = { "ID": ID };
         var ds = {};
         ds = GetDataFromServer("OtherExpenses/GetExpenseDetailsByID/", data);
@@ -647,6 +638,15 @@ function FillOtherExpenseDetails(ID) {
                
             }
         }
+        if (thisItem.ReversableAmount > 0)//Setting hidden field to limit Reversible amount
+        {
+            $("#HdfAmountReversal").val(thisItem.ReversableAmount);
+            $("#ReFAmountMsg").show();
+            $("#ReFAmountMsg").text('* Amount must be less than ' + thisItem.ReversableAmount);
+        }
+        else {
+            GetMaximumReducibleAmount(thisItem.RefNo);
+        }
     }
    
 
@@ -697,7 +697,7 @@ function SelectRefNo(currentObj) {
     $("#ReversalRef").val(rowData.RefNo);
     $("#HdfAmountReversal").val(rowData.ReversableAmount);
     $("#ReFAmountMsg").show();
-    $("#ReFAmountMsg").text('* Amount must be lessthan '+rowData.ReversableAmount);
+    $("#ReFAmountMsg").text('* Amount must be less than '+rowData.ReversableAmount);
     $("#RefSearchDiv").hide();
 }
 function ClearReversalRef() {
@@ -714,11 +714,15 @@ function CheckReversableAmount() {
         if (parseInt(EnteredAmt) > parseInt(reversableAmt)) {
             $("#Amount").val('');
             $("#ReFAmountMsg").show();
-            $("#ReFAmountMsg").text('* Amount must be lessthan ' + reversableAmt);
+            $("#ReFAmountMsg").text('* Amount must be less than ' + reversableAmt);
         }
         else {
             $("#ReFAmountMsg").hide();
+            CheckReducibleAmount();
         }
+    }
+    else {
+        CheckReducibleAmount();
     }
 }
 
@@ -758,13 +762,11 @@ function GetReversalReference() {
 
 //---------------------------------------Edit Other expense--------------------------------------------------//
 function Edit(currentObj) {
-    
 
     var rowData = DataTables.expenseDetailTable.row($(currentObj).parents('tr')).data();
     if ((rowData != null) && (rowData.ID != null)) {
        
         ClearFields();
-        debugger;
         FillOtherExpenseDetails(rowData.ID);
         $("#AddOtherexpenseModel").modal('show');
     }
@@ -802,7 +804,7 @@ function Delete(currObj) {
 
 function DeleteOtherExpense(ID) {
     try {
-       
+
         
         if (ID) {
             var data = { "ID": ID };
@@ -1050,9 +1052,6 @@ function BindEmployeeDropDown(type)
 
             }
         }
-
-       
-
     }
     catch(e)
     {
@@ -1108,14 +1107,64 @@ function IsReverseOnchange() {
     if ($("#IsReverse").val() == 'true')
     {
         $('#ReversalRefDiv').show();
+        $("#HdfReducibleAmt").val('');
     }
     else
     {
         $('#ReversalRefDiv').hide();
         $('#ReversalRef').val('');
+        $('#HdfAmountReversal').val('');
+        $('#ReFAmountMsg').hide();
+        $("#HdfReducibleAmt").val('');
     }
 }
 
 
+function GetMaximumReducibleAmount(refNo) {
+    try
+    {
+        debugger;
+        data = { "refNumber": refNo };
+        var ds = {};
+        ds = GetDataFromServer("OtherExpenses/GetMaximumReducibleAmount/", data);
+        if (ds !== '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result === "OK") {
+            $("#HdfReducibleAmt").val(''+ds.ReducibleAmount);
+            if (ds.ReducibleAmount > 0) {
+                $("#ReFAmountMsg").show();
+                $("#ReFAmountMsg").text('* Amount must be more than ' + ds.ReducibleAmount);
+            }
+        }
+        if (ds.Result === "ERROR") {
+            notyAlert('error',ds.Message)
+        }
+    }
+    catch(ex)
+    {
+        notyAlert('error', ex.message);
+    }
+}
 
-
+function CheckReducibleAmount() {
+    try {
+        debugger;
+            var reducableAmt = $("#HdfReducibleAmt").val();
+            var enteredAmt = $("#Amount").val();
+            if (parseInt(enteredAmt) < parseInt(reducableAmt)) {
+                $("#Amount").val('');
+                $("#ReFAmountMsg").show();
+                $("#ReFAmountMsg").text('* Amount cannot be less than ' + reducableAmt);
+            }
+            else {
+                $("#ReFAmountMsg").hide();
+            }
+            if (parseInt(reducableAmt) === 0) {
+                $("#ReFAmountMsg").hide();
+            }
+    }
+    catch (ex) {
+        notyAlert('error', ex.message);
+    }
+}

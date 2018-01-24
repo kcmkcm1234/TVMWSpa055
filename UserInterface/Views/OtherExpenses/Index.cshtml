@@ -202,6 +202,7 @@
 
                         {
                             @Html.AntiForgeryToken()
+                            @Html.Hidden("HdfReducibleAmt", "", htmlAttributes: new { @class = "" });
                             @Html.Hidden("BindValue", "", htmlAttributes: new { @class = "", Value = ViewBag.value });
                             @Html.Hidden("HdfAmountReversal", "", htmlAttributes: new { @class = ""});
 
