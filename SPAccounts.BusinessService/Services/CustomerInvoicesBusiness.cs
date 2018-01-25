@@ -124,9 +124,10 @@ namespace SPAccounts.BusinessService.Services
                 }
                 else
                 {
-                    foreach (CustomerInvoice m in cusumObj.CustInv)
+                    foreach (CustomerInvoice CIObj in cusumObj.CustInv)
                     {
-                        tmp = tmp + m.BalanceDue;
+                        if (CIObj.InvoiceType == "RB")
+                            tmp = tmp + CIObj.BalanceDue;
                     }
                     cusumObj.CustInvSumObj.Amount = tmp;
                     cusumObj.CustInvSumObj.AmountFormatted = _commonBusiness.ConvertCurrency(tmp, 0);
@@ -160,9 +161,10 @@ namespace SPAccounts.BusinessService.Services
                 }
                 else
                 {
-                    foreach (CustomerInvoice m in cusumObj.CustInv)
+                    foreach (CustomerInvoice CIObj in cusumObj.CustInv)
                     {
-                        tmp = tmp + m.BalanceDue;
+                        if(CIObj.InvoiceType=="RB")
+                        tmp = tmp + CIObj.BalanceDue;
                     }
                     cusumObj.CustInvSumObj.Amount = tmp;
                     cusumObj.CustInvSumObj.AmountFormatted = _commonBusiness.ConvertCurrency(tmp, 0);
@@ -196,9 +198,9 @@ namespace SPAccounts.BusinessService.Services
                 }
                 else
                 {
-                    foreach (CustomerInvoice m in cusumObj.CustInv)
+                    foreach (CustomerInvoice CIObj in cusumObj.CustInv)
                     {
-                        tmp = tmp + m.BalanceDue;
+                        tmp = tmp + CIObj.BalanceDue;
                     }
                     cusumObj.CustInvSumObj.Amount = tmp;
                     cusumObj.CustInvSumObj.AmountFormatted = _commonBusiness.ConvertCurrency(tmp, 0);

@@ -37,7 +37,7 @@ $(document).ready(function () {
                { "data": "companyObj.Name", "defaultContent": "<i>-</i>" },
                { "data": "InvoiceNo", "defaultContent": "<i>-</i>" },              
                { "data": "InvoiceDate", "defaultContent": "<i>-</i>" },
-               { "data": "Amount", "defaultContent": "<i>-</i>" },
+               { "data": "Amount", "defaultContent": "<i>-</i>",render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>"  },
                { "data": "NoOfDays", "defaultContent": "<i>-</i>" },
                { "data": "SupplierName1", "defaultContent": "<i></i>" },
                { "data": "Remarks", "defaultContent": "<i></i>" }
@@ -112,11 +112,13 @@ function RefreshSupplierExpeditingDetailTable()
         var filter = $("#BasicFilters");
         var company = $("#Company");
         var supplier = $("#Supplier");
+        var invoicetype = $("#ddlInvoiceTypes");
         var supplierAdvanceSearch = new Object();
         supplierAdvanceSearch.ToDate = toDate[0].value !== "" ? toDate[0].value : null;
         supplierAdvanceSearch.Filter = filter[0].value !== "" ? filter[0].value : null;
         supplierAdvanceSearch.Company = company[0].value !== "" ? company[0].value : null;
         supplierAdvanceSearch.Supplier = supplier[0].value !== "" ? supplier[0].value : null;
+        supplierAdvanceSearch.InvoiceType = invoicetype[0].value !== "" ? invoicetype[0].value : null;
         //if (DataTables.SupplierExpeditingDetailTableReportTable != undefined && IsVaildDateFormat(todate)) {
         //    DataTables.SupplierExpeditingDetailTableReportTable.clear().rows.add(GetSupplierExpeditingDetail()).draw(true);
         //}  
@@ -158,5 +160,6 @@ function Reset()
     $("#BasicFilters").val('ALL');
     $("#Company").val('ALL').trigger('change')
     $("#Supplier").val('').trigger('change')
+    $("#ddlInvoiceTypes").val('RB');
     RefreshSupplierExpeditingDetailTable();
 }

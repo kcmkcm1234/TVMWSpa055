@@ -65,8 +65,9 @@ function GetReceivableAgeingSummaryReport() {
         var todate = $("#todate").val();
         var companycode = $("#CompanyCode").val();
         var customerids = $("#customerCode").val();
+        var invoicetype = $("#ddlInvoiceTypes").val();
         if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode,"Customerids": customerids };
+            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "Customerids": customerids, "InvoiceType": invoicetype };
             var ds = {};
             ds = GetDataFromServerTraditional("Report/GetAccountsReceivableAgeingSummary/", data);
             if (ds != '') {
@@ -102,7 +103,15 @@ function RefreshReceivableAgeingReportTable() {
     }
 }
 
-
+function Reset()
+{
+    $("#todate").val(today);
+    $("#fromdate").val(fromday);
+    $("#CompanyCode").val('ALL');
+    $("#ddlInvoiceTypes").val('RB');
+    $("#customerCode").val('').trigger('change');
+    RefreshReceivableAgeingReportTable();
+}
 
 function PrintReport() {
     try {

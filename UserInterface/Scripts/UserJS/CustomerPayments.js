@@ -909,7 +909,7 @@ function RefreshCustomerPayments() {
         CustomerPaymentsSearch.Company = companycode[0].value !== "" ? companycode[0].value : null;
         CustomerPaymentsSearch.Search = search[0].value !== "" ? search[0].value : null;
 
-        DataTables.CustomerPaymentTable.clear().rows.add(GetAllCustomerPayments(CustomerPaymentsSearch)).draw(false);
+        DataTables.CustomerPaymentTable.clear().rows.add(GetAllCustomerPayments(CustomerPaymentsSearch)).draw(true);
         
     }
     catch (e) {

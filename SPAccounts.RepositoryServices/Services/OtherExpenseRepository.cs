@@ -140,7 +140,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         {
                                             CreatedDateString = (sdr["CreatedDate"].ToString() != "" ? DateTime.Parse(sdr["CreatedDate"].ToString()).ToString(settings.dateformat) : string.Empty)
                                         };
-
+                                        _otherExpense.ReversableAmount = (sdr["BalanceReversibleAmount"].ToString() != "" ? decimal.Parse(sdr["BalanceReversibleAmount"].ToString()) : 0);
                                     }
 
                                     otherExpenselist.Add(_otherExpense);
@@ -547,8 +547,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         _OtherExpenseObj.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : _OtherExpenseObj.Amount);
                                         _OtherExpenseObj.ReversableAmount = (sdr["ReversableAmount"].ToString() != "" ? decimal.Parse(sdr["ReversableAmount"].ToString()) : _OtherExpenseObj.ReversableAmount);
 
-
-        OtherExpenseList.Add(_OtherExpenseObj);
+                                        OtherExpenseList.Add(_OtherExpenseObj);
                                     }
                                 }
                             }

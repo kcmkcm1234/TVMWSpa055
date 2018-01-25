@@ -1105,10 +1105,10 @@ namespace UserInterface.Controllers
                 {
                     AppUA _appUA = Session["AppUA"] as AppUA;
                     List<AccountsReceivableAgeingReportViewModel> accountsReceivableAgeingReportList = new List<AccountsReceivableAgeingReportViewModel>();
-                    if (AccountsReceivableAgeingSearchObj.CustomerIDs != null)
-                        AccountsReceivableAgeingSearchObj.CustomerIDs=String.Join(",", AccountsReceivableAgeingSearchObj.CustomerIDs);
-                    else
-                        AccountsReceivableAgeingSearchObj.CustomerIDs="ALL";
+                    //if (AccountsReceivableAgeingSearchObj.CustomerIDs != null)
+                       // AccountsReceivableAgeingSearchObj.CustomerIDs=String.Join(",", AccountsReceivableAgeingSearchObj.CustomerIDs);
+                    //else
+                        //AccountsReceivableAgeingSearchObj.CustomerIDs="ALL";
                     string[] arr = _appUA.RolesCSV.Split(',');
                     if (arr.Contains("SAdmin") || arr.Contains("CEO"))
                     {
@@ -1142,6 +1142,7 @@ namespace UserInterface.Controllers
             ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
             AccountsReceivableAgeingSummaryReportViewModel accountsReceivableAgeingSummaryReportViewModel = new AccountsReceivableAgeingSummaryReportViewModel();
+            
             List<SelectListItem> selectListItem = new List<SelectListItem>();
             accountsReceivableAgeingSummaryReportViewModel.companiesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_companiesBusiness.GetAllCompanies());
             if (accountsReceivableAgeingSummaryReportViewModel.companiesList != null)
@@ -1181,12 +1182,23 @@ namespace UserInterface.Controllers
             }
 
             accountsReceivableAgeingSummaryReportViewModel.customerList = selectListItem;
+            Permission _permission = Session["UserRights"] as Permission;
+            string p = _permission.SubPermissionList.Where(li => li.Name == "ShowInvoiceType").First().AccessCode;
+                if (p.Contains("R") || p.Contains("W"))
+                {
+                accountsReceivableAgeingSummaryReportViewModel.ShowInvoiceTypes = true;
+                }
+                else
+                {
+                accountsReceivableAgeingSummaryReportViewModel.ShowInvoiceTypes = false;
+                }
+            
             return View(accountsReceivableAgeingSummaryReportViewModel);
         }
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
-        public string GetAccountsReceivableAgeingSummary(string FromDate, string ToDate, string CompanyCode, string[] Customerids)
+        public string GetAccountsReceivableAgeingSummary(string FromDate, string ToDate, string CompanyCode, string[] Customerids,string InvoiceType)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
             {
@@ -1196,11 +1208,11 @@ namespace UserInterface.Controllers
                     List<AccountsReceivableAgeingSummaryReportViewModel> AccountsReceivableAgeingSummaryList = new List<AccountsReceivableAgeingSummaryReportViewModel>();
                     DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-
                     string[] arr = _appUA.RolesCSV.Split(',');
                     if (arr.Contains("SAdmin") || arr.Contains("CEO"))
                     {
-                        AccountsReceivableAgeingSummaryList = Mapper.Map<List<AccountsReceivableAgeingSummaryReport>, List<AccountsReceivableAgeingSummaryReportViewModel>>(_reportBusiness.GetAccountsReceivableAgeingSummaryReportForSA(FDate, TDate, CompanyCode, Customerids != null ? String.Join(",", Customerids) : "ALL"));
+                        AccountsReceivableAgeingSummaryList = Mapper.Map<List<AccountsReceivableAgeingSummaryReport>, List<AccountsReceivableAgeingSummaryReportViewModel>>(_reportBusiness.GetAccountsReceivableAgeingSummaryReportForSA(FDate, TDate, CompanyCode, Customerids != null ? String.Join(",", Customerids) : "ALL",InvoiceType));
+                      
                     }
                     else
                     {
@@ -1290,17 +1302,15 @@ namespace UserInterface.Controllers
                 reportAdvanceSearchObj.FromDate = appUA.DateTime.AddDays(-90).ToString("dd-MMM-yyyy");
                 reportAdvanceSearchObj.ToDate = appUA.DateTime.ToString("dd-MMM-yyyy");
             }
-           
-           
-            if (reportAdvanceSearchObj.SupplierIDs != null)
-            {
-                reportAdvanceSearchObj.SupplierIDs = String.Join(",", reportAdvanceSearchObj.SupplierIDs);
-            }
-            else
-            {
-                reportAdvanceSearchObj.SupplierIDs = "ALL";
-            }
-            if (!string.IsNullOrEmpty(reportAdvanceSearchObj.CompanyCode))
+                //if (reportAdvanceSearchObj.SupplierIDs != null)
+                //{
+                //    reportAdvanceSearchObj.SupplierIDs = String.Join(",", reportAdvanceSearchObj.SupplierIDs);
+                //}
+                //else
+                //{
+                //    reportAdvanceSearchObj.SupplierIDs = "ALL";
+                //}
+                if (!string.IsNullOrEmpty(reportAdvanceSearchObj.CompanyCode))
             {
                 try
                 {
@@ -1368,21 +1378,30 @@ namespace UserInterface.Controllers
                 }
                 accountsPayableAgeingSummaryReportViewModel.supplierList = selectListItem;
             }
+
             return View(accountsPayableAgeingSummaryReportViewModel);
         }
 
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
-        public string GetAccountsPayableAgeingSummary(string FromDate, string ToDate, string CompanyCode, string[] SupplierIDs)
+        public string GetAccountsPayableAgeingSummary(string reportAdvanceSearchObject)
         {
-            if (!string.IsNullOrEmpty(CompanyCode))
+            AppUA appUA = Session["AppUA"] as AppUA;
+            ReportAdvanceSearch reportAdvanceSearchObj = reportAdvanceSearchObject != null ? JsonConvert.DeserializeObject<ReportAdvanceSearch>(reportAdvanceSearchObject) : new ReportAdvanceSearch();
+
+
+            if (reportAdvanceSearchObject == null)
+            {
+                reportAdvanceSearchObj.CompanyCode = "ALL";
+                reportAdvanceSearchObj.FromDate = appUA.DateTime.AddDays(-90).ToString("dd-MMM-yyyy");
+                reportAdvanceSearchObj.ToDate = appUA.DateTime.ToString("dd-MMM-yyyy");
+            }
+            if (!string.IsNullOrEmpty(reportAdvanceSearchObj.CompanyCode))
             {
                 try
                 {
-                    DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
-                    DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                    List<AccountsPayableAgeingSummaryReportViewModel> accountsPayableAgeingSummaryReportList = Mapper.Map<List<AccountsPayableAgeingSummaryReport>, List<AccountsPayableAgeingSummaryReportViewModel>>(_reportBusiness.GetAccountsPayableAgeingSummaryReport(FDate, TDate, CompanyCode, SupplierIDs != null ? String.Join(",", SupplierIDs) : "ALL"));
+                    List<AccountsPayableAgeingSummaryReportViewModel> accountsPayableAgeingSummaryReportList = Mapper.Map<List<AccountsPayableAgeingSummaryReport>, List<AccountsPayableAgeingSummaryReportViewModel>>(_reportBusiness.GetAccountsPayableAgeingSummaryReport(reportAdvanceSearchObj));
                     return JsonConvert.SerializeObject(new { Result = "OK", Records = accountsPayableAgeingSummaryReportList });
                 }
                 catch (Exception ex)
@@ -2052,13 +2071,13 @@ namespace UserInterface.Controllers
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
-        public string GetCustomerPaymentExpeditingDetails(string ToDate,string Filter,string Company, string[] Customer)       
+        public string GetCustomerPaymentExpeditingDetails(string ToDate,string Filter,string Company, string[] Customer,string InvoiceType)       
         {
             try
             {               
                 DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
                 CustomerExpeditingListViewModel result = new CustomerExpeditingListViewModel();
-                result.customerExpeditingDetailsList = Mapper.Map<List<CustomerExpeditingReport>, List<CustomerExpeditingReportViewModel>>(_reportBusiness.GetCustomerExpeditingDetail(TDate,Filter,Company,Customer != null ? String.Join(",", Customer) : "ALL"));              
+                result.customerExpeditingDetailsList = Mapper.Map<List<CustomerExpeditingReport>, List<CustomerExpeditingReportViewModel>>(_reportBusiness.GetCustomerExpeditingDetail(TDate,Filter,Company,Customer != null ? String.Join(",", Customer) : "ALL", InvoiceType));              
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
             }
                 catch (Exception ex)

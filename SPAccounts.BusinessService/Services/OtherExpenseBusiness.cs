@@ -144,6 +144,34 @@ namespace SPAccounts.BusinessService.Services
             }
             return otherExpense;
         }
+
+        public decimal GetMaximumReducibleAmount(string refNumber)
+        {
+            List<OtherExpense> otherExpenseList = null;
+            decimal HeadAmount = 0;
+            try
+            {
+                otherExpenseList = GetAllOtherExpenses();
+                List<decimal> amountList = otherExpenseList != null ? 
+                    (from otherExpense in otherExpenseList
+                     where otherExpense.ReversalRef == refNumber
+                     select otherExpense.Amount).ToList() 
+                    : null;
+                if (amountList != null)
+                {
+                    foreach (int amount in amountList)
+                    {
+                        HeadAmount -= amount;
+                    }
+                }
+            }
+            catch(Exception Ex)
+            {
+                throw Ex;
+            }
+            return HeadAmount;
+        }
+
         public List<OtherExpense> GetReversalReference(string EmpID, string AccountCode, string EmpTypeCode)
         {
             List<OtherExpense> otherExpenseList = null;

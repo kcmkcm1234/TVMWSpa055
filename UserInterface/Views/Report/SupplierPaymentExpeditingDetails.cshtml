@@ -77,6 +77,29 @@
                 @Html.ValidationMessageFor(model => model.Supplier, "", new { @class = "text-danger" })
             </div>
         </div>
+        <div class="col-md-3" style="padding-left:24px">
+            <div class="col-md-12" style="padding:2px">
+                @Html.LabelFor(model => model.InvoiceType, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="col-md-12" style="padding:2px">
+                <div class="col-md-12" style="padding:2px">
+                    @{
+                        List<SelectListItem> InvoiceTypesList = new List<SelectListItem>();
+                        InvoiceTypesList.Add(new SelectListItem
+                        { Text = "ALL", Value = "RB" });
+                        InvoiceTypesList.Add(new SelectListItem
+                        { Text = "Regular Invoice", Value = "RB", Selected = true });
+                        InvoiceTypesList.Add(new SelectListItem
+                        { Text = "WB Invoice", Value = "WB" });
+                        InvoiceTypesList.Add(new SelectListItem
+                        { Text = "WP Invoice", Value = "WP" });
+                    }
+                    @Html.DropDownListFor(model => model.InvoiceType, InvoiceTypesList, new { @class = "form-control BlockEnter", style = "padding:3px 6px;width: 100 %", @id = "ddlInvoiceTypes", @onchange = "RefreshSupplierExpeditingDetailTable();" })
+                </div>
+                @*<div class="col-md-1"></div>
+                <div class="col-md-1"></div>*@
+            </div>
+        </div>    
 
     </div>
 

@@ -80,6 +80,7 @@ namespace UserInterface.Models
         public string saledetailpaid { get; set; }
         public string saledetailtax { get; set; }
         public string saledetailtotalinvoiced { get; set; }
+        [Display(Name = "Invoice Type")]
         public string InvoiceType { get; set; }
         public List<SaleDetailReportViewModel> saleDetailList { get; set; }
 
@@ -94,6 +95,7 @@ namespace UserInterface.Models
         public string EmpCompany { get; set; }
         [Display(Name = "Account Head")]
         public string AccountHead { get; set; }
+        [Display(Name = "Sub Type")]
         public string Subtype { get; set; }
         [Display(Name = "Employee/Other")]
         public string EmployeeOrOther { get; set; }
@@ -130,6 +132,7 @@ namespace UserInterface.Models
         public string EmpCompany { get; set; }
         [Display(Name = "Account Head")]
         public string AccountHead { get; set; }
+        [Display(Name = "Sub Type")]
         public string SubType { get; set; }
         public string Date { get; set; }
         public string PaymentMode { get; set; }
@@ -165,8 +168,11 @@ namespace UserInterface.Models
         public string Search { get; set; }
         [Display(Name = "Employee/Other")]
         public string EmployeeOrOther { get; set; }
+        [Display(Name = "Employee Company")]
         public string EmpCompany { get; set; }
+        [Display(Name = "Account Head")]
         public string AccountHead { get; set; }
+        [Display(Name = "Sub Type")]
         public string SubType { get; set; }
     }
 
@@ -247,6 +253,7 @@ namespace UserInterface.Models
         public string Origin { get; set; }
         public string GeneralNotes { get; set; }
         public string SupplierName { get; set; }
+        [Display(Name = "Account Head")]
         public string AccountHead { get; set; }
         public string EmpName { get; set; }
         public decimal Credit { get; set; }
@@ -273,6 +280,7 @@ namespace UserInterface.Models
         public string purchaseDetailPaymentProcess { get; set; }
         public string purchaseDetailsTaxAmount { get; set; }
         public string purchaseDetailsTotalAmount { get; set; }
+        [Display(Name = "Invoice Type")]
         public string InvoiceType { get; set; }
         public List<PurchaseDetailReportViewModel> purchaseDetailReportList { get; set; }
 
@@ -324,8 +332,11 @@ namespace UserInterface.Models
         public decimal Paid { get; set; }
         public decimal Balance { get; set; }
         public string Group { get; set; }
+        [Display(Name = "Invoice Type")]
+        public string InvoiceType { get; set; }
         [Display(Name = "Customer")]
         public string CustomerCode { get; set; }
+        public string Search { get; set; }
         public List<SelectListItem> customerList;
         public List<SelectListItem> CompanyList { get; set; }
         public List<CompaniesViewModel> companiesList;
@@ -345,9 +356,12 @@ namespace UserInterface.Models
         public string NinetyOneAndOver { get; set; }
         [Display(Name = "Customer")]
         public string CustomerCode { get; set; }
+        [Display(Name = "Invoice Type")]
+        public string InvoiceType { get; set; }
         public List<SelectListItem> customerList;
         public List<SelectListItem> CompanyList { get; set; }
         public List<CompaniesViewModel> companiesList;
+        public bool ShowInvoiceTypes { get; set; }
     }
 
     public class AccountsPayableAgeingReportViewModel
@@ -372,6 +386,8 @@ namespace UserInterface.Models
         public List<CompaniesViewModel> companiesList;
         public ReportAdvanceSearchViewModel reportAdvanceSearchObj { get; set; }
         public string Search { get; set; }
+        [Display(Name = "Invoice Type")]
+        public string InvoiceType { get; set; }
     }
 
     public class AccountsPayableAgeingSummaryReportViewModel
@@ -391,7 +407,10 @@ namespace UserInterface.Models
         public List<SelectListItem> CompanyList{get;set;}
         public List<CompaniesViewModel> companiesList;
         public List<SelectListItem> supplierList { get; set; }
-            }
+        [Display(Name = "Invoice Type")]
+        public string InvoiceType { get; set; }
+        public bool ShowInvoiceTypes { get; set; }
+    }
 
 
 
@@ -434,16 +453,20 @@ namespace UserInterface.Models
         public string Deposit { get; set; }
         public string DepositNotCleared { get; set; }
         public string Search { get; set; }
-        public BankViewModel bankObj { get; set; } 
+        public BankViewModel bankObj { get; set; }
+        [Display(Name = "Company Name")]
         public string CompanyName { get; set;}
         public string GeneralNotes { get; set; }       
     }
 
     public class OtherIncomeSummaryReportViewModel
     {
+        [Display(Name = "Company Code")]
         public string CompanyCode { get; set; }
+        [Display(Name = "Account Head")]
         public string AccountHead { get; set; }
         public List<SelectListItem> AccountHeadList { get; set; }
+        [Display(Name = "AccountHead/Subtype")]
         public string AccountHeadORSubtype { get; set; }
         public decimal Amount { get; set; }
         public string OriginCompany { get; set; }
@@ -452,6 +475,7 @@ namespace UserInterface.Models
         public string Search { get; set; }
         public List<SelectListItem> EmployeeTypeList { get; set; }
         public List<SelectListItem> EmployeeList { get; set; }
+        [Display(Name = "Sub Type")]
         public string Subtype { get; set; }
         [Display(Name = "Employee/Other")]
         public string EmployeeOrOther { get; set; }
@@ -463,7 +487,9 @@ namespace UserInterface.Models
 
     public class OtherIncomeDetailsReportViewModel
     {
+        [Display(Name = "Company Code")]
         public string CompanyCode { get; set; }
+        [Display(Name = "Account Head")]
         public string AccountHead { get; set; }
         public string Date { get; set; }
         public string PaymentMode { get; set; }
@@ -481,8 +507,10 @@ namespace UserInterface.Models
         public string EmployeeOrOther { get; set; }
         public List<SelectListItem> EmployeeTypeList { get; set; }
         public List<SelectListItem> EmployeeList { get; set; }
+        [Display(Name = "Sub Type")]
         public string SubType { get; set; }
         public List<SelectListItem> SubtypeList { get; set; }
+        [Display(Name = "AccountHead/Subtype")]
         public string AccountHeadORSubtype { get; set; }
         public string Employee { get; set; }
         public Guid EmployeeID { get; set; }
@@ -552,7 +580,9 @@ namespace UserInterface.Models
     {
         public string TransactionDate { get; set; }
         public string EntryType { get; set; }
+        [Display(Name = "Main Head")]
         public string MainHead { get; set; }
+        [Display(Name = "Account/Head")]
         public string AccountHead { get; set; }
         public string ReferenceNo { get; set; }
         public string CustomerORemployee { get; set; }
@@ -562,6 +592,7 @@ namespace UserInterface.Models
         public string Remarks { get; set; }
         public string Search { get; set; }
         public string Particulars { get; set; }
+        [Display(Name = "Bank Code")]
         public string BankCode { get; set; }
         public List<SelectListItem> CustomerList { get; set; }
         public BankViewModel bankObj { get; set; }
@@ -596,7 +627,9 @@ namespace UserInterface.Models
         public CustomerViewModel customerObj { get; set; }        
         public string Search { get; set; }
         public string Company { get; set; }
-        public string Customer { get; set; }       
+        public string Customer { get; set; }
+        [Display(Name = "Invoice Type")]
+        public string InvoiceType { get; set; }
     }
 
     public class SupplierExpeditingReportViewModel
@@ -615,6 +648,8 @@ namespace UserInterface.Models
         public CompaniesViewModel companyObj { get; set; }
         public SupplierContactDetailsReportViewModel supplierContactObj { get; set; }
         public SuppliersViewModel supplierObj { get; set; }
+        [Display(Name = "Invoice Type")]
+        public string InvoiceType { get; set; }
     }
 
     public class SupplierExpeditingListViewModel
@@ -629,6 +664,8 @@ namespace UserInterface.Models
         public string Search { get; set; }
         public string Company { get; set; }
         public string Supplier { get; set; }
+        [Display(Name = "Invoice Type")]
+        public string InvoiceType { get; set; }
     }
 
     public class ReportAdvanceSearchViewModel
@@ -641,7 +678,7 @@ namespace UserInterface.Models
         public string InvoiceType { get; set; }
         public string Customer { get; set; }  
         public string CompanyCode { get; set; }      
-        public string SupplierIDs { get; set; }
+        public string[] SupplierIDs { get; set; }
         public string Search { get; set; }
     }
     public class ReportAccountsReceivableAgeingSearchViewModel
@@ -649,6 +686,6 @@ namespace UserInterface.Models
         public string FromDate { get; set; }
         public string ToDate { get; set; }
         public string CompanyCode { get; set; }
-        public string[] Customerids { get; set; }
+        public string[] CustomerIDs { get; set; }
     }
 }
