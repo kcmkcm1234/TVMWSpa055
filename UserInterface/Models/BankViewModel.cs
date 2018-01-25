@@ -30,6 +30,7 @@ namespace UserInterface.Models
         public decimal? DisplayODLimit { get; set; }
         public bool ShowODLimit { get; set; }
         public CommonViewModel commonObj { get; set; }
+        [Display(Name ="Bank")]
         public List<SelectListItem> BanksList { get; set; }
         public List<SelectListItem> CompaniesList { get; set; }
         public string isUpdate { get; set; }
