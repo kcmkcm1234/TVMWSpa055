@@ -29,7 +29,7 @@ $(document).ready(function () {
 
                { "data": "CustomerName", "defaultContent": "<i>-</i>" },
                { "data": "PhoneNumber", "defaultContent": "<i>-</i>" },
-                { "data": "OtherPhoneNos", "defaultContent": "<i>-</i>" },
+                { "data": "OtherPhoneNos", "defaultContent": "<i>-</i>"},
                
                { "data": "Email", "defaultContent": "<i>-</i>" },
                { "data": "ContactName", "defaultContent": "<i>-</i>" },
@@ -39,8 +39,8 @@ $(document).ready(function () {
 
              ],
              columnDefs: [{ "targets": [], "visible": false, "searchable": false },
-                  { className: "text-left", "targets": [0, 1,2,3,4,5,6] }
-                
+                  { className: "text-left", "targets": [0, 1, 2, 3, 4, 5, 6] },
+                   { "width": "15%", "targets": [0, 1, 2] },
              ]
             
          });
