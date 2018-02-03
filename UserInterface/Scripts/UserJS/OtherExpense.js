@@ -1293,7 +1293,7 @@ function ApprovalOnchange() {
         var defaultdate = $("#DefaultDate").val();
         var status = $("#ApprovalStatusFilter").val() === "" ? 0 : $("#ApprovalStatusFilter").val();
         var date = $("#ExpDate").val();
-        var data = { "Status": status, "Date": date, "DefaultDate": defaultdate };
+        var data = { "Status": status, "ExpenseDate": date, "DefaultDate": defaultdate };
         var ds = {};
         ds = GetDataFromServer("OtherExpenses/GetAllOtherExpenseByApprovalStatus/", data)
         if (ds !== '') {
