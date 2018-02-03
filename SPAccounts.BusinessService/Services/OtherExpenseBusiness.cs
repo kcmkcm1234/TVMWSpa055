@@ -323,5 +323,46 @@ namespace SPAccounts.BusinessService.Services
         {
             return _otherExpenseRepository.Validate(_otherexpenseObj);
         }
+
+        public string GetValueFromSettings(SysSettings sysSettings)
+        {
+            return _otherExpenseRepository.GetValueFromSettings(sysSettings);
+        }
+
+        public string UpdateValueInSettings(SysSettings sysSettings)
+        {
+            return _otherExpenseRepository.UpdateValueInSettings(sysSettings);
+        }
+
+        public List<OtherExpense> GetAllOtherExpenseByApprovalStatus(int status, string expenseDate)
+        {
+            try
+            {
+                return _otherExpenseRepository.GetAllOtherExpenseByApprovalStatus(status, expenseDate);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public OtherExpense GetOtherExpenseByID(Guid ID)
+        {
+            try
+            {
+                return _otherExpenseRepository.GetOtherExpenseByID(ID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public string ApproveOtherExpense(Guid ID)
+        {
+            return _otherExpenseRepository.ApproveOtherExpense(ID);
+        }
+
+
     }
 }

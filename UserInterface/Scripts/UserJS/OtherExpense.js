@@ -39,7 +39,16 @@ $(document).ready(function () {
                  { "data": "companies.Name", "defaultContent": "<i>-</i>" },
                  { "data": "ReferenceNo", "defaultContent": "<i>-</i>" },
                { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' },
-               { "data": null, "orderable": false, "defaultContent": '<a data-toggle="tp" data-placement="top" data-delay={"show":2000, "hide":3000} title="Delete" href="#" class="DeleteLink" onclick="Delete(this)"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' },
+               {
+                   "data": null, "orderable": false, render: function (data, type, row) {
+                       if (row.ApprovalStatus === 3 && $("#hdnDeletePermitted").val() === "False") {
+                           return '<a title="Permission Denied" href="#" class="disabled" style="cursor: default;color: grey"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>'
+                       }
+                       else {
+                           return '<a data-toggle="tp" data-placement="top" data-delay={"show":2000, "hide":3000} title="Delete" href="#" class="DeleteLink" onclick="Delete(this)"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>'
+                       }
+                   }
+               },
                { "data": "ID" }
 
              ],
@@ -146,8 +155,7 @@ $(document).ready(function () {
     } catch (x) {
             notyAlert('error', x.message);
     }
-    $("#HdfReducibleAmt").val(0);
-
+    $("#hdnReducibleAmt").val(0);
 
 });
 
@@ -281,6 +289,7 @@ function GetAllExpenseDetails(expDate, DefaultDate) {
 function Save() {
     try {
         debugger;
+        $("#ApprovalStatus").prop('disabled', false);
         //$('#myModal').modal('hide')
         validate();
 
@@ -563,6 +572,7 @@ function FillOtherExpenseDetails(ID) {
   
     var thisItem = GetExpenseDetailsByID(ID); //Binding Data
     debugger;
+    EnableModel();
     if (thisItem)
     {
         $("#ID").val(thisItem.ID);
@@ -570,7 +580,6 @@ function FillOtherExpenseDetails(ID) {
 
         $("#AccountCode").select2();
         $("#AccountCode").val(thisItem.AccountCode).trigger('change');
-
         $("#CompanyCode").val(thisItem.companies.Code);
         $("#RefNo").val(thisItem.RefNo);
         $("#ReversalRef").val(thisItem.ReversalRef);
@@ -640,17 +649,41 @@ function FillOtherExpenseDetails(ID) {
         }
         if (thisItem.ReversableAmount > 0)//Setting hidden field to limit Reversible amount
         {
-            $("#HdfAmountReversal").val(thisItem.ReversableAmount);
+            $("#hdnAmountReversal").val(thisItem.ReversableAmount);
             $("#ReFAmountMsg").show();
             $("#ReFAmountMsg").text('* Amount must be less than ' + thisItem.ReversableAmount);
         }
         else {
             GetMaximumReducibleAmount(thisItem.RefNo);
         }
-    }
-   
+        $("#IsNotified").val(thisItem.IsNotified);
+        debugger;
+        $("#ApprovalStatus").val(thisItem.ApprovalStatus);
+        $("#ApprovalDate").val(thisItem.ApprovalDate);
 
-   
+        if (thisItem.ApprovalStatus === 2) {
+            $("#ApprovalStatus").prop('disabled', true);
+        }
+        else {
+            if ($("#hdnIsPermitted").val() === "True") {
+                $("#ApprovalStatus").prop('disabled', false);
+            }
+            $('#ApprovalStatus').find('option[value="2"]').prop("disabled", true);
+        }
+
+        if (thisItem.ApprovalStatus === 3 && $("#hdnIsPermitted").val() !== "True") {
+            DisableModel();
+        }
+
+        if ($("#IsNotified").val() === "true") {
+            $("#lblIsNotified").show();
+        } else {
+            $("#lblIsNotified").hide();
+        }
+
+
+    }
+
 }
 
 function AddEmployee()
@@ -677,7 +710,7 @@ function SearchReference() {
     $("#RefSearchDiv").fadeIn();
     $("#EmployeeDiv").hide();
     $("#ReFSearchMsg").hide();
-    $("#HdfAmountReversal").val();
+    $("#hdnAmountReversal").val();
     $("#Amount").val('');
     try {
         debugger;
@@ -695,21 +728,21 @@ function SelectRefNo(currentObj) {
     debugger;
     var rowData = DataTables.RefSearchTable.row($(currentObj).parents('tr')).data();
     $("#ReversalRef").val(rowData.RefNo);
-    $("#HdfAmountReversal").val(rowData.ReversableAmount);
+    $("#hdnAmountReversal").val(rowData.ReversableAmount);
     $("#ReFAmountMsg").show();
     $("#ReFAmountMsg").text('* Amount must be less than '+rowData.ReversableAmount);
     $("#RefSearchDiv").hide();
 }
 function ClearReversalRef() {
     $("#ReversalRef").val('');
-    $("#HdfAmountReversal").val('');
+    $("#hdnAmountReversal").val('');
     SearchReference();
 }
 
 function CheckReversableAmount() {
     debugger;
     if ($("#IsReverse").val()) {
-        var reversableAmt = $("#HdfAmountReversal").val();
+        var reversableAmt = $("#hdnAmountReversal").val();
         var EnteredAmt = $("#Amount").val();
         if (parseInt(EnteredAmt) > parseInt(reversableAmt)) {
             $("#Amount").val('');
@@ -769,6 +802,8 @@ function Edit(currentObj) {
         ClearFields();
         FillOtherExpenseDetails(rowData.ID);
         $("#AddOtherexpenseModel").modal('show');
+        $("#ApprovalDiv").show();
+        $("#btnNotify").show();
     }
 }
 
@@ -779,6 +814,7 @@ function AddOtherExpense() {
         $("#expenseDateModal").val($("#ExpDate").val());
         $("#AddOtherexpenseModel").modal('show');
         $("#AddOrEditSpan").text("Add New");
+        EnableModel();
         //$("#EmpID").prop('disabled', true);
         //$("#EmpTypeCode").prop('disabled', true);
         //$("#BankCode").prop('disabled', true);
@@ -786,7 +822,9 @@ function AddOtherExpense() {
         $("#btnAddEmployee").css("pointer-events", "none");
         $("#EmployeeDiv").hide();
         $("#RefSearchDiv").hide();
-        
+        $("#lblIsNotified").hide();
+        $("#btnNotify").hide();
+        $("#ApprovalDiv").hide();
     }
     catch (e) {
         notyAlert('error', e.message);
@@ -804,7 +842,6 @@ function Delete(currObj) {
 
 function DeleteOtherExpense(ID) {
     try {
-
         
         if (ID) {
             var data = { "ID": ID };
@@ -824,7 +861,6 @@ function DeleteOtherExpense(ID) {
             }
             return 1;
         }
-
     }
     catch (e) {
         notyAlert('error', e.message);
@@ -839,6 +875,7 @@ function ExpenseDateOnchange()
     if (DataTables.expenseDetailTable != undefined)
     {
       $("#DefaultDate").val("");
+      $("#ApprovalStatusFilter").val('');
       var expDate = $("#ExpDate").val();
       BindAllOtherExpense(expDate, "")
     }
@@ -946,9 +983,9 @@ function AddNewEmployee()
 function ExpenseDefaultDateOnchange()
 {
     $("#ExpDate").val("");
+    $("#ApprovalStatusFilter").val('');
     var ExpenseDefaultDate = $("#DefaultDate").val();
     if (DataTables.expenseDetailTable != undefined) {
-       
         BindAllOtherExpense("", ExpenseDefaultDate);
     }
     else {
@@ -1107,15 +1144,15 @@ function IsReverseOnchange() {
     if ($("#IsReverse").val() == 'true')
     {
         $('#ReversalRefDiv').show();
-        $("#HdfReducibleAmt").val('');
+        $("#hdnReducibleAmt").val('');
     }
     else
     {
         $('#ReversalRefDiv').hide();
         $('#ReversalRef').val('');
-        $('#HdfAmountReversal').val('');
+        $('#hdnAmountReversal').val('');
         $('#ReFAmountMsg').hide();
-        $("#HdfReducibleAmt").val('');
+        $("#hdnReducibleAmt").val('');
     }
 }
 
@@ -1131,7 +1168,7 @@ function GetMaximumReducibleAmount(refNo) {
             ds = JSON.parse(ds);
         }
         if (ds.Result === "OK") {
-            $("#HdfReducibleAmt").val(''+ds.ReducibleAmount);
+            $("#hdnReducibleAmt").val(''+ds.ReducibleAmount);
             if (ds.ReducibleAmount > 0) {
                 $("#ReFAmountMsg").show();
                 $("#ReFAmountMsg").text('* Amount must be more than ' + ds.ReducibleAmount);
@@ -1150,7 +1187,7 @@ function GetMaximumReducibleAmount(refNo) {
 function CheckReducibleAmount() {
     try {
         debugger;
-            var reducableAmt = $("#HdfReducibleAmt").val();
+            var reducableAmt = $("#hdnReducibleAmt").val();
             var enteredAmt = $("#Amount").val();
             if (parseInt(enteredAmt) < parseInt(reducableAmt)) {
                 $("#Amount").val('');
@@ -1168,3 +1205,187 @@ function CheckReducibleAmount() {
         notyAlert('error', ex.message);
     }
 }
+//------------------------------------------------------------------OE-Limit methods-----------------------------------------------------------//
+function openLimitModal(){
+    $("#MaximumLimitModal").modal('show');
+    $("#EmployeeDiv").hide();
+    $("#RefSearchDiv").hide();
+    GetLimitValue();
+}
+
+function GetLimitValue() {
+    var ds = {};
+    ds = GetDataFromServer("OtherExpenses/GetValueFromSettings/");
+    if (ds !== '') {
+        ds = JSON.parse(ds);
+    }
+    if (ds.Result === "OK") {
+        $("#hdnLimitValue").val('' + ds.sysSettingsObj.Value);
+        $("#txtLimitValue").val('' + ds.sysSettingsObj.Value);
+    }
+    if (ds.Result === "ERROR") {
+        notyAlert('error', ds.Message)
+    }
+}
+
+function UpdateLimit() {
+    debugger;
+    var Limit = $("#txtLimitValue").val();
+    var data = "{'Value': " + JSON.stringify(Limit) + "}";
+    PostDataToServer("OtherExpenses/UpdateValueInSettings/", data, function (JsonResult) {
+        debugger;
+        if (JsonResult != '') {
+            switch (JsonResult.Result) {
+                case "OK":
+                    $("#MaximumLimitModal").modal('hide');
+                    notyAlert('success', JsonResult.Message);
+                    break;
+                case "ERROR":
+                    notyAlert('error', JsonResult.Message);
+                    break;
+                default:
+                    break;
+            }
+        }
+    });
+}
+
+//=============To disable elements in Add/Edit Model==============//
+function DisableModel() {
+    $("#expenseDateModal").prop('disabled', true);
+    $("#AccountCode").prop('disabled', true);
+    $("#EmpTypeCode").prop('disabled', true);
+    $("#EmpID").prop('disabled', true);
+    $("#IsReverse").prop('disabled', true);
+    $("#ReversalRef").prop('disabled', true);
+    $("#CompanyCode").prop('disabled', true);
+    $("#paymentMode").prop('disabled', true);
+    $("#ReferenceBank").prop('disabled', true);
+    $("#BankCode").prop('disabled', true);
+    $("#ExpenseRef").prop('disabled', true);
+    $("#ChequeDate").prop('disabled', true);
+    $("#ChequeClearDate").prop('disabled', true);
+    $("#Description").prop('disabled', true);
+    $("#creditdAmt").prop('disabled', true);
+    $("#Amount").prop('disabled', true);
+    $("#btnSave").hide();
+}
+
+//=============To enable elements in Add/Edit Model==============//
+function EnableModel() {
+    $("#expenseDateModal").prop('disabled', false);
+    $("#AccountCode").prop('disabled', false);
+    $("#IsReverse").prop('disabled', false);
+    $("#ReversalRef").prop('disabled', false);
+    $("#CompanyCode").prop('disabled', false);
+    $("#paymentMode").prop('disabled', false);
+    $("#ExpenseRef").prop('disabled', false);
+    $("#Description").prop('disabled', false);
+    $("#creditdAmt").prop('disabled', false);
+    $("#Amount").prop('disabled', false);
+    $("#btnSave").show();
+}
+
+//===========Approval Filter Change=================//
+function ApprovalOnchange() {
+    try {
+        debugger;
+        var defaultdate = $("#DefaultDate").val();
+        var status = $("#ApprovalStatusFilter").val() === "" ? 0 : $("#ApprovalStatusFilter").val();
+        var date = $("#ExpDate").val();
+        var data = { "Status": status, "Date": date, "DefaultDate": defaultdate };
+        var ds = {};
+        ds = GetDataFromServer("OtherExpenses/GetAllOtherExpenseByApprovalStatus/", data)
+        if (ds !== '') {
+            ds = JSON.parse(ds);
+            $("#TotalAmt").text("");
+            $("#TotalAmt").text(ds.TotalAmount);
+        }
+        if (ds.Result === "OK") {
+            if (ds.Records !== null && ds.Records !== "") {
+                DataTables.expenseDetailTable.clear().rows.add(ds.Records).draw(true);
+            }
+            else {
+                DataTables.expenseDetailTable.clear().draw(false)
+            }
+        }
+        if (ds.Result === "ERROR") {
+            notyAlert('error', ds.Message)
+        }
+    }
+    catch (ex) {
+        notyAlert('error',ex.message)
+    }
+}
+
+//--------------------------------------------------------Notification methods ---------------------------------------------------------------//
+function Notify() {
+    debugger;
+    $("#NotificationMessagemodal").modal('show');
+    $('#DescriptionNotes').val($('#Description').val());
+    var description = "Ref No: " + $("#RefNo").val() + ", Account: " + $('#AccountCode').select2('data')[0].text + ", Amount: " + $('#Amount').val();
+    $('#lblNotyMessage').html('<b>' + description + '</b><br/>' + $('#Description').val());
+}
+
+function ChangeNotificationMessage() {
+    debugger;
+    var description = "Ref No: " + $("#RefNo").val() + ", Account: " + $('#AccountCode').select2('data')[0].text + ", Amount: " + $('#Amount').val();
+
+    $('#lblNotyMessage').html('<b>' + description + '</b><br/>' + $('#DescriptionNotes').val());
+
+}
+
+function SendNotificationConfirm() {
+    try {
+        debugger;
+        var OtherExpenseViewModel = new Object();
+        OtherExpenseViewModel.ID = $('#ID').val();
+        OtherExpenseViewModel.ExpenseDate = $("#expenseDateModal").val();
+        OtherExpenseViewModel.PaidFromCompanyCode = $("#CompanyCode").val();
+        OtherExpenseViewModel.EmpID = $("#EmpID").val();
+        OtherExpenseViewModel.PaymentMode = $("#paymentMode").val();
+        OtherExpenseViewModel.BankCode = $("#BankCode").val();
+        OtherExpenseViewModel.ExpenseRef = $("#ExpenseRef").val();
+        OtherExpenseViewModel.ReferenceBank = $("#ReferenceBank").val();
+        OtherExpenseViewModel.Description = $('#DescriptionNotes').val();
+        OtherExpenseViewModel.ChequeDate = $("#ChequeDate").val();
+        OtherExpenseViewModel.ChequeClearDate = $("#ChequeClearDate").val();
+        OtherExpenseViewModel.Amount = parseFloat($('#Amount').val());
+        OtherExpenseViewModel.AccountCode = $('#AccountCode').val().split(':')[0];
+        if (parseFloat($('#Amount').val()) < 0)
+            OtherExpenseViewModel.IsReverse = true;
+        else
+            OtherExpenseViewModel.IsReverse = false;
+        OtherExpenseViewModel.ReversalRef = $("#ReversalRef").val();
+        OtherExpenseViewModel.IsNotified = true;
+        OtherExpenseViewModel.ApprovalStatus = parseInt($("#ApprovalStatus").val());
+        OtherExpenseViewModel.ApprovalDate = $("#ApprovalDate").val();
+
+        var data = "{'otherExpenseVM':" + JSON.stringify(OtherExpenseViewModel) + "}";
+
+        PostDataToServer("OtherExpenses/SendNotification/", data, function (JsonResult) {
+            if (JsonResult != '') {
+                switch (JsonResult.Result) {
+                    case "OK":
+                        notyAlert('success', JsonResult.Message);
+                        GetExpenseDetailsByID($('#ID').val());
+                        $("#NotificationMessagemodal").modal('hide');
+                        $("#lblIsNotified").show();
+                        break;
+                    case "ERROR":
+                        notyAlert('error', JsonResult.Message);
+                        GetExpenseDetailsByID($('#ID').val());
+                        $("#NotificationMessagemodal").modal('hide');
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
+

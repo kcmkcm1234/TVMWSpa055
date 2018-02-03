@@ -11,6 +11,7 @@ namespace SPAccounts.RepositoryServices.Services
 {
     public class OtherExpenseRepository : IOtherExpenseRepository
     {
+
         AppConst Cobj = new AppConst();
         Settings settings = new Settings();
         private IDatabaseFactory _databaseFactory;
@@ -141,6 +142,9 @@ namespace SPAccounts.RepositoryServices.Services
                                             CreatedDateString = (sdr["CreatedDate"].ToString() != "" ? DateTime.Parse(sdr["CreatedDate"].ToString()).ToString(settings.dateformat) : string.Empty)
                                         };
                                         _otherExpense.ReversableAmount = (sdr["BalanceReversibleAmount"].ToString() != "" ? decimal.Parse(sdr["BalanceReversibleAmount"].ToString()) : 0);
+                                        _otherExpense.IsNotified = (sdr["IsNotified"].ToString() != "" ? bool.Parse(sdr["IsNotified"].ToString()) : false);
+                                        _otherExpense.ApprovalStatus = (sdr["ApprovalStatus"].ToString() != "" ? int.Parse(sdr["ApprovalStatus"].ToString()) : 2);
+                                        _otherExpense.ApprovalDate = (sdr["ApprovalDate"].ToString() != "" ? sdr["ApprovalDate"].ToString() : string.Empty);
                                     }
 
                                     otherExpenselist.Add(_otherExpense);
@@ -260,20 +264,25 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@ExpneseRef", SqlDbType.VarChar, 20).Value = otherExpense.ExpenseRef;
                         cmd.Parameters.Add("@Description", SqlDbType.NVarChar, -1).Value = otherExpense.Description;
                         cmd.Parameters.Add("@IsReverse", SqlDbType.Bit).Value = otherExpense.IsReverse;
-                        if(otherExpense.IsReverse)
-                        cmd.Parameters.Add("@ReversalRef", SqlDbType.VarChar, 20).Value = otherExpense.ReversalRef;
+                        if (otherExpense.IsReverse)
+                            cmd.Parameters.Add("@ReversalRef", SqlDbType.VarChar, 20).Value = otherExpense.ReversalRef;
 
                         cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = otherExpense.Amount;
                         cmd.Parameters.Add("@ChequeClearDate", SqlDbType.DateTime).Value = otherExpense.ChequeClearDate;
                         cmd.Parameters.Add("@ChequeDate", SqlDbType.DateTime).Value = otherExpense.ChequeDate;
                         cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = otherExpense.commonObj.UpdatedBy;
                         cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = otherExpense.commonObj.UpdatedDate;
+                        cmd.Parameters.Add("@ApprovalStatus", SqlDbType.Int).Value = otherExpense.ApprovalStatus;
+                        if (otherExpense.ApprovalStatus == 3)
+                        {
+                            cmd.Parameters.Add("@ApprovalDate", SqlDbType.DateTime).Value = (otherExpense.ApprovalDate != null) ? DateTime.Parse(otherExpense.ApprovalDate) : otherExpense.commonObj.UpdatedDate;
+                        }
+                        cmd.Parameters.Add("@IsNotified", SqlDbType.Bit).Value = otherExpense.IsNotified;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
 
                         cmd.ExecuteNonQuery();
-
-
+                        
                     }
                 }
 
@@ -405,7 +414,7 @@ namespace SPAccounts.RepositoryServices.Services
         }
         #endregion GetExpenseDetailsByValue
 
-
+        #region GetOpeningBalance
         public OtherExpense GetOpeningBalance(string OpeningDate)
         {
             OtherExpense OtherExpenseObj = null;
@@ -451,6 +460,7 @@ namespace SPAccounts.RepositoryServices.Services
 
             return OtherExpenseObj;
         }
+        #endregion GetOpeningBalance
 
         #region GetBankWiseBalance
         /// <summary>
@@ -507,11 +517,12 @@ namespace SPAccounts.RepositoryServices.Services
         }
         #endregion GetBankWiseBalance
 
+        #region GetReversalReference
         public List<OtherExpense> GetReversalReference(string EmpID, string AccountCode, string EmpTypeCode)
         {
 
             List<OtherExpense> OtherExpenseList = null;
-            string [] str =AccountCode.Split(':');
+            string[] str = AccountCode.Split(':');
             AccountCode = str[0];
             try
             {
@@ -526,8 +537,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[GetReversalReference]";
                         cmd.Parameters.Add("@EmpID", SqlDbType.UniqueIdentifier).Value = Guid.Parse(EmpID);
-                        cmd.Parameters.Add("@AccountCode", SqlDbType.NVarChar,30).Value = AccountCode;
-                        cmd.Parameters.Add("@EmpTypeCode", SqlDbType.NVarChar,30).Value = EmpTypeCode==""?null:EmpTypeCode;
+                        cmd.Parameters.Add("@AccountCode", SqlDbType.NVarChar, 30).Value = AccountCode;
+                        cmd.Parameters.Add("@EmpTypeCode", SqlDbType.NVarChar, 30).Value = EmpTypeCode == "" ? null : EmpTypeCode;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
@@ -563,9 +574,7 @@ namespace SPAccounts.RepositoryServices.Services
 
             return OtherExpenseList;
         }
-
-
-
+        #endregion GetReversalReference
 
         #region ValidateRefno
 
@@ -613,6 +622,294 @@ namespace SPAccounts.RepositoryServices.Services
         }
 
         #endregion ValidateRefno
+
+        #region GetValueFromSettings
+        public string GetValueFromSettings(SysSettings sysSettings)
+        {
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetSys_SettingsValue]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@Name", SqlDbType.VarChar, 30).Value = sysSettings.Name;
+                        cmd.ExecuteNonQuery();
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                while (sdr.Read())
+                                {
+                                    sysSettings.Value = (sdr["Value"].ToString() != "" ? (sdr["Value"].ToString()) : sysSettings.Value);
+                                }
+                            }
+                        }
+
+                    }
+                }
+                return sysSettings.Value;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion GetValueFromSettings
+
+        #region UpdateValueInSettings
+        public string UpdateValueInSettings(SysSettings sysSettings)
+        {
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[UpdateSys_SettingsValue]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@Name", SqlDbType.VarChar, 30).Value = sysSettings.Name;
+                        cmd.Parameters.Add("@Value", SqlDbType.VarChar, 500).Value = sysSettings.Value;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = sysSettings.CommonObj.UpdatedBy;
+                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = sysSettings.CommonObj.UpdatedDate;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "Successfully updated Limit Value";
+        }
+        #endregion UpdateValueInSettings
+
+        #region GetOtherExpenseByID
+        public OtherExpense GetOtherExpenseByID(Guid ID)
+        {
+            OtherExpense _otherExpense = new OtherExpense();
+
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetOtherExpenseByID]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = ID;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                while (sdr.Read())
+                                {
+                                    _otherExpense.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : Guid.Empty);
+                                    _otherExpense.RefNo = (sdr["RefNo"].ToString() != "" ? sdr["RefNo"].ToString() : string.Empty);
+                                    _otherExpense.ReversalRef = (sdr["ReversalRef"].ToString() != "" ? sdr["ReversalRef"].ToString() : string.Empty);
+                                    _otherExpense.ExpenseDate = (sdr["ExpenseDate"].ToString() != "" ? DateTime.Parse(sdr["ExpenseDate"].ToString()).ToString(settings.dateformat) : _otherExpense.ExpenseDate);
+                                    _otherExpense.EmpTypeCode = (sdr["EmpType"].ToString() != "" ? sdr["EmpType"].ToString() : string.Empty);
+                                    _otherExpense.ExpenseRef = (sdr["ExpenseRef"].ToString() != "" ? sdr["ExpenseRef"].ToString() : string.Empty);
+                                    _otherExpense.ReferenceNo = (sdr["ReferenceNo"].ToString() != "" ? sdr["ReferenceNo"].ToString() : string.Empty);
+                                    _otherExpense.ReferenceBank = (sdr["ReferenceBank"].ToString() != "" ? sdr["ReferenceBank"].ToString() : string.Empty);
+                                    _otherExpense.chartOfAccountsObj = new ChartOfAccounts()
+                                    {
+                                        Code = (sdr["AccountCode"].ToString() != "" ? sdr["AccountCode"].ToString() : string.Empty),
+                                        TypeDesc = (sdr["AccountTypeDescription"].ToString() != "" ? sdr["AccountTypeDescription"].ToString() : string.Empty),
+                                        ISEmploy = (sdr["ISEmpApplicable"].ToString() != "" ? bool.Parse(sdr["ISEmpApplicable"].ToString()) : false),
+                                    };
+                                    _otherExpense.AccountCode = (sdr["AccountCode"].ToString() != "" ? sdr["AccountCode"].ToString() : _otherExpense.AccountCode);
+                                    _otherExpense.PaidFromCompanyCode = (sdr["PaidFromComanyCode"].ToString() != "" ? (sdr["PaidFromComanyCode"].ToString()) : _otherExpense.PaidFromCompanyCode);
+                                    _otherExpense.companies = new Companies()
+                                    {
+                                        Code = (sdr["PaidFromComanyCode"].ToString() != "" ? (sdr["PaidFromComanyCode"].ToString()) : string.Empty),
+                                        Name = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : string.Empty)
+
+                                    };
+                                    _otherExpense.employee = new Employee()
+                                    {
+                                        ID = (sdr["EmpID"].ToString() != "" ? Guid.Parse(sdr["EmpID"].ToString()) : Guid.Empty),
+                                        Name = (sdr["EmpName"].ToString() != "" ? sdr["EmpName"].ToString() : string.Empty)
+                                    };
+                                    _otherExpense.PaymentMode = (sdr["PaymentMode"].ToString() != "" ? sdr["PaymentMode"].ToString() : _otherExpense.PaymentMode);
+                                    _otherExpense.depositAndWithdrwal = new DepositAndWithdrawals()
+                                    {
+                                        ID = (sdr["DepWithID"].ToString() != "" ? Guid.Parse(sdr["DepWithID"].ToString()) : Guid.Empty)
+                                    };
+                                    _otherExpense.BankCode = (sdr["BankCode"].ToString() != "" ? (sdr["BankCode"].ToString()) : _otherExpense.BankCode);
+                                    _otherExpense.ExpenseRef = (sdr["ExpenseRef"].ToString() != "" ? (sdr["ExpenseRef"].ToString()) : _otherExpense.ExpenseRef);
+                                    _otherExpense.Description = (sdr["Description"].ToString() != "" ? (sdr["Description"].ToString()) : _otherExpense.Description);
+                                    _otherExpense.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : _otherExpense.Amount);
+                                    _otherExpense.ChequeDate = (sdr["ChequeDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeDate"].ToString()).ToString(settings.dateformat) : _otherExpense.ChequeDate);
+                                    _otherExpense.ChequeClearDate = (sdr["ChequeClearDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeClearDate"].ToString()).ToString(settings.dateformat) : _otherExpense.ChequeClearDate);
+                                    _otherExpense.ReversableAmount = (sdr["BalanceReversibleAmount"].ToString() != "" ? decimal.Parse(sdr["BalanceReversibleAmount"].ToString()) : 0);
+                                    _otherExpense.IsNotified = (sdr["IsNotified"].ToString() != "" ? bool.Parse(sdr["IsNotified"].ToString()) : false);
+                                    _otherExpense.ApprovalStatus = (sdr["ApprovalStatus"].ToString() != "" ? int.Parse(sdr["ApprovalStatus"].ToString()) : 2);
+                                    _otherExpense.ApprovalDate = (sdr["ApprovalDate"].ToString() != "" ? sdr["ApprovalDate"].ToString() : string.Empty);
+                                }
+                            }
+                        }
+                    }
+                }
+                return _otherExpense;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion GetOtherExpenseByID
+
+        #region GetAllOtherExpenseByApprovalStatus
+        public List<OtherExpense>GetAllOtherExpenseByApprovalStatus(int? ApprovalStatus, string expenseDate)
+        {
+            List<OtherExpense> otherExpenselist = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetAllOtherExpenseByApprovalStatus]";
+                        cmd.Parameters.Add("@ApprovalStatus", SqlDbType.Int).Value = (ApprovalStatus == 0) ? null : ApprovalStatus;
+                        cmd.Parameters.Add("@ExpenseDate", SqlDbType.DateTime).Value = (expenseDate == "" || expenseDate == null) ? null : expenseDate;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                otherExpenselist = new List<OtherExpense>();
+                                while (sdr.Read())
+                                {
+                                    OtherExpense _otherExpense = new OtherExpense();
+                                    {
+                                        _otherExpense.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : _otherExpense.ID);
+                                        _otherExpense.RefNo = (sdr["RefNo"].ToString() != "" ? sdr["RefNo"].ToString() : string.Empty);
+                                        _otherExpense.ReversalRef = (sdr["ReversalRef"].ToString() != "" ? sdr["ReversalRef"].ToString() : string.Empty);
+                                        _otherExpense.ExpenseDate = (sdr["ExpenseDate"].ToString() != "" ? DateTime.Parse(sdr["ExpenseDate"].ToString()).ToString(settings.dateformat) : _otherExpense.ExpenseDate);
+                                        _otherExpense.EmpTypeCode = (sdr["EmpType"].ToString() != "" ? sdr["EmpType"].ToString() : string.Empty);
+                                        _otherExpense.ExpenseRef = (sdr["ExpenseRef"].ToString() != "" ? sdr["ExpenseRef"].ToString() : string.Empty);
+                                        _otherExpense.ReferenceNo = (sdr["ReferenceNo"].ToString() != "" ? sdr["ReferenceNo"].ToString() : string.Empty);
+                                        _otherExpense.ReferenceBank = (sdr["ReferenceBank"].ToString() != "" ? sdr["ReferenceBank"].ToString() : string.Empty);
+                                        _otherExpense.chartOfAccountsObj = new ChartOfAccounts()
+                                        {
+                                            Code = (sdr["AccountCode"].ToString() != "" ? sdr["AccountCode"].ToString() : string.Empty),
+                                            TypeDesc = (sdr["AccountTypeDescription"].ToString() != "" ? sdr["AccountTypeDescription"].ToString() : string.Empty),
+                                            ISEmploy = (sdr["ISEmpApplicable"].ToString() != "" ? bool.Parse(sdr["ISEmpApplicable"].ToString()) : false),
+                                        };
+                                        _otherExpense.AccountCode = (sdr["AccountCode"].ToString() != "" ? sdr["AccountCode"].ToString() : _otherExpense.AccountCode);
+                                        _otherExpense.PaidFromCompanyCode = (sdr["PaidFromComanyCode"].ToString() != "" ? (sdr["PaidFromComanyCode"].ToString()) : _otherExpense.PaidFromCompanyCode);
+                                        _otherExpense.companies = new Companies()
+                                        {
+                                            Code = (sdr["PaidFromComanyCode"].ToString() != "" ? (sdr["PaidFromComanyCode"].ToString()) : string.Empty),
+                                            Name = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : string.Empty)
+
+                                        };
+                                        _otherExpense.employee = new Employee()
+                                        {
+                                            ID = (sdr["EmpID"].ToString() != "" ? Guid.Parse(sdr["EmpID"].ToString()) : Guid.Empty),
+                                            Name = (sdr["EmpName"].ToString() != "" ? sdr["EmpName"].ToString() : string.Empty)
+                                        };
+                                        _otherExpense.PaymentMode = (sdr["PaymentMode"].ToString() != "" ? sdr["PaymentMode"].ToString() : _otherExpense.PaymentMode);
+                                        _otherExpense.depositAndWithdrwal = new DepositAndWithdrawals()
+                                        {
+                                            ID = (sdr["DepWithID"].ToString() != "" ? Guid.Parse(sdr["DepWithID"].ToString()) : Guid.Empty)
+                                        };
+                                        _otherExpense.BankCode = (sdr["BankCode"].ToString() != "" ? (sdr["BankCode"].ToString()) : _otherExpense.BankCode);
+                                        _otherExpense.ExpenseRef = (sdr["ExpenseRef"].ToString() != "" ? (sdr["ExpenseRef"].ToString()) : _otherExpense.ExpenseRef);
+                                        _otherExpense.Description = (sdr["Description"].ToString() != "" ? (sdr["Description"].ToString()) : _otherExpense.Description);
+                                        _otherExpense.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : _otherExpense.Amount);
+                                        _otherExpense.ChequeDate = (sdr["ChequeDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeDate"].ToString()).ToString(settings.dateformat) : _otherExpense.ChequeDate);
+                                        _otherExpense.ChequeClearDate = (sdr["ChequeClearDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeClearDate"].ToString()).ToString(settings.dateformat) : _otherExpense.ChequeClearDate);
+                                        _otherExpense.commonObj = new Common()
+                                        {
+                                            CreatedDateString = (sdr["CreatedDate"].ToString() != "" ? DateTime.Parse(sdr["CreatedDate"].ToString()).ToString(settings.dateformat) : string.Empty)
+                                        };
+                                        _otherExpense.ReversableAmount = (sdr["BalanceReversibleAmount"].ToString() != "" ? decimal.Parse(sdr["BalanceReversibleAmount"].ToString()) : 0);
+                                        _otherExpense.IsNotified = (sdr["IsNotified"].ToString() != "" ? bool.Parse(sdr["IsNotified"].ToString()) : false);
+                                        _otherExpense.ApprovalStatus = (sdr["ApprovalStatus"].ToString() != "" ? int.Parse(sdr["ApprovalStatus"].ToString()) : 2);
+                                        _otherExpense.ApprovalDate = (sdr["ApprovalDate"].ToString() != "" ? sdr["ApprovalDate"].ToString() : string.Empty);
+                                    }
+
+                                    otherExpenselist.Add(_otherExpense);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return otherExpenselist;
+        }
+        #endregion GetAllOtherExpenseByApprovalStatus
+
+        #region ApproveOtherExpense
+        public string ApproveOtherExpense(Guid ID)
+        {
+            try
+            {
+                Common commonObj = new Common();
+                SqlParameter outputStatus = null;
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[ApproveOtherExpense]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = ID;
+                        cmd.Parameters.Add("@ApprovalDate", SqlDbType.DateTime).Value = commonObj.GetCurrentDateTime();
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    switch (outputStatus.Value.ToString())
+                    {
+                        case "0":
+                            AppConst Cobj = new AppConst();
+                            throw new Exception(Cobj.InsertFailure);
+                        case "1":
+                            return "Expense Approved Successfully";
+                        default:
+                            return "Failed";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion ApproveOtherExpense
 
     }
 
