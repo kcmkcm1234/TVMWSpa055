@@ -296,14 +296,15 @@ namespace UserInterface.Controllers
         /// <returns></returns>
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "SupplierInvoices", Mode = "R")]
-        public string CheckProfileExists(string invoiceNo, Guid supplierID)
+        public string CheckProfileExists(string invoiceNo, Guid supplierID,Guid ID)
         {
             try
-            {            
-                bool result;
-                AppUA _appUA = Session["AppUA"] as AppUA;
-                result = _supplierInvoicesBusiness.CheckProfileExists(invoiceNo, supplierID);
-                return JsonConvert.SerializeObject(new { Result = "OK", Message = result });        
+            {  
+                    bool result;
+                    AppUA _appUA = Session["AppUA"] as AppUA;
+                    result = _supplierInvoicesBusiness.CheckProfileExists(invoiceNo, supplierID, ID);
+                    return JsonConvert.SerializeObject(new { Result = "OK", Message = result });
+               
                
             }
             catch (Exception ex)
@@ -313,7 +314,6 @@ namespace UserInterface.Controllers
             }
         }
         #endregion CheckProfileExists
-
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "SupplierInvoices", Mode = "R")]

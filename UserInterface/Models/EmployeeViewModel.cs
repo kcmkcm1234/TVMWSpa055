@@ -44,6 +44,9 @@ namespace UserInterface.Models
         public List<SelectListItem> DepartmentList { get; set; }
         public List<SelectListItem> CategoryList { get; set; }
         public List<SelectListItem> EmployeeTypeList { get; set; }
+        [Display(Name ="Is Active(Y/N)")]
+        public bool IsActive { get; set; }       
+        public string Filter { get; set; }
     }
     public class EmployeeTypeViewModel
     {

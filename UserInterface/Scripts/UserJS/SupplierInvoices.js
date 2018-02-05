@@ -393,7 +393,7 @@ function saveInvoices() {
      if (id == "" || id == null)
      {
          if ((invoiceNo != '' && invoiceNo != null) && (supplierID != '' && supplierID != null)) {
-             var data = { "InvoiceNo": invoiceNo, "SupplierID": supplierID };
+             var data = { "InvoiceNo": invoiceNo, "SupplierID": supplierID, "ID": emptyGUID };
              var ds = {};
              ds = GetDataFromServer("SupplierInvoices/CheckProfileExists/", data);
              debugger;
@@ -401,16 +401,15 @@ function saveInvoices() {
              if (ds != '') {
                  ds = JSON.parse(ds);
                  if (ds.Message == true) {
-                     notyConfirm('Same Invoice No Already Exists,Do You Want To Continue?', 'save()', '', "Continue!");
+                     notyConfirm('Same Invoice No. Already Exists,Do You Want To Continue?', 'save()',"", "Continue!",1);
                  }
                  if (ds.Message == false) {
                      save();
                  }
              }
-             if (ds.Result == "OK") {
+             if (ds.Result == "OK") {                
                  //save();
                  //notyAlert('success', ds.Message.Message);
-
              }
              if (ds.Result == "ERROR") {
                  notyAlert('error', ds.Message);
@@ -418,14 +417,48 @@ function saveInvoices() {
              }
              return 1;
          }
-         else {
-             save();
-              }
-     }
-     else
+         else
+         {
+           save();
+         }
+     }   
+
+   else  if (id != "" || id != null)
      {
-         save();
-     }
+         if ((invoiceNo != '' && invoiceNo != null) && (supplierID != '' && supplierID != null)) {
+             var data = { "InvoiceNo": invoiceNo, "SupplierID": supplierID,"ID":id };
+             var ds = {};
+             ds = GetDataFromServer("SupplierInvoices/CheckProfileExists/", data);
+             debugger;
+
+             if (ds != '') {
+                 ds = JSON.parse(ds);
+                 if (ds.Message == true) {
+                     notyConfirm('Same Invoice No. Already Exists,Do You Want To Continue?', 'save()',"", "Continue!",1);
+                 }
+                 if (ds.Message == false) {
+                     save();
+                 }
+             }
+             if (ds.Result == "OK") {                
+                 //save();
+                 //notyAlert('success', ds.Message.Message);
+             }
+             if (ds.Result == "ERROR") {
+                 notyAlert('error', ds.Message);
+                 return 0;
+             }
+             return 1;
+         }
+         else
+         {
+             save();
+         }     
+   }
+   else
+   {
+       save();
+   }
      
 }
     catch (e)

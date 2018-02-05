@@ -53,27 +53,27 @@
 <div class="form-horizontal">
 
     <div class="col-md-8" style="margin-top:10px;">
-        <div class="col-md-3">
+        <div class="col-md-4">
             @Html.Label("As On Date", htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
                 @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @Value = ViewBag.todate, @onchange = "RefreshCustomerExpeditingDetailTable()" })
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             @Html.LabelFor(model => model.BasicFilters, htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
                 @Html.DropDownListFor(model => model.Filter, Model.BasicFilters, new { @class = "form-control BlockEnter", value = 0, style = "padding:4px 12px;", @id = "BasicFilters", @onchange = "RefreshCustomerExpeditingDetailTable()" })              
                 @Html.ValidationMessageFor(model => model.Filter, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             @Html.LabelFor(model => model.Company, htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
                 @Html.DropDownListFor(model => model.Company, Model.companyObj.CompanyList , new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "Company", @onchange = "OnCallChange()" })
                 @Html.ValidationMessageFor(model => model.Company, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             @Html.LabelFor(model => model.Customer, htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
                 @Html.DropDownListFor(model => model.Customer, Model.customerObj.CustomerList, "--Select--", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "Customer", @onchange = "OnCallChange()" })

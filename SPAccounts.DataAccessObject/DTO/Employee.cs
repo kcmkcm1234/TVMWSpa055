@@ -21,6 +21,8 @@ namespace SPAccounts.DataAccessObject.DTO
          public string EmployeeCategory { get; set; }
          public string GeneralNotes { get; set; }
          public Common commonObj { get; set; }
+         public bool IsActive { get; set; }
+         public string Filter { get; set; } 
     }
     public class EmployeeType
     {
