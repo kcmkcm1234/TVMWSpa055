@@ -181,8 +181,8 @@ function ClearFields() {
     $("#EmployeeCategory").val("");
   //  $("#EmployeeType").val("");
     $("#Address").val("");
-    $("#GeneralNotes").val("");  
-    ResetForm();
+    $("#GeneralNotes").val("");   
+    ResetForm();  
     ChangeButtonPatchView("Employee", "btnPatchAdd", "Add"); //ControllerName,id of the container div,Name of the action
 }
 
@@ -192,9 +192,8 @@ function ResetForm() {
     var validator = $("#EmployeeForm").validate();
     $('#EmployeeForm').find('.field-validation-error span').each(function () {
         validator.settings.success($(this));
-    });
+    });   
     validator.resetForm();
-    $('#IsActive').prop('checked', false);
 }
 
 function BindAllEmployee() {
@@ -231,7 +230,7 @@ function SaveSuccess(data, status) {
 }
 
 function Reset() {
-    if ($("#ID").val() == "0") {
+    if ($("#ID").val() == "0") {       
         ClearFields();
     }
     else {
