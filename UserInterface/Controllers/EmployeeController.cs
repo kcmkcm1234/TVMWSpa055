@@ -102,12 +102,12 @@ namespace UserInterface.Controllers
         #region GetAllEmployees
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "Employee", Mode = "R")]
-        public string GetAllEmployees()
+        public string GetAllEmployees(string filter)
         {
             try
             {
 
-                List<EmployeeViewModel> employeesList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_employeeBusiness.GetAllEmployees());
+                List<EmployeeViewModel> employeesList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_employeeBusiness.GetAllEmployees(filter));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = employeesList });
             }
             catch (Exception ex)

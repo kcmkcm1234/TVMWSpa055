@@ -112,6 +112,7 @@
     <Compile Include="Contracts\IImportOtherExpensesBusiness.cs" />
     <Compile Include="Contracts\IOtherExpenseBusiness.cs" />
     <Compile Include="Contracts\IOtherIncomeBusiness.cs" />
+    <Compile Include="Contracts\IPaymentFollowupBusiness.cs" />
     <Compile Include="Contracts\IPaymentModesBusiness.cs" />
     <Compile Include="Contracts\IPaymentTermsBusiness.cs" />
     <Compile Include="Contracts\IReportBusiness.cs" />
@@ -139,6 +140,7 @@
     <Compile Include="Services\OtherExpenseBusiness.cs" />
     <Compile Include="Services\OtherIncomeBusiness.cs" />
     <Compile Include="Services\FileUploadBusiness.cs" />
+    <Compile Include="Services\PaymentFollowupBusiness.cs" />
     <Compile Include="Services\PaymentModesBusiness.cs" />
     <Compile Include="Services\PaymentTermsBusiness.cs" />
     <Compile Include="Services\ReportBusiness.cs" />

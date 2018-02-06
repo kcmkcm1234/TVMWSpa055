@@ -45,9 +45,11 @@
             <div class="col-md-7 text-right" style="font-size:small">Total Sys/Cal Balance:</div>
             <div class="col-md-5 text-right"><small><span id="TotalBlnce" style="font-size:small;font-weight:bold"></span></small></div>
             <div class="col-md-7 text-right" style="font-size:small">Total UnCleared Amount:</div>
-            <div class="col-md-5 text-right"><small><span id="TotalUnClrAmt" style="font-size:small;font-weight:bold"></span></small></div>
+            <div class="col-md-5 text-right"><small><span id="TotalUnClrAmt" style="font-size:small;font-weight:bold"></span></small></div>            
             <div class="col-md-7 text-right" style="font-size:small">Total Actual Balance:</div>
             <div class="col-md-5 text-right"> <small><span id="ActualBlnce" style="font-size:small;font-weight:bold"></span></small></div>
+            <div class="col-md-7 text-right" style="font-size:small">Total UnderClearing Amount:</div>
+            <div class="col-md-5 text-right"><small><span id="TotalUnderClrAmt" style="font-size:small;font-weight:bold"></span></small></div>
         </div>
     </div> 
     <div class="row tableContainer">
@@ -57,9 +59,10 @@
                     <tr class="text-center">
                         <th>BankCode</th>
                         <th>BankName</th>
-                        <th>System/Calculated Balance </th>
-                        <th>Uncleared Amount</th>
-                        <th>Actual Balance</th>
+                        <th>System/Calculated Balance(A) </th>
+                        <th>Uncleared Amnt (Issued Chqs)(B)</th>                        
+                        <th>Actual Balance(A+B)</th>
+                        <th>Under Clearing Amnt (Received Chqs)</th>
                     </tr>
                 </thead>
             </table>

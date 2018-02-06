@@ -16,18 +16,18 @@ namespace SPAccounts.BusinessService.Services
         {
             _employeeRepository = employeeRepository;
         }
-        public List<Employee> GetAllEmployees()
+        public List<Employee> GetAllEmployees(string filter)
         {
             List<Employee> empList = new List<Employee>();
-            empList = _employeeRepository.GetAllEmployees();
+            empList = _employeeRepository.GetAllEmployees(filter);
             empList = empList != null ? empList.Where(e => e.employeeTypeObj.Code =="EMP").ToList() : null;
             return empList;
         }
 
-        public List<Employee> GetAllOtherEmployees()
+        public List<Employee> GetAllOtherEmployees(string filter)
         {
             List<Employee> empList = new List<Employee>();
-            empList = _employeeRepository.GetAllEmployees();
+            empList = _employeeRepository.GetAllEmployees(filter);
             empList = empList != null ? empList.Where(e => e.employeeTypeObj.Code != "EMP").ToList() : null;
             return empList;
         }

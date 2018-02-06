@@ -376,13 +376,15 @@ namespace UserInterface.Controllers
                     undepositedChequeAdvanceSearchObj.ToDate = appUA.DateTime.ToString("dd-MMM-yyyy");
                 }
                 List<DepositAndWithdrwalViewModel> unDepositedChequeList = Mapper.Map<List<DepositAndWithdrawals>, List<DepositAndWithdrwalViewModel>>(_depositAndWithdrawalsBusiness.GetUndepositedCheque(undepositedChequeAdvanceSearchObj));
-                string MinDate = unDepositedChequeList.Count != 0 ? Convert.ToDateTime((unDepositedChequeList.Min(X => Convert.ToDateTime(X.DateFormatted)))).ToString("dd-MMM-yyyy") : undepositedChequeAdvanceSearchObj.FromDate;
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = unDepositedChequeList, FromDate = MinDate });                
+                string MinDate = unDepositedChequeList.Count != 0 ? Convert.ToDateTime((unDepositedChequeList.Min(X => Convert.ToDateTime(X.DateFormatted)))).ToString("dd-MMM-yyyy") : undepositedChequeAdvanceSearchObj.FromDate;               
+                var totalAmount = unDepositedChequeList.Where(amt => amt.TransactionType != "D").Sum(amt => amt.Amount);
+                string totalAmountFormatted = _commonBusiness.ConvertCurrency(totalAmount, 2);               
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = unDepositedChequeList, FromDate = MinDate,totalAmount = totalAmountFormatted });                
             }
             catch (Exception ex)
             {
-                AppConstMessage cm = c.GetMessage(ex.Message);
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });//, FromDate = FromDate });
+                AppConstMessage cm = c.GetMessage(ex.Message);                
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message});//, FromDate = FromDate });
             }
         }
         #endregion  GetUndepositedCheque

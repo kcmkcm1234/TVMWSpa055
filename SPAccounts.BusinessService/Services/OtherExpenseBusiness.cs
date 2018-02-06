@@ -84,12 +84,12 @@ namespace SPAccounts.BusinessService.Services
             return bankList;
         }
 
-        public List<Employee> GetAllEmployees()
+        public List<Employee> GetAllEmployees(string filter)
         {
             List<Employee> employeeList = null;
             try
             {
-                employeeList = _employeeRepository.GetAllEmployees();
+                employeeList = _employeeRepository.GetAllEmployees(filter);
             }
             catch (Exception ex)
             {
@@ -207,7 +207,7 @@ namespace SPAccounts.BusinessService.Services
             List<Employee> empList = null;
             try
             {
-                empList=GetAllEmployees();
+                empList=(Type=="EMP"?GetAllEmployees("1"): GetAllEmployees(null));
                 empList = empList != null ? empList.Where(e => e.employeeTypeObj.Code == Type).ToList() : null;
             }
             catch(Exception ex)
@@ -273,7 +273,7 @@ namespace SPAccounts.BusinessService.Services
             List<Employee> empList = null;
             try
             {
-                empList = GetAllEmployees();
+                empList = GetAllEmployees(null);
                 empList = empList != null ? empList.Where(e => e.ID==ID).ToList() : null;
             }
             catch (Exception ex)
@@ -322,6 +322,50 @@ namespace SPAccounts.BusinessService.Services
         public object Validate(OtherExpense _otherexpenseObj)
         {
             return _otherExpenseRepository.Validate(_otherexpenseObj);
+        }
+
+        public string GetValueFromSettings(SysSettings sysSettings)
+        {
+            return _otherExpenseRepository.GetValueFromSettings(sysSettings);
+        }
+
+        public string UpdateValueInSettings(SysSettings sysSettings)
+        {
+            return _otherExpenseRepository.UpdateValueInSettings(sysSettings);
+        }
+
+        public List<OtherExpense> GetAllOtherExpenseByApprovalStatus(int status, string expenseDate)
+        {
+            try
+            {
+                return _otherExpenseRepository.GetAllOtherExpenseByApprovalStatus(status, expenseDate);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public OtherExpense GetOtherExpenseByID(Guid ID)
+        {
+            try
+            {
+                return _otherExpenseRepository.GetOtherExpenseByID(ID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public string ApproveOtherExpense(Guid ID)
+        {
+            return _otherExpenseRepository.ApproveOtherExpense(ID);
+        }
+
+        public string PayOtherExpense(Guid ID, string createdBy)
+        {
+            return _otherExpenseRepository.PayOtherExpense(ID, createdBy);
         }
     }
 }

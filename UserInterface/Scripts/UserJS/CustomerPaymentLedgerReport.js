@@ -199,10 +199,11 @@ function GetHtmlData()
     DrawTable({
         Action: "Report/GetCustomerPaymentLedger/",
         data: { "FromDate": $('#fromdate').val(), "ToDate": $('#todate').val(), "CustomerIDs": $('#customerCode').val(), "Company": $('#companyCode').val(),"InvoiceType":$('#ddlInvoiceTypes').val() },
-        Exclude_column: ["CustomerID", "customerList", "CustomerCode", "Ref", "pdfToolsObj", "CompanyCode", "CompanyList", "companiesList", "InvoiceType"],
+        Exclude_column: ["CustomerID", "customerList", "CustomerCode", "pdfToolsObj", "CompanyCode", "CompanyList", "companiesList", "InvoiceType"],
         Header_column_style: {
             "Date": {"style":"width:110px;font-size:12px;border-bottom:2px solid grey;font-weight: 600;","custom_name":"Date"},
-            "Type":{ "style":"font-size:12px;border-bottom:2px solid grey;width:110px;font-weight: 600;","custom_name":"Type"},
+            "Type": { "style": "font-size:12px;border-bottom:2px solid grey;width:110px;font-weight: 600;", "custom_name": "Type" },
+            "Ref": { "style": "font-size:12px;border-bottom:2px solid grey;width:110px;font-weight: 600;", "custom_name": "Ref" },
             "Company":{"style": "width:110px;font-size:12px;border-bottom:2px solid grey;font-weight: 600;","custom_name":"Company"},
             "CustomerName":{"style": "width:110px;font-size:12px;border-bottom:2px solid grey;font-weight: 600;","custom_name":"Customer"},
             "Debit": { "style": "width:150px;text-align:center;font-size:12px;border-bottom:2px solid grey;font-weight: 600;", "custom_name": "Debit" },
@@ -211,7 +212,7 @@ function GetHtmlData()
         },      
         Row_color: { "Odd": "White", "Even": " White" },
         Body_Column_style: {
-            "Date": "font-size:11px;font-weight: 100;width:110px;", "Type": "font-size:11px;font-weight: 100;width:150px;", "Company": "font-size:11px;font-weight: 100;",
+            "Date": "font-size:11px;font-weight: 100;width:110px;", "Type": "font-size:11px;font-weight: 100;width:150px;", "Ref": "font-size:11px;font-weight: 100;width:150px;", "Company": "font-size:11px;font-weight: 100;",
             "CustomerName": "font-size:11px;font-weight: 100;width:150px;",
             "Debit": "text-align:right;font-size:11px;font-weight: 100;width:150px;", "Credit": "text-align:right;font-size:11px;font-weight: 100;width:150px;", "Balance": "text-align:right;font-size:11px;font-weight: 100;width:150px;"
         }

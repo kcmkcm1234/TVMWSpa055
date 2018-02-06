@@ -31,8 +31,12 @@ namespace SPAccounts.DataAccessObject.DTO
         public string creditAmountFormatted { get; set; }
         public string RefNo { get; set; }
         public string ReversalRef { get; set; }
-        public decimal ReversableAmount { get; set; }        
-
+        public decimal ReversableAmount { get; set; }
+        public SysSettings SysSettingsObj { get; set; }
+        public int? ApprovalStatus { get; set; }
+        public string ApprovalDate { get; set; }
+        public bool? IsNotified { get; set; }
+        public string OELimitOnEntry { get; set; }
         public string OpeningBank { get; set; }
         public string OpeningNCBank { get; set; }
         public string OpeningCash { get; set; }
@@ -41,8 +45,8 @@ namespace SPAccounts.DataAccessObject.DTO
         //For BankWise Balance//
         public string BankName { get; set; }
         public string TotalAmount { get; set; }
-        public string UnClearedAmount { get; set; }        
-
+        public string UnClearedAmount { get; set; }
+        public string UnderClearingAmount { get; set; }
     }
 
     public class OtherExpSummary {

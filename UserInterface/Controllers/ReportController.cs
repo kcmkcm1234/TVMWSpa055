@@ -341,7 +341,7 @@ namespace UserInterface.Controllers
 
 
             selectListItem = new List<SelectListItem>();
-            List<EmployeeViewModel> empList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_otherExpenseBusiness.GetAllEmployees());
+            List<EmployeeViewModel> empList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_otherExpenseBusiness.GetAllEmployees(null));
             foreach (EmployeeViewModel evm in empList)
             {
                 selectListItem.Add(new SelectListItem
@@ -456,7 +456,7 @@ namespace UserInterface.Controllers
 
 
             selectListItem = new List<SelectListItem>();
-            List<EmployeeViewModel> empList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_otherExpenseBusiness.GetAllEmployees());
+            List<EmployeeViewModel> empList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_otherExpenseBusiness.GetAllEmployees(null));
             foreach (EmployeeViewModel evm in empList)
             {
                 selectListItem.Add(new SelectListItem
@@ -591,7 +591,7 @@ namespace UserInterface.Controllers
 
 
             selectListItem = new List<SelectListItem>();
-            List<EmployeeViewModel> empList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_otherExpenseBusiness.GetAllEmployees());
+            List<EmployeeViewModel> empList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_otherExpenseBusiness.GetAllEmployees(null));
             foreach (EmployeeViewModel evm in empList)
             {
                 selectListItem.Add(new SelectListItem
@@ -1794,7 +1794,7 @@ namespace UserInterface.Controllers
 
 
             selectListItem = new List<SelectListItem>();
-            List<EmployeeViewModel> empList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_otherExpenseBusiness.GetAllEmployees());
+            List<EmployeeViewModel> empList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_otherExpenseBusiness.GetAllEmployees(null));
             foreach (EmployeeViewModel evm in empList)
             {
                 selectListItem.Add(new SelectListItem
@@ -1922,7 +1922,7 @@ namespace UserInterface.Controllers
             otherIncomeDetailsViewModel.EmployeeTypeList = selectListItem;
 
             selectListItem = new List<SelectListItem>();
-            List<EmployeeViewModel> empList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_otherExpenseBusiness.GetAllEmployees());
+            List<EmployeeViewModel> empList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_otherExpenseBusiness.GetAllEmployees(null));
             foreach (EmployeeViewModel evm in empList)
             {
                 selectListItem.Add(new SelectListItem

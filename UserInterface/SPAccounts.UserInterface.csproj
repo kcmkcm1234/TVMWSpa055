@@ -1593,6 +1593,7 @@
     <Content Include="Scripts\UserJS\OtherIncomeSummaryReport.js" />
     <Content Include="Scripts\UserJS\OutgoingCheque.js" />
     <Content Include="Scripts\UserJS\Outstanding.js" />
+    <Content Include="Scripts\UserJS\PaymentFollowup.js" />
     <Content Include="Scripts\UserJS\PDF.js" />
     <Content Include="Scripts\UserJS\Privileges.js" />
     <Content Include="Scripts\UserJS\PrivilegesView.js" />
@@ -1661,6 +1662,7 @@
     <Compile Include="Controllers\ImportOtherExpensesController.cs" />
     <Compile Include="Controllers\OtherExpensesController.cs" />
     <Compile Include="Controllers\OtherIncomeController.cs" />
+    <Compile Include="Controllers\PaymentFollowupController.cs" />
     <Compile Include="Controllers\PDFGeneratorController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\SAMPanelController.cs" />
@@ -1686,7 +1688,9 @@
     <Compile Include="Models\DepositAndWithdrwalViewModel.cs" />
     <Compile Include="Models\EmployeeViewModel.cs" />
     <Compile Include="Models\ChartOfAccountsViewModel.cs" />
+    <Compile Include="Models\FollowUpViewModel.cs" />
     <Compile Include="Models\ImportOtherExpensesViewModel.cs" />
+    <Compile Include="Models\SysSettingsViewModel.cs" />
     <Compile Include="Models\UploadedFilesViewModel.cs" />
     <Compile Include="Models\OtherExpenseViewModel.cs" />
     <Compile Include="Models\CommonViewModel.cs" />
@@ -1804,6 +1808,8 @@
     <Content Include="Views\Report\OtherExpenseLimitedDetails.cshtml" />
     <Content Include="Views\ImportOtherExpenses\Index.cshtml" />
     <Content Include="Views\DepositAndWithdrawals\IncomingCheques.cshtml" />
+    <Content Include="Views\PaymentFollowup\Index.cshtml" />
+    <Content Include="Views\PaymentFollowup\_FollowUpList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

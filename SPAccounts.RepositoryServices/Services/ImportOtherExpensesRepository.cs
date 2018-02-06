@@ -178,7 +178,7 @@ namespace SPAccounts.RepositoryServices.Services
         {
             List<ChartOfAccounts>   chartOfAccountsList   = _chartOfAccountsRepository.GetAllChartOfAccounts("OE");
             List<Companies>         companiesList         = _companiesRepository.GetAllCompanies();
-            List<Employee>          employeeList          = _employeeRepository.GetAllEmployees();
+            List<Employee>          employeeList          = _employeeRepository.GetAllEmployees(null);
             try
             {
                 List<ImportOtherExpenses> removedDataList = new List<ImportOtherExpenses>();

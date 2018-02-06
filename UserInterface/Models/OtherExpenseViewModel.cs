@@ -79,6 +79,7 @@ namespace UserInterface.Models
         public List<SelectListItem> EmployeeTypeList { get; set; }
         public CommonViewModel commonObj { get; set; }
         public bool ShowDaysFilter { get; set; }
+        public bool ApprovalFilter { get; set; }
 
         public string OpeningBank { get; set; }
         public string OpeningNCBank { get; set; }
@@ -90,6 +91,16 @@ namespace UserInterface.Models
         public decimal UnClearedAmount { get; set; }
 
         public decimal ReversableAmount { get; set; }
+        [Display(Name = "Approval Status")]
+        public int? ApprovalStatus { get; set; }
+        public string ApprovalDate { get; set; }
+        public bool? IsNotified { get; set; }
+        public string OELimitOnEntry { get; set; }
+        [Display(Name = "Approval Required Above Amount")]
+        public SysSettingsViewModel SysSettingsObj { get; set; }
+        public List<SelectListItem> ApprovalStatusList { get; set; }
+        
+        public decimal UnderClearingAmount { get; set; }
     }
 
 

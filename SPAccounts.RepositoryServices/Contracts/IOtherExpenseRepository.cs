@@ -19,5 +19,11 @@ namespace SPAccounts.RepositoryServices.Contracts
         List<OtherExpense> GetExpenseTypeDetails(OtherExpense expObj);
         List<OtherExpense> GetBankWiseBalance(string Date);
         object Validate(OtherExpense _OtherexpenseObj);
+        string GetValueFromSettings(SysSettings SysSettings);
+        string UpdateValueInSettings(SysSettings SysSettings);
+        List<OtherExpense> GetAllOtherExpenseByApprovalStatus(int? ApprovalStatus,string ExpenseDate);
+        OtherExpense GetOtherExpenseByID(Guid ID);
+        string ApproveOtherExpense(Guid ID);
+        string PayOtherExpense(Guid ID, string CreatedBy);
     }
 }
