@@ -55,9 +55,9 @@ namespace SPAccounts.RepositoryServices.Services
                                         customerExpeditingDetail.CustomerName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : customerExpeditingDetail.CustomerName);
                                         customerExpeditingDetail.CustomerContactObj = new CustomerContactDetailsReport();
                                         customerExpeditingDetail.CustomerContactObj.ContactName = (sdr["ContactName"].ToString() != "" ? sdr["ContactName"].ToString() : customerExpeditingDetail.CustomerContactObj.ContactName);
-                                        customerExpeditingDetail.ContactNo = (sdr["Mobile"].ToString() != "" ? ("☎" + sdr["Mobile"].ToString()) : "") +
-                                            (sdr["LandLine"].ToString() != "" ? (", ☎" + sdr["LandLine"].ToString()) : "") +
-                                            (sdr["OtherPhoneNos"].ToString() != "" ? (", ☎" + sdr["OtherPhoneNos"].ToString()) : "");
+                                        customerExpeditingDetail.ContactNo = (sdr["Mobile"].ToString() != "" ? ("☎" + sdr["Mobile"].ToString()) : "") +' '+
+                                            (sdr["LandLine"].ToString() != "" ? (", ☎" + sdr["LandLine"].ToString()) : "") +' '+
+                                            (sdr["OtherPhoneNos"].ToString() != "" ? (", ☎" + string.Join(", ",(sdr["OtherPhoneNos"].ToString().Split(',')))) : "");
                                         customerExpeditingDetail.Mobile = (sdr["Mobile"].ToString() != "" ? sdr["Mobile"].ToString() : customerExpeditingDetail.Mobile);
                                         customerExpeditingDetail.CompanyObj = new Companies();
                                         customerExpeditingDetail.CompanyObj.Name = (sdr["CompanyName1"].ToString() != "" ? sdr["CompanyName1"].ToString() : customerExpeditingDetail.CompanyObj.Name);
