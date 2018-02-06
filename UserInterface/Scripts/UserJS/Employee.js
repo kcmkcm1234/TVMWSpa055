@@ -30,14 +30,22 @@ $(document).ready(function () {
      
                //{ "data": "employeeTypeObj.Name", "defaultContent": "<i>-</i>" },
                { "data": "companies.Name", "defaultContent": "<i>-</i>" },
-                  { "data": "Department", "defaultContent": "<i>-</i>" },
-                 { "data": "EmployeeCategory", "defaultContent": "<i>-</i>" },
+               { "data": "Department", "defaultContent": "<i>-</i>" },
+               { "data": "EmployeeCategory", "defaultContent": "<i>-</i>" },
+               {"data":"IsActive","defaultContent":"<i>-</i>"},
                { "data": null, "orderable": false, "defaultContent": '<a href="#" title="Edit OtherIncome" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                  
-               { className: "text-left", "targets": [1,2, 3, 5, 6] },
-             { className: "text-center", "targets": [] }
+               { className: "text-left", "targets": [1,2, 3, 5, 6,7] },
+             { className: "text-center", "targets": [] },
+             {
+                 "render": function (data, type, row) {
+                     return (data == false ? "No " : "Yes");
+                 },
+                 "targets": [6]
+
+             },
 
              ]
          });
@@ -173,7 +181,7 @@ function ClearFields() {
     $("#EmployeeCategory").val("");
   //  $("#EmployeeType").val("");
     $("#Address").val("");
-    $("#GeneralNotes").val("");
+    $("#GeneralNotes").val("");  
     ResetForm();
     ChangeButtonPatchView("Employee", "btnPatchAdd", "Add"); //ControllerName,id of the container div,Name of the action
 }
@@ -186,6 +194,7 @@ function ResetForm() {
         validator.settings.success($(this));
     });
     validator.resetForm();
+    $('#IsActive').prop('checked', false);
 }
 
 function BindAllEmployee() {
@@ -272,6 +281,16 @@ function FillEmployeeDetails(ID) {
 //    $("#EmployeeType").val(thisItem.EmployeeType);   
     $("#Address").val(thisItem.Address);
     $("#GeneralNotes").val(thisItem.GeneralNotes);
+    if(thisItem.IsActive == true)
+    {
+        $('#IsActive').attr('checked', true);
+        
+    }
+    else
+    {
+        $('#IsActive').attr('checked', false);
+        
+    }    
 }
 
 //---------------------------------------Edit Bank--------------------------------------------------//

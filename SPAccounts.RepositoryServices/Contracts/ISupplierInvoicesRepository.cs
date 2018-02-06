@@ -17,7 +17,7 @@ namespace SPAccounts.RepositoryServices.Contracts
         List<SupplierInvoices> GetSupplierPurchasesByDateWise(SupplierInvoices SupObj);
         List<SupplierInvoices> GetOpeningSupplierInvoices(SupplierInvoices SupObj);
         object DeleteSupplierInvoice(Guid ID, string userName);
-        bool CheckProfileExists(string invoiceNo, Guid supplierID);
+        bool CheckProfileExists(string invoiceNo, Guid supplierID,Guid ID);       
         List<SupplierInvoices> GetOutStandingInvoicesBySupplier(Guid PaymentID, Guid supplierID);
         SupplierInvoices GetSupplierAdvances(string ID);
         SupplierInvoiceAgeingSummary GetSupplierInvoicesAgeingSummary();

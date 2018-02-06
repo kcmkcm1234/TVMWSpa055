@@ -144,12 +144,12 @@ namespace SPAccounts.BusinessService.Services
         /// <param name="supplierID"></param>
         /// <returns>result</returns>
 
-        public bool CheckProfileExists(string invoiceNo, Guid supplierID)
+        public bool CheckProfileExists(string invoiceNo, Guid supplierID,Guid ID)
         {
             bool result;
             try
             {
-                result = _supplierInvoicesRepository.CheckProfileExists(invoiceNo, supplierID);
+                result = _supplierInvoicesRepository.CheckProfileExists(invoiceNo, supplierID,ID);
 
             }
             catch (Exception ex)

@@ -14,12 +14,17 @@ namespace SPAccounts.BusinessService.Contracts
         List<OtherExpense> GetReversalReference(string EmpID, string AccountCode, string EmpTypeCode);
         OtherExpense GetOpeningBalance(string OpeningDate);
         decimal GetMaximumReducibleAmount(string RefNumber);
+        string GetValueFromSettings(SysSettings SysSettings);
+        string UpdateValueInSettings(SysSettings SysSettings);
+        List<OtherExpense> GetAllOtherExpenseByApprovalStatus(int Status,string expenseDate);
+        OtherExpense GetOtherExpenseByID(Guid ID);
+        string ApproveOtherExpense(Guid ID);
 
         List<ChartOfAccounts> GetAllAccountTypes(string accountType);
         List<Companies> GetAllCompanies();
         List<PaymentModes> GetAllPaymentModes();
         List<Bank> GetAllBankes();
-        List<Employee> GetAllEmployees();
+        List<Employee> GetAllEmployees(string filter);
         List<EmployeeType> GetAllEmployeeTypes();
         List<Employee> GetAllEmployeesByType(string Type);
         List<Employee> GetCompanybyEmployee(Guid ID);

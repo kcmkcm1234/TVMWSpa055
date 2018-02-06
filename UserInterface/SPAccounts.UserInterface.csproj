@@ -1689,6 +1689,7 @@
     <Compile Include="Models\ChartOfAccountsViewModel.cs" />
     <Compile Include="Models\FollowUpViewModel.cs" />
     <Compile Include="Models\ImportOtherExpensesViewModel.cs" />
+    <Compile Include="Models\SysSettingsViewModel.cs" />
     <Compile Include="Models\UploadedFilesViewModel.cs" />
     <Compile Include="Models\OtherExpenseViewModel.cs" />
     <Compile Include="Models\CommonViewModel.cs" />

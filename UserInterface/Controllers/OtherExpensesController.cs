@@ -15,17 +15,22 @@ namespace UserInterface.Controllers
 {
     public class OtherExpensesController : Controller
     {
+        #region Constructor Injection
         // GET: OtherExpenses
         AppConst c = new AppConst();
         IOtherExpenseBusiness _otherExpenseBusiness;
         ICommonBusiness _commonBusiness;
         IEmployeeBusiness _employeeBusiness;
-        public OtherExpensesController(IOtherExpenseBusiness otherExpenseBusiness, ICommonBusiness commonBusiness,IEmployeeBusiness employeeBusiness)
+        SecurityFilter.ToolBarAccess _tool;
+        public OtherExpensesController(IOtherExpenseBusiness otherExpenseBusiness, ICommonBusiness commonBusiness,IEmployeeBusiness employeeBusiness, SecurityFilter.ToolBarAccess tool)
         {
             _otherExpenseBusiness = otherExpenseBusiness;
             _commonBusiness = commonBusiness;
             _employeeBusiness = employeeBusiness;
+            _tool = tool;
         }
+        #endregion Constructor Injection
+
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "OtherExpense", Mode = "R")]
         public ActionResult Index(string id)
@@ -121,15 +126,24 @@ namespace UserInterface.Controllers
 
 
 
-                Permission _permission = Session["UserRights"] as Permission;
-                string p = _permission.SubPermissionList.Where(li => li.Name == "DaysFilter").First().AccessCode;
+                Permission permission = Session["UserRights"] as Permission;
+                string p = permission.SubPermissionList.Where(li => li.Name == "DaysFilter").First().AccessCode;
                 if (p.Contains("R") || p.Contains("W")) {
                     otherExpenseViewModelObj.ShowDaysFilter = true;
                 }
                 else{
                     otherExpenseViewModelObj.ShowDaysFilter = false;
                 }
-               
+                p = null;
+                p = permission.SubPermissionList.Where(li => li.Name == "ApprovalFilter").First().AccessCode;
+                if (p.Contains("R") || p.Contains("W"))
+                {
+                    otherExpenseViewModelObj.ApprovalFilter = true;
+                }
+                else
+                {
+                    otherExpenseViewModelObj.ApprovalFilter = false;
+                }
 
             }
             catch (Exception ex)
@@ -188,8 +202,9 @@ namespace UserInterface.Controllers
                 List<OtherExpenseViewModel> otherExpenseList = Mapper.Map<List<OtherExpense>, List<OtherExpenseViewModel>>(_otherExpenseBusiness.GetBankWiseBalance(Date));
                 string TotalAmountFormatted = _commonBusiness.ConvertCurrency(otherExpenseList.Sum(OE => OE.TotalAmount), 2);
                 string TotalUnClrAmtFormatted = _commonBusiness.ConvertCurrency(otherExpenseList.Sum(OE => OE.UnClearedAmount), 2);
+                string TotalUnderClrAmtFormatted = _commonBusiness.ConvertCurrency(otherExpenseList.Sum(OE => OE.UnderClearingAmount), 2);
                 string ActualBlnceFormatted = _commonBusiness.ConvertCurrency(otherExpenseList.Sum(OE => OE.TotalAmount)+ otherExpenseList.Sum(OE => OE.UnClearedAmount), 2);
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = otherExpenseList,TotalAmount= TotalAmountFormatted, TotalUnClrAmt= TotalUnClrAmtFormatted, ActualBlnce= ActualBlnceFormatted });
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = otherExpenseList,TotalAmount= TotalAmountFormatted, TotalUnClrAmt= TotalUnClrAmtFormatted,TotalUnderClrAmt= TotalUnderClrAmtFormatted, ActualBlnce= ActualBlnceFormatted });
             }
             catch (Exception ex)
             {
@@ -198,9 +213,8 @@ namespace UserInterface.Controllers
             }
         }
         #endregion GetBankWiseBalance
-
-
-
+        
+        #region GetEmployeeCompanyDetails
         public string GetEmployeeCompanyDetails(string ID)
         {
             try
@@ -214,6 +228,7 @@ namespace UserInterface.Controllers
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
             }
         }
+        #endregion GetEmployeeCompanyDetails
 
         #region GetAllOtherExpenses
         [HttpGet]
@@ -318,12 +333,13 @@ namespace UserInterface.Controllers
                     otherExpenseViewModel.AccountCode = otherExpenseViewModel.AccountCode.Remove(len);
                     //
 
-                     AppUA _appUA = Session["AppUA"] as AppUA;
+                     AppUA appUA = Session["AppUA"] as AppUA;
                     otherExpenseViewModel.commonObj = new CommonViewModel();
-                    otherExpenseViewModel.commonObj.CreatedBy = _appUA.UserName;
-                    otherExpenseViewModel.commonObj.CreatedDate = _appUA.DateTime;
-                    otherExpenseViewModel.commonObj.UpdatedBy = _appUA.UserName;
-                    otherExpenseViewModel.commonObj.UpdatedDate = _appUA.DateTime;
+                    SPAccounts.DataAccessObject.DTO.Common common = new SPAccounts.DataAccessObject.DTO.Common();
+                    otherExpenseViewModel.commonObj.CreatedBy = appUA.UserName;
+                    otherExpenseViewModel.commonObj.CreatedDate = appUA.DateTime;
+                    otherExpenseViewModel.commonObj.UpdatedBy = appUA.UserName;
+                    otherExpenseViewModel.commonObj.UpdatedDate = common.GetCurrentDateTime();
                     OtherExpenseViewModel otherExpenseVM = null;
 
                     switch (otherExpenseViewModel.ID==Guid.Empty)
@@ -370,12 +386,13 @@ namespace UserInterface.Controllers
             {
 
 
-                AppUA _appUA = Session["AppUA"] as AppUA;
+                AppUA appUA = Session["AppUA"] as AppUA;
                 _employeeObj.commonObj = new CommonViewModel();
-                _employeeObj.commonObj.CreatedBy = _appUA.UserName;
-                _employeeObj.commonObj.CreatedDate = _appUA.DateTime;
-                _employeeObj.commonObj.UpdatedBy = _appUA.UserName;
-                _employeeObj.commonObj.UpdatedDate = _appUA.DateTime;
+                SPAccounts.DataAccessObject.DTO.Common common = new SPAccounts.DataAccessObject.DTO.Common();
+                _employeeObj.commonObj.CreatedBy = appUA.UserName;
+                _employeeObj.commonObj.CreatedDate = appUA.DateTime;
+                _employeeObj.commonObj.UpdatedBy = appUA.UserName;
+                _employeeObj.commonObj.UpdatedDate = common.GetCurrentDateTime();
 
                 result = _employeeBusiness.InsertUpdateEmployee(Mapper.Map<EmployeeViewModel, Employee>(_employeeObj));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
@@ -401,8 +418,8 @@ namespace UserInterface.Controllers
             try
             {
                 object result = null;
-                AppUA _appUA = Session["AppUA"] as AppUA;
-                result = _otherExpenseBusiness.DeleteOtherExpense(Guid.Parse(ID),_appUA.UserName);
+                AppUA appUA = Session["AppUA"] as AppUA;
+                result = _otherExpenseBusiness.DeleteOtherExpense(Guid.Parse(ID), appUA.UserName);
                 return JsonConvert.SerializeObject(new { Result = "OK", Message = result });
 
             }
@@ -434,11 +451,120 @@ namespace UserInterface.Controllers
         }
         #endregion GetMaximumReducableAmount
 
+        #region GetValueFromSettings
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "OtherExpense", Mode = "R")]
+        public string GetValueFromSettings()
+        {
+            try
+            {
+                SysSettings sysSettings = new SysSettings();
+                sysSettings.Name        = "OE-LIMIT";
+                sysSettings.Value = _otherExpenseBusiness.GetValueFromSettings(sysSettings);
+                return JsonConvert.SerializeObject(new { Result = "OK", sysSettingsObj = sysSettings });
+            }
+            catch(Exception Ex)
+            {
+                AppConstMessage cm = c.GetMessage(Ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion GetValueFromSettings
+
+        #region UpdateValueInSettings
+        [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "OtherExpense", Mode = "R")]
+        public string UpdateValueInSettings(string Value)
+        {
+            try
+            {
+                AppUA appUA            = Session["AppUA"] as AppUA;
+                SysSettingsViewModel sysSettings = new SysSettingsViewModel();
+                sysSettings.Name        = "OE-LIMIT";
+                sysSettings.Value       = Value;
+                sysSettings.CommonObj = new CommonViewModel();
+                SPAccounts.DataAccessObject.DTO.Common common = new SPAccounts.DataAccessObject.DTO.Common();
+                sysSettings.CommonObj.UpdatedBy     = appUA.UserName;
+                sysSettings.CommonObj.UpdatedDate   = common.GetCurrentDateTime();
+                string actionMessage = _otherExpenseBusiness.UpdateValueInSettings(Mapper.Map<SysSettingsViewModel,SysSettings>(sysSettings));
+                return JsonConvert.SerializeObject(new { Result = "OK", Message = actionMessage });
+            }
+            catch(Exception Ex)
+            {
+                AppConstMessage cm = c.GetMessage(Ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion UpdateValueInSettings
+
+        #region GetAllOtherExpenseByApprovalStatus
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "OtherExpense", Mode = "R")]
+        public string GetAllOtherExpenseByApprovalStatus(string Status,string ExpenseDate,string DefaultDate)
+        {
+            try
+            {
+                List<OtherExpense> otherExpenseList = _otherExpenseBusiness.GetAllOtherExpenseByApprovalStatus((Status!="")?int.Parse(Status):0, ExpenseDate);
+                if (!string.IsNullOrEmpty(DefaultDate))
+                {
+                    if (DefaultDate == "0")
+                    {
+                        otherExpenseList = otherExpenseList != null ? otherExpenseList
+                       .ToList() : null;
+                    }
+                    else
+                    {
+                        ExpenseDate = DateTime.Now.AddDays(-int.Parse(DefaultDate)).ToString("dd-MMM-yyyy");
+                        otherExpenseList = otherExpenseList != null ? otherExpenseList
+                        .Where(o => DateTime.Parse(o.ExpenseDate).Date >= DateTime.Parse(ExpenseDate).Date && DateTime.Parse(o.ExpenseDate).Date <= DateTime.Now.Date)
+                        .ToList() : null;
+                    }
+                }
+                string sumAmount = _commonBusiness.ConvertCurrency(otherExpenseList != null ? otherExpenseList.Sum(o => o.Amount):decimal.Zero);
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = otherExpenseList, TotalAmount = sumAmount });
+            }
+            catch(Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion GetAllOtherExpenseByApprovalStatus
+
+        #region SendNotification
+        [AuthSecurityFilter(ProjectObject = "OtherExpense", Mode = "W")]
+        [HttpPost]
+        public string SendNotification(OtherExpenseViewModel otherExpenseVM)
+        {
+            try
+            {
+                AppUA appUA = Session["AppUA"] as AppUA;
+                SPAccounts.DataAccessObject.DTO.Common common = new SPAccounts.DataAccessObject.DTO.Common();
+                otherExpenseVM.commonObj = new CommonViewModel();
+                otherExpenseVM.commonObj.UpdatedBy = appUA.UserName;
+                otherExpenseVM.commonObj.UpdatedDate = common.GetCurrentDateTime();
+                OtherExpenseViewModel result = Mapper.Map<OtherExpense, OtherExpenseViewModel>(_otherExpenseBusiness.UpdateOtherExpense(Mapper.Map<OtherExpenseViewModel, OtherExpense>(otherExpenseVM)));
+
+                string titleString = "Expense Approval";
+                string descriptionString = otherExpenseVM.RefNo + ", Expense: " + otherExpenseVM.AccountCode + ", Amount: " + otherExpenseVM.Amount + ", Notes: " + otherExpenseVM.Description;
+                Boolean isCommon = true;
+                string customerID = "";
+                _commonBusiness.SendToFCM(titleString, descriptionString, isCommon, customerID);
+                return JsonConvert.SerializeObject(new { Result = "OK", Message = c.NotificationSuccess, Records = result });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion SendNotification
+
         #region validaterefno
 
         public string Validate(OtherExpenseViewModel _otherexpenseObj)
         {
-            AppUA _appUA = Session["AppUA"] as AppUA;
+            AppUA appUA = Session["AppUA"] as AppUA;
             object result = null;
             try
             {
@@ -459,6 +585,7 @@ namespace UserInterface.Controllers
         public ActionResult ChangeButtonStyle(string ActionType)
         {
             ToolboxViewModel ToolboxViewModelObj = new ToolboxViewModel();
+            Permission permission = Session["UserRights"] as Permission;
             switch (ActionType)
             {
                 case "List":
@@ -494,6 +621,12 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.addbtn.Title = "Add New";
                     ToolboxViewModelObj.addbtn.Event = "AddOtherExpense();";
 
+                    ToolboxViewModelObj.LimitBtn.Visible = true;
+                    ToolboxViewModelObj.LimitBtn.Text = "Limit";
+                    ToolboxViewModelObj.LimitBtn.Title = "Max Limit On Amount";
+                    ToolboxViewModelObj.LimitBtn.Event = "openLimitModal();";
+
+                    ToolboxViewModelObj = _tool.SetToolbarAccess(ToolboxViewModelObj, permission);
 
                     break;
                 case "AddSub":

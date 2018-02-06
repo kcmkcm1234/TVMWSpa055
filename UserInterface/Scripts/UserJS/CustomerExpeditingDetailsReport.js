@@ -48,7 +48,7 @@ $(document).ready(function () {
              columnDefs: [{ "targets": [9], "visible": false, "searchable": false },
                  { "targets": [8], "visible": false },
                   { className: "text-left", "targets": [0,1,2, 3, 4] },
-                  { "width": "15%", "targets": [0] },
+                  { "width": "15%", "targets": [0,1,2] },
              { className: "text-right", "targets": [4, 6] },
              { className: "text-center", "targets": [5,7] }
 

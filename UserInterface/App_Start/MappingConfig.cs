@@ -87,6 +87,7 @@ namespace UserInterface.App_Start
                 config.CreateMap<EmployeeCategoryViewModel, EmployeeCategory>().ReverseMap();
                 config.CreateMap<UploadedFilesViewModel, UploadedFiles>().ReverseMap();
                 config.CreateMap<ImportOtherExpensesViewModel, ImportOtherExpenses>().ReverseMap();
+                config.CreateMap<SysSettingsViewModel, SysSettings>().ReverseMap();
                 //Report purpose
                 config.CreateMap<SaleSummaryViewModel, SaleSummary>().ReverseMap();
                 config.CreateMap<SaleDetailReportViewModel, SaleDetailReport>().ReverseMap();

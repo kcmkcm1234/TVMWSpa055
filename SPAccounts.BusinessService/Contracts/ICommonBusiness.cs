@@ -10,6 +10,7 @@ namespace SPAccounts.BusinessService.Contracts
     public interface ICommonBusiness
     {
         string ConvertCurrency(decimal value, int DecimalPoints = 0, bool Symbol = true);
-        
+        void SendToFCM(string TitleString, string DescriptionString, Boolean IsCommon, string CustomerID = "");
+
     }
 }

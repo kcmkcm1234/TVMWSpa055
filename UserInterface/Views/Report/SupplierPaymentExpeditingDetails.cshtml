@@ -49,13 +49,13 @@
 <div class="form-horizontal">
 
     <div class="col-md-8" style="margin-top:10px;">
-        <div class="col-md-3">
+        <div class="col-md-4">
             @Html.Label("As On Date", htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
                 @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @Value = ViewBag.todate, @onchange = "RefreshSupplierExpeditingDetailTable()" })
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             @Html.LabelFor(model => model.BasicFilters, htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
                 @Html.DropDownListFor(model => model.Filter, Model.BasicFilters, new { @class = "form-control BlockEnter", value = 0, style = "padding:4px 12px;", @id = "BasicFilters", @onchange = "RefreshSupplierExpeditingDetailTable()" })
@@ -63,14 +63,14 @@
             </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-4">
             @Html.LabelFor(model => model.Company, htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
                 @Html.DropDownListFor(model => model.Company, Model.companyObj.CompanyList, new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "Company", @onchange = "RefreshSupplierExpeditingDetailTable()" })
                 @Html.ValidationMessageFor(model => model.Company, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             @Html.LabelFor(model => model.Supplier, htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
                 @Html.DropDownListFor(model => model.Supplier, Model.supplierObj.SupplierList, "--Select--", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "Supplier", @onchange = "RefreshSupplierExpeditingDetailTable()" })
@@ -133,7 +133,7 @@
                     <th>Invoice No</th>                   
                     <th>Invoice Date</th>
                     <th> Balance Amount</th>
-                    <th>No Of Days</th>
+                    <th>Days Past Due</th>
                     <th>Supplier Name1</th>
                     <th>Remarks</th>
 

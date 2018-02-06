@@ -195,10 +195,11 @@ function GetHtmlData()
     DrawTable({
         Action: "Report/GetSupplierPaymentLedger/",
         data: { "FromDate": $('#fromdate').val(), "ToDate": $('#todate').val(), "Suppliercode": $('#supplierCode').val(), "Company": $('#companyCode').val(), "InvoiceType": $('#ddlInvoiceType').val() },
-        Exclude_column: ["SupplierID", "supplierList", "SupplierCode", "Ref", "pdfToolsObj", "CompanyCode", "CompanyList", "companiesList","InvoiceType"],
+        Exclude_column: ["SupplierID", "supplierList", "SupplierCode", "pdfToolsObj", "CompanyCode", "CompanyList", "companiesList","InvoiceType"],
         Header_column_style: {
             "Date":{"style": "width:110px;font-size:12px;border-bottom:2px solid grey;font-weight: 600;","custom_name":"Date"},
-            "Type":{ "style": "font-size:12px;border-bottom:2px solid grey;width:110px;font-weight: 600;", "custom_name": "Type" },            
+            "Type": { "style": "font-size:12px;border-bottom:2px solid grey;width:110px;font-weight: 600;", "custom_name": "Type" },
+            "Ref": { "style": "font-size:12px;border-bottom:2px solid grey;width:110px;font-weight: 600;", "custom_name": "Ref" },
             "Company":{ "style": "width:110px;font-size:12px;border-bottom:2px solid grey;font-weight: 600;", "custom_name": "Company" },
             "SupplierName":{ "style": "width:110px;font-size:12px;border-bottom:2px solid grey;font-weight: 600;", "custom_name": "Supplier" },
             "Debit":{ "style": "width:150px;text-align: center;font-size:12px;border-bottom:2px solid grey;font-weight: 600;", "custom_name": "Debit" },

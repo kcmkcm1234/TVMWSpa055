@@ -9,8 +9,8 @@ namespace SPAccounts.BusinessService.Contracts
 {
    public interface IEmployeeBusiness
     {
-        List<Employee> GetAllEmployees();
-        List<Employee> GetAllOtherEmployees();
+        List<Employee> GetAllEmployees(string filter);
+        List<Employee> GetAllOtherEmployees(string filter);
         List<EmployeeType> GetAllEmployeeTypes();
         List<EmployeeType> GetAllDepartment();
         List<EmployeeType> GetAllCategory();
