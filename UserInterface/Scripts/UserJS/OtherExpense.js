@@ -511,6 +511,7 @@ function ClearFields() {
 
 function BindAllExpenseDetails(ExpenseDate, DefaultDate) {
     try {
+        $("#ddlApprovalStatus").val('');
         DataTables.expenseDetailTable.clear().rows.add(GetAllExpenseDetails(ExpenseDate, DefaultDate)).draw(false);
     }
     catch (e) {
@@ -1418,7 +1419,7 @@ function SendNotificationConfirm() {
                         $("#AddOtherexpenseModel").modal('hide');
                         break;
                     case "ERROR":
-                        notyAlert('error: ', JsonResult.Message);
+                        notyAlert('error', JsonResult.Message);
                         GetExpenseDetailsByID($('#ID').val());
                         $("#NotificationMessagemodal").modal('hide');
                         $("#AddOtherexpenseModel").modal('hide');
@@ -1431,7 +1432,7 @@ function SendNotificationConfirm() {
         BindAllExpenseDetails();
     }
     catch (e) {
-        console.log(ex.message);
+        notyAlert('error', ex.message);
     }
 }
 
