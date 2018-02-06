@@ -123,12 +123,14 @@ function RefreshPayableAgeingReportTable() {
         var toDate = $("#todate");
         var companyCode = $("#CompanyCode");
         var supplierIds = $("#supplierCode");
+        var invoicetype = $("#ddlInvoiceTypes");
         var search = $("#Search");
         var PayableAdvanceSearch = new Object();
         PayableAdvanceSearch.FromDate = fromDate[0].value !== "" ? fromDate[0].value : null;
         PayableAdvanceSearch.ToDate = toDate[0].value !== "" ? toDate[0].value : null;
         PayableAdvanceSearch.CompanyCode = companyCode[0].value !== "" ? companyCode[0].value : null;
-        PayableAdvanceSearch.SupplierIDs = supplierIds[0].value !== "" ? supplierIds[0].value : null;
+        PayableAdvanceSearch.InvoiceType = invoicetype[0].value !== "" ? invoicetype[0].value : null;
+        PayableAdvanceSearch.SupplierIDs = supplierIds[0].value !== "" ? $("#supplierCode").val() : null;
         PayableAdvanceSearch.Search = search[0].value !== "" ? search[0].value : null;
         //if (DataTables.PayableAgeingReportTable != undefined && IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
         //    DataTables.PayableAgeingReportTable.clear().rows.add(GetPayableAgeingReport()).draw(true);
@@ -166,6 +168,7 @@ function Reset()
     $("#fromdate").val(endDate);
     $("#todate").val(startDate);
     $("#CompanyCode").val('ALL');
+    $("#ddlInvoiceTypes").val('RB');
     $("#supplierCode").val('').trigger('change')
     $("#Search").val('');
     RefreshPayableAgeingReportTable()

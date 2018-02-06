@@ -256,7 +256,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string ThirtyOneToSixty { get; set; }
         public string SixtyOneToNinety { get; set; }
         public string NinetyOneAndOver { get; set; }
-
+        public string InvoiceType { get; set; }
     }
     public class AccountsPayableAgeingReport
     {
@@ -285,7 +285,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string ThirtyOneToSixty { get; set; }
         public string SixtyOneToNinety { get; set; }
         public string NinetyOneAndOver { get; set; }
-
+        public ReportAdvanceSearch ReportAdvanceSearchObj { get; set; }
     }
 
     public class EmployeeExpenseSummaryReport
@@ -322,6 +322,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public string Withdrawal { get; set; }
         public string Deposit { get; set; }
         public string DepositNotCleared { get; set; }
+        public string CompanyName { get; set; }
+        public string GeneralNotes { get; set; }
     }
 
     public class CustomerPaymentLedger
@@ -461,7 +463,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string InvoiceType { get; set; }
         public string Customer { get; set; }
         public string CompanyCode { get; set; }
-        public string SupplierIDs { get; set; }
+        public string[] SupplierIDs { get; set; }
         public string Search { get; set; }
     }
 
@@ -470,8 +472,9 @@ namespace SPAccounts.DataAccessObject.DTO
         public string FromDate { get; set; }
         public string ToDate { get; set; }
         public string CompanyCode { get; set; }
-        public string CustomerIDs { get; set; }
+        public string[] CustomerIDs { get; set; }
         public string Search { get; set; }
+        public string InvoiceType { get; set; }
     }
 
 

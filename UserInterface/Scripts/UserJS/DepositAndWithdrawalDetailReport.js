@@ -4,7 +4,7 @@ var enddate = '';
 $(document).ready(function () {
     $("#bankList").select2({
     });
-
+ 
     try {
 
         DataTables.depositAndWithdrawalDetailReportDetailTable = $('#depositAndWithdrawalDetailReportDetailTable').DataTable(
@@ -15,7 +15,7 @@ $(document).ready(function () {
                  extend: 'excel',
                  exportOptions:
                               {
-                                  columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+                                  columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                               }
              }],
              order: [],
@@ -32,6 +32,7 @@ $(document).ready(function () {
              //},
              columns: [
                 { "data": "TransactionDate", "defaultContent": "<i>-</i>", "width": "15%" },
+                {"data":"CompanyName","defaultContent":"<i>-</i>","width":"15%"},
                { "data": "ReferenceNumber", "defaultContent": "<i>-</i>", "width": "5%" },
                { "data": "ReferenceBank", "defaultContent": "<i>-</i>", "width": "10%" },
                { "data": "OurBank", "defaultContent": "<i>-</i>", "width": "10%" },
@@ -40,6 +41,7 @@ $(document).ready(function () {
                { "data": "Withdrawal", "defaultContent": "<i>-</i>", "width": "10%" },
                { "data": "Deposit", "defaultContent": "<i>-</i>", "width": "10%" },
                { "data": "DepositNotCleared", "defaultContent": "<i>-</i>", "width": "10%" },
+               {"data":"GeneralNotes","defaultContent":"<i>-</i>","width":"15%"},
 
              ],
              

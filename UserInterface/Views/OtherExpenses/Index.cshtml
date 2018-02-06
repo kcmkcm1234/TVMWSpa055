@@ -38,8 +38,17 @@
 </div>
 <div class="form-horizontal">
 
+    @if (Model.ApprovalFilter == true)
+    {
+        @Html.Hidden("hdnDeletePermitted", true, htmlAttributes: new { @class = "" });
+    }
+    else
+    {
+        @Html.Hidden("hdnDeletePermitted", false, htmlAttributes: new { @class = "" });
+    }
+
     <div class="col-md-12">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="form-group col-md-12">
                 <div class="col-md-12">
                     @Html.LabelFor(model => model.ExpenseDateFormatted, htmlAttributes: new { @class = "control-label" })
@@ -54,7 +63,30 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.ApprovalStatus, htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="col-md-10">
+                    @{
+                        List<SelectListItem> ApprovalList = new List<SelectListItem>();
+                        ApprovalList.Add(new SelectListItem
+                        { Text = "Pending for Approval", Value = "1" });
+                        ApprovalList.Add(new SelectListItem
+                        { Text = "Not Applicable", Value = "2" });
+                        ApprovalList.Add(new SelectListItem
+                        { Text = "Approved", Value = "3" });
+                    }
+                    @Html.DropDownListFor(model => model.ApprovalStatus, ApprovalList, "ALL", new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "ApprovalStatusFilter", @onchange = "ApprovalOnchange(this)", value = -1 })
+                    @Html.ValidationMessageFor(model => model.ApprovalStatus, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-md-1"></div>
+
+            </div>
+        </div>
+        <div class="col-md-3">
             <div class="form-group col-md-12">
                 @if (Model.ShowDaysFilter == true)
                 {
@@ -74,7 +106,7 @@
                                 listDefaultDate.Add(new SelectListItem
                                 { Text = "All", Value = "0" });
                             }
-                            @Html.DropDownListFor(model => model.DefaultDate, listDefaultDate, new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "DefaultDate", @onchange = "ExpenseDefaultDateOnchange()" })
+                            @Html.DropDownListFor(model => model.DefaultDate, listDefaultDate, new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "DefaultDate", @onchange = "ExpenseDefaultDateOnchange(this)" })
                             @Html.ValidationMessageFor(model => model.DefaultDate, "", new { @class = "text-danger" })
 
                         </div>
@@ -88,7 +120,7 @@
 
             </div>
         </div>
-        <div class="col-md-4" style="padding-top:2%;border-left:1px solid #64e564;white-space:nowrap;">
+        <div class="col-md-3" style="padding-top:2%;border-left:1px solid #64e564;white-space:nowrap;">
 
             <div class="col-md-12">
                 <div class="col-md-5 text-right">Opening As On  </div>
@@ -121,13 +153,11 @@
     </div>
 
 
-               <div class="row summaryboxes">
+     <div class="row summaryboxes">
+         <div class="clearfix visible-sm-block">
+         </div>
+     </div>
 
-            <div class="clearfix visible-sm-block">
-
-            </div>
-
-        </div>
         <div class="row">
             &nbsp;
         </div>
@@ -202,10 +232,9 @@
 
                         {
                             @Html.AntiForgeryToken()
+                            @Html.Hidden("hdnReducibleAmt", "", htmlAttributes: new { @class = "" });
                             @Html.Hidden("BindValue", "", htmlAttributes: new { @class = "", Value = ViewBag.value });
-                            @Html.Hidden("HdfAmountReversal", "", htmlAttributes: new { @class = ""});
-
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.Hidden("hdnAmountReversal", "", htmlAttributes: new { @class = ""});
 
                             <div class="form-group col-md-12">
                                 <div class="col-md-6">
@@ -213,7 +242,7 @@
                                         @Html.LabelFor(model => model.ExpenseDate, htmlAttributes: new { @class = "control-label" })
                                         @Html.HiddenFor(model => model.ID, htmlAttributes: new { @Value = Guid.Empty })
                                     </div>                                   
-                                        <div class="col-md-11">
+                                    <div class="col-md-11">
                                             @Html.EditorFor(model => model.ExpenseDate, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter datepicker", @id = "expenseDateModal" } })
                                             @Html.ValidationMessageFor(model => model.ExpenseDate, "", new { @class = "text-danger" })
                                     </div>
@@ -240,7 +269,26 @@
                                         @Html.ValidationMessageFor(model => model.AccountCode, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                             
+                                    <div class="col-md-6" id="ApprovalDiv">
+                                        <div class="col-md-12">
+                                            @Html.HiddenFor(model => model.ApprovalDate, htmlAttributes: new { })
+                                            @Html.LabelFor(model => model.ApprovalStatus, htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="col-md-11">
+                                            @if (Model.ApprovalFilter == true)
+                                            {
+                                                @Html.Hidden("hdnIsPermitted", true, htmlAttributes: new { @class = "" });
+                                                @Html.DropDownListFor(model => model.ApprovalStatus, ApprovalList, "-- Select Status --", new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "ApprovalStatus", value = -1 })
+                                            }
+                                            else
+                                            {
+                                                @Html.Hidden("hdnIsPermitted", false, htmlAttributes: new { @class = "" });
+                                                @Html.DropDownListFor(model => model.ApprovalStatus, ApprovalList, "-- Select Status --", new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "ApprovalStatus", value = -1 , @disabled = "disabled" })
+                                            }
+                                        </div>
+                                    </div>
+
+                                
                             </div> 
                             <div class="form-group col-md-12">
                                 <div class="col-md-6">
@@ -257,7 +305,7 @@
                                      @Html.LabelFor(model => model.EmpID, htmlAttributes: new { @class = "control-label" })
                                  </div>
                                  <div class="col-md-11">
-                                         @Html.DropDownListFor(model => model.EmpID, new List<SelectListItem>(), "-- Select Employee --", new { @class = "form-control BlockEnter", value = -1, @style = "width:100%",@onchange= "SelectEmployeeCompanyOnchange(this)" })
+                                         @Html.DropDownListFor(model => model.EmpID, new List<SelectListItem>(), "-- Select Employee --", new { @class = "form-control BlockEnter", value = -1, @style = "width:100%",@onchange= "SelectEmployeeCompanyOnchange(this)", @id= "EmpID" })
                                          @Html.ValidationMessageFor(model => model.EmpID, "", new { @class = "text-danger" })
                                  </div>
                                     <span id="btnAddEmployee" title="Add Employee/Other"><img src="~/Content/images/add.png" style="width:20px;cursor:pointer;" onclick="AddEmployee();" /></span>
@@ -472,7 +520,10 @@
                 </div>
             </div>
             <div class="modal-footer" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 50px;padding: 7px;">
-                <a class="btn btn-primary" onclick="Save()"><i class="glyphicon glyphicon-floppy-disk"></i> Save</a>
+                <span id="lblIsNotified" style="font-size:medium;float:left;color:green">* Notification Sent</span>
+                @Html.HiddenFor(model => model.IsNotified, new { })
+                <a id="btnNotify" class="btn btn-primary" onclick="Notify()"><i class="glyphicon glyphicon-send"></i> Notify</a>
+                <a class="btn btn-primary" id="btnSave" onclick="Save()"><i class="glyphicon glyphicon-floppy-disk"></i> Save</a>
                 <a class="btn btn-default" onclick="Reset()"><i class="glyphicon glyphicon-refresh"></i> Reset</a>
 
             </div>
@@ -540,8 +591,124 @@
     </div>
 </div>
 
+@*LIMIT Model*@
+<div class="modal fade" id="MaximumLimitModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="min-width:900px !important;">
+        <div class="modal-content">
+
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("hdnLimitValue", "", htmlAttributes: new { @class = "" })
+
+                    <div class="modal-header" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 36px;padding: 3px;border-bottom:2px solid rgb(149, 76, 132)!important;">
+                        <div class="container-fluid" style="padding-right: 0px;">
+                            <div class="col-md-4">
+                                <h3 class="modal-title SCHeader" id="modelContextLabel"></h3>
+
+                                <div class="col-md-12">
+                                    <span style="font-weight: 600;font-size: 20px;" id="AddOrEditSpan">Edit Maximum Limit</span>
+                                </div>
+                            </div>
 
 
+                            <div class="col-md-8" style="padding-right: 4px;">
+                                <a class="close" data-dismiss="modal" aria-label="Close"><i style="font-size: 33px;" class="fa fa-times-circle" aria-hidden="true"></i></a>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="modal-body">
+
+                        <div class="container-fluid">
+                            <div class="col-md-12">
+                                <div class="form-group col-md-6">
+                                    <div class="col-md-12">
+                                        @Html.LabelFor(model => model.SysSettingsObj, htmlAttributes: new { @class = "control-label " })
+                                    </div>
+                                    <div class="col-md-12">
+
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.SysSettingsObj.Value, new { htmlAttributes = new { @class = "form-control", @id = "txtLimitValue", style = "text-align:right; width:250px", min = "1" } })
+                                            @Html.ValidationMessageFor(model => model.SysSettingsObj, "", new { @class = "text-danger" })
+
+                                        </div>
+                                        <div class="col-md-1 mandatory"></div>
+                                        <div class="col-md-1"></div>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group col-md-12"></div>
+
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 50px;padding: 7px;">
+                        <a class="btn btn-primary" onclick="UpdateLimit()" id="btnUpdate"><i class="glyphicon glyphicon-floppy-disk"></i> Update</a>
+                    </div>
+                        <div class="form-group" hidden="hidden">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input id="btnUpdateMaxLimit" type="submit" value="Create" class="btn btn-default" />
+                            </div>
+                        </div>
+
+        </div>
+    </div>
+</div>
+
+@*Notification Model*@
+<div class="modal fade" id="NotificationMessagemodal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true" @*style="overflow-y:hidden !important;"*@>
+    <div class="modal-dialog" role="document" style="min-width:900px !important;">
+        <div class="modal-content">
+            <div class="modal-header" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 36px;padding: 3px;border-bottom:2px solid rgb(149, 76, 132)!important;">
+                <div class="container-fluid" style="padding-right: 0px;">
+                    <div class="col-md-4">
+                        <h3 class="modal-title SCHeader" id="modelContextLabel"></h3>
+                        <div class="col-md-12">
+                            <span style="font-weight: 600;font-size: 20px;" id="AddOrEditSpan">Notification Message</span>
+                        </div>
+                    </div>
+                    <div class="col-md-8" style="padding-right: 4px;">
+                        <a class="close" data-dismiss="modal" aria-label="Close"><i style="font-size: 33px;" class="fa fa-times-circle" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="form-group col-md-6">
+                        <div class="col-md-12">
+                            @Html.Label("Additional Message", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-12">
+                                @Html.TextAreaFor(model => model.Description, 4, 50, new { @class = "form-control HeaderBox ", maxlength = 250, @onkeyup = "ChangeNotificationMessage();", @id= "DescriptionNotes" })
+                                @Html.Label("* Additional Message will be saved as Description", htmlAttributes: new { @class = "control-label" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="col-md-12">
+                            @Html.Label("Notification Messsage", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-10">
+                                <span id="lblNotyMessage" class=""></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 50px;padding: 7px;">
+                <a class="btn btn-primary" onclick="SendNotificationConfirm()"><i class="glyphicon"></i> Send</a>
+            </div>
+        </div>
+    </div>
+</div>
 
     @section Scripts {
         @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")

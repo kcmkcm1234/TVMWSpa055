@@ -38,7 +38,7 @@ $(document).ready(function () {
                { "data": "companyObj.Name", "defaultContent": "<i>-<i>" },
                { "data": "InvoiceNo", "defaultContent": "<i>-</i>" },             
                { "data": "InvoiceDate", "defaultContent": "<i>-</i>" },
-               { "data": "Amount", "defaultContent": "<i>-</i>" },
+               { "data": "Amount", "defaultContent": "<i>-</i>", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                  { "data": "NoOfDays", "defaultContent": "<i>-</i>" },
                   { "data": "CustomerName1", "defaultContent": "<i></i>" },
                { "data": "Remarks", "defaultContent": "<i></i>" }
@@ -48,7 +48,7 @@ $(document).ready(function () {
              columnDefs: [{ "targets": [9], "visible": false, "searchable": false },
                  { "targets": [8], "visible": false },
                   { className: "text-left", "targets": [0,1,2, 3, 4] },
-                  { "width": "15%", "targets": [0] },
+                  { "width": "15%", "targets": [0,1,2] },
              { className: "text-right", "targets": [4, 6] },
              { className: "text-center", "targets": [5,7] }
 
@@ -73,9 +73,10 @@ function GetCustomerExpeditingDetail() {
         var toDate = $("#todate").val();
         var filter = $("#BasicFilters").val();
         var company = $("#Company").val();
-        var customer = $("#Customer").val();       
+        var customer = $("#Customer").val();
+        var invoicetype = $("#ddlInvoiceTypes").val();
         if (IsVaildDateFormat(toDate))
-            var data = { "ToDate": toDate, "Filter": filter, "Company": company, "Customer": customer };        
+            var data = { "ToDate": toDate, "Filter": filter, "Company": company, "Customer": customer,"InvoiceType":invoicetype };        
         var ds = {};
         ds = GetDataFromServer("Report/GetCustomerPaymentExpeditingDetails/", data);
         if (ds != '') {
@@ -139,7 +140,8 @@ function Reset()
     debugger;
     $("#todate").val(today);
     $("#BasicFilters").val('ALL');
-    $("#Company").val('ALL').trigger('change')
-    $("#Customer").val('').trigger('change')
+    $("#Company").val('ALL').trigger('change');
+    $("#Customer").val('').trigger('change');
+    $("#ddlInvoiceTypes").val('RB');
     RefreshCustomerExpeditingDetailTable();
 }

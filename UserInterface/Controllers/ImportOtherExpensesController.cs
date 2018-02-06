@@ -274,12 +274,12 @@ namespace UserInterface.Controllers
                 case "List":
                     ToolboxViewModelObj.downloadBtn.Visible = true;
                     ToolboxViewModelObj.downloadBtn.Text = "Template";
-                    ToolboxViewModelObj.downloadBtn.Title = "Download";
+                    ToolboxViewModelObj.downloadBtn.Title = "Download Template";
                     ToolboxViewModelObj.downloadBtn.Event = "DownloadTemplate();";
 
                     ToolboxViewModelObj.HistoryBtn.Visible = true;
                     ToolboxViewModelObj.HistoryBtn.Text = "History";
-                    ToolboxViewModelObj.HistoryBtn.Title = "History";
+                    ToolboxViewModelObj.HistoryBtn.Title = "Uploaded Files History";
                     ToolboxViewModelObj.HistoryBtn.Event = "FetchHistory();";
 
                     break;

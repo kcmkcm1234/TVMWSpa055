@@ -144,6 +144,34 @@ namespace SPAccounts.BusinessService.Services
             }
             return otherExpense;
         }
+
+        public decimal GetMaximumReducibleAmount(string refNumber)
+        {
+            List<OtherExpense> otherExpenseList = null;
+            decimal HeadAmount = 0;
+            try
+            {
+                otherExpenseList = GetAllOtherExpenses();
+                List<decimal> amountList = otherExpenseList != null ? 
+                    (from otherExpense in otherExpenseList
+                     where otherExpense.ReversalRef == refNumber
+                     select otherExpense.Amount).ToList() 
+                    : null;
+                if (amountList != null)
+                {
+                    foreach (int amount in amountList)
+                    {
+                        HeadAmount -= amount;
+                    }
+                }
+            }
+            catch(Exception Ex)
+            {
+                throw Ex;
+            }
+            return HeadAmount;
+        }
+
         public List<OtherExpense> GetReversalReference(string EmpID, string AccountCode, string EmpTypeCode)
         {
             List<OtherExpense> otherExpenseList = null;
@@ -295,5 +323,46 @@ namespace SPAccounts.BusinessService.Services
         {
             return _otherExpenseRepository.Validate(_otherexpenseObj);
         }
+
+        public string GetValueFromSettings(SysSettings sysSettings)
+        {
+            return _otherExpenseRepository.GetValueFromSettings(sysSettings);
+        }
+
+        public string UpdateValueInSettings(SysSettings sysSettings)
+        {
+            return _otherExpenseRepository.UpdateValueInSettings(sysSettings);
+        }
+
+        public List<OtherExpense> GetAllOtherExpenseByApprovalStatus(int status, string expenseDate)
+        {
+            try
+            {
+                return _otherExpenseRepository.GetAllOtherExpenseByApprovalStatus(status, expenseDate);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public OtherExpense GetOtherExpenseByID(Guid ID)
+        {
+            try
+            {
+                return _otherExpenseRepository.GetOtherExpenseByID(ID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public string ApproveOtherExpense(Guid ID)
+        {
+            return _otherExpenseRepository.ApproveOtherExpense(ID);
+        }
+
+
     }
 }
