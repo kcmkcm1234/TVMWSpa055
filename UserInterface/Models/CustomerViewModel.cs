@@ -18,7 +18,7 @@ namespace UserInterface.Models
         public string CompanyName { get; set; }
         [Display(Name = "Is Internal Company")]
         public bool IsInternalComp { get; set; }
-        [Display(Name = "Contact Person Name")]
+        [Display(Name = "Contact Person")]
         [MaxLength(100)]
         public string ContactPerson { get; set; }
         [Display(Name = "Email")]

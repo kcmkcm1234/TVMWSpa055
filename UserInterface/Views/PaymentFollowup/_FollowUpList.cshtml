@@ -1,0 +1,84 @@
+﻿@model UserInterface.Models.FollowUpListViewModel
+
+@*<div class="col-md-12" style="text-align:initial;">*@
+    <div class="box box-primary">
+        <div class="box-header ui-sortable-handle">
+            <i class="ion ion-clipboard" style="vertical-align:-11px;"></i>
+            <h3 class="box-title" style="vertical-align:-11px;">Followup List</h3>
+                <input type="hidden" id="hdnCountOpen" value=@ViewBag.Count />
+            </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+            <ul class="todo-list ui-sortable" style="max-height:350px;overflow:auto;">
+                @if (Model.FollowUpList != null)
+                {
+                    for (int i = 0; i < Model.FollowUpList.Count; i++)
+                    {
+
+
+                        <li class="@(Model.FollowUpList[i].Status=="Closed"?"fadecontent":"")" style="background:white;">
+                            <!-- drag handle -->
+                            @if (Model.FollowUpList[i].Status == "Closed")
+                            {
+                                <span class="label label-default pull-left" style="position:relative;left: -2%;top: 2px;height: 16px;">@Model.FollowUpList[i].Status</span>
+                            }
+                            @if (Model.FollowUpList[i].Status == "Open")
+                            {
+                                <span class="label label-primary pull-left" style="position:relative;left: -2%;top: 2px;height: 16px;">@Model.FollowUpList[i].Status</span>
+                            }
+
+                            
+                            <small class="label label-danger datecontainer"><i class="fa fa-calendar-o"></i> @Model.FollowUpList[i].FollowUpDate <i class="fa fa-clock-o"></i> @Model.FollowUpList[i].FollowUpTime</small>
+                            <!-- General tools such as edit or delete-->
+                            @if (Model.FollowUpList[i].Remarks != null)
+                            {
+                                <br />
+                                <span class="text" style="width:90%;border-bottom:1px solid #a8a7a7;margin-top:5px;"> @Model.FollowUpList[i].Remarks </span>
+                            }
+                            
+
+                            <div class="tools">
+                                @if (i == 0)
+                                {
+                                    <i class="fa fa-edit" title="Edit" onclick="FollowUp(id,'1')" id=@Model.FollowUpList[i].ID></i>
+                                }
+                                else
+                                {
+                                    <i class="fa fa-edit" title="Edit" onclick="FollowUp(id,'0')" id=@Model.FollowUpList[i].ID></i>
+                                }
+                                @*<i class="fa fa-trash-o"></i>*@
+                            </div>
+                        </li>
+                    }
+                }
+                @if (Model.FollowUpList.Count == 0)
+                {
+                    <li class="" style="width:90%;font-weight:100">No followup records found
+                    </li>
+                }
+            </ul>
+        </div>
+        <!-- /.box-body -->
+
+<style>
+    .fadecontent {
+        background: #f4f4f4 !important;
+    }
+
+        .fadecontent span.pull-right {
+            background-color: gray !important;
+        }
+
+        .fadecontent small.datecontainer {
+            background-color: gray !important;
+        }
+
+    .spanlabel {
+        position: relative;
+        left: -2%;
+        top: 2px;
+        height: 16px;
+    }
+</style>
+

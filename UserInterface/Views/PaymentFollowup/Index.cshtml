@@ -1,0 +1,349 @@
+﻿@model UserInterface.Models.CustomerExpeditingListViewModel
+@using UserInterface.App_Start
+@{
+    ViewBag.Title = "Customer followup ";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+@section styles {
+
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableButtons")
+@Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/select2")
+@Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableFixedHeader")
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+<style>
+    table.dataTable tr.odd {
+        background-color: rgba(148, 78, 132, 0.16);
+    }
+
+    table.dataTable tr.even {
+        background-color: white;
+    }
+
+
+    #ddlTitle {
+        padding: 0px;
+    }
+
+    .ui-timepicker-container {
+        z-index: 1070 !important;
+    }
+    .Contact{
+        overflow:hidden;
+    }
+</style>
+}
+
+<div style="width:100%;">
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-users"></i> Customer</a></li>
+        <li class="active">@ViewBag.Title</li>
+    </ol>
+</div>
+
+<div class="preloader" id="prelaoder">
+    <div class="col-md-12">
+        <div class="col-md-12">Loading </div>
+        <div class="col-md-12" style="margin-left:5%;margin-top:-3%;"><img src="~/Content/images/loading.gif" class="preloaderImg" /></div>
+    </div>
+
+</div>
+<div class="col-md-12">
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+</div>
+<div class="form-horizontal">
+
+    <div class="col-md-8" style="margin-top:10px;">
+        <div class="col-md-3">
+            @Html.Label("As On Date", htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-12">
+                @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @Value = ViewBag.todate, @onchange = "RefreshCustomerExpeditingDetailTable()" })
+            </div>
+        </div>
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.Company, htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-12">
+                @Html.DropDownListFor(model => model.Company, Model.companyObj.CompanyList, new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "ddlCompany", @onchange = "OnCallChange()" })
+                @Html.ValidationMessageFor(model => model.Company, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.Customer, htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-12">
+                @Html.DropDownListFor(model => model.Customer, Model.customerObj.CustomerList, "--Select--", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "ddlCustomer", @onchange = "OnCallChange()" })
+                @Html.ValidationMessageFor(model => model.Customer, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.BasicFilters, htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-12">
+                @Html.DropDownListFor(model => model.Filter, Model.BasicFilters, new { @class = "form-control BlockEnter", value = 0, style = "padding:4px 12px;", @id = "ddlBasicFilters", @onchange = "RefreshCustomerExpeditingDetailTable()" })
+                @Html.ValidationMessageFor(model => model.Filter, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-12">
+            &nbsp;
+            </div>
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.Outstanding, htmlAttributes: new { @class = "control-label" })
+                <div class="col-md-12">
+                    @Html.DropDownListFor(model => model.Outstanding, Model.Outstanding, new { @class = "form-control BlockEnter", value = 0, style = "padding:4px 12px;", @id = "ddlOutStanding", @onchange = "OnCallChange()" })
+                    @Html.ValidationMessageFor(model => model.Outstanding, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+</div>
+
+<div class="col-md-4" style="min-height:25px">
+    @{
+        var data = new { ActionType = "List" };
+        @Html.Action("ChangeButtonStyle", "PaymentFollowup", data);
+    }
+</div>
+<div class="row summaryboxes">
+
+    <div class="clearfix visible-sm-block">
+
+    </div>
+
+</div>
+<div class="row">
+    &nbsp;
+</div>
+
+<div class="row tableContainer">
+    <div class="col-md-12">
+        <table id="CustomerExpeditingDetailTable" class="table stripe" cellspacing="0" width="100%">
+            <thead>
+                <tr class="text-center TableHead">
+                    <th>Customer ID</th>
+                    <th >Customer Name</th>
+                    <th>Contact Name</th>
+                    <th>Contact Number</th>
+                    <th>Add/Edit Followups</th>
+                    <th>Company</th>
+                    <th>Invoice No</th>
+                    <th>Invoice Date</th>
+                    <th>Due Date</th>
+                    <th>Days past due</th>
+                    <th>Balance Amount</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+        var toDay = @Html.Raw(@ViewBag.toDate);
+
+</script>
+
+<div class="modal fade" id="btnFollowUps" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true" @*style="overflow-y:hidden !important;"*@>
+    <div class="modal-dialog" role="document" style="min-width:900px !important;">
+        <div class="modal-content">
+            @using (Ajax.BeginForm("InsertUpdateFollowUp", "PaymentFollowup",null, new AjaxOptions { HttpMethod = "POST", OnBegin = "", OnSuccess = "FollowUpSaveSuccess", OnFailure = "SaveFailure", AllowCache = false, LoadingElementId = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", id = "InsertUpdateFollowUps", autocomplete = "off" }))
+
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.followUpObj.CustomerID, htmlAttributes: new {@id = "CustomerID" })
+                <div class="modal-header" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 36px;padding: 3px;border-bottom:2px solid rgb(149, 76, 132)!important;">
+                    <div class="container-fluid" style="padding-right: 0px;">
+                        <div class="col-md-4">
+                            <h3 class="modal-title SCHeader" id="modelContextLabel"></h3>
+                            <div class="col-md-12">
+                                <span style="font-weight: 600;font-size: 23px;" id="AddOrEditSpan">Add/Edit Followups
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-8" style="padding-right: 4px;">
+                            <a class="close" data-dismiss="modal" aria-label="Close"><i style="font-size: 33px;" class="fa fa-times-circle" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                            <div class="col-md-12"style="background-color: rgba(128, 128, 128, 0.17)">
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        @Html.Label("Customer:", new { @style = "font-size:17px; font-weight:normal;" })
+                                        @Html.Label(" ", new { id = "lblCustomer", @style = "font-size:17px;" })
+                                    </div>
+                                    <div class="col-md-6" >
+                                         @Html.Label("Contact Person:", new { @style = "font-size:17px; font-weight:normal;" })
+                                         @Html.Label(" ", new { id = "lblContact", @style = "font-size:17px;" })
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-12 Contact">
+                                        @Html.Label("Contact No:", new { @style = "font-size:17px; font-weight:normal;" })
+                                        @Html.Label(" ", new { id = "lblmobile", @style = "font-size:17px; font-weight:normal;", @title = "" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container-fluid" >
+                                <div class="col-md-12">&nbsp;</div>
+                                <div class="col-md-12">
+                                    <div class="form-group col-md-6" style="border-right:2px solid rgb(149, 76, 132)">
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-12">
+                                                @Html.HiddenFor(model => model.followUpObj.ID, htmlAttributes: new { @Value = Guid.Empty, @id = "hdnFollowUpID" })
+                                                @Html.LabelFor(model => model.followUpObj.FollowUpDate, htmlAttributes: new { @class = "control-label " })
+                                            </div>
+                                            <div class="col-md-12">
+
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.followUpObj.FollowUpDate, new { htmlAttributes = new { @class = "form-control HeaderBox datepicker", @id = "FollowUpDate", @onClick="ShowDefaultContact()"} })
+                                                    @Html.ValidationMessageFor(model => model.followUpObj.FollowUpDate, "", new { @class = "text-danger" })
+
+                                                </div>
+                                                <div class="col-md-1 mandatory"></div>
+                                                <div class="col-md-1"></div>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group col-md-12"></div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-12">
+                                                @Html.LabelFor(model => model.followUpObj.FollowUpTime, htmlAttributes: new { @class = "control-label" })
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.followUpObj.FollowUpTime, new { htmlAttributes = new { @class = "form-control timepicker", style = "padding:4px 12px;", id = "FollowUpTime" } })
+                                                    @Html.ValidationMessageFor(model => model.followUpObj.FollowUpTime, "", new { @class = "text-danger" })
+                                                    @Html.HiddenFor(model => model.followUpObj.HdnFollowUpTime, htmlAttributes: new { @id = "hdnFollowUpTime" })
+                                                </div>
+                                                <div class="col-md-1 mandatory"></div>
+                                                <div class="col-md-1"></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12"></div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-12">
+                                                @Html.LabelFor(model => model.followUpObj.ContactName, htmlAttributes: new { @class = "control-label " })
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.followUpObj.ContactName, new { htmlAttributes = new { @class = "form-control HeaderBox",@id="txtContactName" } })
+                                                    @Html.ValidationMessageFor(model => model.followUpObj.ContactName, "", new { @class = "text-danger" })
+                                                </div>
+                                                <div class="col-md-1"></div>
+                                                <div class="col-md-1"></div>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group col-md-12"></div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-12">
+                                                @Html.LabelFor(model => model.followUpObj.ContactNO, htmlAttributes: new { @class = "control-label " })
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.followUpObj.ContactNO, new { htmlAttributes = new { @class = "form-control HeaderBox",@id="txtContactNO" } })
+                                                    @Html.ValidationMessageFor(model => model.followUpObj.ContactNO, "", new { @class = "text-danger" })
+                                                </div>
+                                                <div class="col-md-1"></div>
+                                                <div class="col-md-1"></div>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group col-md-12"></div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-12">
+                                                @Html.LabelFor(model => model.followUpObj.Remarks, htmlAttributes: new { @class = "control-label " })
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.followUpObj.Remarks, new { htmlAttributes = new { @class = "form-control HeaderBox", @rows = "2", @id="txtRemarks"} })
+                                                    @Html.ValidationMessageFor(model => model.followUpObj.Remarks, "", new { @class = "text-danger" })
+                                                </div>
+                                                <div class="col-md-1 mandatory"></div>
+                                                <div class="col-md-1"></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12"></div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-12">
+                                                @Html.LabelFor(model => model.followUpObj.Status, htmlAttributes: new { @class = "control-label" })
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="col-md-10">
+                                                    @{
+                                                    List<SelectListItem> FollowUpStatus = new List<SelectListItem>();
+                                                    FollowUpStatus.Add(new SelectListItem
+                                                    { Text = "Open", Value = "Open", Selected = true
+                                                    });
+                                                    FollowUpStatus.Add(new SelectListItem
+                                                    { Text = "Closed", Value = "Closed"
+                                                    });
+                                                    }
+                                                    @Html.DropDownListFor(model => model.followUpObj.Status, FollowUpStatus, new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @onchange = "EnableTextbox(new);" })
+                                                    @Html.ValidationMessageFor(model => model.followUpObj.Status, "", new { @class = "text-danger" })
+                                                </div>
+                                                <div class="col-md-1"></div>
+                                                <div class="col-md-1"></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12"></div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-12">
+                                            </div>
+                                            <div class="col-md-12">
+                                                @*<div class="col-md-4"></div>*@
+                                                <div class="col-md-12">
+                                                    <div class="col-md-4">
+                                                        <a class="btn btn-default" width="100%" title="Reset" id="followUpResetbtn" onclick="ResetFollowup()"><i class="glyphicon glyphicon-refresh"></i> &nbsp;Reset</a>
+                                                    </div>
+                                                    <div class="col-md-4" id="divfollowUpDeletebtn">
+                                                        <a class="btn btn-danger" width="100%" title="Delete" id="followUpDeletebtn" onclick="DeleteFollowUp()"><i class="glyphicon glyphicon-trash"></i> Delete</a>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <a class="btn btn-primary" width="100%" title="Save" onclick="SaveFollowUp()" id="btnSave"><i class="glyphicon glyphicon-floppy-disk"></i> Save</a>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <div class="col-md-12" id="divflist">
+
+                                            @{
+
+                                                @Url.Action("FollowUp", "PaymentFollowup");
+                                            }
+
+                                        </div>
+                                    </div>
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 50px;padding: 7px;">
+                            <i class="pull-left">@Html.Label(" ", new { id = "lblMsg" })</i>
+                            <button id="ModelReset" type="reset" hidden></button>
+                        </div>
+                        <div class="form-group" style="display:none;">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input id="btnFollowUpSave" type="submit" value="Create" class="btn btn-default" />
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+</div>
+@section Scripts {
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/PaymentFollowup")
+@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
+<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
+
+}

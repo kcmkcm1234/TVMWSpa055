@@ -609,6 +609,7 @@ namespace UserInterface.Models
         public string OtherPhoneNos { get; set; }
         public string InvoiceNo { get; set; }
         public string InvoiceDate { get; set; }
+        public string PaymentDueDate { get; set; }
         public Decimal Amount { get; set; }
         public string NoOfDays { get; set; }
         public string Remarks { get; set; }
@@ -619,9 +620,13 @@ namespace UserInterface.Models
     }
 
     public class CustomerExpeditingListViewModel {
+        public List<FollowUpViewModel> FollowUpList { get; set; }
+        public FollowUpViewModel followUpObj { get; set; }
         public List<CustomerExpeditingReportViewModel> customerExpeditingDetailsList { get; set; }
-        [Display(Name = "Filter")]
+        [Display(Name = "Quick Filter")]
         public List<SelectListItem> BasicFilters { get; set; }
+        [Display(Name = "Outstanding/All")]
+        public List<SelectListItem> Outstanding { get; set; }
         public string Filter { get; set; }
         public CompaniesViewModel companyObj { get; set; }
         public CustomerViewModel customerObj { get; set; }        

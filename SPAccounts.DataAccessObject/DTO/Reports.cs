@@ -430,6 +430,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public CustomerContactDetailsReport CustomerContactObj { get; set; }
         public Companies CompanyObj { get; set; }
         public Customer CustomerObj { get; set; }
+        public string PaymentDueDate { get; set; }
     }
 
 

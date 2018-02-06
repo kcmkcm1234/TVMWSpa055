@@ -112,6 +112,7 @@
     <Compile Include="Contracts\IImportOtherExpensesRepository.cs" />
     <Compile Include="Contracts\IOtherExpenseRepository.cs" />
     <Compile Include="Contracts\IOtherIncomeRepository.cs" />
+    <Compile Include="Contracts\IPaymentFollowupRepository.cs" />
     <Compile Include="Contracts\IPaymentModesRepository.cs" />
     <Compile Include="Contracts\IPaymentTermsRepository.cs" />
     <Compile Include="Contracts\ISupplierCreditRepository.cs" />
@@ -140,6 +141,7 @@
     <Compile Include="Services\MasterRepository.cs" />
     <Compile Include="Services\OtherExpenseRepository.cs" />
     <Compile Include="Services\OtherIncomeRepository.cs" />
+    <Compile Include="Services\PaymentFollowupRepository.cs" />
     <Compile Include="Services\PaymentModesRepository.cs" />
     <Compile Include="Services\PaymentTermsRepository.cs" />
     <Compile Include="Services\ReportRepository.cs" />
