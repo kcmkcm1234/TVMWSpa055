@@ -60,13 +60,33 @@ namespace SPAccounts.DataAccessObject.DTO
         public string ChequeFormatted { get; set; }
         public Common commonObj { get; set; }
     }
+
+
+    public class IncomingCheques
+    {
+        public Guid ID { get; set; }
+        public string ChequeDate { get; set; }
+        public string ChequeNo { get; set; }
+        public string Bank { get; set; }
+        public Guid Customer { get; set; }
+        public string Status { get; set; }
+        public decimal Amount { get; set; }
+        public string Company { get; set; }
+        public string Remarks { get; set; }
+        public string CreatedDate { get; set; }
+        public string ChequeFormatted { get; set; }
+        public Common commonObj { get; set; }
+        public Customer customerObj { get; set; }
+    }
     public class OutgoingChequeAdvanceSearch
     {
         public string ToDate { get; set; }
         public string FromDate { get; set; }
         public string Company { get; set; }
         public string Status { get; set; }
-        public string Search { get; set; }       
+        public string Search { get; set; }
+        public Guid? Customer { get; set; }
+        public string CustomerName { get; set; }
     }
 
     public class UndepositedChequeAdvanceSearch

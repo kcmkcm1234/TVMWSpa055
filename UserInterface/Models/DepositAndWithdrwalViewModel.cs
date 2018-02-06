@@ -62,6 +62,7 @@ namespace UserInterface.Models
         public Guid TransferID { get; set; }
         public OutgoingChequeAdvanceSearchViewModel OutAdvanceSearch { get; set; }
         public OutGoingChequesViewModel OutGoingObj { get; set; }
+        public IncomingChequesViewModel IncomingObj { get; set; }
         public CompaniesViewModel CompanyObj { get; set; }
         public UndepositedChequeAdvanceSearchViewModel undepositedChequeAdvanceSearchObj { get; set; }
         public CustomerViewModel CustomerObj { get; set; }
@@ -90,6 +91,26 @@ namespace UserInterface.Models
         public string CreatedDate { get; set; }
         public CommonViewModel CommonObj { get; set; }
     }
+
+    public class IncomingChequesViewModel
+    {
+        public Guid ID { get; set; }
+        [Required(ErrorMessage = "Cheque Date Missing")]
+        [Display(Name = "Cheque Date")]
+        public string ChequeDate { get; set; }
+        [Required(ErrorMessage = "Cheque No Missing")]
+        [Display(Name = "Cheque No")]
+        public string ChequeNo { get; set; }
+        public string Bank { get; set; }
+        public Guid Customer { get; set; }
+        public string Status { get; set; }
+        public decimal Amount { get; set; }
+        public string Company { get; set; }
+        public string Remarks { get; set; }
+        public string CreatedDate { get; set; }
+        public CommonViewModel CommonObj { get; set; }
+        public CustomerViewModel customerObj { get; set; }
+    }
     public class OutgoingChequeAdvanceSearchViewModel
     {
         public string ToDate { get; set; }
@@ -97,6 +118,8 @@ namespace UserInterface.Models
         public string Company { get; set; }
         public string Status { get; set; }
         public string Search { get; set; }
+        public Guid Customer { get; set; }
+        public string CustomerName { get; set; }
     }
 
     public class UndepositedChequeAdvanceSearchViewModel

@@ -551,7 +551,7 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.PrintBtn.Event = "PrintReport();";
 
                     ToolboxViewModelObj.addbtn.Visible = true;
-                    ToolboxViewModelObj.addbtn.Text = "New";
+                    ToolboxViewModelObj.addbtn.Text = "Add";
                     ToolboxViewModelObj.addbtn.Title = "Add New";
                     ToolboxViewModelObj.addbtn.Event = "AddNew()";
 
@@ -573,7 +573,7 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.CloseBtn.Event = "closeNav();";
 
                     ToolboxViewModelObj.addbtn.Visible = true;
-                    ToolboxViewModelObj.addbtn.Text = "New";
+                    ToolboxViewModelObj.addbtn.Text = "Add";
                     ToolboxViewModelObj.addbtn.Title = "Add New";
                     ToolboxViewModelObj.addbtn.Event = "AddNew()";
 
@@ -584,7 +584,29 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.deletebtn.Event = "DeleteOutgoingCheque()";
 
                     break;
+                case "AddSubIncoming":
+                    ToolboxViewModelObj.savebtn.Visible = true;
+                    ToolboxViewModelObj.savebtn.Text = "Save";
+                    ToolboxViewModelObj.savebtn.Title = "Save";
+                    ToolboxViewModelObj.savebtn.Event = "SaveForm();";
 
+                    ToolboxViewModelObj.CloseBtn.Visible = true;
+                    ToolboxViewModelObj.CloseBtn.Text = "Close";
+                    ToolboxViewModelObj.CloseBtn.Title = "Close";
+                    ToolboxViewModelObj.CloseBtn.Event = "closeNav();";
+
+                    ToolboxViewModelObj.addbtn.Visible = true;
+                    ToolboxViewModelObj.addbtn.Text = "Add";
+                    ToolboxViewModelObj.addbtn.Title = "Add New";
+                    ToolboxViewModelObj.addbtn.Event = "AddNew()";
+
+                    ToolboxViewModelObj.deletebtn.Visible = true;
+                    ToolboxViewModelObj.deletebtn.Disable = true;
+                    ToolboxViewModelObj.deletebtn.Text = "Delete";
+                    ToolboxViewModelObj.deletebtn.Title = "Delete Incoming Cheques";
+                    ToolboxViewModelObj.deletebtn.Event = "DeleteOutgoingCheque()";
+
+                    break;
 
                 case "EditOutGoing":
                     ToolboxViewModelObj.savebtn.Visible = true;
@@ -598,13 +620,36 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.CloseBtn.Event = "closeNav();";
 
                     ToolboxViewModelObj.addbtn.Visible = true;
-                    ToolboxViewModelObj.addbtn.Text = "New";
+                    ToolboxViewModelObj.addbtn.Text = "Add";
                     ToolboxViewModelObj.addbtn.Title = "Add New";
                     ToolboxViewModelObj.addbtn.Event = "AddNew()";
 
                     ToolboxViewModelObj.deletebtn.Visible = true;
                     ToolboxViewModelObj.deletebtn.Text = "Delete";
                     ToolboxViewModelObj.deletebtn.Title = "Delete Outgoing Cheques";
+                    ToolboxViewModelObj.deletebtn.Event = "DeleteOutgoingCheque()";
+
+                    break;
+
+                case "EditIncoming":
+                    ToolboxViewModelObj.savebtn.Visible = true;
+                    ToolboxViewModelObj.savebtn.Text = "Save";
+                    ToolboxViewModelObj.savebtn.Title = "Save";
+                    ToolboxViewModelObj.savebtn.Event = "SaveForm();";
+
+                    ToolboxViewModelObj.CloseBtn.Visible = true;
+                    ToolboxViewModelObj.CloseBtn.Text = "Close";
+                    ToolboxViewModelObj.CloseBtn.Title = "Close";
+                    ToolboxViewModelObj.CloseBtn.Event = "closeNav();";
+
+                    ToolboxViewModelObj.addbtn.Visible = true;
+                    ToolboxViewModelObj.addbtn.Text = "Add";
+                    ToolboxViewModelObj.addbtn.Title = "Add New";
+                    ToolboxViewModelObj.addbtn.Event = "AddNew()";
+
+                    ToolboxViewModelObj.deletebtn.Visible = true;
+                    ToolboxViewModelObj.deletebtn.Text = "Delete";
+                    ToolboxViewModelObj.deletebtn.Title = "Delete Incoming Cheques";
                     ToolboxViewModelObj.deletebtn.Event = "DeleteOutgoingCheque()";
 
                     break;
@@ -826,6 +871,202 @@ namespace UserInterface.Controllers
 
             {
                 result = _depositAndWithdrawalsBusiness.ValidateChequeNo(Mapper.Map<OutGoingChequesViewModel, OutGoingCheques>(OutGoingChequeObj));
+                return JsonConvert.SerializeObject(new { Result = "OK", Message = "", Records = result });
+            }
+
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message, Status = -1 });
+            }
+
+        }
+        #endregion To Check Whether the same ChequeNo exists or not
+
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "IncomingCheques", Mode = "R")]
+        public ActionResult IncomingCheques()
+        {
+            AppUA appUA = Session["AppUA"] as AppUA;
+            DateTime dateTime = appUA.DateTime;
+            ViewBag.fromdate = dateTime.AddDays(-90).ToString("dd-MMM-yyyy");
+            ViewBag.todate = dateTime.ToString("dd-MMM-yyyy");
+            DepositAndWithdrwalViewModel depositAndWithdrwalViewModelObj = null;
+            try
+            {
+                depositAndWithdrwalViewModelObj = new DepositAndWithdrwalViewModel();
+                depositAndWithdrwalViewModelObj.bankList = new List<SelectListItem>();
+
+
+                List<SelectListItem> selectListItem = new List<SelectListItem>();
+                selectListItem = new List<SelectListItem>();
+                List<BankViewModel> PayTermList = Mapper.Map<List<Bank>, List<BankViewModel>>(_bankBusiness.GetAllBanks());
+                foreach (BankViewModel bvm in PayTermList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = bvm.Name,
+                        Value = bvm.Code,
+                        Selected = false
+                    });
+                }
+                depositAndWithdrwalViewModelObj.bankList = selectListItem;
+
+                depositAndWithdrwalViewModelObj.CompanyList = new List<SelectListItem>();
+                selectListItem = new List<SelectListItem>();
+                List<CompaniesViewModel> CompaniesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_companiesBusiness.GetAllCompanies());
+                foreach (CompaniesViewModel Cmp in CompaniesList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = Cmp.Name,
+                        Value = Cmp.Code,
+                        Selected = false
+                    });
+                }
+                depositAndWithdrwalViewModelObj.CompanyList = selectListItem;
+
+                selectListItem = null;
+                selectListItem = new List<SelectListItem>();
+                List<CustomerViewModel> customerList = Mapper.Map<List<Customer>, List<CustomerViewModel>>(_customerBusiness.GetAllCustomers());
+                if (customerList != null)
+                {
+                    foreach (CustomerViewModel Cust in customerList)
+                    {
+                        selectListItem.Add(new SelectListItem
+                        {
+                            Text = Cust.CompanyName,
+                            Value = Cust.ID.ToString(),
+                            Selected = false
+                        });
+                    }
+                }
+                depositAndWithdrwalViewModelObj.customerList = selectListItem;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(depositAndWithdrwalViewModelObj);
+        }
+
+
+        #region To List all IncomingCheques
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "IncomingCheques", Mode = "R")]
+        public string GetIncomingCheques(string incomingChequesAdvanceSearchObject)
+        {
+           
+            try
+            {
+                OutgoingChequeAdvanceSearch outAdvancedSearchObj = incomingChequesAdvanceSearchObject != null ? JsonConvert.DeserializeObject<OutgoingChequeAdvanceSearch>(incomingChequesAdvanceSearchObject) : new OutgoingChequeAdvanceSearch();
+                //DateTime? FDate = string.IsNullOrEmpty(OutAdvancedSearchObj.FromDate) ? (DateTime?)null : DateTime.Parse(OutAdvancedSearchObj.FromDate);
+                //DateTime? TDate = string.IsNullOrEmpty(OutAdvancedSearchObj.ToDate) ? (DateTime?)null : DateTime.Parse(OutAdvancedSearchObj.ToDate);
+                List<IncomingChequesViewModel> IncomingChequeObj = Mapper.Map<List<IncomingCheques>, List<IncomingChequesViewModel>>(_depositAndWithdrawalsBusiness.GetIncomingCheques(outAdvancedSearchObj));
+
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = IncomingChequeObj });
+
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+            }
+
+        }
+        #endregion To List all IncomingCheques
+
+
+        #region To add incoming cheques or edit it
+        [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "IncomingCheques", Mode = "R")]
+        public string InsertUpdateIncomingCheque(DepositAndWithdrwalViewModel depositAndWithdrawalObj)
+        {
+            try
+            {
+
+                AppUA appUA = Session["AppUA"] as AppUA;
+                depositAndWithdrawalObj.IncomingObj.CommonObj = new CommonViewModel();
+                depositAndWithdrawalObj.IncomingObj.CommonObj.CreatedBy = appUA.UserName;
+                depositAndWithdrawalObj.IncomingObj.CommonObj.CreatedDate = DateTime.Now;
+                depositAndWithdrawalObj.IncomingObj.CommonObj.UpdatedBy = appUA.UserName;
+                depositAndWithdrawalObj.IncomingObj.CommonObj.UpdatedDate = DateTime.Now;
+                object OGC = _depositAndWithdrawalsBusiness.InsertUpdateIncomingCheque(Mapper.Map<IncomingChequesViewModel, IncomingCheques>(depositAndWithdrawalObj.IncomingObj));
+                if (depositAndWithdrawalObj.IncomingObj.ID != null && depositAndWithdrawalObj.IncomingObj.ID != Guid.Empty)
+                {
+                    return JsonConvert.SerializeObject(new { Result = "OK", Message = c.UpdateSuccess, Records = OGC });
+                }
+                else
+                {
+                    return JsonConvert.SerializeObject(new { Result = "OK", Message = c.InsertSuccess, Records = OGC });
+                }
+            }
+            catch (Exception ex)
+            {
+
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion To add incoming cheques or edit it
+
+
+        #region To delete a record of incomingcheque
+        [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "IncomingCheques", Mode = "D")]
+        public string DeleteIncomingCheque(DepositAndWithdrwalViewModel depositAndWithdrawalObj)
+        {
+
+            try
+            {
+                object result = null;
+                result = _depositAndWithdrawalsBusiness.DeleteIncomingCheque(depositAndWithdrawalObj.IncomingObj.ID);
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+
+
+        }
+        #endregion To delete a record of incomingcheque
+
+
+
+        #region Get Details of incomingcheques based on ID
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "IncomingCheques", Mode = "R")]
+        public string GetIncomingChequeById(string ID)
+        {
+            try
+            {
+
+                IncomingChequesViewModel IncomingChequeObj = Mapper.Map<IncomingCheques, IncomingChequesViewModel>(_depositAndWithdrawalsBusiness.GetIncomingChequeById(ID != null && ID != "" ? Guid.Parse(ID) : Guid.Empty));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = IncomingChequeObj });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion Get Details of incomingcheques based on ID
+
+
+        #region To Check Whether the same ChequeNo exists or not
+        [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "IncomingCheques", Mode = "R")]
+        public string ValidateChequeNoIncomingCheque(IncomingChequesViewModel incomingChequeObj)
+        {
+            object result = null;
+            try
+
+            {
+                result = _depositAndWithdrawalsBusiness.ValidateChequeNoIncomingCheque(Mapper.Map<IncomingChequesViewModel, IncomingCheques>(incomingChequeObj));
                 return JsonConvert.SerializeObject(new { Result = "OK", Message = "", Records = result });
             }
 

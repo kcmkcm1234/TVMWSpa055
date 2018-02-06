@@ -19,6 +19,7 @@ namespace SPAccounts.RepositoryServices.Contracts
         object ClearCheque(Guid ID,string date);
         List<DepositAndWithdrawals> GetUndepositedCheque(UndepositedChequeAdvanceSearch undepositedChequeAdvanceSearchObject);
         List<OutGoingCheques> GetOutGoingCheques(OutgoingChequeAdvanceSearch advanceSearchObject);
+        List<IncomingCheques> GetIncomingCheques(OutgoingChequeAdvanceSearch advanceSearchObject);
         string GetUndepositedChequeCount(string Date);
         DepositAndWithdrawals TransferAmount(DepositAndWithdrawals _depositAndWithdrwalObj);
         object UpdateTransferAmount(DepositAndWithdrawals _depositAndWithdrwalObj);
@@ -26,8 +27,13 @@ namespace SPAccounts.RepositoryServices.Contracts
         List<DepositAndWithdrawals> GetAllWithdrawals();
         OutGoingCheques InsertOutgoingCheques(OutGoingCheques outGoingChequeObj);
         object UpdateOutgoingCheques(OutGoingCheques outGoingChequeObj);
+        IncomingCheques InsertIncomingCheques(IncomingCheques incomingChequeObj);
+        object UpdateIncomingCheques(IncomingCheques incomingChequeObj);
         object DeleteOutgoingCheque(Guid ID);
+        object DeleteIncomingCheque(Guid ID);
         OutGoingCheques GetOutgoingChequeById(Guid ID);
+        IncomingCheques GetIncomingChequeById(Guid ID);
         object ValidateChequeNo(OutGoingCheques outGoingChequeObj);
+        object ValidateChequeNoIncomingCheque(IncomingCheques incomingChequeObj);
     }
 }

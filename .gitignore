@@ -241,3 +241,4 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 /UserInterface/Properties/PublishProfiles
+/UserInterface/Content/Uploads/OtherExpense_02.02.2018_E0.xlsx
