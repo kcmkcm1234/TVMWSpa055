@@ -342,12 +342,10 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = _supplierInvoicesObj.commonObj.UpdatedBy;
                         cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = _supplierInvoicesObj.commonObj.UpdatedDate;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
-                        outputStatus.Direction = ParameterDirection.Output;
+                        outputStatus.Direction = ParameterDirection.Output;                       
                         //outputID = cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier);
                         //outputID.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();
-
-
                     }
                 }
 
@@ -610,7 +608,7 @@ namespace SPAccounts.RepositoryServices.Services
         /// <param name="invoiceNo"></param>
         /// <param name="supplierID"></param>
         /// <returns></returns>
-        public bool CheckProfileExists(string invoiceNo,Guid supplierID)
+        public bool CheckProfileExists(string invoiceNo,Guid supplierID,Guid ID)
         {            
             try
             {
@@ -623,10 +621,11 @@ namespace SPAccounts.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[Accounts].[InsertSupplierInvoiceByInvoiceNo]";
+                        cmd.CommandText = "[Accounts].[ValidateSupplierInvoiceByInvoiceNo]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@InvoiceNo", SqlDbType.VarChar).Value = invoiceNo;
                         cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = supplierID;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value =ID ;
                         return bool.Parse(cmd.ExecuteScalar().ToString());
                     }
                 }
@@ -637,6 +636,7 @@ namespace SPAccounts.RepositoryServices.Services
             }
         }
         #endregion CheckProfileExists
+
 
         public List<SupplierInvoices> GetOutStandingInvoicesBySupplier(Guid PaymentID, Guid supplierID)
         {

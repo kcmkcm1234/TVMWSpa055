@@ -19,9 +19,10 @@ namespace SPAccounts.RepositoryServices.Services
             _databaseFactory = databaseFactory;
         }
         #region GetAllEmployees
-        public List<Employee> GetAllEmployees()
-        {
+        public List<Employee> GetAllEmployees(string filter)
+         {
             List<Employee> employeeList = null;
+            
             try
             {
                 using (SqlConnection con = _databaseFactory.GetDBConnection())
@@ -35,6 +36,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[GetAllEmployees]";
                         cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@Filter", SqlDbType.NVarChar,10).Value = filter;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
                             if ((sdr != null) && (sdr.HasRows))
@@ -42,39 +44,40 @@ namespace SPAccounts.RepositoryServices.Services
                                 employeeList = new List<Employee>();
                                 while (sdr.Read())
                                 {
-                                    Employee _employee = new Employee();
+                                    Employee employeeObj = new Employee();
                                     {
-                                        _employee.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : _employee.ID);
-                                        _employee.Code = (sdr["Code"].ToString() != "" ? sdr["Code"].ToString() : _employee.Code);
-                                        _employee.Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : _employee.Name);
-                                        _employee.Department = (sdr["Department"].ToString() != "" ? sdr["Department"].ToString() : _employee.Department);
-                                        _employee.EmployeeCategory = (sdr["EmployeeCategory"].ToString() != "" ? sdr["EmployeeCategory"].ToString() : _employee.EmployeeCategory);
-                                        _employee.MobileNo = (sdr["MobileNo"].ToString() != "" ? sdr["MobileNo"].ToString() : _employee.MobileNo);
-                                        _employee.Address = (sdr["Address"].ToString() != "" ? sdr["Address"].ToString() : _employee.Address);
-                                        _employee.employeeTypeObj = new EmployeeType()
+                                        employeeObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : employeeObj.ID);
+                                        employeeObj.Code = (sdr["Code"].ToString() != "" ? sdr["Code"].ToString() : employeeObj.Code);
+                                        employeeObj.Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : employeeObj.Name);
+                                        employeeObj.Department = (sdr["Department"].ToString() != "" ? sdr["Department"].ToString() : employeeObj.Department);
+                                        employeeObj.EmployeeCategory = (sdr["EmployeeCategory"].ToString() != "" ? sdr["EmployeeCategory"].ToString() : employeeObj.EmployeeCategory);
+                                        employeeObj.MobileNo = (sdr["MobileNo"].ToString() != "" ? sdr["MobileNo"].ToString() : employeeObj.MobileNo);
+                                        employeeObj.Address = (sdr["Address"].ToString() != "" ? sdr["Address"].ToString() : employeeObj.Address);
+                                        employeeObj.employeeTypeObj = new EmployeeType()
                                         {
                                             Code = (sdr["EmpType"].ToString() != "" ? sdr["EmpType"].ToString() : string.Empty),
                                             Name = (sdr["EmployeeType"].ToString() != "" ? sdr["EmployeeType"].ToString() : string.Empty)
                                         };
-                                        _employee.ImageURL = (sdr["ImageURL"].ToString() != "" ? sdr["ImageURL"].ToString() : _employee.ImageURL);
+                                        employeeObj.ImageURL = (sdr["ImageURL"].ToString() != "" ? sdr["ImageURL"].ToString() : employeeObj.ImageURL);
                                       
-                                        _employee.companies = new Companies()
+                                        employeeObj.companies = new Companies()
                                         {
                                             Code = (sdr["CompanyID"].ToString() != "" ? (sdr["CompanyID"].ToString()) : string.Empty),
                                             Name = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : string.Empty)
                                         };
 
-                                        _employee.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : _employee.GeneralNotes);
+                                        employeeObj.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : employeeObj.GeneralNotes);
 
 
-                                        _employee.commonObj = new Common()
+                                        employeeObj.commonObj = new Common()
                                         {
                                             CreatedDateString = (sdr["CreatedDate"].ToString() != "" ? DateTime.Parse(sdr["CreatedDate"].ToString()).ToString(settings.dateformat) : string.Empty)
                                         };
-
+                                        employeeObj.IsActive = (sdr["IsActive"].ToString() != "" ? bool.Parse(sdr["IsActive"].ToString()) : employeeObj.IsActive);
+                                        
                                     }
 
-                                    employeeList.Add(_employee);
+                                    employeeList.Add(employeeObj);
                                 }
                             }
                         }
@@ -92,7 +95,7 @@ namespace SPAccounts.RepositoryServices.Services
         #region GetEmployeeDetails
         public Employee GetEmployeeDetails(Guid ID)
         {
-            Employee _employeeObj = new Employee();
+            Employee employeeObj = new Employee();
             try
             {
                 using (SqlConnection con = _databaseFactory.GetDBConnection())
@@ -112,24 +115,24 @@ namespace SPAccounts.RepositoryServices.Services
                             if ((sdr != null) && (sdr.HasRows))
                                 if (sdr.Read())
                                 {                                    
-                                    _employeeObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : _employeeObj.ID);
-                                    _employeeObj.Code = (sdr["Code"].ToString() != "" ? sdr["Code"].ToString() : _employeeObj.Code);
-                                    _employeeObj.Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : _employeeObj.Name);
-                                    _employeeObj.MobileNo = (sdr["MobileNo"].ToString() != "" ? sdr["MobileNo"].ToString() : _employeeObj.MobileNo);
-                                    _employeeObj.Address = (sdr["Address"].ToString() != "" ? sdr["Address"].ToString() : _employeeObj.Address);
-                                    _employeeObj.Department = (sdr["Department"].ToString() != "" ? sdr["Department"].ToString() :_employeeObj.Department);
-                                    _employeeObj.EmployeeCategory = (sdr["EmployeeCategory"].ToString() != "" ? sdr["EmployeeCategory"].ToString() :_employeeObj.EmployeeCategory);
-                                    _employeeObj.EmployeeType = (sdr["EmpType"].ToString() != "" ? sdr["EmpType"].ToString() : _employeeObj.EmployeeType);
-                                    _employeeObj.companyID = (sdr["CompanyID"].ToString() != "" ? sdr["CompanyID"].ToString() : _employeeObj.companyID);
-                                    _employeeObj.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : _employeeObj.GeneralNotes);
-                                    _employeeObj.commonObj = new Common();
-                                    _employeeObj.commonObj.CreatedBy = (sdr["CreatedBy"].ToString() != "" ? sdr["CreatedBy"].ToString() : _employeeObj.commonObj.CreatedBy);
-                                    _employeeObj.commonObj.CreatedDateString = (sdr["CreatedDate"].ToString() != "" ? DateTime.Parse(sdr["CreatedDate"].ToString()).ToString(settings.dateformat) : _employeeObj.commonObj.CreatedDateString);
-                                    _employeeObj.commonObj.CreatedDate = (sdr["CreatedDate"].ToString() != "" ? DateTime.Parse(sdr["CreatedDate"].ToString()) : _employeeObj.commonObj.CreatedDate);
-                                    _employeeObj.commonObj.UpdatedBy = (sdr["UpdatedBy"].ToString() != "" ? sdr["UpdatedBy"].ToString() : _employeeObj.commonObj.UpdatedBy);
-                                    _employeeObj.commonObj.UpdatedDate = (sdr["UpdatedDate"].ToString() != "" ? DateTime.Parse(sdr["UpdatedDate"].ToString()) : _employeeObj.commonObj.UpdatedDate);
-                                    _employeeObj.commonObj.UpdatedDateString = (sdr["UpdatedDate"].ToString() != "" ? DateTime.Parse(sdr["UpdatedDate"].ToString()).ToString(settings.dateformat) : _employeeObj.commonObj.UpdatedDateString);
-
+                                    employeeObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : employeeObj.ID);
+                                    employeeObj.Code = (sdr["Code"].ToString() != "" ? sdr["Code"].ToString() : employeeObj.Code);
+                                    employeeObj.Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : employeeObj.Name);
+                                    employeeObj.MobileNo = (sdr["MobileNo"].ToString() != "" ? sdr["MobileNo"].ToString() : employeeObj.MobileNo);
+                                    employeeObj.Address = (sdr["Address"].ToString() != "" ? sdr["Address"].ToString() : employeeObj.Address);
+                                    employeeObj.Department = (sdr["Department"].ToString() != "" ? sdr["Department"].ToString() :employeeObj.Department);
+                                    employeeObj.EmployeeCategory = (sdr["EmployeeCategory"].ToString() != "" ? sdr["EmployeeCategory"].ToString() :employeeObj.EmployeeCategory);
+                                    employeeObj.EmployeeType = (sdr["EmpType"].ToString() != "" ? sdr["EmpType"].ToString() : employeeObj.EmployeeType);
+                                    employeeObj.companyID = (sdr["CompanyID"].ToString() != "" ? sdr["CompanyID"].ToString() : employeeObj.companyID);
+                                    employeeObj.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : employeeObj.GeneralNotes);
+                                    employeeObj.commonObj = new Common();
+                                    employeeObj.commonObj.CreatedBy = (sdr["CreatedBy"].ToString() != "" ? sdr["CreatedBy"].ToString() : employeeObj.commonObj.CreatedBy);
+                                    employeeObj.commonObj.CreatedDateString = (sdr["CreatedDate"].ToString() != "" ? DateTime.Parse(sdr["CreatedDate"].ToString()).ToString(settings.dateformat) : employeeObj.commonObj.CreatedDateString);
+                                    employeeObj.commonObj.CreatedDate = (sdr["CreatedDate"].ToString() != "" ? DateTime.Parse(sdr["CreatedDate"].ToString()) : employeeObj.commonObj.CreatedDate);
+                                    employeeObj.commonObj.UpdatedBy = (sdr["UpdatedBy"].ToString() != "" ? sdr["UpdatedBy"].ToString() : employeeObj.commonObj.UpdatedBy);
+                                    employeeObj.commonObj.UpdatedDate = (sdr["UpdatedDate"].ToString() != "" ? DateTime.Parse(sdr["UpdatedDate"].ToString()) : employeeObj.commonObj.UpdatedDate);
+                                    employeeObj.commonObj.UpdatedDateString = (sdr["UpdatedDate"].ToString() != "" ? DateTime.Parse(sdr["UpdatedDate"].ToString()).ToString(settings.dateformat) : employeeObj.commonObj.UpdatedDateString);
+                                    employeeObj.IsActive = (sdr["IsActive"].ToString() != "" ? bool.Parse(sdr["IsActive"].ToString()) : employeeObj.IsActive);
                                 }
                         }
                     }
@@ -141,7 +144,7 @@ namespace SPAccounts.RepositoryServices.Services
                 throw ex;
             }
 
-            return _employeeObj;
+            return employeeObj;
         }
         #endregion GetEmployeeDetails
 
@@ -169,13 +172,13 @@ namespace SPAccounts.RepositoryServices.Services
                                 employeeTypeList = new List<EmployeeType>();
                                 while (sdr.Read())
                                 {
-                                    EmployeeType _employeeType = new EmployeeType()
+                                    EmployeeType employeeType = new EmployeeType()
                                     {
                                         Code = (sdr["Code"].ToString() != "" ? sdr["Code"].ToString() : string.Empty),
                                         Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : string.Empty)
                                     };
 
-                                    employeeTypeList.Add(_employeeType);
+                                    employeeTypeList.Add(employeeType);
                                 }
                             }
                         }
@@ -214,13 +217,13 @@ namespace SPAccounts.RepositoryServices.Services
                                 employeeTypeList = new List<EmployeeType>();
                                 while (sdr.Read())
                                 {
-                                    EmployeeType _employeeType = new EmployeeType()
+                                    EmployeeType employeeType = new EmployeeType()
                                     {
                                         Code = (sdr["Code"].ToString() != "" ? sdr["Code"].ToString() : string.Empty),
                                         Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : string.Empty)
                                     };
 
-                                    employeeTypeList.Add(_employeeType);
+                                    employeeTypeList.Add(employeeType);
                                 }
                             }
                         }
@@ -260,13 +263,13 @@ namespace SPAccounts.RepositoryServices.Services
                                 employeeTypeList = new List<EmployeeType>();
                                 while (sdr.Read())
                                 {
-                                    EmployeeType _employeeType = new EmployeeType()
+                                    EmployeeType employeeType = new EmployeeType()
                                     {
                                         Code = (sdr["Code"].ToString() != "" ? sdr["Code"].ToString() : string.Empty),
                                         Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : string.Empty)
                                     };
 
-                                    employeeTypeList.Add(_employeeType);
+                                    employeeTypeList.Add(employeeType);
                                 }
                             }
                         }
@@ -281,7 +284,7 @@ namespace SPAccounts.RepositoryServices.Services
         }
         #endregion GetAllCategory
         #region InsertEmployee
-        public Employee InsertEmployee(Employee _employeeObj)
+        public Employee InsertEmployee(Employee employeeObj)
         {
             try
             {
@@ -297,17 +300,18 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[InsertEmployee]";
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@Code", SqlDbType.VarChar,10).Value = _employeeObj.Code;
-                        cmd.Parameters.Add("@Name", SqlDbType.VarChar, 100).Value = _employeeObj.Name;
-                        cmd.Parameters.Add("@MobileNo", SqlDbType.VarChar, 50).Value = _employeeObj.MobileNo;
-                        cmd.Parameters.Add("@Department", SqlDbType.NVarChar, 100).Value = _employeeObj.Department;
-                        cmd.Parameters.Add("@EmployeeCategory", SqlDbType.NVarChar, 100).Value = _employeeObj.EmployeeCategory;
-                        cmd.Parameters.Add("@Address", SqlDbType.NVarChar, -1).Value = _employeeObj.Address;                       
-                        cmd.Parameters.Add("@EmpType", SqlDbType.VarChar,5).Value = _employeeObj.EmployeeType;                        
-                        cmd.Parameters.Add("@CompanyID", SqlDbType.VarChar, 10).Value = _employeeObj.companyID;
-                        cmd.Parameters.Add("@GeneralNotes", SqlDbType.NVarChar, -1).Value = _employeeObj.GeneralNotes; 
-                        cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = _employeeObj.commonObj.CreatedBy;
-                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = _employeeObj.commonObj.CreatedDate;
+                        cmd.Parameters.Add("@Code", SqlDbType.VarChar,10).Value = employeeObj.Code;
+                        cmd.Parameters.Add("@Name", SqlDbType.VarChar, 100).Value = employeeObj.Name;
+                        cmd.Parameters.Add("@MobileNo", SqlDbType.VarChar, 50).Value = employeeObj.MobileNo;
+                        cmd.Parameters.Add("@Department", SqlDbType.NVarChar, 100).Value = employeeObj.Department;
+                        cmd.Parameters.Add("@EmployeeCategory", SqlDbType.NVarChar, 100).Value = employeeObj.EmployeeCategory;
+                        cmd.Parameters.Add("@Address", SqlDbType.NVarChar, -1).Value = employeeObj.Address;                       
+                        cmd.Parameters.Add("@EmpType", SqlDbType.VarChar,5).Value = employeeObj.EmployeeType;                        
+                        cmd.Parameters.Add("@CompanyID", SqlDbType.VarChar, 10).Value = employeeObj.companyID;
+                        cmd.Parameters.Add("@GeneralNotes", SqlDbType.NVarChar, -1).Value = employeeObj.GeneralNotes; 
+                        cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = employeeObj.commonObj.CreatedBy;
+                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = employeeObj.commonObj.CreatedDate;
+                        cmd.Parameters.Add("@IsActive", SqlDbType.Bit).Value = employeeObj.IsActive;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         outputID = cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier);
@@ -324,7 +328,7 @@ namespace SPAccounts.RepositoryServices.Services
                         AppConst Cobj = new AppConst();
                         throw new Exception(Cobj.InsertFailure);
                     case "1":
-                        _employeeObj.ID = Guid.Parse(outputID.Value.ToString());
+                        employeeObj.ID = Guid.Parse(outputID.Value.ToString());
                         break;
                     default:
                         break;
@@ -336,12 +340,12 @@ namespace SPAccounts.RepositoryServices.Services
 
                 throw ex;
             }
-            return _employeeObj;
+            return employeeObj;
         }
         #endregion InsertEmployee
 
         #region UpdateEmployee
-        public object UpdateEmployee(Employee _employeeObj)
+        public object UpdateEmployee(Employee employeeObj)
         {
             SqlParameter outputStatus = null;
             try
@@ -358,18 +362,19 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[UpdateEmployee]";
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = _employeeObj.ID;
-                        cmd.Parameters.Add("@Code", SqlDbType.VarChar, 10).Value = _employeeObj.Code;
-                        cmd.Parameters.Add("@Name", SqlDbType.VarChar, 100).Value = _employeeObj.Name;
-                        cmd.Parameters.Add("@Department", SqlDbType.NVarChar, 100).Value = _employeeObj.Department;
-                        cmd.Parameters.Add("@EmployeeCategory", SqlDbType.NVarChar, 100).Value = _employeeObj.EmployeeCategory;
-                        cmd.Parameters.Add("@MobileNo", SqlDbType.VarChar, 50).Value = _employeeObj.MobileNo;
-                        cmd.Parameters.Add("@Address", SqlDbType.NVarChar, -1).Value = _employeeObj.Address;
-                        cmd.Parameters.Add("@EmpType", SqlDbType.VarChar, 5).Value = _employeeObj.EmployeeType;
-                        cmd.Parameters.Add("@CompanyID", SqlDbType.VarChar, 10).Value = _employeeObj.companyID;
-                        cmd.Parameters.Add("@GeneralNotes", SqlDbType.NVarChar, -1).Value = _employeeObj.GeneralNotes;
-                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = _employeeObj.commonObj.UpdatedBy;
-                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = _employeeObj.commonObj.UpdatedDate;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = employeeObj.ID;
+                        cmd.Parameters.Add("@Code", SqlDbType.VarChar, 10).Value = employeeObj.Code;
+                        cmd.Parameters.Add("@Name", SqlDbType.VarChar, 100).Value = employeeObj.Name;
+                        cmd.Parameters.Add("@Department", SqlDbType.NVarChar, 100).Value = employeeObj.Department;
+                        cmd.Parameters.Add("@EmployeeCategory", SqlDbType.NVarChar, 100).Value = employeeObj.EmployeeCategory;
+                        cmd.Parameters.Add("@MobileNo", SqlDbType.VarChar, 50).Value = employeeObj.MobileNo;
+                        cmd.Parameters.Add("@Address", SqlDbType.NVarChar, -1).Value = employeeObj.Address;
+                        cmd.Parameters.Add("@EmpType", SqlDbType.VarChar, 5).Value = employeeObj.EmployeeType;
+                        cmd.Parameters.Add("@CompanyID", SqlDbType.VarChar, 10).Value = employeeObj.companyID;
+                        cmd.Parameters.Add("@GeneralNotes", SqlDbType.NVarChar, -1).Value = employeeObj.GeneralNotes;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = employeeObj.commonObj.UpdatedBy;
+                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = employeeObj.commonObj.UpdatedDate;
+                        cmd.Parameters.Add("@IsActive", SqlDbType.Bit).Value = employeeObj.IsActive;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();

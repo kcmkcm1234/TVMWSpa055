@@ -24,7 +24,7 @@ namespace SPAccounts.BusinessService.Contracts
         List<Companies> GetAllCompanies();
         List<PaymentModes> GetAllPaymentModes();
         List<Bank> GetAllBankes();
-        List<Employee> GetAllEmployees();
+        List<Employee> GetAllEmployees(string filter);
         List<EmployeeType> GetAllEmployeeTypes();
         List<Employee> GetAllEmployeesByType(string Type);
         List<Employee> GetCompanybyEmployee(Guid ID);

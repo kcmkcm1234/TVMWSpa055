@@ -493,14 +493,15 @@ namespace SPAccounts.RepositoryServices.Services
                                 otherExpenseList = new List<OtherExpense>();
                                 while (sdr.Read())
                                 {
-                                    OtherExpense _otherExpense = new OtherExpense();
+                                    OtherExpense otherExpense = new OtherExpense();
                                     {
-                                        _otherExpense.BankCode = (sdr["BankCode"].ToString() != "" ? (sdr["BankCode"].ToString()) : _otherExpense.BankCode);
-                                        _otherExpense.BankName = (sdr["BankName"].ToString() != "" ? (sdr["BankName"].ToString()) : _otherExpense.BankName);
-                                        _otherExpense.TotalAmount = (sdr["TotalAmount"].ToString() != "" ? (sdr["TotalAmount"].ToString()) : _otherExpense.TotalAmount);
-                                        _otherExpense.UnClearedAmount = (sdr["UnClearedAmount"].ToString() != "" ? (sdr["UnClearedAmount"].ToString()) : _otherExpense.UnClearedAmount);
+                                        otherExpense.BankCode = (sdr["BankCode"].ToString() != "" ? (sdr["BankCode"].ToString()) : otherExpense.BankCode);
+                                        otherExpense.BankName = (sdr["BankName"].ToString() != "" ? (sdr["BankName"].ToString()) : otherExpense.BankName);
+                                        otherExpense.TotalAmount = (sdr["TotalAmount"].ToString() != "" ? (sdr["TotalAmount"].ToString()) : otherExpense.TotalAmount);
+                                        otherExpense.UnClearedAmount = (sdr["UnClearedAmount"].ToString() != "" ? (sdr["UnClearedAmount"].ToString()) : otherExpense.UnClearedAmount);
+                                        otherExpense.UnderClearingAmount = (sdr["UnderClearingAmount"].ToString() != "" ? (sdr["UnderClearingAmount"].ToString()) : otherExpense.UnderClearingAmount);
                                     }
-                                    otherExpenseList.Add(_otherExpense);
+                                    otherExpenseList.Add(otherExpense);
                                 }
                             }
 

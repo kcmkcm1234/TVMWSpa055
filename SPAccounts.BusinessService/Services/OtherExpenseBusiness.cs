@@ -84,12 +84,12 @@ namespace SPAccounts.BusinessService.Services
             return bankList;
         }
 
-        public List<Employee> GetAllEmployees()
+        public List<Employee> GetAllEmployees(string filter)
         {
             List<Employee> employeeList = null;
             try
             {
-                employeeList = _employeeRepository.GetAllEmployees();
+                employeeList = _employeeRepository.GetAllEmployees(filter);
             }
             catch (Exception ex)
             {
@@ -207,7 +207,7 @@ namespace SPAccounts.BusinessService.Services
             List<Employee> empList = null;
             try
             {
-                empList=GetAllEmployees();
+                empList=(Type=="EMP"?GetAllEmployees("1"): GetAllEmployees(null));
                 empList = empList != null ? empList.Where(e => e.employeeTypeObj.Code == Type).ToList() : null;
             }
             catch(Exception ex)
@@ -273,7 +273,7 @@ namespace SPAccounts.BusinessService.Services
             List<Employee> empList = null;
             try
             {
-                empList = GetAllEmployees();
+                empList = GetAllEmployees(null);
                 empList = empList != null ? empList.Where(e => e.ID==ID).ToList() : null;
             }
             catch (Exception ex)

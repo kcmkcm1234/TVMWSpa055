@@ -71,6 +71,8 @@ function GetUndepositedChequeTable(undepositedChequeAdvanceSearchObject)
             if (ds != '')
             {
                 ds = JSON.parse(ds);
+                $("#undepositedChequeAmount").text("");
+                $("#undepositedChequeAmount").text(ds.totalAmount);
             }
             if (ds.Result == "OK")
             {
@@ -146,8 +148,12 @@ function Back()
     window.location = appAddress + "DepositAndWithdrawals/Index/";
 }
 
-function OnChangeCall()
+function FilterOnChangeCall()
 {
+    debugger;
+    if ($("#fromdate").val(EndDate)) {
+        DataTables.undepositedChequeTable.clear().rows.add(GetUndepositedChequeTable()).draw(true);
+    }
     RefreshUndepositedChequeTable();
 }
 

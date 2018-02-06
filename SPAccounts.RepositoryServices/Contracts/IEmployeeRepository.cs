@@ -9,7 +9,7 @@ namespace SPAccounts.RepositoryServices.Contracts
 {
     public interface IEmployeeRepository
     {
-        List<Employee> GetAllEmployees();
+        List<Employee> GetAllEmployees(string filter);
         List<EmployeeType> GetAllEmployeeTypes();
         List<EmployeeType> GetAllDepartment();
         List<EmployeeType> GetAllCategory();

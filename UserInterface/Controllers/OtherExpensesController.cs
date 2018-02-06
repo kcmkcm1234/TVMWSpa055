@@ -216,8 +216,9 @@ namespace UserInterface.Controllers
                 List<OtherExpenseViewModel> otherExpenseList = Mapper.Map<List<OtherExpense>, List<OtherExpenseViewModel>>(_otherExpenseBusiness.GetBankWiseBalance(Date));
                 string TotalAmountFormatted = _commonBusiness.ConvertCurrency(otherExpenseList.Sum(OE => OE.TotalAmount), 2);
                 string TotalUnClrAmtFormatted = _commonBusiness.ConvertCurrency(otherExpenseList.Sum(OE => OE.UnClearedAmount), 2);
+                string TotalUnderClrAmtFormatted = _commonBusiness.ConvertCurrency(otherExpenseList.Sum(OE => OE.UnderClearingAmount), 2);
                 string ActualBlnceFormatted = _commonBusiness.ConvertCurrency(otherExpenseList.Sum(OE => OE.TotalAmount)+ otherExpenseList.Sum(OE => OE.UnClearedAmount), 2);
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = otherExpenseList,TotalAmount= TotalAmountFormatted, TotalUnClrAmt= TotalUnClrAmtFormatted, ActualBlnce= ActualBlnceFormatted });
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = otherExpenseList,TotalAmount= TotalAmountFormatted, TotalUnClrAmt= TotalUnClrAmtFormatted,TotalUnderClrAmt= TotalUnderClrAmtFormatted, ActualBlnce= ActualBlnceFormatted });
             }
             catch (Exception ex)
             {

@@ -45,7 +45,8 @@ namespace SPAccounts.DataAccessObject.DTO
         //For BankWise Balance//
         public string BankName { get; set; }
         public string TotalAmount { get; set; }
-        public string UnClearedAmount { get; set; }
+        public string UnClearedAmount { get; set; }        
+
     }
 
     public class OtherExpSummary {
