@@ -55,14 +55,14 @@ $(document).ready(function () {
                else
                     return ''}
 
-                   , "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" >Add/Edit</a>', "width": "10%"
+                   , "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" >Add/Edit</a>'
                },
-               { "data": "companyObj.Name", "defaultContent": "<i>-<i>" , "width": "10%" },
-               { "data": "InvoiceNo", "defaultContent": "<i>-</i>", "width": "10%" },
-               { "data": "InvoiceDate", "defaultContent": "<i>-</i>", "width": "10%" },
-               { "data": "PaymentDueDate", "defaultContent": "<i>-</i>", "width": "10%" },
-               { "data": "NoOfDays", "defaultContent": "<i>-</i>", "width": "10%" },
-               { "data": "Amount", "defaultContent": "<i>-</i>", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>", "width": "10%" }
+               { "data": "companyObj.Name", "defaultContent": "<i>-<i>"  },
+               { "data": "InvoiceNo", "defaultContent": "<i>-</i>" },
+               { "data": "InvoiceDate", "defaultContent": "<i>-</i>" },
+               { "data": "PaymentDueDate", "defaultContent": "<i>-</i>" },
+               { "data": "NoOfDays", "defaultContent": "<i>-</i>" },
+               { "data": "Amount", "defaultContent": "<i>-</i>", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>"}
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false },                
                   { className: "text-left", "targets": [1, 2, 4,5,6,9] },
