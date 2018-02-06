@@ -90,6 +90,8 @@ namespace UserInterface.Models
         public decimal UnClearedAmount { get; set; }
 
         public decimal ReversableAmount { get; set; }
+
+        public decimal UnderClearingAmount { get; set; }
     }
 
 
