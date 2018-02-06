@@ -89,6 +89,7 @@ namespace UserInterface.Models
         public string BankName { get; set; }
         public decimal TotalAmount { get; set; }
         public decimal UnClearedAmount { get; set; }
+        public decimal UnderClearingAmount { get; set; }
 
         public decimal ReversableAmount { get; set; }
         [Display(Name = "Approval Status")]
@@ -98,6 +99,7 @@ namespace UserInterface.Models
         public string OELimitOnEntry { get; set; }
         [Display(Name = "Approval Required Above Amount")]
         public SysSettingsViewModel SysSettingsObj { get; set; }
+        public List<SelectListItem> ApprovalStatusList { get; set; }
     }
 
 
