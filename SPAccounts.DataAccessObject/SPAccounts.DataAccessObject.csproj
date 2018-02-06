@@ -107,6 +107,7 @@
     <Compile Include="DTO\Department.cs" />
     <Compile Include="DTO\DepositAndWithdrawals.cs" />
     <Compile Include="DTO\Employee.cs" />
+    <Compile Include="DTO\FollowUp.cs" />
     <Compile Include="DTO\ImportOtherExpenses.cs" />
     <Compile Include="DTO\UploadedFiles.cs" />
     <Compile Include="DTO\Menu.cs" />

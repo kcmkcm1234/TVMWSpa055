@@ -27,7 +27,7 @@ namespace UserInterface.App_Start
                 config.CreateMap<ManageAccessViewModel, SAMTool.DataAccessObject.DTO.ManageAccess>().ReverseMap();
                 config.CreateMap<ManageSubObjectAccessViewModel, SAMTool.DataAccessObject.DTO.ManageSubObjectAccess > ().ReverseMap();
                 config.CreateMap<PrivilegesViewModel, SAMTool.DataAccessObject.DTO.Privileges>().ReverseMap();
-               
+
 
                 //****SAMTOOL MODELS 
 
@@ -56,6 +56,7 @@ namespace UserInterface.App_Start
                 config.CreateMap<SupplierPaymentsViewModel, SupplierPayments>().ReverseMap();
                 config.CreateMap<SupplierPaymentsDetailViewModel, SupplierPaymentsDetail>().ReverseMap();
                 config.CreateMap<ApprovalStatusViewModel,ApprovalStatus>().ReverseMap();
+                config.CreateMap<FollowUpViewModel, FollowUp>().ReverseMap();
 
                 config.CreateMap<SystemReportViewModel, SystemReport>().ReverseMap();
                 config.CreateMap<SupplierCreditNoteViewModel, SupplierCreditNote>().ReverseMap();
