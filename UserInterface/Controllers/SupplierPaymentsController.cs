@@ -124,20 +124,23 @@ namespace UserInterface.Controllers
             List<ApprovalStatusViewModel> ApprovalStatus = Mapper.Map<List<ApprovalStatus>, List<ApprovalStatusViewModel>>(_approvalStatusBusiness.GetAllApprovalStatus());
             foreach (ApprovalStatusViewModel BL in ApprovalStatus)
             {
-                if (BL.Description!="Paid")
-                selectListItem.Add(new SelectListItem
+                if (BL.Code != "4")
                 {
-                    Text = BL.Description,
-                    Value = BL.Code,
-                    Selected = false
-                });
-                else
-                    selectListItem.Add(new SelectListItem
-                {
-                    Text = BL.Description,
-                    Value = BL.Code,
-                    Disabled = true
-                });
+                    if (BL.Description != "Paid")
+                        selectListItem.Add(new SelectListItem
+                        {
+                            Text = BL.Description,
+                            Value = BL.Code,
+                            Selected = false
+                        });
+                    else
+                        selectListItem.Add(new SelectListItem
+                        {
+                            Text = BL.Description,
+                            Value = BL.Code,
+                            Disabled = true
+                        });
+                }
             }
             SP.ApprovalStatusObj.ApprovalStatusList = selectListItem;
             //-------------5.Approve Status-------------------//
@@ -146,12 +149,15 @@ namespace UserInterface.Controllers
             selectListItem = new List<SelectListItem>();
             foreach (ApprovalStatusViewModel BL in ApprovalStatus)
             {
-                selectListItem.Add(new SelectListItem
+                if (BL.Code != "4")
                 {
-                    Text = BL.Description,
-                    Value = BL.Code,
-                    Selected = false
-                });
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = BL.Description,
+                        Value = BL.Code,
+                        Selected = false
+                    });
+                }
             }
             SP.ApproveStatusObj.ApprovalStatusList = selectListItem;
 

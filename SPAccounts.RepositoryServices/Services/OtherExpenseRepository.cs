@@ -901,7 +901,7 @@ namespace SPAccounts.RepositoryServices.Services
                         case "1":
                             return "Expense Approved Successfully";
                         default:
-                            return "Failed";
+                            throw new Exception("Failed");
                     }
                 }
             }
@@ -912,6 +912,49 @@ namespace SPAccounts.RepositoryServices.Services
         }
         #endregion ApproveOtherExpense
 
+        #region PayOtherExpense
+        public string PayOtherExpense(Guid ID,string createdBy)
+        {
+            try
+            {
+                SqlParameter outputStatus = null;
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[PayOtherExpense]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = ID;
+                        cmd.Parameters.Add("@CreatedBy", SqlDbType.VarChar,250).Value = createdBy;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    switch (outputStatus.Value.ToString())
+                    {
+                        case "0":
+                            AppConst Cobj = new AppConst();
+                            throw new Exception(Cobj.InsertFailure);
+                        case "1":
+                            return "Expense Paid Successfully";
+                        default:
+                            throw new Exception("Failed");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion PayOtherExpense
     }
 
 }

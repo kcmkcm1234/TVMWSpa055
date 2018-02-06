@@ -363,6 +363,9 @@ namespace SPAccounts.BusinessService.Services
             return _otherExpenseRepository.ApproveOtherExpense(ID);
         }
 
-
+        public string PayOtherExpense(Guid ID, string createdBy)
+        {
+            return _otherExpenseRepository.PayOtherExpense(ID, createdBy);
+        }
     }
 }
