@@ -48,79 +48,60 @@
     }
 
     <div class="col-md-12">
-        <div class="col-md-3">
-            <div class="form-group col-md-12">
-                <div class="col-md-12">
-                    @Html.LabelFor(model => model.ExpenseDateFormatted, htmlAttributes: new { @class = "control-label" })
-                </div>
-                <div class="col-md-12">
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.ExpenseDateFormatted, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter datepicker", @id = "ExpDate", @onchange = "ExpenseDateOnchange()" } })
-                        @Html.ValidationMessageFor(model => model.ExpenseDateFormatted, "", new { @class = "text-danger" })
+        <div class="col-md-8">
+            <div class="col-md-4">
+                <div class="form-group col-md-12">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.ExpenseDateFormatted, htmlAttributes: new { @class = "control-label" })
                     </div>
-                    <div class="col-md-1"></div>
-                    <div class="col-md-1"></div>
+                        <div class="col-md-11">
+                            @Html.EditorFor(model => model.ExpenseDateFormatted, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter datepicker", @id = "ExpDate", @onchange = "ExpenseDateOnchange()" } })
+                            @Html.ValidationMessageFor(model => model.ExpenseDateFormatted, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-1"></div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-3">
-            <div class="col-md-12">
+            <div class="col-md-4">
                 <div class="col-md-12">
-                    @Html.LabelFor(model => model.ApprovalStatus, htmlAttributes: new { @class = "control-label" })
-                </div>
-                <div class="col-md-10">
-                    @{
-                        List<SelectListItem> ApprovalList = new List<SelectListItem>();
-                        ApprovalList.Add(new SelectListItem
-                        { Text = "Pending for Approval", Value = "1" });
-                        ApprovalList.Add(new SelectListItem
-                        { Text = "Not Applicable", Value = "2" });
-                        ApprovalList.Add(new SelectListItem
-                        { Text = "Approved", Value = "3" });
-                    }
-                    @Html.DropDownListFor(model => model.ApprovalStatus, ApprovalList, "ALL", new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "ApprovalStatusFilter", @onchange = "ApprovalOnchange(this)", value = -1 })
-                    @Html.ValidationMessageFor(model => model.ApprovalStatus, "", new { @class = "text-danger" })
-                </div>
-                <div class="col-md-1"></div>
-                <div class="col-md-1"></div>
-
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group col-md-12">
-                @if (Model.ShowDaysFilter == true)
-                {
                     <div class="col-md-12">
-                        @Html.LabelFor(model => model.DefaultDate, htmlAttributes: new { @class = "control-label" })
+                        @Html.LabelFor(model => model.ApprovalStatus, htmlAttributes: new { @class = "control-label" })
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-11">
+                        @Html.DropDownListFor(model => model.ApprovalStatus, Model.ApprovalStatusList, "ALL", new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "ddlApprovalStatus", @onchange = "ApprovalOnchange(this)", value = -1 })
+                        @Html.ValidationMessageFor(model => model.ApprovalStatus, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-1"></div>
 
-
-                        <div class="col-md-10">
-                            @{
-                                List<SelectListItem> listDefaultDate = new List<SelectListItem>();
-                                listDefaultDate.Add(new SelectListItem
-                                { Text = "Last 30 Days", Value = "30" });
-                                listDefaultDate.Add(new SelectListItem
-                                { Text = "Last 60 Days", Value = "60" });
-                                listDefaultDate.Add(new SelectListItem
-                                { Text = "All", Value = "0" });
-                            }
-                            @Html.DropDownListFor(model => model.DefaultDate, listDefaultDate, new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "DefaultDate", @onchange = "ExpenseDefaultDateOnchange(this)" })
-                            @Html.ValidationMessageFor(model => model.DefaultDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group col-md-12">
+                    @if (Model.ShowDaysFilter == true)
+                    {
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.DefaultDate, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-11">
+                                @{
+                                    List<SelectListItem> listDefaultDate = new List<SelectListItem>();
+                                    listDefaultDate.Add(new SelectListItem
+                                    { Text = "Last 30 Days", Value = "30" });
+                                    listDefaultDate.Add(new SelectListItem
+                                    { Text = "Last 60 Days", Value = "60" });
+                                    listDefaultDate.Add(new SelectListItem
+                                    { Text = "All", Value = "0" });
+                                }
+                                @Html.DropDownListFor(model => model.DefaultDate, listDefaultDate, new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "DefaultDate", @onchange = "ExpenseDefaultDateOnchange(this)" })
+                                @Html.ValidationMessageFor(model => model.DefaultDate, "", new { @class = "text-danger" })
 
                         </div>
-
-
                         <div class="col-md-1"></div>
-                        <div class="col-md-1"></div>
-                    </div>
-
-                                }
-
+                     }
+                </div>
             </div>
         </div>
-        <div class="col-md-3" style="padding-top:2%;border-left:1px solid #64e564;white-space:nowrap;">
+        
+        <div class="col-md-4" style="padding-top:2%;border-left:1px solid #64e564;white-space:nowrap;">
 
             <div class="col-md-12">
                 <div class="col-md-5 text-right">Opening As On  </div>
@@ -182,6 +163,7 @@
                     <tr class="text-center TableHead">
                         <th>Ref. No</th>
                         <th>Account</th>
+                        <th>Approval Status</th>
                         <th>Payment mode</th>
                         <th>Description</th>
                         <th>Amount</th>
@@ -206,15 +188,18 @@
         <div class="modal-content">
             <div class="modal-header" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 36px;padding: 3px;border-bottom:2px solid rgb(149, 76, 132)!important;">
                 <div class="container-fluid" style="padding-right: 0px;">
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <h3 class="modal-title SCHeader" id="modelContextLabel"></h3>
-
                         <div class="col-md-12">
                             <span style="font-weight: 600;font-size: 20px;" id="AddOrEditSpan">Add New</span>
-                                                       
                         </div>
                     </div>
-                    <div class="col-md-8" style="padding-right: 4px;">
+                    <div class="col-md-4">
+                        <div class="col-md-12">
+                            <p style="font-size:20px;font-weight: 500;float:right;" id="lblApprovalHeader"></p>
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="padding-right: 4px;">
                         <span class="rightAmtCaption" style="margin-right:2% !important;padding-left:140px;">Amount :</span>
                         <span class="rightAmt" style="font-size:20px;margin-right:0px !important;" id="creditdAmt">₹ 0.00</span>
 
@@ -278,12 +263,12 @@
                                             @if (Model.ApprovalFilter == true)
                                             {
                                                 @Html.Hidden("hdnIsPermitted", true, htmlAttributes: new { @class = "" });
-                                                @Html.DropDownListFor(model => model.ApprovalStatus, ApprovalList, "-- Select Status --", new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "ApprovalStatus", value = -1 })
+                                                @Html.DropDownListFor(model => model.ApprovalStatus, Model.ApprovalStatusList, new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "ApprovalStatus", value = -1 })
                                             }
                                             else
                                             {
                                                 @Html.Hidden("hdnIsPermitted", false, htmlAttributes: new { @class = "" });
-                                                @Html.DropDownListFor(model => model.ApprovalStatus, ApprovalList, "-- Select Status --", new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "ApprovalStatus", value = -1 , @disabled = "disabled" })
+                                                @Html.DropDownListFor(model => model.ApprovalStatus, Model.ApprovalStatusList, new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "ApprovalStatus", value = -1 , @disabled = "disabled" })
                                             }
                                         </div>
                                     </div>
@@ -523,6 +508,7 @@
                 <span id="lblIsNotified" style="font-size:medium;float:left;color:green">* Notification Sent</span>
                 @Html.HiddenFor(model => model.IsNotified, new { })
                 <a id="btnNotify" class="btn btn-primary" onclick="Notify()"><i class="glyphicon glyphicon-send"></i> Notify</a>
+                <a id="btnPay" class="btn btn-primary" onclick="Pay()"><i class="fa fa-rupee"></i>&nbsp;&nbsp;Pay&nbsp;&nbsp;&nbsp;</a>
                 <a class="btn btn-primary" id="btnSave" onclick="Save()"><i class="glyphicon glyphicon-floppy-disk"></i> Save</a>
                 <a class="btn btn-default" onclick="Reset()"><i class="glyphicon glyphicon-refresh"></i> Reset</a>
 
@@ -601,16 +587,16 @@
 
                     <div class="modal-header" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 36px;padding: 3px;border-bottom:2px solid rgb(149, 76, 132)!important;">
                         <div class="container-fluid" style="padding-right: 0px;">
-                            <div class="col-md-4">
+                            <div class="col-md-8">
                                 <h3 class="modal-title SCHeader" id="modelContextLabel"></h3>
 
                                 <div class="col-md-12">
-                                    <span style="font-weight: 600;font-size: 20px;" id="AddOrEditSpan">Edit Maximum Limit</span>
+                                    <span style="font-weight: 600;font-size: 20px;" id="AddOrEditSpan">Edit Other Expenses Approval Limit</span>
                                 </div>
                             </div>
 
 
-                            <div class="col-md-8" style="padding-right: 4px;">
+                            <div class="col-md-4" style="padding-right: 4px;">
                                 <a class="close" data-dismiss="modal" aria-label="Close"><i style="font-size: 33px;" class="fa fa-times-circle" aria-hidden="true"></i></a>
                             </div>
 
@@ -629,7 +615,7 @@
                                     <div class="col-md-12">
 
                                         <div class="col-md-10">
-                                            @Html.EditorFor(model => model.SysSettingsObj.Value, new { htmlAttributes = new { @class = "form-control", @id = "txtLimitValue", style = "text-align:right; width:250px", min = "1" } })
+                                            @Html.EditorFor(model => model.SysSettingsObj.Value, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter Amount", @id = "txtLimitValue", style = "text-align:right; width:250px", onkeypress = "return isNumber(event)", min = "1" } })
                                             @Html.ValidationMessageFor(model => model.SysSettingsObj, "", new { @class = "text-danger" })
 
                                         </div>

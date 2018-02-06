@@ -110,5 +110,21 @@ namespace UserInterface.API
             }
         }
         #endregion ApproveOtherExpense
+
+        #region GetAllPendingForApprovalExpense(POST)
+        [HttpPost]
+        public string GetAllPendingForApprovalExpenseByPostForMobile()
+        {
+            try
+            {
+                List<OtherExpenseViewModel> expenseObj = Mapper.Map<List<OtherExpense>, List<OtherExpenseViewModel>>(_otherExpenseBusiness.GetAllOtherExpenseByApprovalStatus(1, null));
+                return JsonConvert.SerializeObject(new { Result = true, Records = expenseObj });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = false, Message = ex.Message });
+            }
+        }
+        #endregion GetAllPendingForApprovalExpense(POST)
     }
 }

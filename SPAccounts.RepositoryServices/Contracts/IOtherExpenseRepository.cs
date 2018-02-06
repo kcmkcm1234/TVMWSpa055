@@ -24,5 +24,6 @@ namespace SPAccounts.RepositoryServices.Contracts
         List<OtherExpense> GetAllOtherExpenseByApprovalStatus(int? ApprovalStatus,string ExpenseDate);
         OtherExpense GetOtherExpenseByID(Guid ID);
         string ApproveOtherExpense(Guid ID);
+        string PayOtherExpense(Guid ID, string CreatedBy);
     }
 }

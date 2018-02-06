@@ -96,8 +96,9 @@ namespace UserInterface.Models
         public string ApprovalDate { get; set; }
         public bool? IsNotified { get; set; }
         public string OELimitOnEntry { get; set; }
-        [Display(Name = "Approved Limit on Amount")]
+        [Display(Name = "Approval Required Above Amount")]
         public SysSettingsViewModel SysSettingsObj { get; set; }
+        public List<SelectListItem> ApprovalStatusList { get; set; }
     }
 
 

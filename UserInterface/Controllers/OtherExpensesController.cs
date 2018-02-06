@@ -21,12 +21,14 @@ namespace UserInterface.Controllers
         IOtherExpenseBusiness _otherExpenseBusiness;
         ICommonBusiness _commonBusiness;
         IEmployeeBusiness _employeeBusiness;
+        IApprovalStatusBusiness _approvalStatusBusiness;
         SecurityFilter.ToolBarAccess _tool;
-        public OtherExpensesController(IOtherExpenseBusiness otherExpenseBusiness, ICommonBusiness commonBusiness,IEmployeeBusiness employeeBusiness, SecurityFilter.ToolBarAccess tool)
+        public OtherExpensesController(IOtherExpenseBusiness otherExpenseBusiness, ICommonBusiness commonBusiness,IEmployeeBusiness employeeBusiness,IApprovalStatusBusiness approvalStatusBusiness, SecurityFilter.ToolBarAccess tool)
         {
             _otherExpenseBusiness = otherExpenseBusiness;
             _commonBusiness = commonBusiness;
             _employeeBusiness = employeeBusiness;
+            _approvalStatusBusiness = approvalStatusBusiness;
             _tool = tool;
         }
         #endregion Constructor Injection
@@ -124,7 +126,19 @@ namespace UserInterface.Controllers
                 }
                 otherExpenseViewModelObj.EmployeeTypeList = selectListItem;
 
-
+                otherExpenseViewModelObj.ApprovalStatusList = new List<SelectListItem>();
+                selectListItem = new List<SelectListItem>();
+                List<ApprovalStatusViewModel> approvalStatus = Mapper.Map<List<ApprovalStatus>, List<ApprovalStatusViewModel>>(_approvalStatusBusiness.GetAllApprovalStatus());
+                foreach (ApprovalStatusViewModel BL in approvalStatus)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = BL.Description,
+                        Value = BL.Code,
+                        Selected = false
+                    });
+                }
+                otherExpenseViewModelObj.ApprovalStatusList = selectListItem;
 
                 Permission permission = Session["UserRights"] as Permission;
                 string p = permission.SubPermissionList.Where(li => li.Name == "DaysFilter").First().AccessCode;
@@ -558,6 +572,23 @@ namespace UserInterface.Controllers
             }
         }
         #endregion SendNotification
+
+        #region PayOtherExpense
+        public string PayOtherExpense(string ID)
+        {
+            try
+            {
+                AppUA appUA = Session["AppUA"] as AppUA;
+                string returnMessage = _otherExpenseBusiness.PayOtherExpense(Guid.Parse(ID), appUA.UserName);
+                return JsonConvert.SerializeObject(new { Result = "OK", Message = returnMessage });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion PayOtherExpense
 
         #region validaterefno
 
