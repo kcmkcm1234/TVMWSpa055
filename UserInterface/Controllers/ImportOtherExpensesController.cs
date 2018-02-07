@@ -91,7 +91,7 @@ namespace UserInterface.Controllers
 
                     if (System.IO.File.Exists(Path.Combine(Server.MapPath("~/Content/Uploads/"), fname)) == false)
                     {
-                        uploadedFilesVM.FilePath = SetFilePath(fname);
+                        uploadedFilesVM.FilePath = ChangeFilePath(fname);
                     }
                     else
                     {
@@ -177,7 +177,7 @@ namespace UserInterface.Controllers
 
                         if (System.IO.File.Exists(Path.Combine(Server.MapPath("~/Content/Uploads/"), fname)) == false)
                         {
-                            uploadedFilesVM.FilePath = SetFilePath(fname);
+                            uploadedFilesVM.FilePath = ChangeFilePath(fname);
                         }
                         else
                         {
@@ -233,14 +233,14 @@ namespace UserInterface.Controllers
         #endregion ValidateFileName
 
         //-------To remove all .xlsx files older than 12 hrs. and to return as file path under uploads-------//
-        #region SetFilePath
-        string SetFilePath(string fname)
+        #region ChangeFilePath
+        string ChangeFilePath(string fname)
         {
             string[] allFiles = Directory.GetFiles(Server.MapPath("~/Content/Uploads/"));
             foreach (string aFile in allFiles)
             {
                 FileInfo fInfo = new FileInfo(aFile);
-                if ((fInfo.CreationTime < DateTime.Now.AddHours(-12)) && fInfo.Extension.Equals(".xlsx"))//Gets only .xlsx files older than 12 hrs. 
+                if ((fInfo.CreationTime < DateTime.Now.AddHours(-12)) && ValidateFileName(fInfo.Name).Equals("success"))//Gets only .xlsx files older than 12 hrs. 
                 {
                     if (!fInfo.Name.Equals("OtherExpense_00.00.0000_E0.xlsx"))
                         { fInfo.Delete(); }
@@ -249,7 +249,7 @@ namespace UserInterface.Controllers
 
             return "/Content/Uploads/" + fname;
         }
-        #endregion  SetFilePath
+        #endregion  ChangeFilePath
 
         #region DownloadTemplate
         [HttpGet]

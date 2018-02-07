@@ -167,6 +167,10 @@ namespace SPAccounts.RepositoryServices.Services
             }
             catch (Exception ex)
             {
+                if (ex.Message.Equals("Column 'Date' does not belong to table ."))
+                {
+                    throw new Exception("Invalid Excel File Uploaded");
+                }
                 throw ex;
             }
             return importOtherExpenseList;
