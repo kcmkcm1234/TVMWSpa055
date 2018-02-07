@@ -407,6 +407,7 @@ namespace UserInterface.Controllers
                 _employeeObj.commonObj.CreatedDate = appUA.DateTime;
                 _employeeObj.commonObj.UpdatedBy = appUA.UserName;
                 _employeeObj.commonObj.UpdatedDate = common.GetCurrentDateTime();
+                _employeeObj.IsActive = true;
 
                 result = _employeeBusiness.InsertUpdateEmployee(Mapper.Map<EmployeeViewModel, Employee>(_employeeObj));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = result });

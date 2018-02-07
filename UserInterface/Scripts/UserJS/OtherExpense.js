@@ -689,35 +689,35 @@ function FillOtherExpenseDetails(ID) {
                     $('#ApprovalStatus').find('option[value="4"]').prop("disabled", true);
                     $('#ApprovalStatus').find('option[value="3"]').prop("disabled", true);
                 }
+                if (thisItem.ApprovalStatus === 2) {
+                    $("#btnPay").show();
+                }
+                else if (thisItem.ApprovalStatus === 1) {
+                    $("#btnNotify").show();
+                }
             }
 
             if ((thisItem.ApprovalStatus === 3 || thisItem.ApprovalStatus === 2) && $("#hdnIsPermitted").val() !== "True") {
                 DisableModel();
             }
 
-            if (thisItem.ApprovalStatus === 2) {
-                $("#btnPay").show();
-                $("#btnNotify").show();
-            }
-
             if (thisItem.IsNotified) {
                 $("#lblIsNotified").show();
-                $("#btnNotify").hide();
             } else {
                 $("#lblIsNotified").hide();
             }
             $("#lblApprovalHeader").text(function () {
                 switch (thisItem.ApprovalStatus) {
                     case 1:
-                        return "Pending For Approval";
+                        return "Status: Pending For Approval";
                     case 2:
-                        return "Approved, Not Paid";
+                        return "Status: Approved, Not Paid";
                     case 3:
-                        return "Paid";
+                        return "Status: Paid";
                     case 4:
-                        return "Not Applicable";
+                        return "Status: Not Applicable";
                     default:
-                        break;
+                        return "";
                 }
             });
         }
