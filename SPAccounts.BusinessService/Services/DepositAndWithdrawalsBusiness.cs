@@ -33,6 +33,10 @@ namespace SPAccounts.BusinessService.Services
         {
             return _depositAndWithdrawalsRepository.GetOutGoingCheques(advanceSearchObject);
         }
+        public List<IncomingCheques> GetIncomingCheques(OutgoingChequeAdvanceSearch advanceSearchObject)
+        {
+            return _depositAndWithdrawalsRepository.GetIncomingCheques(advanceSearchObject);
+        }
         public DepositAndWithdrawals GetDepositAndWithdrawalDetails(Guid ID)
         {
             DepositAndWithdrawals depositAndWithdrawalsObj = new DepositAndWithdrawals();
@@ -164,17 +168,45 @@ namespace SPAccounts.BusinessService.Services
             return result; ;
         }
 
+
+        public object InsertUpdateIncomingCheque(IncomingCheques incomingChequeObj)
+        {
+            object result = null;
+
+            if (incomingChequeObj.ID == Guid.Empty)
+            {
+                result = _depositAndWithdrawalsRepository.InsertIncomingCheques(incomingChequeObj);
+            }
+            else
+            {
+                result = _depositAndWithdrawalsRepository.UpdateIncomingCheques(incomingChequeObj);
+            }
+            return result; ;
+        }
+
         public object DeleteOutgoingCheque(Guid ID)
         {
             return _depositAndWithdrawalsRepository.DeleteOutgoingCheque(ID);
         }
 
+        public object DeleteIncomingCheque(Guid ID)
+        {
+            return _depositAndWithdrawalsRepository.DeleteIncomingCheque(ID);
+        }
 
         public OutGoingCheques GetOutgoingChequeById(Guid ID)
         {
             OutGoingCheques outGoingChequesObj = new OutGoingCheques();
             outGoingChequesObj = _depositAndWithdrawalsRepository.GetOutgoingChequeById(ID);
             return outGoingChequesObj;
+
+        }
+
+        public IncomingCheques GetIncomingChequeById(Guid ID)
+        {
+            IncomingCheques incomingChequesObj = new IncomingCheques();
+            incomingChequesObj = _depositAndWithdrawalsRepository.GetIncomingChequeById(ID);
+            return incomingChequesObj;
 
         }
 
@@ -206,6 +238,11 @@ namespace SPAccounts.BusinessService.Services
         public object ValidateChequeNo(OutGoingCheques outGoingChequeObj)
         {
             return _depositAndWithdrawalsRepository.ValidateChequeNo(outGoingChequeObj);
+        }
+
+        public object ValidateChequeNoIncomingCheque(IncomingCheques incomingChequeObj)
+        {
+            return _depositAndWithdrawalsRepository.ValidateChequeNoIncomingCheque(incomingChequeObj);
         }
 
     }

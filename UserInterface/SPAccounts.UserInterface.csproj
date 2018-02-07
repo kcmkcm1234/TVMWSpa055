@@ -1579,6 +1579,7 @@
     <Content Include="Scripts\UserJS\EmployeeExpenseSummaryReport.js" />
     <Content Include="Scripts\UserJS\ExpenseSummary.js" />
     <Content Include="Scripts\UserJS\ImportOtherExpenses.js" />
+    <Content Include="Scripts\UserJS\IncomingCheque.js" />
     <Content Include="Scripts\UserJS\MonthlyRecap.js" />
     <Content Include="Scripts\UserJS\Login.js" />
     <Content Include="Scripts\UserJS\ManageAccess.js" />
@@ -1806,6 +1807,7 @@
     <Content Include="Views\DepositAndWithdrawals\OutgoingCheques.cshtml" />
     <Content Include="Views\Report\OtherExpenseLimitedDetails.cshtml" />
     <Content Include="Views\ImportOtherExpenses\Index.cshtml" />
+    <Content Include="Views\DepositAndWithdrawals\IncomingCheques.cshtml" />
     <Content Include="Views\PaymentFollowup\Index.cshtml" />
     <Content Include="Views\PaymentFollowup\_FollowUpList.cshtml" />
     <None Include="Web.Debug.config">
