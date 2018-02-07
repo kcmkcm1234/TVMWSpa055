@@ -197,8 +197,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@ISEmpApplicable", SqlDbType.Bit).Value = _chartOfAccountsObj.ISEmploy;
                         cmd.Parameters.Add("@IsReverse", SqlDbType.Bit).Value = _chartOfAccountsObj.IsReverse;
                         cmd.Parameters.Add("@IsPurchase", SqlDbType.Bit).Value = _chartOfAccountsObj.IsPurchase;
-                        cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = _chartOfAccountsObj.commonObj.CreatedBy;
-                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = _chartOfAccountsObj.commonObj.CreatedDate;
+                        cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = _chartOfAccountsObj.CommonObj.CreatedBy;
+                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = _chartOfAccountsObj.CommonObj.CreatedDate;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         outputCode = cmd.Parameters.Add("@CodeOut", SqlDbType.VarChar, 10);
@@ -258,8 +258,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@ISEmpApplicable", SqlDbType.Bit).Value = _chartOfAccountsObj.ISEmploy;
                         cmd.Parameters.Add("@IsReverse", SqlDbType.Bit).Value = _chartOfAccountsObj.IsReverse;
                         cmd.Parameters.Add("@IsPurchase", SqlDbType.Bit).Value = _chartOfAccountsObj.IsPurchase;
-                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = _chartOfAccountsObj.commonObj.UpdatedBy;
-                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = _chartOfAccountsObj.commonObj.UpdatedDate;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = _chartOfAccountsObj.CommonObj.UpdatedBy;
+                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = _chartOfAccountsObj.CommonObj.UpdatedDate;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();

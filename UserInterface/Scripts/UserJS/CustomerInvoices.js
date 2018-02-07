@@ -717,7 +717,7 @@ function RefreshInvoicesAndSummary() {
         var result = GetAllInvoicesAndSummary();
         if (result != null) {
             if (result.CustomerInvoices != null)
-                DataTables.CustInvTable.clear().rows.add(result.CustomerInvoices).draw(false);
+                DataTables.CustInvTable.clear().rows.add(result.CustomerInvoices).draw(true);
             if (result.CustomerInvoiceSummary != null) {
                 Summary(result.CustomerInvoiceSummary);
             }

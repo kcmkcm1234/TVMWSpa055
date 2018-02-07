@@ -792,7 +792,7 @@ function BindSupplierPaymentsHeader() {
         SupplierPaymentsSearch.ApprovalStatus = approvalStatus[0].value !== "" ? approvalStatus[0].value : null;
         SupplierPaymentsSearch.Search = search[0].value !== "" ? search[0].value : null;
 
-        DataTables.SupplierPaymentTable.clear().rows.add(GetAllSupplierPayments(undefined, SupplierPaymentsSearch)).draw(false);
+        DataTables.SupplierPaymentTable.clear().rows.add(GetAllSupplierPayments(undefined, SupplierPaymentsSearch)).draw(true);
     } catch (Ex) {
         notyAlert('error',Ex.message)
     }
