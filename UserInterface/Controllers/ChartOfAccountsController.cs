@@ -89,11 +89,11 @@ namespace UserInterface.Controllers
 
                 object result = null;
                 AppUA _appUA = Session["AppUA"] as AppUA;
-                _chartOfAccountsObj.commonObj = new CommonViewModel();
-                _chartOfAccountsObj.commonObj.CreatedBy = _appUA.UserName;
-                _chartOfAccountsObj.commonObj.CreatedDate = _appUA.DateTime;
-                _chartOfAccountsObj.commonObj.UpdatedBy = _appUA.UserName;
-                _chartOfAccountsObj.commonObj.UpdatedDate = _appUA.DateTime;
+                _chartOfAccountsObj.CommonObj = new CommonViewModel();
+                _chartOfAccountsObj.CommonObj.CreatedBy = _appUA.UserName;
+                _chartOfAccountsObj.CommonObj.CreatedDate = _appUA.DateTime;
+                _chartOfAccountsObj.CommonObj.UpdatedBy = _appUA.UserName;
+                _chartOfAccountsObj.CommonObj.UpdatedDate = _appUA.DateTime;
                 if (!string.IsNullOrEmpty(_chartOfAccountsObj.hdnCode))
                 {
                     _chartOfAccountsObj.Code = _chartOfAccountsObj.hdnCode;
@@ -196,12 +196,12 @@ namespace UserInterface.Controllers
 
                     ToolboxViewModelObj.savebtn.Visible = true;
                     ToolboxViewModelObj.savebtn.Text = "Save";
-                    ToolboxViewModelObj.savebtn.Title = "Save Bank";
+                    ToolboxViewModelObj.savebtn.Title = "Save Chart Of Accounts";
                     ToolboxViewModelObj.savebtn.Event = "Save();";
 
                     ToolboxViewModelObj.deletebtn.Visible = true;
                     ToolboxViewModelObj.deletebtn.Text = "Delete";
-                    ToolboxViewModelObj.deletebtn.Title = "Delete Bank";
+                    ToolboxViewModelObj.deletebtn.Title = "Delete Chart Of Accounts";
                     ToolboxViewModelObj.deletebtn.Event = "Delete()";
 
                     ToolboxViewModelObj.resetbtn.Visible = true;

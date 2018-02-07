@@ -103,7 +103,7 @@ function FilterContent() {
     IncomingChequeAdvanceSearch.Search = search[0].value !== "" ? search[0].value : null;
     IncomingChequeAdvanceSearch.Customer = customer[0].value !== "" ? customer[0].value : null;
     IncomingChequeAdvanceSearch.Company = company[0].value !== "" ? company[0].value : null;
-    DataTables.IncomingChequeTable.clear().rows.add(GetIncomingCheque(IncomingChequeAdvanceSearch)).draw(false);
+    DataTables.IncomingChequeTable.clear().rows.add(GetIncomingCheque(IncomingChequeAdvanceSearch)).draw(true);
 }
 
 //Add form for inserting new elements

@@ -20,7 +20,7 @@ $(document).ready(function () {
              searching: false,
              paging: true,
              data: GetOutGoingCheques(0),
-             pageLength: 50,            
+             pageLength: 10,            
              columns: [
                { "data": "ID", "defaultContent": "<i>-</i>" },
                { "data": "ChequeNo", "defaultContent": "<i>-</i>" },
@@ -101,7 +101,7 @@ function FilterContent() {
     OutgoingChequeAdvanceSearch.Status = status[0].value !== "" ? status[0].value : null;
     OutgoingChequeAdvanceSearch.Search = search[0].value !== "" ? search[0].value : null;
     OutgoingChequeAdvanceSearch.Company = company[0].value !== "" ? company[0].value : null;
-    DataTables.OutGoingChequeTable.clear().rows.add(GetOutGoingCheques(OutgoingChequeAdvanceSearch)).draw(false);   
+    DataTables.OutGoingChequeTable.clear().rows.add(GetOutGoingCheques(OutgoingChequeAdvanceSearch)).draw(true);   
 }
 
 //Add form for inserting new elements

@@ -360,7 +360,7 @@ function RefreshInvoicesAndSummary()
         var result = GetAllInvoicesAndSummary();
         if (result != null) {
                 if (result.SupplierInvoices != null)
-                    DataTables.SupplInvTable.clear().rows.add(result.SupplierInvoices).draw(false);
+                    DataTables.SupplInvTable.clear().rows.add(result.SupplierInvoices).draw(true);
                 if (result.SupplierInvoiceSummary != null)
                 {
                     Summary(result.SupplierInvoiceSummary);
