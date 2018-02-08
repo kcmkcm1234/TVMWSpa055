@@ -524,7 +524,7 @@ namespace UserInterface.Controllers
 
         #region Limited Expense Report For OtherExpenseReport
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "OEReport", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "OELimittedReport", Mode = "R")]
         public ActionResult OtherExpenseLimitedDetails()
         {
             AppUA _appUA = Session["AppUA"] as AppUA;
