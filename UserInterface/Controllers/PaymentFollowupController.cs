@@ -33,6 +33,7 @@ namespace UserInterface.Controllers
         }
         public ActionResult Index(string id)
         {
+            ViewBag.value = id;
             AppUA appUA = Session["AppUA"] as AppUA;
             DateTime dt = new DateTime();
             dt = appUA.DateTime;
@@ -131,6 +132,25 @@ namespace UserInterface.Controllers
         }
         #endregion GetCustomerList
 
+        #region GetFollowupCount
+        public string GetRecentFollowUpCount()
+        {
+            try
+            {
+                //AppUA _appUA = Session["AppUAOffice"] as AppUA;
+                // DateTime? Date = string.IsNullOrEmpty(_appUA.DateTime) ? (DateTime?)null : DateTime.Parse(Today);
+                SPAccounts.DataAccessObject.DTO.Common comonObj = new SPAccounts.DataAccessObject.DTO.Common();
+                List<FollowUpViewModel> followupObj = Mapper.Map<List<FollowUp>, List<FollowUpViewModel>>(_paymentFollowupBusiness.GetRecentFollowUpCount(comonObj.GetCurrentDateTime()));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = followupObj });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion GetFollowupCount
+
         #region Followup
         public ActionResult Followup(FollowUpViewModel followObj)
         {
@@ -152,7 +172,7 @@ namespace UserInterface.Controllers
             {
                 AppUA _appUA = Session["AppUA"] as AppUA;
                 customerObj.followUpObj.commonObj = new CommonViewModel();
-                SAMTool.DataAccessObject.DTO.Common _comonObj = new SAMTool.DataAccessObject.DTO.Common();
+                SPAccounts.DataAccessObject.DTO.Common _comonObj = new SPAccounts.DataAccessObject.DTO.Common();
                 customerObj.followUpObj.commonObj.CreatedBy = _appUA.UserName;
                 customerObj.followUpObj.commonObj.CreatedDate = _comonObj.GetCurrentDateTime();
                 customerObj.followUpObj.commonObj.UpdatedDate = _comonObj.GetCurrentDateTime();
