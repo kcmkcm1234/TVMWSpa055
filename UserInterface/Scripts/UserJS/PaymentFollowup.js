@@ -73,6 +73,13 @@ $(document).ready(function () {
          });
         $(".buttons-excel").hide();
         toDay = $("#todate").val();
+
+        if ($('#BindValue').val() != '') {
+            debugger;
+            dashboardBind($('#BindValue').val())
+        }
+        
+
     } catch (x) {
 
         notyAlert('error', x.message);
@@ -111,6 +118,22 @@ function GetCustomerExpeditingDetail() {
 function OnCallChange() {
     debugger;
     RefreshCustomerExpeditingDetailTable();
+}
+
+//Bind followup According to dashboard select
+//Bind values to dashboard
+function dashboardBind(ID) {
+    debugger;
+    var pos = ID.split(",");
+    FollowUpList(pos[0]);
+    FollowUp(1);
+    $("#lblCustomer").text(pos[1]);
+    $("#lblContact").text(pos[2]);
+    if (pos[4]!="null") {
+        $("#lblmobile").text(pos[4]);
+        $("#lblmobile").attr('title', pos[4]);
+    }
+    FillFollowUpDetails(pos[3])
 }
 
 //To refresh based on filter

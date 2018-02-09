@@ -57,6 +57,7 @@ $(document).ready(function () {
         }
     });
     GetUndepositedChequeBubbleCount();
+    GetRecentFollowUpCount();
     $('input.datepicker').datepicker({
         format: "dd-M-yyyy",//",
         maxViewMode: 0,
@@ -734,6 +735,33 @@ function GetUndepositedChequeBubbleCount() {
         if (ds.Result == "ERROR") {
             $('#undepositedCount').text("0");
         }    
+    }
+    catch (e) {
+
+    }
+}
+
+function GetRecentFollowUpCount() {
+    try {
+        debugger;
+        var data = {};
+        var ds = {};
+        ds = GetDataFromServer("PaymentFollowup/GetRecentFollowUpCount/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            $('#ulCustomerNotification').empty();
+            for (var i = 0; i < ds.Records.length; i++) {
+                var html = "<li title='" + ds.Records[i].Remarks + "'><a style='width:800px;' href='/PaymentFollowup/Index/" + ds.Records[i].CustomerID + ',' + ds.Records[i].Company + ',' + ds.Records[i].ContactName + ',' + ds.Records[i].ID + ',' + ds.Records[i].ContactNO + "'><div class='col-md-12'><span class='label label-warning'>" + ds.Records[i].FollowUpDate + " " + ds.Records[i].FollowUpTime + "</span > <span class='text-aqua' >Sub:</span>" + ds.Records[i].Remarks.substring(0, 20) + "<div class='col-md-4'><span class='text-green'> Customer: </span>" + ds.Records[i].Company.substring(0, 20) + "</div><div class='col-md-4'><span class='text-green'>Contact Person: </span>" + ds.Records[i].ContactName + "</div></div></a> </li>"
+                $('#ulCustomerNotification').append(html);
+            }
+            $('#RecentFollowUpCount').text(ds.Records.length);
+            $('#RecentFollowUpCount').attr('title', ds.Records.length + ' Pending FollowUps ');
+        }
+        if (ds.Result == "ERROR") {
+            $('#RecentFollowUpCount').text("0");
+        }
     }
     catch (e) {
 

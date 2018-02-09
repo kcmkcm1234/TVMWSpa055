@@ -31,6 +31,7 @@ namespace UserInterface.Controllers
             _tool = tool;
             
         }
+        [AuthSecurityFilter(ProjectObject = "PaymentFollowups", Mode = "R")]
         public ActionResult Index(string id)
         {
             ViewBag.value = id;
@@ -116,6 +117,7 @@ namespace UserInterface.Controllers
             return View(result);
         }
         #region GetCustomerList
+        [AuthSecurityFilter(ProjectObject = "PaymentFollowups", Mode = "R")]
         public string GetCustomerPaymentExpeditingDetails(string toDate, string filter, string company, string[] customer,string outstanding)
         {
             try
@@ -133,6 +135,7 @@ namespace UserInterface.Controllers
         #endregion GetCustomerList
 
         #region GetFollowupCount
+        [AuthSecurityFilter(ProjectObject = "PaymentFollowups", Mode = "R")]
         public string GetRecentFollowUpCount()
         {
             try
@@ -152,6 +155,7 @@ namespace UserInterface.Controllers
         #endregion GetFollowupCount
 
         #region Followup
+        [AuthSecurityFilter(ProjectObject = "PaymentFollowups", Mode = "R")]
         public ActionResult Followup(FollowUpViewModel followObj)
         {
             List<FollowUpViewModel> followUpObj = Mapper.Map<List<FollowUp>, List<FollowUpViewModel>>(_paymentFollowupBusiness.GetFollowUpDetails(followObj.CustomerID != null && followObj.CustomerID.ToString() != "" ? Guid.Parse(followObj.CustomerID.ToString()) : Guid.Empty));
@@ -166,6 +170,7 @@ namespace UserInterface.Controllers
 
         #region InsertFollowUp
         [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "PaymentFollowups", Mode = "R")]
         public string InsertUpdateFollowUp(CustomerExpeditingListViewModel customerObj)
         {
             try
@@ -199,6 +204,7 @@ namespace UserInterface.Controllers
 
         #region GetFollowUpDetailByFollowUpId
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "PaymentFollowups", Mode = "R")]
         public string GetFollowUpDetailByFollowUpId(Guid ID)
         {
             FollowUpViewModel followupObj = Mapper.Map<FollowUp, FollowUpViewModel>(_paymentFollowupBusiness.GetFollowupDetailsByFollowUpID(ID != null && ID.ToString() != "" ? Guid.Parse(ID.ToString()) : Guid.Empty));
@@ -210,6 +216,7 @@ namespace UserInterface.Controllers
 
         #region DeleteFollowUp
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "PaymentFollowups", Mode = "D")]
         public string DeleteFollowUp(string ID)
         {
             object result = null;
@@ -233,6 +240,7 @@ namespace UserInterface.Controllers
 
         #region ButtonStyling
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "PaymentFollowups", Mode = "R")]
         public ActionResult ChangeButtonStyle(string actionType)
         {
             ToolboxViewModel ToolboxViewModelObj = new ToolboxViewModel();

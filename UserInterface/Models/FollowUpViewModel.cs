@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace UserInterface.Models
 {
@@ -32,12 +30,14 @@ namespace UserInterface.Models
         public CommonViewModel commonObj { get; set; }
         [Display(Name = "Min")]
         public string Minutes { get; set; }
+        public string Company { get; set; }
     }
 
         public class FollowUpListViewModel
         {
             public Guid FlwID { get; set; }
             public List<FollowUpViewModel> FollowUpList { get; set; }
-        }
+        //public CustomerViewModel customerObj { get; set; }
+    }
     
 }

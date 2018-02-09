@@ -58,7 +58,7 @@
     &nbsp;
 </div>
 <div class="form-horizontal">
-
+    @Html.Hidden("BindValue", "", htmlAttributes: new { @class = "", Value = ViewBag.value });
     <div class="col-md-8" style="margin-top:10px;">
         <div class="col-md-3">
             @Html.Label("As On Date", htmlAttributes: new { @class = "control-label" })
@@ -154,6 +154,7 @@
 
             {
                 @Html.AntiForgeryToken()
+                
                 @Html.HiddenFor(model => model.followUpObj.CustomerID, htmlAttributes: new {@id = "CustomerID" })
                 <div class="modal-header" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 36px;padding: 3px;border-bottom:2px solid rgb(149, 76, 132)!important;">
                     <div class="container-fluid" style="padding-right: 0px;">

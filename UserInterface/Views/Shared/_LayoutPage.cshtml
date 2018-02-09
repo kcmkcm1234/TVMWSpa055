@@ -12,7 +12,16 @@
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/boot")
 
     @RenderSection("styles", required: false)
-     
+     <style>
+         .bg-teal-gradient {
+    background: #6f3d6d !important;
+    background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #6f3d6d), color-stop(1, #6f3d6d)) !important;
+    background: -moz-linear-gradient(center bottom, #6f3d6d 0, #6f3d6d 100%) !important;
+    background: -o-linear-gradient(#6f3d6d, #6f3d6d) !important;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7adddd', endColorstr='#39cccc', GradientType=0) !important;
+    color: #fff;
+}
+     </style>
 </head>
 <body class="hold-transition skin-green-light sidebar-mini">
     <div class="wrapper">
@@ -49,6 +58,25 @@
         </ul>
     </li> 
     *@
+<!--Followup Notification Dropdown-->
+    <li class="dropdown notifications-menu" id="FollowUpCount">
+
+       <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+           @*<span>*@
+                <i class="fa fa-bookmark-o"></i>
+                 <span class="label label-warning" id="RecentFollowUpCount">0</span>
+           @*</span>*@
+
+        </a>
+       <ul class="dropdown-menu" style="width:800px">
+          <li class="bg-teal-gradient" ><span style="margin:15px;">Followups Reminder</span></li>
+            <li>
+               <ul id="ulCustomerNotification" class="menu"></ul>
+               </li>
+         </ul>
+     </li>
+
+
     <!-- Notifications: style can be found in dropdown.less -->
     <li class="dropdown notifications-menu" id="undepositedCount1">
      

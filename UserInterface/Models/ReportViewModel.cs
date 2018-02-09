@@ -693,4 +693,38 @@ namespace UserInterface.Models
         public string CompanyCode { get; set; }
         public string[] CustomerIDs { get; set; }
     }
+    public class FollowupReportAdvanceSearchViewModel
+    {
+        public string ToDate { get; set; }
+        public string FromDate { get; set; }
+        public string Customer { get; set; }
+        public string Status { get; set; }
+        public string Search { get; set; }
+    }
+    public class FollowupReportViewModel
+    {
+        public Guid ID { get; set; }
+        public Guid CustomerID { get; set; }
+        public string CutomerName { get; set; }
+        public string FollowUpDate { get; set; }
+        public string FollowUpTime { get; set; }
+        public string HdnFollowUpTime { get; set; }
+        public string Remarks { get; set; }
+        public string ContactName { get; set; }
+        public string ContactNO { get; set; }
+        public string Status { get; set; }
+        public string Company { get; set; }
+        public string Minutes { get; set; }
+    }
+
+    public class FollowUpReportListViewModel
+    {
+        public Guid FlwID { get; set; }
+        public List<FollowupReportViewModel> FollowUpList { get; set; }
+        [Display(Name = "Status")]
+        public List<SelectListItem> StatusFilter { get; set; }
+        public string Customer { get; set; }
+        public CustomerViewModel customerObj { get; set; }
+        public string Search { get; set; }
+    }
 }
