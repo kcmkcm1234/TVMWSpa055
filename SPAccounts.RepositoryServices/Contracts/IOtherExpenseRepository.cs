@@ -25,5 +25,6 @@ namespace SPAccounts.RepositoryServices.Contracts
         OtherExpense GetOtherExpenseByID(Guid ID);
         string ApproveOtherExpense(Guid ID);
         string PayOtherExpense(Guid ID, string CreatedBy);
+        bool NotifyOtherExpense(Guid ID);
     }
 }

@@ -558,14 +558,14 @@ namespace UserInterface.Controllers
                 otherExpenseVM.commonObj = new CommonViewModel();
                 otherExpenseVM.commonObj.UpdatedBy = appUA.UserName;
                 otherExpenseVM.commonObj.UpdatedDate = common.GetCurrentDateTime();
-                OtherExpenseViewModel result = Mapper.Map<OtherExpense, OtherExpenseViewModel>(_otherExpenseBusiness.UpdateOtherExpense(Mapper.Map<OtherExpenseViewModel, OtherExpense>(otherExpenseVM)));
+                bool result = _otherExpenseBusiness.NotifyOtherExpense(otherExpenseVM.ID);
 
                 string titleString = "Expense Approval";
                 string descriptionString = otherExpenseVM.RefNo + ", Expense: " + otherExpenseVM.AccountCode + ", Amount: " + otherExpenseVM.Amount + ", Notes: " + otherExpenseVM.Description;
                 Boolean isCommon = true;
                 string customerID = "";
                 _commonBusiness.SendToFCM(titleString, descriptionString, isCommon, customerID);
-                return JsonConvert.SerializeObject(new { Result = "OK", Message = c.NotificationSuccess, Records = result });
+                return JsonConvert.SerializeObject(new { Result = "OK", Message = (result ? c.NotificationSuccess : "Failed") });
             }
             catch (Exception ex)
             {

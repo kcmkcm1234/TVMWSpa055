@@ -1401,7 +1401,7 @@ function SendNotificationConfirm() {
         else
             OtherExpenseViewModel.IsReverse = false;
         OtherExpenseViewModel.ReversalRef = $("#ReversalRef").val();
-        OtherExpenseViewModel.IsNotified = true;
+        OtherExpenseViewModel.IsNotified = true;//($("#lblIsNotified").val()==="True"?true:false);
         OtherExpenseViewModel.ApprovalStatus = parseInt($("#ApprovalStatus").val());
         OtherExpenseViewModel.ApprovalDate = $("#ApprovalDate").val();
 
