@@ -298,8 +298,9 @@ namespace UserInterface.Controllers
             try
             {
                 OtherExpenseViewModel otherExpenseViewModel = Mapper.Map<OtherExpense, OtherExpenseViewModel>(_otherExpenseBusiness.GetOtherExpenseByID(Guid.Parse(ID)));
-                if(otherExpenseViewModel!=null)
+                if (otherExpenseViewModel!=null)
                 {
+                    otherExpenseViewModel.creditAmountFormatted = _commonBusiness.ConvertCurrency(otherExpenseViewModel.Amount, 2);
                     otherExpenseViewModel.AccountCode = otherExpenseViewModel.AccountCode + ":" + otherExpenseViewModel.chartOfAccountsObj.ISEmploy;
                 }
                
