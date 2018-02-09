@@ -10,7 +10,7 @@ namespace SPAccounts.BusinessService.Contracts
     public interface IOtherExpenseBusiness
     {
         List<OtherExpense> GetAllOtherExpenses();
-        OtherExpense GetExpenseDetailsByID(Guid ID);
+        //OtherExpense GetExpenseDetailsByID(Guid ID);
         List<OtherExpense> GetReversalReference(string EmpID, string AccountCode, string EmpTypeCode);
         OtherExpense GetOpeningBalance(string OpeningDate);
         decimal GetMaximumReducibleAmount(string RefNumber);

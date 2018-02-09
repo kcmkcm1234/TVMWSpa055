@@ -297,7 +297,7 @@ namespace UserInterface.Controllers
         {
             try
             {
-                OtherExpenseViewModel otherExpenseViewModel = Mapper.Map<OtherExpense, OtherExpenseViewModel>(_otherExpenseBusiness.GetExpenseDetailsByID(Guid.Parse(ID)));
+                OtherExpenseViewModel otherExpenseViewModel = Mapper.Map<OtherExpense, OtherExpenseViewModel>(_otherExpenseBusiness.GetOtherExpenseByID(Guid.Parse(ID)));
                 if(otherExpenseViewModel!=null)
                 {
                     otherExpenseViewModel.AccountCode = otherExpenseViewModel.AccountCode + ":" + otherExpenseViewModel.chartOfAccountsObj.ISEmploy;
@@ -351,7 +351,7 @@ namespace UserInterface.Controllers
                     otherExpenseViewModel.commonObj = new CommonViewModel();
                     SPAccounts.DataAccessObject.DTO.Common common = new SPAccounts.DataAccessObject.DTO.Common();
                     otherExpenseViewModel.commonObj.CreatedBy = appUA.UserName;
-                    otherExpenseViewModel.commonObj.CreatedDate = appUA.DateTime;
+                    otherExpenseViewModel.commonObj.CreatedDate = common.GetCurrentDateTime();
                     otherExpenseViewModel.commonObj.UpdatedBy = appUA.UserName;
                     otherExpenseViewModel.commonObj.UpdatedDate = common.GetCurrentDateTime();
                     OtherExpenseViewModel otherExpenseVM = null;

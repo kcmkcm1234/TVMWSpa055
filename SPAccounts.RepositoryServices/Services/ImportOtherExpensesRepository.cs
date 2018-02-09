@@ -75,7 +75,7 @@ namespace SPAccounts.RepositoryServices.Services
             try
             {
                 Settings setting  = new Settings();
-                string excessPath = "/Content/Uploads/";
+                string excessPath = "/Content/Uploads/ImportedFiles/";
                 using (SqlConnection con = _databaseFactory.GetDBConnection())
                 {
                     using (SqlCommand cmd = new SqlCommand())
@@ -128,8 +128,8 @@ namespace SPAccounts.RepositoryServices.Services
                 using (OleDbConnection excel_con = _databaseFactory.GetOleDBConnection(flag, fname))
                 {
                     excel_con.Open();
-                    string sheet1           = excel_con.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null).Rows[0]["TABLE_NAME"].ToString();
-                    ExcelData             = new DataTable();
+                    string sheet1           = "Data$";
+                    ExcelData               = new DataTable();
                     //[OPTIONAL]: It is recommended as otherwise the data will be considered as String by default.
                     OleDbCommand cmdExcel   = new OleDbCommand();
                     cmdExcel.Connection     = excel_con;
@@ -170,6 +170,10 @@ namespace SPAccounts.RepositoryServices.Services
                 if (ex.Message.Equals("Column 'Date' does not belong to table ."))
                 {
                     throw new Exception("Invalid Excel File Uploaded");
+                }
+                else if(ex.Message.Equals("'Data$' is not a valid name. Make sure that it does not include invalid characters or punctuation and that it is not too long."))
+                {
+                    throw new Exception("The sheet Data is missing.");
                 }
                 throw ex;
             }
