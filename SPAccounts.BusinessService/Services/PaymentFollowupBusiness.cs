@@ -38,6 +38,11 @@ namespace SPAccounts.BusinessService.Services
         }
         #endregion FollowUpList
 
+        public List<FollowUp> GetRecentFollowUpCount(DateTime? toDay)
+        {
+            return _paymentFollowupRepository.GetRecentFollowUpCount(toDay);
+        }
+
         #region Insertfollowup
         public FollowUp InsertUpdateFollowUp(FollowUp followupObj)
         {

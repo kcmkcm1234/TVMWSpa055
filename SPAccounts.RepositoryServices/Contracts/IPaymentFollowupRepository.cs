@@ -13,6 +13,7 @@ namespace SPAccounts.RepositoryServices.Contracts
         FollowUp InsertFollowUp(FollowUp followupObj);
         FollowUp UpdateFollowUp(FollowUp followupObj);
         FollowUp GetFollowupDetailsByFollowUpID(Guid ID);
+        List<FollowUp> GetRecentFollowUpCount(DateTime? toDay);
         object DeleteFollowUp(Guid ID);
     }
 }

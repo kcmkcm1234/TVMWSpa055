@@ -40,11 +40,11 @@
 
     @if (Model.ApprovalFilter == true)
     {
-        @Html.Hidden("hdnDeletePermitted", true, htmlAttributes: new { @class = "" });
+        @Html.Hidden("hdnIsPermitted", true, htmlAttributes: new { @class = "" });
     }
     else
     {
-        @Html.Hidden("hdnDeletePermitted", false, htmlAttributes: new { @class = "" });
+        @Html.Hidden("hdnIsPermitted", false, htmlAttributes: new { @class = "" });
     }
 
     <div class="col-md-12">
@@ -67,7 +67,7 @@
                         @Html.LabelFor(model => model.ApprovalStatus, htmlAttributes: new { @class = "control-label" })
                     </div>
                     <div class="col-md-11">
-                        @Html.DropDownListFor(model => model.ApprovalStatus, Model.ApprovalStatusList, "ALL", new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "ddlApprovalStatus", @onchange = "ApprovalOnchange(this)", value = -1 })
+                        @Html.DropDownListFor(model => model.ApprovalStatusList, Model.ApprovalStatusList, "ALL", new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "ddlApprovalStatus", @onchange = "ApprovalOnchange(this)", value = -1 })
                         @Html.ValidationMessageFor(model => model.ApprovalStatus, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-md-1"></div>
@@ -265,12 +265,10 @@
                                         <div class="col-md-11">
                                             @if (Model.ApprovalFilter == true)
                                             {
-                                                @Html.Hidden("hdnIsPermitted", true, htmlAttributes: new { @class = "" });
                                                 @Html.DropDownListFor(model => model.ApprovalStatus, Model.ApprovalStatusList, new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "ApprovalStatus", value = -1 })
                                             }
                                             else
                                             {
-                                                @Html.Hidden("hdnIsPermitted", false, htmlAttributes: new { @class = "" });
                                                 @Html.DropDownListFor(model => model.ApprovalStatus, Model.ApprovalStatusList, new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "ApprovalStatus", value = -1 , @disabled = "disabled" })
                                             }
                                         </div>

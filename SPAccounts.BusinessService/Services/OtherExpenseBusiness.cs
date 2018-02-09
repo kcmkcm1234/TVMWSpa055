@@ -124,26 +124,25 @@ namespace SPAccounts.BusinessService.Services
             }
          }
 
-        public OtherExpense GetExpenseDetailsByID(Guid ID)
-        {
-            List<OtherExpense> otherExpenseList = null;
-            OtherExpense otherExpense = null;
-            try
-            {
-                otherExpenseList = GetAllOtherExpenses();
-                otherExpense = otherExpenseList != null ? otherExpenseList.Where(o => o.ID == ID).ToList().FirstOrDefault() : null;
-                if (otherExpense != null)
-                {
-                    otherExpense.creditAmountFormatted = _commonBusiness.ConvertCurrency(otherExpense.Amount, 2);
-
-                }
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
-            return otherExpense;
-        }
+        //public OtherExpense GetExpenseDetailsByID(Guid ID)
+        //{
+        //    List<OtherExpense> otherExpenseList = null;
+        //    OtherExpense otherExpense = null;
+        //    try
+        //    {
+        //        otherExpenseList = GetAllOtherExpenses();
+        //        otherExpense = otherExpenseList != null ? otherExpenseList.Where(o => o.ID == ID).ToList().FirstOrDefault() : null;
+        //        if (otherExpense != null)
+        //        {
+        //            otherExpense.creditAmountFormatted = _commonBusiness.ConvertCurrency(otherExpense.Amount, 2);
+        //        }
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    return otherExpense;
+        //}//Removed due to GetOtherExpenseByID does the same thing using DB select
 
         public decimal GetMaximumReducibleAmount(string refNumber)
         {
@@ -366,6 +365,10 @@ namespace SPAccounts.BusinessService.Services
         public string PayOtherExpense(Guid ID, string createdBy)
         {
             return _otherExpenseRepository.PayOtherExpense(ID, createdBy);
+        }
+        public bool NotifyOtherExpense(Guid ID)
+        {
+            return _otherExpenseRepository.NotifyOtherExpense(ID);
         }
     }
 }

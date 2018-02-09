@@ -40,5 +40,6 @@ namespace SPAccounts.BusinessService.Contracts
         //List<SupplierExpeditingReport> GetSupplierExpeditingDetail(DateTime? ToDate, string Filter,string Company,string Supplier);
         List<SupplierExpeditingReport> GetSupplierExpeditingDetail(ReportAdvanceSearch supplierPayementAdvanceSearchObj);
         List<TrialBalance> GetTrialBalanceReport(DateTime? Date);
+        List<FollowupReport> GetFollowupReportDetail(FollowupReportAdvanceSearch advanceSearchObject);
     }
 }
