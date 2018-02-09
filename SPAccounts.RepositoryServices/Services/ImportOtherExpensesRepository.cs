@@ -128,7 +128,7 @@ namespace SPAccounts.RepositoryServices.Services
                 using (OleDbConnection excel_con = _databaseFactory.GetOleDBConnection(flag, fname))
                 {
                     excel_con.Open();
-                    string sheet1           = "Data$";
+                    string sheet1           = "DataSheet$";
                     ExcelData               = new DataTable();
                     //[OPTIONAL]: It is recommended as otherwise the data will be considered as String by default.
                     OleDbCommand cmdExcel   = new OleDbCommand();
