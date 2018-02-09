@@ -23,7 +23,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string enddate { get; set; }
         public int days { get; set; }
         public string isUpdate { get; set; }
-        public Common commonObj { get; set; }
+        public Common CommonObj { get; set; }
         public string AssignRowValues { get; set; }
         public List<ChartOfAccounts> CheckedRows { get; set; }
     }

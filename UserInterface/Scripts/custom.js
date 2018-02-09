@@ -243,8 +243,7 @@ function ChangeButtonPatchView(Controller, Dom, Action) {
 }
 
 function NetworkFailure(data, status, xhr) {
-    var i = JSON.parse(data)
-    notyAlert('error', status);
+    console.log(xhr);
 }
 
 

@@ -40,11 +40,11 @@
 
     @if (Model.ApprovalFilter == true)
     {
-        @Html.Hidden("hdnDeletePermitted", true, htmlAttributes: new { @class = "" });
+        @Html.Hidden("hdnIsPermitted", true, htmlAttributes: new { @class = "" });
     }
     else
     {
-        @Html.Hidden("hdnDeletePermitted", false, htmlAttributes: new { @class = "" });
+        @Html.Hidden("hdnIsPermitted", false, htmlAttributes: new { @class = "" });
     }
 
     <div class="col-md-12">
@@ -67,7 +67,7 @@
                         @Html.LabelFor(model => model.ApprovalStatus, htmlAttributes: new { @class = "control-label" })
                     </div>
                     <div class="col-md-11">
-                        @Html.DropDownListFor(model => model.ApprovalStatus, Model.ApprovalStatusList, "ALL", new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "ddlApprovalStatus", @onchange = "ApprovalOnchange(this)", value = -1 })
+                        @Html.DropDownListFor(model => model.ApprovalStatusList, Model.ApprovalStatusList, "ALL", new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "ddlApprovalStatus", @onchange = "ApprovalOnchange(this)", value = -1 })
                         @Html.ValidationMessageFor(model => model.ApprovalStatus, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-md-1"></div>
@@ -194,18 +194,21 @@
                             <span style="font-weight: 600;font-size: 20px;" id="AddOrEditSpan">Add New</span>
                         </div>
                     </div>
-                    <div class="col-md-4">
+
+                    <div class="col-md-5">
                         <div class="col-md-12">
                             <p style="font-size:20px;font-weight: 500;float:right;" id="lblApprovalHeader"></p>
                         </div>
                     </div>
-                    <div class="col-md-6" style="padding-right: 4px;">
-                        <span class="rightAmtCaption" style="margin-right:2% !important;padding-left:140px;">Amount :</span>
-                        <span class="rightAmt" style="font-size:20px;margin-right:0px !important;" id="creditdAmt">₹ 0.00</span>
 
-                        <a class="close" data-dismiss="modal" aria-label="Close"><i style="font-size: 33px;" class="fa fa-times-circle" aria-hidden="true"></i></a>
+                    <div class="col-md-4">
+                        <span class="rightAmt" style="font-size:20px;margin-right:0px !important;float:right;" id="creditdAmt">₹ 0.00</span>
+                        <span class="rightAmtCaption" style="margin-right:2% !important;float:right;">Amount :</span>
                     </div>
 
+                    <div class="col-md-1">
+                        <a class="close" data-dismiss="modal" aria-label="Close"><i style="font-size: 33px;" class="fa fa-times-circle" aria-hidden="true"></i></a>
+                    </div>
                 </div>
             </div>
 
@@ -262,12 +265,10 @@
                                         <div class="col-md-11">
                                             @if (Model.ApprovalFilter == true)
                                             {
-                                                @Html.Hidden("hdnIsPermitted", true, htmlAttributes: new { @class = "" });
                                                 @Html.DropDownListFor(model => model.ApprovalStatus, Model.ApprovalStatusList, new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "ApprovalStatus", value = -1 })
                                             }
                                             else
                                             {
-                                                @Html.Hidden("hdnIsPermitted", false, htmlAttributes: new { @class = "" });
                                                 @Html.DropDownListFor(model => model.ApprovalStatus, Model.ApprovalStatusList, new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "ApprovalStatus", value = -1 , @disabled = "disabled" })
                                             }
                                         </div>
@@ -505,7 +506,7 @@
                 </div>
             </div>
             <div class="modal-footer" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 50px;padding: 7px;">
-                <span id="lblIsNotified" style="font-size:medium;float:left;color:green">* Notification Sent</span>
+                <span id="lblIsNotified" style="font-size:medium;float:left;color:green">* Already Notified</span>
                 @Html.HiddenFor(model => model.IsNotified, new { })
                 <a id="btnNotify" class="btn btn-primary" onclick="Notify()"><i class="glyphicon glyphicon-send"></i> Notify</a>
                 <a id="btnPay" class="btn btn-primary" onclick="Pay()"><i class="fa fa-rupee"></i>&nbsp;&nbsp;Pay&nbsp;&nbsp;&nbsp;</a>

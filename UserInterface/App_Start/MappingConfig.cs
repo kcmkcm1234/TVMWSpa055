@@ -121,6 +121,8 @@ namespace UserInterface.App_Start
                 config.CreateMap<OutGoingChequesViewModel, OutGoingCheques>().ReverseMap();
                 config.CreateMap<ReportAdvanceSearchViewModel, ReportAdvanceSearch>().ReverseMap();
                 config.CreateMap<FollowupReportViewModel, FollowupReport>().ReverseMap();
+                config.CreateMap<IncomingChequesViewModel, IncomingCheques>().ReverseMap();
+                config.CreateMap<ReportAdvanceSearchViewModel, ReportAdvanceSearch>().ReverseMap();             
             });
         }
     }

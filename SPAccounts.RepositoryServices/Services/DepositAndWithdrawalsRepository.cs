@@ -450,7 +450,7 @@ namespace SPAccounts.RepositoryServices.Services
         #endregion GetUndepositedCheque
 
 
-
+        #region Get all outgoing cheques list
         public List<OutGoingCheques> GetOutGoingCheques(OutgoingChequeAdvanceSearch advanceSearchObject)
         {
             List<OutGoingCheques> outgoingcheque = null;
@@ -510,6 +510,73 @@ namespace SPAccounts.RepositoryServices.Services
 
             return outgoingcheque;
         }
+        #endregion Get all outgoing cheques list
+
+        #region Get all incoming cheques list
+        public List<IncomingCheques> GetIncomingCheques(OutgoingChequeAdvanceSearch advanceSearchObject)
+        {
+            List<IncomingCheques> incomingcheque = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = advanceSearchObject.FromDate == "" ? null : advanceSearchObject.FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = advanceSearchObject.ToDate;
+                        cmd.Parameters.Add("@Company", SqlDbType.NVarChar, 20).Value = advanceSearchObject.Company;
+                        cmd.Parameters.Add("@Customer", SqlDbType.UniqueIdentifier).Value = advanceSearchObject.Customer;
+                        cmd.Parameters.Add("@Status", SqlDbType.NVarChar, 20).Value = advanceSearchObject.Status;
+                        cmd.Parameters.Add("@Search", SqlDbType.NVarChar, 20).Value = advanceSearchObject.Search;
+                        cmd.CommandText = "[Accounts].[GetAllIncomingCheques]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                incomingcheque = new List<IncomingCheques>();
+                                while (sdr.Read())
+                                {
+                                    IncomingCheques depositAndWithdrawalsObj = new IncomingCheques();
+                                    {
+                                        depositAndWithdrawalsObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : depositAndWithdrawalsObj.ID);
+                                        depositAndWithdrawalsObj.ChequeNo = (sdr["ChequeNo"].ToString() != "" ? (sdr["ChequeNo"].ToString()) : depositAndWithdrawalsObj.ChequeNo);
+                                        depositAndWithdrawalsObj.ChequeDate = (sdr["ChequeDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeDate"].ToString()).ToString(s.dateformat) : depositAndWithdrawalsObj.ChequeDate);
+                                        depositAndWithdrawalsObj.CreatedDate = (sdr["CreatedDate"].ToString() != "" ? DateTime.Parse(sdr["CreatedDate"].ToString()).ToString(s.dateformat) : depositAndWithdrawalsObj.CreatedDate);
+                                        depositAndWithdrawalsObj.Bank = (sdr["BankName"].ToString() != "" ? (sdr["BankName"].ToString()) : depositAndWithdrawalsObj.Bank);
+                                        depositAndWithdrawalsObj.customerObj = new Customer();
+                                        depositAndWithdrawalsObj.customerObj.CompanyName = (sdr["CustomerName"].ToString() != "" ? (sdr["CustomerName"].ToString()) : depositAndWithdrawalsObj.customerObj.CompanyName);
+                                     
+                                        //depositAndWithdrawalsObj.customerObj.CompanyName = (sdr["Customer"].ToString() != "" ? (sdr["Customer"].ToString()) : depositAndWithdrawalsObj.customerObj.CompanyName);
+                                        depositAndWithdrawalsObj.Status = (sdr["Status"].ToString() != "" ? (sdr["Status"].ToString()) : depositAndWithdrawalsObj.Status);
+                                        depositAndWithdrawalsObj.Remarks = (sdr["Remarks"].ToString() != "" ? (sdr["Remarks"].ToString()) : depositAndWithdrawalsObj.Remarks);
+                                        depositAndWithdrawalsObj.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : depositAndWithdrawalsObj.Amount);
+                                        depositAndWithdrawalsObj.Company = (sdr["Company"].ToString() != "" ? (sdr["Company"].ToString()) : depositAndWithdrawalsObj.Company);
+
+                                    }
+
+                                    incomingcheque.Add(depositAndWithdrawalsObj);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return incomingcheque;
+        }
+        #endregion Get all incoming cheques list
         #region GetUndepositedChequeCount
         public string GetUndepositedChequeCount(string Date)
         {
@@ -944,6 +1011,117 @@ namespace SPAccounts.RepositoryServices.Services
 
 
 
+        public IncomingCheques InsertIncomingCheques(IncomingCheques incomingChequeObj)
+        {
+            try
+            {
+                SqlParameter outputStatus, outputID = null;
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[InsertIncomingCheques]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@ChequeNo", SqlDbType.NVarChar, 50).Value = incomingChequeObj.ChequeNo;
+                        cmd.Parameters.Add("@ChequeDate", SqlDbType.DateTime).Value = incomingChequeObj.ChequeDate;
+                        cmd.Parameters.Add("@Bank", SqlDbType.NVarChar, 50).Value = incomingChequeObj.Bank;
+                        cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = incomingChequeObj.Amount;
+                        cmd.Parameters.Add("@Status", SqlDbType.NVarChar, 50).Value = incomingChequeObj.Status;
+                        cmd.Parameters.Add("@Customer", SqlDbType.UniqueIdentifier).Value = incomingChequeObj.Customer;
+                        cmd.Parameters.Add("@Remarks", SqlDbType.NVarChar, -1).Value = incomingChequeObj.Remarks;
+                        cmd.Parameters.Add("@FromCompany", SqlDbType.NVarChar, 50).Value = incomingChequeObj.Company;
+                        cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = incomingChequeObj.commonObj.CreatedBy;
+                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = incomingChequeObj.commonObj.CreatedDate;
+                        outputStatus = cmd.Parameters.Add("@Outstatus", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        outputID = cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier);
+                        outputID.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+
+
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        AppConst Cobj = new AppConst();
+                        throw new Exception(Cobj.InsertFailure);
+                    case "1":
+                        incomingChequeObj.ID = Guid.Parse(outputID.Value.ToString());
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return incomingChequeObj;
+        }
+
+
+
+        public object UpdateIncomingCheques(IncomingCheques incomingChequeObj)
+        {
+            SqlParameter outputStatus = null;
+            try
+            {
+
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[UpdateIncomingCheques]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = incomingChequeObj.ID;
+                        cmd.Parameters.Add("@ChequeNo", SqlDbType.NVarChar, 50).Value = incomingChequeObj.ChequeNo;
+                        cmd.Parameters.Add("@ChequeDate", SqlDbType.DateTime).Value = incomingChequeObj.ChequeDate;
+                        cmd.Parameters.Add("@Bank", SqlDbType.NVarChar, 50).Value = incomingChequeObj.Bank;
+                        cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = incomingChequeObj.Amount;
+                        cmd.Parameters.Add("@Status", SqlDbType.NVarChar, 50).Value = incomingChequeObj.Status;
+                        cmd.Parameters.Add("@Remarks", SqlDbType.NVarChar, -1).Value = incomingChequeObj.Remarks;
+                        cmd.Parameters.Add("@Customer", SqlDbType.UniqueIdentifier).Value = incomingChequeObj.Customer;
+                        cmd.Parameters.Add("@Company", SqlDbType.NVarChar, 50).Value = incomingChequeObj.Company;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = incomingChequeObj.commonObj.CreatedBy;
+                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = incomingChequeObj.commonObj.CreatedDate;
+                        outputStatus = cmd.Parameters.Add("@OutStatus", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+
+
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return new
+            {
+                Message = Cobj.UpdateSuccess
+            };
+        }
+
+
+
         public object DeleteOutgoingCheque(Guid ID)
         {
             SqlParameter outputStatus = null;
@@ -988,7 +1166,49 @@ namespace SPAccounts.RepositoryServices.Services
             };
         }
 
+        public object DeleteIncomingCheque(Guid ID)
+        {
+            SqlParameter outputStatus = null;
+            try
+            {
 
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[DeleteIncomingCheque]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = ID;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        throw new Exception(Cobj.DeleteFailure);
+                    default:
+                        break;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return new
+            {
+                Status = outputStatus.Value.ToString(),
+                Message = Cobj.DeleteSuccess
+            };
+        }
 
         public OutGoingCheques GetOutgoingChequeById(Guid ID)
         {
@@ -1035,6 +1255,50 @@ namespace SPAccounts.RepositoryServices.Services
             return outGoingChequesObj;
         }
 
+        public IncomingCheques GetIncomingChequeById(Guid ID)
+        {
+            IncomingCheques incomingChequesObj = new IncomingCheques();
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetIncomingChequesByID]";
+                        cmd.Parameters.Add("@Id", SqlDbType.UniqueIdentifier).Value = ID;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                                if (sdr.Read())
+                                {
+                                    incomingChequesObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : incomingChequesObj.ID);
+                                    incomingChequesObj.ChequeNo = (sdr["ChequeNo"].ToString() != "" ? (sdr["ChequeNo"].ToString()) : incomingChequesObj.ChequeNo);
+                                    incomingChequesObj.ChequeDate = (sdr["ChequeDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeDate"].ToString()).ToString(s.dateformat) : incomingChequesObj.ChequeDate);
+                                    incomingChequesObj.Bank = (sdr["Bank"].ToString() != "" ? (sdr["Bank"].ToString()) : incomingChequesObj.Bank);
+                                    incomingChequesObj.Customer = (sdr["Customer"].ToString() != "" ? Guid.Parse(sdr["Customer"].ToString()) : incomingChequesObj.Customer);
+                                    incomingChequesObj.Status = (sdr["Status"].ToString() != "" ? (sdr["Status"].ToString()) : incomingChequesObj.Status);
+                                    incomingChequesObj.Remarks = (sdr["Remarks"].ToString() != "" ? (sdr["Remarks"].ToString()) : incomingChequesObj.Remarks);
+                                    incomingChequesObj.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : incomingChequesObj.Amount);
+                                    incomingChequesObj.Company = (sdr["FromCompany"].ToString() != "" ? (sdr["FromCompany"].ToString()) : incomingChequesObj.Company);
+                                }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return incomingChequesObj;
+        }
 
         public object ValidateChequeNo(OutGoingCheques outGoingChequeObj)
         {
@@ -1079,6 +1343,47 @@ namespace SPAccounts.RepositoryServices.Services
 
         }
 
+        public object ValidateChequeNoIncomingCheque(IncomingCheques incomingChequeObj)
+        {
+            AppConst appcust = new AppConst();
+            SqlParameter outputStatus = null;
+            SqlParameter outputStatus1 = null;
+            try
+            {
 
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[ValidateIncomingChequeNo]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ChequeNo", SqlDbType.VarChar, 20).Value = incomingChequeObj.ChequeNo;
+                        cmd.Parameters.Add("@Bank", SqlDbType.NVarChar, 50).Value = incomingChequeObj.Bank;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = incomingChequeObj.ID;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus1 = cmd.Parameters.Add("@message", SqlDbType.VarChar, 100);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        outputStatus1.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+
+                    }
+                }
+
+            }
+
+
+            catch (Exception ex)
+            {
+                return new { Message = ex.ToString(), Status = -1 };
+            }
+
+            return new { Message = outputStatus1.Value.ToString(), Status = outputStatus.Value };
+
+        }
     }
 }

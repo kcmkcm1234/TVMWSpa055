@@ -5,46 +5,46 @@ var DataTables = {};
 
 $(document).ready(function () {
     try {
-
-        DataTables.OutGoingChequeTable = $('#OutGoingChequeTable').DataTable(
+        debugger;
+        DataTables.IncomingChequeTable = $('#IncomingChequeTable').DataTable(
          {
              dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
              buttons: [{
                  extend: 'excel',
                  exportOptions:
                     {
-                        columns: [1, 2, 3, 4,5,6,7,8,9]
+                        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9]
                     }
              }],
              order: [],
              searching: false,
              paging: true,
-             data: GetOutGoingCheques(0),
-             pageLength: 10,            
+             data: GetIncomingCheque(0),
+             pageLength: 50,
              columns: [
                { "data": "ID", "defaultContent": "<i>-</i>" },
                { "data": "ChequeNo", "defaultContent": "<i>-</i>" },
-               { "data": "ChequeDate", "defaultContent": "<i>-</i>"},
-               { "data": "Bank","defaultContent": "<i>-</i>"},
+               { "data": "ChequeDate", "defaultContent": "<i>-</i>" },
+               { "data": "Bank", "defaultContent": "<i>-</i>" },
                {
-                  "data": "Amount", render: function (data, type, row) {
-                                      return roundoff(data, 1);
-                                  }, "defaultContent": "<i>-</i>"
-                              },
-               { "data": "Party", "defaultContent": "<i>-</i>", "width": "10%" },
+                   "data": "Amount", render: function (data, type, row) {
+                       return roundoff(data, 1);
+                   }, "defaultContent": "<i>-</i>"
+               },
+               { "data": "customerObj.CompanyName", "defaultContent": "<i>-</i>", "width": "10%" },
                { "data": "Status", "defaultContent": "<i>-</i>" },
                 { "data": "Remarks", "defaultContent": "<i>-</i>", "width": "20%" },
                { "data": "Company", "defaultContent": "<i>-</i>" },
                { "data": "CreatedDate", "defaultContent": "<i>-</i>" },
                { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="EditRecord(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
              ],
-             columnDefs: [{ "targets": [0], "visible": false, "searchable": false }, 
+             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                   { className: "text-left", "targets": [1] },
                   { className: "text-right", "targets": [4] },
-                  { className: "text-center", "targets": [2,3,6,5,7,8,9] }]
+                  { className: "text-center", "targets": [2, 3, 6, 5, 7, 8, 9] }]
          });
         $(".buttons-excel").hide();
-        $('#OutGoingChequeTable tbody').on('dblclick', 'td', function () {
+        $('#IncomingChequeTable tbody').on('dblclick', 'td', function () {
             EditRecord(this);
         });
         startDate = $("#todate").val();
@@ -59,17 +59,17 @@ $(document).ready(function () {
 
 
 //Bind Values to Datatable
-function GetOutGoingCheques(outGoingChequesAdvanceSearchObject) {
+function GetIncomingCheque(incomingChequesAdvanceSearchObject) {
     debugger;
     try {
-        if (outGoingChequesAdvanceSearchObject === 0) {
+        if (incomingChequesAdvanceSearchObject === 0) {
             var data = {};
         }
         else {
-            var data = { "outGoingChequesAdvanceSearchObject": JSON.stringify(outGoingChequesAdvanceSearchObject) };
+            var data = { "incomingChequesAdvanceSearchObject": JSON.stringify(incomingChequesAdvanceSearchObject) };
         }
         var ds = {};
-        ds = GetDataFromServer("DepositAndWithdrawals/GetOutGoingCheques/", data);
+        ds = GetDataFromServer("DepositAndWithdrawals/GetIncomingCheques/", data);
         if (ds != '') {
             ds = JSON.parse(ds);
         }
@@ -94,36 +94,39 @@ function FilterContent() {
     var toDate = $("#todate");
     var company = $("#CompanyCode");
     var status = $("#ddlStatus");
+    var customer = $("#Customer");
     var search = $("#txtOutSearch");
-    var OutgoingChequeAdvanceSearch = new Object();
-    OutgoingChequeAdvanceSearch.FromDate = fromDate[0].value !== "" ? fromDate[0].value : null;
-    OutgoingChequeAdvanceSearch.ToDate = toDate[0].value !== "" ? toDate[0].value : null;
-    OutgoingChequeAdvanceSearch.Status = status[0].value !== "" ? status[0].value : null;
-    OutgoingChequeAdvanceSearch.Search = search[0].value !== "" ? search[0].value : null;
-    OutgoingChequeAdvanceSearch.Company = company[0].value !== "" ? company[0].value : null;
-    DataTables.OutGoingChequeTable.clear().rows.add(GetOutGoingCheques(OutgoingChequeAdvanceSearch)).draw(true);   
+    var IncomingChequeAdvanceSearch = new Object();
+    IncomingChequeAdvanceSearch.FromDate = fromDate[0].value !== "" ? fromDate[0].value : null;
+    IncomingChequeAdvanceSearch.ToDate = toDate[0].value !== "" ? toDate[0].value : null;
+    IncomingChequeAdvanceSearch.Status = status[0].value !== "" ? status[0].value : null;
+    IncomingChequeAdvanceSearch.Search = search[0].value !== "" ? search[0].value : null;
+    IncomingChequeAdvanceSearch.Customer = customer[0].value !== "" ? customer[0].value : null;
+    IncomingChequeAdvanceSearch.Company = company[0].value !== "" ? company[0].value : null;
+    DataTables.IncomingChequeTable.clear().rows.add(GetIncomingCheque(IncomingChequeAdvanceSearch)).draw(true);
 }
 
 //Add form for inserting new elements
-function AddNew()
-{
+function AddNew() {
     debugger;
     Resetform();
     openNav();
-    ChangeButtonPatchView('DepositAndWithdrawals', 'btnPatchAdd', 'AddSub');
+    ChangeButtonPatchView('DepositAndWithdrawals', 'btnPatchAdd', 'AddSubIncoming');
+
+
 }
 
 //Save the added data to database
 function SaveForm() {
     debugger;
-  
+
     ValidateChequeNo();
 }
 
 
 
-//Message alerts for Save Sucess or Failure
-function SaveSuccessOutGoingCheque(data, status) {
+//Message alerts for Save Success or Failure
+function SaveSuccessIncomingCheque(data, status) {
     debugger;
     var JsonResult = JSON.parse(data)
     switch (JsonResult.Result) {
@@ -131,9 +134,9 @@ function SaveSuccessOutGoingCheque(data, status) {
             {
                 notyAlert('success', JsonResult.Message);
             }
-            $('#OutGoingObj_ID').val(JsonResult.Records.ID);
-            BindAllOutgoingCheques();
-          
+            $('#IncomingObj_ID').val(JsonResult.Records.ID);
+            BindAllIncomingCheques();
+
             //List();
             break;
         case "ERROR":
@@ -147,12 +150,12 @@ function SaveSuccessOutGoingCheque(data, status) {
 
 
 //Get Data based on ID
-function GetOutgoingCheques(ID) {
+function GetIncomingCheques(ID) {
     debugger;
     try {
         var data = { "ID": ID };
         var ds = {};
-        ds = GetDataFromServer("DepositAndWithdrawals/GetOutgoingChequeById/", data);
+        ds = GetDataFromServer("DepositAndWithdrawals/GetIncomingChequeById/", data);
         if (ds != '') {
             ds = JSON.parse(ds);
         }
@@ -171,39 +174,39 @@ function GetOutgoingCheques(ID) {
 //Opens Edit form to edit data
 function EditRecord(Obj) {
     debugger;
-    ChangeButtonPatchView('DepositAndWithdrawals', 'btnPatchAdd', 'EditOutGoing');
-    var rowData = DataTables.OutGoingChequeTable.row($(Obj).parents('tr')).data();
-    $('#OutGoingObj_ID').val(rowData.ID);
-    PaintOutGoingCheques(rowData.ID);
+    ChangeButtonPatchView('DepositAndWithdrawals', 'btnPatchAdd', 'EditIncoming');
+    var rowData = DataTables.IncomingChequeTable.row($(Obj).parents('tr')).data();
+    $('#IncomingObj_ID').val(rowData.ID);
+    PaintIncomingCheques(rowData.ID);
     openNav();
 }
 
 
 //Resets the form
 function Resetform() {
-    $("#OutGoingObj_ID").val("");
-    var validator = $("#OutgoingForm").validate();
-    $('#OutgoingForm').find('.field-validation-error span').each(function () {
+    $("#IncomingObj_ID").val("");
+    var validator = $("#IncomingForm").validate();
+    $('#IncomingForm').find('.field-validation-error span').each(function () {
         validator.settings.success($(this));
     });
-    $('#OutgoingForm')[0].reset();
+    $('#IncomingForm')[0].reset();
 }
 
 //Fills data on required fields for editing  
-function PaintOutGoingCheques(ID) {
+function PaintIncomingCheques(ID) {
     debugger;
-    var thisItem = GetOutgoingCheques(ID);
+    var thisItem = GetIncomingCheques(ID);
     if (thisItem) {
-        $('#OutGoingObj_ID').val(thisItem.ID);
-        $('#hdnOutgoingChequeDeleteID').val(thisItem.ID);
+        $('#IncomingObj_ID').val(thisItem.ID);
+        $('#hdnIncomingChequeDeleteID').val(thisItem.ID);
         $('#txtChequeNo').val(thisItem.ChequeNo);
         $('#txtChequeDate').val(thisItem.ChequeDate);
         $('#ddlBank').val(thisItem.Bank);
         $('#ddlCompany').val(thisItem.Company);
         $('#ddlStatusType').val(thisItem.Status);
         $('#txtAmount').val(thisItem.Amount);
-        $('#txtParty').val(thisItem.Party);
-        $('#OutGoingObj_Remarks').val(thisItem.Remarks);
+        $('#txtCustomer').val(thisItem.Customer);
+        $('#IncomingObj_Remarks').val(thisItem.Remarks);
 
     }
 }
@@ -227,8 +230,8 @@ function DeleteSuccess(data, status) {
     switch (JsonResult.Result) {
         case "OK":
             Resetform();
-            BindAllOutgoingCheques();
-            ChangeButtonPatchView('DepositAndWithdrawals', 'btnPatchAdd', 'AddSub');
+            BindAllIncomingCheques();
+            ChangeButtonPatchView('DepositAndWithdrawals', 'btnPatchAdd', 'AddSubIncoming');
             notyAlert('success', JsonResult.Records.Message);
             break;
         case "Error":
@@ -245,10 +248,10 @@ function DeleteSuccess(data, status) {
 
 
 //Bind the Datatable
-function BindAllOutgoingCheques() {
+function BindAllIncomingCheques() {
     try {
-       
-        DataTables.OutGoingChequeTable.clear().rows.add(GetOutGoingCheques()).draw(false);
+
+        DataTables.IncomingChequeTable.clear().rows.add(GetIncomingCheque()).draw(false);
     }
     catch (e) {
         notyAlert('error', e.message);
@@ -269,14 +272,14 @@ function PrintReport() {
 
 //Resets advanced Search
 function FilterReset() {
-  
+
     $("#todate").val('');
     $("#fromdate").val('');
     $("#CompanyCode").val('')
     $("#ddlStatus").val('');
     $("#txtOutSearch").val('');
-  
-    BindAllOutgoingCheques();
+    $("#Customer").val('');
+    BindAllIncomingCheques();
 }
 
 //Saves the validated data
@@ -295,12 +298,12 @@ function SaveValidatedData() {
 
 function ValidateChequeNo() {
     debugger;
-    var OutGoingChequesViewModel = new Object();
-    OutGoingChequesViewModel.ChequeNo = $("#txtChequeNo").val();
-    OutGoingChequesViewModel.ID = $("#OutGoingObj_ID").val();
-    OutGoingChequesViewModel.Bank = $("#ddlBank").val();
-    var data = "{'outGoingChequeObj': " + JSON.stringify(OutGoingChequesViewModel) + "}";
-    PostDataToServer("DepositAndWithdrawals/ValidateChequeNo/", data, function (JsonResult) {
+    var IncomingChequesViewModel = new Object();
+    IncomingChequesViewModel.ChequeNo = $("#txtChequeNo").val();
+    IncomingChequesViewModel.ID = $("#IncomingObj_ID").val();
+    IncomingChequesViewModel.Bank = $("#ddlBank").val();
+    var data = "{'incomingChequeObj': " + JSON.stringify(IncomingChequesViewModel) + "}";
+    PostDataToServer("DepositAndWithdrawals/ValidateChequeNoIncomingCheque/", data, function (JsonResult) {
         debugger;
         if (JsonResult != '') {
             switch (JsonResult.Result) {

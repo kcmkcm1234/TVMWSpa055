@@ -31,11 +31,10 @@ namespace UserInterface.Models
         public string startdate { get; set; }
         public string enddate { get; set; }
         public int days { get; set; }
-        public CommonViewModel commonObj { get; set; }
+        public CommonViewModel CommonObj { get; set; }
         public string isUpdate { get; set; }
         public string hdnCode { get; set; }
         public string hdnType { get; set; }
-        public CommonViewModel CommonObj { get; set; }
         public string AssignRowValues { get; set; }
         public List<ChartOfAccountsViewModel> CheckedRows { get; set; }
     }

@@ -297,9 +297,10 @@ namespace UserInterface.Controllers
         {
             try
             {
-                OtherExpenseViewModel otherExpenseViewModel = Mapper.Map<OtherExpense, OtherExpenseViewModel>(_otherExpenseBusiness.GetExpenseDetailsByID(Guid.Parse(ID)));
-                if(otherExpenseViewModel!=null)
+                OtherExpenseViewModel otherExpenseViewModel = Mapper.Map<OtherExpense, OtherExpenseViewModel>(_otherExpenseBusiness.GetOtherExpenseByID(Guid.Parse(ID)));
+                if (otherExpenseViewModel!=null)
                 {
+                    otherExpenseViewModel.creditAmountFormatted = _commonBusiness.ConvertCurrency(otherExpenseViewModel.Amount, 2);
                     otherExpenseViewModel.AccountCode = otherExpenseViewModel.AccountCode + ":" + otherExpenseViewModel.chartOfAccountsObj.ISEmploy;
                 }
                
@@ -351,7 +352,7 @@ namespace UserInterface.Controllers
                     otherExpenseViewModel.commonObj = new CommonViewModel();
                     SPAccounts.DataAccessObject.DTO.Common common = new SPAccounts.DataAccessObject.DTO.Common();
                     otherExpenseViewModel.commonObj.CreatedBy = appUA.UserName;
-                    otherExpenseViewModel.commonObj.CreatedDate = appUA.DateTime;
+                    otherExpenseViewModel.commonObj.CreatedDate = common.GetCurrentDateTime();
                     otherExpenseViewModel.commonObj.UpdatedBy = appUA.UserName;
                     otherExpenseViewModel.commonObj.UpdatedDate = common.GetCurrentDateTime();
                     OtherExpenseViewModel otherExpenseVM = null;
@@ -407,6 +408,7 @@ namespace UserInterface.Controllers
                 _employeeObj.commonObj.CreatedDate = appUA.DateTime;
                 _employeeObj.commonObj.UpdatedBy = appUA.UserName;
                 _employeeObj.commonObj.UpdatedDate = common.GetCurrentDateTime();
+                _employeeObj.IsActive = true;
 
                 result = _employeeBusiness.InsertUpdateEmployee(Mapper.Map<EmployeeViewModel, Employee>(_employeeObj));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
@@ -557,14 +559,14 @@ namespace UserInterface.Controllers
                 otherExpenseVM.commonObj = new CommonViewModel();
                 otherExpenseVM.commonObj.UpdatedBy = appUA.UserName;
                 otherExpenseVM.commonObj.UpdatedDate = common.GetCurrentDateTime();
-                OtherExpenseViewModel result = Mapper.Map<OtherExpense, OtherExpenseViewModel>(_otherExpenseBusiness.UpdateOtherExpense(Mapper.Map<OtherExpenseViewModel, OtherExpense>(otherExpenseVM)));
+                bool result = _otherExpenseBusiness.NotifyOtherExpense(otherExpenseVM.ID);
 
                 string titleString = "Expense Approval";
                 string descriptionString = otherExpenseVM.RefNo + ", Expense: " + otherExpenseVM.AccountCode + ", Amount: " + otherExpenseVM.Amount + ", Notes: " + otherExpenseVM.Description;
                 Boolean isCommon = true;
                 string customerID = "";
                 _commonBusiness.SendToFCM(titleString, descriptionString, isCommon, customerID);
-                return JsonConvert.SerializeObject(new { Result = "OK", Message = c.NotificationSuccess, Records = result });
+                return JsonConvert.SerializeObject(new { Result = "OK", Message = (result ? c.NotificationSuccess : "Failed") });
             }
             catch (Exception ex)
             {
