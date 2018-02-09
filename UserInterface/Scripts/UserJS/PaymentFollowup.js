@@ -125,6 +125,8 @@ function OnCallChange() {
 function dashboardBind(ID) {
     debugger;
     var pos = ID.split(",");
+    
+    
     FollowUpList(pos[0]);
     FollowUp(1);
     $("#lblCustomer").text(pos[1]);
@@ -133,7 +135,10 @@ function dashboardBind(ID) {
         $("#lblmobile").text(pos[4]);
         $("#lblmobile").attr('title', pos[4]);
     }
-    FillFollowUpDetails(pos[3])
+    FillFollowUpDetails(pos[3]);
+    
+    $('#btnSave').hide();
+    $('#followUpResetbtn').hide();
 }
 
 //To refresh based on filter
@@ -309,7 +314,14 @@ function FollowUpSaveSuccess(data) {
             ClearFollowUp();
             FollowUp(1);
             //$('#followUpResetbtn').hide();
+            try {
+                GetRecentFollowUpCount();
+            }
+            catch (x) {
+                notyAlert('error', x.message);
+            }
             notyAlert('success', JsonResult.Message);
+            
             break;
         case "ERROR":
             notyAlert('error', JsonResult.Message);
