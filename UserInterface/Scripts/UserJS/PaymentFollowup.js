@@ -128,17 +128,16 @@ function dashboardBind(ID) {
     
     
     FollowUpList(pos[0]);
-    FollowUp(1);
+    
     $("#lblCustomer").text(pos[1]);
+    if(pos[2]!="null")
     $("#lblContact").text(pos[2]);
     if (pos[4]!="null") {
         $("#lblmobile").text(pos[4]);
         $("#lblmobile").attr('title', pos[4]);
     }
-    FillFollowUpDetails(pos[3]);
-    
-    $('#btnSave').hide();
-    $('#followUpResetbtn').hide();
+    $("#CustomerID").val(pos[0]);
+    FollowUp(pos[3], 1);
 }
 
 //To refresh based on filter
@@ -309,11 +308,10 @@ function FollowUpSaveSuccess(data) {
     switch (JsonResult.Result) {
         case "OK":
             debugger;
-            FollowUpList(JsonResult.Records.CustomerID);
+            FollowUpList($("#CustomerID").val());
             var Count = $('#hdnCountOpen').val()
             ClearFollowUp();
             FollowUp(1);
-            //$('#followUpResetbtn').hide();
             try {
                 GetRecentFollowUpCount();
             }
