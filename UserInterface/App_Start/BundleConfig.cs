@@ -115,8 +115,9 @@ namespace UserInterface.App_Start
 
             bundles.Add(new ScriptBundle("~/bundles/PaymentFollowup").Include("~/Scripts/UserJS/PaymentFollowup.js"));
             bundles.Add(new ScriptBundle("~/bundles/OtherExpenseLimitedDetailsReport").Include("~/Scripts/UserJS/OtherExpenseLimitedDetailsReport.js"));
-        
-    }
+            bundles.Add(new ScriptBundle("~/bundles/PaymentFollowupsReport").Include("~/Scripts/UserJS/PaymentFollowupsReport.js"));
+
+        }
           
         }
             

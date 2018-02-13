@@ -524,7 +524,7 @@ namespace UserInterface.Controllers
 
         #region Limited Expense Report For OtherExpenseReport
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "OEReport", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "OELimittedReport", Mode = "R")]
         public ActionResult OtherExpenseLimitedDetails()
         {
             AppUA _appUA = Session["AppUA"] as AppUA;
@@ -2067,6 +2067,69 @@ namespace UserInterface.Controllers
             }
             result.companyObj.CompanyList = selectListItem;
             return View(result);
+        }
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "PaymentFollowupReport", Mode = "R")]
+        public ActionResult PaymentFollowups(string id)
+        {
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            DateTime dt = _appUA.DateTime;
+            ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+            ViewBag.todate = dt.ToString("dd-MMM-yyyy");
+            FollowUpReportListViewModel result = new FollowUpReportListViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            selectListItem = new List<SelectListItem>();
+            selectListItem.Add(new SelectListItem { Text = "Open", Value = "Open", Selected = true });
+            selectListItem.Add(new SelectListItem { Text = "Closed", Value = "Closed", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "All", Value = "ALL", Selected = false });
+            result.StatusFilter = selectListItem;
+            selectListItem = new List<SelectListItem>();
+            result.customerObj = new CustomerViewModel();
+            List<CustomerViewModel> customerList = Mapper.Map<List<Customer>, List<CustomerViewModel>>(_customerBusiness.GetAllCustomers());
+            if (customerList != null)
+            {
+                foreach (CustomerViewModel customerVM in customerList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = customerVM.CompanyName,
+                        Value = customerVM.CompanyName.ToString(),
+                        Selected = false
+                    });
+                }
+            }
+            result.customerObj.CustomerList = selectListItem;
+            return View(result);
+        }
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "PaymentFollowupReport", Mode = "R")]
+        public string GetFollowupReport(string paymentFollowupAdvanceSearchObj)
+        {
+            try
+            {
+                
+                FollowupReportAdvanceSearch followupAdvanceSearchObj = paymentFollowupAdvanceSearchObj != null ? JsonConvert.DeserializeObject<FollowupReportAdvanceSearch>(paymentFollowupAdvanceSearchObj) : new FollowupReportAdvanceSearch();
+                AppUA appUA = Session["AppUA"] as AppUA;
+                DateTime dt = appUA.DateTime;
+                if (paymentFollowupAdvanceSearchObj == null)
+                {
+                    followupAdvanceSearchObj.FromDate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+                    followupAdvanceSearchObj.ToDate = appUA.DateTime.ToString("dd-MMM-yyyy");
+                    followupAdvanceSearchObj.Status = "Open";
+                   
+                }
+                FollowUpReportListViewModel result = new FollowUpReportListViewModel();
+                
+                result.FollowUpList= Mapper.Map<List<FollowupReport>, List<FollowupReportViewModel>>(_reportBusiness.GetFollowupReportDetail(followupAdvanceSearchObj));
+                
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+            }
+
         }
 
         [HttpGet]

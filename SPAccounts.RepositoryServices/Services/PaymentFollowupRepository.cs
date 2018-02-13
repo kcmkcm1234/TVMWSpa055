@@ -84,6 +84,60 @@ namespace SPAccounts.RepositoryServices.Services
         }
         #endregion CustomerExpedityDetail
 
+        #region GetRecentFollowUps
+        public List<FollowUp> GetRecentFollowUpCount(DateTime? Today)
+        {
+            List<FollowUp> followUpList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetRecentFollowUpList]";
+                        cmd.Parameters.Add("@Today", SqlDbType.Date).Value = Today;
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                followUpList = new List<FollowUp>();
+                                while (sdr.Read())
+                                {
+                                    FollowUp followUpObj = new FollowUp();
+                                    {
+                                        followUpObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : followUpObj.ID);
+                                        followUpObj.CustomerID = (sdr["CustomerID"].ToString() != "" ? Guid.Parse(sdr["CustomerID"].ToString()) : followUpObj.CustomerID);
+                                        followUpObj.ContactName = (sdr["ContactName"].ToString() != "" ? sdr["ContactName"].ToString() : followUpObj.ContactName);
+                                        followUpObj.Company = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : followUpObj.Company);
+                                        followUpObj.FollowUpDate = (sdr["FollowUpDate"].ToString() != "" ? DateTime.Parse(sdr["FollowUpDate"].ToString()).ToString(s.dateformat) : followUpObj.FollowUpDate);
+                                        followUpObj.FollowUpTime = (sdr["FollowUpTime"].ToString() != "" ? DateTime.Parse(sdr["FollowUpTime"].ToString()).ToString("hh:mm tt") : followUpObj.FollowUpTime);
+                                        followUpObj.ContactNO = (sdr["ContactNO"].ToString() != "" ? sdr["ContactNO"].ToString() : followUpObj.ContactNO);
+                                        followUpObj.Remarks = (sdr["Remarks"].ToString() != "" ? sdr["Remarks"].ToString() : followUpObj.Remarks);
+                                        followUpObj.Status = (sdr["Status"].ToString() != "" ? sdr["Status"].ToString() : followUpObj.Status);
+                                    }
+                                    followUpList.Add(followUpObj);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return followUpList;
+        }
+        #endregion GetRecentFollowUps
+
         #region InsertFollowUp
         public FollowUp InsertFollowUp(FollowUp followupObj)
         {

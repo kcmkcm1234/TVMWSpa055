@@ -31,8 +31,10 @@ namespace UserInterface.Controllers
             _tool = tool;
             
         }
+        [AuthSecurityFilter(ProjectObject = "PaymentFollowups", Mode = "R")]
         public ActionResult Index(string id)
         {
+            ViewBag.value = id;
             AppUA appUA = Session["AppUA"] as AppUA;
             DateTime dt = new DateTime();
             dt = appUA.DateTime;
@@ -115,6 +117,7 @@ namespace UserInterface.Controllers
             return View(result);
         }
         #region GetCustomerList
+        [AuthSecurityFilter(ProjectObject = "PaymentFollowups", Mode = "R")]
         public string GetCustomerPaymentExpeditingDetails(string toDate, string filter, string company, string[] customer,string outstanding)
         {
             try
@@ -131,7 +134,28 @@ namespace UserInterface.Controllers
         }
         #endregion GetCustomerList
 
+        #region GetFollowupCount
+        [AuthSecurityFilter(ProjectObject = "PaymentFollowups", Mode = "R")]
+        public string GetRecentFollowUpCount()
+        {
+            try
+            {
+                //AppUA _appUA = Session["AppUAOffice"] as AppUA;
+                // DateTime? Date = string.IsNullOrEmpty(_appUA.DateTime) ? (DateTime?)null : DateTime.Parse(Today);
+                SPAccounts.DataAccessObject.DTO.Common comonObj = new SPAccounts.DataAccessObject.DTO.Common();
+                List<FollowUpViewModel> followupObj = Mapper.Map<List<FollowUp>, List<FollowUpViewModel>>(_paymentFollowupBusiness.GetRecentFollowUpCount(comonObj.GetCurrentDateTime()));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = followupObj });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion GetFollowupCount
+
         #region Followup
+        [AuthSecurityFilter(ProjectObject = "PaymentFollowups", Mode = "R")]
         public ActionResult Followup(FollowUpViewModel followObj)
         {
             List<FollowUpViewModel> followUpObj = Mapper.Map<List<FollowUp>, List<FollowUpViewModel>>(_paymentFollowupBusiness.GetFollowUpDetails(followObj.CustomerID != null && followObj.CustomerID.ToString() != "" ? Guid.Parse(followObj.CustomerID.ToString()) : Guid.Empty));
@@ -146,13 +170,14 @@ namespace UserInterface.Controllers
 
         #region InsertFollowUp
         [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "PaymentFollowups", Mode = "R")]
         public string InsertUpdateFollowUp(CustomerExpeditingListViewModel customerObj)
         {
             try
             {
                 AppUA _appUA = Session["AppUA"] as AppUA;
                 customerObj.followUpObj.commonObj = new CommonViewModel();
-                SAMTool.DataAccessObject.DTO.Common _comonObj = new SAMTool.DataAccessObject.DTO.Common();
+                SPAccounts.DataAccessObject.DTO.Common _comonObj = new SPAccounts.DataAccessObject.DTO.Common();
                 customerObj.followUpObj.commonObj.CreatedBy = _appUA.UserName;
                 customerObj.followUpObj.commonObj.CreatedDate = _comonObj.GetCurrentDateTime();
                 customerObj.followUpObj.commonObj.UpdatedDate = _comonObj.GetCurrentDateTime();
@@ -179,6 +204,7 @@ namespace UserInterface.Controllers
 
         #region GetFollowUpDetailByFollowUpId
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "PaymentFollowups", Mode = "R")]
         public string GetFollowUpDetailByFollowUpId(Guid ID)
         {
             FollowUpViewModel followupObj = Mapper.Map<FollowUp, FollowUpViewModel>(_paymentFollowupBusiness.GetFollowupDetailsByFollowUpID(ID != null && ID.ToString() != "" ? Guid.Parse(ID.ToString()) : Guid.Empty));
@@ -190,6 +216,7 @@ namespace UserInterface.Controllers
 
         #region DeleteFollowUp
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "PaymentFollowups", Mode = "D")]
         public string DeleteFollowUp(string ID)
         {
             object result = null;
@@ -213,6 +240,7 @@ namespace UserInterface.Controllers
 
         #region ButtonStyling
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "PaymentFollowups", Mode = "R")]
         public ActionResult ChangeButtonStyle(string actionType)
         {
             ToolboxViewModel ToolboxViewModelObj = new ToolboxViewModel();

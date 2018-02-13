@@ -73,6 +73,13 @@ $(document).ready(function () {
          });
         $(".buttons-excel").hide();
         toDay = $("#todate").val();
+
+        if ($('#BindValue').val() != '') {
+            debugger;
+            dashboardBind($('#BindValue').val())
+        }
+        
+
     } catch (x) {
 
         notyAlert('error', x.message);
@@ -111,6 +118,26 @@ function GetCustomerExpeditingDetail() {
 function OnCallChange() {
     debugger;
     RefreshCustomerExpeditingDetailTable();
+}
+
+//Bind followup According to dashboard select
+//Bind values to dashboard
+function dashboardBind(ID) {
+    debugger;
+    var pos = ID.split(",");
+    
+    
+    FollowUpList(pos[0]);
+    
+    $("#lblCustomer").text(pos[1]);
+    if(pos[2]!="null")
+    $("#lblContact").text(pos[2]);
+    if (pos[4]!="null") {
+        $("#lblmobile").text(pos[4]);
+        $("#lblmobile").attr('title', pos[4]);
+    }
+    $("#CustomerID").val(pos[0]);
+    FollowUp(pos[3], 1);
 }
 
 //To refresh based on filter
@@ -281,12 +308,18 @@ function FollowUpSaveSuccess(data) {
     switch (JsonResult.Result) {
         case "OK":
             debugger;
-            FollowUpList(JsonResult.Records.CustomerID);
+            FollowUpList($("#CustomerID").val());
             var Count = $('#hdnCountOpen').val()
             ClearFollowUp();
             FollowUp(1);
-            //$('#followUpResetbtn').hide();
+            try {
+                GetRecentFollowUpCount();
+            }
+            catch (x) {
+                notyAlert('error', x.message);
+            }
             notyAlert('success', JsonResult.Message);
+            
             break;
         case "ERROR":
             notyAlert('error', JsonResult.Message);

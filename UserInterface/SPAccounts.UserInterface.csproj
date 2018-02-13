@@ -1594,6 +1594,7 @@
     <Content Include="Scripts\UserJS\OutgoingCheque.js" />
     <Content Include="Scripts\UserJS\Outstanding.js" />
     <Content Include="Scripts\UserJS\PaymentFollowup.js" />
+    <Content Include="Scripts\UserJS\PaymentFollowupsReport.js" />
     <Content Include="Scripts\UserJS\PDF.js" />
     <Content Include="Scripts\UserJS\Privileges.js" />
     <Content Include="Scripts\UserJS\PrivilegesView.js" />
@@ -1810,6 +1811,7 @@
     <Content Include="Views\DepositAndWithdrawals\IncomingCheques.cshtml" />
     <Content Include="Views\PaymentFollowup\Index.cshtml" />
     <Content Include="Views\PaymentFollowup\_FollowUpList.cshtml" />
+    <Content Include="Views\Report\PaymentFollowups.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

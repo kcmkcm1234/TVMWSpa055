@@ -248,7 +248,7 @@ namespace UserInterface.Controllers
             try
             {
                 string DuePaymentDueDateFormatted;
-                SAMTool.DataAccessObject.DTO.Common com = new SAMTool.DataAccessObject.DTO.Common();
+                SPAccounts.DataAccessObject.DTO.Common com = new SPAccounts.DataAccessObject.DTO.Common();
                 DateTime Datenow = com.GetCurrentDateTime();
                 PaymentTermsViewModel payTermsObj= Mapper.Map<PaymentTerms, PaymentTermsViewModel>(_paymentTermsBusiness.GetPayTermDetails(Code));
                 if (InvDate == "") {
