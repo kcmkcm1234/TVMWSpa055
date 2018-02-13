@@ -22,6 +22,7 @@ namespace UserInterface.Controllers
         IPaymentTermsBusiness _paymentTermsBusiness;
         IOtherExpenseBusiness _otherExpenseBusiness;
         ICommonBusiness _commonBusiness;
+        Common common = new Common();
         public SupplierInvoicesController(IOtherExpenseBusiness otherExpenseBusiness, ICommonBusiness commonBusiness, IPaymentTermsBusiness paymentTermsBusiness, ICompaniesBusiness companiesBusiness, ISupplierInvoicesBusiness supplierInvoicesBusiness, ISupplierBusiness supplierBusiness, ITaxTypesBusiness taxTypesBusiness)
         {
             _supplierInvoicesBusiness = supplierInvoicesBusiness;
@@ -159,7 +160,7 @@ namespace UserInterface.Controllers
         {
             try
             {
-                AppUA _appUA = Session["AppUA"] as AppUA;
+                AppUA appUA = Session["AppUA"] as AppUA;
                 SupplierInvoiceBundleViewModel Result = new SupplierInvoiceBundleViewModel();
                 DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                 DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
@@ -167,11 +168,11 @@ namespace UserInterface.Controllers
                 Result.SupplierInvoices = Mapper.Map<List<SupplierInvoices>, List<SupplierInvoicesViewModel>>(_supplierInvoicesBusiness.GetAllSupplierInvoices(FDate, TDate, Supplier, InvoiceType, Company, Status, Search, AccountCode, EmpID));
                 if (filter != null && filter == "OD")
                 {
-                    Result.SupplierInvoices = Result.SupplierInvoices.Where(m => m.PaymentDueDate < _appUA.DateTime && m.BalanceDue > 0).ToList();
+                    Result.SupplierInvoices = Result.SupplierInvoices.Where(m => m.PaymentDueDate < common.GetCurrentDateTime() && m.BalanceDue > 0).ToList();
                 }
                 else if (filter != null && filter == "OI")
                 {
-                    Result.SupplierInvoices = Result.SupplierInvoices.Where(m => m.PaymentDueDate >= _appUA.DateTime && m.BalanceDue > 0).ToList();
+                    Result.SupplierInvoices = Result.SupplierInvoices.Where(m => m.PaymentDueDate >= common.GetCurrentDateTime() && m.BalanceDue > 0).ToList();
                 }
                 else if (filter != null && filter == "FP")
                 {
@@ -198,12 +199,12 @@ namespace UserInterface.Controllers
                 {
                     throw new Exception("Please Enter Amount");
                 }
-                AppUA _appUA = Session["AppUA"] as AppUA;
+                AppUA appUA = Session["AppUA"] as AppUA;
                 _supplierInvoicesObj.commonObj = new CommonViewModel();
-                _supplierInvoicesObj.commonObj.CreatedBy = _appUA.UserName;
-                _supplierInvoicesObj.commonObj.CreatedDate = DateTime.Now;
-                _supplierInvoicesObj.commonObj.UpdatedBy = _appUA.UserName;
-                _supplierInvoicesObj.commonObj.UpdatedDate = DateTime.Now;
+                _supplierInvoicesObj.commonObj.CreatedBy = appUA.UserName;
+                _supplierInvoicesObj.commonObj.CreatedDate = common.GetCurrentDateTime();
+                _supplierInvoicesObj.commonObj.UpdatedBy = appUA.UserName;
+                _supplierInvoicesObj.commonObj.UpdatedDate = common.GetCurrentDateTime();
                 SupplierInvoicesViewModel SIVM = Mapper.Map<SupplierInvoices, SupplierInvoicesViewModel>(_supplierInvoicesBusiness.InsertUpdateInvoice(Mapper.Map<SupplierInvoicesViewModel, SupplierInvoices>(_supplierInvoicesObj)));
                 if(_supplierInvoicesObj.ID!=null&&_supplierInvoicesObj.ID!=Guid.Empty)
                 {
@@ -272,8 +273,8 @@ namespace UserInterface.Controllers
             try
             {
                 object result = null;
-                AppUA _appUA = Session["AppUA"] as AppUA;
-                result = _supplierInvoicesBusiness.DeleteSupplierInvoice(ID != null && ID != "" ? Guid.Parse(ID) : Guid.Empty,_appUA.UserName);
+                AppUA appUA = Session["AppUA"] as AppUA;
+                result = _supplierInvoicesBusiness.DeleteSupplierInvoice(ID != null && ID != "" ? Guid.Parse(ID) : Guid.Empty,appUA.UserName);
                 return JsonConvert.SerializeObject(new { Result = "OK", Message = result });
 
             }
@@ -301,7 +302,7 @@ namespace UserInterface.Controllers
             try
             {  
                     bool result;
-                    AppUA _appUA = Session["AppUA"] as AppUA;
+                    AppUA appUA = Session["AppUA"] as AppUA;
                     result = _supplierInvoicesBusiness.CheckProfileExists(invoiceNo, supplierID, ID);
                     return JsonConvert.SerializeObject(new { Result = "OK", Message = result });
                

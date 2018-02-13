@@ -26,6 +26,7 @@ namespace UserInterface.Controllers
         ISupplierCreditNotesBusiness _supplierCreditNotesBusiness;
         IPaymentModesBusiness _paymentmodesBusiness;
         ISupplierInvoicesBusiness _supplierInvoicesBusiness;
+        Common common = new Common();
 
         public SupplierPaymentsController(ISupplierPaymentsBusiness supplierPaymentsBusiness,
             IPaymentModesBusiness paymentmodeBusiness,
@@ -51,8 +52,8 @@ namespace UserInterface.Controllers
         public ActionResult Index(string id)
         {
             ViewBag.value = id;
-            AppUA _appUA = Session["AppUA"] as AppUA;
-            ViewBag.Currentdate = _appUA.DateTime.ToString("dd-MMM-yyyy");
+            AppUA appUA = Session["AppUA"] as AppUA;
+            ViewBag.Currentdate = appUA.DateTime.ToString("dd-MMM-yyyy");
 
             List<SelectListItem> selectListItem = new List<SelectListItem>();
             SupplierPaymentsViewModel SP = new SupplierPaymentsViewModel();
@@ -194,8 +195,8 @@ namespace UserInterface.Controllers
             SupplierPaymentsViewModel supplierpaylist = Mapper.Map<SupplierPayments, SupplierPaymentsViewModel>(_supplierPaymentsBusiness.GetSupplierPaymentsByID(ID));
            // if (supplierpaylist.ApprovalStatus != 1)
            // {
-                AppUA _appUA = Session["AppUA"] as AppUA;
-                if(_appUA.RolesCSV.Contains("CEO") || _appUA.RolesCSV.Contains("SAdmin"))
+                AppUA appUA = Session["AppUA"] as AppUA;
+                if(appUA.RolesCSV.Contains("CEO") || appUA.RolesCSV.Contains("SAdmin"))
                 {
                     supplierpaylist.HasAccess = true;
                 }
@@ -243,14 +244,14 @@ namespace UserInterface.Controllers
                 { 
                     throw new Exception("Please Enter Amount");
                 }
-                AppUA _appUA = Session["AppUA"] as AppUA;
+                AppUA appUA = Session["AppUA"] as AppUA;
                 if (_supplierObj.paymentDetailhdf != null)
                     _supplierObj.supplierPaymentsDetail = JsonConvert.DeserializeObject<List<SupplierPaymentsDetailViewModel>>(_supplierObj.paymentDetailhdf);
                 _supplierObj.CommonObj = new CommonViewModel();
-                _supplierObj.CommonObj.CreatedBy = _appUA.UserName;
-                _supplierObj.CommonObj.CreatedDate = _appUA.DateTime;
-                _supplierObj.CommonObj.UpdatedBy = _appUA.UserName;
-                _supplierObj.CommonObj.UpdatedDate = _appUA.DateTime;
+                _supplierObj.CommonObj.CreatedBy = appUA.UserName;
+                _supplierObj.CommonObj.CreatedDate = common.GetCurrentDateTime();
+                _supplierObj.CommonObj.UpdatedBy = appUA.UserName;
+                _supplierObj.CommonObj.UpdatedDate = common.GetCurrentDateTime();
                 SupplierPaymentsViewModel CPVM = Mapper.Map<SupplierPayments, SupplierPaymentsViewModel>(_supplierPaymentsBusiness.InsertUpdatePayments(Mapper.Map<SupplierPaymentsViewModel, SupplierPayments>(_supplierObj)));
                 if (_supplierObj.ID != null && _supplierObj.ID != Guid.Empty)
                 {
@@ -275,11 +276,11 @@ namespace UserInterface.Controllers
         [HttpPost]
         public string DeletePayments(SupplierPaymentsViewModel _supplierpayObj)
         {
-            AppUA _appUA = Session["AppUA"] as AppUA;
+            AppUA appUA = Session["AppUA"] as AppUA;
             object result = null;
             try
             {
-                result = _supplierPaymentsBusiness.DeletePayments(_supplierpayObj.ID, _appUA.UserName);
+                result = _supplierPaymentsBusiness.DeletePayments(_supplierpayObj.ID, appUA.UserName);
                 return JsonConvert.SerializeObject(new { Result = "OK", Message = c.DeleteSuccess, Records = result });
             }
             catch (Exception ex)
@@ -297,10 +298,10 @@ namespace UserInterface.Controllers
         {
             try
             {
-                AppUA _appUA = Session["AppUA"] as AppUA;
+                AppUA appUA = Session["AppUA"] as AppUA;
                 _supplierpayObj.CommonObj = new CommonViewModel();
-                _supplierpayObj.CommonObj.CreatedBy = _appUA.UserName;
-                _supplierpayObj.CommonObj.CreatedDate = _appUA.DateTime;
+                _supplierpayObj.CommonObj.CreatedBy = appUA.UserName;
+                _supplierpayObj.CommonObj.CreatedDate = common.GetCurrentDateTime();
                 SupplierPaymentsViewModel CPVM = Mapper.Map<SupplierPayments, SupplierPaymentsViewModel>(_supplierPaymentsBusiness.InsertPaymentAdjustment(Mapper.Map<SupplierPaymentsViewModel, SupplierPayments>(_supplierpayObj)));
                 return JsonConvert.SerializeObject(new { Result = "OK", Message = c.InsertSuccess, Records = CPVM });
             }
@@ -363,11 +364,11 @@ namespace UserInterface.Controllers
         [HttpPost]
         public string ApprovedPayment(SupplierPaymentsViewModel supobj)
         {
-            AppUA _appUA = Session["AppUA"] as AppUA;
+            AppUA appUA = Session["AppUA"] as AppUA;
             object result = null;
             try
             {
-                result = _supplierPaymentsBusiness.ApprovedPayment(supobj.ID, _appUA.UserName, _appUA.DateTime);
+                result = _supplierPaymentsBusiness.ApprovedPayment(supobj.ID, appUA.UserName, common.GetCurrentDateTime() );
                 return JsonConvert.SerializeObject(new { Result = "OK", Message = c.InsertSuccess, Records = result });
              
             }
@@ -412,7 +413,7 @@ namespace UserInterface.Controllers
         {
 
 
-            AppUA _appUA = Session["AppUA"] as AppUA;
+            AppUA appUA = Session["AppUA"] as AppUA;
             object result = null;
             try
 
