@@ -19,7 +19,7 @@ namespace UserInterface.Controllers
 
         AppConst c = new AppConst();
         ITaxTypesBusiness _taxTypeBusiness;
-
+        Common common = new Common();
         public TaxTypeController(ITaxTypesBusiness taxTypesBusiness)
         {
             _taxTypeBusiness = taxTypesBusiness;
@@ -81,12 +81,12 @@ namespace UserInterface.Controllers
             {
 
                 object result = null;
-                AppUA _appUA = Session["AppUA"] as AppUA;
+                AppUA appUA = Session["AppUA"] as AppUA;
                 _taxTypesObj.commonObj = new CommonViewModel();
-                _taxTypesObj.commonObj.CreatedBy = _appUA.UserName;
-                _taxTypesObj.commonObj.CreatedDate = _appUA.DateTime;
-                _taxTypesObj.commonObj.UpdatedBy = _appUA.UserName;
-                _taxTypesObj.commonObj.UpdatedDate = _appUA.DateTime;
+                _taxTypesObj.commonObj.CreatedBy = appUA.UserName;
+                _taxTypesObj.commonObj.CreatedDate = common.GetCurrentDateTime();
+                _taxTypesObj.commonObj.UpdatedBy = appUA.UserName;
+                _taxTypesObj.commonObj.UpdatedDate = common.GetCurrentDateTime();
                 if (!string.IsNullOrEmpty(_taxTypesObj.hdnCode))
                 {
                     _taxTypesObj.Code = _taxTypesObj.hdnCode;

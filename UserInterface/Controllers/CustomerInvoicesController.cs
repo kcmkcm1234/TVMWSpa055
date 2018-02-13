@@ -26,6 +26,7 @@ namespace UserInterface.Controllers
         IPaymentTermsBusiness _paymentTermsBusiness;
         IPaymentModesBusiness _paymentmodesBusiness;
         ICommonBusiness _commonBusiness;
+        SPAccounts.DataAccessObject.DTO.Common common = new SPAccounts.DataAccessObject.DTO.Common();
         public CustomerInvoicesController(ICommonBusiness commonBusiness,
             IPaymentTermsBusiness paymentTermsBusiness,ICompaniesBusiness companiesBusiness,
             ICustomerInvoicesBusiness customerInvoicesBusiness,ICustomerBusiness customerBusiness,
@@ -178,7 +179,7 @@ namespace UserInterface.Controllers
         {
             try
             {
-                AppUA _appUA = Session["AppUA"] as AppUA;
+                AppUA appUA = Session["AppUA"] as AppUA;
                 CustomerInvoiceBundleViewModel Result = new CustomerInvoiceBundleViewModel();
                 Permission permission = Session["UserRights"] as Permission;
                 string permissionAccess = permission.SubPermissionList.Where(li => li.Name == "PBAccess").First().AccessCode;
@@ -200,11 +201,11 @@ namespace UserInterface.Controllers
                 
                 if (filter != null && filter=="OD")
                 {
-                    Result.CustomerInvoices = Result.CustomerInvoices.Where(m => m.PaymentDueDate < _appUA.DateTime && m.BalanceDue > 0).ToList();
+                    Result.CustomerInvoices = Result.CustomerInvoices.Where(m => m.PaymentDueDate < common.GetCurrentDateTime() && m.BalanceDue > 0).ToList();
                 }
                 else if (filter != null && filter == "OI")
                 {
-                    Result.CustomerInvoices = Result.CustomerInvoices.Where(m => m.PaymentDueDate >= _appUA.DateTime && m.BalanceDue > 0).ToList();
+                    Result.CustomerInvoices = Result.CustomerInvoices.Where(m => m.PaymentDueDate >= common.GetCurrentDateTime() && m.BalanceDue > 0).ToList();
                 }
                 else if (filter != null && filter == "FP")
                 {
@@ -301,13 +302,13 @@ namespace UserInterface.Controllers
                 {
                     throw new Exception("Please Enter Reference Invoice");
                 }
-                AppUA _appUA = Session["AppUA"] as AppUA;
+                AppUA appUA = Session["AppUA"] as AppUA;
                 _customerInvoicesObj.commonObj = new CommonViewModel();
-                _customerInvoicesObj.commonObj.CreatedBy = _appUA.UserName;
-                _customerInvoicesObj.commonObj.CreatedDate = DateTime.Now;
-                _customerInvoicesObj.commonObj.UpdatedBy= _appUA.UserName;
-                _customerInvoicesObj.commonObj.UpdatedDate= DateTime.Now;
-                CustomerInvoicesViewModel CIVM = Mapper.Map<CustomerInvoice, CustomerInvoicesViewModel>(_customerInvoicesBusiness.InsertUpdateInvoice(Mapper.Map<CustomerInvoicesViewModel, CustomerInvoice>(_customerInvoicesObj), _appUA));
+                _customerInvoicesObj.commonObj.CreatedBy = appUA.UserName;
+                _customerInvoicesObj.commonObj.CreatedDate = common.GetCurrentDateTime();
+                _customerInvoicesObj.commonObj.UpdatedBy= appUA.UserName;
+                _customerInvoicesObj.commonObj.UpdatedDate = common.GetCurrentDateTime();
+                CustomerInvoicesViewModel CIVM = Mapper.Map<CustomerInvoice, CustomerInvoicesViewModel>(_customerInvoicesBusiness.InsertUpdateInvoice(Mapper.Map<CustomerInvoicesViewModel, CustomerInvoice>(_customerInvoicesObj), appUA));
                 if (_customerInvoicesObj.ID != null && _customerInvoicesObj.ID != Guid.Empty)
                 {
                     return JsonConvert.SerializeObject(new { Result = "OK", Message = c.UpdateSuccess, Records = CIVM });
@@ -331,11 +332,11 @@ namespace UserInterface.Controllers
         [HttpPost]
         public string DeleteInvoices(CustomerInvoicesViewModel _customerinvObj)
         {
-            AppUA _appUA = Session["AppUA"] as AppUA;
+            AppUA appUA = Session["AppUA"] as AppUA;
             object result = null;
             try
             {
-                result = _customerInvoicesBusiness.DeleteInvoices(_customerinvObj.ID, _appUA.UserName);
+                result = _customerInvoicesBusiness.DeleteInvoices(_customerinvObj.ID, appUA.UserName);
                 return JsonConvert.SerializeObject(new { Result = "OK", Message = c.DeleteSuccess, Records = result });
             }
             catch (Exception ex)
@@ -383,13 +384,13 @@ namespace UserInterface.Controllers
         {
             try
             {
-                AppUA _appUA = Session["AppUA"] as AppUA;
+                AppUA appUA = Session["AppUA"] as AppUA;
                 _customerInvoicesObj.commonObj = new CommonViewModel();
-                _customerInvoicesObj.commonObj.CreatedBy = _appUA.UserName;
-                _customerInvoicesObj.commonObj.CreatedDate = DateTime.Now;
-                _customerInvoicesObj.commonObj.UpdatedBy = _appUA.UserName;
-                _customerInvoicesObj.commonObj.UpdatedDate = DateTime.Now;
-                CustomerInvoicesViewModel CIVM = Mapper.Map<CustomerInvoice, CustomerInvoicesViewModel>(_customerInvoicesBusiness.InsertUpdateSpecialPayments(Mapper.Map<CustomerInvoicesViewModel, CustomerInvoice>(_customerInvoicesObj), _appUA));
+                _customerInvoicesObj.commonObj.CreatedBy = appUA.UserName;
+                _customerInvoicesObj.commonObj.CreatedDate = common.GetCurrentDateTime();
+                _customerInvoicesObj.commonObj.UpdatedBy = appUA.UserName;
+                _customerInvoicesObj.commonObj.UpdatedDate = common.GetCurrentDateTime();
+                CustomerInvoicesViewModel CIVM = Mapper.Map<CustomerInvoice, CustomerInvoicesViewModel>(_customerInvoicesBusiness.InsertUpdateSpecialPayments(Mapper.Map<CustomerInvoicesViewModel, CustomerInvoice>(_customerInvoicesObj), appUA));
                 if ((_customerInvoicesObj.SpecialPayObj.ID != null )&& (_customerInvoicesObj.SpecialPayObj.ID != Guid.Empty))
                 {
                     return JsonConvert.SerializeObject(new { Result = "OK", Message = c.UpdateSuccess, Records = CIVM });
