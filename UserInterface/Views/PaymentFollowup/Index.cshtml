@@ -97,6 +97,17 @@
                     @Html.ValidationMessageFor(model => model.Outstanding, "", new { @class = "text-danger" })
                 </div>
             </div>
+        <div class="col-md-6">
+            @Html.LabelFor(model => model.Search, htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-12">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search" id="Search">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="submit" style="height:28px" onclick="RefreshCustomerExpeditingDetailTable()"><i class="glyphicon glyphicon-search"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
         </div>
 
 </div>

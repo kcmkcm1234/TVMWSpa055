@@ -17,12 +17,12 @@ namespace SPAccounts.BusinessService.Services
             _paymentFollowupRepository = paymentFollowupRepository;
             _commonBusiness = commonBusiness;
         }
-        public List<CustomerExpeditingReport> GetCustomerExpeditingDetail(DateTime? toDate, string filter, string company, string customer, string outstanding)
+        public List<CustomerExpeditingReport> GetCustomerExpeditingDetail(DateTime? toDate, string filter, string company, string customer, string outstanding,string search)
         {
             List<CustomerExpeditingReport> customerExpeditingList = null;
             try
             {
-                customerExpeditingList = _paymentFollowupRepository.GetCustomerExpeditingDetail(toDate, filter, company, customer, outstanding);
+                customerExpeditingList = _paymentFollowupRepository.GetCustomerExpeditingDetail(toDate, filter, company, customer, outstanding, search);
             }
             catch (Exception ex)
             {

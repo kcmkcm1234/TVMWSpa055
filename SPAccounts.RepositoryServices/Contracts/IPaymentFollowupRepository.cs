@@ -8,7 +8,7 @@ namespace SPAccounts.RepositoryServices.Contracts
 {
     public interface IPaymentFollowupRepository
     {
-        List<CustomerExpeditingReport> GetCustomerExpeditingDetail(DateTime? toDate, string filter, string company, string customer, string outstanding);
+        List<CustomerExpeditingReport> GetCustomerExpeditingDetail(DateTime? toDate, string filter, string company, string customer, string outstanding,string search);
         List<FollowUp> GetFollowUpDetails(Guid customerID);
         FollowUp InsertFollowUp(FollowUp followupObj);
         FollowUp UpdateFollowUp(FollowUp followupObj);

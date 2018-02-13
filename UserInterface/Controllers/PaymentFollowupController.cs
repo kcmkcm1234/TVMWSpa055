@@ -118,13 +118,13 @@ namespace UserInterface.Controllers
         }
         #region GetCustomerList
         [AuthSecurityFilter(ProjectObject = "PaymentFollowups", Mode = "R")]
-        public string GetCustomerPaymentExpeditingDetails(string toDate, string filter, string company, string[] customer,string outstanding)
+        public string GetCustomerPaymentExpeditingDetails(string toDate, string filter, string company, string[] customer,string outstanding,string search)
         {
             try
             {
                 DateTime? TDate = string.IsNullOrEmpty(toDate) ? (DateTime?)null : DateTime.Parse(toDate);
                 CustomerExpeditingListViewModel result = new CustomerExpeditingListViewModel();
-                result.customerExpeditingDetailsList = Mapper.Map<List<CustomerExpeditingReport>, List<CustomerExpeditingReportViewModel>>(_paymentFollowupBusiness.GetCustomerExpeditingDetail(TDate, filter, company,customer != null ? string.Join(",", customer) : "ALL", outstanding));
+                result.customerExpeditingDetailsList = Mapper.Map<List<CustomerExpeditingReport>, List<CustomerExpeditingReportViewModel>>(_paymentFollowupBusiness.GetCustomerExpeditingDetail(TDate, filter, company,customer != null ? string.Join(",", customer) : "ALL", outstanding,search));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
             }
             catch (Exception ex)

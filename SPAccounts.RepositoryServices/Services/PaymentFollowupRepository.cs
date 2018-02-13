@@ -20,7 +20,7 @@ namespace SPAccounts.RepositoryServices.Services
             _databaseFactory = databaseFactory;
         }
         #region CustomerExpedityDetail
-        public List<CustomerExpeditingReport> GetCustomerExpeditingDetail(DateTime? toDate, string filter, string company, string customer,string outstanding)
+        public List<CustomerExpeditingReport> GetCustomerExpeditingDetail(DateTime? toDate, string filter, string company, string customer,string outstanding,string search)
         {
             List<CustomerExpeditingReport> customerExpeditingList = null;
             try
@@ -40,6 +40,7 @@ namespace SPAccounts.RepositoryServices.Services
                         if (customer != "")
                             cmd.Parameters.Add("@Customer", SqlDbType.NVarChar, -1).Value = customer;
                         cmd.Parameters.Add("@Outstanding", SqlDbType.NVarChar, 50).Value = outstanding;
+                        cmd.Parameters.Add("@Search", SqlDbType.NVarChar, 50).Value = search;
                         cmd.CommandText = "[Accounts].[CustomerExpeditingDetails]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())

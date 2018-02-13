@@ -34,7 +34,7 @@ $(document).ready(function () {
              fixedHeader: {
                  header: true
              },
-             searching: true,
+             searching: false,
              ordering: false,
              paging: true,
              data: GetCustomerExpeditingDetail(),
@@ -96,8 +96,9 @@ function GetCustomerExpeditingDetail() {
         var company = $("#ddlCompany").val();
         var customer = $("#ddlCustomer").val();
         var outstanding = $("#ddlOutStanding").val();
+        var search = $("#Search").val();
         if (IsVaildDateFormat(toDate))
-            var data = { "ToDate": toDate, "Filter": filter, "Company": company, "Customer": customer, "outstanding": outstanding };
+            var data = { "ToDate": toDate, "Filter": filter, "Company": company, "Customer": customer, "outstanding": outstanding ,"Search": search};
         var ds = {};
         ds = GetDataFromServer("PaymentFollowup/GetCustomerPaymentExpeditingDetails/", data);
         if (ds != '') {
@@ -218,6 +219,7 @@ function Reset() {
     $("#ddlCompany").val('ALL').trigger('change');
     $("#ddlCustomer").val('').trigger('change');
     $("#ddlOutStanding").val('Outstanding');
+    $("#Search").val('');
     RefreshCustomerExpeditingDetailTable();
 }
 
