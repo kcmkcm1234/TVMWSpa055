@@ -2075,8 +2075,8 @@ namespace UserInterface.Controllers
         {
             AppUA _appUA = Session["AppUA"] as AppUA;
             DateTime dt = _appUA.DateTime;
-            ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
-            ViewBag.todate = dt.ToString("dd-MMM-yyyy");
+            ViewBag.fromdate = dt.AddDays(-30).ToString("dd-MMM-yyyy");
+            ViewBag.todate = dt.AddDays(30).ToString("dd-MMM-yyyy");
             FollowUpReportListViewModel result = new FollowUpReportListViewModel();
             List<SelectListItem> selectListItem = new List<SelectListItem>();
             selectListItem = new List<SelectListItem>();
