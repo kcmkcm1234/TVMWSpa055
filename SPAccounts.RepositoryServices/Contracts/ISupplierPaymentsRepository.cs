@@ -23,5 +23,6 @@ namespace SPAccounts.RepositoryServices.Contracts
         object Validate(SupplierPayments _supplierpayObj);
         SupplierPayments UpdateSupplierPaymentGeneralNotes(SupplierPayments supobj);
         object UpdateNotification(SupplierPayments _supplierpayObj);
+        List<SupplierPayments> GetAllApprovedSupplierPayments(SupplierPayments supplierPayments);
     }
 }

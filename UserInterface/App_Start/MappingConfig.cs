@@ -120,7 +120,9 @@ namespace UserInterface.App_Start
                 config.CreateMap<OtherExpenseLimitedExpenseAdvanceSearchViewModel, OtherExpenseLimitedExpenseAdvanceSearch>().ReverseMap();
                 config.CreateMap<OutGoingChequesViewModel, OutGoingCheques>().ReverseMap();
                 config.CreateMap<IncomingChequesViewModel, IncomingCheques>().ReverseMap();
-                config.CreateMap<ReportAdvanceSearchViewModel, ReportAdvanceSearch>().ReverseMap();             
+                config.CreateMap<ReportAdvanceSearchViewModel, ReportAdvanceSearch>().ReverseMap();
+                config.CreateMap<CustomerInvoiceAdvanceSearchViewModel, CustomerInvoiceAdvanceSearch>().ReverseMap();
+                config.CreateMap<ApproverViewModel, Approver>().ReverseMap();
             });
         }
     }

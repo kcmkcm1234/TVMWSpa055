@@ -36,5 +36,6 @@ namespace SPAccounts.BusinessService.Contracts
         List<OtherExpense> GetBankWiseBalance(string Date);
         object Validate(OtherExpense _OtherexpenseObj);
         string PayOtherExpense(Guid ID, string CreatedBy);
+        List<OtherExpense> GetAllApprovedExpense(OtherExpense otherExpense);
     }
 }

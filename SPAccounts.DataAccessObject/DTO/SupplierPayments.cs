@@ -24,7 +24,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public string Type { get; set; }
         public Common commonObj { get; set; }
         public string Date { get; set; }
-
+        public string ToDate { get; set; }
+        public string FromDate { get; set; }
         public Guid CreditID { get; set; }
         public string CreditNo { get; set; }
         public string hdfType { get; set; }

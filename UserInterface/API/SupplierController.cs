@@ -72,7 +72,6 @@ namespace UserInterface.API
 
         #region PendingSupplierPayments
         [HttpPost]
-
         public string GetAllPendingSupplierPaymentsForMobile()
         {
             try
@@ -90,6 +89,8 @@ namespace UserInterface.API
 
 
         #endregion PendingSupplierPayments
+
+        
         [HttpPost]
         public string GetAllSupplierInvoiceAdjustedByPaymentID(SupplierPayments SupObj)
         {
@@ -129,5 +130,24 @@ namespace UserInterface.API
                 return JsonConvert.SerializeObject(new { Result = false, Message = ex.Message });
             }
         }
+
+
+        #region ApprovedSupplierPayments
+        [HttpPost]
+        public string GetAllApprovedSupplierPaymentsForMobile(SupplierPayments supplierPayments)
+        {
+            try
+            {
+
+                List<SupplierPaymentsViewModel> supplierApprovedList = Mapper.Map<List<SupplierPayments>, List<SupplierPaymentsViewModel>>(_supplierPaymentsBusiness.GetAllApprovedSupplierPayments(supplierPayments));
+                return JsonConvert.SerializeObject(new { Result = true, Records = supplierApprovedList });
+            }
+            catch (Exception ex)
+            {
+
+                return JsonConvert.SerializeObject(new { Result = false, Message = ex.Message });
+            }
+        }
+        #endregion ApprovedSupplierPayments
     }
 }

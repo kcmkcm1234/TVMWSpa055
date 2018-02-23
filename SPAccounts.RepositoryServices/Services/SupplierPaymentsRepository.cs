@@ -742,7 +742,68 @@ namespace SPAccounts.RepositoryServices.Services
             };
         }
 
+        public List<SupplierPayments> GetAllApprovedSupplierPayments(SupplierPayments supplierPayments)
+        {
+            List<SupplierPayments> SupplierApprovedlist = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetAllApprovedSupplierPayments]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = supplierPayments.FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = supplierPayments.ToDate;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                SupplierApprovedlist = new List<SupplierPayments>();
+                                while (sdr.Read())
+                                {
+                                    SupplierPayments PaymentsObj = new SupplierPayments();
+                                    {
+                                        PaymentsObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : PaymentsObj.ID);
+                                        PaymentsObj.PaymentDateFormatted = (sdr["PaymentDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDate"].ToString()).ToString("dd-MMM-yyyy").ToString() : PaymentsObj.PaymentDateFormatted);
+                                        PaymentsObj.ChequeDate = (sdr["ChequeDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeDate"].ToString()).ToString("dd-MMM-yyyy").ToString() : PaymentsObj.ChequeDate);
+                                        PaymentsObj.PaymentRef = (sdr["PaymentRef"].ToString() != "" ? sdr["PaymentRef"].ToString() : PaymentsObj.PaymentRef);
+                                        PaymentsObj.EntryNo = (sdr["EntryNo"].ToString() != "" ? sdr["EntryNo"].ToString() : PaymentsObj.EntryNo);
+                                        PaymentsObj.PaymentMode = (sdr["PaymentMode"].ToString() != "" ? sdr["PaymentMode"].ToString() : PaymentsObj.PaymentMode);
+                                        PaymentsObj.TotalPaidAmt = (sdr["Amount"].ToString() != "" ? Decimal.Parse(sdr["Amount"].ToString()) : PaymentsObj.TotalPaidAmt);
+                                        PaymentsObj.Amount = (sdr["AdvanceAmount"].ToString() != "" ? Decimal.Parse(sdr["AdvanceAmount"].ToString()) : PaymentsObj.Amount);
+                                        PaymentsObj.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : PaymentsObj.Type);
+                                        PaymentsObj.CreditID = (sdr["CreditID"].ToString() != "" ? Guid.Parse(sdr["CreditID"].ToString()) : PaymentsObj.CreditID);
+                                        PaymentsObj.supplierObj = new Supplier();
+                                        PaymentsObj.supplierObj.CompanyName = (sdr["Supplier"].ToString() != "" ? sdr["Supplier"].ToString() : PaymentsObj.supplierObj.CompanyName);
+                                        PaymentsObj.supplierObj.ID = (sdr["SupplierID"].ToString() != "" ? Guid.Parse(sdr["SupplierID"].ToString()) : PaymentsObj.supplierObj.ID);
+                                        PaymentsObj.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : PaymentsObj.GeneralNotes);
+                                        PaymentsObj.PaidFromComanyCode = (sdr["PaidFromComanyCode"].ToString() != "" ? sdr["PaidFromComanyCode"].ToString() : PaymentsObj.PaidFromComanyCode);
+                                        PaymentsObj.DepWithdID = (sdr["DepWithdID"].ToString() != "" ? Guid.Parse(sdr["DepWithdID"].ToString()) : PaymentsObj.DepWithdID);
+                                        PaymentsObj.BankCode = (sdr["BankCode"].ToString() != "" ? sdr["BankCode"].ToString() : PaymentsObj.BankCode);
+                                        PaymentsObj.ApprovalStatus = (sdr["ApprovalStatus"].ToString() != "" ? int.Parse(sdr["ApprovalStatus"].ToString()) : PaymentsObj.ApprovalStatus);
+                                        PaymentsObj.ApprovalDate = (sdr["ApprovalDate"].ToString() != "" ? sdr["ApprovalDate"].ToString() : PaymentsObj.ApprovalDate);
 
+
+                                    };
+                                    SupplierApprovedlist.Add(PaymentsObj);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return SupplierApprovedlist;
+        }
 
 
     }

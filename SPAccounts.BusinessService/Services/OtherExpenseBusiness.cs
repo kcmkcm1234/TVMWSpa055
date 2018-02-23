@@ -366,6 +366,20 @@ namespace SPAccounts.BusinessService.Services
         public string PayOtherExpense(Guid ID, string createdBy)
         {
             return _otherExpenseRepository.PayOtherExpense(ID, createdBy);
+
         }
+
+             public List<OtherExpense> GetAllApprovedExpense(OtherExpense otherExpense)
+        {
+            try
+            {
+                return _otherExpenseRepository.GetAllApprovedExpense(otherExpense);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }

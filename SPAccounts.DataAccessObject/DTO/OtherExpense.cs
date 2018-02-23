@@ -47,6 +47,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public string TotalAmount { get; set; }
         public string UnClearedAmount { get; set; }
         public string UnderClearingAmount { get; set; }
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
     }
 
     public class OtherExpSummary {

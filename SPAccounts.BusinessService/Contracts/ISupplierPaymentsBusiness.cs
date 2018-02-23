@@ -23,6 +23,7 @@ namespace SPAccounts.BusinessService.Contracts
         void SendToFCM(string titleString, string descriptionString, Boolean isCommon, string CustomerID = "");
         SupplierPayments UpdateSupplierPaymentGeneralNotes(SupplierPayments supobj);
         object UpdateNotification(SupplierPayments _supplierpayObj);
+        List<SupplierPayments> GetAllApprovedSupplierPayments(SupplierPayments supplierPayments);
 
     }
 }

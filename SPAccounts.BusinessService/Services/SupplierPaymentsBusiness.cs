@@ -38,6 +38,13 @@ namespace SPAccounts.BusinessService.Services
             return supplierPendingList;
         }
 
+
+        public List<SupplierPayments> GetAllApprovedSupplierPayments(SupplierPayments supplierPayments)
+        {
+            List<SupplierPayments> supplierApprovedList = _supplierPaymentsRepository.GetAllApprovedSupplierPayments(supplierPayments);
+            return supplierApprovedList;
+        }
+
         public SupplierPayments GetSupplierPaymentsByID(string ID)
         {
             SupplierPayments PayObj = null;
