@@ -22,7 +22,7 @@ namespace UserInterface.Controllers
         ISupplierBusiness _SupplierBusiness;
         IPaymentTermsBusiness _paymentTermsBusiness;
         SecurityFilter.ToolBarAccess _tool;
-
+        SPAccounts.DataAccessObject.DTO.Common common = new SPAccounts.DataAccessObject.DTO.Common();
         public SuppliersController(ISupplierBusiness supplierBusiness, ICustomerBusiness customerBusiness, IPaymentTermsBusiness paymentTermsBusiness, SecurityFilter.ToolBarAccess tool)
         {
             _SupplierBusiness = supplierBusiness;
@@ -126,12 +126,12 @@ namespace UserInterface.Controllers
             {
 
                 object result = null;
-                AppUA _appUA = Session["AppUA"] as AppUA;
+                AppUA appUA = Session["AppUA"] as AppUA;
                 _supplierObj.commonObj = new CommonViewModel();
-                _supplierObj.commonObj.CreatedBy = _appUA.UserName;
-                _supplierObj.commonObj.CreatedDate = _appUA.DateTime;
-                _supplierObj.commonObj.UpdatedBy = _appUA.UserName;
-                _supplierObj.commonObj.UpdatedDate = _appUA.DateTime;
+                _supplierObj.commonObj.CreatedBy = appUA.UserName;
+                _supplierObj.commonObj.CreatedDate = common.GetCurrentDateTime();
+                _supplierObj.commonObj.UpdatedBy = appUA.UserName;
+                _supplierObj.commonObj.UpdatedDate = common.GetCurrentDateTime();
 
                 result = _SupplierBusiness.InsertUpdateSupplier(Mapper.Map<SuppliersViewModel, Supplier>(_supplierObj));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
@@ -181,12 +181,12 @@ namespace UserInterface.Controllers
             {
 
                 object result = null;
-                AppUA _appUA = Session["AppUA"] as AppUA;
+                AppUA appUA = Session["AppUA"] as AppUA;
                 _supplierObj.commonObj = new CommonViewModel();
-                _supplierObj.commonObj.CreatedBy = _appUA.UserName;
-                _supplierObj.commonObj.CreatedDate = _appUA.DateTime;
-                _supplierObj.commonObj.UpdatedBy = _appUA.UserName;
-                _supplierObj.commonObj.UpdatedDate = _appUA.DateTime;
+                _supplierObj.commonObj.CreatedBy = appUA.UserName;
+                _supplierObj.commonObj.CreatedDate = common.GetCurrentDateTime();
+                _supplierObj.commonObj.UpdatedBy = appUA.UserName;
+                _supplierObj.commonObj.UpdatedDate = common.GetCurrentDateTime();
 
                 result = _SupplierBusiness.UpdateMaxLimit(Mapper.Map<SuppliersViewModel, Supplier>(_supplierObj));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = result,Message="Updated Maximum Limit on Amount" });

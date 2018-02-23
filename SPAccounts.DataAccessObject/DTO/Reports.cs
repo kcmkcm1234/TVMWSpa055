@@ -468,6 +468,32 @@ namespace SPAccounts.DataAccessObject.DTO
         public string Search { get; set; }
     }
 
+    public class FollowupReportAdvanceSearch
+    {
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+        public string[] Customer { get; set; }
+        public string Status { get; set; }
+        public string Search { get; set; }
+    }
+
+    public class FollowupReport
+    {
+        public Guid ID { get; set; }
+        public Guid CustomerID { get; set; }
+        public string CutomerName { get; set; }
+        public string FollowUpDate { get; set; }
+        public string FollowUpTime { get; set; }
+        public string HdnFollowUpTime { get; set; }
+        public string Remarks { get; set; }
+        public string ContactName { get; set; }
+        public string ContactNO { get; set; }
+        public string Status { get; set; }
+        public string Company { get; set; }
+        public Common CommonObj { get; set; }
+        public string Minutes { get; set; }
+    }
+
     public class ReportAccountsReceivableAgeingSearch
     {
         public string FromDate { get; set; }

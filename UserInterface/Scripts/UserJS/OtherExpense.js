@@ -56,7 +56,7 @@ $(document).ready(function () {
                { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' },
                {
                    "data": null, "orderable": false, render: function (data, type, row) {
-                       if ((row.ApprovalStatus === 3 || row.ApprovalStatus === 2) && $("#hdnDeletePermitted").val() === "False") {
+                       if ((row.ApprovalStatus === 3 || row.ApprovalStatus === 2) && $("#hdnIsPermitted").val() === "False") {
                            return '<a title="Permission Denied" href="#" class="DeleteLink disabled" style="cursor: default;color: grey"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>'
                        }
                        else {
@@ -523,14 +523,13 @@ function SaveSuccess(data, status) {
     var JsonResult = JSON.parse(data)
     switch (JsonResult.Result) {
         case "OK":
-            BindAllExpenseDetails();
-            //$("#AddOtherexpenseModel").modal('hide');
+            ApprovalOnchange();
             notyAlert('success', JsonResult.Message);
-            $('#AddOtherexpenseModel').modal('hide');
+            //$('#AddOtherexpenseModel').modal('hide');
             debugger;
             if ($("#ID").val() != "" && $("#ID").val() != "0" && $("#ID").val()!=emptyGUID) {
                 FillOtherExpenseDetails($("#ID").val());
-               
+                ApprovalOnchange();
             }
             else
             {
@@ -689,35 +688,35 @@ function FillOtherExpenseDetails(ID) {
                     $('#ApprovalStatus').find('option[value="4"]').prop("disabled", true);
                     $('#ApprovalStatus').find('option[value="3"]').prop("disabled", true);
                 }
+                if (thisItem.ApprovalStatus === 2) {
+                    $("#btnPay").show();
+                }
+                else if (thisItem.ApprovalStatus === 1) {
+                    $("#btnNotify").show();
+                }
             }
 
             if ((thisItem.ApprovalStatus === 3 || thisItem.ApprovalStatus === 2) && $("#hdnIsPermitted").val() !== "True") {
                 DisableModel();
             }
 
-            if (thisItem.ApprovalStatus === 2) {
-                $("#btnPay").show();
-                $("#btnNotify").show();
-            }
-
             if (thisItem.IsNotified) {
                 $("#lblIsNotified").show();
-                $("#btnNotify").hide();
             } else {
                 $("#lblIsNotified").hide();
             }
             $("#lblApprovalHeader").text(function () {
                 switch (thisItem.ApprovalStatus) {
                     case 1:
-                        return "Pending For Approval";
+                        return "Status: Pending For Approval";
                     case 2:
-                        return "Approved, Not Paid";
+                        return "Status: Approved, Not Paid";
                     case 3:
-                        return "Paid";
+                        return "Status: Paid";
                     case 4:
-                        return "Not Applicable";
+                        return "Status: Not Applicable";
                     default:
-                        break;
+                        return "";
                 }
             });
         }
@@ -1340,7 +1339,7 @@ function ApprovalOnchange() {
         var date = $("#ExpDate").val();
         var data = { "Status": status, "ExpenseDate": date, "DefaultDate": defaultdate };
         var ds = {};
-        ds = GetDataFromServer("OtherExpenses/GetAllOtherExpenseByApprovalStatus/", data)
+        ds = GetDataFromServer("OtherExpenses/GetAllOtherExpenseByApprovalStatus/", data);
         if (ds !== '') {
             ds = JSON.parse(ds);
             $("#TotalAmt").text("");
@@ -1355,7 +1354,7 @@ function ApprovalOnchange() {
             }
         }
         if (ds.Result === "ERROR") {
-            notyAlert('error', ds.Message)
+            notyAlert('error', ds.Message);
         }
     }
     catch (ex) {
@@ -1402,7 +1401,7 @@ function SendNotificationConfirm() {
         else
             OtherExpenseViewModel.IsReverse = false;
         OtherExpenseViewModel.ReversalRef = $("#ReversalRef").val();
-        OtherExpenseViewModel.IsNotified = true;
+        OtherExpenseViewModel.IsNotified = true;//($("#lblIsNotified").val()==="True"?true:false);
         OtherExpenseViewModel.ApprovalStatus = parseInt($("#ApprovalStatus").val());
         OtherExpenseViewModel.ApprovalDate = $("#ApprovalDate").val();
 
@@ -1429,7 +1428,7 @@ function SendNotificationConfirm() {
                 }
             }
         });
-        BindAllExpenseDetails();
+        ApprovalOnchange();
     }
     catch (e) {
         notyAlert('error', ex.message);
@@ -1454,7 +1453,7 @@ function Pay(){
         if (ds.Result == "ERROR") {
             notyAlert('error', ds.Message);
         }
-        BindAllExpenseDetails();
+        ApprovalOnchange();
     }
     catch (ex) {
         console.log(ex.message);

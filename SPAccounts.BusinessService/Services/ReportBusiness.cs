@@ -493,6 +493,20 @@ namespace SPAccounts.BusinessService.Services
             return supplierExpeditingList;
         }
 
+        public List<FollowupReport> GetFollowupReportDetail(FollowupReportAdvanceSearch advanceSearchObject)
+        {
+            List<FollowupReport> followupList = null;
+            try
+            {
+                followupList = _reportRepository.GetFollowupReport(advanceSearchObject);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return followupList;
+        }
+
         public List<TrialBalance> GetTrialBalanceReport(DateTime? Date)
         {
             List<TrialBalance> TBlist = null;

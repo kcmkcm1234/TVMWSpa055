@@ -23,7 +23,7 @@
                 @{
                     if (Model != null)
                     {
-                        foreach (SystemReportViewModel svm in Model.GroupBy(elem => elem.ReportGroup).Select(group => group.First()))
+                        foreach (SystemReportViewModel svm in Model.GroupBy(elem => elem.GroupOrder).Select(group => group.First()))
                         {
 
                             <div class="col-md-12">

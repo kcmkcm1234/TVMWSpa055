@@ -58,7 +58,7 @@
     &nbsp;
 </div>
 <div class="form-horizontal">
-
+    @Html.Hidden("BindValue", "", htmlAttributes: new { @class = "", Value = ViewBag.value });
     <div class="col-md-8" style="margin-top:10px;">
         <div class="col-md-3">
             @Html.Label("As On Date", htmlAttributes: new { @class = "control-label" })
@@ -97,6 +97,17 @@
                     @Html.ValidationMessageFor(model => model.Outstanding, "", new { @class = "text-danger" })
                 </div>
             </div>
+        <div class="col-md-6">
+            @Html.LabelFor(model => model.Search, htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-12">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search" id="Search">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="submit" style="height:28px" onclick="RefreshCustomerExpeditingDetailTable()"><i class="glyphicon glyphicon-search"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
         </div>
 
 </div>
@@ -154,6 +165,7 @@
 
             {
                 @Html.AntiForgeryToken()
+                
                 @Html.HiddenFor(model => model.followUpObj.CustomerID, htmlAttributes: new {@id = "CustomerID" })
                 <div class="modal-header" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 36px;padding: 3px;border-bottom:2px solid rgb(149, 76, 132)!important;">
                     <div class="container-fluid" style="padding-right: 0px;">

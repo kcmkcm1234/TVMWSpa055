@@ -79,7 +79,15 @@ $(document).ready(function () {
               { "data": "FilePath", "defaultContent": "<i>-</i>" },
               { "data": "FileType", "defaultContent": "<i>-</i>" },
               { "data": "RecordCount", "defaultContent": "<i>-</i>" },
-              { "data": "FileStatus", "defaultContent": "<i>-</i>" }
+              {
+                  "data": "FileStatus", render: function (data, type, row) {
+                      if (data === "Successfully Imported")
+                          return "<span style='color:green'>Successfully Imported</span>"
+                      else if (data === "Unvalidated")
+                          return "<span style='color:red'>Unvalidated</span>"
+                      else return data
+                  }, "defaultContent": "<i>-</i>"
+              }
             ],
             columnDefs: [
                { className: "text-center","targets":[0] },

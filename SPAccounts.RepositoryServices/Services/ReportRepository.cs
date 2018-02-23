@@ -1677,5 +1677,59 @@ namespace SPAccounts.RepositoryServices.Services
             return TBlist;
 
         }
+        #region GetFollowupReport
+        public List<FollowupReport> GetFollowupReport(FollowupReportAdvanceSearch advanceSearchObject)
+        {
+            List<FollowupReport> followupList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = advanceSearchObject.FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = advanceSearchObject.ToDate;
+                        cmd.Parameters.Add("@Status", SqlDbType.NVarChar, 50).Value = advanceSearchObject.Status;
+                        cmd.Parameters.Add("@Customer", SqlDbType.NVarChar, 50).Value = advanceSearchObject.Customer != null ? string.Join(",", advanceSearchObject.Customer) : "ALL";
+                        cmd.Parameters.Add("@Search", SqlDbType.NVarChar, 50).Value = advanceSearchObject.Search;
+                        cmd.CommandText = "[Accounts].[RPT_GetFollowUpList]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                followupList = new List<FollowupReport>();
+                                while (sdr.Read())
+                                {
+                                    FollowupReport followupDetail = new FollowupReport();
+                                    {
+                                        followupDetail.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : followupDetail.ID);
+                                        followupDetail.FollowUpDate = (sdr["FollowUpDate"].ToString() != "" ? DateTime.Parse(sdr["FollowUpDate"].ToString()).ToString(settings.dateformat) : followupDetail.FollowUpDate);
+                                        followupDetail.FollowUpTime = (sdr["FollowUpTime"].ToString() != "" ? DateTime.Parse(sdr["FollowUpTime"].ToString()).ToString("hh:mm tt") : followupDetail.FollowUpTime);
+                                        followupDetail.CutomerName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : followupDetail.CutomerName);
+                                        followupDetail.Remarks = (sdr["Remarks"].ToString() != "" ? sdr["Remarks"].ToString() : followupDetail.Remarks);
+                                        followupDetail.ContactName = (sdr["ContactName"].ToString() != "" ? sdr["ContactName"].ToString() : followupDetail.ContactName);
+                                        followupDetail.ContactNO = (sdr["ContactNO"].ToString() != "" ? sdr["ContactNO"].ToString() : followupDetail.ContactNO);
+                                        followupDetail.Status = (sdr["Status"].ToString() != "" ? sdr["Status"].ToString() : followupDetail.Status);
+                                    }
+                                    followupList.Add(followupDetail);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return followupList;
+        }
+        #endregion GetFollowupReport
     }
 }

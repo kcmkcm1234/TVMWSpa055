@@ -21,7 +21,7 @@ namespace UserInterface.Controllers
 
         AppConst c = new AppConst();
         IImportOtherExpensesBusiness _importOtherExpensesBusiness;
-
+        Common common = new Common();
         public ImportOtherExpensesController(IImportOtherExpensesBusiness importOtherExpensesBusiness)
         {
             _importOtherExpensesBusiness = importOtherExpensesBusiness;
@@ -68,7 +68,7 @@ namespace UserInterface.Controllers
             HttpPostedFileBase file = files[0];
             try
             {
-                AppUA _appUA = Session["AppUA"] as AppUA;
+                AppUA appUA = Session["AppUA"] as AppUA;
                 // Checking no of files injected in Request object  
                 if (Request.Files.Count > 0)
                 {
@@ -89,30 +89,30 @@ namespace UserInterface.Controllers
                         return Json(new { Result = "WARNING", Message = "Invalid File, Either filename or filetype mismatch !" });
                     }
 
-                    if (System.IO.File.Exists(Path.Combine(Server.MapPath("~/Content/Uploads/"), fname)) == false)
+                    if (System.IO.File.Exists(Path.Combine(Server.MapPath("~/Content/Uploads/ImportedFiles/"), fname)) == false)
                     {
-                        uploadedFilesVM.FilePath = SetFilePath(fname);
+                        uploadedFilesVM.FilePath = ChangeFilePath(fname);
                     }
                     else
                     {
                         return Json(new { Result = "ERROR", Message = "File uploaded recently" });
                     }
                     uploadedFilesVM.CommonObj = new CommonViewModel();
-                    uploadedFilesVM.CommonObj.CreatedBy     = _appUA.UserName;
-                    uploadedFilesVM.CommonObj.CreatedDate   = _appUA.DateTime;
-                    uploadedFilesVM.CommonObj.UpdatedBy     = _appUA.UserName;
-                    uploadedFilesVM.CommonObj.UpdatedDate   = _appUA.DateTime;
+                    uploadedFilesVM.CommonObj.CreatedBy     = appUA.UserName;
+                    uploadedFilesVM.CommonObj.CreatedDate   = common.GetCurrentDateTime();
+                    uploadedFilesVM.CommonObj.UpdatedBy     = appUA.UserName;
+                    uploadedFilesVM.CommonObj.UpdatedDate   = common.GetCurrentDateTime();
                     uploadedFilesVM.FileType                = "OtherExpenses";
 
                     List<UploadedFiles> uploadedFileList = _importOtherExpensesBusiness.GetAllUploadedFile();
-                    object fileExist = (from i in uploadedFileList where uploadedFilesVM.FilePath.Equals("/Content/Uploads/" + i.FilePath) && i.FileStatus.Equals("Successfully Imported") select i).FirstOrDefault();
+                    object fileExist = (from i in uploadedFileList where uploadedFilesVM.FilePath.Equals("/Content/Uploads/ImportedFiles/" + i.FilePath) && i.FileStatus.Equals("Successfully Imported") select i).FirstOrDefault();
                     if (fileExist != null)
                     {
                         return Json(new { Result = "ERROR", Message = "File Already Imported!" });
                     }
                     UploadedFiles uploadedFiles = _importOtherExpensesBusiness.InsertAttachment(Mapper.Map<UploadedFilesViewModel, UploadedFiles>(uploadedFilesVM));
 
-                    fname = Path.Combine(Server.MapPath("~/Content/Uploads/"), fname);
+                    fname = Path.Combine(Server.MapPath("~/Content/Uploads/ImportedFiles/"), fname);
                     file.SaveAs(fname);
                     uploadFilesObj = _importOtherExpensesBusiness.ValidateImportData(uploadedFiles, fname);
                     System.IO.File.Delete(fname);
@@ -135,7 +135,7 @@ namespace UserInterface.Controllers
             }
             catch (Exception ex)
             {
-                System.IO.File.Delete(Server.MapPath("~/Content/Uploads/" + file.FileName));
+                System.IO.File.Delete(Server.MapPath("~/Content/Uploads/ImportedFiles/" + file.FileName));
                 return Json(new { Result = "EXCEPTION", Message = ex.Message });
             }
         }
@@ -154,7 +154,7 @@ namespace UserInterface.Controllers
             HttpPostedFileBase file = files[0];
             try
             {
-                AppUA _appUA = Session["AppUA"] as AppUA;
+                AppUA appUA = Session["AppUA"] as AppUA;
                 // Checking no of files injected in Request object  
                 if (Request.Files.Count > 0)
                 {
@@ -175,9 +175,9 @@ namespace UserInterface.Controllers
                             return Json(new { Result = "WARNING", Message = "Invalid Filename!" });
                         }
 
-                        if (System.IO.File.Exists(Path.Combine(Server.MapPath("~/Content/Uploads/"), fname)) == false)
+                        if (System.IO.File.Exists(Path.Combine(Server.MapPath("~/Content/Uploads/ImportedFiles/"), fname)) == false)
                         {
-                            uploadedFilesVM.FilePath = SetFilePath(fname);
+                            uploadedFilesVM.FilePath = ChangeFilePath(fname);
                         }
                         else
                         {
@@ -186,15 +186,15 @@ namespace UserInterface.Controllers
 
                         UploadedFilesViewModel uploadedFiles = Mapper.Map<UploadedFiles, UploadedFilesViewModel>((
                             from i in _importOtherExpensesBusiness.GetAllUploadedFile()
-                            where uploadedFilesVM.FilePath.Equals("/Content/Uploads/" + i.FilePath)
+                            where uploadedFilesVM.FilePath.Equals("/Content/Uploads/ImportedFiles/" + i.FilePath)
                             select i).ToArray()[0]
                         );
                         uploadedFiles.CommonObj = new CommonViewModel();
-                        uploadedFiles.CommonObj.CreatedBy   = _appUA.UserName;
-                        uploadedFiles.CommonObj.CreatedDate = _appUA.DateTime;
-                        uploadedFiles.CommonObj.UpdatedBy   = _appUA.UserName;
-                        uploadedFiles.CommonObj.UpdatedDate = _appUA.DateTime;
-                        fname = Path.Combine(Server.MapPath("~/Content/Uploads/"), fname);
+                        uploadedFiles.CommonObj.CreatedBy   = appUA.UserName;
+                        uploadedFiles.CommonObj.CreatedDate = common.GetCurrentDateTime();
+                        uploadedFiles.CommonObj.UpdatedBy   = appUA.UserName;
+                        uploadedFiles.CommonObj.UpdatedDate = common.GetCurrentDateTime();
+                        fname = Path.Combine(Server.MapPath("~/Content/Uploads/ImportedFiles/"), fname);
                         file.SaveAs(fname);
                         uploadedFilesObj = _importOtherExpensesBusiness.ImportDataToDB(Mapper.Map<UploadedFilesViewModel, UploadedFiles>(uploadedFiles), fname);
         
@@ -233,23 +233,23 @@ namespace UserInterface.Controllers
         #endregion ValidateFileName
 
         //-------To remove all .xlsx files older than 12 hrs. and to return as file path under uploads-------//
-        #region SetFilePath
-        string SetFilePath(string fname)
+        #region ChangeFilePath
+        string ChangeFilePath(string fname)
         {
-            string[] allFiles = Directory.GetFiles(Server.MapPath("~/Content/Uploads/"));
-            foreach (string aFile in allFiles)
+            string[] allFiles = Directory.GetFiles(Server.MapPath("~/Content/Uploads/ImportedFiles/"));
+            foreach (string file in allFiles)
             {
-                FileInfo fInfo = new FileInfo(aFile);
-                if ((fInfo.CreationTime < DateTime.Now.AddHours(-12)) && fInfo.Extension.Equals(".xlsx"))//Gets only .xlsx files older than 12 hrs. 
+                FileInfo fileInfo = new FileInfo(file);
+                if ((fileInfo.CreationTime < DateTime.Now.AddHours(-12)) && ValidateFileName(fileInfo.Name).Equals("success"))//Gets only .xlsx files older than 12 hrs. 
                 {
-                    if (!fInfo.Name.Equals("OtherExpense_00.00.0000_E0.xlsx"))
-                        { fInfo.Delete(); }
+                    if (!fileInfo.Name.Equals("OtherExpense_00.00.0000_E0.xlsx"))
+                        { fileInfo.Delete(); }
                 }
             }
 
-            return "/Content/Uploads/" + fname;
+            return "/Content/Uploads/ImportedFiles/" + fname;
         }
-        #endregion  SetFilePath
+        #endregion  ChangeFilePath
 
         #region DownloadTemplate
         [HttpGet]
@@ -257,7 +257,7 @@ namespace UserInterface.Controllers
         public ActionResult DownloadTemplate()
         {
             string filename = "OtherExpense_00.00.0000_E0.xlsx";
-            string filepath = Path.Combine(Server.MapPath("~/Content/Uploads/OtherExpense_00.00.0000_E0.xlsx"));
+            string filepath = Path.Combine(Server.MapPath("~/Content/Uploads/ImportedFiles/OtherExpense_00.00.0000_E0.xlsx"));
             string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";//web content type of .xlsx files
             return File(filepath, contentType, filename);
         }

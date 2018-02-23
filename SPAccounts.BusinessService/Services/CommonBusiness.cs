@@ -115,6 +115,10 @@ namespace SPAccounts.BusinessService.Services
             }
             catch (Exception ex)
             {
+                if(ex.Message.Equals("Object reference not set to an instance of an object."))
+                {
+                    throw new NullReferenceException("Configuration Error",ex);
+                }
                 throw ex;
             }
         }

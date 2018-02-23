@@ -277,7 +277,6 @@ namespace SPAccounts.RepositoryServices.Services
                         {
                             cmd.Parameters.Add("@ApprovalDate", SqlDbType.DateTime).Value = (otherExpense.ApprovalDate != null) ? DateTime.Parse(otherExpense.ApprovalDate) : otherExpense.commonObj.UpdatedDate;
                         }
-                        cmd.Parameters.Add("@IsNotified", SqlDbType.Bit).Value = otherExpense.IsNotified;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
 
