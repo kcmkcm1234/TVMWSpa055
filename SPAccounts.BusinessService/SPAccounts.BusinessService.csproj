@@ -95,6 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\IApprovalStatusBusiness.cs" />
+    <Compile Include="Contracts\IApproverBusiness.cs" />
     <Compile Include="Contracts\IBankBusiness.cs" />
     <Compile Include="Contracts\IChartOfAccountsBusiness.cs" />
     <Compile Include="Contracts\ICommonBusiness.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="Contracts\ITaxTypesBusiness.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ApprovalStatusBusiness.cs" />
+    <Compile Include="Services\ApproverBusiness.cs" />
     <Compile Include="Services\BankBusiness.cs" />
     <Compile Include="Services\ChartOfAccountsBusiness.cs" />
     <Compile Include="Services\CommonBusiness.cs" />

@@ -1627,6 +1627,7 @@
     <Content Include="Views\DynamicUI\_MenuNavBar.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\ApproverController.cs" />
     <Compile Include="API\CustomerController.cs" />
     <Compile Include="API\ExpenseController.cs" />
     <Compile Include="API\HomeScreenChartController.cs" />
@@ -1683,6 +1684,7 @@
     <Compile Include="Models\ApplicationViewModel.cs" />
     <Compile Include="Models\AppObjectViewModel.cs" />
     <Compile Include="Models\ApprovalStatusViewModel.cs" />
+    <Compile Include="Models\ApproverViewModel.cs" />
     <Compile Include="Models\BankViewModel.cs" />
     <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\DepartmentViewModel.cs" />

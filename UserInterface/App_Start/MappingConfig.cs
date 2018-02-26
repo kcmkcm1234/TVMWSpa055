@@ -123,7 +123,7 @@ namespace UserInterface.App_Start
                 config.CreateMap<FollowupReportViewModel, FollowupReport>().ReverseMap();
                 config.CreateMap<IncomingChequesViewModel, IncomingCheques>().ReverseMap();
                 config.CreateMap<ReportAdvanceSearchViewModel, ReportAdvanceSearch>().ReverseMap();
-                config.CreateMap<CustomerInvoiceAdvanceSearchViewModel, CustomerInvoiceAdvanceSearch>().ReverseMap();
+                //config.CreateMap<CustomerInvoiceAdvanceSearchViewModel, CustomerInvoiceAdvanceSearch>().ReverseMap();
                 config.CreateMap<ApproverViewModel, Approver>().ReverseMap();
             });
         }

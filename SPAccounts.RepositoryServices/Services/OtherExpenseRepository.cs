@@ -955,7 +955,48 @@ namespace SPAccounts.RepositoryServices.Services
         }
         #endregion PayOtherExpense
 
+        #region NotifyOtherExpense
+        public bool NotifyOtherExpense(Guid ID)
+        {
+            try
+            {
+                SqlParameter outputStatus = null;
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
 
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[NotifyOtherExpense]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = ID;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    switch (outputStatus.Value.ToString())
+                    {
+                        case "0":
+                            AppConst Cobj = new AppConst();
+                            throw new Exception(Cobj.InsertFailure);
+                        case "1":
+                            return true;
+                        default:
+                            throw new Exception("Failed");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion NotifyOtherExpense
 
         public List<OtherExpense> GetAllApprovedExpense(OtherExpense otherExpense)
         {

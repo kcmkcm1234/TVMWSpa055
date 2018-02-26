@@ -145,6 +145,13 @@ namespace SPAccounts.RepositoryServices.Services
                     .Where(row => !row.ItemArray.All(field => field is DBNull || string.IsNullOrWhiteSpace(field as string)))
                     .CopyToDataTable();
 
+                ExcelData.Columns.Add("ErrorRow", typeof(int));
+                int count = 1;
+                foreach (DataRow row in ExcelData.Rows)
+                {
+                    row["ErrorRow"] = ++count;
+                }
+
                 for (int i = 0; i < ExcelData.Rows.Count; i++)
                 {
                     DataRow row = ExcelData.Rows[i];
@@ -161,6 +168,7 @@ namespace SPAccounts.RepositoryServices.Services
                     importOtherExpenseObj.Description   = row["Description"].ToString().Trim();
                     importOtherExpenseObj.Amount        = Decimal.Parse(row["Amount"].ToString().Trim());
                     importOtherExpenseObj.CommonObj     = fileUploadObj.CommonObj;
+                    importOtherExpenseObj.ErrorRow      = int.Parse(row["ErrorRow"].ToString());
 
                     importOtherExpenseList.Add(importOtherExpenseObj);
                 }
@@ -182,6 +190,12 @@ namespace SPAccounts.RepositoryServices.Services
         #endregion GetExcelDataToTable
         
         #region InsertValidateRows
+        /// <summary>
+        /// To validate Each row and then returns error rows with the corresponding error if erorr exists
+        /// </summary>
+        /// <param name="importOtherExpenseList">List of datas from excel</param>
+        /// <param name="flag"> if flag=true then validates and inserts else, only validates </param>
+        /// <returns></returns>
         public List<ImportOtherExpenses> InsertValidateExpenseData(List<ImportOtherExpenses> importOtherExpenseList,bool flag)
         {
             List<ChartOfAccounts>   chartOfAccountsList   = _chartOfAccountsRepository.GetAllChartOfAccounts("OE");
@@ -193,17 +207,33 @@ namespace SPAccounts.RepositoryServices.Services
                 string[] AccountList    = (from i in chartOfAccountsList where i.Type == "OE" select i.Code).ToArray();
                 string[] CompanyNames   = (from i in companiesList select i.Name).ToArray();
                 string[] EmployeeCodes  = (from i in employeeList select i.Code).ToArray();
-                string[] EmployeeNames  = (from i in employeeList select i.Name).ToArray();
-                int count=2;
+                //string[] EmployeeNames  = (from i in employeeList select i.Name).ToArray();
                 foreach (ImportOtherExpenses anImportOtherExpense in importOtherExpenseList)
                 {
                     if (AccountList.Contains(anImportOtherExpense.AccountCode))
                     {
                         if ( CompanyNames.Contains(anImportOtherExpense.Company) )
                         {
-                            if ( (anImportOtherExpense.EmpName.Equals("-") || anImportOtherExpense.EmpName.Equals("") || EmployeeNames.Contains(anImportOtherExpense.EmpName)) && (anImportOtherExpense.EmpCode.Equals("-") || anImportOtherExpense.EmpCode.Equals("") || EmployeeCodes.Contains(anImportOtherExpense.EmpCode)))
+                            if ( /*(anImportOtherExpense.EmpName.Equals("-") || anImportOtherExpense.EmpName.Equals("") || EmployeeNames.Contains(anImportOtherExpense.EmpName)) &&*/ (anImportOtherExpense.EmpCode.Equals("-") || anImportOtherExpense.EmpCode.Equals("") || EmployeeCodes.Contains(anImportOtherExpense.EmpCode)))
                             {
-                                ImportOtherExpenses importExpenseReturn = ModifyRow(anImportOtherExpense, companiesList, employeeList);
+                                ImportOtherExpenses importExpenseReturn = new ImportOtherExpenses();
+                                try
+                                {
+                                    importExpenseReturn = ModifyRow(anImportOtherExpense, companiesList, employeeList);
+                                }
+                                catch (Exception ex)
+                                {
+                                    if(ex.Message.Equals("Sequence contains no elements"))
+                                    {
+                                        anImportOtherExpense.Error = "Invalid Employee";
+                                        anImportOtherExpense.ExpenseDate = DateTime.Parse(anImportOtherExpense.ExpenseDate).ToString(settings.dateformat);
+                                        removedDataList.Add(anImportOtherExpense);
+                                    }
+                                    else
+                                    {
+                                        throw ex;
+                                    }
+                                }
                                 if (flag == true)
                                 {
                                     InsertInToOtherExpenses(importExpenseReturn);
@@ -211,7 +241,6 @@ namespace SPAccounts.RepositoryServices.Services
                             }
                             else
                             {
-                                anImportOtherExpense.ErrorRow   = count;
                                 anImportOtherExpense.Error      = "Invalid Employee";
                                 anImportOtherExpense.ExpenseDate = DateTime.Parse(anImportOtherExpense.ExpenseDate).ToString(settings.dateformat);
                                 removedDataList.Add(anImportOtherExpense);
@@ -219,7 +248,6 @@ namespace SPAccounts.RepositoryServices.Services
                         }
                         else
                         {
-                            anImportOtherExpense.ErrorRow   = count;
                             anImportOtherExpense.Error      = "Invalid Company";
                             anImportOtherExpense.ExpenseDate = DateTime.Parse(anImportOtherExpense.ExpenseDate).ToString(settings.dateformat);
                             removedDataList.Add(anImportOtherExpense);
@@ -227,12 +255,10 @@ namespace SPAccounts.RepositoryServices.Services
                     }
                     else
                     {
-                        anImportOtherExpense.ErrorRow   = count;
                         anImportOtherExpense.Error      = "Invalid Account Code";
                         anImportOtherExpense.ExpenseDate = DateTime.Parse(anImportOtherExpense.ExpenseDate).ToString(settings.dateformat);
                         removedDataList.Add(anImportOtherExpense);
                     }
-                    count++;
                 }
 
                 return removedDataList;
@@ -255,8 +281,7 @@ namespace SPAccounts.RepositoryServices.Services
                 {
                     if(!importOtherExpense.EmpName.Equals("") || !importOtherExpense.EmpCode.Equals(""))
                     {
-                        importOtherExpense.EmpID = Guid.Parse((from anEmployee in employeeList where anEmployee.Name == importOtherExpense.EmpName && anEmployee.Code == importOtherExpense.EmpCode select anEmployee.ID).First().ToString());
-
+                        importOtherExpense.EmpID = Guid.Parse((from anEmployee in employeeList where anEmployee.Code == importOtherExpense.EmpCode select anEmployee.ID).First().ToString());
                     }
 
                 }
