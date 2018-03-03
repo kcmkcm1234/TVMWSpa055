@@ -191,8 +191,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@Code", SqlDbType.VarChar, 5).Value = _companyObj.Code;
                         cmd.Parameters.Add("@Name", SqlDbType.VarChar, 100).Value = _companyObj.Name;
-                        cmd.Parameters.Add("@BillingAddress", SqlDbType.VarChar, 10).Value = _companyObj.BillingAddress;
-                        cmd.Parameters.Add("@ShippingAddress", SqlDbType.VarChar, 10).Value = _companyObj.ShippingAddress;
+                        cmd.Parameters.Add("@BillingAddress", SqlDbType.VarChar, -1).Value = _companyObj.BillingAddress;
+                        cmd.Parameters.Add("@ShippingAddress", SqlDbType.VarChar, -1).Value = _companyObj.ShippingAddress;
                         cmd.Parameters.Add("@ApproverID", SqlDbType.UniqueIdentifier).Value = _companyObj.ApproverID;
                         cmd.Parameters.Add("@LogoURL", SqlDbType.NVarChar).Value = _companyObj.LogoURL;
                         cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = _companyObj.commonObj.UpdatedBy;
