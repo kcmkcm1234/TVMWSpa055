@@ -78,7 +78,7 @@
                 </div>
             </div>
 
-            <div class="EntryForms">
+            <div class="EntryForms" style="height:550px">
              @using (Ajax.BeginForm("InsertUpdateEmployee", "Employee", new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccess", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", @id = "EmployeeForm" }))
              {
                 @Html.AntiForgeryToken()               
@@ -153,7 +153,8 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="col-md-10">
-                                    @Html.CheckBoxFor(model => model.IsActive, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter" } })
+                                    @Html.CheckBoxFor(model => model.IsActive, htmlAttributes: new { @checked = true, @onchange = "EmployeeChange(this)" })
+                                   @* @Html.CheckBoxFor(model => model.IsActive, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter" , @onchange = "EmployeeChange()"} })*@
                                     @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-1"></div>

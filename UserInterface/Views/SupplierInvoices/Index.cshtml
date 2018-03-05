@@ -49,7 +49,8 @@
                 <!-- /.info-box-content -->
             </div>
             <!-- /.info-box -->
-        </div>
+        </div
+>
         <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box" style="cursor:pointer" onclick="Gridfilter('OI');">
                 <span class="info-box-icon bg-aqua"></span>
@@ -142,6 +143,8 @@
                                     { Text = "WB Invoice", Value = "WB" });
                                     InvoiceTypesList.Add(new SelectListItem
                                     { Text = "WP Invoice", Value = "WP" });
+                                    InvoiceTypesList.Add(new SelectListItem
+                                    { Text = "Service Invoice", Value = "SI" });
                                 }
                                 @Html.DropDownListFor(model => model.InvoiceType, InvoiceTypesList, new { @class = "form-control BlockEnter", style = "padding:4px 12px;width: 100 %", @id = "ddlInvoiceTypes", @onchange = "InvoicesTypeChange();" })
                             </div>
@@ -311,6 +314,8 @@
                                             { Text = "WB Invoice", Value = "WB" });
                                             InvoiceTypeList.Add(new SelectListItem
                                             { Text = "WP Invoice", Value = "WP" });
+                                            InvoiceTypeList.Add(new SelectListItem
+                                            { Text = "Service Invoice", Value = "SI" });
                                         }
                                         @Html.DropDownListFor(model => model.InvoiceType, InvoiceTypeList, new { @class = "form-control BlockEnter", style = "padding:4px 12px;", @id = "ddlInvoiceType", @onchange = "InvoicesTypeChange();" })
                                     </div> 

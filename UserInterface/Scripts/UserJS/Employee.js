@@ -304,3 +304,15 @@ function Edit(currentObj) {
         FillEmployeeDetails(rowData.ID);
     }
 }
+
+function EmployeeChange() {
+    debugger;
+    if (!$('#IsActive').is(":checked"))
+    {
+        $("#GeneralNotes").prop('required', true);
+    }
+    else
+    {
+        $("#GeneralNotes").prop('required', false);
+    }
+}
