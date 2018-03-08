@@ -16,5 +16,7 @@ namespace SPAccounts.RepositoryServices.Contracts
         object UpdateChartOfAccounts(ChartOfAccounts _chartOfAccountsObj);
         object DeleteChartOfAccounts(string code);
         object UpdateAssignments(string code);
+        List<ChartOfAccounts> GetAllAccountTypesForAccountHeadGroup();
+
     }
 }

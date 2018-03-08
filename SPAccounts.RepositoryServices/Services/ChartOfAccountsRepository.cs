@@ -397,5 +397,49 @@ namespace SPAccounts.RepositoryServices.Services
             };
         }
         #endregion Update assigned permissions
+
+        public List<ChartOfAccounts> GetAllAccountTypesForAccountHeadGroup()
+        {
+            List<ChartOfAccounts> chartofAccountsList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetAccountCodeForAccountHeadGroup]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                chartofAccountsList = new List<ChartOfAccounts>();
+                                while (sdr.Read())
+                                {
+                                    ChartOfAccounts _chartofAccountsObj = new ChartOfAccounts();
+                                    {
+                                        _chartofAccountsObj.Code = (sdr["Code"].ToString() != "" ? (sdr["Code"].ToString()) : _chartofAccountsObj.Code);
+                                        _chartofAccountsObj.TypeDesc = (sdr["TypeDesc"].ToString() != "" ? (sdr["TypeDesc"].ToString()) : _chartofAccountsObj.TypeDesc);
+                                    }
+                                    chartofAccountsList.Add(_chartofAccountsObj);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return chartofAccountsList;
+        }
     }
 }

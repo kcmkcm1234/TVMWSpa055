@@ -1551,6 +1551,7 @@
     <Content Include="Scripts\select2.js" />
     <Content Include="Scripts\select2.min.js" />
     <Content Include="Scripts\sweetalert.min.js" />
+    <Content Include="Scripts\UserJS\AccountHeadGroup.js" />
     <Content Include="Scripts\UserJS\AccountPayableAgeingReport.js" />
     <Content Include="Scripts\UserJS\AccountPayableAgeingSummaryReport.js" />
     <Content Include="Scripts\UserJS\AccountReceivableAgeingReport.js" />
@@ -1645,6 +1646,7 @@
     <Compile Include="App_Start\UnityWebApiActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AccountHeadGroupController.cs" />
     <Compile Include="Controllers\BankController.cs" />
     <Compile Include="Controllers\ChartOfAccountsController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
@@ -1681,6 +1683,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AccountHeadGroupViewModel.cs" />
     <Compile Include="Models\ApplicationViewModel.cs" />
     <Compile Include="Models\AppObjectViewModel.cs" />
     <Compile Include="Models\ApprovalStatusViewModel.cs" />
@@ -1814,6 +1817,8 @@
     <Content Include="Views\PaymentFollowup\Index.cshtml" />
     <Content Include="Views\PaymentFollowup\_FollowUpList.cshtml" />
     <Content Include="Views\Report\PaymentFollowups.cshtml" />
+    <Content Include="Views\AccountHeadGroup\Index.cshtml" />
+    <Content Include="Views\Report\AccountHeadGroup.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

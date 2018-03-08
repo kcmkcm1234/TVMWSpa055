@@ -2364,7 +2364,11 @@ namespace UserInterface.Controllers
         }
         #endregion TrialBalanceReport
 
-
+        [HttpGet]
+        public ActionResult AccountHeadGroup()
+        {
+            return View();
+        }
 
         #region ButtonStyling
         [HttpGet]

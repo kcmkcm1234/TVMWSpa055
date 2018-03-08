@@ -94,6 +94,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTO\AccountHeadGroup.cs" />
     <Compile Include="DTO\ApprovalStatus.cs" />
     <Compile Include="DTO\Approver.cs" />
     <Compile Include="DTO\Bank.cs" />

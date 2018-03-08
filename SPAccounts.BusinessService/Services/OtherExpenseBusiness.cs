@@ -42,6 +42,20 @@ namespace SPAccounts.BusinessService.Services
             return accountsList;
         }
 
+        public List<ChartOfAccounts> GetAllAccountTypesForAccountHeadGroup()
+        {
+            List<ChartOfAccounts> accountsList = null;
+            try
+            {
+                accountsList = _chartOfAccountsBusiness.GetAllAccountTypesForAccountHeadGroup();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return accountsList;
+        }
+
         public List<Companies> GetAllCompanies()
         {
             List<Companies> companyList = null;

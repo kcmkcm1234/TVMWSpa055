@@ -125,6 +125,8 @@ namespace UserInterface.App_Start
                 config.CreateMap<ReportAdvanceSearchViewModel, ReportAdvanceSearch>().ReverseMap();
                 //config.CreateMap<CustomerInvoiceAdvanceSearchViewModel, CustomerInvoiceAdvanceSearch>().ReverseMap();
                 config.CreateMap<ApproverViewModel, Approver>().ReverseMap();
+                config.CreateMap<AccountHeadGroupViewModel, AccountHeadGroup>().ReverseMap();
+
             });
         }
     }

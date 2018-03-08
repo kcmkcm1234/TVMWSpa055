@@ -83,5 +83,10 @@ namespace SPAccounts.BusinessService.Services
             return result;
         }
 
+        public List<ChartOfAccounts> GetAllAccountTypesForAccountHeadGroup()
+        {
+            return _chartOfAccountsRepository.GetAllAccountTypesForAccountHeadGroup();
+        }
+
     }
 }

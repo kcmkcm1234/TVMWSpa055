@@ -15,5 +15,6 @@ namespace SPAccounts.BusinessService.Contracts
         object InsertUpdateChartOfAccounts(ChartOfAccounts chartOfAccountsObj);
         object UpdateAssignments(string code);
         object DeleteChartOfAccounts(string Code);
+        List<ChartOfAccounts> GetAllAccountTypesForAccountHeadGroup();
     }
 }

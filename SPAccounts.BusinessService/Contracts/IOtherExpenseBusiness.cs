@@ -38,5 +38,6 @@ namespace SPAccounts.BusinessService.Contracts
         string PayOtherExpense(Guid ID, string CreatedBy);
         bool NotifyOtherExpense(Guid ID);
         List<OtherExpense> GetAllApprovedExpense(OtherExpense otherExpense);
+        List<ChartOfAccounts> GetAllAccountTypesForAccountHeadGroup();
     }
 }

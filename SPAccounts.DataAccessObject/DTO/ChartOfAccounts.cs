@@ -26,5 +26,6 @@ namespace SPAccounts.DataAccessObject.DTO
         public Common CommonObj { get; set; }
         public string AssignRowValues { get; set; }
         public List<ChartOfAccounts> CheckedRows { get; set; }
+        public bool IsGrouped { get; set; }
     }
 }
