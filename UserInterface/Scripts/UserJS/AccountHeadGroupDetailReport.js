@@ -62,7 +62,7 @@ $(document).ready(function () {
              //    var last = null;
 
              //    api.column(2, { page: 'current' }).data().each(function (group, i) {
-             //        debugger;
+             //       
              //        if (last !== group) {
              //            $(rows).eq(i).before('<tr class="group "><td colspan="3" class="rptGrp">' + '<b>Company</b> : ' + group + '</td></tr>');
              //            last = group;
@@ -85,7 +85,7 @@ $(document).ready(function () {
 
 function GetAccountHeadGroupDetailReport(accountHeadGroupSummaryAdvanceSearch) {
 
-    debugger;
+   
     try {
         if (accountHeadGroupSummaryAdvanceSearch === 0) {
             var data = {};
@@ -113,7 +113,7 @@ function GetAccountHeadGroupDetailReport(accountHeadGroupSummaryAdvanceSearch) {
 
 
 function AdvanceSearchContent() {
-    debugger;
+   
     var expenseType = $("#ExpenseType");
     var fromDate = $("#fromdate");
     var toDate = $("#todate");
@@ -135,11 +135,12 @@ function AdvanceSearchContent() {
 
 
 function Reset() {
-    debugger;
+   
     $("#todate").val(startdate);
     $("#fromdate").val(enddate);
+    $("#Employee").val('').trigger('change');
     $("#Company").val('ALL').trigger('change');
-    $("#GroupName").val('ALL').trigger('change');
+    $("#GroupName").val('').trigger('change');
     $("#search").val('');
     $("#ExpenseType").val('ALL').trigger('change')
     AdvanceSearchContent();
