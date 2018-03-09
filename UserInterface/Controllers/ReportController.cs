@@ -29,8 +29,9 @@ namespace UserInterface.Controllers
         IEmployeeBusiness _employeeBusiness;
         IOtherExpenseBusiness _otherExpenseBusiness;
         ICommonBusiness _commonBusiness;
+        IAccountHeadGroupBusiness _accountHeadGroupBusiness;
         SecurityFilter.ToolBarAccess _tool;
-        public ReportController(IReportBusiness reportBusiness, ICompaniesBusiness companiesBusiness, IEmployeeBusiness employeeBusiness, IOtherExpenseBusiness otherExpenseBusiness, ICommonBusiness commonBusiness, IBankBusiness bankbusiness, ICustomerBusiness customerBusiness, ISupplierBusiness supplierBusiness, SecurityFilter.ToolBarAccess tool)
+        public ReportController(IReportBusiness reportBusiness, ICompaniesBusiness companiesBusiness, IEmployeeBusiness employeeBusiness, IOtherExpenseBusiness otherExpenseBusiness, ICommonBusiness commonBusiness, IBankBusiness bankbusiness, ICustomerBusiness customerBusiness, ISupplierBusiness supplierBusiness, IAccountHeadGroupBusiness accountHeadGroupBusiness, SecurityFilter.ToolBarAccess tool)
         {
             _reportBusiness = reportBusiness;
             _supplierBusiness = supplierBusiness;
@@ -40,6 +41,7 @@ namespace UserInterface.Controllers
             _commonBusiness = commonBusiness;
             _bankBusiness = bankbusiness;
             _customerBusiness = customerBusiness;
+            _accountHeadGroupBusiness = accountHeadGroupBusiness;
             _tool = tool;
 
         }
@@ -2365,10 +2367,191 @@ namespace UserInterface.Controllers
         #endregion TrialBalanceReport
 
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "AccountHeadGroup", Mode = "R")]
         public ActionResult AccountHeadGroup()
         {
-            return View();
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            DateTime dt = _appUA.DateTime;
+            ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+            ViewBag.todate = dt.ToString("dd-MMM-yyyy");
+            AccountHeadGroupReportViewModel accountHeadGroupReportViewModel = new AccountHeadGroupReportViewModel();
+
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+
+            accountHeadGroupReportViewModel.companiesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_companiesBusiness.GetAllCompanies());
+            if (accountHeadGroupReportViewModel.companiesList != null)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "All",
+                    Value = "ALL",
+                    Selected = true
+                });
+
+                foreach (CompaniesViewModel cvm in accountHeadGroupReportViewModel.companiesList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = cvm.Name,
+                        Value = cvm.Code.ToString(),
+                        Selected = false
+                    });
+                }
+            }
+
+            accountHeadGroupReportViewModel.CompanyList = selectListItem;
+            selectListItem = null;
+            selectListItem = new List<SelectListItem>();
+            List<AccountHeadGroupViewModel> accountHeadGroupList = Mapper.Map<List<AccountHeadGroup>, List<AccountHeadGroupViewModel>>(_accountHeadGroupBusiness.GetAllGroupName());
+            selectListItem.Add(new SelectListItem
+            {
+                Text = "All",
+                Value = null,
+                Selected = true
+            });
+            foreach (AccountHeadGroupViewModel etvm in accountHeadGroupList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = etvm.GroupName,
+                    Value =etvm.ID.ToString(),
+                    Selected = false
+                });
+            }
+            accountHeadGroupReportViewModel.accountHeadGroupList = selectListItem;
+
+            return View(accountHeadGroupReportViewModel);
         }
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "AccountHeadGroup", Mode = "R")]
+        public string GetOtherExpenseAccountHeadGroupSummaryReport(string accountHeadGroupSummaryAdvanceSearchObject)
+        {
+            try
+            {
+                AccountHeadGroupAdvanceSearchViewModel accountGroupHeadSearchObj = accountHeadGroupSummaryAdvanceSearchObject != null ? JsonConvert.DeserializeObject<AccountHeadGroupAdvanceSearchViewModel>(accountHeadGroupSummaryAdvanceSearchObject) : new AccountHeadGroupAdvanceSearchViewModel();
+                if (accountHeadGroupSummaryAdvanceSearchObject == null)
+                {
+                    AppUA _appUA = Session["AppUA"] as AppUA;
+                    DateTime dt = _appUA.DateTime;
+                    ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+                    ViewBag.todate = dt.ToString("dd-MMM-yyyy");
+                    accountGroupHeadSearchObj.FromDate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+                    accountGroupHeadSearchObj.ToDate = dt.ToString("dd-MMM-yyyy");
+                    accountGroupHeadSearchObj.Company = "ALL";
+                }
+
+                List<AccountHeadGroupReportViewModel> accountHeadGroupReportList = Mapper.Map<List<AccountHeadGroupReport>, List<AccountHeadGroupReportViewModel>>(_reportBusiness.GetOtherExpenseAccountHeadGroupSummaryReport(Mapper.Map<AccountHeadGroupAdvanceSearchViewModel, AccountHeadGroupAdvanceSearch>(accountGroupHeadSearchObj)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = accountHeadGroupReportList });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+            }
+        }
+
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "AccountHeadGroup", Mode = "R")]
+        public ActionResult AccountHeadGroupDetails()
+        {
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            DateTime dt = _appUA.DateTime;
+            ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+            ViewBag.todate = dt.ToString("dd-MMM-yyyy");
+            AccountHeadGroupDetailReportViewModel accountHeadGroupDetailReportViewModel = new AccountHeadGroupDetailReportViewModel();
+
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+
+            accountHeadGroupDetailReportViewModel.companiesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_companiesBusiness.GetAllCompanies());
+            if (accountHeadGroupDetailReportViewModel.companiesList != null)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "All",
+                    Value = "ALL",
+                    Selected = true
+                });
+
+                foreach (CompaniesViewModel cvm in accountHeadGroupDetailReportViewModel.companiesList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = cvm.Name,
+                        Value = cvm.Code.ToString(),
+                        Selected = false
+                    });
+                }
+            }
+
+            accountHeadGroupDetailReportViewModel.CompanyList = selectListItem;
+            selectListItem = null;
+            selectListItem = new List<SelectListItem>();
+            List<AccountHeadGroupViewModel> accountHeadGroupList = Mapper.Map<List<AccountHeadGroup>, List<AccountHeadGroupViewModel>>(_accountHeadGroupBusiness.GetAllGroupName());
+            selectListItem.Add(new SelectListItem
+            {
+                Text = "All",
+                Value = null,
+                Selected = true
+            });
+            foreach (AccountHeadGroupViewModel etvm in accountHeadGroupList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = etvm.GroupName,
+                    Value = etvm.ID.ToString(),
+                    Selected = false
+                });
+            }
+            accountHeadGroupDetailReportViewModel.accountHeadGroupList = selectListItem;
+            selectListItem = new List<SelectListItem>();
+            List<EmployeeViewModel> empList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_otherExpenseBusiness.GetAllEmployees(null));
+            selectListItem.Add(new SelectListItem
+            {
+                Text = "All",
+                Value = null,
+                Selected = true
+            });
+            foreach (EmployeeViewModel evm in empList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = evm.Name,
+                    Value = evm.ID.ToString(),
+                    Selected = false
+                });
+            }
+            accountHeadGroupDetailReportViewModel.EmployeeList = selectListItem;
+            return View(accountHeadGroupDetailReportViewModel);
+        }
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "AccountHeadGroup", Mode = "R")]
+        public string GetOtherExpenseAccountHeadGroupDetailReport(string accountHeadGroupSummaryAdvanceSearchObject)
+        {
+            try
+            {
+                AccountHeadGroupAdvanceSearchViewModel accountGroupHeadSearchObj = accountHeadGroupSummaryAdvanceSearchObject != null ? JsonConvert.DeserializeObject<AccountHeadGroupAdvanceSearchViewModel>(accountHeadGroupSummaryAdvanceSearchObject) : new AccountHeadGroupAdvanceSearchViewModel();
+                if (accountHeadGroupSummaryAdvanceSearchObject == null)
+                {
+                    AppUA _appUA = Session["AppUA"] as AppUA;
+                    DateTime dt = _appUA.DateTime;
+                    ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+                    ViewBag.todate = dt.ToString("dd-MMM-yyyy");
+                    accountGroupHeadSearchObj.FromDate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+                    accountGroupHeadSearchObj.ToDate = dt.ToString("dd-MMM-yyyy");
+                    accountGroupHeadSearchObj.Company = "ALL";
+                }
+
+                List<AccountHeadGroupDetailReportViewModel> accountHeadGroupReportList = Mapper.Map<List<AccountHeadGroupDetailReport>, List<AccountHeadGroupDetailReportViewModel>>(_reportBusiness.GetOtherExpenseAccountHeadGroupDetailReport(Mapper.Map<AccountHeadGroupAdvanceSearchViewModel, AccountHeadGroupAdvanceSearch>(accountGroupHeadSearchObj)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = accountHeadGroupReportList });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+            }
+        }
+
 
         #region ButtonStyling
         [HttpGet]

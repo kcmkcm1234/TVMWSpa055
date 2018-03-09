@@ -504,7 +504,51 @@ namespace SPAccounts.DataAccessObject.DTO
         public string InvoiceType { get; set; }
     }
 
+    public class AccountHeadGroupReport
+    {
+        public Guid ID { get; set; }
+        public string GroupName { get; set; }
+        public string AccountHead { get; set; }
+        public string AccountHeads { get; set; }
+        public Common commonObj { get; set; }
+        public string Search { get; set; }
+        public string CompanyCode { get; set; }
+        public string ExpenseType { get; set; }
+        public decimal ReversedAmount { get; set; }
+        public decimal PaidAmount { get; set; }
+        public string Company { get; set; }
+    }
 
+    public class AccountHeadGroupDetailReport
+    {
+        public Guid ID { get; set; }
+        public Guid GroupID { get; set; }
+        public string AccountHeadCode { get; set; }
+        public string GroupName { get; set; }
+        public string AccountHead { get; set; }
+        public string AccountHeads { get; set; }
+        public Common commonObj { get; set; }
+        public string Search { get; set; }
+        public string CompanyCode { get; set; }
+        public string ExpenseType { get; set; }
+        public decimal ReversedAmount { get; set; }
+        public decimal PaidAmount { get; set; }
+        public string Beneficiary { get; set; }
+        public string PaymentDate { get; set; }
+        public string Employee { get; set; }
+    }
+
+    public class AccountHeadGroupAdvanceSearch
+    {
+        public string ToDate { get; set; }
+        public string FromDate { get; set; }
+        public string GroupName { get; set; }
+        public string Company { get; set; }
+        public string Search { get; set; }
+        public string ExpenseType { get; set; }
+        public string Employee { get; set; }
+    }
 }
+
 
 

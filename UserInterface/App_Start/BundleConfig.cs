@@ -117,6 +117,8 @@ namespace UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/OtherExpenseLimitedDetailsReport").Include("~/Scripts/UserJS/OtherExpenseLimitedDetailsReport.js"));
             bundles.Add(new ScriptBundle("~/bundles/PaymentFollowupsReport").Include("~/Scripts/UserJS/PaymentFollowupsReport.js"));
             bundles.Add(new ScriptBundle("~/bundles/AccountHeadGroup").Include("~/Scripts/UserJS/AccountHeadGroup.js"));
+            bundles.Add(new ScriptBundle("~/bundles/AccountHeadGroupSummaryReport").Include("~/Scripts/UserJS/AccountHeadGroupSummaryReport.js"));
+            bundles.Add(new ScriptBundle("~/bundles/AccountHeadGroupDetailReport").Include("~/Scripts/UserJS/AccountHeadGroupDetailReport.js"));
 
         }
 

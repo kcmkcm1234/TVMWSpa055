@@ -40,6 +40,9 @@ namespace SPAccounts.RepositoryServices.Contracts
         List<SupplierExpeditingReport> GetSupplierExpeditingDetail(ReportAdvanceSearch advanceSearchObject);
         List<TrialBalance> GetTrialBalanceReport(DateTime? Date);
         List<FollowupReport> GetFollowupReport(FollowupReportAdvanceSearch advanceSearchObject);
+        List<AccountHeadGroupReport> GetOtherExpenseAccountHeadGroupSummaryReport(AccountHeadGroupAdvanceSearch accountHeadGroupSummaryAdvanceSearchObject);
+        List<AccountHeadGroupDetailReport> GetOtherExpenseAccountHeadGroupDetailReport(AccountHeadGroupAdvanceSearch accountHeadGroupSummaryAdvanceSearchObject);
+
 
     }
 }

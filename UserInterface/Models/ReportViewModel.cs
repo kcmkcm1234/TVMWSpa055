@@ -727,4 +727,64 @@ namespace UserInterface.Models
         public CustomerViewModel customerObj { get; set; }
         public string Search { get; set; }
     }
+
+    public class AccountHeadGroupReportViewModel
+    {
+        public Guid ID { get; set; }
+        [Display(Name = "Account Group")]
+        public string GroupName { get; set; }
+        public string AccountHead { get; set; }
+        [Display(Name = "Account Head")]
+        public string AccountHeads { get; set; }
+        public List<SelectListItem> AccountTypes { get; set; }
+        public CommonViewModel commonObj { get; set; }
+        public string Search { get; set; }
+        public List<SelectListItem> CompanyList { get; set; }
+        public List<CompaniesViewModel> companiesList;
+        public List<SelectListItem> accountHeadGroupList { get; set; }
+        public string CompanyCode { get; set; }
+        public string ExpenseType { get; set; }
+        public decimal ReversedAmount { get; set; }
+        public decimal PaidAmount { get; set; }
+        public string Company { get; set; }
+        public AccountHeadGroupAdvanceSearchViewModel accountAHGAdvanceSearchObj { get; set; }
+    }
+
+    public class AccountHeadGroupDetailReportViewModel
+    {
+        public Guid ID { get; set; }
+        public Guid GroupID { get; set; }
+        public string AccountHeadCode { get; set; }
+        [Display(Name = "Account Group")]
+        public string GroupName { get; set; }
+        public string AccountHead { get; set; }
+        [Display(Name = "Account Head")]
+        public string AccountHeads { get; set; }
+        public List<SelectListItem> AccountTypes { get; set; }
+        public CommonViewModel commonObj { get; set; }
+        public string Search { get; set; }
+        public List<SelectListItem> CompanyList { get; set; }
+        public List<CompaniesViewModel> companiesList;
+        public List<SelectListItem> accountHeadGroupList { get; set; }
+        public List<SelectListItem> EmployeeList { get; set; }
+        public string CompanyCode { get; set; }
+        public string ExpenseType { get; set; }
+        public string Beneficiary { get; set; }
+        public string PaymentDate { get; set; }
+        public string Employee { get; set; }
+        public decimal PaidAmount { get; set; }
+        public decimal ReversedAmount { get; set; }
+        public AccountHeadGroupAdvanceSearchViewModel accountAHGAdvanceSearchObj { get; set; }
+    }
+
+    public class AccountHeadGroupAdvanceSearchViewModel
+    {
+        public string ToDate { get; set; }
+        public string FromDate { get; set; }
+        public string GroupName { get; set; }
+        public string Company { get; set; }
+        public string Search { get; set; }
+        public string ExpenseType { get; set; }
+        public string Employee { get; set; }
+    }
 }

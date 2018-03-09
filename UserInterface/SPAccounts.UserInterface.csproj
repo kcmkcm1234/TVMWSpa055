@@ -1552,6 +1552,8 @@
     <Content Include="Scripts\select2.min.js" />
     <Content Include="Scripts\sweetalert.min.js" />
     <Content Include="Scripts\UserJS\AccountHeadGroup.js" />
+    <Content Include="Scripts\UserJS\AccountHeadGroupDetailReport.js" />
+    <Content Include="Scripts\UserJS\AccountHeadGroupSummaryReport.js" />
     <Content Include="Scripts\UserJS\AccountPayableAgeingReport.js" />
     <Content Include="Scripts\UserJS\AccountPayableAgeingSummaryReport.js" />
     <Content Include="Scripts\UserJS\AccountReceivableAgeingReport.js" />
@@ -1819,6 +1821,7 @@
     <Content Include="Views\Report\PaymentFollowups.cshtml" />
     <Content Include="Views\AccountHeadGroup\Index.cshtml" />
     <Content Include="Views\Report\AccountHeadGroup.cshtml" />
+    <Content Include="Views\Report\AccountHeadGroupDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

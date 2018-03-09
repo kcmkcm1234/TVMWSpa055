@@ -1,10 +1,9 @@
-﻿@model UserInterface.Models.AccountHeadGroupReportViewModel
+﻿@model UserInterface.Models.AccountHeadGroupDetailReportViewModel
 @using UserInterface.App_Start
 @{
-    ViewBag.Title = "Account Head Group Summary";
+    ViewBag.Title = "Account Head Group Details";
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
-
 @section styles {
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableButtons")
@@ -53,7 +52,7 @@
 <div class="form-horizontal" id="main">
     <div class="col-md-9" style="margin-top:10px;">
         <div class="col-md-3">
-            @Html.LabelFor(model => model.accountAHGAdvanceSearchObj.ExpenseType, htmlAttributes: new { @class = "control-label" })
+            @Html.LabelFor(model => model.ExpenseType, htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
                 @{
                     List<SelectListItem> TypeList = new List<SelectListItem>();
@@ -64,8 +63,15 @@
                     TypeList.Add(new SelectListItem
                     { Text = "Purchase Details", Value = "SUP" });
                 }
-                @Html.DropDownListFor(model => model.accountAHGAdvanceSearchObj.ExpenseType, TypeList, new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "ExpenseType" })
-                @Html.ValidationMessageFor(model => model.accountAHGAdvanceSearchObj.ExpenseType, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(model => model.ExpenseType, TypeList, new { @class = "form-control BlockEnter", @onchange = "ExpenseTypeOnChange(this)", value = -1, style = "padding:4px 12px;", @id = "ExpenseType" })
+                @Html.ValidationMessageFor(model => model.ExpenseType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.Employee, htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-12">
+                @Html.DropDownListFor(model => model.Employee, Model.EmployeeList, new { @class = "form-control BlockEnter", value = -1, @style = "width:100%!imporant", @id = "Employee", @onchange = "OnChangeCall()" })
+                @Html.ValidationMessageFor(model => model.Employee, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
@@ -82,6 +88,8 @@
             @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
                 @Html.TextBox("fromdate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @Value = ViewBag.fromdate })
+
+
             </div>
         </div>
         <div class="col-md-3">
@@ -91,19 +99,19 @@
             </div>
         </div>
         <div class="col-md-3">
-            @Html.LabelFor(model => model.accountAHGAdvanceSearchObj.Company, htmlAttributes: new { @class = "control-label" })
+            @Html.LabelFor(model => model.CompanyCode, htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
-                @Html.DropDownListFor(model => model.accountAHGAdvanceSearchObj.Company, Model.CompanyList, new { @class = "form-control BlockEnter", @onchange = "OnChangeCall()", value = -1, @style = "width:100%!imporant", @id = "Company" })
-                @Html.ValidationMessageFor(model => model.accountAHGAdvanceSearchObj.Company, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(model => model.CompanyCode, Model.CompanyList, new { @class = "form-control BlockEnter", @onchange = "OnChangeCall()", value = -1, @style = "width:100%!imporant", @id = "Company" })
+                @Html.ValidationMessageFor(model => model.CompanyCode, "", new { @class = "text-danger" })
 
             </div>
         </div>
 
         <div class="col-md-3">
-            @Html.LabelFor(model => model.accountAHGAdvanceSearchObj.GroupName, htmlAttributes: new { @class = "control-label" })
+            @Html.LabelFor(model => model.GroupName, htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
-                @Html.DropDownListFor(model => model.accountAHGAdvanceSearchObj.GroupName, Model.accountHeadGroupList, new { @class = "form-control BlockEnter", value = -1, @style = "width:100%!imporant", @id = "GroupName" })
-                @Html.ValidationMessageFor(model => model.accountAHGAdvanceSearchObj.GroupName, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(model => model.GroupName, Model.accountHeadGroupList, new { @class = "form-control BlockEnter", value = -1, @style = "width:100%!imporant", @id = "GroupName", @onchange = "AccountCodeOnchange(this)" })
+                @Html.ValidationMessageFor(model => model.GroupName, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -113,7 +121,7 @@
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="Search" id="Search">
                     <div class="input-group-btn">
-                        <button class="btn btn-default" type="submit" style="height:28px" onclick="AdvanceSearchContent()"><i class="glyphicon glyphicon-search"></i></button>
+                        <button class="btn btn-default" type="submit" style="height:28px" onclick="OnChangeCall()"><i class="glyphicon glyphicon-search"></i></button>
                     </div>
                 </div>
             </div>
@@ -133,14 +141,17 @@
 </div>
 <div class="row tableContainer">
     <div class="col-md-12" id="AHContainer">
-        <table id="accountHeadGroupSummaryTable" class="table stripe" cellspacing="0" width="100%">
+        <table id="accountHeadGroupDetailTable" class="table stripe" cellspacing="0" width="100%">
             <thead>
                 <tr class="text-center TableHead">
                     <th>ID</th>
                     <th>Account Group</th>
-                    <th>Company Name</th>
-                    <th>Reversed Amount</th>
+                    <th>Company</th>
+                    <th>Beneficiary</th>
+                    <th>Payment Date</th>
                     <th>Paid Amount</th>
+                    <th>Reversed Amount</th>
+                   
                 </tr>
             </thead>
         </table>
@@ -159,7 +170,6 @@
         </div>*@
 </div>
 
-       
 
 
 
@@ -174,9 +184,12 @@
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/AccountHeadGroupSummaryReport")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/AccountHeadGroupDetailReport")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
 
 }
+
+
+
 
 

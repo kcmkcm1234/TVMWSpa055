@@ -48,5 +48,9 @@ namespace SPAccounts.BusinessService.Services
             return _accountHeadGroupRepository.DeleteAccountHeadGroup(ID);
         }
 
+       public List<AccountHeadGroup> GetAllGroupName()
+        {
+            return _accountHeadGroupRepository.GetAllGroupName();
+        }
     }
 }

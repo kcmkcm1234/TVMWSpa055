@@ -14,6 +14,7 @@ namespace SPAccounts.BusinessService.Contracts
         AccountHeadGroup InsertUpdateAccountHeadGroup(AccountHeadGroup accountHeadGroup, AppUA ua);
         AccountHeadGroup GetAccountHeadGroupDetailsByID(Guid ID);
         object DeleteAccountHeadGroup(Guid ID);
+        List<AccountHeadGroup> GetAllGroupName();
 
     }
 }

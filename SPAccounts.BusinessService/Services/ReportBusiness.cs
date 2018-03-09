@@ -520,5 +520,33 @@ namespace SPAccounts.BusinessService.Services
             }
             return TBlist;
         }
+
+        public List<AccountHeadGroupReport> GetOtherExpenseAccountHeadGroupSummaryReport(AccountHeadGroupAdvanceSearch accountHeadGroupSummaryAdvanceSearchObject)
+        {
+            List<AccountHeadGroupReport> accountHeadGroupList = null;
+            try
+            {
+                accountHeadGroupList = _reportRepository.GetOtherExpenseAccountHeadGroupSummaryReport(accountHeadGroupSummaryAdvanceSearchObject);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return accountHeadGroupList;
+        }
+
+        public List<AccountHeadGroupDetailReport> GetOtherExpenseAccountHeadGroupDetailReport(AccountHeadGroupAdvanceSearch accountHeadGroupSummaryAdvanceSearchObject)
+        {
+            List<AccountHeadGroupDetailReport> accountHeadGroupList = null;
+            try
+            {
+                accountHeadGroupList = _reportRepository.GetOtherExpenseAccountHeadGroupDetailReport(accountHeadGroupSummaryAdvanceSearchObject);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return accountHeadGroupList;
+        }
     }
 }

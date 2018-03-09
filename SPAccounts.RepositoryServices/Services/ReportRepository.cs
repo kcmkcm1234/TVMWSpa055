@@ -1731,5 +1731,110 @@ namespace SPAccounts.RepositoryServices.Services
             return followupList;
         }
         #endregion GetFollowupReport
+
+        public List<AccountHeadGroupReport> GetOtherExpenseAccountHeadGroupSummaryReport(AccountHeadGroupAdvanceSearch accountHeadGroupSummaryAdvanceSearchObject)
+        {
+            List<AccountHeadGroupReport> otherExpenseAccountHeadGroupList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = accountHeadGroupSummaryAdvanceSearchObject.FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = accountHeadGroupSummaryAdvanceSearchObject.ToDate;
+                        cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = accountHeadGroupSummaryAdvanceSearchObject.Company != "" ? accountHeadGroupSummaryAdvanceSearchObject.Company : null;
+                        cmd.Parameters.Add("@GroupID", SqlDbType.NVarChar, 50).Value = accountHeadGroupSummaryAdvanceSearchObject.GroupName != "All" ? accountHeadGroupSummaryAdvanceSearchObject.GroupName : null;
+                        cmd.Parameters.Add("@Search", SqlDbType.NVarChar, 250).Value = accountHeadGroupSummaryAdvanceSearchObject.Search != "" ? accountHeadGroupSummaryAdvanceSearchObject.Search : null;
+                        cmd.Parameters.Add("@ExpenseType", SqlDbType.NVarChar, 50).Value = accountHeadGroupSummaryAdvanceSearchObject.ExpenseType != "" ? accountHeadGroupSummaryAdvanceSearchObject.ExpenseType : "ALL";
+                        cmd.CommandText = "[Accounts].[RPT_ExpenseHeadGroupSummary]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                otherExpenseAccountHeadGroupList = new List<AccountHeadGroupReport>();
+                                while (sdr.Read())
+                                {
+                                    AccountHeadGroupReport otherExpenseAccountGroupSummary = new AccountHeadGroupReport();
+                                    {
+                                        otherExpenseAccountGroupSummary.GroupName = (sdr["GroupHeads"].ToString() != "" ? sdr["GroupHeads"].ToString() : otherExpenseAccountGroupSummary.GroupName);
+                                        otherExpenseAccountGroupSummary.PaidAmount = (sdr["PaidAmount"].ToString() != "" ? decimal.Parse(sdr["PaidAmount"].ToString()) : otherExpenseAccountGroupSummary.PaidAmount);
+                                        otherExpenseAccountGroupSummary.ReversedAmount = (sdr["ReversedAmount"].ToString() != "" ? decimal.Parse(sdr["ReversedAmount"].ToString()) : otherExpenseAccountGroupSummary.ReversedAmount);
+                                        otherExpenseAccountGroupSummary.CompanyCode = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : otherExpenseAccountGroupSummary.CompanyCode);
+                                    }
+                                    otherExpenseAccountHeadGroupList.Add(otherExpenseAccountGroupSummary);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return otherExpenseAccountHeadGroupList;
+        }
+
+
+        public List<AccountHeadGroupDetailReport> GetOtherExpenseAccountHeadGroupDetailReport(AccountHeadGroupAdvanceSearch accountHeadGroupSummaryAdvanceSearchObject)
+        {
+            List<AccountHeadGroupDetailReport> otherExpenseAccountHeadGroupList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = accountHeadGroupSummaryAdvanceSearchObject.FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = accountHeadGroupSummaryAdvanceSearchObject.ToDate;
+                        cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = accountHeadGroupSummaryAdvanceSearchObject.Company != "All" ? accountHeadGroupSummaryAdvanceSearchObject.Company : null;
+                        cmd.Parameters.Add("@GroupID", SqlDbType.NVarChar,50).Value = accountHeadGroupSummaryAdvanceSearchObject.GroupName != "All" ? accountHeadGroupSummaryAdvanceSearchObject.GroupName : null;
+                        cmd.Parameters.Add("@EmpID", SqlDbType.NVarChar,50).Value = accountHeadGroupSummaryAdvanceSearchObject.Employee != "All" ? accountHeadGroupSummaryAdvanceSearchObject.Employee : null;
+                        cmd.Parameters.Add("@Search", SqlDbType.NVarChar, 250).Value = accountHeadGroupSummaryAdvanceSearchObject.Search != "" ? accountHeadGroupSummaryAdvanceSearchObject.Search : null;
+                        cmd.Parameters.Add("@ExpenseType", SqlDbType.NVarChar, 50).Value = accountHeadGroupSummaryAdvanceSearchObject.ExpenseType != "" ? accountHeadGroupSummaryAdvanceSearchObject.ExpenseType : "ALL";
+                        cmd.CommandText = "[Accounts].[RPT_ExpenseHeadGroupDetails]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                otherExpenseAccountHeadGroupList = new List<AccountHeadGroupDetailReport>();
+                                while (sdr.Read())
+                                {
+                                    AccountHeadGroupDetailReport otherExpenseAccountGroupSummary = new AccountHeadGroupDetailReport();
+                                    {
+                                        otherExpenseAccountGroupSummary.GroupName = (sdr["GroupHeads"].ToString() != "" ? sdr["GroupHeads"].ToString() : otherExpenseAccountGroupSummary.GroupName);
+                                        otherExpenseAccountGroupSummary.PaidAmount = (sdr["PaidAmount"].ToString() != "" ? decimal.Parse(sdr["PaidAmount"].ToString()) : otherExpenseAccountGroupSummary.PaidAmount);
+                                        otherExpenseAccountGroupSummary.ReversedAmount = (sdr["ReversedAmount"].ToString() != "" ? decimal.Parse(sdr["ReversedAmount"].ToString()) : otherExpenseAccountGroupSummary.ReversedAmount);
+                                        otherExpenseAccountGroupSummary.CompanyCode = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : otherExpenseAccountGroupSummary.CompanyCode);
+                                        otherExpenseAccountGroupSummary.Beneficiary = (sdr["Benificiary"].ToString() != "" ? sdr["Benificiary"].ToString() : otherExpenseAccountGroupSummary.Beneficiary);
+                                        otherExpenseAccountGroupSummary.PaymentDate = (sdr["PaymentDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDate"].ToString()).ToString(settings.dateformat) : otherExpenseAccountGroupSummary.PaymentDate);
+
+                                    }
+                                    otherExpenseAccountHeadGroupList.Add(otherExpenseAccountGroupSummary);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return otherExpenseAccountHeadGroupList;
+        }
     }
 }

@@ -301,5 +301,50 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return new { Message = Cobj.DeleteSuccess };
         }
+
+        #region GetAllEmployeeTypes
+        public List<AccountHeadGroup> GetAllGroupName()
+        {
+            List<AccountHeadGroup> groupTypeList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[GetGroupNameTypes]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                groupTypeList = new List<AccountHeadGroup>();
+                                while (sdr.Read())
+                                {
+                                    AccountHeadGroup groupType = new AccountHeadGroup()
+                                    {
+                                     ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) :Guid.Empty),
+                                    GroupName = (sdr["GroupName"].ToString() != "" ? sdr["GroupName"].ToString() : string.Empty)
+                                    };
+
+                                    groupTypeList.Add(groupType);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return groupTypeList;
+        }
+        #endregion GetAllEmployeeTypes
     }
 }
