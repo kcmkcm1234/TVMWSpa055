@@ -2367,7 +2367,7 @@ namespace UserInterface.Controllers
         #endregion TrialBalanceReport
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "AccountHeadGroup", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "AccountHeadGroupReport", Mode = "R")]
         public ActionResult AccountHeadGroup()
         {
             AppUA _appUA = Session["AppUA"] as AppUA;
@@ -2424,7 +2424,7 @@ namespace UserInterface.Controllers
         }
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "AccountHeadGroup", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "AccountHeadGroupReport", Mode = "R")]
         public string GetOtherExpenseAccountHeadGroupSummaryReport(string accountHeadGroupSummaryAdvanceSearchObject)
         {
             try
@@ -2455,7 +2455,7 @@ namespace UserInterface.Controllers
 
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "AccountHeadGroup", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "AccountHeadGroupReport", Mode = "R")]
         public ActionResult AccountHeadGroupDetails()
         {
             AppUA _appUA = Session["AppUA"] as AppUA;
@@ -2529,7 +2529,7 @@ namespace UserInterface.Controllers
         }
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "AccountHeadGroup", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "AccountHeadGroupReport", Mode = "R")]
         public string GetOtherExpenseAccountHeadGroupDetailReport(string accountHeadGroupSummaryAdvanceSearchObject)
         {
             try
