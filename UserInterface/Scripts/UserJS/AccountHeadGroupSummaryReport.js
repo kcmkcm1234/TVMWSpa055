@@ -69,6 +69,7 @@ $(document).ready(function () {
         $(".buttons-excel").hide();
         startdate = $("#todate").val();
         enddate = $("#fromdate").val();
+        $("#otherexpensetotal").attr('style', 'visibility:true');
     } catch (x) {
 
         notyAlert('error', x.message);
@@ -94,12 +95,26 @@ function GetAccountHeadGroupSummaryReport(accountHeadGroupSummaryAdvanceSearch) 
             if (ds != '') {
                 ds = JSON.parse(ds);
             }
+            if (ds.PaidAmountTotal != '') {
+                $("#otherexpenseamount").text(ds.PaidAmountTotal);
+            }
+            if (ds.ReversedAmountTotal != '') {
+                $("#otherexpensereversed").text(ds.ReversedAmountTotal);
+            }
+            if (ds.Total != '') {
+                $("#otherexpensereversedtotal").text(ds.Total);
+            }
+
             if (ds.Result == "OK") {
                 return ds.Records;
             }
             if (ds.Result == "ERROR") {
                 notyAlert('error', ds.Message);
             }
+
+          
+
+
         }
         catch (e) {
             notyAlert('error', e.message);

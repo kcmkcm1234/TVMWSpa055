@@ -774,6 +774,7 @@ namespace UserInterface.Models
         public string Employee { get; set; }
         public decimal PaidAmount { get; set; }
         public decimal ReversedAmount { get; set; }
+        public string DocumentNo { get; set; }
         public AccountHeadGroupAdvanceSearchViewModel accountAHGAdvanceSearchObj { get; set; }
     }
 

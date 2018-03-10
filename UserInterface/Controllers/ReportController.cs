@@ -370,8 +370,8 @@ namespace UserInterface.Controllers
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
                     List<OtherExpenseSummaryReportViewModel> otherExpenseSummaryReportList = Mapper.Map<List<OtherExpenseSummaryReport>, List<OtherExpenseSummaryReportViewModel>>(_reportBusiness.GetOtherExpenseSummary(FDate, TDate, CompanyCode,ReportType, OrderBy,accounthead.Split(':')[0], subtype, employeeorother, employeecompany, search, ExpenseType));
 
-                    decimal otherExpenseSum = otherExpenseSummaryReportList.Sum(OE => OE.Amount);
-                    decimal otherExpenseReversed = otherExpenseSummaryReportList.Sum(OE => OE.ReversedAmount);
+                    decimal otherExpenseSum = otherExpenseSummaryReportList .Sum(OE => OE.Amount);
+                    decimal otherExpenseReversed = otherExpenseSummaryReportList .Sum(OE => OE.ReversedAmount);
                     string otherExpenseSumFormatted=_commonBusiness.ConvertCurrency(otherExpenseSum, 2);
                     string otherExpenseReversedFormatted = _commonBusiness.ConvertCurrency(otherExpenseReversed, 2);
                     decimal total = otherExpenseSum - otherExpenseReversed;
@@ -2442,7 +2442,10 @@ namespace UserInterface.Controllers
                 }
 
                 List<AccountHeadGroupReportViewModel> accountHeadGroupReportList = Mapper.Map<List<AccountHeadGroupReport>, List<AccountHeadGroupReportViewModel>>(_reportBusiness.GetOtherExpenseAccountHeadGroupSummaryReport(Mapper.Map<AccountHeadGroupAdvanceSearchViewModel, AccountHeadGroupAdvanceSearch>(accountGroupHeadSearchObj)));
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = accountHeadGroupReportList });
+                Decimal PaidAmountTotal = accountHeadGroupReportList.Sum(a => a.PaidAmount);
+                Decimal ReversedAmountTotal = accountHeadGroupReportList.Sum(a => a.ReversedAmount);
+                Decimal Total = PaidAmountTotal- ReversedAmountTotal;
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = accountHeadGroupReportList , PaidAmountTotal = _commonBusiness.ConvertCurrency( PaidAmountTotal) , ReversedAmountTotal = _commonBusiness.ConvertCurrency(ReversedAmountTotal), Total= _commonBusiness.ConvertCurrency(Total) });
             }
             catch (Exception ex)
             {
@@ -2544,7 +2547,13 @@ namespace UserInterface.Controllers
                 }
 
                 List<AccountHeadGroupDetailReportViewModel> accountHeadGroupReportList = Mapper.Map<List<AccountHeadGroupDetailReport>, List<AccountHeadGroupDetailReportViewModel>>(_reportBusiness.GetOtherExpenseAccountHeadGroupDetailReport(Mapper.Map<AccountHeadGroupAdvanceSearchViewModel, AccountHeadGroupAdvanceSearch>(accountGroupHeadSearchObj)));
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = accountHeadGroupReportList });
+
+                Decimal PaidAmountTotal = accountHeadGroupReportList.Sum(a => a.PaidAmount);
+                Decimal ReversedAmountTotal = accountHeadGroupReportList.Sum(a => a.ReversedAmount);
+                Decimal Total = PaidAmountTotal - ReversedAmountTotal;
+
+
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = accountHeadGroupReportList, PaidAmountTotal = _commonBusiness.ConvertCurrency(PaidAmountTotal), ReversedAmountTotal = _commonBusiness.ConvertCurrency(ReversedAmountTotal), Total = _commonBusiness.ConvertCurrency(Total) });
             }
             catch (Exception ex)
             {

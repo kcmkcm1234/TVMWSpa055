@@ -19,7 +19,7 @@ $(document).ready(function () {
 
                  exportOptions:
                               {
-                                  columns: [1, 2, 3, 4,5,6]
+                                  columns: [1, 2, 3, 4,5,6,7,8]
                               }
              }],
              order: [],
@@ -36,7 +36,9 @@ $(document).ready(function () {
              //},
              columns: [
                { "data": "ID", "defaultContent": "<i>-</i>" },
+                 { "data": "DocumentNo", "defaultContent": "<i>-</i>" },
                { "data": "GroupName", "defaultContent": "<i>-</i>", },
+                  { "data": "ExpenseType", "defaultContent": "<i>-</i>", },
                { "data": "CompanyCode", "defaultContent": "<i>-</i>" },
                  { "data": "Beneficiary", "defaultContent": "<i>-</i>" },
                    { "data": "PaymentDate", "defaultContent": "<i>-</i>" },
@@ -54,8 +56,8 @@ $(document).ready(function () {
 
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                  { className: "text-left", "targets": [1, 2,3,4] },
-                  { className: "text-right", "targets": [5, 6] }],
+                  { className: "text-left", "targets": [1, 2,3,4,5,6] },
+                  { className: "text-right", "targets": [8,7] }],
              //drawCallback: function (settings) {
              //    var api = this.api();
              //    var rows = api.rows({ page: 'current' }).nodes();
@@ -74,6 +76,7 @@ $(document).ready(function () {
         $(".buttons-excel").hide();
         startdate = $("#todate").val();
         enddate = $("#fromdate").val();
+        $("#otherexpensetotal").attr('style', 'visibility:true');
     } catch (x) {
 
         notyAlert('error', x.message);
@@ -99,6 +102,18 @@ function GetAccountHeadGroupDetailReport(accountHeadGroupSummaryAdvanceSearch) {
         if (ds != '') {
             ds = JSON.parse(ds);
         }
+
+        if (ds.PaidAmountTotal != '') {
+            $("#otherexpenseamount").text(ds.PaidAmountTotal);
+        }
+        if (ds.ReversedAmountTotal != '') {
+            $("#otherexpensereversed").text(ds.ReversedAmountTotal);
+        }
+        if (ds.Total != '') {
+            $("#otherexpensereversedtotal").text(ds.Total);
+        }
+
+
         if (ds.Result == "OK") {
             return ds.Records;
         }

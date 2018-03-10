@@ -536,6 +536,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string Beneficiary { get; set; }
         public string PaymentDate { get; set; }
         public string Employee { get; set; }
+        public string DocumentNo { get; set; }
     }
 
     public class AccountHeadGroupAdvanceSearch
