@@ -15,5 +15,6 @@ namespace UserInterface.Models
         public decimal Amount { get; set; }
         public string Type { get; set; }
         public string ApprovalDate { get; set; }
+        public string GeneralNotes { get; set; }
     }
 }

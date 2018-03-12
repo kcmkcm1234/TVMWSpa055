@@ -17,5 +17,6 @@ namespace SPAccounts.DataAccessObject.DTO
         public string FromDate { get; set; }
         public string ToDate { get; set; }
         public string ApprovalDate { get; set; }
+        public string GeneralNotes { get; set; }
     }
 }

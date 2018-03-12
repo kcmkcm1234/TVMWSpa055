@@ -53,7 +53,8 @@ namespace SPAccounts.RepositoryServices.Services
                                         _approval.PaymentMode = (sdr["PaymentMode"].ToString() != "" ? sdr["PaymentMode"].ToString() : _approval.PaymentMode);
                                         _approval.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : _approval.Amount);
                                         _approval.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : _approval.Type);
-                                       
+                                        _approval.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : _approval.GeneralNotes);
+
                                     }
 
                                     approvedlist.Add(_approval);
