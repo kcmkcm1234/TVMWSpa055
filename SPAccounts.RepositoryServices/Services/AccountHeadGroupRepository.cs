@@ -183,7 +183,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandText = "[Accounts].[UpdateAccountHeadGroup]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = accountHeadGroup.ID;
-                        cmd.Parameters.Add("@GroupName", SqlDbType.VarChar, 10).Value = accountHeadGroup.GroupName;
+                        cmd.Parameters.Add("@GroupName", SqlDbType.VarChar, 50).Value = accountHeadGroup.GroupName;
                         cmd.Parameters.Add("@AccountHeads", SqlDbType.VarChar, 250).Value = accountHeadGroup.AccountHeads;
                         cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = accountHeadGroup.commonObj.UpdatedBy;
                         cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = accountHeadGroup.commonObj.UpdatedDate;

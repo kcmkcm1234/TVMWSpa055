@@ -19,7 +19,7 @@ $(document).ready(function () {
 
                  exportOptions:
                               {
-                                  columns: [1, 2, 3, 4,5,6]
+                                  columns: [1, 2, 3, 4,5,6,7,8]
                               }
              }],
              order: [],
@@ -36,7 +36,9 @@ $(document).ready(function () {
              //},
              columns: [
                { "data": "ID", "defaultContent": "<i>-</i>" },
+                 { "data": "DocumentNo", "defaultContent": "<i>-</i>" },
                { "data": "GroupName", "defaultContent": "<i>-</i>", },
+                  { "data": "ExpenseType", "defaultContent": "<i>-</i>", },
                { "data": "CompanyCode", "defaultContent": "<i>-</i>" },
                  { "data": "Beneficiary", "defaultContent": "<i>-</i>" },
                    { "data": "PaymentDate", "defaultContent": "<i>-</i>" },
@@ -54,15 +56,15 @@ $(document).ready(function () {
 
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                  { className: "text-left", "targets": [1, 2,3,4] },
-                  { className: "text-right", "targets": [5, 6] }],
+                  { className: "text-left", "targets": [1, 2,3,4,5,6] },
+                  { className: "text-right", "targets": [8,7] }],
              //drawCallback: function (settings) {
              //    var api = this.api();
              //    var rows = api.rows({ page: 'current' }).nodes();
              //    var last = null;
 
              //    api.column(2, { page: 'current' }).data().each(function (group, i) {
-             //        debugger;
+             //       
              //        if (last !== group) {
              //            $(rows).eq(i).before('<tr class="group "><td colspan="3" class="rptGrp">' + '<b>Company</b> : ' + group + '</td></tr>');
              //            last = group;
@@ -74,6 +76,7 @@ $(document).ready(function () {
         $(".buttons-excel").hide();
         startdate = $("#todate").val();
         enddate = $("#fromdate").val();
+        $("#otherexpensetotal").attr('style', 'visibility:true');
     } catch (x) {
 
         notyAlert('error', x.message);
@@ -85,7 +88,7 @@ $(document).ready(function () {
 
 function GetAccountHeadGroupDetailReport(accountHeadGroupSummaryAdvanceSearch) {
 
-    debugger;
+   
     try {
         if (accountHeadGroupSummaryAdvanceSearch === 0) {
             var data = {};
@@ -99,6 +102,18 @@ function GetAccountHeadGroupDetailReport(accountHeadGroupSummaryAdvanceSearch) {
         if (ds != '') {
             ds = JSON.parse(ds);
         }
+
+        if (ds.PaidAmountTotal != '') {
+            $("#otherexpenseamount").text(ds.PaidAmountTotal);
+        }
+        if (ds.ReversedAmountTotal != '') {
+            $("#otherexpensereversed").text(ds.ReversedAmountTotal);
+        }
+        if (ds.Total != '') {
+            $("#otherexpensereversedtotal").text(ds.Total);
+        }
+
+
         if (ds.Result == "OK") {
             return ds.Records;
         }
@@ -113,7 +128,7 @@ function GetAccountHeadGroupDetailReport(accountHeadGroupSummaryAdvanceSearch) {
 
 
 function AdvanceSearchContent() {
-    debugger;
+   
     var expenseType = $("#ExpenseType");
     var fromDate = $("#fromdate");
     var toDate = $("#todate");
@@ -135,11 +150,12 @@ function AdvanceSearchContent() {
 
 
 function Reset() {
-    debugger;
+   
     $("#todate").val(startdate);
     $("#fromdate").val(enddate);
+    $("#Employee").val('').trigger('change');
     $("#Company").val('ALL').trigger('change');
-    $("#GroupName").val('ALL').trigger('change');
+    $("#GroupName").val('').trigger('change');
     $("#search").val('');
     $("#ExpenseType").val('ALL').trigger('change')
     AdvanceSearchContent();

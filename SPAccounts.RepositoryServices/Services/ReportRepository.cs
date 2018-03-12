@@ -1816,12 +1816,16 @@ namespace SPAccounts.RepositoryServices.Services
                                     AccountHeadGroupDetailReport otherExpenseAccountGroupSummary = new AccountHeadGroupDetailReport();
                                     {
                                         otherExpenseAccountGroupSummary.GroupName = (sdr["GroupHeads"].ToString() != "" ? sdr["GroupHeads"].ToString() : otherExpenseAccountGroupSummary.GroupName);
+                                        
                                         otherExpenseAccountGroupSummary.PaidAmount = (sdr["PaidAmount"].ToString() != "" ? decimal.Parse(sdr["PaidAmount"].ToString()) : otherExpenseAccountGroupSummary.PaidAmount);
                                         otherExpenseAccountGroupSummary.ReversedAmount = (sdr["ReversedAmount"].ToString() != "" ? decimal.Parse(sdr["ReversedAmount"].ToString()) : otherExpenseAccountGroupSummary.ReversedAmount);
                                         otherExpenseAccountGroupSummary.CompanyCode = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : otherExpenseAccountGroupSummary.CompanyCode);
                                         otherExpenseAccountGroupSummary.Beneficiary = (sdr["Benificiary"].ToString() != "" ? sdr["Benificiary"].ToString() : otherExpenseAccountGroupSummary.Beneficiary);
                                         otherExpenseAccountGroupSummary.PaymentDate = (sdr["PaymentDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDate"].ToString()).ToString(settings.dateformat) : otherExpenseAccountGroupSummary.PaymentDate);
+                                        otherExpenseAccountGroupSummary.DocumentNo = (sdr["DocumentNo"].ToString() != "" ? sdr["DocumentNo"].ToString() : otherExpenseAccountGroupSummary.DocumentNo);
+                                        otherExpenseAccountGroupSummary.ExpenseType = (sdr["ExpenceType"].ToString() != "" ? sdr["ExpenceType"].ToString() : otherExpenseAccountGroupSummary.ExpenseType);
 
+                                        //  public string DocumentNo { get; set; }
                                     }
                                     otherExpenseAccountHeadGroupList.Add(otherExpenseAccountGroupSummary);
                                 }
