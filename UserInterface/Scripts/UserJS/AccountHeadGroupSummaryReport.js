@@ -2,7 +2,7 @@
 var startdate = '';
 var enddate = '';
 $(document).ready(function () {
-    $("#CompanyCode,#AccountHead").select2({
+    $("#CompanyCode,#GroupName,#AccountHead").select2({
     });
   
     $("#STContainer").hide();
