@@ -101,9 +101,9 @@ function GetAccountHeadGroupSummaryReport(accountHeadGroupSummaryAdvanceSearch) 
             if (ds.ReversedAmountTotal != '') {
                 $("#otherexpensereversed").text(ds.ReversedAmountTotal);
             }
-            if (ds.Total != '') {
-                $("#otherexpensereversedtotal").text(ds.Total);
-            }
+            //if (ds.Total != '') {
+            //    $("#otherexpensereversedtotal").text(ds.Total);
+            //}
 
             if (ds.Result == "OK") {
                 return ds.Records;

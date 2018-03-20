@@ -2372,7 +2372,7 @@ namespace UserInterface.Controllers
         {
             AppUA _appUA = Session["AppUA"] as AppUA;
             DateTime dt = _appUA.DateTime;
-            ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+            ViewBag.fromdate = dt.AddDays(-30).ToString("dd-MMM-yyyy");
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
             AccountHeadGroupReportViewModel accountHeadGroupReportViewModel = new AccountHeadGroupReportViewModel();
 
@@ -2434,9 +2434,9 @@ namespace UserInterface.Controllers
                 {
                     AppUA _appUA = Session["AppUA"] as AppUA;
                     DateTime dt = _appUA.DateTime;
-                    ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+                    ViewBag.fromdate = dt.AddDays(-30).ToString("dd-MMM-yyyy");
                     ViewBag.todate = dt.ToString("dd-MMM-yyyy");
-                    accountGroupHeadSearchObj.FromDate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+                    accountGroupHeadSearchObj.FromDate = dt.AddDays(-30).ToString("dd-MMM-yyyy");
                     accountGroupHeadSearchObj.ToDate = dt.ToString("dd-MMM-yyyy");
                     accountGroupHeadSearchObj.Company = "ALL";
                 }
@@ -2460,7 +2460,7 @@ namespace UserInterface.Controllers
         {
             AppUA _appUA = Session["AppUA"] as AppUA;
             DateTime dt = _appUA.DateTime;
-            ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+            ViewBag.fromdate = dt.AddDays(-30).ToString("dd-MMM-yyyy");
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
             AccountHeadGroupDetailReportViewModel accountHeadGroupDetailReportViewModel = new AccountHeadGroupDetailReportViewModel();
 
@@ -2539,9 +2539,9 @@ namespace UserInterface.Controllers
                 {
                     AppUA _appUA = Session["AppUA"] as AppUA;
                     DateTime dt = _appUA.DateTime;
-                    ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+                    ViewBag.fromdate = dt.AddDays(-30).ToString("dd-MMM-yyyy");
                     ViewBag.todate = dt.ToString("dd-MMM-yyyy");
-                    accountGroupHeadSearchObj.FromDate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+                    accountGroupHeadSearchObj.FromDate = dt.AddDays(-30).ToString("dd-MMM-yyyy");
                     accountGroupHeadSearchObj.ToDate = dt.ToString("dd-MMM-yyyy");
                     accountGroupHeadSearchObj.Company = "ALL";
                 }

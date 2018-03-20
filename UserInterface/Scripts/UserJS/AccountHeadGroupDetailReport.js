@@ -109,9 +109,9 @@ function GetAccountHeadGroupDetailReport(accountHeadGroupSummaryAdvanceSearch) {
         if (ds.ReversedAmountTotal != '') {
             $("#otherexpensereversed").text(ds.ReversedAmountTotal);
         }
-        if (ds.Total != '') {
-            $("#otherexpensereversedtotal").text(ds.Total);
-        }
+        //if (ds.Total != '') {
+        //    $("#otherexpensereversedtotal").text(ds.Total);
+        //}
 
 
         if (ds.Result == "OK") {
@@ -128,7 +128,7 @@ function GetAccountHeadGroupDetailReport(accountHeadGroupSummaryAdvanceSearch) {
 
 
 function AdvanceSearchContent() {
-   
+    debugger;
     var expenseType = $("#ExpenseType");
     var fromDate = $("#fromdate");
     var toDate = $("#todate");
@@ -150,14 +150,14 @@ function AdvanceSearchContent() {
 
 
 function Reset() {
-   
+    debugger;
     $("#todate").val(startdate);
     $("#fromdate").val(enddate);
     $("#Employee").val('').trigger('change');
     $("#Company").val('ALL').trigger('change');
-    $("#GroupName").val('').trigger('change');
+    $("#GroupName").val('ALL').trigger('change');
     $("#search").val('');
-    $("#ExpenseType").val('ALL').trigger('change')
+    $("#ExpenseType").val('ALL').trigger('change');
     AdvanceSearchContent();
 }
 

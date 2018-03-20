@@ -1,7 +1,7 @@
 ﻿@model UserInterface.Models.AccountHeadGroupReportViewModel
 @using UserInterface.App_Start
 @{
-    ViewBag.Title = "Expense Summary (Account Group)";
+    ViewBag.Title = "Monthly Report (Account Group)";
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
 
@@ -63,6 +63,10 @@
                     { Text = "Other Expense", Value = "OE" });
                     TypeList.Add(new SelectListItem
                     { Text = "Purchase Details", Value = "SUP" });
+                    TypeList.Add(new SelectListItem
+                    { Text = "Other Income", Value = "OI" });
+                    TypeList.Add(new SelectListItem
+                    { Text = "Customer Payment Details", Value = "CUS" });
                 }
                 @Html.DropDownListFor(model => model.accountAHGAdvanceSearchObj.ExpenseType, TypeList, new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "ExpenseType" })
                 @Html.ValidationMessageFor(model => model.accountAHGAdvanceSearchObj.ExpenseType, "", new { @class = "text-danger" })
@@ -137,10 +141,10 @@
                 <div class="col-md-6 text-left" style="font-size:small">Reversed:</div>
                 <div class="col-md-6 text-right"><small><span id="otherexpensereversed" style="font-size:small;font-weight:bold"></span></small></div>
             </div>
-            <div class="col-md-12">
+            @*<div class="col-md-12">
                 <div class="col-md-6 text-left" style="font-size:small">Total:</div>
                 <div class="col-md-6 text-right"><small><span id="otherexpensereversedtotal" style="font-size:small;font-weight:bold"></span></small></div>
-            </div>
+            </div>*@
         </div>
     </div>
 
@@ -158,7 +162,7 @@
                     <th>Account Group</th>
                     <th>Company Name</th>                  
                     <th>Paid Amount</th>
-                    <th>Reversed Amount</th>
+                    <th>Reversed Amount/Income</th>
                 </tr>
             </thead>
         </table>
