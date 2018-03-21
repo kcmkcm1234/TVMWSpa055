@@ -2371,9 +2371,13 @@ namespace UserInterface.Controllers
         public ActionResult AccountHeadGroup()
         {
             AppUA _appUA = Session["AppUA"] as AppUA;
-            DateTime dt = _appUA.DateTime;
-            ViewBag.fromdate = dt.AddDays(-30).ToString("dd-MMM-yyyy");
-            ViewBag.todate = dt.ToString("dd-MMM-yyyy");
+            DateTime dt = _appUA.DateTime; ;
+            var month = new DateTime(dt.Year, dt.Month, 1);
+            ViewBag.fromdate = month.AddMonths(-1).ToString("dd-MMM-yyyy");
+            ViewBag.todate = month.AddDays(-1).ToString("dd-MMM-yyyy");
+            //DateTime dt = _appUA.DateTime;
+            //ViewBag.fromdate = dt.AddDays(-30).ToString("dd-MMM-yyyy");
+            //ViewBag.todate = dt.ToString("dd-MMM-yyyy");
             AccountHeadGroupReportViewModel accountHeadGroupReportViewModel = new AccountHeadGroupReportViewModel();
 
             List<SelectListItem> selectListItem = new List<SelectListItem>();
@@ -2460,8 +2464,12 @@ namespace UserInterface.Controllers
         {
             AppUA _appUA = Session["AppUA"] as AppUA;
             DateTime dt = _appUA.DateTime;
-            ViewBag.fromdate = dt.AddDays(-30).ToString("dd-MMM-yyyy");
-            ViewBag.todate = dt.ToString("dd-MMM-yyyy");
+
+            var month = new DateTime(dt.Year, dt.Month, 1);
+            ViewBag.fromdate = month.AddMonths(-1).ToString("dd-MMM-yyyy");
+            ViewBag.todate = month.AddDays(-1).ToString("dd-MMM-yyyy");
+            //ViewBag.fromdate = dt.AddDays(-30).ToString("dd-MMM-yyyy");
+            //ViewBag.todate = dt.ToString("dd-MMM-yyyy");
             AccountHeadGroupDetailReportViewModel accountHeadGroupDetailReportViewModel = new AccountHeadGroupDetailReportViewModel();
 
             List<SelectListItem> selectListItem = new List<SelectListItem>();
