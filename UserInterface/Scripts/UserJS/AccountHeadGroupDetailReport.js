@@ -43,13 +43,14 @@ $(document).ready(function () {
                  { "data": "Beneficiary", "defaultContent": "<i>-</i>" },
                    { "data": "PaymentDate", "defaultContent": "<i>-</i>" },
                //{ "data": "Description", "defaultContent": "<i>-</i>" },
-                 {
-                     "data": "PaidAmount", render: function (data, type, row) {
-                         return roundoff(data, 1);
-                     }, "defaultContent": "<i>-</i>"
-                 },
+               
                {
                    "data": "ReversedAmount", render: function (data, type, row) {
+                       return roundoff(data, 1);
+                   }, "defaultContent": "<i>-</i>"
+               }
+               , {
+                   "data": "PaidAmount", render: function (data, type, row) {
                        return roundoff(data, 1);
                    }, "defaultContent": "<i>-</i>"
                }

@@ -39,13 +39,17 @@ $(document).ready(function () {
                { "data": "GroupName", "defaultContent": "<i>-</i>", },
                { "data": "CompanyCode", "defaultContent": "<i>-</i>" },
                //{ "data": "Description", "defaultContent": "<i>-</i>" },
-               { "data": "PaidAmount", render: function (data, type, row) { 
-                   return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+             
                {
                    "data": "ReversedAmount", render: function (data, type, row) {
                        return roundoff(data, 1);
                    }, "defaultContent": "<i>-</i>"
-               }
+               },
+                 {
+                     "data": "PaidAmount", render: function (data, type, row) {
+                         return roundoff(data, 1);
+                     }, "defaultContent": "<i>-</i>"
+                 }
              
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
