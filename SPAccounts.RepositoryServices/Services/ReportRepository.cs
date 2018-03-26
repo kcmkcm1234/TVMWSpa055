@@ -1379,6 +1379,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         customerpayment.Balance = (sdr["Balance"].ToString() != "" ? decimal.Parse(sdr["Balance"].ToString()) : customerpayment.Balance);
                                         customerpayment.Ref = (sdr["REFNO"].ToString() != "" ? sdr["REFNO"].ToString() : customerpayment.Ref);
                                         customerpayment.Company = (sdr["Company"].ToString() != "" ? sdr["Company"].ToString() : customerpayment.Company);
+                                        customerpayment.Remarks = (sdr["Remarks"].ToString() != "" ? sdr["Remarks"].ToString() : customerpayment.Remarks);
                                     }
                                     customerpaymentList.Add(customerpayment);
                                 }

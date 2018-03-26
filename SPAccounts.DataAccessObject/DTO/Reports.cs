@@ -341,6 +341,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string CustomerName { get; set; }
         public string CompanyCode { get; set; }
         public string InvoiceType { get; set; }
+        public string Remarks { get; set; }
     }
 
 

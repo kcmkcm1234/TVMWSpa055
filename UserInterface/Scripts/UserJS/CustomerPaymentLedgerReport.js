@@ -16,7 +16,7 @@ $(document).ready(function () {
                  extend: 'excel',
                  exportOptions:
                               {
-                                  columns: [0, 1, 2,4, 5,6,7,8]
+                                  columns: [0, 1, 2,4, 5,6,7,8,9]
                               }
              }],
              order: [],
@@ -35,6 +35,7 @@ $(document).ready(function () {
                { "data": "ID", "defaultContent": "<i>-</i>" },
                { "data": "CustomerName", "defaultContent": "<i>-</i>" },
                { "data": "Company", "defaultContent": "<i>-</i>" },
+                 { "data": "Remarks", "defaultContent": "<i>-</i>" },
                {
                    "data": "Debit", render: function (data, type, row) {
                            return roundoff(data, 1);
@@ -54,12 +55,13 @@ $(document).ready(function () {
               
              ],
              columnDefs: [{ "targets": [3,4], "visible": false, "searchable": false },
-             { className: "text-left", "targets": [0,2,5,6,7,8] },
-             { "width": "15%", "targets": [0] },
-             { "width": "10%", "targets": [1] },
+             { className: "text-left", "targets": [0,2,5,6,7,8,9] },
+             { "width": "10%", "targets": [0] },
+             { "width": "7%", "targets": [1] },
+               { "width": "15%", "targets": [6] },
              { className: "text-right", "targets": [] },
              { className: "text-center", "targets": [1] },
-             { "bSortable": false, "aTargets": [0, 1, 2, 3, 4, 5, 6, 7, 8] }],
+             { "bSortable": false, "aTargets": [0, 1, 2, 3, 4, 5, 6, 7, 8,9] }],
              createdRow: function (row, data, index) {
                  if (data.Type == "<b>Total</b>") {                        
                      $('td', row).addClass('totalRow');
@@ -199,7 +201,7 @@ function GetHtmlData()
     DrawTable({
         Action: "Report/GetCustomerPaymentLedger/",
         data: { "FromDate": $('#fromdate').val(), "ToDate": $('#todate').val(), "CustomerIDs": $('#customerCode').val(), "Company": $('#companyCode').val(),"InvoiceType":$('#ddlInvoiceTypes').val() },
-        Exclude_column: ["CustomerID", "customerList", "CustomerCode", "pdfToolsObj", "CompanyCode", "CompanyList", "companiesList", "InvoiceType"],
+        Exclude_column: ["CustomerID", "customerList", "CustomerCode", "pdfToolsObj", "CompanyCode", "CompanyList", "companiesList", "InvoiceType", "Remarks"],
         Header_column_style: {
             "Date": {"style":"width:110px;font-size:12px;border-bottom:2px solid grey;font-weight: 600;","custom_name":"Date"},
             "Type": { "style": "font-size:12px;border-bottom:2px solid grey;width:110px;font-weight: 600;", "custom_name": "Type" },

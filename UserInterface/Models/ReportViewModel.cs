@@ -540,6 +540,7 @@ namespace UserInterface.Models
         public PDFTools  pdfToolsObj { get; set; }
         [Display(Name = "Invoice Type")]
         public string InvoiceType { get; set; }
+        public string Remarks { get; set; }
     }
 
 
