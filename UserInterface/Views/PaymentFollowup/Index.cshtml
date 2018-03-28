@@ -58,12 +58,12 @@
     &nbsp;
 </div>
 <div class="form-horizontal">
-    @Html.Hidden("BindValue", "", htmlAttributes: new { @class = "", Value = ViewBag.value });
+    @Html.Hidden("BindValue", "", htmlAttributes: new { @class = "", Value = ViewBag.value })
     <div class="col-md-8" style="margin-top:10px;">
         <div class="col-md-3">
             @Html.Label("As On Date", htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
-                @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @Value = ViewBag.todate, @onchange = "RefreshCustomerExpeditingDetailTable()" })
+                @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @onchange = "RefreshCustomerExpeditingDetailTable()" })
             </div>
         </div>
         <div class="col-md-3">
@@ -143,7 +143,7 @@
                     <th>Invoice No</th>
                     <th>Invoice Date</th>
                     <th>Due Date</th>
-                    <th>Days past due</th>
+                    <th>Days Past Due</th>
                     <th>Balance Amount</th>
                 </tr>
             </thead>
@@ -154,7 +154,7 @@
 
 
 <script type="text/javascript">
-        var toDay = @Html.Raw(@ViewBag.toDate);
+        @*var toDay = @Html.Raw(@ViewBag.toDate);*@
 
 </script>
 

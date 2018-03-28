@@ -20,7 +20,7 @@ namespace SPAccounts.RepositoryServices.Services
             _databaseFactory = databaseFactory;
         }
         #region CustomerExpedityDetail
-        public List<CustomerExpeditingReport> GetCustomerExpeditingDetail(DateTime? toDate, string filter, string company, string customer,string outstanding,string search)
+        public List<CustomerExpeditingReport> GetCustomerExpeditingDetail(DateTime? Date,DateTime? toDate, string filter, string company, string customer,string outstanding,string search)
         {
             List<CustomerExpeditingReport> customerExpeditingList = null;
             try
@@ -34,6 +34,7 @@ namespace SPAccounts.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
+                        cmd.Parameters.Add("@DueDate", SqlDbType.DateTime).Value = Date;
                         cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = toDate;
                         cmd.Parameters.Add("@Filter", SqlDbType.NVarChar, 50).Value = filter;
                         cmd.Parameters.Add("@Company", SqlDbType.NVarChar, 50).Value = company;

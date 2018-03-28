@@ -122,9 +122,12 @@ namespace UserInterface.Controllers
         {
             try
             {
+                AppUA _appUA = Session["AppUA"] as AppUA;
+                SPAccounts.DataAccessObject.DTO.Common _comonObj = new SPAccounts.DataAccessObject.DTO.Common();
+                DateTime? Date = _comonObj.GetCurrentDateTime();
                 DateTime? TDate = string.IsNullOrEmpty(toDate) ? (DateTime?)null : DateTime.Parse(toDate);
                 CustomerExpeditingListViewModel result = new CustomerExpeditingListViewModel();
-                result.customerExpeditingDetailsList = Mapper.Map<List<CustomerExpeditingReport>, List<CustomerExpeditingReportViewModel>>(_paymentFollowupBusiness.GetCustomerExpeditingDetail(TDate, filter, company,customer != null ? string.Join(",", customer) : "ALL", outstanding,search));
+                result.customerExpeditingDetailsList = Mapper.Map<List<CustomerExpeditingReport>, List<CustomerExpeditingReportViewModel>>(_paymentFollowupBusiness.GetCustomerExpeditingDetail(Date,TDate, filter, company,customer != null ? string.Join(",", customer) : "ALL", outstanding,search));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
             }
             catch (Exception ex)
