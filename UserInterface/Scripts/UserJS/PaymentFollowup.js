@@ -60,15 +60,15 @@ $(document).ready(function () {
                { "data": "companyObj.Name", "defaultContent": "<i>-<i>"  },
                { "data": "InvoiceNo", "defaultContent": "<i>-</i>" },
                { "data": "InvoiceDate", "defaultContent": "<i>-</i>" },
-               { "data": "PaymentDueDate", "defaultContent": "<i>-</i>" },
+               { "data": "PaymentDueDate", "defaultContent": "<i>-</i>", "width": "10%" },
                { "data": "NoOfDays", "defaultContent": "<i>-</i>" },
                { "data": "Amount", "defaultContent": "<i>-</i>", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>"}
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false },                
-                  { className: "text-left", "targets": [1, 2, 4,5,6,9] },
+                  { className: "text-left", "targets": [1, 2, 4,5,6] },
                  
              { className: "text-right", "targets": [ 10] },
-             { className: "text-center", "targets": [ 7,4] }
+             { className: "text-center", "targets": [ 7,4,9] }
              ]
          });
         $(".buttons-excel").hide();
@@ -97,7 +97,7 @@ function GetCustomerExpeditingDetail() {
         var customer = $("#ddlCustomer").val();
         var outstanding = $("#ddlOutStanding").val();
         var search = $("#Search").val();
-        if (IsVaildDateFormat(toDate))
+        //if (IsVaildDateFormat(toDate))
             var data = { "ToDate": toDate, "Filter": filter, "Company": company, "Customer": customer, "outstanding": outstanding ,"Search": search};
         var ds = {};
         ds = GetDataFromServer("PaymentFollowup/GetCustomerPaymentExpeditingDetails/", data);
@@ -150,7 +150,7 @@ function RefreshCustomerExpeditingDetailTable() {
         var company = $("#ddlCompany").val();
         var customer = $("#ddlCustomer").val();
         var outstanding = $("#ddlOutStanding").val();
-        if (dataTables.CustomerExpeditingDetailTable != undefined && IsVaildDateFormat(toDate)) {
+        if (dataTables.CustomerExpeditingDetailTable != undefined) {
             dataTables.CustomerExpeditingDetailTable.clear().rows.add(GetCustomerExpeditingDetail()).draw(true);
         }
     }
