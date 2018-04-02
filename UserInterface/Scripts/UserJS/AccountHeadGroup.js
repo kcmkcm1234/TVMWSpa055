@@ -111,27 +111,38 @@ function Edit(currentObj) {
     ResetForm();
     var rowData = DataTables.AccountHeadGroupTable.row($(currentObj).parents('tr')).data();
     FillAccountHeadGroupDetails(rowData.ID);
-    DisableCode(rowData.ID);
+    try {
+        DisableCode(rowData.ID);
+    } catch (x) { console.log(x); }
+  
     openNav();
 }
 
 function FillAccountHeadGroupDetails(ID) {
-    debugger;
-    ChangeButtonPatchView("AccountHeadGroup", "btnPatchAdd", "Edit");
-    //ControllerName,id of the container div,Name of the action
-    var thisItem = GetAccountHeadGroupDetailsByID(ID); //Binding Data
-    //Hidden
-    debugger;
-    $("#ID").val(thisItem.ID);
-    $("#GroupName").val(thisItem.GroupName);
-    // $("#AccountHeads").val(thisItem.AccountHeads);
-    if (thisItem.AccountHeads != null) {
-        var AHGarray = thisItem.AccountHeads.split(",");
-        $('input:checkbox').prop('checked', false);
-        for (var i = 0 ; i < AHGarray.length; i++) {
-            $("#" + AHGarray[i].trim()).prop('checked', true);
+    try {
+
+        debugger;
+        ChangeButtonPatchView("AccountHeadGroup", "btnPatchAdd", "Edit");
+        //ControllerName,id of the container div,Name of the action
+        var thisItem = GetAccountHeadGroupDetailsByID(ID); //Binding Data
+        //Hidden
+        debugger;
+        $("#ID").val(thisItem.ID);
+        $("#GroupName").val(thisItem.GroupName);
+        // $("#AccountHeads").val(thisItem.AccountHeads);
+        if (thisItem.AccountHeads != null) {
+            var AHGarray = thisItem.AccountHeads.split(",");
+            $('input:checkbox').prop('checked', false);
+            for (var i = 0 ; i < AHGarray.length; i++) {
+                $("#" + AHGarray[i].trim()).prop('checked', true);
+            }
         }
     }
+    catch (x) {
+
+        console.log(x);
+    }
+    
 }
 
 function GetAccountHeadGroupDetailsByID(ID) {
