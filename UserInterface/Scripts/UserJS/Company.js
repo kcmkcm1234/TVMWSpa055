@@ -11,7 +11,7 @@ $(document).ready(function () {
                  extend: 'excel',
                  exportOptions:
                               {
-                                  columns: [0, 1, 2,3,4,5]
+                                  columns: [0, 1, 2,3,4,5,6]
                               }
              }],
              order: [],
@@ -26,15 +26,16 @@ $(document).ready(function () {
              columns: [
                { "data": "Code", "defaultContent": "<i>-</i>" },
                { "data": "Name", "defaultContent": "<i>-</i>" },
+                 { "data": "UnitName", "defaultContent": "<i>-</i>" },
                { "data": "BillingAddress", "defaultContent": "<i>-</i>" },
                { "data": "ShippingAddress", "defaultContent": "<i>-</i>" },
                { "data": "ApproverID", "defaultContent": "<i>-</i>" },
                { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
              ],
-             columnDefs: [{ "targets": [4], "visible": false, "searchable": false },
+             columnDefs: [{ "targets": [5], "visible": false, "searchable": false },
                   { className: "text-right", "targets": [] },
-                  { className: "text-left", "targets": [1, 2,3] },
-                  { className: "text-center", "targets": [0,5] }
+                  { className: "text-left", "targets": [1, 2,3,4] },
+                  { className: "text-center", "targets": [0,6] }
 
              ]
          });
@@ -98,6 +99,7 @@ function GetAllCompanies() {
 
         $("#Code").val(thisItem.Code);
         $("#Name").val(thisItem.Name);
+        $("#UnitName").val(thisItem.UnitName);
         $("#BillingAddress").val(thisItem.BillingAddress);
         $("#ShippingAddress").val(thisItem.ShippingAddress);
         $("#ddlApprover").val(thisItem.ApproverID);

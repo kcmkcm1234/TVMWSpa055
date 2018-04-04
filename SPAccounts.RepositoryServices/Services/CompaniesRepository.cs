@@ -45,6 +45,7 @@ namespace SPAccounts.RepositoryServices.Services
                                     {
                                         _companyObj.Code = (sdr["Code"].ToString() != "" ? (sdr["Code"].ToString()) : _companyObj.Code);
                                         _companyObj.Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : _companyObj.Name);
+                                        _companyObj.UnitName = (sdr["UnitName"].ToString() != "" ? sdr["UnitName"].ToString() : _companyObj.UnitName);
                                         _companyObj.ShippingAddress = (sdr["ShippingAddress"].ToString() != "" ? sdr["ShippingAddress"].ToString() : _companyObj.ShippingAddress);
                                         _companyObj.BillingAddress = (sdr["BillingAddress"].ToString() != "" ? sdr["BillingAddress"].ToString() : _companyObj.BillingAddress);
                                         _companyObj.ApproverID = (sdr["ApproverID"].ToString() != "" ? Guid.Parse(sdr["ApproverID"].ToString()) : _companyObj.ApproverID);
@@ -92,6 +93,7 @@ namespace SPAccounts.RepositoryServices.Services
                                     _companyObj = new Companies();
                                     _companyObj.Code = (sdr["Code"].ToString() != "" ? (sdr["Code"].ToString()) : _companyObj.Code);
                                     _companyObj.Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : _companyObj.Name);
+                                    _companyObj.UnitName = (sdr["UnitName"].ToString() != "" ? sdr["UnitName"].ToString() : _companyObj.UnitName);
                                     _companyObj.BillingAddress = (sdr["BillingAddress"].ToString() != "" ? sdr["BillingAddress"].ToString() : _companyObj.BillingAddress);
                                     _companyObj.ShippingAddress = (sdr["ShippingAddress"].ToString() != "" ? sdr["ShippingAddress"].ToString() : _companyObj.ShippingAddress);
                                     _companyObj.ApproverID = (sdr["ApproverID"].ToString() != "" ? Guid.Parse(sdr["ApproverID"].ToString()) : _companyObj.ApproverID);
@@ -191,6 +193,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@Code", SqlDbType.VarChar, 5).Value = _companyObj.Code;
                         cmd.Parameters.Add("@Name", SqlDbType.VarChar, 100).Value = _companyObj.Name;
+                        cmd.Parameters.Add("@UnitName", SqlDbType.VarChar, 250).Value = _companyObj.UnitName;
                         cmd.Parameters.Add("@BillingAddress", SqlDbType.VarChar, -1).Value = _companyObj.BillingAddress;
                         cmd.Parameters.Add("@ShippingAddress", SqlDbType.VarChar, -1).Value = _companyObj.ShippingAddress;
                         cmd.Parameters.Add("@ApproverID", SqlDbType.UniqueIdentifier).Value = _companyObj.ApproverID;
