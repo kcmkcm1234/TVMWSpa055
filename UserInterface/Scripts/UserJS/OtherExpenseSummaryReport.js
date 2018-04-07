@@ -403,6 +403,8 @@ function GetOtherExpenseDetailsReport(rowData) {
             $("#lblDetailsHead").text(rowData.AccountHeadORSubtype);
         if (rowData.AccountHeadORSubtype == "No_Head")
             var AccountHead = "NO_HEAD";
+        else if (rowData.AccountHeadORSubtype == "Advance")
+            var AccountHead = "Advance";
         else
             var AccountHead = rowData.AccountHead;
         var fromdate = $("#fromdate").val();
