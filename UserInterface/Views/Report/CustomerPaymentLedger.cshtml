@@ -57,7 +57,7 @@
     &nbsp;
 </div>
 <div class="form-horizontal">
-
+ 
     <div class="col-md-9" style="margin-top:10px;">
         <div class="col-md-3">
             @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })
@@ -76,7 +76,7 @@
         <div class="col-md-6" id="customernameddl" style="visibility:hidden;">
             @Html.LabelFor(model => model.CustomerCode, htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
-                @Html.DropDownListFor(model => model.CustomerCode, Model.customerList, new { @class = "form-control BlockEnter", @id = "customerCode", @onchange = "RefreshCustomerPaymentLedgerTable()", @multiple = "multiple" })
+                @Html.DropDownListFor(model => model.CustomerCode, Model.customerList, new { @class = "form-control BlockEnter", @onchange = "RefreshCustomerPaymentLedgerTable()", @multiple = "multiple" })
                 @Html.ValidationMessageFor(model => model.CustomerCode, "", new { @class = "text-danger" })
 
             </div>
