@@ -2570,6 +2570,80 @@ namespace UserInterface.Controllers
         }
 
 
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "BankLedgerReport", Mode = "R")]
+        public ActionResult BankLedgerDetails()
+        {
+            BankLedgerReportViewModel DL = new BankLedgerReportViewModel();
+            Permission _permission = Session["UserRights"] as Permission;
+
+
+            if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "DateFilter").AccessCode : string.Empty).Contains("R"))
+            {
+                ViewBag.DateFilterDisplay = "display:block";
+                ViewBag.SingleDateFilterDisplay = "display:none";
+
+            }
+            else if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "SingleDateFilter").AccessCode : string.Empty).Contains("R"))
+            {
+                ViewBag.DateFilterDisplay = "display:none";
+                ViewBag.SingleDateFilterDisplay = "display:block";
+                ViewBag.Disabled = "disabled";
+            }
+            
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            DateTime dt = _appUA.DateTime;
+            ViewBag.fromdate =  dt.AddMonths(-1).ToString("dd-MMM-yyyy");
+            ViewBag.todate = dt.ToString("dd-MMM-yyyy");
+            ViewBag.ondate = dt.ToString("dd-MMM-yyyy");
+
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            DL.BanksList = new List<SelectListItem>();
+            List<BankViewModel> BanksList = Mapper.Map<List<Bank>, List<BankViewModel>>(_bankBusiness.GetAllBanks());
+            if (BanksList != null)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "All",
+                    Value = "ALL",
+                    Selected = true
+                });
+
+                foreach (BankViewModel BL in BanksList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = BL.Name,
+                        Value = BL.Code,
+                        Selected = false
+                    });
+                }
+            }
+
+            DL.BanksList = selectListItem;
+            return View(DL);
+
+        }
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "BankLedgerReport", Mode = "R")]
+        public string GetBankLedgerDetails(string FromDate, string ToDate, string OnDate, string search, string Bank)
+        {
+            try
+            {
+                DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
+                DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
+                DateTime? NDate = string.IsNullOrEmpty(OnDate) ? (DateTime?)null : DateTime.Parse(OnDate);
+                List<BankLedgerReportViewModel> bankLedgerList = Mapper.Map<List<BankLedgerReport>, List<BankLedgerReportViewModel>>(_reportBusiness.GetBankLedgerDetails(FDate, TDate, NDate,  search, Bank));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = bankLedgerList });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+            }
+        }
+
+
         #region ButtonStyling
         [HttpGet]
         public ActionResult ChangeButtonStyle(string ActionType)
