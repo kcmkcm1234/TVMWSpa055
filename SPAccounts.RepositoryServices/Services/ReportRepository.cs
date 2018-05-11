@@ -1841,5 +1841,65 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return otherExpenseAccountHeadGroupList;
         }
+
+
+
+        public List<BankLedgerReport> GetBankLedgerDetails(DateTime? FromDate, DateTime? ToDate, DateTime? Date,  string search, string Bank)
+        {
+            List<BankLedgerReport> bankLedgerList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = ToDate;
+                        cmd.Parameters.Add("@OnDate", SqlDbType.DateTime).Value = Date;                       
+                        cmd.Parameters.Add("@bank", SqlDbType.NVarChar, 50).Value = Bank != "" ? Bank : null;
+                        cmd.Parameters.Add("@Search", SqlDbType.NVarChar, 500).Value = search != "" ? search : null;
+                        cmd.CommandText = "[Accounts].[RPT_BankPaymentLedger]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                bankLedgerList = new List<BankLedgerReport>();
+                                while (sdr.Read())
+                                {
+                                    BankLedgerReport bankLedgerDetails = new BankLedgerReport();
+                                    {
+                                        bankLedgerDetails.TransactionDate = (sdr["TransactionDate"].ToString() != "" ? DateTime.Parse(sdr["TransactionDate"].ToString()).ToString(settings.dateformat) : bankLedgerDetails.TransactionDate);
+                                        bankLedgerDetails.EntryType = (sdr["EntryType"].ToString() != "" ? sdr["EntryType"].ToString() : bankLedgerDetails.EntryType);
+                                        bankLedgerDetails.Particulars = (sdr["Particulars"].ToString() != "" ? sdr["Particulars"].ToString() : bankLedgerDetails.Particulars);
+                                        bankLedgerDetails.MainHead = (sdr["mainHead"].ToString() != "" ? sdr["mainHead"].ToString() : bankLedgerDetails.MainHead);
+                                        bankLedgerDetails.AccountHead = (sdr["AccountHead"].ToString() != "" ? sdr["AccountHead"].ToString() : bankLedgerDetails.AccountHead);
+                                        bankLedgerDetails.ReferenceNo = (sdr["ReferenceNo"].ToString() != "" ? sdr["ReferenceNo"].ToString() : bankLedgerDetails.ReferenceNo);
+                                        bankLedgerDetails.CustomerORemployee = (sdr["CustomerORemployee"].ToString() != "" ? sdr["CustomerORemployee"].ToString() : bankLedgerDetails.CustomerORemployee);
+                                        bankLedgerDetails.Debit = (sdr["Debit"].ToString() != "" ? decimal.Parse(sdr["Debit"].ToString()) : bankLedgerDetails.Debit);
+                                        bankLedgerDetails.Credit = (sdr["Credit"].ToString() != "" ? decimal.Parse(sdr["Credit"].ToString()) : bankLedgerDetails.Credit);
+                                        bankLedgerDetails.Balance = (sdr["Balance"].ToString() != "" ? decimal.Parse(sdr["Balance"].ToString()) : bankLedgerDetails.Balance);
+                                        bankLedgerDetails.PayMode = (sdr["PayMode"].ToString() != "" ? sdr["PayMode"].ToString() : bankLedgerDetails.PayMode);
+                                        bankLedgerDetails.Remarks = (sdr["Remarks"].ToString() != "" ? sdr["Remarks"].ToString() : bankLedgerDetails.Remarks);
+                                    }
+                                    bankLedgerList.Add(bankLedgerDetails);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return bankLedgerList;
+        }
+
     }
 }

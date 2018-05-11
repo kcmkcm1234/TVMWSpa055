@@ -42,7 +42,7 @@ namespace SPAccounts.RepositoryServices.Contracts
         List<FollowupReport> GetFollowupReport(FollowupReportAdvanceSearch advanceSearchObject);
         List<AccountHeadGroupReport> GetOtherExpenseAccountHeadGroupSummaryReport(AccountHeadGroupAdvanceSearch accountHeadGroupSummaryAdvanceSearchObject);
         List<AccountHeadGroupDetailReport> GetOtherExpenseAccountHeadGroupDetailReport(AccountHeadGroupAdvanceSearch accountHeadGroupSummaryAdvanceSearchObject);
-
+        List<BankLedgerReport> GetBankLedgerDetails(DateTime? FromDate, DateTime? ToDate, DateTime? Date, string search, string Bank);
 
     }
 }

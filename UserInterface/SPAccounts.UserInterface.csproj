@@ -1560,6 +1560,7 @@
     <Content Include="Scripts\UserJS\AccountReceivableAgeingSummaryReport.js" />
     <Content Include="Scripts\UserJS\Bank.js" />
     <Content Include="Scripts\UserJS\BankBalance.js" />
+    <Content Include="Scripts\UserJS\BankLedgerReport.js" />
     <Content Include="Scripts\UserJS\ChartOfAccounts.js" />
     <Content Include="Scripts\UserJS\Company.js" />
     <Content Include="Scripts\UserJS\CustomerContactDetailsReport.js" />
@@ -1825,6 +1826,7 @@
     <Content Include="Views\AccountHeadGroup\Index.cshtml" />
     <Content Include="Views\Report\AccountHeadGroup.cshtml" />
     <Content Include="Views\Report\AccountHeadGroupDetails.cshtml" />
+    <Content Include="Views\Report\BankLedgerDetails.cshtml" />
     <Content Include="Views\SpecialInvPayments\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

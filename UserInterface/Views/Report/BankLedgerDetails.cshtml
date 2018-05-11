@@ -1,0 +1,137 @@
+﻿@model UserInterface.Models.BankLedgerReportViewModel
+@using UserInterface.App_Start
+
+@{
+    ViewBag.Title = "Bank Ledger Details";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+@section styles {
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableButtons")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/select2")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableFixedHeader")
+
+}
+<style>
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: 20px !important;
+    }
+
+    table.dataTable tr.odd {
+        background-color: rgba(148, 78, 132, 0.16);
+    }
+
+    table.dataTable tr.even {
+        background-color: white;
+    }
+</style>
+<div style="width:100%;">
+    <ol class="breadcrumb">
+        <li><a href=@Url.Action("Index","Report")><i class="fa fa-print"></i> Reports</a></li>
+        <li class="active">@ViewBag.Title</li>
+    </ol>
+</div>
+
+
+
+<div class="preloader" id="prelaoder">
+    <div class="col-md-12">
+        <div class="col-md-12">Loading </div>
+        <div class="col-md-12" style="margin-left:5%;margin-top:-3%;"><img src="~/Content/images/loading.gif" class="preloaderImg" /></div>
+    </div>
+
+</div>
+<div class="col-md-12">
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+</div>
+
+
+<div class="form-horizontal">
+
+    <div class="col-md-9" style="margin-top:10px;">
+        <div class="col-md-3 DateFilterDiv" style=@ViewBag.DateFilterDisplay>
+            @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-12">
+                @Html.TextBox("fromdate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", onchange = "OnChangeCall()", @id = "fromdate", @Value = ViewBag.fromdate })
+            </div>
+        </div>
+        <div class="col-md-3 DateFilterDiv" style=@ViewBag.DateFilterDisplay>
+            @Html.Label("To Date", htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-12">
+                @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", onchange = "OnChangeCall()", @id = "todate", @Value = ViewBag.todate })
+            </div>
+        </div>
+
+        <div class="col-md-3 SingleDateFilterDiv" style=@ViewBag.SingleDateFilterDisplay>
+            @Html.Label("On Date", htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-12">
+                @Html.TextBox("ondate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", onchange = "OnChangeCall()", @id = "ondate", @Value = ViewBag.ondate })
+            </div>
+        </div>
+
+         
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.BankCode, htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-12">
+                @Html.DropDownListFor(model => model.BankCode, Model.BanksList, new { @class = "form-control BlockEnter", @onchange = "OnChangeCall()", value = -1, style = "padding:4px 12px;", @id = "BankCode" })
+                @Html.ValidationMessageFor(model => model.BankCode, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            @Html.LabelFor(model => model.Search, htmlAttributes: new { @class = "control-label", style = "visibility:hidden" })
+            <div class="col-md-12">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search" id="Search">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="submit" style="height:28px" onclick="OnChangeCall()"><i class="glyphicon glyphicon-search"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="col-md-3" style="min-height:25px">
+    @{
+        var data = new { ActionType = "ListWithReset" };
+        @Html.Action("ChangeButtonStyle", "Report", data);
+    }
+</div>
+
+<div class="row tableContainer">
+    <div class="col-md-12" id="AHContainer">
+        <table id="bankLedgerDetailAHTable" class="table stripe" cellspacing="0" width="100%">
+            <thead>
+                <tr class="text-center TableHead">
+
+                    <th>Trans. Date</th>
+                    <th>Entry Type</th>
+                    <th>Particulars</th>
+                    <th>Customer/ Employee</th>
+                    <th>Debit</th>
+                    <th>Credit</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/BankLedgerReport");
+
+
+}

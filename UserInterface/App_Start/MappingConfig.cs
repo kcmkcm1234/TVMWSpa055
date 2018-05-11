@@ -133,7 +133,7 @@ namespace UserInterface.App_Start
                 config.CreateMap<AccountHeadGroupAdvanceSearchViewModel, AccountHeadGroupAdvanceSearch>().ReverseMap();
                 config.CreateMap<AccountHeadGroupReportViewModel, AccountHeadGroupReport>().ReverseMap();
                 config.CreateMap<AccountHeadGroupDetailReportViewModel, AccountHeadGroupDetailReport>().ReverseMap();
-
+                config.CreateMap<BankLedgerReportViewModel, BankLedgerReport>().ReverseMap();
             });
         }
     }

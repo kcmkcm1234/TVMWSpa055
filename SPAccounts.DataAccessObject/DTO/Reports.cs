@@ -415,6 +415,23 @@ namespace SPAccounts.DataAccessObject.DTO
         public List<SaleSummary> BankList { get; set; }
     }
 
+    public class BankLedgerReport
+    {
+        public string TransactionDate { get; set; }
+        public string EntryType { get; set; }
+        public string MainHead { get; set; }
+        public string AccountHead { get; set; }
+        public string ReferenceNo { get; set; }
+        public string CustomerORemployee { get; set; }
+        public Decimal Debit { get; set; }
+        public Decimal Credit { get; set; }
+        public Decimal Balance { get; set; }
+        public string PayMode { get; set; }
+        public string Remarks { get; set; }
+        public string Particulars { get; set; }
+       
+    }
+
     public class CustomerExpeditingReport
     {
         public string CustomerName { get; set; }

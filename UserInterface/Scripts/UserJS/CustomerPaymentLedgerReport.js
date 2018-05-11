@@ -2,101 +2,130 @@
 var startDate = '';
 var endDate = '';
 $(document).ready(function () {   
-               
+    debugger;
     try {
-        $("#customerCode").select2({
-            placeholder: "Select a Customers..",           
-        });     
-        
-        DataTables.customerPaymentLedgerTable = $('#customerpaymentledgertable').DataTable(         {
 
-             // dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
-             dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
-             buttons: [{
-                 extend: 'excel',
-                 exportOptions:
-                              {
-                                  columns: [0, 1, 2,4, 5,6,7,8,9]
-                              }
-             }],
-             order: [],
-             fixedHeader: {
-                 header: true
-             },
-             searching: false,
-             paging: true,
-             data: GetCustomerPaymentLedger('ALL'),
-             pageLength: 50,
-             columns: [
-                
-               { "data": "Date", "defaultContent": "<i>-</i>" },
-               { "data": "Type","width": "20%", "defaultContent": "<i>-</i>" },
-               { "data": "Ref", "defaultContent": "<i>-</i>" },
-               { "data": "ID", "defaultContent": "<i>-</i>" },
-               { "data": "CustomerName", "defaultContent": "<i>-</i>" },
-               { "data": "Company", "defaultContent": "<i>-</i>" },
-                 { "data": "Remarks", "defaultContent": "<i>-</i>" },
-               {
-                   "data": "Debit", render: function (data, type, row) {
-                           return roundoff(data, 1);
-                   }, "defaultContent": "<i>-</i>"
-               },
-               {
-                   "data": "Credit", render: function (data, type, row) {
-                           return roundoff(data, 1);
-                   }, "defaultContent": "<i>-</i>"
-               },
-               {
-                   "data": "Balance", render: function (data, type, row) {
-                       
-                           return roundoff(data, 1);
-                   }, "defaultContent": "<i>-</i>"
-               },
-              
-             ],
-             columnDefs: [{ "targets": [3,4], "visible": false, "searchable": false },
-             { className: "text-left", "targets": [0,2,5,6,7,8,9] },
-             { "width": "10%", "targets": [0] },
-             { "width": "7%", "targets": [1] },
-               { "width": "15%", "targets": [6] },
-             { className: "text-right", "targets": [] },
-             { className: "text-center", "targets": [1] },
-             { "bSortable": false, "aTargets": [0, 1, 2, 3, 4, 5, 6, 7, 8,9] }],
-             createdRow: function (row, data, index) {
-                 if (data.Type == "<b>Total</b>") {                        
-                     $('td', row).addClass('totalRow');
-                 }              
-                 
-             },             
-                 drawCallback: function (settings) {
-                     var api = this.api();
-                     var rows = api.rows({ page: 'current' }).nodes();
-                     var last = null;
-                     api.column(4, { page: 'current' }).data().each(function (group, i) {               
+        $("#CustomerCode").select2({
+            multiple: true,
+            placeholder: "Select a Customers..",
+        });
 
-                         if (last !== group) {                         
-                             $(rows).eq(i).before('<tr class="group "><td colspan="7" class="rptGrp">' + '<b>CustomerName</b> : ' + group + '</td></tr>');  
-                             last = group;
-                         }
-                         //if (api.column(6, { page: 'current' }).data().count() === i)
-                         //{
-                         //    $(rows).eq(i).after('<tr class="group "><td colspan="7" class="rptGrp">' + '<b>Sub Total</b> : ' + group + '</td></tr>');
-                         //}
-                     });
-                 }             
-         });
+        DataTables.customerPaymentLedgerTable = $('#customerpaymentledgertable').DataTable({
 
+            // dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
+            dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
+            buttons: [{
+                extend: 'excel',
+                exportOptions:
+                             {
+                                 columns: [0, 1, 2, 4, 5, 6, 7, 8, 9]
+                             }
+            }],
+            order: [],
+            fixedHeader: {
+                header: true
+            },
+            searching: false,
+            paging: true,
+            data: GetCustomerPaymentLedger('ALL'),
+
+            pageLength: 50,
+            columns: [
+
+              { "data": "Date", "defaultContent": "<i>-</i>" },
+              { "data": "Type", "width": "20%", "defaultContent": "<i>-</i>" },
+              { "data": "Ref", "defaultContent": "<i>-</i>" },
+              { "data": "ID", "defaultContent": "<i>-</i>" },
+              { "data": "CustomerName", "defaultContent": "<i>-</i>" },
+              { "data": "Company", "defaultContent": "<i>-</i>" },
+                { "data": "Remarks", "defaultContent": "<i>-</i>" },
+              {
+                  "data": "Debit", render: function (data, type, row) {
+                      return roundoff(data, 1);
+                  }, "defaultContent": "<i>-</i>"
+              },
+              {
+                  "data": "Credit", render: function (data, type, row) {
+                      return roundoff(data, 1);
+                  }, "defaultContent": "<i>-</i>"
+              },
+              {
+                  "data": "Balance", render: function (data, type, row) {
+
+                      return roundoff(data, 1);
+                  }, "defaultContent": "<i>-</i>"
+              },
+
+            ],
+            columnDefs: [{ "targets": [3, 4], "visible": false, "searchable": false },
+            { className: "text-left", "targets": [0, 2, 5, 6, 7, 8, 9] },
+            { "width": "10%", "targets": [0] },
+            { "width": "7%", "targets": [1] },
+              { "width": "15%", "targets": [6] },
+            { className: "text-right", "targets": [] },
+            { className: "text-center", "targets": [1] },
+            { "bSortable": false, "aTargets": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] }],
+            createdRow: function (row, data, index) {
+                if (data.Type == "<b>Total</b>") {
+                    $('td', row).addClass('totalRow');
+                }
+
+            },
+            drawCallback: function (settings) {
+                var api = this.api();
+                var rows = api.rows({ page: 'current' }).nodes();
+                var last = null;
+                api.column(4, { page: 'current' }).data().each(function (group, i) {
+
+                    if (last !== group) {
+                        $(rows).eq(i).before('<tr class="group "><td colspan="7" class="rptGrp">' + '<b>CustomerName</b> : ' + group + '</td></tr>');
+                        last = group;
+                    }
+                    //if (api.column(6, { page: 'current' }).data().count() === i)
+                    //{
+                    //    $(rows).eq(i).after('<tr class="group "><td colspan="7" class="rptGrp">' + '<b>Sub Total</b> : ' + group + '</td></tr>');
+                    //}
+                });
+            }
+        });
+
+        debugger;
         $(".buttons-excel").hide();
         $("#btnSend").hide();
         startDate = $("#todate").val();
         endDate = $("#fromdate").val();
-        $("#customernameddl").attr('style','visibility:true');        
-    }
+
+        var name = [];
+        name.push(GetParameterValues('CustomerCode'));
+        if (name != "")
+        {
+            $("#customernameddl").attr('style', 'visibility:hidden');
+        }
+        else
+        {
+            $("#customernameddl").attr('style', 'visibility:true');
+        }
+      
+           
+        }
+    
     catch (x)
     {
         notyAlert('error', x.message);
     }
 });
+
+
+function GetParameterValues(param) {
+    debugger;
+    var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for (var i = 0; i < url.length; i++) {
+        var urlparam = url[i].split('=');
+        if (urlparam[0] == param) {
+            return urlparam[1];
+        }
+    }
+}
 
 //To bind values to report
 function GetCustomerPaymentLedger(cur)
@@ -104,9 +133,21 @@ function GetCustomerPaymentLedger(cur)
     try
     {
         debugger;
+        var name = [];
+        name.push(GetParameterValues('CustomerCode'));
+       // $('#CustomerCode').select2('val', name[1]);
         var fromDate = $("#fromdate").val();
         var toDate = $("#todate").val();
-        var customerIds =(cur!="ALL"? $("#customerCode").val():cur);
+        if (name != "")
+        {
+            var customerIds = name;
+           // $("#customernameddl").attr('style', 'visibility:hidden');
+        }
+        else
+        {
+            var customerIds = (cur != "ALL" ? $("#CustomerCode").val() : cur);
+
+        }
         var company = $("#companyCode").val();
         var invoiceType = $("#ddlInvoiceTypes").val();
         if (IsVaildDateFormat(fromDate) && IsVaildDateFormat(toDate) && customerIds) {
@@ -130,6 +171,7 @@ function GetCustomerPaymentLedger(cur)
     }
 }
 
+
 //To refresh table based on filter
 function OnCallChange(){
     debugger;
@@ -137,7 +179,7 @@ function OnCallChange(){
     {
         var fromDate = $("#fromdate").val();
         var toDate = $("#todate").val();
-        var customerIds = $("#customerCode").val();
+        var customerIds = $("#CustomerCode").val();
         var invoiceType = $("#ddlInvoiceTypes").val();
         var company = $("#companyCode").val();       
         if (DataTables.customerPaymentLedgerTable != undefined && IsVaildDateFormat(fromDate) && IsVaildDateFormat(toDate) && customerIds) {
@@ -170,7 +212,7 @@ function Back()
 
 function RefreshCustomerPaymentLedgerTable()
 {
-   if ($("#customerCode").val() == '')
+    if ($("#CustomerCode").val() == '')
     {
        DataTables.customerPaymentLedgerTable.clear().rows.add(GetCustomerPaymentLedger('ALL')).draw(true);
     }   
@@ -182,7 +224,7 @@ function Reset()
 {   
     $("#todate").val(startDate);
     $("#fromdate").val(endDate);
-    $("#customerCode").val('').trigger('change')
+    $("#CustomerCode").val('').trigger('change')
     $("#companyCode").val('ALL');
     $("#ddlInvoiceTypes").val('ALL');
     DataTables.customerPaymentLedgerTable.clear().rows.add(GetCustomerPaymentLedger('ALL')).draw(true);
@@ -200,7 +242,7 @@ function GetHtmlData()
     debugger;
     DrawTable({
         Action: "Report/GetCustomerPaymentLedger/",
-        data: { "FromDate": $('#fromdate').val(), "ToDate": $('#todate').val(), "CustomerIDs": $('#customerCode').val(), "Company": $('#companyCode').val(),"InvoiceType":$('#ddlInvoiceTypes').val() },
+        data: { "FromDate": $('#fromdate').val(), "ToDate": $('#todate').val(), "CustomerIDs": $('#CustomerCode').val(), "Company": $('#companyCode').val(), "InvoiceType": $('#ddlInvoiceTypes').val() },
         Exclude_column: ["CustomerID", "customerList", "CustomerCode", "pdfToolsObj", "CompanyCode", "CompanyList", "companiesList", "InvoiceType", "Remarks"],
         Header_column_style: {
             "Date": {"style":"width:110px;font-size:12px;border-bottom:2px solid grey;font-weight: 600;","custom_name":"Date"},

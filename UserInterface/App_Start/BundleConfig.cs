@@ -101,6 +101,7 @@ namespace UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/OtherIncomeDetailsReport").Include("~/Scripts/UserJS/OtherIncomeDetailsReport.js"));
             bundles.Add(new ScriptBundle("~/bundles/DailyLedgerReport").Include("~/Scripts/UserJS/DailyLedgerReport.js"));
             bundles.Add(new ScriptBundle("~/bundles/TrialBalanceReport").Include("~/Scripts/UserJS/TrialBalanceReport.js"));
+            bundles.Add(new ScriptBundle("~/bundles/BankLedgerReport").Include("~/Scripts/UserJS/BankLedgerReport.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/UndepositedCheque").Include("~/Scripts/UserJS/UndepositedCheque.js"));
             bundles.Add(new ScriptBundle("~/bundles/DepositAndWithdrawals").Include("~/Scripts/UserJS/DepositAndWithdrawals.js"));

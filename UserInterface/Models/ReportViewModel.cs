@@ -600,6 +600,30 @@ namespace UserInterface.Models
         public List<SelectListItem> BanksList { get; set; }
     }
 
+
+    public class BankLedgerReportViewModel
+    {
+        public string TransactionDate { get; set; }
+        public string EntryType { get; set; }
+        public string MainHead { get; set; }
+        [Display(Name = "Account/Head")]
+        public string AccountHead { get; set; }
+        public string ReferenceNo { get; set; }
+        public string CustomerORemployee { get; set; }
+        public Decimal Debit { get; set; }
+        public Decimal Credit { get; set; }
+        public Decimal Balance { get; set; }
+        public string PayMode { get; set; }
+        public string Remarks { get; set; }
+        public string Particulars { get; set; }
+        [Display(Name = "Bank Code")]
+        public string BankCode { get; set; }
+        public List<SelectListItem> CustomerList { get; set; }
+        public BankViewModel bankObj { get; set; }
+        public List<SelectListItem> BanksList { get; set; }
+        public string Search { get; set; }
+    }
+
     public class CustomerExpeditingReportViewModel
     {
         public string CustomerName { get; set; }

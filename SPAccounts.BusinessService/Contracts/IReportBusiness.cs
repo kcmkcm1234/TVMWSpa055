@@ -43,5 +43,6 @@ namespace SPAccounts.BusinessService.Contracts
         List<FollowupReport> GetFollowupReportDetail(FollowupReportAdvanceSearch advanceSearchObject);
         List<AccountHeadGroupReport> GetOtherExpenseAccountHeadGroupSummaryReport(AccountHeadGroupAdvanceSearch accountHeadGroupSummaryAdvanceSearchObject);
         List<AccountHeadGroupDetailReport> GetOtherExpenseAccountHeadGroupDetailReport(AccountHeadGroupAdvanceSearch accountHeadGroupSummaryAdvanceSearchObject);
+        List<BankLedgerReport> GetBankLedgerDetails(DateTime? FromDate, DateTime? ToDate, DateTime? Date, string search, string Bank);
     }
 }

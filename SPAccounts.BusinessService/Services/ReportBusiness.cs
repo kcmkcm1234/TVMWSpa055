@@ -548,5 +548,21 @@ namespace SPAccounts.BusinessService.Services
             }
             return accountHeadGroupList;
         }
+
+        public List<BankLedgerReport> GetBankLedgerDetails(DateTime? FromDate, DateTime? ToDate, DateTime? Date, string search, string Bank)
+        {
+            List<BankLedgerReport> bankLedgerList = null;
+            try
+            {
+                bankLedgerList = _reportRepository.GetBankLedgerDetails(FromDate, ToDate, Date,  search, Bank);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return bankLedgerList;
+        }
+
     }
 }
