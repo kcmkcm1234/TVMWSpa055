@@ -28,6 +28,8 @@ namespace UserInterface.Models
         public ToolBoxStructure downloadBtn;
         public ToolBoxStructure AssignBtn;
         public ToolBoxStructure HistoryBtn;
+        public ToolBoxStructure ReceivePbBtn;
+
 
         public ToolboxViewModel()
         {
@@ -52,6 +54,8 @@ namespace UserInterface.Models
             HistoryBtn.SecurityObject = "ButtonHistory";
 
             ClearOutBtn.SecurityObject = "ButtonClear";
+            ReceivePbBtn.SecurityObject = "ReceivePB";
+
 
             backbtn.HasAccess = true;
             addbtn.HasAccess = true;
@@ -74,6 +78,8 @@ namespace UserInterface.Models
             downloadBtn.HasAccess = true;
             AssignBtn.HasAccess = true;
             HistoryBtn.HasAccess = true;
+
+            ReceivePbBtn.HasAccess = true;
         }
 
     }

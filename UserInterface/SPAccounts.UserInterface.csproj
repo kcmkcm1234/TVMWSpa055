@@ -1571,6 +1571,7 @@
     <Content Include="Scripts\UserJS\CustomerInvoices.js" />
     <Content Include="Scripts\UserJS\CustomerPaymentLedgerReport.js" />
     <Content Include="Scripts\UserJS\CustomerPayments.js" />
+    <Content Include="Scripts\UserJS\SpecialInvPayments.js" />
     <Content Include="Scripts\UserJS\Customers.js" />
     <Content Include="Scripts\UserJS\DailyLedgerReport.js" />
     <Content Include="Scripts\UserJS\Dashboard.js" />
@@ -1653,6 +1654,7 @@
     <Compile Include="Controllers\ChartOfAccountsController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\CustomerCreditNoteController.cs" />
+    <Compile Include="Controllers\SpecialInvPaymentsController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\CustomerPaymentsController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
@@ -1691,6 +1693,7 @@
     <Compile Include="Models\ApprovalStatusViewModel.cs" />
     <Compile Include="Models\ApproverViewModel.cs" />
     <Compile Include="Models\BankViewModel.cs" />
+    <Compile Include="Models\SpecialInvPaymentsViewModel.cs" />
     <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\DepartmentViewModel.cs" />
     <Compile Include="Models\DepositAndWithdrwalViewModel.cs" />
@@ -1822,6 +1825,7 @@
     <Content Include="Views\AccountHeadGroup\Index.cshtml" />
     <Content Include="Views\Report\AccountHeadGroup.cshtml" />
     <Content Include="Views\Report\AccountHeadGroupDetails.cshtml" />
+    <Content Include="Views\SpecialInvPayments\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

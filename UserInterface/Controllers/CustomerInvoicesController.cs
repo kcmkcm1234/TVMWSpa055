@@ -493,6 +493,16 @@ namespace UserInterface.Controllers
             switch (ActionType)
             {
                 case "List":
+                    Permission permission = Session["UserRights"] as Permission;
+                    string permissionAccess = permission.SubPermissionList.Where(li => li.Name == "PBAccess").First().AccessCode;
+
+                    if (permissionAccess.Contains("R") || permissionAccess.Contains("W"))
+                    {
+                        ToolboxViewModelObj.ReceivePbBtn.Visible = true;
+                        ToolboxViewModelObj.ReceivePbBtn.Text = "Rec PB";
+                        ToolboxViewModelObj.ReceivePbBtn.Title = "Receive PB";
+                        ToolboxViewModelObj.ReceivePbBtn.Event = "OpenCustomerPbPayment();";
+                    }
                     ToolboxViewModelObj.addbtn.Visible = true;
                     ToolboxViewModelObj.addbtn.Text = "Add";
                     ToolboxViewModelObj.addbtn.Title = "Add New";

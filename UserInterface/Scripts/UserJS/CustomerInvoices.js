@@ -900,6 +900,8 @@ function GetAllCustomerInvociesByID(CustomerID) {
 function SpecialPayments() {
     debugger
     $('#SpecialPaymentModel').modal('show');//
+    $("#newBtn").attr("disabled", true);
+    $("#saveBtn").attr("disabled", true);
     NewSpecialPayments() 
     BindSpecialPaymentsTable();
 }
@@ -1048,6 +1050,7 @@ function PaymentModeChanged() {
 
 function NewSpecialPayments() {
     debugger;
+
     BindSpecialPaymentSummary();
     $('#txtRemarks').val('');
     $('#PaymentID').val('');
@@ -1160,4 +1163,11 @@ function Gridfilter(thisobj) {
             Summary(result.CustomerInvoiceSummary);
         }
     }
+}
+
+
+function OpenCustomerPbPayment() {
+    
+    var url = '../SpecialInvPayments/Index';
+    window.location.href = url;
 }

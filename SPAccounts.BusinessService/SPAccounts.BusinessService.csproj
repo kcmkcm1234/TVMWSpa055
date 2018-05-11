@@ -105,6 +105,7 @@
     <Compile Include="Contracts\ICustomerCreditNotesBusiness.cs" />
     <Compile Include="Contracts\ICustomerInvoicesBusiness.cs" />
     <Compile Include="Contracts\ICustomerPaymentsBusiness.cs" />
+    <Compile Include="Contracts\ISpecialInvPaymentsBusiness.cs" />
     <Compile Include="Contracts\IDashboardBusiness.cs" />
     <Compile Include="Contracts\IDepartmentBusiness.cs" />
     <Compile Include="Contracts\IDepositAndWithdrawalsBusiness.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="Services\CustomerCreditNotesBusiness.cs" />
     <Compile Include="Services\CustomerInvoicesBusiness.cs" />
     <Compile Include="Services\CustomerPaymentsBusiness.cs" />
+    <Compile Include="Services\SpecialInvPaymentsBusiness.cs" />
     <Compile Include="Services\DashboardBusiness.cs" />
     <Compile Include="Services\DepartmentBusiness.cs" />
     <Compile Include="Services\DepositAndWithdrawalsBusiness.cs" />

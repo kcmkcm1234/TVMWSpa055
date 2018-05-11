@@ -105,6 +105,7 @@
     <Compile Include="DTO\CustomerCreditNotes.cs" />
     <Compile Include="DTO\CustomerInvoices.cs" />
     <Compile Include="DTO\CustomerPayments.cs" />
+    <Compile Include="DTO\SpecialInvPayments.cs" />
     <Compile Include="DTO\Dashboard.cs" />
     <Compile Include="DTO\Department.cs" />
     <Compile Include="DTO\DepositAndWithdrawals.cs" />

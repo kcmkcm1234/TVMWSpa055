@@ -103,6 +103,7 @@
     <Compile Include="Contracts\ICustomerCreditNotesRepository.cs" />
     <Compile Include="Contracts\ICustomerInvoicesRepository.cs" />
     <Compile Include="Contracts\ICustomerPaymentsRepository.cs" />
+    <Compile Include="Contracts\ISpecialInvPaymentsRepository.cs" />
     <Compile Include="Contracts\ICustomerRepository.cs" />
     <Compile Include="Contracts\IDashboardRepository.cs" />
     <Compile Include="Contracts\IDatabaseFactory.cs" />
@@ -133,6 +134,7 @@
     <Compile Include="Services\CustomerCreditNotesRepository.cs" />
     <Compile Include="Services\CustomerInvoicesRepository.cs" />
     <Compile Include="Services\CustomerPaymentsRepository.cs" />
+    <Compile Include="Services\SpecialInvPaymentsRepository.cs" />
     <Compile Include="Services\CustomerRepository.cs" />
     <Compile Include="Services\DashboardRepository.cs" />
     <Compile Include="Services\DatabaseFactory.cs" />

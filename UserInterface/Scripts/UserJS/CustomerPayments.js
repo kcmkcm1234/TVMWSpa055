@@ -6,6 +6,7 @@ var AmountReceived=0;
 
 $(document).ready(function () {
     try {
+        
         $("#Customer").select2({
         });
         $('#btnUpload').click(function () {
@@ -33,8 +34,9 @@ $(document).ready(function () {
         order: [],
         searching: false,    
         paging: true,
-        data: GetAllCustomerPayments(0),
+        data: GetAllCustomerPayments(0),     
         columns: [
+          
              { "data": "ID", "defaultContent": "<i>-</i>" },
              { "data": "EntryNo", "defaultContent": "<i>-</i>" },
              { "data": "PaymentDateFormatted", "defaultContent": "<i>-</i>" },
@@ -73,7 +75,8 @@ $('#CustPayTable tbody').on('dblclick', 'td', function () {
 });
 List();
 
-try {
+    try {
+        debugger;
     DataTables.OutStandingInvoices = $('#tblOutStandingDetails').DataTable({
         dom: '<"pull-left"f>rt<"bottom"ip><"clear">',
         order: [],
@@ -283,6 +286,7 @@ function Edit(currentObj)
 }
 
 function Resetform() {
+    debugger;
     var validator = $("#CustomerPaymentForm").validate();
     $('#CustomerPaymentForm').find('.field-validation-error span').each(function () {
         validator.settings.success($(this));
@@ -292,6 +296,7 @@ function Resetform() {
 
 function GetCustomerPaymentsByID(PaymentID) {
     ChangeButtonPatchView('CustomerPayments', 'btnPatchAdd', 'Edit');
+    debugger;
     var thisitem = GetCustomerPayments(PaymentID)
     $('#lblheader').text('Entry No: ' + thisitem.EntryNo);
     $('#ID').val(PaymentID);
@@ -457,7 +462,7 @@ function GetCreditNoteAmount(ID,CustomerID) {
 }
 
 function BindCreditDropDown() {
-    debugger;
+    //debugger;
     var ID = $("#Customer").val() == "" ? null : $("#Customer").val();
     if (ID != null) {
         var ds = GetCreditNoteByCustomer(ID);
@@ -681,7 +686,7 @@ function fieldsclear() {
     CaptionChangePayment();
 }
 function CustomerChange() {
-    debugger;
+    
     if ($('#Customer').val() != "") {
         BindCreditDropDown(); 
         BindOutstandingAmount();
@@ -692,6 +697,7 @@ function CustomerChange() {
 }
 
 function BindOutstandingAmount() {
+
     var thisitem = GetOutstandingAmountByCustomer($('#Customer').val())
     if (thisitem != null) {
         $('#invoicedAmt').text(thisitem.OutstandingAmount == null ? "₹ 0.00" : thisitem.OutstandingAmount);
@@ -700,6 +706,7 @@ function BindOutstandingAmount() {
     }    
 }
 function BindOutstanding() {
+    debugger;
     index = 0; 
     DataTables.OutStandingInvoices.clear().rows.add(GetOutStandingInvoices()).draw(false); 
 }

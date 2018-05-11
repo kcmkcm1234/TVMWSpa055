@@ -397,6 +397,7 @@ function openNav() {
     
 }
 function closeNav() {
+    debugger;
     document.getElementById("myNav").style.left = "100%";
     $('#main').fadeIn();
 }

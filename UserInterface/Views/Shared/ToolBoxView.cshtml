@@ -1,7 +1,27 @@
 ﻿@model UserInterface.Models.ToolboxViewModel
 
 <div class="buttonpatch" style="width:auto;float:right;">
+  
+      @if (Model.ReceivePbBtn.Visible)
+    {
+        if (Model.ReceivePbBtn.Disable || Model.ReceivePbBtn.HasAccess == false)
+        {
 
+            <a class="thr_disbtn" title="@Model.ReceivePbBtn.Title-@Model.ReceivePbBtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/withdraw.png")">
+                <span class="btnText">@Model.ReceivePbBtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.ReceivePbBtn.Title" class="thr_btn" onclick=@Model.ReceivePbBtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/withdraw.png")">
+                <span class="btnText">@Model.ReceivePbBtn.Text</span>
+            </a>
+        }
+
+    }
     @if (Model.backbtn.Visible)
     {
         if (Model.backbtn.Disable || Model.backbtn.HasAccess==false)
@@ -385,6 +405,7 @@
 
     }
 
+   
 
  
 </div>
