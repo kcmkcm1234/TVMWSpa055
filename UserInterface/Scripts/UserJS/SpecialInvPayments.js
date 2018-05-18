@@ -42,7 +42,7 @@ $(document).ready(function () {
     $('#CustPayTable tbody').on('dblclick', 'td', function () {
         Edit(this)
     });
-    debugger;
+   
     try {
         $("#Customer").select2();
       
@@ -57,7 +57,7 @@ $(document).ready(function () {
                  { "data": "Checkbox", "defaultContent": "", "width": "5%" },
                  {
                      "data": "Description", 'render': function (data, type, row) {
-                         debugger;
+                        
                          return 'Inv# :<b>' + row.InvoiceNo + '</b>  Date :<b>' + row.InvoiceDate + '</b><br/>Company :<b>' + row.companiesObj.Name+'</b>'
                      }, "width": "30%"
                  },
@@ -297,8 +297,7 @@ function AmountChanged() {
 
                 $('#paidAmt').text('0.00');
               
-                notyAlert('error', "Maximum Received Amount Limited to "+pbBalance+"");
-               
+                notyAlert('error', "Maximum Receivable Amount Limited to "+pbBalance+"");
               //  $('#TotalRecdAmt').val(pbBalance);
                 //BindOutstanding();
             }
@@ -324,7 +323,7 @@ function AmountChanged() {
 
                 $('#paidAmt').text('0.00');
                 //    DataTables.OutStandingInvoices.clear().rows.add(outstanding).draw(false);
-                notyAlert('error', "Maximum Received Amount Limited to " + balanceTotal + "");
+                notyAlert('error', "Maximum Receivable Amount Limited to " + balanceTotal + "");
 
 
                 //  $('#TotalRecdAmt').val(balanceTotal);
@@ -445,6 +444,8 @@ function Selectcheckbox() {
 }
 function PaymentModeChanged() {
     if ($('#PaymentMode').val() == "ONLINE") {
+        $("#ChequeDate").val('');
+        $("#ReferenceBank").val('');
         $('#ChequeDate').prop('disabled', true);
         $('#ReferenceBank').prop('disabled', true);
     }
@@ -514,6 +515,7 @@ function SavePayments() {
     }
         else
     {
+        SaveValidateData();
         $('#btnSave').trigger('click');
 
     }
@@ -570,6 +572,8 @@ function SaveValidateData() {
           // SpecialInvDetailViewModel.InvoiceID = SelectedRows[r].specialDetailObj.InvoiceID;
             arr.push(SpecialInvDetailViewModel);
         }
+
+        $('#hdfpaymentDetail').val('');
         $('#hdfpaymentDetail').val(JSON.stringify(arr));
       
     }
@@ -727,9 +731,10 @@ function fieldsclear() {
     $('#ID').val(emptyGUID);   
     $('#Type').val('P');
     $('#hdfType').val('');
+    $('#hdfGroupID').val('');
     $('#hdfCustomerID').val('');
     $('#ReferenceBank').val('');
-    $('#paymentDetailhdf').val('');
+    $('#hdfpaymentDetail').val('');
     
 }
 function Resetform() {
