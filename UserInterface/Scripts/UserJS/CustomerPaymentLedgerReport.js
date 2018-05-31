@@ -70,7 +70,7 @@ $(document).ready(function () {
                     $('td', row).addClass('totalRow');
                 }
 
-            },
+            },          
             drawCallback: function (settings) {
                 var api = this.api();
                 var rows = api.rows({ page: 'current' }).nodes();

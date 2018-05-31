@@ -47,6 +47,11 @@ namespace UserInterface.Models
         [Display(Name ="Is Active(Y/N)")]
         public bool IsActive { get; set; }       
         public string Filter { get; set; }
+        [Display(Name = "Salary")]
+        public decimal Salary { get; set; }       
+        public DateTime JoiningDate { get; set; }
+        [Display(Name = "Date Of Joining")]
+        public string JoiningDateFormatted { get; set; }
     }
     public class EmployeeTypeViewModel
     {
