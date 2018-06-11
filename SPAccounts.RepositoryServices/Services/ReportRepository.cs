@@ -1560,6 +1560,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         customerExpeditingDetail.InvoiceDate = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(settings.dateformat) : customerExpeditingDetail.InvoiceDate);
                                         customerExpeditingDetail.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : customerExpeditingDetail.Amount);
                                         customerExpeditingDetail.NoOfDays = (sdr["NoOfDays"].ToString() != "" ? sdr["NoOfDays"].ToString() : customerExpeditingDetail.NoOfDays);
+                                        customerExpeditingDetail.PaymentDueDate = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString(settings.dateformat) : customerExpeditingDetail.PaymentDueDate);
                                     }
                                     customerExpeditingList.Add(customerExpeditingDetail);
                                 }
@@ -1900,6 +1901,151 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return bankLedgerList;
         }
+
+
+
+        public DataTable GetMonthWiseIncomeExpenseSummary(string IsGrouped, string Search)
+        {
+            DataTable dt = null;
+            try
+            {
+                SqlDataAdapter sda = null;
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if(con.State==ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                     
+                        cmd.Parameters.Add("@IsGrouped", SqlDbType.Bit).Value = IsGrouped;
+                        //cmd.Parameters.Add("@GroupCode", SqlDbType.NVarChar).Value= GroupCode;
+                        cmd.Parameters.Add("@Search", SqlDbType.NVarChar).Value =Search;
+                        cmd.CommandText = "[Accounts].[RPT_MonthWiseIncomeExpenseSummary]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        sda = new SqlDataAdapter();
+                        sda.SelectCommand = cmd;
+                        dt = new DataTable();
+                        sda.Fill(dt);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return dt ;
+        }
+        
+ public List<MonthWiseIncomeExpenseSummary> GetMonthWiseIncomeExpenseDetail(string month, string year, string IsGrouped, string GroupCode,string Transaction)
+        {
+            List<MonthWiseIncomeExpenseSummary> monthlyDetailList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.Parameters.Add("@StartMonth", SqlDbType.Int).Value = month;
+                        cmd.Parameters.Add("@StartYear", SqlDbType.Int).Value = year;
+                        cmd.Parameters.Add("@IsGrouped", SqlDbType.Int).Value = IsGrouped;
+                        cmd.Parameters.Add("@GroupCode", SqlDbType.NVarChar).Value = GroupCode;
+                        cmd.Parameters.Add("@Transaction", SqlDbType.NVarChar).Value = Transaction;
+                        cmd.CommandText = "[Accounts].[RPT_MonthWiseIncomeExpenseDetail]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                monthlyDetailList = new List<MonthWiseIncomeExpenseSummary>();
+                                while (sdr.Read())
+                                {
+                                    MonthWiseIncomeExpenseSummary monthlyDetail = new MonthWiseIncomeExpenseSummary();
+                                    {
+                                        monthlyDetail.DocNo = (sdr["DocNo"].ToString() != "" ? sdr["DocNo"].ToString() : monthlyDetail.DocNo);
+                                       // monthlyDetail.DocDate = (sdr["DocDate"].ToString() != "" ? DateTime.Parse(sdr["DocDate"].ToString()) : monthlyDetail.DocDate);
+                                        monthlyDetail.DocDateFormatted= (sdr["DocDate"].ToString() != "" ? DateTime.Parse(sdr["DocDate"].ToString()).ToString(settings.dateformat) : monthlyDetail.DocDateFormatted);
+                                        //  monthlyDetail.DocType = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString(settings.dateformat) : saleDetail.PaymentDueDate);
+                                        monthlyDetail.DocType = (sdr["DocType"].ToString() != "" ? sdr["DocType"].ToString() : monthlyDetail.DocType);
+                                        monthlyDetail.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : monthlyDetail.Amount);
+                                        
+                                    }
+                                    monthlyDetailList.Add(monthlyDetail);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return monthlyDetailList;
+        }
+
+
+
+        public List<CustomerOutStanding> GetCustomerOutStanding(DateTime? fromDate, DateTime? toDate,  string invoiceType,string search)
+        {
+            List<CustomerOutStanding> customerOutstandingList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = fromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = toDate;                       
+                        cmd.Parameters.Add("@InvoiceType", SqlDbType.NVarChar, 50).Value = invoiceType == "ALL" ? null : invoiceType;
+                        cmd.Parameters.Add("@Search", SqlDbType.NVarChar, 250).Value = search != "" ? search : null;
+                        cmd.CommandText = "[Accounts].[RPT_GetCustomerOutstanding]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                customerOutstandingList = new List<CustomerOutStanding>();
+                                while (sdr.Read())
+                                {
+                                    CustomerOutStanding customerOutstanding= new CustomerOutStanding();
+                                    {
+                                        customerOutstanding.CustomerID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : customerOutstanding.CustomerID);
+                                        customerOutstanding.CustomerName = (sdr["CustomerName"].ToString() != "" ? sdr["CustomerName"].ToString() : customerOutstanding.CustomerName);
+                                        customerOutstanding.Credit = (sdr["Credit"].ToString() != "" ? decimal.Parse(sdr["Credit"].ToString()) : customerOutstanding.Credit);
+                                        customerOutstanding.Debit = (sdr["Debit"].ToString() != "" ? decimal.Parse(sdr["Debit"].ToString()) : customerOutstanding.Debit);
+                                        customerOutstanding.OpeningBalance = (sdr["OPENINGBALNCE"].ToString() != "" ? decimal.Parse(sdr["OPENINGBALNCE"].ToString()) : customerOutstanding.OpeningBalance);
+                                        customerOutstanding.OutStanding = (sdr["OUTSTANDING"].ToString() != "" ? decimal.Parse(sdr["OUTSTANDING"].ToString()) : customerOutstanding.OutStanding);
+                                       
+                                    }
+                                    customerOutstandingList.Add(customerOutstanding);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return customerOutstandingList;
+        }
+
+
+
 
     }
 }

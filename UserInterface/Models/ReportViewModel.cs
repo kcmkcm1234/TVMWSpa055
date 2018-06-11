@@ -541,6 +541,8 @@ namespace UserInterface.Models
         [Display(Name = "Invoice Type")]
         public string InvoiceType { get; set; }
         public string Remarks { get; set; }
+
+        public Boolean InvoiceTypeAccess { get; set; }
     }
 
 
@@ -660,6 +662,10 @@ namespace UserInterface.Models
         public string Customer { get; set; }
         [Display(Name = "Invoice Type")]
         public string InvoiceType { get; set; }
+
+        public Boolean InvoiceTypeAccess { get; set; }
+        
+
     }
 
     public class SupplierExpeditingReportViewModel
@@ -812,5 +818,42 @@ namespace UserInterface.Models
         public string Search { get; set; }
         public string ExpenseType { get; set; }
         public string Employee { get; set; }
+    }
+    public class MonthWiseIncomeExpenseSummaryViewModel
+    {
+        [Display(Name = "Grouping Required")]
+        public string GroupingReq { get; set; }
+        [Display(Name = "Account Group")]
+        public string GroupingCode { get; set; }
+        public string Search { get; set; }
+        public string AccountHead { get; set; }
+        public string GroupName { get; set; }
+        public List<SelectListItem> groupList { get; set; }
+        public List<MonthWiseIncomeExpenseSummaryViewModel> monthlyDetailList { get; set; }
+
+        public string DocNo { get; set; }
+        public DateTime DocDate { get; set; }
+        public string DocDateFormatted { get; set; }
+        public string DocType { get; set; }
+        public decimal Amount { get; set; }
+        
+    }
+    public class CustomerOutStandingViewModel
+    {
+        [Display(Name = "From Date")]
+        public string FromDate { get; set; }
+        [Display(Name = "To Date")]
+        public string ToDate { get; set; }
+        [Display (Name="Invoice Type")]
+        public string InvoiceType { get; set; }
+        public decimal Debit { get; set; }
+        public decimal Credit { get; set; }
+        public string CustomerName { get; set; }
+        public Guid CustomerID { get; set; }
+        public decimal OpeningBalance { get; set; }
+        public decimal OutStanding { get; set; }
+        public string Search { get; set; }
+
+        public Boolean InvoiceTypeAccess { get; set; }
     }
 }

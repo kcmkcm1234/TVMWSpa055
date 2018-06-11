@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using SPAccounts.DataAccessObject.DTO;
 using SPAccounts.RepositoryServices.Contracts;
+using System.Data;
 
 namespace SPAccounts.BusinessService.Services
 {
@@ -563,6 +564,50 @@ namespace SPAccounts.BusinessService.Services
             }
             return bankLedgerList;
         }
+        public DataTable GetMonthWiseIncomeExpenseSummary(string IsGrouped,  string Search)
+        {
+            DataTable dt = null;
+            try
+            {
+                string d = "";
+                int i = 0;
+                dt = _reportRepository.GetMonthWiseIncomeExpenseSummary(IsGrouped, Search);
+                          }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return dt;
+        }
+        public MonthWiseIncomeExpenseSummary GetMonthWiseIncomeExpenseDetail(string month, string year, string IsGrouped, string GroupCode, string Transaction)
+        {
+            MonthWiseIncomeExpenseSummary monthlyDetailObj = new MonthWiseIncomeExpenseSummary();
+            List<MonthWiseIncomeExpenseSummary> monthlDetailList = null;
+            try
+            {
+                monthlDetailList = _reportRepository.GetMonthWiseIncomeExpenseDetail(month, year, IsGrouped, GroupCode, Transaction);
+                monthlyDetailObj.monthlyDetailList = monthlDetailList;
 
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return monthlyDetailObj;
+        }
+        public List<CustomerOutStanding> GetCustomerOutStanding(DateTime? fromDate, DateTime? toDate, string invoiceType, string search)
+        {
+            List<CustomerOutStanding> CustomerOutstandingList = null;
+            try
+            {
+                CustomerOutstandingList = _reportRepository.GetCustomerOutStanding(fromDate, toDate, invoiceType,search);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return CustomerOutstandingList;
+        }
+        
     }
 }

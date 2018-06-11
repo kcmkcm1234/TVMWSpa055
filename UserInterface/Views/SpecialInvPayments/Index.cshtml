@@ -341,7 +341,26 @@
 
                             <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Outstanding Invoices</div>
                             <div class="col-md-12  ">
-                                <div class="col-md-9"></div>
+
+                                <div class="col-md-9">
+
+                                    <div class="form-group col-md-12">
+                                        <div class="col-md-8" style="text-align: left">
+                                            @Html.Label("Total Balance Due  :", htmlAttributes: new { @class = "control-label ", @id = "lblBalance" })
+                                        @*</div>
+                                        <div class="col-md-4" style="text-align: left">*@
+                                            @Html.Label("0", htmlAttributes: new { @class = "control-label ", @id = "lblBalanceAmt" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <div class="col-md-8" style="text-align: left">
+                                            @Html.Label("Selected Invoice Total  :", htmlAttributes: new { @class = "control-label ", @id = "lblSelected" })
+                                        @*</div>
+                                        <div class="col-md-4" style="text-align: left">*@
+                                            @Html.Label("0", htmlAttributes: new { @class = "control-label ", @id = "lblSelectedAmt" })
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-md-3">
 
                                     <div class="form-group col-md-8">
@@ -358,7 +377,9 @@
                                     <div class="form-group col-md-4"></div>
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                           
+                            <div class="col-md-12">  
+                                                     
                                 <div class="col-md-12" style="padding-left:5%; padding-right:10%">
                                     <table id="tblOutStandingDetails" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
                                         <thead>

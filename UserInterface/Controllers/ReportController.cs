@@ -9,6 +9,7 @@ using SPAccounts.DataAccessObject.DTO;
 using SPAccounts.UserInterface.SecurityFilter;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -1557,6 +1558,22 @@ namespace UserInterface.Controllers
             ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
             CustomerPaymentLedgerViewModel customerPayments = new CustomerPaymentLedgerViewModel();
+          
+
+            Permission permission = Session["UserRights"] as Permission;
+            string permissionAccess = permission.SubPermissionList.Where(li => li.Name == "InvoiceTypeAccess").First().AccessCode;
+
+            if (permissionAccess.Contains("R") || permissionAccess.Contains("W"))
+            {
+                customerPayments.InvoiceTypeAccess = true;
+            }
+            else
+            {
+                customerPayments.InvoiceTypeAccess = false;
+            }
+
+
+
             List<SelectListItem> selectListItem = new List<SelectListItem>();
             List<CustomerViewModel> customerList = Mapper.Map<List<Customer>, List<CustomerViewModel>>(_customerBusiness.GetAllCustomers());
             if (customerList != null)
@@ -1989,10 +2006,24 @@ namespace UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
         public ActionResult CustomerPaymentExpeditingDetails(string id)
         {
+            CustomerExpeditingListViewModel result = new CustomerExpeditingListViewModel();
+            Permission permission = Session["UserRights"] as Permission;
+            string permissionAccess = permission.SubPermissionList.Where(li => li.Name == "InvoiceTypeAccess").First().AccessCode;
+
+            if (permissionAccess.Contains("R") || permissionAccess.Contains("W"))
+            {
+                result.InvoiceTypeAccess = true;
+            }
+            else
+            {
+                result.InvoiceTypeAccess = false;
+            }
+
+
             AppUA appUA = Session["AppUA"] as AppUA;
             DateTime dt = appUA.DateTime;
             ViewBag.todate = dt.ToString("dd-MMM-yyyy");
-            CustomerExpeditingListViewModel result = new CustomerExpeditingListViewModel();
+            
             List<SelectListItem> selectListItem = new List<SelectListItem>();
             selectListItem.Add(new SelectListItem {Text = "--Select--", Value = "ALL", Selected = false});
             selectListItem.Add(new SelectListItem { Text = "Coming Week", Value = "ThisWeek", Selected = false });
@@ -2133,8 +2164,7 @@ namespace UserInterface.Controllers
             }
 
         }
-
-        [HttpGet]
+                [HttpGet]
         [AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
         public string GetCustomerPaymentExpeditingDetails(string ToDate,string Filter,string Company, string[] Customer,string InvoiceType)       
         {
@@ -2642,7 +2672,105 @@ namespace UserInterface.Controllers
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
             }
         }
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "MonthwiseIncomeExpenseReport", Mode = "R")]
+        public ActionResult MonthWiseIncomeExpenseSummary()
+        {
 
+            MonthWiseIncomeExpenseSummaryViewModel MonthWiseIncomeExpenseSummaryReport = new MonthWiseIncomeExpenseSummaryViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+           
+            List<AccountHeadGroupViewModel> groupList = Mapper.Map<List<AccountHeadGroup>, List<AccountHeadGroupViewModel>>(_accountHeadGroupBusiness.GetAllGroupName());
+            selectListItem.Add(new SelectListItem
+            {
+                Text = "All",
+                Value = null,
+                Selected = true
+            });
+            foreach (AccountHeadGroupViewModel etvm in groupList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = etvm.GroupName,
+                    Value = etvm.ID.ToString(),
+                    Selected = false
+                });
+            }
+            MonthWiseIncomeExpenseSummaryReport.groupList = selectListItem;
+            return View(MonthWiseIncomeExpenseSummaryReport);
+        }
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "MonthwiseIncomeExpenseReport", Mode = "R")]
+        public string GetMonthWiseIncomeExpenseSummary(string IsGrouped, string Search)
+        {
+
+            UA ua = new UA();
+            DataTable monthwiseList = _reportBusiness.GetMonthWiseIncomeExpenseSummary(IsGrouped,  Search);
+            return JsonConvert.SerializeObject(new { Result = "OK", Records = monthwiseList });
+        }
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "MonthwiseIncomeExpenseReport", Mode = "R")]
+        public string GetMonthWiseIncomeExpenseDetail(string month, string year, string IsGrouped, string GroupCode,string Transaction)
+        {
+            try
+            {
+                MonthWiseIncomeExpenseSummaryViewModel monthObj = null;
+
+                monthObj = Mapper.Map<MonthWiseIncomeExpenseSummary, MonthWiseIncomeExpenseSummaryViewModel>(_reportBusiness.GetMonthWiseIncomeExpenseDetail(month, year, IsGrouped, GroupCode, Transaction));
+
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = monthObj.monthlyDetailList });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+            }
+
+        }
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "CustomerOutstandingReport", Mode = "R")]
+        public ActionResult CustomerOutStanding()
+        {
+
+            AppUA appUA = Session["AppUA"] as AppUA;
+            DateTime dt = appUA.DateTime;
+            ViewBag.fromdate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+            ViewBag.todate = dt.ToString("dd-MMM-yyyy");
+
+            CustomerOutStandingViewModel customerOutstanding = new CustomerOutStandingViewModel();
+            Permission permission = Session["UserRights"] as Permission;
+            string permissionAccess = permission.SubPermissionList.Where(li => li.Name == "InvoiceTypeAccess").First().AccessCode;
+
+            if (permissionAccess.Contains("R") || permissionAccess.Contains("W"))
+            {
+                customerOutstanding.InvoiceTypeAccess = true;
+            }
+            else
+            {
+                customerOutstanding.InvoiceTypeAccess = false;
+            }
+            return View(customerOutstanding);
+        }
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "CustomerOutstandingReport", Mode = "R")]
+        public string GetCustomerOutStanding(string fromDate, string toDate, string invoiceType,string search)
+        {
+            try
+            {
+
+                //DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
+
+                DateTime? fDate = string.IsNullOrEmpty(fromDate) ? (DateTime?)null : DateTime.Parse(fromDate);
+                DateTime? tDate = string.IsNullOrEmpty(toDate) ? (DateTime?)null : DateTime.Parse(toDate);
+                List<CustomerOutStandingViewModel> customerOutStandingList = Mapper.Map<List<CustomerOutStanding>, List<CustomerOutStandingViewModel>>(_reportBusiness.GetCustomerOutStanding(fDate, tDate, invoiceType,search));
+
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = customerOutStandingList });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+            }
+        }
+       
 
         #region ButtonStyling
         [HttpGet]

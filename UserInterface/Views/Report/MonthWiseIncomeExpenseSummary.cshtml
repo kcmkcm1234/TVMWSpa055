@@ -1,0 +1,185 @@
+﻿@model UserInterface.Models.MonthWiseIncomeExpenseSummaryViewModel
+@using UserInterface.App_Start
+@{
+    ViewBag.Title = "MonthWise Income Expense Summary";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+@section styles {
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/select2")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableButtons")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableFixedColumns")
+    @*@Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableFixedHeader")*@
+
+    <style>
+        table.dataTable tr.odd {
+            background-color: rgba(148, 78, 132, 0.16);
+        }
+
+        table.dataTable tr.even {
+            background-color: white;
+        }
+         th, td { white-space: nowrap; }
+    div.dataTables_wrapper {
+        width: 100%;
+        margin: 0 auto;
+    }
+    div.DTFC_LeftBodyWrapper{
+        top: -8px !important;
+    }
+    </style>
+}
+
+<div style="width:100%;">
+    <ol class="breadcrumb">
+        <li><a href=@Url.Action("Index","Report")><i class="fa fa-print"></i> Reports</a></li>
+        <li class="active">@ViewBag.Title</li>
+    </ol>
+</div>
+
+
+
+<div class="preloader" id="prelaoder">
+    <div class="col-md-12">
+        <div class="col-md-12">Loading </div>
+        <div class="col-md-12" style="margin-left:5%;margin-top:-3%;"><img src="~/Content/images/loading.gif" class="preloaderImg" /></div>
+    </div>
+
+</div>
+<div class="col-md-12">
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+</div>
+<div class="form-horizontal" id="main">
+
+    <div class="col-md-9" style="margin-top:10px;">
+        @*<div class="form-group col-md-4">
+            <div class="col-md-12">
+                @Html.LabelFor(model => model.GroupingCode, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-12">
+               @Html.DropDownListFor(model => model.GroupingCode, Model.groupList, new { @class = "form-control BlockEnter", @id = "groupCode", onchange = " Rebind();" })
+                          </div>
+        </div>*@
+      
+       
+       
+        <div class="form-group col-md-4">
+           
+                <div class="col-md-12" style="padding:0">
+                    @Html.LabelFor(model => model.GroupingReq, htmlAttributes: new { @class = "control-label " })
+                </div>
+                <div class="col-md-12" style="padding:0">
+                   
+                        @{
+                            List<SelectListItem> groupReqList = new List<SelectListItem>();
+                            groupReqList.Add(new SelectListItem
+                            { Text = "Yes", Value = "true", Selected = true });
+                            groupReqList.Add(new SelectListItem
+                            { Text = "No", Value = "false"});
+
+                        }
+                        @Html.DropDownListFor(model => model.GroupingReq, groupReqList, new { @class = "form-control BlockEnter", style = "padding:4px 12px;width: 100 %", @id = "ddlGroupingRequest", onchange = " Rebind();" })
+                    </div>
+                    @*<div class="col-md-1"></div>
+                        <div class="col-md-1"></div>*@
+                
+                        
+        </div>
+        <div class="col-md-6">
+            @Html.LabelFor(model => model.Search, htmlAttributes: new { @class = "control-label", style = "visibility:hidden" })
+            <div class="col-md-12">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search" id="Search">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="submit" style="height:28px" onclick="AdvanceSearchContent()"><i class="glyphicon glyphicon-search"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3" style="min-height:25px">
+        @{
+            var data = new { ActionType = "List" };
+            @Html.Action("ChangeButtonStyle", "Report", data);
+        }
+    </div>
+   
+    <div class="col-md-12">
+        @*<div class="col-md-12 ReportHead">Technician Performance</div>*@
+        <div class="container-fluid" >
+            <div class="row" id="DynamictblContainer" >
+
+                <table id="tblMonthWiseIncomeExpenseSummaryList" class="table compact" cellspacing="0" width="100%">
+                    <thead><tr class="text-center" id="trMonthWise" ></tr></thead>
+                    <tbody id="tbodyMonthWise" style="top: -8px !important" ></tbody>
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="row summaryboxes">
+
+        <div class="clearfix visible-sm-block">
+
+        </div>
+
+    </div>
+    <div class="row">
+        &nbsp;
+    </div>
+    
+   
+</div>
+
+
+<div id="myNav" class="overlay">
+    <div class="overlay-content">
+        <div class="row" id="OverlayHeader">
+            <div class="col-md-6" style="text-align:left">
+                <span id="lblDetailsHead" class="SCHeader"></span>
+            </div>
+            <div class="col-md-6" id="btnPatchAdd" style="min-height:25px; padding-right:25px;">
+
+                @{
+                    var data1 = new { ActionType = "CustDetail" };
+                    @Html.Action("ChangeButtonStyle", "Report", data1);
+                }
+            </div>
+        </div>
+        <br />
+        <div class="row tableContainer EntryForms" style="height:550px">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <table id="monthlyIncomeExpenseTable" class="table stripe" cellspacing="0" >
+                        <thead>
+                            <tr class="text-center TableHead">
+                                <th>Doc NO.</th>
+                                <th>Doc Date</th>
+                                <th>Doc Type</th>
+                                <th>Amount</th>
+                               
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/MonthWiseIncomeExpenseSummary")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableFixedColumns")
+
+
+}
+

@@ -123,6 +123,8 @@ namespace UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/AccountHeadGroup").Include("~/Scripts/UserJS/AccountHeadGroup.js"));
             bundles.Add(new ScriptBundle("~/bundles/AccountHeadGroupSummaryReport").Include("~/Scripts/UserJS/AccountHeadGroupSummaryReport.js"));
             bundles.Add(new ScriptBundle("~/bundles/AccountHeadGroupDetailReport").Include("~/Scripts/UserJS/AccountHeadGroupDetailReport.js"));
+            bundles.Add(new ScriptBundle("~/bundles/MonthWiseIncomeExpenseSummary").Include("~/Scripts/UserJS/MonthWiseIncomeExpenseSummary.js"));
+            bundles.Add(new ScriptBundle("~/bundles/CustomerOutStanding").Include("~/Scripts/UserJS/CustomerOutStandingReport.js"));
 
         }
 

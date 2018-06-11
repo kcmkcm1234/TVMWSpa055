@@ -134,6 +134,9 @@ namespace UserInterface.App_Start
                 config.CreateMap<AccountHeadGroupReportViewModel, AccountHeadGroupReport>().ReverseMap();
                 config.CreateMap<AccountHeadGroupDetailReportViewModel, AccountHeadGroupDetailReport>().ReverseMap();
                 config.CreateMap<BankLedgerReportViewModel, BankLedgerReport>().ReverseMap();
+                config.CreateMap<MonthWiseIncomeExpenseSummaryViewModel, MonthWiseIncomeExpenseSummary>().ReverseMap();
+                config.CreateMap<CustomerOutStandingViewModel, CustomerOutStanding>().ReverseMap();
+
             });
         }
     }

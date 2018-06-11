@@ -1570,8 +1570,10 @@
     <Content Include="Scripts\UserJS\AppSubobject.js" />
     <Content Include="Scripts\UserJS\CustomerExpeditingDetailsReport.js" />
     <Content Include="Scripts\UserJS\CustomerInvoices.js" />
+    <Content Include="Scripts\UserJS\CustomerOutStandingReport.js" />
     <Content Include="Scripts\UserJS\CustomerPaymentLedgerReport.js" />
     <Content Include="Scripts\UserJS\CustomerPayments.js" />
+    <Content Include="Scripts\UserJS\MonthWiseIncomeExpenseSummary.js" />
     <Content Include="Scripts\UserJS\SpecialInvPayments.js" />
     <Content Include="Scripts\UserJS\Customers.js" />
     <Content Include="Scripts\UserJS\DailyLedgerReport.js" />
@@ -1828,6 +1830,8 @@
     <Content Include="Views\Report\AccountHeadGroupDetails.cshtml" />
     <Content Include="Views\Report\BankLedgerDetails.cshtml" />
     <Content Include="Views\SpecialInvPayments\Index.cshtml" />
+    <Content Include="Views\Report\MonthWiseIncomeExpenseSummary.cshtml" />
+    <Content Include="Views\Report\CustomerOutStanding.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

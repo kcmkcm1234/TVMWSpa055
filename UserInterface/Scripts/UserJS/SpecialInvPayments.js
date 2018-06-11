@@ -110,6 +110,7 @@ $(document).ready(function () {
             $(this).select();
         });
         $('#tblOutStandingDetails tbody').on('click', 'td:first-child', function (e) {
+            debugger;
             var rt = DataTables.OutStandingInvoices.row($(this).parent()).index()
             var table = $('#tblOutStandingDetails').DataTable();
             var allData = table.rows().data();
@@ -125,6 +126,8 @@ $(document).ready(function () {
                
                 Selectcheckbox();
             }
+            SelectcheckBoxTotal();
+
         });
     }
     catch (e) {
@@ -189,6 +192,7 @@ $(document).ready(function () {
 
 function PaymentAmountChanged(this_Obj) {
     debugger;
+
     AmountReceived = parseFloat($('#TotalRecdAmt').val())
     sum = 0;
     
@@ -264,6 +268,8 @@ function PaymentAmountChanged(this_Obj) {
     $('#lblTotalRecdAmt').text(roundoff(sum));
     $('#lbloutstandingAmount').text(roundoff(AmountReceived - sum));
     Selectcheckbox();
+    SelectcheckBoxTotal();
+
 }
 function CustomerChange() {
 
@@ -279,6 +285,7 @@ function CustomerChange() {
 
 function AmountChanged() {
     debugger;
+   
     if ($('#TotalRecdAmt').val() != "")
     {
         AmountReceived = parseFloat($('#TotalRecdAmt').val());
@@ -380,6 +387,7 @@ function AmountChanged() {
         }
         DataTables.OutStandingInvoices.clear().rows.add(allData).draw(false);
         Selectcheckbox();
+        SelectcheckBoxTotal();
         $('#lblTotalRecdAmt').text(roundoff(sum));
         //$('#lblPaymentApplied').text(roundoff(sum));
         //$('#lblCredit').text(roundoff(AmountReceived - sum));
@@ -431,6 +439,7 @@ function paymentAmountFocus(event) {
 }
 function Selectcheckbox() {
     debugger;
+   
     var table = $('#tblOutStandingDetails').DataTable();
     var allData = table.rows().data();
     for (var i = 0; i < allData.length; i++) {
@@ -735,6 +744,8 @@ function fieldsclear() {
     $('#hdfCustomerID').val('');
     $('#ReferenceBank').val('');
     $('#hdfpaymentDetail').val('');
+    $('#lblSelectedAmt').text(roundoff(0));
+    $('#lblBalanceAmt').text(roundoff(0));
     
 }
 function Resetform() {
@@ -823,4 +834,24 @@ function DeleteSuccess(data, status) {
 }
 function BindCustomerPaymentsHeader() {
     DataTables.CustomerSpclPaymentTable.clear().rows.add(GetAllCustomerSpecialPayments()).draw(false);
+}
+function SelectcheckBoxTotal()
+{
+    debugger;
+    //var count = DataTables.OutStandingInvoices.rows({ selected: true }).count();
+    //alert(count);
+    var chcksum = 0;
+    var balTot = 0;
+    var SelectedRows = DataTables.OutStandingInvoices.rows(".selected").data();
+    if ((SelectedRows) && (SelectedRows.length > 0)) {
+       
+        for (r = 0; r < SelectedRows.length; r++)
+        {
+           
+            chcksum = chcksum + parseFloat(SelectedRows[r].specialDetailObj.CurrentAmount);
+            balTot = balTot + parseFloat(SelectedRows[r].BalanceDue);
+        }
+           }
+    $('#lblSelectedAmt').text(roundoff(chcksum));
+    $('#lblBalanceAmt').text(roundoff(balTot));
 }
