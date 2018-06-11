@@ -74,9 +74,11 @@ namespace SPAccounts.RepositoryServices.Services
                                             CreatedDateString = (sdr["CreatedDate"].ToString() != "" ? DateTime.Parse(sdr["CreatedDate"].ToString()).ToString(settings.dateformat) : string.Empty)
                                         };
                                         employeeObj.IsActive = (sdr["IsActive"].ToString() != "" ? bool.Parse(sdr["IsActive"].ToString()) : employeeObj.IsActive);
-                                        
+                                        employeeObj.Salary = (sdr["Salary"].ToString() != "" ?decimal.Parse(sdr["Salary"].ToString()) : employeeObj.Salary);
+                                        employeeObj.JoiningDate = (sdr["JoiningDate"].ToString() != "" ? DateTime.Parse(sdr["JoiningDate"].ToString()) : employeeObj.JoiningDate);                                       
+                                        //------------date formatting-----------------//
+                                        employeeObj.JoiningDateFormatted = (sdr["JoiningDate"].ToString() != "" ? DateTime.Parse(sdr["JoiningDate"].ToString()).ToString(settings.dateformat) : employeeObj.JoiningDateFormatted);
                                     }
-
                                     employeeList.Add(employeeObj);
                                 }
                             }
@@ -133,6 +135,10 @@ namespace SPAccounts.RepositoryServices.Services
                                     employeeObj.commonObj.UpdatedDate = (sdr["UpdatedDate"].ToString() != "" ? DateTime.Parse(sdr["UpdatedDate"].ToString()) : employeeObj.commonObj.UpdatedDate);
                                     employeeObj.commonObj.UpdatedDateString = (sdr["UpdatedDate"].ToString() != "" ? DateTime.Parse(sdr["UpdatedDate"].ToString()).ToString(settings.dateformat) : employeeObj.commonObj.UpdatedDateString);
                                     employeeObj.IsActive = (sdr["IsActive"].ToString() != "" ? bool.Parse(sdr["IsActive"].ToString()) : employeeObj.IsActive);
+                                    employeeObj.Salary = (sdr["Salary"].ToString() != "" ? decimal.Parse(sdr["Salary"].ToString()) : employeeObj.Salary);
+                                    employeeObj.JoiningDate = (sdr["JoiningDate"].ToString() != "" ? DateTime.Parse(sdr["JoiningDate"].ToString()) : employeeObj.JoiningDate);
+                                    //------------date formatting-----------------//
+                                    employeeObj.JoiningDateFormatted = (sdr["JoiningDate"].ToString() != "" ? DateTime.Parse(sdr["JoiningDate"].ToString()).ToString(settings.dateformat) : employeeObj.JoiningDateFormatted);
                                 }
                         }
                     }
@@ -312,6 +318,9 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = employeeObj.commonObj.CreatedBy;
                         cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = employeeObj.commonObj.CreatedDate;
                         cmd.Parameters.Add("@IsActive", SqlDbType.Bit).Value = employeeObj.IsActive;
+                        cmd.Parameters.Add("@Salary", SqlDbType.Decimal).Value = employeeObj.Salary;
+                        cmd.Parameters.Add("@JoiningDate", SqlDbType.DateTime).Value = employeeObj.JoiningDateFormatted;
+
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         outputID = cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier);
@@ -375,6 +384,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = employeeObj.commonObj.UpdatedBy;
                         cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = employeeObj.commonObj.UpdatedDate;
                         cmd.Parameters.Add("@IsActive", SqlDbType.Bit).Value = employeeObj.IsActive;
+                        cmd.Parameters.Add("@Salary", SqlDbType.Decimal).Value = employeeObj.Salary;
+                        cmd.Parameters.Add("@JoiningDate", SqlDbType.DateTime).Value = employeeObj.JoiningDateFormatted;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();

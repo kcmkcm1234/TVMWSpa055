@@ -23,6 +23,9 @@ namespace SPAccounts.DataAccessObject.DTO
          public Common commonObj { get; set; }
          public bool IsActive { get; set; }
          public string Filter { get; set; } 
+         public decimal Salary { get; set; }
+         public DateTime JoiningDate { get; set; }
+         public  string JoiningDateFormatted { get; set; }
     }
     public class EmployeeType
     {

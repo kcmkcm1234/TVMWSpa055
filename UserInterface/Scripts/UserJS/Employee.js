@@ -11,7 +11,7 @@ $(document).ready(function () {
                  extend: 'excel',
                  exportOptions:
                               {
-                                  columns: [1, 2, 3, 4, 5]
+                                  columns: [1, 2, 3, 4, 5,6,7,8]
                               }
              }],
              order: [],
@@ -32,13 +32,16 @@ $(document).ready(function () {
                { "data": "companies.Name", "defaultContent": "<i>-</i>" },
                { "data": "Department", "defaultContent": "<i>-</i>" },
                { "data": "EmployeeCategory", "defaultContent": "<i>-</i>" },
-               {"data":"IsActive","defaultContent":"<i>-</i>"},
+               { "data": "IsActive", "defaultContent": "<i>-</i>" },
+               { "data": "Salary", "defaultContent": "<i>-</i>" },
+               { "data": "JoiningDateFormatted", "defaultContent": "<i>-</i>" },
                { "data": null, "orderable": false, "defaultContent": '<a href="#" title="Edit OtherIncome" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                  
-               { className: "text-left", "targets": [1,2, 3, 5, 6,7] },
-             { className: "text-center", "targets": [] },
+               { className: "text-left", "targets": [1, 2, 3, 5] },
+                 { className: "text-right", "targets":[7] },
+             { className: "text-center", "targets": [6,8,9] },
              {
                  "render": function (data, type, row) {
                      return (data == false ? "No " : "Yes");
@@ -181,7 +184,9 @@ function ClearFields() {
     $("#EmployeeCategory").val("");
   //  $("#EmployeeType").val("");
     $("#Address").val("");
-    $("#GeneralNotes").val("");   
+    $("#GeneralNotes").val("");
+    $("#txtSalary").val("");
+    $("#txtJoiningDate").val("");
     ResetForm();  
     ChangeButtonPatchView("Employee", "btnPatchAdd", "Add"); //ControllerName,id of the container div,Name of the action
 }
@@ -289,7 +294,10 @@ function FillEmployeeDetails(ID) {
     {
         $('#IsActive').attr('checked', false);
         
-    }    
+    }
+
+    $("#txtSalary").val(thisItem.Salary);
+    $("#txtJoiningDate").val(thisItem.JoiningDateFormatted);
 }
 
 //---------------------------------------Edit Bank--------------------------------------------------//
