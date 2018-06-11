@@ -753,8 +753,8 @@ function GetRecentFollowUpCount() {
         if (ds.Result == "OK") {
             $('#ulCustomerNotification').empty();
             for (var i = 0; i < ds.Records.length; i++) {
-                var html = "<li title='" + ds.Records[i].Remarks + "'><a style='width:800px;' href='/PaymentFollowup/Index/" + ds.Records[i].CustomerID + ',' + ds.Records[i].Company + ',' + ds.Records[i].ContactName + ',' + ds.Records[i].ID + ',' + ds.Records[i].ContactNO + "'><div class='col-md-12'><span class='text-aqua'>Sub: </span>" + ds.Records[i].Remarks.substring(0, 20) + "<div class='col-md-3'><span class='label label-warning'>" + ds.Records[i].FollowUpDate + " " + ds.Records[i].FollowUpTime + "</span ></div><div class='col-md-3'><span class='text-green'> Customer: </span>" + ds.Records[i].Company.substring(0, 20) + "</div><div class='col-md-3'><span class='text-green' >Contact Person:</span>" + ds.Records[i].ContactName + "</div></div></a> </li>"
-                $('#ulCustomerNotification').append(html);
+                var html = "<li title='" + ds.Records[i].Remarks + "'><a style='width:800px;' href='/PaymentFollowup/Index/" + ds.Records[i].CustomerID + ',' + ds.Records[i].Company.replace("&", " AND ") + ',' + ds.Records[i].ContactName + ',' + ds.Records[i].ID + ',' + ds.Records[i].ContactNO + "'><div class='col-md-12'><span class='text-aqua'>Sub: </span>" + ds.Records[i].Remarks.substring(0, 20) + "<div class='col-md-3'><span class='label label-warning'>" + ds.Records[i].FollowUpDate + " " + ds.Records[i].FollowUpTime + "</span ></div><div class='col-md-3'><span class='text-green'> Customer: </span>" + ds.Records[i].Company.substring(0, 20) + "</div><div class='col-md-3'><span class='text-green' >Contact Person:</span>" + ds.Records[i].ContactName + "</div></div></a> </li>"
+                $('#ulCustomerNotification').append(html);//added replace by suv 11 jun 2018
             }
             $('#RecentFollowUpCount').text(ds.Records.length);
             $('#RecentFollowUpCount').attr('title', ds.Records.length + ' Pending FollowUps ');
