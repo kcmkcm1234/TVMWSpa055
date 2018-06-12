@@ -192,3 +192,11 @@ function OnChangeCall() {
         notyAlert('error', e.message);
     }
 }
+function PrintReport() {
+    try {
+        $(".buttons-excel").trigger('click');
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}

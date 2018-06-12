@@ -176,7 +176,7 @@ function Edit(currentObj) {
     var rowData = dataTables.CustomerExpeditingDetailTable.row($(currentObj).parents('tr')).data();
     if ((rowData != null) && (rowData.customerObj.ID != null)) {
         FollowUpList(rowData.customerObj.ID);
-        $("#lblCustomer").text(rowData.CustomerName);
+        $("#lblCustomer").html(rowData.CustomerName);
         $("#lblContact").text(rowData.customerContactObj.ContactName);
         var str = rowData.ContactNo;
         if (str.length > 35) str = str.substring(0, 35);

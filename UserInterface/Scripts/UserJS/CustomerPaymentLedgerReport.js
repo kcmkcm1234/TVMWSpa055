@@ -10,74 +10,42 @@ $(document).ready(function () {
             multiple: true,
             placeholder: "Select a Customers..",
         });
-        //var name = [];
-        //name.push(GetParameterValues('CustomerCode'));
-        //// $('#CustomerCode').select2('val', name[1]);
-        //if (name != "") {
-        //    var customerIds = name;
-        //    // $("#customernameddl").attr('style', 'visibility:hidden');
-        //}
-        //else {
-        //    var customerIds = (cur != "ALL" ? $("#CustomerCode").val() : cur);
-
-        //}
-
-        //var from = [];
-        //from.push(GetParameterValues('FromDate'));
-        //if (from != "") {
-        //    var fromDate = from.toString();
-        //    var fromDate = fromDate.replace(/%20/g, "-");
-        //    $("#fromDate").val(fromDate);
-
-        //}
-        //else {
-
-
-        //    var fromDate = $("#fromDate").val();
-        //}
-
-        //var to = [];
-        //to.push(GetParameterValues('ToDate'));
-        //if (to != "") {
-        //    var toDate = to.toString();
-        //    var toDate = toDate.replace(/%20/g, "-");
-        //    $("#toDate").val(toDate);
-        //}
-        //else {
-        //    var toDate = $("#toDate").val();
-        //}
-
-        //var invType = [];
-        //invType.push(GetParameterValues('InvoiceType'));
-
-        //if (invType != "") {
-        //    var invoiceType = invType.toString();
-        //    var invoiceType = invoiceType.replace(/%20/g, "-");
-        //    $("#ddlInvoiceTypes").val(invoiceType).select2();
-        //}
-        //else {
-        //    var invoiceType = $("#ddlInvoiceTypes").val();
-        //}
-
-
+      
         debugger;
         var CustomerPaymentLeger = new Object();
         var field = 'CustomerCode';
         var url = window.location.href;
+        var fromField = 'FromDate';
         if (url.indexOf('?' + field + '=') != -1) {
-          //  var CustomerPaymentLeger = new Object();
-            var FromDate = GetParameterValues('FromDate')
-            $("#fromDate").val(FromDate);
-            CustomerPaymentLeger.FromDate = FromDate;
+            //  var CustomerPaymentLeger = new Object();
+            if (url.indexOf('?' + fromField + '=') != -1) {
 
-            CustomerPaymentLeger.FromDate = FromDate;
-            var ToDate = GetParameterValues('ToDate')
-            $("#toDate").val(ToDate);
-            CustomerPaymentLeger.ToDate = ToDate;
-            var InvoiceType = GetParameterValues('InvoiceType')
-            $("#ddlInvoiceTypes").val(InvoiceType);
-            CustomerPaymentLeger.InvoiceType = InvoiceType;
-            CustomerPaymentLeger.CustomerID = GetParameterValues('CustomerCode');
+                var FromDate = GetParameterValues('FromDate')
+                $("#fromDate").val(FromDate);
+                CustomerPaymentLeger.FromDate = FromDate;
+
+                CustomerPaymentLeger.FromDate = FromDate;
+                var ToDate = GetParameterValues('ToDate')
+                $("#toDate").val(ToDate);
+                CustomerPaymentLeger.ToDate = ToDate;
+                var InvoiceType = GetParameterValues('InvoiceType')
+                $("#ddlInvoiceTypes").val(InvoiceType);
+                CustomerPaymentLeger.InvoiceType = InvoiceType;
+                CustomerPaymentLeger.CustomerID = GetParameterValues('CustomerCode');
+             
+            }
+            else
+            {
+                var fromDate = $("#fromDate").val();
+                CustomerPaymentLeger.FromDate = fromDate
+                var toDate = $("#toDate").val();
+                CustomerPaymentLeger.ToDate = toDate
+                //  var customerIds = $("#CustomerCode").val();
+                var customerIds = GetParameterValues('CustomerCode');
+                CustomerPaymentLeger.CustomerID = GetParameterValues('CustomerCode');
+              
+            }
+            
         }
         else
         {
@@ -214,14 +182,7 @@ function GetCustomerPaymentLedger(Obj)
     debugger;
     try
     {
-        //if (Chkurl == 1) {
-        //    var url = window.location.href.split('&');
-        //    var ss = url[0];
-        //    // alert(ss);
-        //    //  window.location = ss;
-        //}
-
-
+        
 
         var company = $("#companyCode").val();
        
@@ -349,7 +310,7 @@ function GetHtmlData()
     debugger;
     DrawTable({
         Action: "Report/GetCustomerPaymentLedger/",
-        data: { "FromDate": $('#fromDate').val(), "ToDate": $('#todate').val(), "CustomerIDs": $('#CustomerCode').val(), "Company": $('#companyCode').val(), "InvoiceType": $('#ddlInvoiceTypes').val() },
+        data: { "FromDate": $('#fromDate').val(), "ToDate": $('#toDate').val(), "CustomerIDs": $('#CustomerCode').val(), "Company": $('#companyCode').val(), "InvoiceType": $('#ddlInvoiceTypes').val() },
         Exclude_column: ["CustomerID", "customerList", "CustomerCode", "pdfToolsObj", "CompanyCode", "CompanyList", "companiesList", "InvoiceType", "Remarks", "InvoiceTypeAccess"],
         Header_column_style: {
             "Date": {"style":"width:110px;font-size:12px;border-bottom:2px solid grey;font-weight: 600;","custom_name":"Date"},
