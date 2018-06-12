@@ -18,7 +18,7 @@ $(document).ready(function () {
         var fromField = 'FromDate';
         if (url.indexOf('?' + field + '=') != -1) {
             //  var CustomerPaymentLeger = new Object();
-            if (url.indexOf('?' + fromField + '=') != -1) {
+            if (url.indexOf('&' + fromField + '=') != -1) {
 
                 var FromDate = GetParameterValues('FromDate')
                 $("#fromDate").val(FromDate);
@@ -215,29 +215,27 @@ function OnCallChange(){
     try
     {
         var CustomerPaymentLeger = new Object();
-        // Chkurl = 1;
-        var field = 'CustomerCode';
-        var url = window.location.href;
-        if (url.indexOf('?' + field + '=') != -1) {
-         //   var CustPaymentLeger = new Object();
+       
             var fromDate = $("#fromDate").val();
             CustomerPaymentLeger.FromDate = fromDate
             var toDate = $("#toDate").val();
             CustomerPaymentLeger.ToDate = toDate
-            //  var customerIds = $("#CustomerCode").val();
-            var customerIds = GetParameterValues('CustomerCode');
-            CustomerPaymentLeger.CustomerID = GetParameterValues('CustomerCode');
-        } else
-        {
-            var fromDate = $("#fromDate").val();
-            CustomerPaymentLeger.FromDate = fromDate
-            var toDate = $("#toDate").val();
-            CustomerPaymentLeger.ToDate = toDate
-            var customerIds = $("#CustomerCode").val();
-            CustomerPaymentLeger.CustomerID = customerIds
+           
             var invoiceType = $("#ddlInvoiceTypes").val();
             var company = $("#companyCode").val();
-        }
+   
+            var field = 'CustomerCode';
+            var url = window.location.href;
+            if (url.indexOf('?' + field + '=') != -1)
+            {
+                var customerIds = GetParameterValues('CustomerCode');
+                CustomerPaymentLeger.CustomerID = GetParameterValues('CustomerCode');
+            }
+            else
+            {
+                var customerIds = $("#CustomerCode").val();
+                CustomerPaymentLeger.CustomerID = customerIds
+            }
          
         if (DataTables.customerPaymentLedgerTable != undefined && IsVaildDateFormat(fromDate) && IsVaildDateFormat(toDate) && customerIds) {
             DataTables.customerPaymentLedgerTable.clear().rows.add(GetCustomerPaymentLedger(CustomerPaymentLeger)).draw(true);
