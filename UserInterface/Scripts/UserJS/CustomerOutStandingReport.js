@@ -71,7 +71,7 @@ $(document).ready(function () {
             { "width": "7%", "targets": [5] },
             { className: "text-right", "targets": [2,3,4,5] },
             { className: "text-left", "targets": [1] },
-            { "bSortable": false, "aTargets": [1, 2, 3, 4, 5] },
+            { "bSortable": true, "aTargets": [1, 2, 3, 4, 5] },
             ],
            
             //createdRow: function (row, data, index) {
@@ -128,6 +128,7 @@ function GetCustomerOutstanding() {
         var fromDate = $("#fromdate").val();
         var toDate = $("#todate").val();
         var search = $("#Search").val();
+        var companyCode = $("#companyCode").val();
        //// if (name != "") {
        //     var customerIds = name;
             // $("#customernameddl").attr('style', 'visibility:hidden');
@@ -139,7 +140,7 @@ function GetCustomerOutstanding() {
        // var company = $("#companyCode").val();
         var invoiceType = $("#ddlInvoiceTypes").val();
         if (IsVaildDateFormat(fromDate) && IsVaildDateFormat(toDate)) {
-            var data = { "FromDate": fromDate, "ToDate": toDate, "InvoiceType": invoiceType, "Search": search, };
+            var data = { "FromDate": fromDate, "ToDate": toDate, "InvoiceType": invoiceType,"Company":companyCode, "Search": search, };
             var ds = {};
             ds = GetDataFromServerTraditional("Report/GetCustomerOutstanding/", data);
             if (ds != '') {
@@ -163,6 +164,7 @@ function OnCallChange() {
         var fromDate = $("#fromdate").val();
         var toDate = $("#todate").val();     
         var invoiceType = $("#ddlInvoiceTypes").val();
+        var companyCode = $("#companyCode").val();
         if (DataTables.customeroutstandingTable != undefined && IsVaildDateFormat(fromDate) && IsVaildDateFormat(toDate)) {
             DataTables.customeroutstandingTable.clear().rows.add(GetCustomerOutstanding()).draw(true);
         }

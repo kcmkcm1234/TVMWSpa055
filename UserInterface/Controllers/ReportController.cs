@@ -2748,11 +2748,35 @@ namespace UserInterface.Controllers
             {
                 customerOutstanding.InvoiceTypeAccess = false;
             }
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            customerOutstanding.CompanyList = new List<SelectListItem>();
+            selectListItem = new List<SelectListItem>();
+            List<CompaniesViewModel> companiesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_otherExpenseBusiness.GetAllCompanies());
+            if (companiesList != null)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "All",
+                    Value = "ALL",
+                    Selected = true
+                });
+
+                foreach (CompaniesViewModel companiesVM in companiesList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = companiesVM.Name,
+                        Value = companiesVM.Code.ToString(),
+                        Selected = false
+                    });
+                }
+            }
+            customerOutstanding.companiesList = selectListItem;
             return View(customerOutstanding);
         }
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "CustomerOutstandingReport", Mode = "R")]
-        public string GetCustomerOutStanding(string fromDate, string toDate, string invoiceType,string search)
+        public string GetCustomerOutStanding(string fromDate, string toDate, string invoiceType, string company,string search)
         {
             try
             {
@@ -2761,7 +2785,7 @@ namespace UserInterface.Controllers
 
                 DateTime? fDate = string.IsNullOrEmpty(fromDate) ? (DateTime?)null : DateTime.Parse(fromDate);
                 DateTime? tDate = string.IsNullOrEmpty(toDate) ? (DateTime?)null : DateTime.Parse(toDate);
-                List<CustomerOutStandingViewModel> customerOutStandingList = Mapper.Map<List<CustomerOutStanding>, List<CustomerOutStandingViewModel>>(_reportBusiness.GetCustomerOutStanding(fDate, tDate, invoiceType,search));
+                List<CustomerOutStandingViewModel> customerOutStandingList = Mapper.Map<List<CustomerOutStanding>, List<CustomerOutStandingViewModel>>(_reportBusiness.GetCustomerOutStanding(fDate, tDate, invoiceType, company,search));
 
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = customerOutStandingList });
             }

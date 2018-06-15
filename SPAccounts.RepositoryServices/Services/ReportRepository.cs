@@ -1380,6 +1380,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         customerpayment.Ref = (sdr["REFNO"].ToString() != "" ? sdr["REFNO"].ToString() : customerpayment.Ref);
                                         customerpayment.Company = (sdr["Company"].ToString() != "" ? sdr["Company"].ToString() : customerpayment.Company);
                                         customerpayment.Remarks = (sdr["Remarks"].ToString() != "" ? sdr["Remarks"].ToString() : customerpayment.Remarks);
+                                        customerpayment.Advance = (sdr["Advance"].ToString() != "" ? decimal.Parse(sdr["Advance"].ToString()) : customerpayment.Advance);
                                     }
                                     customerpaymentList.Add(customerpayment);
                                 }
@@ -1993,7 +1994,7 @@ namespace SPAccounts.RepositoryServices.Services
 
 
 
-        public List<CustomerOutStanding> GetCustomerOutStanding(DateTime? fromDate, DateTime? toDate,  string invoiceType,string search)
+        public List<CustomerOutStanding> GetCustomerOutStanding(DateTime? fromDate, DateTime? toDate,  string invoiceType, string company, string search)
         {
             List<CustomerOutStanding> customerOutstandingList = null;
             try
@@ -2010,6 +2011,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = fromDate;
                         cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = toDate;                       
                         cmd.Parameters.Add("@InvoiceType", SqlDbType.NVarChar, 50).Value = invoiceType == "ALL" ? null : invoiceType;
+                        cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = company;
                         cmd.Parameters.Add("@Search", SqlDbType.NVarChar, 250).Value = search != "" ? search : null;
                         cmd.CommandText = "[Accounts].[RPT_GetCustomerOutstanding]";
                         cmd.CommandType = CommandType.StoredProcedure;

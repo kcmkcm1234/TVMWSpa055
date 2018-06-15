@@ -542,6 +542,7 @@ namespace UserInterface.Models
         public string InvoiceType { get; set; }
         public string Remarks { get; set; }
 
+        public decimal Advance { get; set; }
         public Boolean InvoiceTypeAccess { get; set; }
     }
 
@@ -853,6 +854,10 @@ namespace UserInterface.Models
         public decimal OpeningBalance { get; set; }
         public decimal OutStanding { get; set; }
         public string Search { get; set; }
+        public List<SelectListItem> CompanyList { get; set; }
+        [Display(Name = "Company")]
+        public string CompanyCode { get; set; }
+        public List<SelectListItem> companiesList { get; set; }
 
         public Boolean InvoiceTypeAccess { get; set; }
     }

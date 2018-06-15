@@ -595,12 +595,12 @@ namespace SPAccounts.BusinessService.Services
             }
             return monthlyDetailObj;
         }
-        public List<CustomerOutStanding> GetCustomerOutStanding(DateTime? fromDate, DateTime? toDate, string invoiceType, string search)
+        public List<CustomerOutStanding> GetCustomerOutStanding(DateTime? fromDate, DateTime? toDate, string invoiceType,string company, string search)
         {
             List<CustomerOutStanding> CustomerOutstandingList = null;
             try
             {
-                CustomerOutstandingList = _reportRepository.GetCustomerOutStanding(fromDate, toDate, invoiceType,search);
+                CustomerOutstandingList = _reportRepository.GetCustomerOutStanding(fromDate, toDate, invoiceType, company,search);
             }
             catch (Exception ex)
             {

@@ -31,6 +31,9 @@ $(document).ready(function () {
                 var InvoiceType = GetParameterValues('InvoiceType')
                 $("#ddlInvoiceTypes").val(InvoiceType);
                 CustomerPaymentLeger.InvoiceType = InvoiceType;
+                var Company = GetParameterValues('Company')
+                $("#companyCode").val(Company);
+                CustomerPaymentLeger.Company = Company;
                 CustomerPaymentLeger.CustomerID = GetParameterValues('CustomerCode');
              
             }
@@ -39,7 +42,7 @@ $(document).ready(function () {
                 var fromDate = $("#fromDate").val();
                 CustomerPaymentLeger.FromDate = fromDate
                 var toDate = $("#toDate").val();
-                CustomerPaymentLeger.ToDate = toDate
+                CustomerPaymentLeger.ToDate = toDate               
                 //  var customerIds = $("#CustomerCode").val();
                 var customerIds = GetParameterValues('CustomerCode');
                 CustomerPaymentLeger.CustomerID = GetParameterValues('CustomerCode');
@@ -80,7 +83,13 @@ $(document).ready(function () {
             columns: [
 
               { "data": "Date", "defaultContent": "<i>-</i>" },
-              { "data": "Type", "width": "20%", "defaultContent": "<i>-</i>" },
+              {
+                  "data": "Type", "width": "20%", "defaultContent": "<i>-</i>",
+                 
+               },
+
+
+
               { "data": "Ref", "defaultContent": "<i>-</i>" },
               { "data": "ID", "defaultContent": "<i>-</i>" },
               { "data": "CustomerName", "defaultContent": "<i>-</i>" },
@@ -102,9 +111,10 @@ $(document).ready(function () {
                       return roundoff(data, 1);
                   }, "defaultContent": "<i>-</i>"
               },
+             { "data": "Advance", "width": "20%", "defaultContent": "<i>-</i>" },
 
             ],
-            columnDefs: [{ "targets": [3, 4], "visible": false, "searchable": false },
+            columnDefs: [{ "targets": [3, 4,10], "visible": false, "searchable": false },
             { className: "text-left", "targets": [0, 2, 5, 6, 7, 8, 9] },
             { "width": "10%", "targets": [0] },
             { "width": "7%", "targets": [1] },
@@ -223,7 +233,7 @@ function OnCallChange(){
            
             var invoiceType = $("#ddlInvoiceTypes").val();
             var company = $("#companyCode").val();
-   
+ 
             var field = 'CustomerCode';
             var url = window.location.href;
             if (url.indexOf('?' + field + '=') != -1)
@@ -306,25 +316,42 @@ function DownloadReport()
 function GetHtmlData()
 {
     debugger;
+    var CustomerPaymentLeger = new Object();
+    var field = 'CustomerCode';
+    var url = window.location.href;
+    if (url.indexOf('?' + field + '=') != -1) {
+        var customerIds = GetParameterValues('CustomerCode');
+        CustomerPaymentLeger.CustomerID = GetParameterValues('CustomerCode');
+    }
+    else {
+        var customerIds = $("#CustomerCode").val();
+        CustomerPaymentLeger.CustomerID = customerIds
+    }
     DrawTable({
         Action: "Report/GetCustomerPaymentLedger/",
-        data: { "FromDate": $('#fromDate').val(), "ToDate": $('#toDate').val(), "CustomerIDs": $('#CustomerCode').val(), "Company": $('#companyCode').val(), "InvoiceType": $('#ddlInvoiceTypes').val() },
-        Exclude_column: ["CustomerID", "customerList", "CustomerCode", "pdfToolsObj", "CompanyCode", "CompanyList", "companiesList", "InvoiceType", "Remarks", "InvoiceTypeAccess"],
+        data: { "FromDate": $('#fromDate').val(), "ToDate": $('#toDate').val(), "CustomerIDs": customerIds, "Company": $('#companyCode').val(), "InvoiceType": $('#ddlInvoiceTypes').val() },
+        Exclude_column: ["CustomerID", "customerList", "CustomerCode", "pdfToolsObj", "CompanyCode", "CompanyList", "companiesList", "InvoiceType", "Remarks", "InvoiceTypeAccess","Advance"],
         Header_column_style: {
-            "Date": {"style":"width:110px;font-size:12px;border-bottom:2px solid grey;font-weight: 600;","custom_name":"Date"},
-            "Type": { "style": "font-size:12px;border-bottom:2px solid grey;width:110px;font-weight: 600;", "custom_name": "Type" },
-            "Ref": { "style": "font-size:12px;border-bottom:2px solid grey;width:110px;font-weight: 600;", "custom_name": "Ref" },
-            "Company":{"style": "width:110px;font-size:12px;border-bottom:2px solid grey;font-weight: 600;","custom_name":"Company"},
-            "CustomerName":{"style": "width:110px;font-size:12px;border-bottom:2px solid grey;font-weight: 600;","custom_name":"Customer"},
-            "Debit": { "style": "width:150px;text-align:center;font-size:12px;border-bottom:2px solid grey;font-weight: 600;", "custom_name": "Debit" },
-            "Credit": {"style":"width:150px;text-align:center;font-size:12px;border-bottom:2px solid grey;font-weight: 600;","custom_name":"Credit"},
-            "Balance": { "style": "width:150px;text-align:center;font-size:12px;border-bottom:2px solid grey;font-weight: 600;", "custom_name": "Balance" }
+            "Date": { "style": "width:10%;font-size:12px;text-align:left;border-bottom:2px solid;border-bottom-color: #000000; font-weight: 600;", "custom_name": "Date" },
+            "Type": { "style": "font-size:12px;text-align:left;border-bottom:2px solid ;border-bottom-color: #000000; width:15%;font-weight: 600;", "custom_name": "Type" },
+            "Ref": { "style": "font-size:12px;text-align:left;border-bottom:2px solid ;border-bottom-color: #000000; width:10%;font-weight: 600;", "custom_name": "Ref" },
+            "Company": { "style": "width:15%;text-align:left;font-size:12px;border-bottom:2px solid ;border-bottom-color: #000000; font-weight: 600;", "custom_name": "Company" },
+            "CustomerName": { "style": "width:20%;text-align:left;font-size:12px;border-bottom:2px solid ;border-bottom-color: #000000; font-weight: 600;", "custom_name": "Customer" },
+            "Debit": { "style": "width:10%;text-align:right;font-size:12px;border-bottom:2px solid ;border-bottom-color: #000000; font-weight: 600;", "custom_name": "Debit" },
+            "Credit": { "style": "width:10%;text-align:right;font-size:12px;border-bottom:2px solid ;border-bottom-color: #000000; font-weight: 600;", "custom_name": "Credit" },
+            "Balance": { "style": "width:10%;text-align:right;font-size:12px;border-bottom:2px solid ;border-bottom-color: #000000; font-weight: 600;", "custom_name": "Balance" }
         },      
         Row_color: { "Odd": "White", "Even": " White" },
         Body_Column_style: {
-            "Date": "font-size:11px;font-weight: 100;width:110px;", "Type": "font-size:11px;font-weight: 100;width:150px;", "Ref": "font-size:11px;font-weight: 100;width:150px;", "Company": "font-size:11px;font-weight: 100;",
-            "CustomerName": "font-size:11px;font-weight: 100;width:150px;",
-            "Debit": "text-align:right;font-size:11px;font-weight: 100;width:150px;", "Credit": "text-align:right;font-size:11px;font-weight: 100;width:150px;", "Balance": "text-align:right;font-size:11px;font-weight: 100;width:150px;"
+            "Date": "font-size:11px;font-weight: 100;width:10%;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:20x",
+            "Type": "font-size:11px;font-weight: 100;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:20x",
+            "Ref": "font-size:11px;font-weight: 100;width:150px;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:20x",
+            "Company": "font-size:11px;font-weight: 100;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:20x",
+            "CustomerName": "font-size:11px;font-weight: 100;width:20%;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:20x",
+            "Debit": "text-align:right;font-size:11px;font-weight: 100;width:10%;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:20x",
+            "Credit": "text-align:right;font-size:11px;font-weight: 100;width:150px;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:20x",
+            "Balance": "text-align:right;font-size:11px;font-weight: 100;width:150px;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:20x",
+            
         }
     });
     //to give backround color to balance row

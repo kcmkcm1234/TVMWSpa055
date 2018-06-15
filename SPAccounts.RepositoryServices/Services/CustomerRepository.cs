@@ -70,7 +70,8 @@ namespace SPAccounts.RepositoryServices.Services
                                         _customerObj.commonObj.UpdatedBy = (sdr["UpdatedBy"].ToString() != "" ? sdr["UpdatedBy"].ToString() : _customerObj.commonObj.UpdatedBy);
                                         _customerObj.commonObj.UpdatedDate = (sdr["UpdatedDate"].ToString() != "" ? DateTime.Parse(sdr["UpdatedDate"].ToString()) : _customerObj.commonObj.UpdatedDate);
                                         _customerObj.commonObj.UpdatedDateString = (sdr["UpdatedDate"].ToString() != "" ? DateTime.Parse(sdr["UpdatedDate"].ToString()).ToString(s.dateformat) : _customerObj.commonObj.UpdatedDateString);
-
+                                        //_customerObj.PaymentTermsObj = new PaymentTerms();
+                                        _customerObj.PaymentTerm  = (sdr["NoOfDays"].ToString() != "" ? sdr["NoOfDays"].ToString() : _customerObj.PaymentTerm);
                                     }
                                     customerList.Add(_customerObj);
                                 }

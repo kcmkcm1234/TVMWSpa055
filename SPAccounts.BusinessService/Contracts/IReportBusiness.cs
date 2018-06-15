@@ -47,6 +47,6 @@ namespace SPAccounts.BusinessService.Contracts
         List<BankLedgerReport> GetBankLedgerDetails(DateTime? FromDate, DateTime? ToDate, DateTime? Date, string search, string Bank);
         DataTable GetMonthWiseIncomeExpenseSummary(string IsGrouped, string Search);
         MonthWiseIncomeExpenseSummary GetMonthWiseIncomeExpenseDetail(string month, string year, string IsGrouped, string GroupCode,string Transaction);
-        List<CustomerOutStanding> GetCustomerOutStanding(DateTime? fromDate, DateTime? toDate, string invoiceType, string search);
+        List<CustomerOutStanding> GetCustomerOutStanding(DateTime? fromDate, DateTime? toDate, string invoiceType,string company, string search);
     }
 }

@@ -66,6 +66,7 @@ namespace UserInterface.Models
         public PaymentTermsViewModel PaymentTermsObj { get; set; }
         public List<SelectListItem> CustomerList { get; set; }
         public List<SelectListItem> TitlesList { get; set; }
+        public string PaymentTerm { get; set; }
     }
     public class TitlesViewModel
     {

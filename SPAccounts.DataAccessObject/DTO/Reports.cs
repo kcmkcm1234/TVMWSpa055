@@ -343,6 +343,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string InvoiceType { get; set; }
         public string Remarks { get; set; }
 
+        public decimal Advance { get; set; }
         public Boolean InvoiceTypeAccess { get; set; }
     }
 
@@ -598,6 +599,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal OpeningBalance { get; set; }
         public decimal OutStanding { get; set; }
         public string Search { get; set; }
+        public string Company { get; set; }
+        public string CompanyCode { get; set; }
 
         public Boolean InvoiceTypeAccess { get; set; }
     }

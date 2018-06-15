@@ -30,6 +30,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public PaymentTerms PaymentTermsObj { get; set; }
         public string ToDate { get; set; }
         public string FromDate { get; set; }
+        public string PaymentTerm { get; set; }
     }
 }
 
