@@ -1340,7 +1340,7 @@ namespace SPAccounts.RepositoryServices.Services
             return otherIncomeDetailList;
         }
 
-        public List<CustomerPaymentLedger> GetCustomerPaymentLedger(DateTime? fromDate, DateTime? toDate, string customerIDs, string company,string invoiceType)
+        public List<CustomerPaymentLedger> GetCustomerPaymentLedger(DateTime? fromDate, DateTime? toDate, string customerIDs, string company,string invoiceType,string search)
         {
             List<CustomerPaymentLedger> customerpaymentList = null;
             try
@@ -1358,7 +1358,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value =  toDate;
                         cmd.Parameters.Add("@CustomerIDs", SqlDbType.NVarChar, -1).Value =customerIDs;
                         cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = company;
-                        cmd.Parameters.Add("@InvoiceType", SqlDbType.NVarChar, 50).Value = invoiceType == "ALL" ? null : invoiceType; 
+                        cmd.Parameters.Add("@InvoiceType", SqlDbType.NVarChar, 50).Value = invoiceType == "ALL" ? null : invoiceType;
+                        cmd.Parameters.Add("@Search", SqlDbType.NVarChar, 250).Value = search != "" ? search : null;
                         cmd.CommandText = "[Accounts].[RPT_GetCustomerPaymentLedger]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())

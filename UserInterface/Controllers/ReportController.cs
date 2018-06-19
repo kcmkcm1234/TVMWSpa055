@@ -1626,7 +1626,7 @@ namespace UserInterface.Controllers
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "CustomerPaymentLedgerReport", Mode = "R")]
-        public string GetCustomerPaymentLedger(string fromDate, string toDate, string[] customerIDs, string company,string invoiceType)
+        public string GetCustomerPaymentLedger(string fromDate, string toDate, string[] customerIDs, string company,string invoiceType, string search)
         {
             //if (!string.IsNullOrEmpty(CustomerCode))
             //{
@@ -1637,7 +1637,7 @@ namespace UserInterface.Controllers
 
                 DateTime? fDate = string.IsNullOrEmpty(fromDate) ? (DateTime?)null : DateTime.Parse(fromDate);
                 DateTime? tDate = string.IsNullOrEmpty(toDate) ? (DateTime?)null : DateTime.Parse(toDate);
-                List<CustomerPaymentLedgerViewModel> customerPaymentLedgerList = Mapper.Map<List<CustomerPaymentLedger>, List<CustomerPaymentLedgerViewModel>>(_reportBusiness.GetCustomerPaymentLedger(fDate, tDate, customerIDs != null ? String.Join(",", customerIDs) : "ALL", company, invoiceType));                
+                List<CustomerPaymentLedgerViewModel> customerPaymentLedgerList = Mapper.Map<List<CustomerPaymentLedger>, List<CustomerPaymentLedgerViewModel>>(_reportBusiness.GetCustomerPaymentLedger(fDate, tDate, customerIDs != null ? String.Join(",", customerIDs) : "ALL", company, invoiceType, search));                
 
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = customerPaymentLedgerList });
             }

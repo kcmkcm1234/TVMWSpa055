@@ -32,23 +32,23 @@ $(document).ready(function () {
              },
              columns: [
 
-               { "data": "CustomerName", "defaultContent": "<i></i>", "width": "3%" },
+               { "data": "CustomerName", "defaultContent": "<i></i>", "width": "7%" },
                { "data": "customerContactObj.ContactName", "defaultContent": "<i></i>", "width": "7%" },
-               { "data": "ContactNo", "defaultContent": "<i>-</i>", "width": "5%" },
-               { "data": "companyObj.Name", "defaultContent": "<i>-<i>", "width": "5%" },
-               { "data": "InvoiceNo", "defaultContent": "<i>-</i>", "width": "5%" },
-               { "data": "InvoiceDate", "defaultContent": "<i>-</i>", "width": "5%" },
+               { "data": "ContactNo", "defaultContent": "<i>-</i>" },
+               { "data": "companyObj.Name", "defaultContent": "<i>-<i>", "width": "7%" },
+               { "data": "InvoiceNo", "defaultContent": "<i>-</i>", "width": "7%" },
+               { "data": "InvoiceDate", "defaultContent": "<i>-</i>", "width": "8%" },
                   { "data": "CustomerName1", "defaultContent": "<i></i>", "width": "5%" },
                { "data": "Remarks", "defaultContent": "<i></i>", "width": "5%" },
-             { "data": "PaymentDueDate", "defaultContent": "<i></i>", "width": "5%" },
-             { "data": "NoOfDays", "defaultContent": "<i>-</i>", "width": "5%" },
+             { "data": "PaymentDueDate", "defaultContent": "<i></i>", "width": "8%" },
+             { "data": "NoOfDays", "defaultContent": "<i>-</i>", "width": "7%" },
              { "data": "Amount", "defaultContent": "<i>-</i>", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>", "width": "5%" }
 
              ],
              columnDefs: [{ "targets": [7], "visible": false, "searchable": false },
                  { "targets": [6], "visible": false },
                   { className: "text-left", "targets": [0,1,2, 3, 4] },
-                  { "width": "15%", "targets": [0,1,2] },
+                  { "width": "12%", "targets": [2] },
              { className: "text-right", "targets": [4, 10] },
              { className: "text-center", "targets": [5,8,9] }
 

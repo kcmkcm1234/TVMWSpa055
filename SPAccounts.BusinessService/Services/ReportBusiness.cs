@@ -423,12 +423,12 @@ namespace SPAccounts.BusinessService.Services
             return otherIncomeDetailsList;
         }
 
-        public List<CustomerPaymentLedger> GetCustomerPaymentLedger(DateTime? fromDate, DateTime? toDate, string customerIDs, string company,string invoiceType)
+        public List<CustomerPaymentLedger> GetCustomerPaymentLedger(DateTime? fromDate, DateTime? toDate, string customerIDs, string company,string invoiceType,string search)
         {
             List<CustomerPaymentLedger> CustomerPaymentsDetailsList = null;
             try
             {
-                CustomerPaymentsDetailsList = _reportRepository.GetCustomerPaymentLedger(fromDate,toDate, customerIDs, company,invoiceType);
+                CustomerPaymentsDetailsList = _reportRepository.GetCustomerPaymentLedger(fromDate,toDate, customerIDs, company,invoiceType, search);
             }
             catch (Exception ex)
             {

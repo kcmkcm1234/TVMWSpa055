@@ -195,10 +195,10 @@ function GetCustomerPaymentLedger(Obj)
         
 
         var company = $("#companyCode").val();
-       
+        var search = $("#Search").val();
         var invoiceType = $("#ddlInvoiceTypes").val();
         if (IsVaildDateFormat(Obj.FromDate) && IsVaildDateFormat(Obj.ToDate) && Obj.CustomerID ) {
-            var data = { "FromDate": Obj.FromDate, "ToDate": Obj.ToDate, "CustomerIDs": Obj.CustomerID, "Company": company, "InvoiceType": invoiceType };
+            var data = { "FromDate": Obj.FromDate, "ToDate": Obj.ToDate, "CustomerIDs": Obj.CustomerID, "Company": company, "InvoiceType": invoiceType, "Search": search };
             var ds = {};
             ds = GetDataFromServerTraditional("Report/GetCustomerPaymentLedger/", data);
             if (ds != '') {
@@ -287,6 +287,7 @@ function RefreshCustomerPaymentLedgerTable()
 //To reset CustomerPayementLedger report
 function Reset()
 {
+   
     var field = 'CustomerCode';
     var url = window.location.href;
     if (url.indexOf('?' + field + '=') != -1) {
@@ -295,16 +296,50 @@ function Reset()
         
         $("#companyCode").val('ALL');
         $("#ddlInvoiceTypes").val('ALL');
+        $("#Search").val('');
+        OnChangeCall();
     }
     else {
         $("#toDate").val(startDate);
         $("#fromDate").val(endDate);
-        $("#CustomerCode").val('').trigger('change')
+        $("#CustomerCode").val('').select2();
+       // $("#CustomerCode").val('').trigger('change')
         $("#companyCode").val('ALL');
         $("#ddlInvoiceTypes").val('ALL');
+        $("#Search").val('');
+        OnChangeCall();
     }
     DataTables.customerPaymentLedgerTable.clear().rows.add(GetCustomerPaymentLedger('ALL')).draw(true);
 }
+
+function OnChangeCall() {
+
+    var CustomerPaymentLeger = new Object();
+
+    var fromDate = $("#fromDate").val();
+    CustomerPaymentLeger.FromDate = fromDate
+    var toDate = $("#toDate").val();
+    CustomerPaymentLeger.ToDate = toDate
+    var field = 'CustomerCode';
+    var url = window.location.href;
+    if (url.indexOf('?' + field + '=') != -1) {
+        var customerIds = GetParameterValues('CustomerCode');
+        CustomerPaymentLeger.CustomerID = GetParameterValues('CustomerCode');
+    }
+    else {
+        var customerIds = $("#CustomerCode").val();
+        CustomerPaymentLeger.CustomerID = customerIds
+    }
+
+    try {
+        DataTables.customerPaymentLedgerTable.clear().rows.add(GetCustomerPaymentLedger(CustomerPaymentLeger)).draw(true);
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
+
 
 //To trigger download button
 function DownloadReport()
@@ -330,7 +365,7 @@ function GetHtmlData()
     DrawTable({
         Action: "Report/GetCustomerPaymentLedger/",
         data: { "FromDate": $('#fromDate').val(), "ToDate": $('#toDate').val(), "CustomerIDs": customerIds, "Company": $('#companyCode').val(), "InvoiceType": $('#ddlInvoiceTypes').val() },
-        Exclude_column: ["CustomerID", "customerList", "CustomerCode", "pdfToolsObj", "CompanyCode", "CompanyList", "companiesList", "InvoiceType", "Remarks", "InvoiceTypeAccess","Advance"],
+        Exclude_column: ["CustomerID", "customerList", "CustomerCode", "pdfToolsObj", "CompanyCode", "CompanyList", "companiesList", "InvoiceType", "Remarks", "InvoiceTypeAccess","Advance","Search"],
         Header_column_style: {
             "Date": { "style": "width:10%;font-size:12px;text-align:left;border-bottom:2px solid;border-bottom-color: #000000; font-weight: 600;", "custom_name": "Date" },
             "Type": { "style": "font-size:12px;text-align:left;border-bottom:2px solid ;border-bottom-color: #000000; width:15%;font-weight: 600;", "custom_name": "Type" },

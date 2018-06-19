@@ -70,7 +70,7 @@
         <div class="col-md-3">
             @Html.Label("To Date", htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
-                @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3",  @Value = ViewBag.todate, @id = "toDate", @onchange = "OnCallChange()" })
+                @Html.TextBox("todate", "", new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @Value = ViewBag.todate, @id = "toDate", @onchange = "OnCallChange()" })
             </div>
         </div>
         <div class="col-md-6" id="customernameddl" style="visibility:hidden;">
@@ -82,57 +82,69 @@
             </div>
         </div>
 
-            <div class="col-md-3">
-                @Html.LabelFor(model => model.CompanyCode, htmlAttributes: new { @class = "control-label" })
-                <div class="col-md-12">
-                    @Html.DropDownListFor(model => model.CompanyCode, Model.companiesList, new { @class = "form-control BlockEnter", @id = "companyCode", @onchange = "OnCallChange()" })
-                    @Html.ValidationMessageFor(model => model.CompanyCode, "", new { @class = "text-danger" })
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.CompanyCode, htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-12">
+                @Html.DropDownListFor(model => model.CompanyCode, Model.companiesList, new { @class = "form-control BlockEnter", @id = "companyCode", @onchange = "OnCallChange()" })
+                @Html.ValidationMessageFor(model => model.CompanyCode, "", new { @class = "text-danger" })
 
-                </div>
             </div>
+        </div>
 
 
         <div class="col-md-3">
             @*<div class="col-md-12" style="padding:0">*@
-                @Html.LabelFor(model => model.InvoiceType, htmlAttributes: new { @class = "control-label " })
+            @Html.LabelFor(model => model.InvoiceType, htmlAttributes: new { @class = "control-label " })
             @*</div>*@
             <div class="col-md-12" style="padding:0">
-@if (Model.InvoiceTypeAccess == true)
-{
-                <div class="col-md-12">
-                    @{
-                        List<SelectListItem> InvoiceTypesList = new List<SelectListItem>();
-                        InvoiceTypesList.Add(new SelectListItem
-                        { Text = "--Select--", Value = "ALL", Selected = true });
-                        InvoiceTypesList.Add(new SelectListItem
-                        { Text = "Regular Invoice", Value = "RB" });
-                        InvoiceTypesList.Add(new SelectListItem
-                        { Text = "WB Invoice", Value = "WB" });
-                        InvoiceTypesList.Add(new SelectListItem
-                        { Text = "PB Invoice", Value = "PB" });
-                        InvoiceTypesList.Add(new SelectListItem
-                        { Text = "WB & PB Invoice", Value = "WB/PB" });
-                    }
-                    @Html.DropDownListFor(model => model.InvoiceType, InvoiceTypesList, new { @class = "form-control BlockEnter", style = "padding:4px 12px;width: 100 %", @id = "ddlInvoiceTypes", @onchange = "OnCallChange();" })
-                </div>
-                @*<div class="col-md-1"></div>
-                <div class="col-md-1"></div>*@
+                @if (Model.InvoiceTypeAccess == true)
+                {
+                    <div class="col-md-12">
+                        @{
+                            List<SelectListItem> InvoiceTypesList = new List<SelectListItem>();
+                            InvoiceTypesList.Add(new SelectListItem
+                            { Text = "--Select--", Value = "ALL", Selected = true });
+                            InvoiceTypesList.Add(new SelectListItem
+                            { Text = "Regular Invoice", Value = "RB" });
+                            InvoiceTypesList.Add(new SelectListItem
+                            { Text = "WB Invoice", Value = "WB" });
+                            InvoiceTypesList.Add(new SelectListItem
+                            { Text = "PB Invoice", Value = "PB" });
+                            InvoiceTypesList.Add(new SelectListItem
+                            { Text = "WB & PB Invoice", Value = "WB/PB" });
                         }
-                        else if (Model.InvoiceTypeAccess == false)
-                        {
-                            <div class="col-md-12">
-                                @{
-                                    List<SelectListItem> InvoiceTypesList = new List<SelectListItem>();
-                                    
-                                    InvoiceTypesList.Add(new SelectListItem
-                                    { Text = "Regular Invoice", Value = "RB" });
-                                   
-                                }
-                                @Html.DropDownListFor(model => model.InvoiceType, InvoiceTypesList, new { @class = "form-control BlockEnter", style = "padding:4px 12px;width: 100 %", @id = "ddlInvoiceTypes", @onchange = "OnCallChange();" })
-                            </div>
+                        @Html.DropDownListFor(model => model.InvoiceType, InvoiceTypesList, new { @class = "form-control BlockEnter", style = "padding:4px 12px;width: 100 %", @id = "ddlInvoiceTypes", @onchange = "OnCallChange();" })
+                    </div>
+                    @*<div class="col-md-1"></div>
+                        <div class="col-md-1"></div>*@
+                            }
+                            else if (Model.InvoiceTypeAccess == false)
+                            {
+                                <div class="col-md-12">
+                                    @{
+                                        List<SelectListItem> InvoiceTypesList = new List<SelectListItem>();
+
+                                        InvoiceTypesList.Add(new SelectListItem
+                                        { Text = "Regular Invoice", Value = "RB" });
+
                                     }
+                                    @Html.DropDownListFor(model => model.InvoiceType, InvoiceTypesList, new { @class = "form-control BlockEnter", style = "padding:4px 12px;width: 100 %", @id = "ddlInvoiceTypes", @onchange = "OnCallChange();" })
+                                </div>
+                                        }
             </div>
-        </div>           
+        </div>
+        <div class="col-md-6" >
+            @Html.LabelFor(model => model.Search, htmlAttributes: new { @class = "control-label", style = "visibility:hidden" })
+            <div class="col-md-12">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search" id="Search">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="submit" style="height:28px" onclick="OnChangeCall()"><i class="glyphicon glyphicon-search"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>          
     </div>
     <div class="col-md-3" style="min-height:25px">
         @{

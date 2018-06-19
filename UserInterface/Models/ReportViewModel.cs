@@ -544,6 +544,7 @@ namespace UserInterface.Models
 
         public decimal Advance { get; set; }
         public Boolean InvoiceTypeAccess { get; set; }
+        public string Search { get; set; }
     }
 
 

@@ -4,7 +4,7 @@ var sum = 0;
 var index = 0;
 var AmountReceived = 0;
 var pbBalance = 0;
-var actionmode=0;
+var actionmode = 0;
 $(document).ready(function () {
     try {
         $("#Customerddl").select2();
@@ -114,18 +114,36 @@ $(document).ready(function () {
             var rt = DataTables.OutStandingInvoices.row($(this).parent()).index()
             var table = $('#tblOutStandingDetails').DataTable();
             var allData = table.rows().data();
-            if ((allData[rt].specialDetailObj.CurrentAmount) > 0) {
-                allData[rt].specialDetailObj.CurrentAmount = roundoff(0)
-                DataTables.OutStandingInvoices.clear().rows.add(allData).draw(false);
-                var sum = 0;
-                AmountReceived = parseFloat($('#TotalRecdAmt').val());
-                for (var i = 0; i < allData.length; i++) {
-                    sum = sum + parseFloat(allData[i].specialDetailObj.CurrentAmount);
+
+            if ($(this).closest('tr.selected').length==1) {//copy the value
+                allData[rt].specialDetailObj.CurrentAmount = parseFloat(allData[rt].BalanceDue);
+                if ((allData[rt].specialDetailObj.CurrentAmount) > 0) {
+                    //allData[rt].specialDetailObj.CurrentAmount = roundoff(0)
+                    DataTables.OutStandingInvoices.clear().rows.add(allData).draw(false);
+                    var sum = 0;
+                    AmountReceived = parseFloat($('#TotalRecdAmt').val());
+                    for (var i = 0; i < allData.length; i++) {
+                        sum = sum + parseFloat(allData[i].specialDetailObj.CurrentAmount);
+                    }
+                    $('#lblPaymentApplied').text(roundoff(sum));
+
+                    Selectcheckbox();
                 }
-                $('#lblPaymentApplied').text(roundoff(sum));
-               
-                Selectcheckbox();
             }
+            else {//set as zero
+                if ((allData[rt].specialDetailObj.CurrentAmount) > 0) {
+                    allData[rt].specialDetailObj.CurrentAmount = roundoff(0)
+                    DataTables.OutStandingInvoices.clear().rows.add(allData).draw(false);
+                    var sum = 0;
+                    AmountReceived = parseFloat($('#TotalRecdAmt').val());
+                    for (var i = 0; i < allData.length; i++) {
+                        sum = sum + parseFloat(allData[i].specialDetailObj.CurrentAmount);
+                    }
+                    $('#lblPaymentApplied').text(roundoff(sum));
+
+                    Selectcheckbox();
+                }
+            }                  
             SelectcheckBoxTotal();
 
         });
@@ -285,113 +303,126 @@ function CustomerChange() {
 
 function AmountChanged() {
     debugger;
-   
-    if ($('#TotalRecdAmt').val() != "")
-    {
-        AmountReceived = parseFloat($('#TotalRecdAmt').val());
-    }
-    else
-    {
-        AmountReceived = 0.00;
-    }
-
-
-    if (actionmode == 0)
-    { 
-        if(AmountReceived!=0.00)
-        {
-            if (parseInt($('#TotalRecdAmt').val()) > parseInt(pbBalance)) {
-
-                $('#paidAmt').text('0.00');
-              
-                notyAlert('error', "Maximum Receivable Amount Limited to "+pbBalance+"");
-              //  $('#TotalRecdAmt').val(pbBalance);
-                //BindOutstanding();
-            }
-            else {
-                $('#paidAmt').text(roundoff(AmountReceived));
-                BindOutstanding();
-            }
+    //if (checkchange == 0)
+    //{
+        if ($('#TotalRecdAmt').val() != "") {
+            AmountReceived = parseFloat($('#TotalRecdAmt').val());
         }
-    }
-    else
-    {
-        var table = $('#tblOutStandingDetails').DataTable();
-        var outstanding = table.rows().data();
-        var sum = 0;
-        
-        for (var i = 0; i < outstanding.length; i++) {
-            sum = sum + parseFloat(outstanding[i].BalanceDue);
-        }
-        var balanceTotal = sum;
-        if (AmountReceived != 0.00)
-        {
-            if (parseInt($('#TotalRecdAmt').val()) > (balanceTotal)) {
-
-                $('#paidAmt').text('0.00');
-                //    DataTables.OutStandingInvoices.clear().rows.add(outstanding).draw(false);
-                notyAlert('error', "Maximum Receivable Amount Limited to " + balanceTotal + "");
-
-
-                //  $('#TotalRecdAmt').val(balanceTotal);
-                $('#lblTotalRecdAmt').val(balanceTotal);
-                // BindOutstanding();
-            }
-            else {
-                $('#paidAmt').text(roundoff(AmountReceived));
-                BindOutstandingByID();
-            }
+        else {
+            AmountReceived = 0.00;
         }
 
-    }
-    var sum = 0;
-    DataTables.OutStandingInvoices.rows().deselect();
-    if ($('#TotalRecdAmt').val() < 0 || $('#TotalRecdAmt').val() == "") {
-        $('#TotalRecdAmt').val(0);
-    }
 
-    AmountReceived = parseFloat($('#TotalRecdAmt').val())
+        if (actionmode == 0) {
+            if (AmountReceived != 0.00) {
+                if (parseInt($('#TotalRecdAmt').val()) > parseInt(pbBalance)) {
 
-    if (!isNaN(AmountReceived)) {
-        $('#TotalRecdAmt').val(roundoff(AmountReceived));
-   //     $('#lblTotalRecdAmt').text(roundoff(AmountReceived));
-        $('#paidAmt').text(roundoff(AmountReceived));
+                    $('#paidAmt').text('0.00');
 
-        var table = $('#tblOutStandingDetails').DataTable();
-        var allData = table.rows().data();
-
-        var RemainingAmount = AmountReceived;
-
-        for (var i = 0; i < allData.length; i++) {
-            var SpecialObj = new Object;
-          
-            CurrentAmount = SpecialObj;
-
-            if (RemainingAmount != 0) {
-                if (parseFloat(allData[i].BalanceDue) < RemainingAmount) {
-                  // allData[i].CurrentAmount = parseFloat(allData[i].BalanceDue)
-                  allData[i].specialDetailObj.CurrentAmount = parseFloat(allData[i].BalanceDue)
-                    RemainingAmount = RemainingAmount - parseFloat(allData[i].BalanceDue);
-                    sum = sum + parseFloat(allData[i].BalanceDue);
+                    notyAlert('error', "Maximum Receivable Amount Limited to " + pbBalance + "");
+                    //  $('#TotalRecdAmt').val(pbBalance);
+                    //BindOutstanding();
                 }
                 else {
-                  // allData[i].CurrentAmount = RemainingAmount
-                    allData[i].specialDetailObj.CurrentAmount = RemainingAmount
-                    sum = sum + RemainingAmount;
-                    RemainingAmount = 0
+                    $('#paidAmt').text(roundoff(AmountReceived));
+                    BindOutstanding();
                 }
             }
-            else {
-                allData[i].CurrentAmount = 0;
-            }
         }
-        DataTables.OutStandingInvoices.clear().rows.add(allData).draw(false);
-        Selectcheckbox();
-        SelectcheckBoxTotal();
-        $('#lblTotalRecdAmt').text(roundoff(sum));
-        //$('#lblPaymentApplied').text(roundoff(sum));
-        //$('#lblCredit').text(roundoff(AmountReceived - sum));
-    }
+        else {
+            var table = $('#tblOutStandingDetails').DataTable();
+            var outstanding = table.rows().data();
+            var sum = 0;
+
+            for (var i = 0; i < outstanding.length; i++) {
+                sum = sum + parseFloat(outstanding[i].BalanceDue);
+            }
+            var balanceTotal = sum;
+            if (AmountReceived != 0.00) {
+                if (parseInt($('#TotalRecdAmt').val()) > (balanceTotal)) {
+
+                    $('#paidAmt').text('0.00');
+                    //    DataTables.OutStandingInvoices.clear().rows.add(outstanding).draw(false);
+                    notyAlert('error', "Maximum Receivable Amount Limited to " + balanceTotal + "");
+
+
+                    //  $('#TotalRecdAmt').val(balanceTotal);
+                    $('#lblTotalRecdAmt').val(balanceTotal);
+                    // BindOutstanding();
+                }
+                else {
+                    $('#paidAmt').text(roundoff(AmountReceived));
+                    BindOutstandingByID();
+                }
+            }
+
+        }
+        var sum = 0;
+        DataTables.OutStandingInvoices.rows().deselect();
+        if ($('#TotalRecdAmt').val() < 0 || $('#TotalRecdAmt').val() == "") {
+            $('#TotalRecdAmt').val(0);
+        }
+
+        AmountReceived = parseFloat($('#TotalRecdAmt').val())
+
+        if (!isNaN(AmountReceived)) {
+            $('#TotalRecdAmt').val(roundoff(AmountReceived));
+            //     $('#lblTotalRecdAmt').text(roundoff(AmountReceived));
+            $('#paidAmt').text(roundoff(AmountReceived));
+
+            var table = $('#tblOutStandingDetails').DataTable();
+            var allData = table.rows().data();
+
+            var RemainingAmount = AmountReceived;
+
+            for (var i = 0; i < allData.length; i++) {
+                var SpecialObj = new Object;
+
+                CurrentAmount = SpecialObj;
+
+                if (RemainingAmount != 0) {
+                    if (parseFloat(allData[i].BalanceDue) < RemainingAmount) {
+                        // allData[i].CurrentAmount = parseFloat(allData[i].BalanceDue)
+                        allData[i].specialDetailObj.CurrentAmount = parseFloat(allData[i].BalanceDue)
+                        RemainingAmount = RemainingAmount - parseFloat(allData[i].BalanceDue);
+                        sum = sum + parseFloat(allData[i].BalanceDue);
+                    }
+                    else {
+                        // allData[i].CurrentAmount = RemainingAmount
+                        allData[i].specialDetailObj.CurrentAmount = RemainingAmount
+                        sum = sum + RemainingAmount;
+                        RemainingAmount = 0
+                    }
+                }
+                else {
+                    allData[i].CurrentAmount = 0;
+                }
+            }
+            DataTables.OutStandingInvoices.clear().rows.add(allData).draw(false);
+            Selectcheckbox();
+            SelectcheckBoxTotal();
+            $('#lblTotalRecdAmt').text(roundoff(sum));
+           //$('#lblPaymentApplied').text(roundoff(sum));
+            //$('#lblCredit').text(roundoff(AmountReceived - sum));
+        }
+    //}
+    //else
+    //{
+    //    //$('#TotalRecdAmt').val() must be greater than text box value sum
+
+    //    var chcksum = 0;
+    //    var balTot = 0;
+    //    var SelectedRows = DataTables.OutStandingInvoices.rows(".selected").data();
+    //    if ((SelectedRows) && (SelectedRows.length > 0)) {
+
+    //        for (r = 0; r < SelectedRows.length; r++) {
+
+    //            chcksum = chcksum + parseFloat(SelectedRows[r].specialDetailObj.CurrentAmount);
+    //            balTot = balTot + parseFloat(SelectedRows[r].BalanceDue);
+    //        }
+    //    }
+    //    $('#TotalRecdAmt').val(roundoff(chcksum));
+    //}
 }
 
 function BindOutstanding() {
@@ -745,8 +776,7 @@ function fieldsclear() {
     $('#ReferenceBank').val('');
     $('#hdfpaymentDetail').val('');
     $('#lblSelectedAmt').text(roundoff(0));
-    $('#lblBalanceAmt').text(roundoff(0));
-    
+    $('#lblBalanceAmt').text(roundoff(0));   
 }
 function Resetform() {
     debugger;
@@ -847,11 +877,19 @@ function SelectcheckBoxTotal()
        
         for (r = 0; r < SelectedRows.length; r++)
         {
-           
+             
+            // SelectedRows[r].specialDetailObj.CurrentAmount = parseFloat(SelectedRows[r].BalanceDue);
             chcksum = chcksum + parseFloat(SelectedRows[r].specialDetailObj.CurrentAmount);
             balTot = balTot + parseFloat(SelectedRows[r].BalanceDue);
         }
            }
     $('#lblSelectedAmt').text(roundoff(chcksum));
     $('#lblBalanceAmt').text(roundoff(balTot));
+    $('#TotalRecdAmt').val(chcksum);
+   
+}
+function Refresh()
+{
+  
+    GetCustomerPBPaymentsByID($('#hdfGroupID').val());
 }
