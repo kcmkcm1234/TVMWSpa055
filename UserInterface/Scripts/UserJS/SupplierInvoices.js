@@ -45,7 +45,7 @@ $(document).ready(function () {
               { "data": "ID" },
               {
                   "data": "InvoiceNo", render: function (data, type, row) {
-                      debugger;
+                      
                       if (row.InvoiceType=='WP')
                           return data+' (WP)';
                       return data;
@@ -54,7 +54,7 @@ $(document).ready(function () {
               { "data": "InvoiceDateFormatted","width":"8%" },
               {
                   "data": "suppliersObj.CompanyName", render: function (data, type, row) {
-                      debugger;
+                     
                       if (row.AccountCode != null && row.EmpName != null)
                           return data + '<br/><b>Acc.Head:</b>' + row.AccountCode + '<br/><b>Sub Type:</b>' + row.EmpName;
                       else if (row.AccountCode != null && row.EmpName == null)

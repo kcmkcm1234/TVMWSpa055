@@ -134,6 +134,7 @@ function AdvanceSearchContent() {
     var company = $("#Company");
     var groupName = $("#GroupName");
     var search = $("#Search");
+    var unit = $("#Unit");
     var accountHeadGroupSummaryAdvanceSearch = new Object();
     accountHeadGroupSummaryAdvanceSearch.ExpenseType = expenseType[0].value !== "" ? expenseType[0].value : null;
     accountHeadGroupSummaryAdvanceSearch.FromDate = fromDate[0].value !== "" ? fromDate[0].value : null;
@@ -141,6 +142,7 @@ function AdvanceSearchContent() {
     accountHeadGroupSummaryAdvanceSearch.Company = company[0].value !== "" ? company[0].value : null;
     accountHeadGroupSummaryAdvanceSearch.GroupName = groupName[0].value !== "" ? groupName[0].value : null;
     accountHeadGroupSummaryAdvanceSearch.Search = search[0].value !== "" ? search[0].value : null;
+    accountHeadGroupSummaryAdvanceSearch.Unit = unit[0].value !== "" ? unit[0].value : null;
 
     DataTables.accountHeadGroupReportSummaryTable.clear().rows.add(GetAccountHeadGroupSummaryReport(accountHeadGroupSummaryAdvanceSearch)).draw(false);
 }
@@ -151,6 +153,7 @@ function Reset() {
     $("#todate").val(startdate);
     $("#fromdate").val(enddate);
     $("#Company").val('ALL');
+    $("#Unit").val('ALL');
     $("#GroupName").val('ALL').trigger('change');
     $("#search").val('');
     $("#ExpenseType").val('ALL').trigger('change')

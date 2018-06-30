@@ -110,7 +110,14 @@
 
             </div>
         </div>
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.accountAHGAdvanceSearchObj.Unit, htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-12">
+                @Html.DropDownListFor(model => model.accountAHGAdvanceSearchObj.Unit, Model.UnitLists, new { @class = "form-control BlockEnter", value = -1, @style = "width:100%!imporant", @id = "Unit" })
+                @Html.ValidationMessageFor(model => model.accountAHGAdvanceSearchObj.Unit, "", new { @class = "text-danger" })
 
+            </div>
+        </div>
         <div class="col-md-3">
             @Html.LabelFor(model => model.GroupName, htmlAttributes: new { @class = "control-label" })
             <div class="col-md-12">
@@ -119,7 +126,7 @@
             </div>
         </div>
 
-        <div class="col-md-8">
+        <div class="col-md-6">
             @Html.LabelFor(model => model.Search, htmlAttributes: new { @class = "control-label", style = "visibility:hidden" })
             <div class="col-md-12">
                 <div class="input-group">
@@ -172,6 +179,7 @@
                     <th>Account Group</th>
                     <th>Expense Type</th>
                     <th>Company</th>
+                    <th>Unit</th>
                     <th>Beneficiary</th>
                     <th>Payment Date</th>                   
                     <th>Income/Reversed Amount</th>

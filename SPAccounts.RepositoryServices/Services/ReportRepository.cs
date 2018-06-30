@@ -77,7 +77,7 @@ namespace SPAccounts.RepositoryServices.Services
         /// <param name="ToDate"></param>
         /// <param name="CompanyCode"></param>
         /// <returns>List<OtherExpenseSummaryReport></returns>
-        public List<OtherExpenseSummaryReport> GetOtherExpenseSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string ReportType,string accounthead, string subtype, string employeeorother, string employeecompany,string search,string ExpenseType)
+        public List<OtherExpenseSummaryReport> GetOtherExpenseSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string ReportType,string accounthead, string subtype, string employeeorother, string employeecompany,string search,string ExpenseType, string Unit)
         {
             List<OtherExpenseSummaryReport> otherExpenseSummaryList = null;
             try
@@ -101,6 +101,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@EmployeeCompany", SqlDbType.NVarChar, 50).Value = employeecompany != "" ? employeecompany : null;
                         cmd.Parameters.Add("@Search", SqlDbType.NVarChar, 250).Value = search!=""?search:null;
                         cmd.Parameters.Add("@ExpenseType", SqlDbType.NVarChar, 50).Value = ExpenseType != "" ? ExpenseType : null;
+                        cmd.Parameters.Add("@UnitName", SqlDbType.NVarChar, 50).Value = Unit != "ALL" ? Unit : null;
                         cmd.CommandText = "[Accounts].[RPT_GetOtherExpenseSummary]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -135,7 +136,7 @@ namespace SPAccounts.RepositoryServices.Services
             return otherExpenseSummaryList;
         }
 
-        public List<OtherExpenseDetailsReport> GetOtherExpenseDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string accounthead, string subtype, string employeeorother, string employeecompany, string search,string ExpenseType)
+        public List<OtherExpenseDetailsReport> GetOtherExpenseDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string accounthead, string subtype, string employeeorother, string employeecompany, string search,string ExpenseType,string Unit)
         {
             List<OtherExpenseDetailsReport> otherExpenseDetailList = null;
             try
@@ -158,6 +159,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@EmployeeCompany", SqlDbType.NVarChar, 50).Value = employeecompany != "" ? employeecompany : null;
                         cmd.Parameters.Add("@Search", SqlDbType.NVarChar, 250).Value = search != "" ? search : null;
                         cmd.Parameters.Add("@ExpenseType", SqlDbType.NVarChar, 50).Value = ExpenseType != "" ? ExpenseType : "ALL";
+                        cmd.Parameters.Add("@UnitName", SqlDbType.NVarChar, 50).Value = Unit != "ALL" ? Unit : null;
                         cmd.CommandText = "[Accounts].[RPT_GetOtherExpenseDetails]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -183,6 +185,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         otherExpenseDetails.ReversedAmount = (sdr["ReversedAmount"].ToString() != "" ? decimal.Parse(sdr["ReversedAmount"].ToString()) : otherExpenseDetails.ReversedAmount);
                                         otherExpenseDetails.RowType = (sdr["RowType"].ToString() != "" ? sdr["RowType"].ToString() : otherExpenseDetails.RowType);
                                         otherExpenseDetails.Company= (sdr["Company"].ToString() != "" ? sdr["Company"].ToString() : otherExpenseDetails.Company);
+                                        otherExpenseDetails.Unit = (sdr["UnitName"].ToString() != "" ? sdr["UnitName"].ToString() : otherExpenseDetails.Unit);
                                     }
                                     otherExpenseDetailList.Add(otherExpenseDetails);
                                 }
@@ -221,6 +224,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@EmployeeCompany", SqlDbType.NVarChar, 50).Value = limitedExpenseAdvanceSearchObject.EmpCompany != "" ? limitedExpenseAdvanceSearchObject.EmpCompany : null;
                         cmd.Parameters.Add("@Search", SqlDbType.NVarChar, 250).Value = limitedExpenseAdvanceSearchObject.Search != "" ? limitedExpenseAdvanceSearchObject.Search : null;
                         cmd.Parameters.Add("@ExpenseType", SqlDbType.NVarChar, 50).Value = limitedExpenseAdvanceSearchObject.ExpenseType != "" ? limitedExpenseAdvanceSearchObject.ExpenseType : "ALL";
+                        cmd.Parameters.Add("@UnitName", SqlDbType.NVarChar, 50).Value = limitedExpenseAdvanceSearchObject.Unit != "ALL" ? limitedExpenseAdvanceSearchObject.Unit : null;
                         cmd.CommandText = "[Accounts].[RPT_GetOtherExpenseLimitedDetails]";
                     cmd.CommandType = CommandType.StoredProcedure;
                     using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -246,7 +250,8 @@ namespace SPAccounts.RepositoryServices.Services
                                     otherExpenseDetails.ReversedAmount = (sdr["ReversedAmount"].ToString() != "" ? decimal.Parse(sdr["ReversedAmount"].ToString()) : otherExpenseDetails.ReversedAmount);
                                     otherExpenseDetails.RowType = (sdr["RowType"].ToString() != "" ? sdr["RowType"].ToString() : otherExpenseDetails.RowType);
                                     otherExpenseDetails.Company = (sdr["Company"].ToString() != "" ? sdr["Company"].ToString() : otherExpenseDetails.Company);
-                                }
+                                    otherExpenseDetails.Unit = (sdr["UnitName"].ToString() != "" ? sdr["UnitName"].ToString() : otherExpenseDetails.Unit);
+                                    }
                                     otherExpenseLimitedList.Add(otherExpenseDetails);
                             }
                         }
@@ -1382,6 +1387,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         customerpayment.Company = (sdr["Company"].ToString() != "" ? sdr["Company"].ToString() : customerpayment.Company);
                                         customerpayment.Remarks = (sdr["Remarks"].ToString() != "" ? sdr["Remarks"].ToString() : customerpayment.Remarks);
                                         customerpayment.Advance = (sdr["Advance"].ToString() != "" ? decimal.Parse(sdr["Advance"].ToString()) : customerpayment.Advance);
+                                        customerpayment.PAYTYPE = (sdr["PAYTYPE"].ToString() != "" ? sdr["PAYTYPE"].ToString() : customerpayment.PAYTYPE);
                                     }
                                     customerpaymentList.Add(customerpayment);
                                 }
@@ -1756,6 +1762,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@GroupID", SqlDbType.NVarChar, 50).Value = accountHeadGroupSummaryAdvanceSearchObject.GroupName != "All" ? accountHeadGroupSummaryAdvanceSearchObject.GroupName : null;
                         cmd.Parameters.Add("@Search", SqlDbType.NVarChar, 250).Value = accountHeadGroupSummaryAdvanceSearchObject.Search != "" ? accountHeadGroupSummaryAdvanceSearchObject.Search : null;
                         cmd.Parameters.Add("@ExpenseType", SqlDbType.NVarChar, 50).Value = accountHeadGroupSummaryAdvanceSearchObject.ExpenseType != "" ? accountHeadGroupSummaryAdvanceSearchObject.ExpenseType : "ALL";
+                        cmd.Parameters.Add("@UnitName", SqlDbType.NVarChar, 50).Value = accountHeadGroupSummaryAdvanceSearchObject.Unit != "ALL" ? accountHeadGroupSummaryAdvanceSearchObject.Unit : null;                        
                         cmd.CommandText = "[Accounts].[RPT_ExpenseHeadGroupSummary]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -1808,6 +1815,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@EmpID", SqlDbType.NVarChar,50).Value = accountHeadGroupSummaryAdvanceSearchObject.Employee != "All" ? accountHeadGroupSummaryAdvanceSearchObject.Employee : null;
                         cmd.Parameters.Add("@Search", SqlDbType.NVarChar, 250).Value = accountHeadGroupSummaryAdvanceSearchObject.Search != "" ? accountHeadGroupSummaryAdvanceSearchObject.Search : null;
                         cmd.Parameters.Add("@ExpenseType", SqlDbType.NVarChar, 50).Value = accountHeadGroupSummaryAdvanceSearchObject.ExpenseType != "" ? accountHeadGroupSummaryAdvanceSearchObject.ExpenseType : "ALL";
+                        cmd.Parameters.Add("@UnitName", SqlDbType.NVarChar, 50).Value = accountHeadGroupSummaryAdvanceSearchObject.Unit != "ALL" ? accountHeadGroupSummaryAdvanceSearchObject.Unit : null;
                         cmd.CommandText = "[Accounts].[RPT_ExpenseHeadGroupDetails]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -1828,7 +1836,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         otherExpenseAccountGroupSummary.PaymentDate = (sdr["PaymentDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDate"].ToString()).ToString(settings.dateformat) : otherExpenseAccountGroupSummary.PaymentDate);
                                         otherExpenseAccountGroupSummary.DocumentNo = (sdr["DocumentNo"].ToString() != "" ? sdr["DocumentNo"].ToString() : otherExpenseAccountGroupSummary.DocumentNo);
                                         otherExpenseAccountGroupSummary.ExpenseType = (sdr["ExpenceType"].ToString() != "" ? sdr["ExpenceType"].ToString() : otherExpenseAccountGroupSummary.ExpenseType);
-
+                                        otherExpenseAccountGroupSummary.Unit =  (sdr["UnitName"].ToString() != "" ? sdr["UnitName"].ToString() : otherExpenseAccountGroupSummary.Unit);
                                         //  public string DocumentNo { get; set; }
                                     }
                                     otherExpenseAccountHeadGroupList.Add(otherExpenseAccountGroupSummary);

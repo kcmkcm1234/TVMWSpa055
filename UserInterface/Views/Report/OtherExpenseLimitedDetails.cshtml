@@ -97,7 +97,14 @@
 
         </div>
     </div>
+    <div class="col-md-3">
+        @Html.LabelFor(model => model.OtherExpenseLEAdvSearch.Unit, htmlAttributes: new { @class = "control-label" })
+        <div class="col-md-12">
+            @Html.DropDownListFor(model => model.OtherExpenseLEAdvSearch.Unit, Model.UnitLists, new { @class = "form-control BlockEnter", value = -1, @style = "width:100%!imporant", @id = "Unit" })
+            @Html.ValidationMessageFor(model => model.OtherExpenseLEAdvSearch.Unit, "", new { @class = "text-danger" })
 
+        </div>
+    </div>
 
     <div class="col-md-3">
         @Html.LabelFor(model => model.OtherExpenseLEAdvSearch.AccountHead, htmlAttributes: new { @class = "control-label" })
@@ -181,20 +188,21 @@
 <div class="form-horizontal"></div>
 <div class="row tableContainer">
     <div class="col-md-12" id="OEContainer">
-        <table id="OtherExpenseLimitedTable" class="table stripe" cellspacing="0" width="100%">
+        <table id="OtherExpenseLimitedTable" class="table stripe" cellspacing="0" style="width:100%">
             <thead>
                 <tr class="text-center TableHead">
                     <th>Company</th>
-                    <th>Expense Type</th>
+                    <th>Unit</th>
+                    <th>Exp. Type</th>
                     <th>Date</th>
-                    <th>Account Head</th>
-                    <th>Employee/Other</th>
-                    <th>Employee Company</th>
+                    <th>Acc. Head</th>
+                    <th>Emp/Other</th>
+                    <th>Emp Company</th>
                     <th>Payment Mode</th>
-                    <th>Payment Reference</th>
+                    <th>Payment Ref</th>
                     <th>Description</th>
-                    <th>Amount</th>
-                    <th>Reversed Amount</th>
+                    <th>Amt</th>
+                    <th>Reversed Amt</th>
                     <th>Origin Company</th>
                 </tr>
             </thead>

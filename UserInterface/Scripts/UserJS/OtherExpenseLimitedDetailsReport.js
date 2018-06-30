@@ -12,7 +12,7 @@ $(document).ready(function () {
                     extend: 'excel',
                     exportOptions:
                                  {
-                                     columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10]
+                                     columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10,11]
                                  }
                 }],
                 order: [],
@@ -28,6 +28,7 @@ $(document).ready(function () {
                
                 columns: [
                   { "data": "Company", "defaultContent": "<i>-</i>" },
+                    { "data": "Unit", "defaultContent": "<i>-</i>"},
                   { "data": "ExpenseType", "defaultContent": "<i>-</i>" },
                   { "data": "Date", "defaultContent": "<i>-</i>" },
                   { "data": "AccountHead", "defaultContent": "<i>-</i>" },
@@ -40,19 +41,19 @@ $(document).ready(function () {
                    { "data": "ReversedAmount", "defaultContent": "<i>-</i>" },
                   { "data": "OriginCompany", "defaultContent": "<i>-</i>" }
                 ],
-                columnDefs: [{ "targets": [11], "visible": false },
-                { className: "text-left", "targets": [0, 1, 3, 4, 5,6,7,8] },
+                columnDefs: [{ "targets": [12], "visible": false },
+                { className: "text-left", "targets": [0, 1,2, 4, 5,6,7,8,9] },
                 { "width": "15%", "targets": [0] },
-                { "width": "10%", "targets": [2] },
-                { className: "text-right", "targets": [9,10] },
-                { className: "text-center", "targets": [2] }],
+                { "width": "10%", "targets": [3] },
+                { className: "text-right", "targets": [10,11] },
+                { className: "text-center", "targets": [3] }],
                
                 drawCallback: function (settings) {
                     var api = this.api();
                     var rows = api.rows({ page: 'current' }).nodes();
                     var last = null;
 
-                    api.column(11, { page: 'current' }).data().each(function (group, i) {
+                    api.column(12, { page: 'current' }).data().each(function (group, i) {
 
                         if (last !== group) {
                             $(rows).eq(i).before('<tr class="group "><td colspan="8" class="rptGrp">' + '<b>Company</b> : ' + group + '</td></tr>');
@@ -124,6 +125,7 @@ function AdvanceSearchContent() {
     var employeeOrOther = $("#OtherExpenseLEAdvSearch_EmployeeOrOther");
     var employeeCompany = $("#OtherExpenseLEAdvSearch_EmpCompany");
     var search = $("#search");
+    var unit = $("#Unit");
     var OtherExpenseLimitedExpenseAdvanceSearch = new Object();
     OtherExpenseLimitedExpenseAdvanceSearch.ExpenseType = expenseType[0].value !== "" ? expenseType[0].value : null;
     OtherExpenseLimitedExpenseAdvanceSearch.FromDate = fromDate[0].value !== "" ? fromDate[0].value : null;
@@ -134,7 +136,8 @@ function AdvanceSearchContent() {
     OtherExpenseLimitedExpenseAdvanceSearch.EmployeeOrOther = employeeOrOther[0].value !== "" ? employeeOrOther[0].value : null;
     OtherExpenseLimitedExpenseAdvanceSearch.EmpCompany = employeeCompany[0].value !== "" ? employeeCompany[0].value : null;
     OtherExpenseLimitedExpenseAdvanceSearch.Search = search[0].value !== "" ? search[0].value : null;
-  
+    OtherExpenseLimitedExpenseAdvanceSearch.Unit = unit[0].value !== "" ? unit[0].value : null;
+
     DataTables.OtherExpenseLimitedDetailReportTable.clear().rows.add(GetOtherExpenseLimitedDetailReport(OtherExpenseLimitedExpenseAdvanceSearch)).draw(false);
 }
 
@@ -220,5 +223,6 @@ function Reset() {
     $("#search").val('');
     $("#OtherExpenseLEAdvSearch_EmpCompany").val('ALL');
     $("#ExpenseType").val('ALL').trigger('change')
+    $("#Unit").val('ALL').trigger('change');
     AdvanceSearchContent();
 }

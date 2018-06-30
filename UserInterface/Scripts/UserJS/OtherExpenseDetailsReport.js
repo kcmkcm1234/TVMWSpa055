@@ -21,7 +21,7 @@ $(document).ready(function () {
                  extend: 'excel',
                  exportOptions:
                               {
-                                  columns: [0, 1, 2, 3,4,5,6,7,8,9,10]
+                                  columns: [0, 1, 2, 3,4,5,6,7,8,9,10,11]
                               }
              }],
              order: [],
@@ -32,27 +32,28 @@ $(document).ready(function () {
              paging: true,
              data: GetOtherExpenseDetailsReport(),
              pageLength: 50,
-            
+             autoWidth:false,
              columns: [
-               { "data": "Company", "defaultContent": "<i>-</i>" },
-               { "data": "ExpenseType", "defaultContent": "<i>-</i>" },
-               { "data": "Date", "defaultContent": "<i>-</i>" },
-               { "data": "AccountHead", "defaultContent": "<i>-</i>" },
-               { "data": "SubType", "defaultContent": "<i>-</i>" },
-               { "data": "EmpCompany", "defaultContent": "<i>-</i>" },
-               { "data": "PaymentMode", "defaultContent": "<i>-</i>" },
-               { "data": "PaymentReference", "defaultContent": "<i>-</i>" },
-               { "data": "Description", "defaultContent": "<i>-</i>" },
-               { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
-                { "data": "ReversedAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
+               { "data": "Company", "defaultContent": "<i>-</i>", "width": "10%" },
+                { "data": "Unit", "defaultContent": "<i>-</i>", "width": "5%" },
+               { "data": "ExpenseType", "defaultContent": "<i>-</i>","width": "10%" },
+               { "data": "Date", "defaultContent": "<i>-</i>", "width": "10%" },
+               { "data": "AccountHead", "defaultContent": "<i>-</i>", "width": "10%" },
+               { "data": "SubType", "defaultContent": "<i>-</i>","width": "10%" },
+               { "data": "EmpCompany", "defaultContent": "<i>-</i>", "width": "10%" },
+               { "data": "PaymentMode", "defaultContent": "<i>-</i>", "width": "5%" },
+               { "data": "PaymentReference", "defaultContent": "<i>-</i>", "width": "10%" },
+               { "data": "Description", "defaultContent": "<i>-</i>", "width": "10%" },
+               { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>", "width": "5%" },
+                { "data": "ReversedAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>", "width": "5%" },
                { "data": "OriginCompany", "defaultContent": "<i>-</i>" }
              ],
-             columnDefs: [{ "targets": [11], "visible": false, "searchable": false },
-             { className: "text-left", "targets": [0, 1, 2, 3, 4, 5,6,7,8] },
-             { "width": "15%", "targets": [0] },
-             { "width": "10%", "targets": [2] },
-             { className: "text-right", "targets": [9,10] },
-             { className: "text-center", "targets": [2] }],
+             columnDefs: [{ "targets": [12], "visible": false, "searchable": false },
+             { className: "text-left", "targets": [0, 1, 2, 3, 4, 5,6,7,8,9] },
+             //{ "width": "15%", "targets": [0] },
+             //{ "width": "15%", "targets": [3] },
+             { className: "text-right", "targets": [10,11] },
+             { className: "text-center", "targets": [3] }],
              createdRow: function (row, data, index) {
                  if (data.AccountHead == "<b>GrantTotal</b>") {
 
@@ -63,7 +64,7 @@ $(document).ready(function () {
                  var rows = api.rows({ page: 'current' }).nodes();
                  var last = null;
 
-                 api.column(11, { page: 'current' }).data().each(function (group, i) {
+                 api.column(12, { page: 'current' }).data().each(function (group, i) {
                    
                      if (last !== group) {
                          $(rows).eq(i).before('<tr class="group "><td colspan="8" class="rptGrp">' + '<b>Company</b> : ' + group + '</td></tr>');
@@ -105,9 +106,9 @@ function GetOtherExpenseDetailsReport() {
         var Employeecompany = $("#EmpCompany").val();
         var search = $("#Search").val();
         var ExpenseType = $("#ExpenseType").val();
-       
+        var unit = $("#Unit").val();
         if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "OrderBy": orderby, "accounthead": AccountHead, "subtype": Subtype, "employeeorother": Employeeorother, "employeecompany": Employeecompany, "search": search, "ExpenseType": ExpenseType };
+            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "OrderBy": orderby, "accounthead": AccountHead, "subtype": Subtype, "employeeorother": Employeeorother, "employeecompany": Employeecompany, "search": search, "ExpenseType": ExpenseType, "Unit": unit };
             var ds = {};
             ds = GetDataFromServer("Report/GetOtherExpenseDetails/", data);
             if (ds != '') {
@@ -268,6 +269,7 @@ function Reset() {
     $("#Search").val('').trigger('change')
     $("#EmpCompany").val('ALL').trigger('change')
     $("#ExpenseType").val('ALL').trigger('change')
+    $("#Unit").val('ALL').trigger('change');
     RefreshOtherExpenseDetailsAHTable();
 }
 

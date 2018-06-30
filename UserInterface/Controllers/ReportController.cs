@@ -356,12 +356,42 @@ namespace UserInterface.Controllers
             }
             otherExpenseSummaryReportViewModel.EmployeeList = selectListItem;
 
+
+
+            selectListItem = null;
+            selectListItem = new List<SelectListItem>();
+            otherExpenseSummaryReportViewModel.UnitList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_companiesBusiness.GetAllunits());
+            if (otherExpenseSummaryReportViewModel.UnitList != null)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "All",
+                    Value = "ALL",
+                    Selected = true
+                });
+                List<string> unitList = otherExpenseSummaryReportViewModel.UnitList != null ? otherExpenseSummaryReportViewModel.UnitList.OrderBy(c => c.UnitName).Select(c => c.UnitName).Distinct().ToList() : null;
+                foreach (string cvm in unitList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = cvm,
+                        Value = cvm,
+                        Selected = false
+                    });
+                }
+            }
+
+            otherExpenseSummaryReportViewModel.UnitLists = selectListItem;
+
+
+
+
             return View(otherExpenseSummaryReportViewModel);
         }
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "OEReport", Mode = "R")]
-        public string GetOtherExpenseSummary(string FromDate, string ToDate, string CompanyCode,string ReportType, string OrderBy,string accounthead, string subtype,string employeeorother,string employeecompany,string search, string ExpenseType)
+        public string GetOtherExpenseSummary(string FromDate, string ToDate, string CompanyCode,string ReportType, string OrderBy,string accounthead, string subtype,string employeeorother,string employeecompany,string search, string ExpenseType,string Unit)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
             {
@@ -369,7 +399,7 @@ namespace UserInterface.Controllers
                 {
                     DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                    List<OtherExpenseSummaryReportViewModel> otherExpenseSummaryReportList = Mapper.Map<List<OtherExpenseSummaryReport>, List<OtherExpenseSummaryReportViewModel>>(_reportBusiness.GetOtherExpenseSummary(FDate, TDate, CompanyCode,ReportType, OrderBy,accounthead.Split(':')[0], subtype, employeeorother, employeecompany, search, ExpenseType));
+                    List<OtherExpenseSummaryReportViewModel> otherExpenseSummaryReportList = Mapper.Map<List<OtherExpenseSummaryReport>, List<OtherExpenseSummaryReportViewModel>>(_reportBusiness.GetOtherExpenseSummary(FDate, TDate, CompanyCode,ReportType, OrderBy,accounthead.Split(':')[0], subtype, employeeorother, employeecompany, search, ExpenseType,Unit));
 
                     decimal otherExpenseSum = otherExpenseSummaryReportList .Sum(OE => OE.Amount);
                     decimal otherExpenseReversed = otherExpenseSummaryReportList .Sum(OE => OE.ReversedAmount);
@@ -470,12 +500,41 @@ namespace UserInterface.Controllers
                 });
             }
             otherExpenseDetailsViewModel.EmployeeList = selectListItem;
+
+
+            selectListItem = null;
+            selectListItem = new List<SelectListItem>();
+            otherExpenseDetailsViewModel.UnitList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_companiesBusiness.GetAllunits());
+            if (otherExpenseDetailsViewModel.UnitList != null)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "All",
+                    Value = "ALL",
+                    Selected = true
+                });
+                List<string> unitList = otherExpenseDetailsViewModel.UnitList != null ? otherExpenseDetailsViewModel.UnitList.OrderBy(c => c.UnitName).Select(c => c.UnitName).Distinct().ToList() : null;
+                foreach (string cvm in unitList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = cvm,
+                        Value = cvm,
+                        Selected = false
+                    });
+                }
+            }
+
+            otherExpenseDetailsViewModel.UnitLists = selectListItem;
+
+
+
             return View(otherExpenseDetailsViewModel);
         }
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "OEReport", Mode = "R")]
-        public string GetOtherExpenseDetails(string FromDate, string ToDate, string CompanyCode, string OrderBy, string accounthead, string subtype, string employeeorother,string employeecompany, string search,string ExpenseType)
+        public string GetOtherExpenseDetails(string FromDate, string ToDate, string CompanyCode, string OrderBy, string accounthead, string subtype, string employeeorother,string employeecompany, string search,string ExpenseType, string Unit)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
             {
@@ -483,7 +542,7 @@ namespace UserInterface.Controllers
                 {
                     DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                    List<OtherExpenseDetailsReportViewModel> otherExpenseDetailsReportList = Mapper.Map<List<OtherExpenseDetailsReport>, List<OtherExpenseDetailsReportViewModel>>(_reportBusiness.GetOtherExpenseDetails(FDate, TDate, CompanyCode,OrderBy, accounthead.Split(':')[0], subtype, employeeorother, employeecompany,search, ExpenseType));
+                    List<OtherExpenseDetailsReportViewModel> otherExpenseDetailsReportList = Mapper.Map<List<OtherExpenseDetailsReport>, List<OtherExpenseDetailsReportViewModel>>(_reportBusiness.GetOtherExpenseDetails(FDate, TDate, CompanyCode,OrderBy, accounthead.Split(':')[0], subtype, employeeorother, employeecompany,search, ExpenseType,Unit));
                     decimal otherExpenseDetailsSum = otherExpenseDetailsReportList.Where(OE=>OE.RowType=="N").Sum(OE => OE.Amount);
                     string otherExpenseDetailsSumFormatted = _commonBusiness.ConvertCurrency(otherExpenseDetailsSum, 2);
                     decimal otherExpenseDetailsReversed = otherExpenseDetailsReportList.Where(x => x.RowType == "T").Sum(x => x.ReversedAmount);
@@ -503,7 +562,7 @@ namespace UserInterface.Controllers
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "OEReport", Mode = "R")]
-        public string GetOtherExpenseDetailsReport(string FromDate, string ToDate, string CompanyCode, string accounthead, string subtype, string employeeorother, string employeecompany,string ExpenseType)
+        public string GetOtherExpenseDetailsReport(string FromDate, string ToDate, string CompanyCode, string accounthead, string subtype, string employeeorother, string employeecompany,string ExpenseType,string Unit)
         {
             if (!string.IsNullOrEmpty(CompanyCode))
             {
@@ -511,7 +570,7 @@ namespace UserInterface.Controllers
                 {
                     DateTime? FDate = string.IsNullOrEmpty(FromDate) ? (DateTime?)null : DateTime.Parse(FromDate);
                     DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
-                    List<OtherExpenseDetailsReportViewModel> otherExpenseDetailsReportList = Mapper.Map<List<OtherExpenseDetailsReport>, List<OtherExpenseDetailsReportViewModel>>(_reportBusiness.GetOtherExpenseDetails(FDate, TDate, CompanyCode, null, accounthead.Split(':')[0], subtype, employeeorother, employeecompany,null, ExpenseType));
+                    List<OtherExpenseDetailsReportViewModel> otherExpenseDetailsReportList = Mapper.Map<List<OtherExpenseDetailsReport>, List<OtherExpenseDetailsReportViewModel>>(_reportBusiness.GetOtherExpenseDetails(FDate, TDate, CompanyCode, null, accounthead.Split(':')[0], subtype, employeeorother, employeecompany,null, ExpenseType, Unit));
                     return JsonConvert.SerializeObject(new { Result = "OK", Records = otherExpenseDetailsReportList});
                 }
                 catch (Exception ex)
@@ -605,6 +664,33 @@ namespace UserInterface.Controllers
                 });
             }
             otherExpenseLimitedDetailsVM.EmployeeList = selectListItem;
+
+
+            selectListItem = null;
+            selectListItem = new List<SelectListItem>();
+            otherExpenseLimitedDetailsVM.UnitList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_companiesBusiness.GetAllunits());
+            if (otherExpenseLimitedDetailsVM.UnitList != null)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "All",
+                    Value = "ALL",
+                    Selected = true
+                });
+                List<string> unitList = otherExpenseLimitedDetailsVM.UnitList != null ? otherExpenseLimitedDetailsVM.UnitList.OrderBy(c => c.UnitName).Select(c => c.UnitName).Distinct().ToList() : null;
+                foreach (string cvm in unitList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = cvm,
+                        Value = cvm,
+                        Selected = false
+                    });
+                }
+            }
+
+            otherExpenseLimitedDetailsVM.UnitLists = selectListItem;
+
             return View(otherExpenseLimitedDetailsVM);
         }
         #endregion Limited Expense Report For OtherExpenseReport
@@ -2454,6 +2540,33 @@ namespace UserInterface.Controllers
             }
             accountHeadGroupReportViewModel.accountHeadGroupList = selectListItem;
 
+            selectListItem = null;
+            selectListItem = new List<SelectListItem>();
+            accountHeadGroupReportViewModel.UnitList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_companiesBusiness.GetAllunits());
+            if (accountHeadGroupReportViewModel.UnitList != null)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "All",
+                    Value = "ALL",
+                    Selected = true
+                });
+                List<string> unitList = accountHeadGroupReportViewModel.UnitList != null ? accountHeadGroupReportViewModel.UnitList.OrderBy(c => c.UnitName).Select(c => c.UnitName).Distinct().ToList() : null;
+                foreach (string cvm in unitList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = cvm,
+                        Value = cvm,
+                        Selected = false
+                    });
+                }
+            }
+
+            accountHeadGroupReportViewModel.UnitLists = selectListItem;
+
+
+
             return View(accountHeadGroupReportViewModel);
         }
 
@@ -2563,6 +2676,35 @@ namespace UserInterface.Controllers
                 });
             }
             accountHeadGroupDetailReportViewModel.EmployeeList = selectListItem;
+
+
+            selectListItem = null;
+            selectListItem = new List<SelectListItem>();
+            accountHeadGroupDetailReportViewModel.UnitList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_companiesBusiness.GetAllunits());
+            if (accountHeadGroupDetailReportViewModel.UnitList != null)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "All",
+                    Value = "ALL",
+                    Selected = true
+                });
+                List<string> unitList = accountHeadGroupDetailReportViewModel.UnitList != null ? accountHeadGroupDetailReportViewModel.UnitList.OrderBy(c => c.UnitName).Select(c => c.UnitName).Distinct().ToList() : null;
+                foreach (string cvm in unitList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = cvm,
+                        Value = cvm,
+                        Selected = false
+                    });
+                }
+            }
+
+            accountHeadGroupDetailReportViewModel.UnitLists = selectListItem;
+
+
+
             return View(accountHeadGroupDetailReportViewModel);
         }
 

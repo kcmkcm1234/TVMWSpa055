@@ -49,8 +49,7 @@ $(document).ready(function () {
                  { "data": "PaymentDateFormatted", "defaultContent": "<i>-</i>" },
                  { "data": "PaymentRef", "defaultContent": "<i>-</i>" },
                  {
-                     "data": "supplierObj.CompanyName", "defaultContent": "<i>-</i>", 'render': function (data, type, row) {
-                         debugger;
+                     "data": "supplierObj.CompanyName", "defaultContent": "<i>-</i>", 'render': function (data, type, row) {                       
                          if (row.GeneralNotes!=null)
                          if (row.GeneralNotes.length>50)
                              return  data + '<br/>[ ' + row.GeneralNotes.substring(0, 50) + '.... ]'

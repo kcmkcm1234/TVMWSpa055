@@ -23,6 +23,13 @@ namespace SPAccounts.BusinessService.Services
             companiesList = companiesList != null ? companiesList.OrderBy(c => c.Name).ToList() : null;
             return companiesList;
         }
+        public List<Companies> GetAllunits()
+        {
+            List<Companies> UnitList = null;
+            UnitList = _companiesRepository.GetAllCompanies();
+            return UnitList;
+        }
+        
 
         public Companies GetCompanyDetailsByCode(string Code)
         {

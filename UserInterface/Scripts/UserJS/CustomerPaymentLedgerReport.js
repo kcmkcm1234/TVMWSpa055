@@ -88,7 +88,9 @@ $(document).ready(function () {
                  
                },
 
-
+                 {
+                     "data": "PAYTYPE", "defaultContent": "<i>-</i>",
+                 },
 
               { "data": "Ref", "defaultContent": "<i>-</i>" },
               { "data": "ID", "defaultContent": "<i>-</i>" },
@@ -114,14 +116,14 @@ $(document).ready(function () {
              { "data": "Advance", "width": "20%", "defaultContent": "<i>-</i>" },
 
             ],
-            columnDefs: [{ "targets": [3, 4,10], "visible": false, "searchable": false },
-            { className: "text-left", "targets": [0, 2, 5, 6, 7, 8, 9] },
+            columnDefs: [{ "targets": [2,4, 5,11], "visible": false, "searchable": false },
+            { className: "text-left", "targets": [0,2, 3,  6, 7, 8, 9,10] },
             { "width": "10%", "targets": [0] },
-            { "width": "7%", "targets": [1] },
-              { "width": "15%", "targets": [6] },
+            { "width": "7%", "targets": [1,2] },
+              { "width": "15%", "targets": [7] },
             { className: "text-right", "targets": [] },
             { className: "text-center", "targets": [1] },
-            { "bSortable": false, "aTargets": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] }],
+            { "bSortable": false, "aTargets": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10] }],
             createdRow: function (row, data, index) {
                 if (data.Type == "<b>Total</b>") {
                     $('td', row).addClass('totalRow');
@@ -132,7 +134,7 @@ $(document).ready(function () {
                 var api = this.api();
                 var rows = api.rows({ page: 'current' }).nodes();
                 var last = null;
-                api.column(4, { page: 'current' }).data().each(function (group, i) {
+                api.column(5, { page: 'current' }).data().each(function (group, i) {
 
                     if (last !== group) {
                         $(rows).eq(i).before('<tr class="group "><td colspan="7" class="rptGrp">' + '<b>CustomerName</b> : ' + group + '</td></tr>');
@@ -365,10 +367,10 @@ function GetHtmlData()
     DrawTable({
         Action: "Report/GetCustomerPaymentLedger/",
         data: { "FromDate": $('#fromDate').val(), "ToDate": $('#toDate').val(), "CustomerIDs": customerIds, "Company": $('#companyCode').val(), "InvoiceType": $('#ddlInvoiceTypes').val() },
-        Exclude_column: ["CustomerID", "customerList", "CustomerCode", "pdfToolsObj", "CompanyCode", "CompanyList", "companiesList", "InvoiceType", "Remarks", "InvoiceTypeAccess","Advance","Search"],
+        Exclude_column: ["CustomerID", "customerList", "CustomerCode", "pdfToolsObj", "CompanyCode", "CompanyList", "companiesList", "InvoiceType", "Remarks", "InvoiceTypeAccess", "Advance", "Search", "Type", "CustomerName"],
         Header_column_style: {
             "Date": { "style": "width:10%;font-size:12px;text-align:left;border-bottom:2px solid;border-bottom-color: #000000; font-weight: 600;", "custom_name": "Date" },
-            "Type": { "style": "font-size:12px;text-align:left;border-bottom:2px solid ;border-bottom-color: #000000; width:15%;font-weight: 600;", "custom_name": "Type" },
+            "PAYTYPE": { "style": "font-size:12px;text-align:left;border-bottom:2px solid ;border-bottom-color: #000000; width:15%;font-weight: 600;", "custom_name": "Type" },
             "Ref": { "style": "font-size:12px;text-align:left;border-bottom:2px solid ;border-bottom-color: #000000; width:10%;font-weight: 600;", "custom_name": "Ref" },
             "Company": { "style": "width:15%;text-align:left;font-size:12px;border-bottom:2px solid ;border-bottom-color: #000000; font-weight: 600;", "custom_name": "Company" },
             "CustomerName": { "style": "width:20%;text-align:left;font-size:12px;border-bottom:2px solid ;border-bottom-color: #000000; font-weight: 600;", "custom_name": "Customer" },
@@ -379,7 +381,7 @@ function GetHtmlData()
         Row_color: { "Odd": "White", "Even": " White" },
         Body_Column_style: {
             "Date": "font-size:11px;font-weight: 100;width:10%;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:20x",
-            "Type": "font-size:11px;font-weight: 100;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:20x",
+            "PAYTYPE": "font-size:11px;font-weight: 100;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:20x",
             "Ref": "font-size:11px;font-weight: 100;width:150px;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:20x",
             "Company": "font-size:11px;font-weight: 100;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:20x",
             "CustomerName": "font-size:11px;font-weight: 100;width:20%;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:20x",
@@ -395,6 +397,7 @@ function GetHtmlData()
         var headerContent = $('#divHeader').html();
         $("#hdnContent").val(bodyContent);
         $('#hdnHeadContent').val("<h1></h1>");
+    
 }
 
 

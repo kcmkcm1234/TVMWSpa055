@@ -40,6 +40,7 @@ $(document).ready(function () {
                { "data": "GroupName", "defaultContent": "<i>-</i>", },
                   { "data": "ExpenseType", "defaultContent": "<i>-</i>", },
                { "data": "CompanyCode", "defaultContent": "<i>-</i>" },
+                { "data": "Unit", "defaultContent": "<i>-</i>"},
                  { "data": "Beneficiary", "defaultContent": "<i>-</i>" },
                    { "data": "PaymentDate", "defaultContent": "<i>-</i>" },
                //{ "data": "Description", "defaultContent": "<i>-</i>" },
@@ -57,8 +58,8 @@ $(document).ready(function () {
 
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                  { className: "text-left", "targets": [1, 2,3,4,5,6] },
-                  { className: "text-right", "targets": [8,7] }],
+                  { className: "text-left", "targets": [1, 2,3,4,5,6,7] },
+                  { className: "text-right", "targets": [8,9] }],
              //drawCallback: function (settings) {
              //    var api = this.api();
              //    var rows = api.rows({ page: 'current' }).nodes();
@@ -88,7 +89,7 @@ $(document).ready(function () {
 
 
 function GetAccountHeadGroupDetailReport(accountHeadGroupSummaryAdvanceSearch) {
-
+    debugger;
    
     try {
         if (accountHeadGroupSummaryAdvanceSearch === 0) {
@@ -137,6 +138,7 @@ function AdvanceSearchContent() {
     var groupName = $("#GroupName");
     var employee = $("#Employee");
     var search = $("#Search");
+    var unit = $("#Unit");
     var accountHeadGroupSummaryAdvanceSearch = new Object();
     accountHeadGroupSummaryAdvanceSearch.ExpenseType = expenseType[0].value !== "" ? expenseType[0].value : null;
     accountHeadGroupSummaryAdvanceSearch.FromDate = fromDate[0].value !== "" ? fromDate[0].value : null;
@@ -145,6 +147,7 @@ function AdvanceSearchContent() {
     accountHeadGroupSummaryAdvanceSearch.GroupName = groupName[0].value !== "" ? groupName[0].value : null;
     accountHeadGroupSummaryAdvanceSearch.Employee = employee[0].value != "" ? employee[0].value : null;
     accountHeadGroupSummaryAdvanceSearch.Search = search[0].value !== "" ? search[0].value : null;
+    accountHeadGroupSummaryAdvanceSearch.Unit = unit[0].value !== "" ? unit[0].value : null;
 
     DataTables.accountHeadGroupReportDetailTable.clear().rows.add(GetAccountHeadGroupDetailReport(accountHeadGroupSummaryAdvanceSearch)).draw(false);
 }
@@ -157,6 +160,7 @@ function Reset() {
     $("#Employee").val('').trigger('change');
     $("#Company").val('ALL').trigger('change');
     $("#GroupName").val('ALL').trigger('change');
+    $("#Unit").val('ALL').trigger('change');
     $("#search").val('');
     $("#ExpenseType").val('ALL').trigger('change');
     AdvanceSearchContent();

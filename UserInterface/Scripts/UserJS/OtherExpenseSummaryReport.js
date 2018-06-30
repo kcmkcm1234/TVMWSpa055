@@ -60,7 +60,7 @@ $(document).ready(function () {
                  var last = null;
 
                  api.column(0, { page: 'current' }).data().each(function (group, i) {
-                     debugger;
+                     //debugger;
                      if (last !== group) {
                          $(rows).eq(i).before('<tr class="group "><td colspan="3" class="rptGrp">' + '<b>Company</b> : ' + group + '</td></tr>');
                          last = group;
@@ -189,6 +189,8 @@ function GetExpenseSummaryReport() {
         var search = $("#Search").val();
         var ExpenseType = $("#ExpenseType").val();
         var reporttype = "";
+
+        var unit = $("#Unit").val();
         if ($("#headwise").prop('checked')) {
                 reporttype = $("#headwise").val();
             }
@@ -198,7 +200,7 @@ function GetExpenseSummaryReport() {
      
        
         if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode ) {
-            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "ReportType": reporttype, "OrderBy": orderby, "accounthead": AccountHead, "subtype": Subtype, "employeeorother": Employeeorother, "employeecompany": Employeecompany, "search": search, "ExpenseType": ExpenseType };
+            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "ReportType": reporttype, "OrderBy": orderby, "accounthead": AccountHead, "subtype": Subtype, "employeeorother": Employeeorother, "employeecompany": Employeecompany, "search": search, "ExpenseType": ExpenseType,"Unit" :unit };
             var ds = {};
             ds = GetDataFromServer("Report/GetOtherExpenseSummary/", data);
             if (ds != '') {
@@ -381,6 +383,7 @@ function Reset() {
     $("#EmpCompany").val('ALL').trigger('change')
     $("#headwise").prop('checked', true).trigger('change');
     $("#ExpenseType").val('ALL').trigger('change')
+    $("#Unit").val('ALL').trigger('change');
     RefreshOtherExpenseSummaryAHTable();
 }
 

@@ -89,6 +89,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string Description { get; set; }
         public string ExpenseType { get; set; }
         public decimal ReversedAmount { get; set; }
+        public string Unit { get; set; }
     }
 
 
@@ -110,6 +111,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string Date { get; set; }
         public string RowType { get; set; }
         public string ExpenseType { get; set; }
+        public string Unit { get; set; }
     }
 
     public class OtherExpenseLimitedExpenseAdvanceSearch
@@ -123,6 +125,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string EmpCompany { get; set; }
         public string AccountHead { get; set; }
         public string SubType { get; set; }
+        public string Unit { get; set; }
     }
 
     public class CustomerContactDetailsReport
@@ -330,6 +333,7 @@ namespace SPAccounts.DataAccessObject.DTO
 
     {
         public string Date { get; set; }
+        public string PAYTYPE { get; set; }
         public string Type { get; set; }
         public string Ref { get; set; }
         public string Company { get; set; }
@@ -346,6 +350,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal Advance { get; set; }
         public Boolean InvoiceTypeAccess { get; set; }
         public string Search { get; set; }
+        
     }
 
 
@@ -539,6 +544,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal ReversedAmount { get; set; }
         public decimal PaidAmount { get; set; }
         public string Company { get; set; }
+        public string Unit { get; set; }
     }
 
     public class AccountHeadGroupDetailReport
@@ -559,6 +565,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public string PaymentDate { get; set; }
         public string Employee { get; set; }
         public string DocumentNo { get; set; }
+        public string Unit { get; set; }
+
     }
 
     public class AccountHeadGroupAdvanceSearch
@@ -570,6 +578,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string Search { get; set; }
         public string ExpenseType { get; set; }
         public string Employee { get; set; }
+        public string Unit { get; set; }
     }
     public class MonthWiseIncomeExpenseSummary
     {

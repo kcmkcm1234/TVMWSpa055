@@ -118,6 +118,11 @@ namespace UserInterface.Models
         [Display(Name = "Expense Type")]
         public string ExpenseType { get; set; }
         public decimal ReversedAmount { get; set; }
+        [Display(Name = "Unit")]
+        public string Unit { get; set; }
+        public List<CompaniesViewModel> UnitList { get; set; }
+        public List<SelectListItem> UnitLists { get; set; }
+
     }
 
 
@@ -157,6 +162,10 @@ namespace UserInterface.Models
         [Display(Name = "Expense Type")]
         public string ExpenseType { get; set; }
         public OtherExpenseLimitedExpenseAdvanceSearchViewModel OtherExpenseLEAdvSearch {get;set;}
+        [Display(Name = "Unit")]
+        public string Unit { get; set; }
+        public List<CompaniesViewModel> UnitList { get; set; }
+        public List<SelectListItem> UnitLists { get; set; }
     }
 
     public class OtherExpenseLimitedExpenseAdvanceSearchViewModel
@@ -174,6 +183,8 @@ namespace UserInterface.Models
         public string AccountHead { get; set; }
         [Display(Name = "Sub Type")]
         public string SubType { get; set; }
+        [Display(Name = "Unit")]
+        public string Unit { get; set; }
     }
 
     public class CustomerContactDetailsReportViewModel
@@ -520,6 +531,7 @@ namespace UserInterface.Models
     public class CustomerPaymentLedgerViewModel
     {
         public string Date { get; set; }
+        public string PAYTYPE { get; set; }
         public string Type { get; set; }
         public string Ref { get; set; }        
         public string CustomerName { get; set; }
@@ -545,6 +557,7 @@ namespace UserInterface.Models
         public decimal Advance { get; set; }
         public Boolean InvoiceTypeAccess { get; set; }
         public string Search { get; set; }
+        
     }
 
 
@@ -781,6 +794,8 @@ namespace UserInterface.Models
         public decimal PaidAmount { get; set; }
         public string Company { get; set; }
         public AccountHeadGroupAdvanceSearchViewModel accountAHGAdvanceSearchObj { get; set; }
+        public List<CompaniesViewModel> UnitList { get; set; }
+        public List<SelectListItem> UnitLists { get; set; }
     }
 
     public class AccountHeadGroupDetailReportViewModel
@@ -809,6 +824,10 @@ namespace UserInterface.Models
         public decimal ReversedAmount { get; set; }
         public string DocumentNo { get; set; }
         public AccountHeadGroupAdvanceSearchViewModel accountAHGAdvanceSearchObj { get; set; }
+        public string Unit { get; set; }
+        public List<CompaniesViewModel> UnitList { get; set; }
+        public List<SelectListItem> UnitLists { get; set; }
+
     }
 
     public class AccountHeadGroupAdvanceSearchViewModel
@@ -820,6 +839,8 @@ namespace UserInterface.Models
         public string Search { get; set; }
         public string ExpenseType { get; set; }
         public string Employee { get; set; }
+        [Display(Name = "Unit")]
+        public string Unit { get; set; }
     }
     public class MonthWiseIncomeExpenseSummaryViewModel
     {

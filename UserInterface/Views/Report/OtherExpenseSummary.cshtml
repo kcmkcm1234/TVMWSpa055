@@ -96,7 +96,14 @@
 
                 </div>
             </div>
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.Unit, htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-12">
+                @Html.DropDownListFor(model => model.Unit, Model.UnitLists, new { @class = "form-control BlockEnter", @onchange = "OnChangeCall()", value = -1, @style = "width:100%!imporant", @id = "Unit" })
+                @Html.ValidationMessageFor(model => model.Unit, "", new { @class = "text-danger" })
 
+            </div>
+        </div>
             <div class="col-md-3">
                 @Html.LabelFor(model => model.AccountHead, htmlAttributes: new { @class = "control-label" })
                 <div class="col-md-12">
@@ -129,22 +136,26 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="radio">
+                <div class="col-md-12">
+                    @*<div class="row">*@
+                        <div class="radio" >
                             <label>
                                 <input type="radio" name="GroupSelect" id="headwise" value="HeadWise" checked>
                                 Account head wise
                             </label>
                         </div>
-                        <div class="radio">
-                            <label>
-                                <input type="radio" name="GroupSelect" id="subtypewise" value="SubtypeWise">
-                                Sub type wise
-                            </label>
-                        </div>
                     </div>
                 </div>
+        <div class="col-md-3">
+            <div class="col-md-10">
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="GroupSelect" id="subtypewise" value="SubtypeWise">
+                        Sub type wise
+                    </label>
+                </div>
+                </div>
+                @*</div>*@
             </div>
 
 
