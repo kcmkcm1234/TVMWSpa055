@@ -207,7 +207,16 @@ function GetHtmlData()
             "Balance":{ "style": "width:150px;text-align: center;font-size:12px;border-bottom:2px solid grey;font-weight: 600;", "custom_name": "Balance" }
         },
         Row_color: { "Odd": "White", "Even": "white" },
-        Body_Column_style: { "Date": "font-size:11px;font-weight: 100;width:110px;", "Type": "font-size:11px;font-weight: 100;width:150px;", "Ref": "font-size:11px;font-weight: 100;width:150px;", "SupplierName": "font-size:11px;font-weight: 100;width:110px;", "Company": "font-size:11px;font-weight: 100;", "Debit": "text-align:right;font-size:11px;font-weight: 100;width:150px;", "Credit": "text-align:right;font-size:11px;font-weight: 100;width:150px;", "Balance": "text-align:right;font-size:11px;font-weight: 100;width:150px;" }
+        Body_Column_style: {
+            "Date": "font-size:11px;font-weight: 100;width:110px;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:30px",
+            "Type": "font-size:11px;font-weight: 100;width:150px;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:30px",
+            "Ref": "font-size:11px;font-weight: 100;width:150px;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:30px",
+            "SupplierName": "font-size:11px;font-weight: 100;width:110px;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:30px",
+            "Company": "font-size:11px;font-weight: 100;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:30px",
+            "Debit": "text-align:right;font-size:11px;font-weight: 100;width:150px;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:30px",
+            "Credit": "text-align:right;font-size:11px;font-weight: 100;width:150px;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:30px",
+            "Balance": "text-align:right;font-size:11px;font-weight: 100;width:150px;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:30px"
+        }
 
     });
     $('.balanceRowColor').parent('tr').css('background-color', '#d98cd9');

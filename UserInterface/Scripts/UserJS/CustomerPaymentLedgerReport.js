@@ -380,14 +380,14 @@ function GetHtmlData()
         },      
         Row_color: { "Odd": "White", "Even": " White" },
         Body_Column_style: {
-            "Date": "font-size:11px;font-weight: 100;width:10%;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:20x",
-            "PAYTYPE": "font-size:11px;font-weight: 100;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:20x",
-            "Ref": "font-size:11px;font-weight: 100;width:150px;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:20x",
-            "Company": "font-size:11px;font-weight: 100;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:20x",
-            "CustomerName": "font-size:11px;font-weight: 100;width:20%;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:20x",
-            "Debit": "text-align:right;font-size:11px;font-weight: 100;width:10%;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:20x",
-            "Credit": "text-align:right;font-size:11px;font-weight: 100;width:150px;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:20x",
-            "Balance": "text-align:right;font-size:11px;font-weight: 100;width:150px;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:20x",
+            "Date": "font-size:11px;font-weight: 100;width:10%;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:30px",
+            "PAYTYPE": "font-size:11px;font-weight: 100;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:30px",
+            "Ref": "font-size:11px;font-weight: 100;width:150px;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:30px",
+            "Company": "font-size:11px;font-weight: 100;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:30px",
+            "CustomerName": "font-size:11px;font-weight: 100;width:20%;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:30px",
+            "Debit": "text-align:right;font-size:11px;font-weight: 100;width:10%;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:30px",
+            "Credit": "text-align:right;font-size:11px;font-weight: 100;width:150px;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:30px",
+            "Balance": "text-align:right;font-size:11px;font-weight: 100;width:150px;border-bottom:2px solid;border-bottom-color: #e4dfdf;height:30px",
             
         }
     });
@@ -397,7 +397,9 @@ function GetHtmlData()
         var headerContent = $('#divHeader').html();
         $("#hdnContent").val(bodyContent);
         $('#hdnHeadContent').val("<h1></h1>");
-    
+        var CustomerName = "Customer : " + $("#CustomerCode option:selected").text();
+        $('#hdnCustomerName').val(CustomerName);
+
 }
 
 

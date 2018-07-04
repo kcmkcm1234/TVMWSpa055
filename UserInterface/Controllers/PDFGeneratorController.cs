@@ -89,7 +89,8 @@ namespace UserInterface.Controllers
             {
                 PdfWriter writer = PdfWriter.GetInstance(pdfDoc, memoryStream);
                 Footer footobj = new Footer();
-                footobj.imageURL=Server.MapPath("~/Content/images/logo.png");
+                footobj.imageURL=Server.MapPath("~/Content/images/header.png");
+                footobj.imgURL = Server.MapPath("~/Content/images/footer.jpg");
                 footobj.Header = XMLWorkerHelper.ParseToElementList(pDFToolsObj.Headcontent, null);
                 footobj.Tableheader = "\n" + "Customer Payment Ledger Report" + "\n";
                 writer.PageEvent = footobj;
@@ -135,85 +136,113 @@ namespace UserInterface.Controllers
                 bytes = memoryStream.ToArray();
                 memoryStream.Close();
             }
-            string fname = Path.Combine(Server.MapPath("~/Content/Uploads/"), "Report.pdf");
+            string fname = Path.Combine(Server.MapPath("~/Content/Uploads/"), "Customer Payment Ledger.pdf");
             System.IO.File.WriteAllBytes(fname, bytes);
             //File(bytes, "application/pdf", "Report.pdf").sa
             //bytes.SaveAs(fname);
-            return JsonConvert.SerializeObject(new { Result = "OK", URL = "../Content/Uploads/Report.pdf" });
+            return JsonConvert.SerializeObject(new { Result = "OK", URL = "../Content/Uploads/Customer Payment Ledger.pdf" });
 
         }
         public partial class Footer : PdfPageEventHelper
 
         {
             public string imageURL { get; set; }
-            public string Tableheader { get; set; }            
+            public string Tableheader { get; set; }
+            public string CustomerName { get; set; }
             public ElementList Header;
+            public string imgURL { get; set; }
             public override void OnEndPage(PdfWriter writer, Document doc)
 
             {
-                Paragraph footer = new Paragraph("Report Generated on: "+DateTime.Now.ToString("dd-MMM-yyyy h:mm tt"), FontFactory.GetFont(FontFactory.HELVETICA, 8, iTextSharp.text.Font.ITALIC));
-                footer.Alignment = Element.ALIGN_RIGHT;
+                var FontColour = new BaseColor(106,60,102);
+                string footer = ("Report Generated on: " + DateTime.Now.ToString("dd-MMM-yyyy h:mm tt"));            
+                iTextSharp.text.Image jpg = iTextSharp.text.Image.GetInstance(imgURL);
+                 jpg.ScaleToFit(800F, 900F);
+                Font myFont = FontFactory.GetFont(FontFactory.HELVETICA, 8, iTextSharp.text.Font.ITALIC, BaseColor.WHITE);
+                Paragraph foot = new Paragraph();
+                Phrase ph = new Phrase(footer, myFont);
+                foot.Add(ph);
+                PdfPCell cellImage = new PdfPCell(jpg);
+                cellImage.Border = 0;
+                cellImage.PaddingLeft = 0;
+                PdfPCell cell1 = new PdfPCell(foot);
+                cell1.HorizontalAlignment = Element.ALIGN_CENTER;
+                cell1.Border = 0;
+                cell1.PaddingRight = -15;
+               
+                cell1.PaddingTop =-25;
+     
                 PdfPTable footerTbl = new PdfPTable(1);
-                footerTbl.TotalWidth = 400;
-                footerTbl.HorizontalAlignment = Element.ALIGN_CENTER;
-                PdfPCell cell = new PdfPCell(footer);
-                cell.Border = 0;
-                cell.PaddingLeft = 10;
-                footerTbl.AddCell(cell);
-                footerTbl.WriteSelectedRows(0, -1,250, 30, writer.DirectContent);
+               footerTbl.TotalWidth = 1000;
 
+               
+                footerTbl.AddCell(cellImage);
+                footerTbl.AddCell(cell1);
+
+              
+                footerTbl.WriteSelectedRows(0, -1,0,45, writer.DirectContent);
+            
             }
             public override void OnStartPage(PdfWriter writer, Document document)
             {
                 iTextSharp.text.Image jpg = iTextSharp.text.Image.GetInstance(imageURL);
-                //Resize image depend upon your need
-                jpg.ScaleToFit(50f, 40f);
-                jpg.SpacingBefore = 10f;
-                jpg.SpacingAfter = 1f;
-                jpg.Alignment = Element.ALIGN_LEFT;
-                //jpg.SetAbsolutePosition(document.Left, document.Top - 60);
-                Font companyFont = FontFactory.GetFont(FontFactory.TIMES_BOLD, 14, iTextSharp.text.Font.BOLD);
-                Font documentFont = FontFactory.GetFont(FontFactory.TIMES, 14, iTextSharp.text.Font.BOLD);
-                //string companyName = "Santhi Plastic Private Limited" + "\n";
-                string documentName = Tableheader;
+                jpg.ScaleToFit(800F, 900F);
 
-                Chunk chunkHeader = new Chunk(documentName);
-                //chunkHeader.SetUnderline(1f, -6f);
-                //Add Chunk to paragraph
-                Paragraph header = new Paragraph(chunkHeader);
-                Chunk linebreak = new Chunk(new LineSeparator(1f, document.PageSize.Width, BaseColor.BLACK, Element.ALIGN_CENTER, -3f));
-                header.Add(linebreak);
+                var FontColour = new BaseColor(149, 76, 132);
+                var FontColour1 = new BaseColor(0, 100, 3);
 
-                //Phrase phraseCompanyName=new Phrase(companyName, companyFont);
-                Phrase phraseDocumentName = new Phrase(documentName, documentFont);
-                //header.Add(phraseCompanyName);
-               // header.Add(phraseDocumentName);
-                header.Alignment = Element.ALIGN_LEFT;
-                PdfPTable headerTbl = new PdfPTable(2);
-                headerTbl.TotalWidth = document.PageSize.Width;
-                //headerTbl.HeaderHeight = 60;
-                headerTbl.HorizontalAlignment = Element.ALIGN_LEFT;
-                float[] widths = new float[] { 180f, document.PageSize.Width - 100 };
-                headerTbl.SetWidths(widths);
-                PdfPCell cell = new PdfPCell(jpg);
-                cell.Border = 0;
-                cell.PaddingLeft = 10;
-                headerTbl.AddCell(cell);
-                PdfPCell cell1 = new PdfPCell(header);
-                cell1.Border = 0;
-                cell1.PaddingLeft = 50;
-                cell1.PaddingTop = 40;
-                //cell1.Width = document.PageSize.Width - 90;
-                headerTbl.AddCell(cell1);
-                ColumnText ct = new ColumnText(writer.DirectContent);
-                ct.SetSimpleColumn(new Rectangle(10, 790, 559, 600));
-                foreach (IElement e in Header)
+                PdfPTable headerSectionTbl = new PdfPTable(2);
+                headerSectionTbl.DefaultCell.Border = Rectangle.NO_BORDER;
+                float[] ColumnWidths = new float[] { 119.055F, document.PageSize.Width - 119.055F };
+                headerSectionTbl.SetWidths(ColumnWidths);
+                headerSectionTbl.TotalWidth = document.PageSize.Width;
+
+                PdfPTable headerSection = new PdfPTable(2);
+                headerSection.DefaultCell.Border = Rectangle.NO_BORDER;
+                float[] ColumnWidth = new float[] { 119.055F, document.PageSize.Width - 119.055F };
+                headerSection.SetWidths(ColumnWidths);
+                headerSection.TotalWidth = document.PageSize.Width;
+
+              
+                Font myFont = FontFactory.GetFont("OpenSans", 14, iTextSharp.text.Font.BOLD, BaseColor.WHITE);             
+                Font myFont2 = FontFactory.GetFont("OpenSans", 9, iTextSharp.text.Font.NORMAL, BaseColor.WHITE);
+               
+                string customer;
+                if (CustomerName == "Customer : ")
                 {
-                    ct.AddElement(e);
+                    customer = null;
                 }
-                ct.Go();
+                else
+                {
+                    customer = "\n" + CustomerName + "\n";
+                }
 
-                headerTbl.WriteSelectedRows(0, -1, 0, 832, writer.DirectContent);
+
+                string documentName = "\n" + Tableheader + "\n";
+              
+                Paragraph header = new Paragraph();
+                Paragraph header1 = new Paragraph();
+                Phrase ph1 = new Phrase(documentName, myFont);
+                Phrase ph2 = new Phrase(customer, myFont2);
+                header.Add(ph1);
+                header.Alignment = Element.ALIGN_LEFT;
+                header.Add(ph2);
+                header1.Alignment = Element.ALIGN_RIGHT;
+              
+                PdfPCell cellImage = new PdfPCell(jpg);
+                cellImage.Border = 0;
+                cellImage.PaddingLeft = 0;              
+                headerSectionTbl.AddCell(cellImage);
+                PdfPCell cell1 = new PdfPCell(header);
+                cell1.HorizontalAlignment = Element.ALIGN_RIGHT;
+                 cell1.Border = 0;
+                cell1.PaddingRight = 8.8425F;
+                 cell1.PaddingTop = -6;
+                headerSectionTbl.AddCell(cell1);               
+                headerSectionTbl.WriteSelectedRows(0, -1, 0, document.PageSize.Height, writer.DirectContent);
+                PdfContentByte contentByte = writer.DirectContent;
+
+             
             }
         }
 
@@ -229,8 +258,10 @@ namespace UserInterface.Controllers
                 PdfWriter writer = PdfWriter.GetInstance(pdfDoc, memoryStream);
 
                 Footer footobj = new Footer();
-                footobj.imageURL = Server.MapPath("~/Content/images/logo.png");
+                footobj.imageURL = Server.MapPath("~/Content/images/header.png");
+                footobj.imgURL = Server.MapPath("~/Content/images/footer.jpg");
                 footobj.Header = XMLWorkerHelper.ParseToElementList(pDFToolsObj.Headcontent, null);
+                footobj.CustomerName = pDFToolsObj.CustomerName;
                 footobj.Tableheader = pDFToolsObj.HeaderText;
                 writer.PageEvent = footobj;
 
@@ -276,14 +307,14 @@ namespace UserInterface.Controllers
                 bytes = memoryStream.ToArray();
                 memoryStream.Close();
             }
-            string fname = Path.Combine(Server.MapPath("~/Content/Uploads/"), "Report.pdf");
+            string fname = Path.Combine(Server.MapPath("~/Content/Uploads/"), "Customer Payment Ledger.pdf");
             System.IO.File.WriteAllBytes(fname, bytes);
             string contentType = "application/pdf";
             //Parameters to file are
             //1. The File Path on the File Server
             //2. The content type MIME type
             //3. The parameter for the file save by the browser
-            return File(fname, contentType, "Report.pdf");
+            return File(fname, contentType, "Customer Payment Ledger.pdf");
         }
        
     }

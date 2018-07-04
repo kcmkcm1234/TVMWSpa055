@@ -96,7 +96,7 @@ function DrawTable(options) {
                     if (keyCol == key) {
                         if (value === null)
                         {
-                            html = html + '<td></td>'
+                            html = html + '<td style="border-bottom:2px solid;border-bottom-color: #e4dfdf;height:30px"></td>'
                         }
                         else
                         {
@@ -108,7 +108,7 @@ function DrawTable(options) {
                 if (PerformedCol == 0)
                 {
                     if (value === null) {
-                        html = html + '<td></td>'
+                        html = html + '<td style="border-bottom:2px solid;border-bottom-color: #e4dfdf;height:30px"></td>'
                     }
                     else
                     {
