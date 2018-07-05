@@ -407,6 +407,8 @@ namespace SPAccounts.RepositoryServices.Services
                                         CIList.suppliersObj.ID = Guid.Parse(sdr["ID"].ToString());
                                         CIList.suppliersObj.ContactPerson = sdr["ContactPerson"].ToString();
                                         CIList.suppliersObj.CompanyName = sdr["CompanyName"].ToString();
+                                        CIList.companiesObj = new Companies();
+                                        CIList.companiesObj.Name= sdr["Name"].ToString();
                                         CIList.PaymentDueDate = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()) : CIList.PaymentDueDate);
                                         CIList.BalanceDue = (sdr["BalanceDue"].ToString() != "" ? Decimal.Parse(sdr["BalanceDue"].ToString()) : CIList.BalanceDue);
                                         CIList.PaidAmount = (sdr["PaidAmount"].ToString() != "" ? Decimal.Parse(sdr["PaidAmount"].ToString()) : CIList.PaidAmount);

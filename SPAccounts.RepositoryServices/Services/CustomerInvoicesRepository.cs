@@ -598,6 +598,8 @@ namespace SPAccounts.RepositoryServices.Services
                                         CIList.customerObj.ID = Guid.Parse(sdr["CustomerID"].ToString());
                                         CIList.customerObj.ContactPerson = sdr["ContactPerson"].ToString();
                                         CIList.customerObj.CompanyName = sdr["CompanyName"].ToString();
+                                        CIList.companiesObj = new Companies();
+                                        CIList.companiesObj.Name = sdr["Name"].ToString();
                                         CIList.PaymentDueDate = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()) : CIList.PaymentDueDate);
                                         CIList.BalanceDue = (sdr["BalanceDue"].ToString() != "" ? Decimal.Parse(sdr["BalanceDue"].ToString()) : CIList.BalanceDue);
                                         CIList.PaidAmount=(sdr["PaidAmount"].ToString()!=""?Decimal.Parse(sdr["PaidAmount"].ToString()):CIList.PaidAmount);
