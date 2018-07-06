@@ -420,8 +420,9 @@ function GetOtherExpenseDetailsReport(rowData) {
             var Employeeorother = $("#Employee").val();
         var Employeecompany = $("#EmpCompany").val();
         var ExpenseType = $("#ExpenseType").val();
+        var unit = $("#Unit").val();
         if (IsVaildDateFormat(fromdate) && IsVaildDateFormat(todate) && companycode) {
-            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "accounthead": AccountHead, "subtype": Subtype, "employeeorother": Employeeorother, "employeecompany": Employeecompany, "ExpenseType": ExpenseType };
+            var data = { "FromDate": fromdate, "ToDate": todate, "CompanyCode": companycode, "accounthead": AccountHead, "subtype": Subtype, "employeeorother": Employeeorother, "employeecompany": Employeecompany, "ExpenseType": ExpenseType, "Unit": unit };
             var ds = {};
             ds = GetDataFromServer("Report/GetOtherExpenseDetailsReport/", data);
             if (ds != '') {
