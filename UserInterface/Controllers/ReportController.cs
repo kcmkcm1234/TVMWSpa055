@@ -15,11 +15,21 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using UserInterface.Models;
+using SAMTool.BusinessServices.Contracts;
+using SAMTool.DataAccessObject.DTO;
+using Microsoft.Practices.Unity;
 
 namespace UserInterface.Controllers
 {
     public class ReportController : Controller
     {
+
+        public string LoggedUserName { get; set; }
+        public string ProjectObject { get; set; }
+        public string Mode { get; set; }
+        [Dependency]
+        public IUserBusiness _userBusiness { get; set; }
+
         AppConst c = new AppConst();
         IReportBusiness _reportBusiness;
         ICustomerBusiness _customerBusiness;
@@ -87,8 +97,22 @@ namespace UserInterface.Controllers
         public ActionResult Index()
         {
             AppUA _appUA= Session["AppUA"] as AppUA;
+        
+            LoggedUserName = _appUA.UserName;
             List<SystemReportViewModel> systemReportList = Mapper.Map<List<SystemReport>, List<SystemReportViewModel>>(_reportBusiness.GetAllSysReports(_appUA));
             systemReportList = systemReportList != null ? systemReportList.OrderBy(s => s.GroupOrder).ToList() : null;
+            foreach (SystemReportViewModel item in systemReportList)
+            {
+                Permission _permission = _userBusiness.GetSecurityCode(LoggedUserName, item.SecurityObject);
+
+                if(_permission.AccessCode.Contains('R'))
+                {
+                    item.HasAccess = true;
+                }
+               
+
+            }
+            
             return View(systemReportList);
         }
 

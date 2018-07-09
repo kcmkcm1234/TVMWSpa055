@@ -23,13 +23,14 @@
                 @{
                     if (Model != null)
                     {
-                        foreach (SystemReportViewModel svm in Model.GroupBy(elem => elem.GroupOrder).Select(group => group.First()))
+                        foreach (SystemReportViewModel svm in Model.Where(s => s.HasAccess).GroupBy(elem => elem.GroupOrder).Select(group => group.First()))
                         {
-
+                           
                             <div class="col-md-12">
-                                <div class="col-md-12 headSeperator" style="margin-left:0%;width:100%;"><i class="fa fa-th ig-yellow" aria-hidden="true"></i> @svm.ReportGroup</div>
-                               @foreach (SystemReportViewModel subsvm in Model.Where(s => s.GroupOrder == svm.GroupOrder).OrderBy(os => os.ReportOrder))
-                               {
+                                <div class="col-md-12 headSeperator" style="margin-left:0%;width:100%;"><i class="fa fa-th ig-yellow" aria-hidden="true"></i> @svm.ReportGroup</div>                            
+                               @foreach (SystemReportViewModel subsvm in Model.Where(s => s.GroupOrder == svm.GroupOrder && s.HasAccess ).OrderBy(os => os.ReportOrder))
+                               { 
+
                                 <div class="col-md-12 ReportRows" title="@subsvm.ReportDescription">
                                     <div class="col-md-5 ">
                                         <h5 > @subsvm.ReportName </h5>

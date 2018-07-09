@@ -55,6 +55,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         _ReportObj.ReportOrder = (sdr["ReportOrder"].ToString() != "" ? int.Parse(sdr["ReportOrder"].ToString()) : _ReportObj.ReportOrder);
                                         _ReportObj.ReportGroup = (sdr["ReportGroup"].ToString() != "" ? sdr["ReportGroup"].ToString() : _ReportObj.ReportGroup);
                                         _ReportObj.GroupOrder= (sdr["GroupOrder"].ToString() != "" ? int.Parse(sdr["GroupOrder"].ToString()) : _ReportObj.GroupOrder);
+                                        _ReportObj.SecurityObject = (sdr["SecurityObjName"].ToString() != "" ? (sdr["SecurityObjName"].ToString()) : _ReportObj.SecurityObject);
                                     }
                                     Reportlist.Add(_ReportObj);
                                 }

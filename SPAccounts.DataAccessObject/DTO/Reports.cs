@@ -20,6 +20,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string SPName { get; set; }
         public string SQL { get; set; }
         public int ReportOrder { get; set; }
+        public string SecurityObject { get; set; }
     }
 
     public class SaleSummary
