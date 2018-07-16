@@ -10,12 +10,13 @@ using UserInterface.Models;
 using AutoMapper;
 using SPAccounts.DataAccessObject.DTO;
 using SPAccounts.BusinessService.Contracts;
+using Microsoft.Practices.Unity;
 
 namespace UserInterface.Controllers
 {
     public class DashboardController : Controller
     {
-
+        
         #region Constructor_Injection 
 
         AppConst c = new AppConst();
@@ -24,15 +25,19 @@ namespace UserInterface.Controllers
         ICustomerInvoicesBusiness _customerInvoiceBusiness;
         ISupplierInvoicesBusiness _supplierInvoicesBusiness;
         ICommonBusiness _commonBusiness;
+        private IDynamicUIBusiness _dynamicUIBusiness;
+        [Dependency]
+        public IUserBusiness _userBusiness { get; set; }
+        public string LoggedUserName { get; set; }
 
-        public DashboardController(IDashboardBusiness dashboardBusiness, IOtherExpenseBusiness otherExpenseBusiness, ICustomerInvoicesBusiness customerInvoiceBusiness, ISupplierInvoicesBusiness supplierInvoicesBusiness, ICommonBusiness commonBusiness)
+        public DashboardController(IDashboardBusiness dashboardBusiness, IOtherExpenseBusiness otherExpenseBusiness, ICustomerInvoicesBusiness customerInvoiceBusiness, ISupplierInvoicesBusiness supplierInvoicesBusiness, ICommonBusiness commonBusiness, IDynamicUIBusiness dynamicUIBusiness)
         {
             _dashboardBusiness = dashboardBusiness;
             _otherExpenseBusiness = otherExpenseBusiness;
             _customerInvoiceBusiness = customerInvoiceBusiness;
             _supplierInvoicesBusiness = supplierInvoicesBusiness;
             _commonBusiness = commonBusiness;
-
+            _dynamicUIBusiness = dynamicUIBusiness;
         }
         #endregion Constructor_Injection 
 
@@ -42,13 +47,30 @@ namespace UserInterface.Controllers
         public ActionResult Index()
         {
             AppUA _appUA = Session["AppUA"] as AppUA;
-         
+            
             if (("," +_appUA.RolesCSV+ ",").Contains(",SAdmin,") || _appUA.RolesCSV.Contains("CEO"))
             {
                 return RedirectToAdminDashboard();
             }
             else {
-                return View();
+                LoggedUserName = _appUA.UserName;
+                DynamicUIViewModel dUIObj = new DynamicUIViewModel();
+                List<Menu> menulist = _dynamicUIBusiness.GetAllMenues();
+                dUIObj.MenuViewModelList = Mapper.Map<List<Menu>, List<MenuViewModel>>(menulist);
+                foreach (MenuViewModel item in dUIObj.MenuViewModelList)
+                {
+                    if (item.SecurityObject != null)
+                    {
+                        Permission _permission = _userBusiness.GetSecurityCode(LoggedUserName, item.SecurityObject);
+
+                        if (_permission.AccessCode.Contains('R'))
+                        {
+                            item.HasAccess = true;
+                        }
+                    }
+
+                }
+                    return View(dUIObj);
             }
             
         }

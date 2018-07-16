@@ -1,8 +1,9 @@
-﻿@using UserInterface.App_Start
+﻿@model UserInterface.Models.DynamicUIViewModel
+@using UserInterface.App_Start
 @{
     ViewBag.Title = "Dashboard";
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
-    ViewBag.path= "Home / " + ViewBag.Title;
+    ViewBag.path = "Home / " + ViewBag.Title;
 }
 <div style="width:100%;">
     <ol class="breadcrumb">
@@ -26,46 +27,71 @@
 <div class="col-md-12">
     &nbsp;
 </div>
+
 <div class="col-md-12 ">
+
     @{
-        var data3 = new { Company = "All" };
-        @Html.Action("RecentCustomerInvoice", "Dashboard", data3);
+        //To check access permission for display
+        if ((Model.MenuViewModelList.Where(s => s.SecurityObject == "CustomerInvoices" && s.HasAccess)).Count()!=0){
+            var data3 = new { Company = "All" };
+            @Html.Action("RecentCustomerInvoice", "Dashboard", data3);
+        }
     }
 
     @{
-        var data4 = new { Company = "All" };
-        @Html.Action("RecentCustomerPayments", "Dashboard", data4);
+        //To check access permission for display
+        if ((Model.MenuViewModelList.Where(s => s.SecurityObject == "CustomerPayments" && s.HasAccess)).Count() != 0)
+        {
+            var data4 = new { Company = "All" };
+            @Html.Action("RecentCustomerPayments", "Dashboard", data4);
+            }
+    }
+
+</div>
+       
+
+
+<div class="col-md-12 ">
+    @{
+        //To check access permission for display
+        if ((Model.MenuViewModelList.Where(s => s.SecurityObject == "OtherIncome" && s.HasAccess)).Count() != 0)
+        {
+            var data7 = new { Company = "All" };
+            @Html.Action("RecentOtherIncome", "Dashboard", data7);
+            }
+    }
+
+    @{
+        //To check access permission for display
+        if ((Model.MenuViewModelList.Where(s => s.SecurityObject == "OtherExpense" && s.HasAccess)).Count() != 0)
+        {
+            var data8 = new { Company = "All" };
+            @Html.Action("RecentOtherExpense", "Dashboard", data8);
+        }
     }
 
 </div>
 
- 
-
-<div class="col-md-12 ">
-    @{
-        var data7 = new { Company = "All" };
-        @Html.Action("RecentOtherIncome", "Dashboard", data7);
-    }
-
-    @{
-        var data8 = new { Company = "All" };
-        @Html.Action("RecentOtherExpense", "Dashboard", data8);
-    }
-
-</div>
-
 
 
 
 <div class="col-md-12 ">
     @{
-        var data9 = new { Company = "All" };
-        @Html.Action("RecentSupplierInvoice", "Dashboard", data9);
+        //To check access permission for display
+        if ((Model.MenuViewModelList.Where(s => s.SecurityObject == "SupplierInvoices" && s.HasAccess)).Count() != 0)
+        {
+            var data9 = new { Company = "All" };
+            @Html.Action("RecentSupplierInvoice", "Dashboard", data9);
+            }
     }
 
     @{
-        var data10 = new { Company = "All" };
-        @Html.Action("RecentSupplierPayments", "Dashboard", data10);
+        //To check access permission for display
+        if ((Model.MenuViewModelList.Where(s => s.SecurityObject == "SupplierPayments" && s.HasAccess)).Count() != 0)
+        {
+            var data10 = new { Company = "All" };
+            @Html.Action("RecentSupplierPayments", "Dashboard", data10);
+            }
     }
 
 </div>

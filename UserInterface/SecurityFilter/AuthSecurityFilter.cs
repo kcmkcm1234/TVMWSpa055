@@ -117,8 +117,11 @@ namespace SPAccounts.UserInterface.SecurityFilter
 
         public void OnAuthorization(AuthorizationContext filterContext)
         {
-             Permission _permission =null;
-            _permission = _userBusiness.GetSecurityCode(LoggedUserName, ProjectObject);
+            Permission _permission = (Permission)filterContext.HttpContext.Session["UserRights"] == null ? new Permission() : (Permission)filterContext.HttpContext.Session["UserRights"];
+            if (_permission.Name != ProjectObject)
+            {
+                _permission = _userBusiness.GetSecurityCode(LoggedUserName, ProjectObject);
+            }
             if (_permission.AccessCode.Contains(Mode))
             {
                 //Allows Permission
