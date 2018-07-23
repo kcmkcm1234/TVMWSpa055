@@ -2960,7 +2960,277 @@ namespace UserInterface.Controllers
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
             }
         }
-       
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoicesRegister", Mode = "R")]
+        public ActionResult CustomerInvoiceRegister(string id,string isDashboard)
+        {
+            CustomerInvoiceRegisterListViewModel result = new CustomerInvoiceRegisterListViewModel();
+            Permission permission = Session["UserRights"] as Permission;
+            string permissionAccess = permission.SubPermissionList.Where(li => li.Name == "InvoiceTypeAccess").First().AccessCode;
+
+            if (permissionAccess.Contains("R") || permissionAccess.Contains("W"))
+            {
+                result.InvoiceTypeAccess = true;
+            }
+            else
+            {
+                result.InvoiceTypeAccess = false;
+            }
+
+            ViewBag.Dashboard = isDashboard;
+            AppUA appUA = Session["AppUA"] as AppUA;
+            DateTime dt = appUA.DateTime;
+            ViewBag.todate = dt.ToString("dd-MMM-yyyy");
+
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+           // selectListItem.Add(new SelectListItem { Text = "--Select--", Value = "ALL", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "All OverDue", Value = "ALL", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "All Outstanding", Value = "ALLOutstanding", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "Coming Week", Value = "ThisWeek", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "Today", Value = "Today", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "1-30 Days", Value = "1To30", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "31-60 Days", Value = "31To60", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "61-90 Days", Value = "61To90", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "90 Above", Value = "90Above", Selected = false });
+
+            if (id == null || id == "")
+            {
+                var selected = selectListItem.Where(x => x.Value == "ALL").First();
+                selected.Selected = true;
+            }
+            else
+            {
+                try
+                {
+                    var selected = selectListItem.Where(x => x.Value == id).First();
+                    selected.Selected = true;
+                }
+                catch (Exception)
+                {
+                    result.Filter = "ALL";
+                }
+
+            }
+            result.BasicFilters = selectListItem;
+            selectListItem = new List<SelectListItem>();
+            result.customerObj = new CustomerViewModel();
+            List<CustomerViewModel> customerList = Mapper.Map<List<Customer>, List<CustomerViewModel>>(_customerBusiness.GetAllCustomers());
+            if (customerList != null)
+            {
+                //selectListItem.Add(new SelectListItem
+                //{
+                //    Text = "All",
+                //    Value = "ALL",
+                //    Selected = true
+                //});
+
+                foreach (CustomerViewModel customerVM in customerList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = customerVM.CompanyName,
+                        Value = customerVM.ID.ToString(),
+                        Selected = false
+                    });
+                }
+            }
+            result.customerObj.CustomerList = selectListItem;
+
+            selectListItem = new List<SelectListItem>();
+            result.companyObj = new CompaniesViewModel();
+            List<CompaniesViewModel> companiesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_otherExpenseBusiness.GetAllCompanies());
+            if (companiesList != null)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "All",
+                    Value = "ALL",
+                    Selected = true
+                });
+
+                foreach (CompaniesViewModel companiesVM in companiesList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = companiesVM.Name,
+                        Value = companiesVM.Name.ToString(),
+                        Selected = false
+                    });
+                }
+            }
+            result.companyObj.CompanyList = selectListItem;
+            return View(result);
+        }
+
+
+        //[AuthSecurityFilter(ProjectObject = "AgeingReport", Mode = "R")]
+        //public string GetCustomerInvoiceRegister( string Filter, string Company, string[] Customer, string InvoiceType,string Search)
+        //{
+
+        //    try
+        //    {
+        //      //  DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
+        //        CustomerInvoiceRegisterListViewModel result = new CustomerInvoiceRegisterListViewModel();
+        //        result.CustomerInvoiceRegisterList = Mapper.Map<List<CustomerInvoiceRegisterReport>, List<CustomerInvoiceRegisterViewModel>>(_reportBusiness.GetCustomerInvoiceRegister( Filter, Company, Customer != null ? String.Join(",", Customer) : "ALL", InvoiceType,Search));
+        //        return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+        //    }
+
+        //    //return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "Date is required" });
+        //}
+        [HttpGet]
+         [AuthSecurityFilter(ProjectObject = "CustomerInvoicesRegister", Mode = "R")]
+        public string GetCustomerInvoiceRegister(string CustomerInvoiceRegisterAdvanceSearchSearchObject)
+        {
+
+
+            try
+            {
+                CustomerInvoiceRegisterAdvanceSearchViewModel customerInvoiceRegisterObj = CustomerInvoiceRegisterAdvanceSearchSearchObject != null ? JsonConvert.DeserializeObject<CustomerInvoiceRegisterAdvanceSearchViewModel>(CustomerInvoiceRegisterAdvanceSearchSearchObject) : new CustomerInvoiceRegisterAdvanceSearchViewModel();
+
+                CustomerInvoiceRegisterListViewModel result = new CustomerInvoiceRegisterListViewModel();
+                result.CustomerInvoiceRegisterList = Mapper.Map<List<CustomerInvoiceRegisterReport>, List<CustomerInvoiceRegisterViewModel>>(_reportBusiness.GetCustomerInvoiceRegister(Mapper.Map<CustomerInvoiceRegisterAdvanceSearchViewModel, CustomerInvoiceRegisterAdvanceSearch>(customerInvoiceRegisterObj)));
+
+                
+                
+                    decimal invoiceAmount = result.CustomerInvoiceRegisterList.Where(SS => SS.RowType != "1000").Sum(SS => SS.InvoiceAmount);
+                    decimal paidAmount = result.CustomerInvoiceRegisterList.Where(SS => SS.RowType != "1000").Sum(SS => SS.PaidAmount);
+                    decimal balAmount = result.CustomerInvoiceRegisterList.Where(SS => SS.RowType != "1000").Sum(SS => SS.Amount);
+                    string invoiceAmountSumFormatted = _commonBusiness.ConvertCurrency(invoiceAmount, 2);
+                    string paidAmountSumFormatted = _commonBusiness.ConvertCurrency(paidAmount, 2);
+                    string balAmountSumFormatted = _commonBusiness.ConvertCurrency(balAmount, 2);
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = result,InvAmt=invoiceAmountSumFormatted,paidAmount=paidAmountSumFormatted,balAmount=balAmountSumFormatted });
+
+
+               
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+            }
+        }
+
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoicesRegister", Mode = "R")]
+        public ActionResult SupplierInvoiceRegister(string id, string isDashboard)
+        {
+
+            AppUA appUA = Session["AppUA"] as AppUA;
+            DateTime dt = appUA.DateTime;
+            ViewBag.todate = dt.ToString("dd-MMM-yyyy");
+            ViewBag.Dashboard = isDashboard;
+
+            SupplierInvoiceRegisterListViewModel result = new SupplierInvoiceRegisterListViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            selectListItem.Add(new SelectListItem { Text = "All OverDue", Value = "ALL", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "All Outstanding", Value = "ALLOutstanding", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "Coming Week", Value = "ThisWeek", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "Today", Value = "Today", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "1-30 Days", Value = "1To30", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "31-60 Days", Value = "31To60", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "61-90 Days", Value = "61To90", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "90 Above", Value = "90Above", Selected = false });
+
+            if (id == null || id == "")
+            {
+                var selected = selectListItem.Where(x => x.Value == "ALL").First();
+                selected.Selected = true;
+            }
+            else
+            {
+                try
+                {
+                    var selected = selectListItem.Where(x => x.Value == id).First();
+                    selected.Selected = true;
+                }
+                catch (Exception)
+                {
+
+                    result.Filter = "ALL";
+                }
+            }
+
+            result.BasicFilters = selectListItem;
+
+            selectListItem = new List<SelectListItem>();
+            result.companyObj = new CompaniesViewModel();
+            List<CompaniesViewModel> companiesList = Mapper.Map<List<Companies>, List<CompaniesViewModel>>(_otherExpenseBusiness.GetAllCompanies());
+            if (companiesList != null)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = "All",
+                    Value = "ALL",
+                    Selected = true
+                });
+
+                foreach (CompaniesViewModel companiesVM in companiesList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = companiesVM.Name,
+                        Value = companiesVM.Name.ToString(),
+                        Selected = false
+                    });
+                }
+            }
+            result.companyObj.CompanyList = selectListItem;
+
+            result.supplierObj = new SuppliersViewModel();
+            selectListItem = new List<SelectListItem>();
+            List<SuppliersViewModel> supplierList = Mapper.Map<List<Supplier>, List<SuppliersViewModel>>(_supplierBusiness.GetAllSuppliers());
+            if (supplierList != null)
+            {
+                //selectListItem.Add(new SelectListItem
+                //{
+                //    Text = "All",
+                //    Value = "ALL",
+                //    Selected = true
+                //});
+                foreach (SuppliersViewModel supplierVM in supplierList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = supplierVM.CompanyName,
+                        Value = supplierVM.ID.ToString(),
+                        Selected = false
+                    });
+                }
+            }
+            result.supplierObj.SupplierList = selectListItem;
+            return View(result);
+ 
+        }
+        public string GetSupplierInvoiceRegister(string SupplierInvoiceRegisterSearchObject)
+        {
+
+
+            try
+            {
+                AppUA appUA = Session["AppUA"] as AppUA;
+                SupplierInvoiceRegisterAdvanceSearch supplierAdvanceSearchObj = SupplierInvoiceRegisterSearchObject != null ? JsonConvert.DeserializeObject<SupplierInvoiceRegisterAdvanceSearch>(SupplierInvoiceRegisterSearchObject) : new SupplierInvoiceRegisterAdvanceSearch();
+             
+                //DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
+                SupplierInvoiceRegisterListViewModel result = new Models.SupplierInvoiceRegisterListViewModel();
+                result.SupplierInvoiceRegisterList = Mapper.Map<List<SupplierInvoiceRegisterReport>, List<SupplierInvoiceRegisterReportViewModel>>(_reportBusiness.GetSupplierInvoiceRegister(supplierAdvanceSearchObj)); //(TDate, Filter,Company,Supplier));
+                
+
+                decimal invoiceAmount = result.SupplierInvoiceRegisterList.Where(SS => SS.RowType != "1000").Sum(SS => SS.InvoiceAmount);
+                decimal paidAmount = result.SupplierInvoiceRegisterList.Where(SS => SS.RowType != "1000").Sum(SS => SS.PaidAmount);
+                decimal balAmount = result.SupplierInvoiceRegisterList.Where(SS => SS.RowType != "1000").Sum(SS => SS.Amount);
+                string invoiceAmountSumFormatted = _commonBusiness.ConvertCurrency(invoiceAmount, 2);
+                string paidAmountSumFormatted = _commonBusiness.ConvertCurrency(paidAmount, 2);
+                string balAmountSumFormatted = _commonBusiness.ConvertCurrency(balAmount, 2);
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result, InvAmt = invoiceAmountSumFormatted, paidAmount = paidAmountSumFormatted, balAmount = balAmountSumFormatted });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+            }
+            
+        }
 
         #region ButtonStyling
         [HttpGet]

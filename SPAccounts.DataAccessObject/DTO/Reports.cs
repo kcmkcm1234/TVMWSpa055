@@ -460,8 +460,44 @@ namespace SPAccounts.DataAccessObject.DTO
         public Customer CustomerObj { get; set; }
         public string PaymentDueDate { get; set; }
     }
-
-
+    public class CustomerInvoiceRegisterReport
+    {
+        public string CustomerName { get; set; }
+        public string CustomerName1 { get; set; }
+        public string ContactNo { get; set; }
+        public string LandLine { get; set; }
+        public string Mobile { get; set; }
+        public string OtherPhoneNos { get; set; }
+        public string InvoiceNo { get; set; }
+        public string InvoiceDate { get; set; }
+        public Decimal Amount { get; set; }
+        
+        public string Remarks { get; set; }
+        public CustomerContactDetailsReport customerContactObj { get; set; }
+        public Companies CompanyObj { get; set; }
+        public Customer CustomerObj { get; set; }
+        public string PaymentDueDate { get; set; }
+        public string OverDue { get; set; }
+        public string Cr { get; set; }
+        public string Age { get; set; }
+        public Decimal InvoiceAmount { get; set; }
+        public Decimal PaidAmount { get; set; }
+        // public string OverDue { get; set; }
+        public string Search { get; set; }
+        public string RowType { get; set; }
+        public string Type { get; set; }
+        public CustomerInvoiceRegisterAdvanceSearch CustInvRegAdvSearch { get; set; }
+    }
+    public class CustomerInvoiceRegisterAdvanceSearch
+    {
+        public string ToDate { get; set; }
+        public string Filter { get; set; }
+        public List<string> Customer { get; set; }
+        public string Company { get; set; }
+        public string InvoiceType { get; set; }
+        public string Search { get; set; }
+        public string ReportType { get; set; }
+    }
     public class SupplierExpeditingReport
     {
         public string SupplierName { get; set; }
@@ -480,8 +516,45 @@ namespace SPAccounts.DataAccessObject.DTO
         public Supplier SupplierObj { get; set; }
 
     }
+    public class SupplierInvoiceRegisterReport
+    {
+        public string SupplierName { get; set; }
+        public string SupplierName1 { get; set; }
+        public string LandLine { get; set; }
+        public string ContactNo { get; set; }
+        public string Mobile { get; set; }
+        public string OtherPhoneNos { get; set; }
+        public string InvoiceNo { get; set; }
+        public string InvoiceDate { get; set; }
+        public Decimal Amount { get; set; }
+        public string NoOfDays { get; set; }
+        public string Remarks { get; set; }
+        public SupplierContactDetailsReport SupplierContactObj { get; set; }
+        public Companies CompanyObj { get; set; }
+        public Supplier SupplierObj { get; set; }
+        public string OverDue { get; set; }
+        public string Cr { get; set; }
+        public string Age { get; set; }
+        public Decimal InvoiceAmount { get; set; }
+        public Decimal PaidAmount { get; set; }
+        // public string OverDue { get; set; }
+        public string Search { get; set; }
+        public string RowType { get; set; }
+        public string Type { get; set; }
 
+        public string PaymentDueDate { get; set; }
+    }
 
+    public class SupplierInvoiceRegisterAdvanceSearch
+    {
+        public string ToDate { get; set; }
+        public string Filter { get; set; }
+        public List<string> Supplier { get; set; }
+        public string Company { get; set; }
+        public string InvoiceType { get; set; }
+        public string Search { get; set; }
+        public string ReportType { get; set; }
+    }
     public class ReportAdvanceSearch
     {
         public string ToDate { get; set; }
@@ -494,6 +567,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string CompanyCode { get; set; }
         public string[] SupplierIDs { get; set; }
         public string Search { get; set; }
+        public string ReportType { get; set; }
     }
 
     public class FollowupReportAdvanceSearch

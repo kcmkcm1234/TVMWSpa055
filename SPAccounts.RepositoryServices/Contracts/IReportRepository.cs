@@ -36,9 +36,12 @@ namespace SPAccounts.RepositoryServices.Contracts
         List<OtherIncomeSummaryReport> GetOtherIncomeSummary(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string accounthead, string subtype, string employeeorother, string search);
         List<OtherIncomeDetailsReport> GetOtherIncomeDetails(DateTime? FromDate, DateTime? ToDate, string CompanyCode, string accounthead, string subtype, string employeeorother, string search);
         List<DailyLedgerReport> GetDailyLedgerDetails(DateTime? FromDate, DateTime? ToDate, DateTime? Date, string MainHead, string search,string Bank);
-        List<CustomerExpeditingReport> GetCustomerExpeditingDetail(DateTime? ToDate,string Filter,string Company,string Customer,string InvoiceType);        
-       // List<SupplierExpeditingReport> GetSupplierExpeditingDetail(DateTime? ToDate, string Filter,string Company,string Supplier);
+        List<CustomerExpeditingReport> GetCustomerExpeditingDetail(DateTime? ToDate,string Filter,string Company,string Customer,string InvoiceType);
+        //List<CustomerInvoiceRegisterReport> GetCustomerInvoiceRegister( string Filter, string Company, string Customer, string InvoiceType, string Search);
+        List<CustomerInvoiceRegisterReport> GetCustomerInvoiceRegister(CustomerInvoiceRegisterAdvanceSearch CustomerInvoiceRegisterAdvanceSearchSearchObject);
+        // List<SupplierExpeditingReport> GetSupplierExpeditingDetail(DateTime? ToDate, string Filter,string Company,string Supplier);
         List<SupplierExpeditingReport> GetSupplierExpeditingDetail(ReportAdvanceSearch advanceSearchObject);
+        List<SupplierInvoiceRegisterReport> GetSupplierInvoiceRegister(SupplierInvoiceRegisterAdvanceSearch advanceSearchObject);
         List<TrialBalance> GetTrialBalanceReport(DateTime? Date);
         List<FollowupReport> GetFollowupReport(FollowupReportAdvanceSearch advanceSearchObject);
         List<AccountHeadGroupReport> GetOtherExpenseAccountHeadGroupSummaryReport(AccountHeadGroupAdvanceSearch accountHeadGroupSummaryAdvanceSearchObject);

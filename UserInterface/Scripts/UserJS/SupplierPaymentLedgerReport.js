@@ -192,6 +192,7 @@ function DownloadReport()
 //To download file in PDF
 function GetHtmlData()
 {
+    
     DrawTable({
         Action: "Report/GetSupplierPaymentLedger/",
         data: { "FromDate": $('#fromdate').val(), "ToDate": $('#todate').val(), "Suppliercode": $('#supplierCode').val(), "Company": $('#companyCode').val(), "InvoiceType": $('#ddlInvoiceType').val() },
@@ -219,11 +220,14 @@ function GetHtmlData()
         }
 
     });
+    debugger;
     $('.balanceRowColor').parent('tr').css('background-color', '#d98cd9');
     var bodyContent = $('#customtbl').html();
     var headerContent = $('#divHeader').html();
     $("#hdnContent").val(bodyContent);
     $('#hdnHeadContent').val("<h1></h1>");
+    var SupplierName = "Supplier : " + $("#supplierCode option:selected").text();
+    $('#hdnSupplierName').val(SupplierName);
 }
 
 

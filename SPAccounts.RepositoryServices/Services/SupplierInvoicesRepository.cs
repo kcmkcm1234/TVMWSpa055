@@ -768,7 +768,7 @@ namespace SPAccounts.RepositoryServices.Services
                         }
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[GetSupplierInvAgeingSummary]";
-                        cmd.Parameters.Add("@OnDate", SqlDbType.Date).Value = C.GetCurrentDateTime().Date; ;
+                        cmd.Parameters.Add("@OnDate", SqlDbType.Date).Value = C.GetCurrentDateTime().Date;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {

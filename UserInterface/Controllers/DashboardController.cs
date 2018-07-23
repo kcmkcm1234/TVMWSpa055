@@ -206,9 +206,9 @@ namespace UserInterface.Controllers
 
             Result.CustInvAgeSummary = Mapper.Map<CustomerInvoiceAgeingSummary, CustomerInvoiceAgeingSummaryViewModel>(_customerInvoiceBusiness.GetCustomerInvoicesAgeingSummary());
             Result.SuppInvAgeSummary = Mapper.Map<SupplierInvoiceAgeingSummary, SupplierInvoiceAgeingSummaryViewModel>(_supplierInvoicesBusiness.GetSupplierInvoicesAgeingSummary());
-          
 
-            return PartialView("_InvAgeingSummary", Result);
+            return PartialView("_InvoiceRegisterSummary", Result);
+            //  return PartialView("_InvAgeingSummary", Result);
         }
 
     }

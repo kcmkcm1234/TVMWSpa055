@@ -839,4 +839,8 @@ td.totalRow {
     background-color:rgba(245, 214, 238, 0.63);
 }
 
+td.finalRow {
+
+    background-color:#C3E9C4;
+}
 

@@ -391,6 +391,7 @@ function GetHtmlData()
             
         }
     });
+    debugger;
     //to give backround color to balance row
         $('.balanceRowColor').parent('tr').css('background-color', '#d98cd9');  
         var bodyContent = $('#customtbl').html();

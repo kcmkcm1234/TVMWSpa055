@@ -798,13 +798,23 @@ function OpenCustExpeditionReport(Filter) {
     window.location.href = url.replace('__id__', Filter);
 }
 
+function OpenCustomerInvoiceRegister(Filter) {
+    debugger;
+    var url = '../Report/CustomerInvoiceRegister/__id__';
+    window.location.href = url.replace('__id__', Filter);
+}
+
 
 function OpenSuppExpeditionReport(Filter) {
 
     var url = '../Report/SupplierPaymentExpeditingDetails/__id__';
     window.location.href = url.replace('__id__', Filter);
 }
-
+function OpenSupplierInvoiceRegister(Filter) {
+    debugger;
+    var url = '../Report/SupplierInvoiceRegister/__id__';
+    window.location.href = url.replace('__id__', Filter);
+}
 
 
 function setCookie(cname, cvalue, exdays) {

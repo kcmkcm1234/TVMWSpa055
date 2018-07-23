@@ -479,7 +479,19 @@ namespace SPAccounts.BusinessService.Services
             }
             return customerExpeditingList;
         }
-     
+        public List<CustomerInvoiceRegisterReport> GetCustomerInvoiceRegister(CustomerInvoiceRegisterAdvanceSearch CustomerInvoiceRegisterAdvanceSearchSearchObject)
+        {
+            List<CustomerInvoiceRegisterReport> customerInvoiceRegister = null;
+            try
+            {
+                customerInvoiceRegister = _reportRepository.GetCustomerInvoiceRegister(CustomerInvoiceRegisterAdvanceSearchSearchObject);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return customerInvoiceRegister;
+        }
         public List<SupplierExpeditingReport> GetSupplierExpeditingDetail(ReportAdvanceSearch advanceSearchObject)//(DateTime? ToDate, string Filter,string Company,string Supplier)
         {
             List<SupplierExpeditingReport> supplierExpeditingList = null;
@@ -493,7 +505,19 @@ namespace SPAccounts.BusinessService.Services
             }
             return supplierExpeditingList;
         }
-
+        public List<SupplierInvoiceRegisterReport> GetSupplierInvoiceRegister(SupplierInvoiceRegisterAdvanceSearch advanceSearchObject)//(DateTime? ToDate, string Filter,string Company,string Supplier)
+        {
+            List<SupplierInvoiceRegisterReport> supplierInvoiceRegisterList = null;
+            try
+            {
+                supplierInvoiceRegisterList = _reportRepository.GetSupplierInvoiceRegister(advanceSearchObject);// (ToDate,Filter,Company,Supplier);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return supplierInvoiceRegisterList;
+        }
         public List<FollowupReport> GetFollowupReportDetail(FollowupReportAdvanceSearch advanceSearchObject)
         {
             List<FollowupReport> followupList = null;

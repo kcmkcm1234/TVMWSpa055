@@ -685,6 +685,68 @@ namespace UserInterface.Models
 
     }
 
+    public class CustomerInvoiceRegisterViewModel
+    {
+
+        public string CustomerName { get; set; }
+        public string CustomerName1 { get; set; }
+        public string ContactNo { get; set; }
+        public string LandLine { get; set; }
+        public string Mobile { get; set; }
+        public string OtherPhoneNos { get; set; }
+        public string InvoiceNo { get; set; }
+        public string InvoiceDate { get; set; }
+        public string PaymentDueDate { get; set; }
+        public Decimal Amount { get; set; }
+        public string NoOfDays { get; set; }
+        public string Remarks { get; set; }
+        public string Date { get; set; }
+        public CompaniesViewModel companyObj { get; set; }
+        public CustomerViewModel customerObj { get; set; }
+        public CustomerContactDetailsReportViewModel customerContactObj { get; set; }
+
+        public string OverDue { get; set; }
+        public string Cr { get; set; }
+        public string Age { get; set; }
+        public Decimal InvoiceAmount { get; set; }
+        public Decimal PaidAmount { get; set; }
+        public string RowType { get; set; }
+        public string Type { get; set; }
+    }
+    public class CustomerInvoiceRegisterListViewModel
+    {
+        public List<FollowUpViewModel> FollowUpList { get; set; }
+        public FollowUpViewModel followUpObj { get; set; }
+        public List<CustomerInvoiceRegisterViewModel> CustomerInvoiceRegisterList { get; set; }
+        [Display(Name = "Quick Filter")]
+        public List<SelectListItem> BasicFilters { get; set; }
+        [Display(Name = "Outstanding/All")]
+        public List<SelectListItem> Outstanding { get; set; }
+        public string Filter { get; set; }
+        public CompaniesViewModel companyObj { get; set; }
+        public CustomerViewModel customerObj { get; set; }
+        public string Search { get; set; }
+        public string Company { get; set; }
+        public string Customer { get; set; }
+        public Guid CustomerID { get; set; }
+        [Display(Name = "Invoice Type")]
+        public string InvoiceType { get; set; }
+       
+        public Boolean InvoiceTypeAccess { get; set; }
+
+        public CustomerInvoiceRegisterAdvanceSearchViewModel CustInvRegAdvSearch { get; set; }
+    }
+    public class CustomerInvoiceRegisterAdvanceSearchViewModel
+    {
+        public string ToDate { get; set; }
+        public string Filter { get; set; }
+        public List<string> Customer { get; set; }
+        public string Company { get; set; }
+        public string InvoiceType { get; set; }
+        public string Search { get; set; }
+        public string ReportType { get; set; }
+    }
+
     public class SupplierExpeditingReportViewModel
     {
         public string SupplierName { get; set; }
@@ -719,8 +781,63 @@ namespace UserInterface.Models
         public string Supplier { get; set; }
         [Display(Name = "Invoice Type")]
         public string InvoiceType { get; set; }
+        public SupplierInvoiceRegisterAdvanceSearchViewModel CustInvRegAdvSearch { get; set; }
+    }
+    public class SupplierInvoiceRegisterAdvanceSearchViewModel
+    {
+        public string ToDate { get; set; }
+        public string Filter { get; set; }
+        public List<string> Supplier { get; set; }
+        public string Company { get; set; }
+        public string InvoiceType { get; set; }
+        public string Search { get; set; }
+        public string ReportType { get; set; }
+    }
+    public class SupplierInvoiceRegisterReportViewModel
+    {
+        public string SupplierName { get; set; }
+        public string SupplierName1 { get; set; }
+        public string ContactNo { get; set; }
+        public string LandLine { get; set; }
+        public string Mobile { get; set; }
+        public string OtherPhoneNos { get; set; }
+        public string InvoiceNo { get; set; }
+        public string InvoiceDate { get; set; }
+        public Decimal Amount { get; set; }
+        public string NoOfDays { get; set; }
+        public string Remarks { get; set; }
+        public CompaniesViewModel companyObj { get; set; }
+        public SupplierContactDetailsReportViewModel supplierContactObj { get; set; }
+        public SuppliersViewModel supplierObj { get; set; }
+        [Display(Name = "Invoice Type")]
+        public string InvoiceType { get; set; }
+
+        public string PaymentDueDate { get; set; }
+        public string OverDue { get; set; }
+        public string Cr { get; set; }
+        public string Age { get; set; }
+        public Decimal InvoiceAmount { get; set; }
+        public Decimal PaidAmount { get; set; }
+        public string RowType { get; set; }
+        public string Type { get; set; }
+
     }
 
+    public class SupplierInvoiceRegisterListViewModel
+    {
+        public List<SupplierInvoiceRegisterReportViewModel> SupplierInvoiceRegisterList { get; set; }
+        [Display(Name = "Filter")]
+        public List<SelectListItem> BasicFilters { get; set; }
+        public string Filter { get; set; }
+        public CompaniesViewModel companyObj { get; set; }
+        public SupplierContactDetailsReportViewModel supplierContactObj { get; set; }
+        public SuppliersViewModel supplierObj { get; set; }
+        public string Search { get; set; }
+        public string Company { get; set; }
+        public string Supplier { get; set; }
+        [Display(Name = "Invoice Type")]
+        public string InvoiceType { get; set; }
+    }
     public class ReportAdvanceSearchViewModel
     {
         public string ToDate { get; set; }
@@ -733,6 +850,7 @@ namespace UserInterface.Models
         public string CompanyCode { get; set; }      
         public string[] SupplierIDs { get; set; }
         public string Search { get; set; }
+        public string ReportType { get; set; }
     }
     public class ReportAccountsReceivableAgeingSearchViewModel
     {

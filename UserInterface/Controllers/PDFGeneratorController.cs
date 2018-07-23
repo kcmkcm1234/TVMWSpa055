@@ -92,7 +92,7 @@ namespace UserInterface.Controllers
                 footobj.imageURL=Server.MapPath("~/Content/images/header.png");
                 footobj.imgURL = Server.MapPath("~/Content/images/footer.jpg");
                 footobj.Header = XMLWorkerHelper.ParseToElementList(pDFToolsObj.Headcontent, null);
-                footobj.Tableheader = "\n" + "Customer Payment Ledger Report" + "\n";
+                footobj.Tableheader = pDFToolsObj.HeaderText; 
                 writer.PageEvent = footobj;
                 // Our custom Header and Footer is done using Event Handler
                 //TwoColumnHeaderFooter PageEventHandler = new TwoColumnHeaderFooter();
@@ -136,13 +136,15 @@ namespace UserInterface.Controllers
                 bytes = memoryStream.ToArray();
                 memoryStream.Close();
             }
-            string fname = Path.Combine(Server.MapPath("~/Content/Uploads/"), "Customer Payment Ledger.pdf");
+            string name = pDFToolsObj.CustomerName;//.Split(":").ToString();
+            string[] words = name.Split(':');    
+            string fname = Path.Combine(Server.MapPath("~/Content/Uploads/"), pDFToolsObj.HeaderText.ToString() + " FOR " + words[1] + ".pdf");
             System.IO.File.WriteAllBytes(fname, bytes);
             //File(bytes, "application/pdf", "Report.pdf").sa
             //bytes.SaveAs(fname);
-            return JsonConvert.SerializeObject(new { Result = "OK", URL = "../Content/Uploads/Customer Payment Ledger.pdf" });
+            return JsonConvert.SerializeObject(new { Result = "OK", URL = "../Content/Uploads/"+ pDFToolsObj.HeaderText.ToString() + " FOR " + words[1] + ".pdf"});
 
-        }
+            }
         public partial class Footer : PdfPageEventHelper
 
         {
@@ -208,7 +210,7 @@ namespace UserInterface.Controllers
                 Font myFont2 = FontFactory.GetFont("OpenSans", 9, iTextSharp.text.Font.NORMAL, BaseColor.WHITE);
                
                 string customer;
-                if (CustomerName == "Customer : ")
+                if (CustomerName == "Customer : "  || CustomerName == "Supplier : ")
                 {
                     customer = null;
                 }
@@ -307,14 +309,17 @@ namespace UserInterface.Controllers
                 bytes = memoryStream.ToArray();
                 memoryStream.Close();
             }
-            string fname = Path.Combine(Server.MapPath("~/Content/Uploads/"), "Customer Payment Ledger.pdf");
+            
+            string name = pDFToolsObj.CustomerName;
+            string[] words = name.Split(':');
+            string fname = Path.Combine(Server.MapPath("~/Content/Uploads/"), pDFToolsObj.HeaderText.ToString() + " FOR " + words[1]+ ".pdf");
             System.IO.File.WriteAllBytes(fname, bytes);
             string contentType = "application/pdf";
             //Parameters to file are
             //1. The File Path on the File Server
             //2. The content type MIME type
             //3. The parameter for the file save by the browser
-            return File(fname, contentType, "Customer Payment Ledger.pdf");
+            return File(fname, contentType, pDFToolsObj.HeaderText.ToString() + " FOR " + words[1]  + ".pdf");
         }
        
     }

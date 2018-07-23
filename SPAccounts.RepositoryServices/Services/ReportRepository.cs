@@ -1584,6 +1584,83 @@ namespace SPAccounts.RepositoryServices.Services
              }
             return customerExpeditingList;
         }
+        public List<CustomerInvoiceRegisterReport> GetCustomerInvoiceRegister (CustomerInvoiceRegisterAdvanceSearch CustomerInvoiceRegisterAdvanceSearchSearchObject)  //( string Filter, string Company, string Customer, string InvoiceType, string Search)
+        {
+            List<CustomerInvoiceRegisterReport> CustomerInvoiceRegisterList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                     //   cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = ToDate;
+                        cmd.Parameters.Add("@Filter", SqlDbType.NVarChar, 50).Value = CustomerInvoiceRegisterAdvanceSearchSearchObject.Filter;
+                        cmd.Parameters.Add("@Company", SqlDbType.NVarChar, 1000).Value = CustomerInvoiceRegisterAdvanceSearchSearchObject.Company;
+                      //  cmd.Parameters.Add("@Customer", SqlDbType.NVarChar, -1).Value = Customer;
+                      if (CustomerInvoiceRegisterAdvanceSearchSearchObject.Customer.Count!= 0)
+                        {
+                            cmd.Parameters.Add("@Customer", SqlDbType.NVarChar, -1).Value =  String.Join(",", CustomerInvoiceRegisterAdvanceSearchSearchObject.Customer);
+                        }else
+                        {
+                            cmd.Parameters.Add("@Customer", SqlDbType.NVarChar, -1).Value = null;
+
+                        }
+                       
+                        cmd.Parameters.Add("@InvoiceType", SqlDbType.NVarChar, 500).Value = CustomerInvoiceRegisterAdvanceSearchSearchObject.InvoiceType;
+                        cmd.Parameters.Add("@ReportType", SqlDbType.NVarChar, 50).Value = CustomerInvoiceRegisterAdvanceSearchSearchObject.ReportType;
+                        cmd.Parameters.Add("@Search", SqlDbType.NVarChar, 500).Value = CustomerInvoiceRegisterAdvanceSearchSearchObject.Search != "" ? CustomerInvoiceRegisterAdvanceSearchSearchObject.Search : null;
+                        
+                        cmd.CommandText = "[Accounts].[RPT_CustomerInvoiceRegister]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                CustomerInvoiceRegisterList = new List<CustomerInvoiceRegisterReport>();
+                                while (sdr.Read())
+                                {
+                                    CustomerInvoiceRegisterReport CustomerInvoiceRegister = new CustomerInvoiceRegisterReport();
+                                    {
+                                        CustomerInvoiceRegister.CustomerName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : CustomerInvoiceRegister.CustomerName);
+                                        CustomerInvoiceRegister.CustomerName1 = (sdr["CompanyName1"].ToString() != "" ? sdr["CompanyName1"].ToString() : CustomerInvoiceRegister.CustomerName1);
+                                        CustomerInvoiceRegister.customerContactObj = new CustomerContactDetailsReport();
+                                        CustomerInvoiceRegister.customerContactObj.ContactName = (sdr["ContactName"].ToString() != "" ? sdr["ContactName"].ToString() : CustomerInvoiceRegister.customerContactObj.ContactName);
+                                        CustomerInvoiceRegister.ContactNo = (sdr["Mobile"].ToString() != "" ? ("☎" + sdr["Mobile"].ToString()) : "") +
+                                            (sdr["LandLine"].ToString() != "" ? (", ☎" + sdr["LandLine"].ToString()) : "") +
+                                            (sdr["OtherPhoneNos"].ToString() != "" ? (", ☎" + sdr["OtherPhoneNos"].ToString()) : "");
+                                        CustomerInvoiceRegister.CompanyObj = new Companies();
+                                        //customerexpeditingdetail.companyObj.Code = (sdr["Code"].ToString() != "" ? sdr["code"].ToString() : customerexpeditingdetail.companyObj.Code);
+                                        CustomerInvoiceRegister.CompanyObj.Name = (sdr["Company"].ToString() != "" ? sdr["Company"].ToString() : CustomerInvoiceRegister.CompanyObj.Name);
+                                        CustomerInvoiceRegister.InvoiceNo = (sdr["InvoiceNo"].ToString() != "" ? sdr["InvoiceNo"].ToString() : CustomerInvoiceRegister.InvoiceNo);
+                                        CustomerInvoiceRegister.InvoiceDate = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(settings.dateformat) : CustomerInvoiceRegister.InvoiceDate);
+                                        CustomerInvoiceRegister.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : CustomerInvoiceRegister.Amount);
+                                        CustomerInvoiceRegister.OverDue = (sdr["OverDue"].ToString() != "" ? sdr["OverDue"].ToString() : CustomerInvoiceRegister.OverDue);
+                                        CustomerInvoiceRegister.PaymentDueDate = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString(settings.dateformat) : CustomerInvoiceRegister.PaymentDueDate);
+                                        CustomerInvoiceRegister.InvoiceAmount = (sdr["InvoiceAmount"].ToString() != "" ? decimal.Parse(sdr["InvoiceAmount"].ToString()) : CustomerInvoiceRegister.InvoiceAmount);
+                                        CustomerInvoiceRegister.PaidAmount = (sdr["PaidAmount"].ToString() != "" ? decimal.Parse(sdr["PaidAmount"].ToString()) : CustomerInvoiceRegister.PaidAmount);
+                                        CustomerInvoiceRegister.Cr = (sdr["Cr"].ToString() != "" ? sdr["Cr"].ToString() : CustomerInvoiceRegister.Cr);
+                                        CustomerInvoiceRegister.Age = (sdr["Age"].ToString() != "" ? sdr["Age"].ToString() : CustomerInvoiceRegister.Age);
+                                        CustomerInvoiceRegister.RowType = (sdr["RowNo"].ToString() != "" ? sdr["RowNo"].ToString() : CustomerInvoiceRegister.RowType);
+                                        CustomerInvoiceRegister.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : CustomerInvoiceRegister.Type);
+                                    }
+                                    CustomerInvoiceRegisterList.Add(CustomerInvoiceRegister);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return CustomerInvoiceRegisterList;
+        }
 
         public List<SupplierExpeditingReport> GetSupplierExpeditingDetail(ReportAdvanceSearch advanceSearchObject)//(DateTime? ToDate, string Filter,string Company,string Supplier)
         {
@@ -1643,6 +1720,92 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return supplierExpeditingList;
         }
+
+        public List<SupplierInvoiceRegisterReport> GetSupplierInvoiceRegister(SupplierInvoiceRegisterAdvanceSearch advanceSearchObject)//(DateTime? ToDate, string Filter,string Company,string Supplier)
+        {
+            List<SupplierInvoiceRegisterReport> supplierInvRegList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        //cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = advanceSearchObject.ToDate;
+                        cmd.Parameters.Add("@Filter", SqlDbType.NVarChar, 50).Value = advanceSearchObject.Filter;
+                        cmd.Parameters.Add("@Company", SqlDbType.NVarChar, 50).Value = advanceSearchObject.Company;
+                        // if (advanceSearchObject.Supplier != "")
+                        if (advanceSearchObject.Supplier != null)
+                        {
+                            cmd.Parameters.Add("@Supplier", SqlDbType.NVarChar, -1).Value = String.Join(",", advanceSearchObject.Supplier);
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add("@Supplier", SqlDbType.NVarChar, -1).Value = null;
+
+                        }
+
+                      //  cmd.Parameters.Add("@Supplier", SqlDbType.NVarChar, -1).Value = advanceSearchObject.Supplier;
+                        cmd.Parameters.Add("@InvoiceType", SqlDbType.NVarChar, -1).Value = advanceSearchObject.InvoiceType;
+
+                        cmd.Parameters.Add("@ReportType", SqlDbType.NVarChar, 50).Value = advanceSearchObject.ReportType;
+                        cmd.Parameters.Add("@Search", SqlDbType.NVarChar, 500).Value = advanceSearchObject.Search != "" ? advanceSearchObject.Search : null;
+
+                        cmd.CommandText = "[Accounts].[RPT_SupplierInvoiceRegister]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                supplierInvRegList = new List<SupplierInvoiceRegisterReport>();
+                                while (sdr.Read())
+                                {
+                                    SupplierInvoiceRegisterReport supplierInvoiceRegDetail = new SupplierInvoiceRegisterReport();
+                                    {
+  
+                                        supplierInvoiceRegDetail.SupplierName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : supplierInvoiceRegDetail.SupplierName);
+                                        supplierInvoiceRegDetail.SupplierName1 = (sdr["CompanyName1"].ToString() != "" ? sdr["CompanyName1"].ToString() : supplierInvoiceRegDetail.SupplierName1);
+                                        supplierInvoiceRegDetail.SupplierContactObj = new SupplierContactDetailsReport();
+                                        supplierInvoiceRegDetail.SupplierContactObj.ContactName = (sdr["ContactName"].ToString() != "" ? sdr["ContactName"].ToString() : supplierInvoiceRegDetail.SupplierContactObj.ContactName);
+                                        supplierInvoiceRegDetail.ContactNo = (sdr["Mobile"].ToString() != "" ? ("☎" + sdr["Mobile"].ToString()) : "") +
+                                            (sdr["LandLine"].ToString() != "" ? (", ☎" + sdr["LandLine"].ToString()) : "") +
+                                            (sdr["OtherPhoneNos"].ToString() != "" ? (", ☎" + sdr["OtherPhoneNos"].ToString()) : "");
+                                        supplierInvoiceRegDetail.CompanyObj = new Companies();
+                                        //customerexpeditingdetail.companyObj.Code = (sdr["Code"].ToString() != "" ? sdr["code"].ToString() : customerexpeditingdetail.companyObj.Code);
+                                        supplierInvoiceRegDetail.CompanyObj.Name = (sdr["Company"].ToString() != "" ? sdr["Company"].ToString() : supplierInvoiceRegDetail.CompanyObj.Name);
+                                        supplierInvoiceRegDetail.InvoiceNo = (sdr["InvoiceNo"].ToString() != "" ? sdr["InvoiceNo"].ToString() : supplierInvoiceRegDetail.InvoiceNo);
+                                        supplierInvoiceRegDetail.InvoiceDate = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(settings.dateformat) : supplierInvoiceRegDetail.InvoiceDate);
+                                        supplierInvoiceRegDetail.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : supplierInvoiceRegDetail.Amount);
+                                        supplierInvoiceRegDetail.OverDue = (sdr["OverDue"].ToString() != "" ? sdr["OverDue"].ToString() : supplierInvoiceRegDetail.OverDue);
+                                        supplierInvoiceRegDetail.PaymentDueDate = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString(settings.dateformat) : supplierInvoiceRegDetail.PaymentDueDate);
+                                        supplierInvoiceRegDetail.InvoiceAmount = (sdr["InvoiceAmount"].ToString() != "" ? decimal.Parse(sdr["InvoiceAmount"].ToString()) : supplierInvoiceRegDetail.InvoiceAmount);
+                                        supplierInvoiceRegDetail.PaidAmount = (sdr["PaidAmount"].ToString() != "" ? decimal.Parse(sdr["PaidAmount"].ToString()) : supplierInvoiceRegDetail.PaidAmount);
+                                        supplierInvoiceRegDetail.Cr = (sdr["Cr"].ToString() != "" ? sdr["Cr"].ToString() : supplierInvoiceRegDetail.Cr);
+                                        supplierInvoiceRegDetail.Age = (sdr["Age"].ToString() != "" ? sdr["Age"].ToString() : supplierInvoiceRegDetail.Age);
+                                        supplierInvoiceRegDetail.RowType = (sdr["RowNo"].ToString() != "" ? sdr["RowNo"].ToString() : supplierInvoiceRegDetail.RowType);
+                                        supplierInvoiceRegDetail.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : supplierInvoiceRegDetail.Type);
+
+
+
+                                    }
+                                    supplierInvRegList.Add(supplierInvoiceRegDetail);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return supplierInvRegList;
+        }
+
 
         public List<TrialBalance> GetTrialBalanceReport(DateTime? Date)
         {
