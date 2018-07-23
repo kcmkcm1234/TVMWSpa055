@@ -53,8 +53,9 @@ namespace SPAccounts.RepositoryServices.Services
                                         menuObj.Action = sdr["Action"].ToString();
                                         menuObj.Parameter = sdr["Parameters"].ToString();
                                         menuObj.IconClass = sdr["IconClass"].ToString();
-                                        menuObj.IconURL = sdr["IconURL"].ToString();                                        
-                                            
+                                        menuObj.IconURL = sdr["IconURL"].ToString();
+                                        menuObj.SecurityObject = (sdr["SecurityObjName"].ToString() != "" ? (sdr["SecurityObjName"].ToString()) : menuObj.SecurityObject);
+
                                     }
                                     menuList.Add(menuObj);
                                 }

@@ -15,5 +15,6 @@ namespace SPAccounts.DataAccessObject.DTO
         public string IconClass { get; set; }
         public string IconURL { get; set; }
         public string Parameter { get; set; }
+        public string SecurityObject { get; set; }
     }
 }

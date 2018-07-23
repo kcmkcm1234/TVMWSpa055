@@ -28,17 +28,19 @@
                     }
                     else
                     {
+                        if (mp.HasAccess) { 
                         <li>
                             <a href="@Url.Action(mp.Action, mp.Controller, null)">   <i class="@mp.IconClass"></i> <span>@mp.MenuText</span>   </a>
 
                         </li>
-
+                        }
                     }
 
                 }
                 else
                 {
-
+                    if (mp.HasAccess)
+                    {
                     <li class="treeview">
                         <a href="#">
                             <i class="@mp.IconClass"></i> <span>@mp.MenuText</span>
@@ -51,26 +53,27 @@
                         </ul>
                     </li>
 
-
+                    }
 
                 }
             }
 
 
 
-                @helper RenderMenuItem(List<UserInterface.Models.MenuViewModel> menuList, UserInterface.Models.MenuViewModel mi)
+               @helper RenderMenuItem(List<UserInterface.Models.MenuViewModel> menuList, UserInterface.Models.MenuViewModel mi)
+               {
+                foreach (var cp in menuList.Where(p => p.ParentID == mi.ID))
                 {
-                    foreach (var cp in menuList.Where(p => p.ParentID == mi.ID))
+                    if (cp.HasAccess)
                     {
 
-                        
                             <li><a href="@Url.Action(cp.Action, cp.Controller, null)"><i class="@cp.IconClass"></i>@cp.MenuText</a></li>
- 
 
-                    }
-                }
+                     }
+                 }
+               }
 
-           
+
             @*<li class="treeview">
                 <a href="#">
                     <i class="fa fa-files-o"></i>
