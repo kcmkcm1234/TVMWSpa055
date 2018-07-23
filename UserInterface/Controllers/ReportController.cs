@@ -3113,7 +3113,7 @@ namespace UserInterface.Controllers
             }
         }
 
-        [AuthSecurityFilter(ProjectObject = "CustomerInvoicesRegister", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "SupplierInvoicesRegister", Mode = "R")]
         public ActionResult SupplierInvoiceRegister(string id, string isDashboard)
         {
 
@@ -3203,6 +3203,8 @@ namespace UserInterface.Controllers
             return View(result);
  
         }
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "SupplierInvoicesRegister", Mode = "R")]
         public string GetSupplierInvoiceRegister(string SupplierInvoiceRegisterSearchObject)
         {
 
