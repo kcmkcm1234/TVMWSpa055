@@ -25,7 +25,7 @@ $(document).ready(function () {
              fixedHeader: {
                  header: true
              },
-             searching: true,
+             searching: false,
              ordering: false,
              paging: true,
              data: GetSupplierInvoiceRegister(),

@@ -3098,7 +3098,15 @@ namespace UserInterface.Controllers
                 
                     decimal invoiceAmount = result.CustomerInvoiceRegisterList.Where(SS => SS.RowType != "1000").Sum(SS => SS.InvoiceAmount);
                     decimal paidAmount = result.CustomerInvoiceRegisterList.Where(SS => SS.RowType != "1000").Sum(SS => SS.PaidAmount);
-                    decimal balAmount = result.CustomerInvoiceRegisterList.Where(SS => SS.RowType != "1000").Sum(SS => SS.Amount);
+                decimal balAmount;
+                if (customerInvoiceRegisterObj.ReportType == "detail")
+                {
+                     balAmount = result.CustomerInvoiceRegisterList.Where(SS => SS.RowType == "1000").Sum(SS => SS.Amount);
+                }
+                else
+                {
+                     balAmount = result.CustomerInvoiceRegisterList.Where(SS => SS.RowType != "1000").Sum(SS => SS.Amount);
+                }
                     string invoiceAmountSumFormatted = _commonBusiness.ConvertCurrency(invoiceAmount, 2);
                     string paidAmountSumFormatted = _commonBusiness.ConvertCurrency(paidAmount, 2);
                     string balAmountSumFormatted = _commonBusiness.ConvertCurrency(balAmount, 2);
@@ -3221,7 +3229,15 @@ namespace UserInterface.Controllers
 
                 decimal invoiceAmount = result.SupplierInvoiceRegisterList.Where(SS => SS.RowType != "1000").Sum(SS => SS.InvoiceAmount);
                 decimal paidAmount = result.SupplierInvoiceRegisterList.Where(SS => SS.RowType != "1000").Sum(SS => SS.PaidAmount);
-                decimal balAmount = result.SupplierInvoiceRegisterList.Where(SS => SS.RowType != "1000").Sum(SS => SS.Amount);
+                decimal balAmount;
+                if (supplierAdvanceSearchObj.ReportType=="detail")
+                {
+                     balAmount = result.SupplierInvoiceRegisterList.Where(SS => SS.RowType == "1000").Sum(SS => SS.Amount);
+                }
+               else
+                {
+                     balAmount = result.SupplierInvoiceRegisterList.Where(SS => SS.RowType != "1000").Sum(SS => SS.Amount);
+                }
                 string invoiceAmountSumFormatted = _commonBusiness.ConvertCurrency(invoiceAmount, 2);
                 string paidAmountSumFormatted = _commonBusiness.ConvertCurrency(paidAmount, 2);
                 string balAmountSumFormatted = _commonBusiness.ConvertCurrency(balAmount, 2);
