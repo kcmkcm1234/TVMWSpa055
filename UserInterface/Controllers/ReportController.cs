@@ -2986,7 +2986,10 @@ namespace UserInterface.Controllers
            // selectListItem.Add(new SelectListItem { Text = "--Select--", Value = "ALL", Selected = false });
             selectListItem.Add(new SelectListItem { Text = "All OverDue", Value = "ALL", Selected = false });
             selectListItem.Add(new SelectListItem { Text = "All Outstanding", Value = "ALLOutstanding", Selected = false });
-            selectListItem.Add(new SelectListItem { Text = "Coming Week", Value = "ThisWeek", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "Due in 20 Days", Value = "20days", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "Due in 15 Days", Value = "15days", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "Due in 7 Days", Value = "7days", Selected = false });
+           // selectListItem.Add(new SelectListItem { Text = "Coming Week", Value = "ThisWeek", Selected = false });
             selectListItem.Add(new SelectListItem { Text = "Today", Value = "Today", Selected = false });
             selectListItem.Add(new SelectListItem { Text = "1-30 Days", Value = "1To30", Selected = false });
             selectListItem.Add(new SelectListItem { Text = "31-60 Days", Value = "31To60", Selected = false });
@@ -3151,7 +3154,10 @@ namespace UserInterface.Controllers
             List<SelectListItem> selectListItem = new List<SelectListItem>();
             selectListItem.Add(new SelectListItem { Text = "All OverDue", Value = "ALL", Selected = false });
             selectListItem.Add(new SelectListItem { Text = "All Outstanding", Value = "ALLOutstanding", Selected = false });
-            selectListItem.Add(new SelectListItem { Text = "Coming Week", Value = "ThisWeek", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "Due in 20 Days", Value = "20days", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "Due in 15 Days", Value = "15days", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "Due in 7 Days", Value = "7days", Selected = false });
+            //selectListItem.Add(new SelectListItem { Text = "Coming Week", Value = "ThisWeek", Selected = false });
             selectListItem.Add(new SelectListItem { Text = "Today", Value = "Today", Selected = false });
             selectListItem.Add(new SelectListItem { Text = "1-30 Days", Value = "1To30", Selected = false });
             selectListItem.Add(new SelectListItem { Text = "31-60 Days", Value = "31To60", Selected = false });
