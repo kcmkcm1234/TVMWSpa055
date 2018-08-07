@@ -1569,6 +1569,7 @@
     <Content Include="Scripts\UserJS\AppObject.js" />
     <Content Include="Scripts\UserJS\AppSubobject.js" />
     <Content Include="Scripts\UserJS\CustomerExpeditingDetailsReport.js" />
+    <Content Include="Scripts\UserJS\CustomerInvoiceRegister.js" />
     <Content Include="Scripts\UserJS\CustomerInvoices.js" />
     <Content Include="Scripts\UserJS\CustomerOutStandingReport.js" />
     <Content Include="Scripts\UserJS\CustomerPaymentLedgerReport.js" />
@@ -1616,6 +1617,7 @@
     <Content Include="Scripts\UserJS\SupplierContactDetailsReport.js" />
     <Content Include="Scripts\UserJS\SupplierCreditNotes.js" />
     <Content Include="Scripts\UserJS\SupplierExpeditingDetailsReport.js" />
+    <Content Include="Scripts\UserJS\SupplierInvoiceRegisterReport.js" />
     <Content Include="Scripts\UserJS\SupplierInvoices.js" />
     <Content Include="Scripts\UserJS\SupplierPaymentLedgerReport.js" />
     <Content Include="Scripts\UserJS\SupplierPayments.js" />
@@ -1832,6 +1834,9 @@
     <Content Include="Views\SpecialInvPayments\Index.cshtml" />
     <Content Include="Views\Report\MonthWiseIncomeExpenseSummary.cshtml" />
     <Content Include="Views\Report\CustomerOutStanding.cshtml" />
+    <Content Include="Views\Report\CustomerInvoiceRegister.cshtml" />
+    <Content Include="Views\Dashboard\_InvoiceRegisterSummary.cshtml" />
+    <Content Include="Views\Report\SupplierInvoiceRegister.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
