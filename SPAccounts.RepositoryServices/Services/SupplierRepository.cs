@@ -374,8 +374,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = _supplierObj.commonObj.UpdatedDate;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
-                        outputID = cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier);
-                        outputID.Direction = ParameterDirection.Output;
+                        //outputID = cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier);
+                        //outputID.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();
 
 
@@ -400,7 +400,7 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return new
             {
-                ID = outputID.Value.ToString(),
+             //   ID = outputID.Value.ToString(),
                 Status = outputStatus.Value.ToString(),
                 Message = Cobj.UpdateSuccess
             };
