@@ -3121,6 +3121,23 @@ namespace UserInterface.Controllers
             }
         }
 
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoicesRegister", Mode = "R")]
+        public string GetPaidAmountDetail(string InvoiceID, string CustomerID, string RowType, string Filter, string Company, string InvoiceType)
+        {
+            try
+            {
+                List<CustomerPaidAmountDetailViewModel> DetailAmtList = new List<CustomerPaidAmountDetailViewModel>();
+                DetailAmtList = Mapper.Map<List<CustomerPaidAmountDetail>, List<CustomerPaidAmountDetailViewModel>>(_reportBusiness.GetPaidAmountDetail(Guid.Parse(InvoiceID), Guid.Parse(CustomerID), RowType, Filter, Company, InvoiceType));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = DetailAmtList });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+
         [AuthSecurityFilter(ProjectObject = "SupplierInvoicesRegister", Mode = "R")]
         public ActionResult SupplierInvoiceRegister(string id, string isDashboard)
         {
@@ -3249,7 +3266,20 @@ namespace UserInterface.Controllers
             }
             
         }
-
+        public string GetSupplierPaidAmountDetail(string InvoiceID, string SupplierID, string RowType,string Filter,string Company,string InvoiceType)
+        {
+            try
+            {
+                List<SupplierPaidAmountDetailViewModel> DetailAmtList = new List<SupplierPaidAmountDetailViewModel>();
+                DetailAmtList = Mapper.Map<List<SupplierPaidAmountDetail>, List<SupplierPaidAmountDetailViewModel>>(_reportBusiness.GetSupplierPaidAmountDetail(Guid.Parse(InvoiceID), Guid.Parse(SupplierID), RowType,Filter,Company,InvoiceType));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = DetailAmtList });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
         #region ButtonStyling
         [HttpGet]
         public ActionResult ChangeButtonStyle(string ActionType)

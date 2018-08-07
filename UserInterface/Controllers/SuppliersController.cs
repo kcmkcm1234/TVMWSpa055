@@ -6,7 +6,9 @@ using SPAccounts.DataAccessObject.DTO;
 using SPAccounts.UserInterface.SecurityFilter;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using UserInterface.Models;
@@ -23,6 +25,9 @@ namespace UserInterface.Controllers
         IPaymentTermsBusiness _paymentTermsBusiness;
         SecurityFilter.ToolBarAccess _tool;
         SPAccounts.DataAccessObject.DTO.Common common = new SPAccounts.DataAccessObject.DTO.Common();
+        //string Key = "X-Api-Key";
+        //string Value = "JyFgHsICUOgloskIMuyM6PH4GYxyU30p";
+
         public SuppliersController(ISupplierBusiness supplierBusiness, ICustomerBusiness customerBusiness, IPaymentTermsBusiness paymentTermsBusiness, SecurityFilter.ToolBarAccess tool)
         {
             _SupplierBusiness = supplierBusiness;
@@ -135,6 +140,67 @@ namespace UserInterface.Controllers
 
                 result = _SupplierBusiness.InsertUpdateSupplier(Mapper.Map<SuppliersViewModel, Supplier>(_supplierObj));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+                //  string Status = result.GetType().GetProperty("Status").GetValue(result, null).ToString();
+
+                //if (Status == "1")
+                //    {
+
+                //    if (_supplierObj.ID == Guid.Empty)
+                //    {
+
+                //        string ID = result.GetType().GetProperty("ID").GetValue(result, null).ToString();
+
+                //        string json_data;
+                //        string response;
+
+                //        SuppliersAPI supplier = new SuppliersAPI();
+                //        supplier.id = ID;
+                //        supplier.name = _supplierObj.CompanyName;
+                //        supplier.gst_number = _supplierObj.TaxRegNo;
+                //        supplier.address = _supplierObj.BillingAddress;
+                //        supplier.phone = _supplierObj.LandLine;
+                //        supplier.email = _supplierObj.ContactEmail;
+                //        supplier.contact_person_name = _supplierObj.ContactPerson;
+                //        supplier.contact_person_email = _supplierObj.ContactEmail;
+                //        supplier.contact_person_number = _supplierObj.Mobile;
+
+
+                //        json_data = "{ \"supplier\" :" + JsonConvert.SerializeObject(supplier) + " } ";
+                //        response = InvokePostRequest("http://secure.appdeal.in/sp2/rest/web/supplier/save-supplier#", json_data);
+                //        ResponseAPI res = new ResponseAPI();
+                //        res = JsonConvert.DeserializeObject<ResponseAPI>(response);
+                //        if (res.status == "0")
+                //        {
+                //            result = _SupplierBusiness.DeleteSupplier(ID != null && ID != "" ? Guid.Parse(ID) : Guid.Empty);
+                //        }
+                //        // dynamic stuff = JsonConvert.DeserializeObject(response);
+
+                //    }
+                //    else
+                //    {
+                //        string json_data;
+                //        string response;
+                //        string updateID = result.GetType().GetProperty("ID").GetValue(result, null).ToString();
+                //        SuppliersAPI supplier = new SuppliersAPI();
+                //        supplier.id = updateID;
+                //        supplier.name = _supplierObj.CompanyName;
+                //        supplier.gst_number = _supplierObj.TaxRegNo;
+                //        supplier.address = _supplierObj.BillingAddress;
+                //        supplier.phone = _supplierObj.LandLine;
+                //        supplier.email = _supplierObj.ContactEmail;
+                //        supplier.contact_person_name = _supplierObj.ContactPerson;
+                //        supplier.contact_person_email = _supplierObj.ContactEmail;
+                //        supplier.contact_person_number = _supplierObj.Mobile;
+
+
+                //        json_data = "{ \"supplier\" :" + JsonConvert.SerializeObject(supplier) + " } ";
+                //        response = InvokePostRequest("http://secure.appdeal.in/sp2/rest/web/supplier/save-supplier#", json_data);
+
+
+                //    }
+                //    }
+
+
 
             }
             catch (Exception ex)
@@ -145,6 +211,49 @@ namespace UserInterface.Controllers
             }
         }
         #endregion InsertUpdateSupplier
+
+        //public string InvokePostRequest(string requestUrl, string requestBody)
+        //{
+
+
+        //    try
+        //    {
+        //        var request = WebRequest.Create(requestUrl) as HttpWebRequest;
+        //        //  request.Headers.Add("Key", Key);
+        //        request.Headers.Add(Key, Value);
+        //        request.ContentType = "application/json";
+        //        request.Method = @"POST";
+
+        //        var requestWriter = new StreamWriter(request.GetRequestStream());
+        //        requestWriter.Write(requestBody);
+        //        requestWriter.Close();
+        //        var webResponse = (HttpWebResponse)request.GetResponse();
+
+        //        var responseReader = new StreamReader(webResponse.GetResponseStream());
+        //        return responseReader.ReadToEnd();
+        //    }
+        //    catch (WebException ex)
+        //    {
+        //        if (ex.Response != null)
+        //        {
+        //            //reading the custom messages sent by the server
+        //            using (var reader = new StreamReader(ex.Response.GetResponseStream()))
+        //            {
+        //                return reader.ReadToEnd();
+        //            }
+        //        }
+        //        return ex.Message + ex.InnerException + "--error. " + "RequestString:::::::::::: " + requestBody;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return ex.Message + ex.InnerException + "--error. " + "RequestString:::::::::::: " + requestBody;
+        //    }
+
+
+        //}
+
+
+
 
         #region DeleteSupplier
         [HttpGet]

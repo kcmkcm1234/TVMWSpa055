@@ -462,6 +462,8 @@ namespace SPAccounts.DataAccessObject.DTO
     }
     public class CustomerInvoiceRegisterReport
     {
+        public Guid InvoiceID { get; set; }
+        public Guid CustomerID { get; set; }
         public string CustomerName { get; set; }
         public string CustomerName1 { get; set; }
         public string ContactNo { get; set; }
@@ -498,6 +500,26 @@ namespace SPAccounts.DataAccessObject.DTO
         public string Search { get; set; }
         public string ReportType { get; set; }
     }
+    public class CustomerPaidAmountDetail
+    {
+        public Guid CustomerID { get; set; }
+        public Guid InvoiceID { get; set; }
+        public string PaymentDate { get; set; }
+        public decimal Amount { get; set; }
+        public string Type { get; set; }
+        public string PaymentMode { get; set; }
+    }
+
+    public class SupplierPaidAmountDetail
+    {
+        public Guid SupplierID { get; set; }
+        public Guid InvoiceID { get; set; }
+        public string PaymentDate { get; set; }
+        public decimal Amount { get; set; }
+        public string Type { get; set; }
+        public string PaymentMode { get; set; }
+        //public string InvoiceType { get; set; }
+    }
     public class SupplierExpeditingReport
     {
         public string SupplierName { get; set; }
@@ -518,6 +540,8 @@ namespace SPAccounts.DataAccessObject.DTO
     }
     public class SupplierInvoiceRegisterReport
     {
+        public Guid SupplierID { get; set; }
+        public Guid InvoiceID { get; set; }
         public string SupplierName { get; set; }
         public string SupplierName1 { get; set; }
         public string LandLine { get; set; }

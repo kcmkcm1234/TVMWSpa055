@@ -687,7 +687,8 @@ namespace UserInterface.Models
 
     public class CustomerInvoiceRegisterViewModel
     {
-
+        public Guid InvoiceID { get; set; }
+        public Guid CustomerID { get; set; }
         public string CustomerName { get; set; }
         public string CustomerName1 { get; set; }
         public string ContactNo { get; set; }
@@ -746,6 +747,17 @@ namespace UserInterface.Models
         public string Search { get; set; }
         public string ReportType { get; set; }
     }
+    public class CustomerPaidAmountDetailViewModel
+    {
+        public Guid CustomerID { get; set; }
+        public Guid InvoiceID { get; set; }
+        public string PaymentDate { get; set; }
+        public decimal Amount { get; set; }
+        public string Type { get; set; }
+        public string PaymentMode { get; set; }
+    }
+
+   
 
     public class SupplierExpeditingReportViewModel
     {
@@ -795,6 +807,8 @@ namespace UserInterface.Models
     }
     public class SupplierInvoiceRegisterReportViewModel
     {
+        public Guid InvoiceID { get; set; }
+        public Guid SupplierID { get; set; }
         public string SupplierName { get; set; }
         public string SupplierName1 { get; set; }
         public string ContactNo { get; set; }
@@ -836,6 +850,16 @@ namespace UserInterface.Models
         public string Company { get; set; }
         public string Supplier { get; set; }
         [Display(Name = "Invoice Type")]
+        public string InvoiceType { get; set; }
+    }
+    public class SupplierPaidAmountDetailViewModel
+    {
+        public Guid SupplierID { get; set; }
+        public Guid InvoiceID { get; set; }
+        public string PaymentDate { get; set; }
+        public decimal Amount { get; set; }
+        public string Type { get; set; }
+        public string PaymentMode { get; set; }
         public string InvoiceType { get; set; }
     }
     public class ReportAdvanceSearchViewModel

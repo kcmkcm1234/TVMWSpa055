@@ -40,8 +40,10 @@ namespace SPAccounts.RepositoryServices.Contracts
         //List<CustomerInvoiceRegisterReport> GetCustomerInvoiceRegister( string Filter, string Company, string Customer, string InvoiceType, string Search);
         List<CustomerInvoiceRegisterReport> GetCustomerInvoiceRegister(CustomerInvoiceRegisterAdvanceSearch CustomerInvoiceRegisterAdvanceSearchSearchObject);
         // List<SupplierExpeditingReport> GetSupplierExpeditingDetail(DateTime? ToDate, string Filter,string Company,string Supplier);
+        List<CustomerPaidAmountDetail> GetPaidAmountDetail(Guid InvoiceID, Guid CustomerID, string RowType, string Filter, string Company, string InvoiceType);
         List<SupplierExpeditingReport> GetSupplierExpeditingDetail(ReportAdvanceSearch advanceSearchObject);
         List<SupplierInvoiceRegisterReport> GetSupplierInvoiceRegister(SupplierInvoiceRegisterAdvanceSearch advanceSearchObject);
+        List<SupplierPaidAmountDetail> GetSupplierPaidAmountDetail(Guid InvoiceID, Guid SupplierID, string RowType, string Filter, string Company, string InvoiceType);
         List<TrialBalance> GetTrialBalanceReport(DateTime? Date);
         List<FollowupReport> GetFollowupReport(FollowupReportAdvanceSearch advanceSearchObject);
         List<AccountHeadGroupReport> GetOtherExpenseAccountHeadGroupSummaryReport(AccountHeadGroupAdvanceSearch accountHeadGroupSummaryAdvanceSearchObject);

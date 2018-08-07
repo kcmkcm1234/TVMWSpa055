@@ -138,8 +138,10 @@ namespace UserInterface.App_Start
                 config.CreateMap<CustomerOutStandingViewModel, CustomerOutStanding>().ReverseMap();
                 config.CreateMap<CustomerInvoiceRegisterViewModel, CustomerInvoiceRegisterReport>().ReverseMap();
                 config.CreateMap<CustomerInvoiceRegisterAdvanceSearchViewModel, CustomerInvoiceRegisterAdvanceSearch>().ReverseMap();
+                config.CreateMap<CustomerPaidAmountDetailViewModel, CustomerPaidAmountDetail>().ReverseMap();
                 config.CreateMap<SupplierInvoiceRegisterReportViewModel, SupplierInvoiceRegisterReport>().ReverseMap();
                 config.CreateMap<SupplierInvoiceRegisterAdvanceSearchViewModel, SupplierInvoiceRegisterAdvanceSearch>().ReverseMap();
+                config.CreateMap<SupplierPaidAmountDetailViewModel, SupplierPaidAmountDetail>().ReverseMap();
             });
         }
     }

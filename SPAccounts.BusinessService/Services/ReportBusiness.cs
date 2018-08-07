@@ -492,6 +492,12 @@ namespace SPAccounts.BusinessService.Services
             }
             return customerInvoiceRegister;
         }
+        public List<CustomerPaidAmountDetail> GetPaidAmountDetail(Guid InvoiceID, Guid CustomerID, string RowType, string Filter, string Company, string InvoiceType)
+        {
+            return _reportRepository.GetPaidAmountDetail(InvoiceID, CustomerID, RowType,Filter,Company,InvoiceType);
+        }
+      
+
         public List<SupplierExpeditingReport> GetSupplierExpeditingDetail(ReportAdvanceSearch advanceSearchObject)//(DateTime? ToDate, string Filter,string Company,string Supplier)
         {
             List<SupplierExpeditingReport> supplierExpeditingList = null;
@@ -517,6 +523,10 @@ namespace SPAccounts.BusinessService.Services
                 throw ex;
             }
             return supplierInvoiceRegisterList;
+        }
+        public List<SupplierPaidAmountDetail> GetSupplierPaidAmountDetail(Guid InvoiceID, Guid SupplierID, string RowType, string Filter, string Company, string InvoiceType)
+        {
+            return _reportRepository.GetSupplierPaidAmountDetail(InvoiceID, SupplierID, RowType,Filter,Company,InvoiceType);
         }
         public List<FollowupReport> GetFollowupReportDetail(FollowupReportAdvanceSearch advanceSearchObject)
         {

@@ -67,6 +67,8 @@ namespace UserInterface.Models
         public List<SelectListItem> CustomerList { get; set; }
         public List<SelectListItem> TitlesList { get; set; }
         public string PaymentTerm { get; set; }
+        public DateTime PaymentDueDate { get; set; }
+        public string PaymentDueDateFormatted { get; set; }
     }
     public class TitlesViewModel
     {

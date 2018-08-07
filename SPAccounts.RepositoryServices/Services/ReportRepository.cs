@@ -1647,6 +1647,8 @@ namespace SPAccounts.RepositoryServices.Services
                                         CustomerInvoiceRegister.Age = (sdr["Age"].ToString() != "" ? sdr["Age"].ToString() : CustomerInvoiceRegister.Age);
                                         CustomerInvoiceRegister.RowType = (sdr["RowNo"].ToString() != "" ? sdr["RowNo"].ToString() : CustomerInvoiceRegister.RowType);
                                         CustomerInvoiceRegister.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : CustomerInvoiceRegister.Type);
+                                        CustomerInvoiceRegister.InvoiceID = (sdr["InvoiceID"].ToString() != "" ? Guid.Parse(sdr["InvoiceID"].ToString()) : CustomerInvoiceRegister.InvoiceID);
+                                        CustomerInvoiceRegister.CustomerID = (sdr["CustomerID"].ToString() != "" ? Guid.Parse(sdr["CustomerID"].ToString()) : CustomerInvoiceRegister.CustomerID);
                                     }
                                     CustomerInvoiceRegisterList.Add(CustomerInvoiceRegister);
                                 }
@@ -1661,6 +1663,74 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return CustomerInvoiceRegisterList;
         }
+
+        public List<CustomerPaidAmountDetail> GetPaidAmountDetail(Guid InvoiceID, Guid CustomerID,string RowType, string Filter, string Company, string InvoiceType)
+        {
+            List<CustomerPaidAmountDetail> DetailAmtList = null;
+            Settings settings = new Settings();
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[RPT_CustomerInvoiceRegisterDetail]";
+                        cmd.Parameters.Add("@InvoiceID", SqlDbType.UniqueIdentifier).Value = InvoiceID;
+                        cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = CustomerID;
+                        if(@RowType=="")
+                        {
+                            cmd.Parameters.Add("@RowType", SqlDbType.NVarChar, 50).Value = null;
+                        }
+                       else
+                        {
+                            cmd.Parameters.Add("@RowType", SqlDbType.NVarChar, 50).Value = RowType;
+                        }
+                        cmd.Parameters.Add("@Filter", SqlDbType.NVarChar, 50).Value = Filter;
+                        cmd.Parameters.Add("@Company", SqlDbType.NVarChar, 50).Value = Company;
+                        cmd.Parameters.Add("@InvoiceType", SqlDbType.NVarChar, 50).Value = InvoiceType;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                DetailAmtList = new List<CustomerPaidAmountDetail>();
+                                while (sdr.Read())
+                                {
+                                    CustomerPaidAmountDetail AmtList = new CustomerPaidAmountDetail();
+                                    {
+
+                                        AmtList.CustomerID = (sdr["CustomerID"].ToString() != "" ? Guid.Parse(sdr["CustomerID"].ToString()) : AmtList.CustomerID);
+                                        AmtList.InvoiceID = (sdr["InvoiceID"].ToString() != "" ? Guid.Parse(sdr["InvoiceID"].ToString()) : AmtList.InvoiceID);
+                                        AmtList.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : AmtList.Type);
+                                        
+                                        AmtList.PaymentMode = (sdr["mode"].ToString() != "" ? sdr["mode"].ToString() : AmtList.PaymentMode);
+
+                                        AmtList.Amount = (sdr["Amount"].ToString() != "" ? Decimal.Parse(sdr["Amount"].ToString()) : AmtList.Amount);
+                                        AmtList.PaymentDate = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(settings.dateformat) : AmtList.PaymentDate);
+                                       
+
+                                    }
+                                    DetailAmtList.Add(AmtList);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return DetailAmtList;
+        }
+
 
         public List<SupplierExpeditingReport> GetSupplierExpeditingDetail(ReportAdvanceSearch advanceSearchObject)//(DateTime? ToDate, string Filter,string Company,string Supplier)
         {
@@ -1788,8 +1858,8 @@ namespace SPAccounts.RepositoryServices.Services
                                         supplierInvoiceRegDetail.Age = (sdr["Age"].ToString() != "" ? sdr["Age"].ToString() : supplierInvoiceRegDetail.Age);
                                         supplierInvoiceRegDetail.RowType = (sdr["RowNo"].ToString() != "" ? sdr["RowNo"].ToString() : supplierInvoiceRegDetail.RowType);
                                         supplierInvoiceRegDetail.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : supplierInvoiceRegDetail.Type);
-
-
+                                        supplierInvoiceRegDetail.SupplierID = (sdr["SupplierID"].ToString() != "" ? Guid.Parse(sdr["SupplierID"].ToString()) : supplierInvoiceRegDetail.SupplierID);
+                                        supplierInvoiceRegDetail.InvoiceID = (sdr["InvoiceID"].ToString() != "" ? Guid.Parse(sdr["InvoiceID"].ToString()) : supplierInvoiceRegDetail.InvoiceID);
 
                                     }
                                     supplierInvRegList.Add(supplierInvoiceRegDetail);
@@ -1805,6 +1875,74 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return supplierInvRegList;
         }
+        public List<SupplierPaidAmountDetail> GetSupplierPaidAmountDetail(Guid InvoiceID, Guid SupplierID, string RowType,string Filter, string Company, string InvoiceType)
+        {
+            List<SupplierPaidAmountDetail> DetailAmtList = null;
+            Settings settings = new Settings();
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[RPT_SupplierInvoiceRegisterDetail]";
+                        cmd.Parameters.Add("@InvoiceID", SqlDbType.UniqueIdentifier).Value = InvoiceID;
+                        cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = SupplierID;
+                        if (@RowType == "")
+                        {
+                            cmd.Parameters.Add("@RowType", SqlDbType.NVarChar, 50).Value = null;
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add("@RowType", SqlDbType.NVarChar, 50).Value = RowType;
+                        }
+                        cmd.Parameters.Add("@Filter", SqlDbType.NVarChar, 50).Value = Filter;
+                        cmd.Parameters.Add("@Company", SqlDbType.NVarChar, 50).Value = Company;
+                        cmd.Parameters.Add("@InvoiceType", SqlDbType.NVarChar, 50).Value = InvoiceType;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                DetailAmtList = new List<SupplierPaidAmountDetail>();
+                                while (sdr.Read())
+                                {
+                                    SupplierPaidAmountDetail AmtList = new SupplierPaidAmountDetail();
+                                    {
+
+                                        AmtList.SupplierID = (sdr["SupplierID"].ToString() != "" ? Guid.Parse(sdr["SupplierID"].ToString()) : AmtList.SupplierID);
+                                        AmtList.InvoiceID = (sdr["InvoiceID"].ToString() != "" ? Guid.Parse(sdr["InvoiceID"].ToString()) : AmtList.InvoiceID);
+                                        AmtList.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : AmtList.Type);
+
+                                        AmtList.PaymentMode = (sdr["mode"].ToString() != "" ? sdr["mode"].ToString() : AmtList.PaymentMode);
+
+                                        AmtList.Amount = (sdr["Amount"].ToString() != "" ? Decimal.Parse(sdr["Amount"].ToString()) : AmtList.Amount);
+                                        AmtList.PaymentDate = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(settings.dateformat) : AmtList.PaymentDate);
+                                        //AmtList.InvoiceType = (sdr["InvoiceType"].ToString() != "" ? sdr["InvoiceType"].ToString() : AmtList.InvoiceType);
+
+
+                                    }
+                                    DetailAmtList.Add(AmtList);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return DetailAmtList;
+        }
+
 
 
         public List<TrialBalance> GetTrialBalanceReport(DateTime? Date)

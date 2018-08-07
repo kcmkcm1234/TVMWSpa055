@@ -196,6 +196,11 @@ $(document).ready(function () {
                  { "data": null, "orderable": false, "defaultContent": '<a data-toggle="tp" data-placement="top" data-delay={"show":2000, "hide":3000} title="Delete Payment" href="#" class="DeleteLink" onclick="DeleteSpecialPayment(this)"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' }
 
             ],
+            createdRow: function (row, data, index) {
+                if (data.Type == "<b>Total</b>") {
+                    $('td', row).addClass('totalRow');
+                }
+            },
             columnDefs: [
                 { className: "text-right", "targets": [8] },
                 { className: "text-center", "targets": [2,4] },

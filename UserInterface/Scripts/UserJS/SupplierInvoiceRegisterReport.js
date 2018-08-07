@@ -63,9 +63,15 @@ $(document).ready(function () {
              { "data": "Age", "defaultContent": "<i>-</i>", "width": "5%" },
              { "data": "OverDue", "defaultContent": "<i>-</i>", "width": "5%" },
              { "data": "InvoiceAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>", "width": "5%" },
-           { "data": "PaidAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>", "width": "5%" },
-           { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>", "width": "5%" },
-             { "data": "Type", "defaultContent": "<i>-</i>", "width": "5%" }
+           {
+               "data": "PaidAmount", render: function (data, type, row)
+               { return '<a href="#" class="actionLink" onclick="InvoiceDetail(this)">' + roundoff(data, 1) + '</a>'; }, "defaultContent": "<i>-</i>", "width": "5%"
+           },
+
+        { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>", "width": "5%" },
+             { "data": "Type", "defaultContent": "<i>-</i>", "width": "5%" },
+              { "data": "SupplierID", "defaultContent": "<i>-</i>" },
+            
              ],
              createdRow: function (row, data, index) {
                  if (data.SupplierName == "<b>Total</b>") {
@@ -81,6 +87,7 @@ $(document).ready(function () {
              columnDefs: [{ "searchable": false },
                 { "targets": [4], "visible": false },
                  { "targets": [12], "visible": false },
+                  { "targets": [13], "visible": false },
                   { className: "text-left", "targets": [0, 1, 2] },
                   { "width": "12%", "targets": [2] },
              { className: "text-right", "targets": [9, 10, 11] },
@@ -92,6 +99,37 @@ $(document).ready(function () {
         $(".buttons-excel").hide();
         today = $("#todate").val();
         RefreshSupplierInvoiceRegisterable();
+
+
+        //------------------------Modal Popup PaidAmount Detail-------------------------------------//
+        DataTables.PaidAmountDetail = $('#tblDetailPaidAmount').DataTable({
+            dom: '<"pull-left"f>rt<"bottom"ip><"clear">',
+            order: [],
+            searching: false,
+            paging: false,
+            pageLength: 5,
+            data: null,
+            columns: [
+                 { "data": "SupplierID", "defaultContent": "<i>-</i>" },
+                 { "data": "PaymentDate", "defaultContent": "<i>-</i>" },
+                 { "data": "Type", "defaultContent": "<i>-</i>" },
+                 { "data": "PaymentMode", "defaultContent": "<i>-</i>" },
+                 { "data": "Amount", "defaultContent": "<i>-</i>" }
+
+            ],
+            createdRow: function (row, data, index) {
+                if (data.Type == "<b>Total</b>") {
+                    $('td', row).addClass('totalRow');
+                }
+            },
+            columnDefs: [
+                { className: "text-right", "targets": [4] },
+                { className: "text-center", "targets": [1, 2] },
+                { className: "text-left", "targets": [3] },
+                { "targets": [0], "visible": false, "searchable": false }]
+
+        });
+
     }
     catch (x) {
         notyAlert('error', x.message);
@@ -204,4 +242,55 @@ function Reset() {
     $("#Supplier").val('').trigger('change')
     $("#ddlInvoiceTypes").val('RB');
     RefreshSupplierInvoiceRegisterable();
+}
+function InvoiceDetail(currentObj) {
+    debugger
+    $('#InvoiceDetailModel').modal('show');//
+    //var filter = $("#BasicFilters").val();
+    //var company = $("#Company").val();;
+    //var invoicetype = $("#ddlInvoiceTypes").val();
+    var rowData = DataTables.SupplierInvoiceRegisterReportTable.row($(currentObj).parents('tr')).data();
+    //$("#newBtn").attr("disabled", true);
+    //$("#saveBtn").attr("disabled", true);
+    //NewSpecialPayments()
+    if ((rowData != null)) {
+        DataTables.PaidAmountDetail.clear().rows.add(GetPaidAmountDetail(rowData.InvoiceID, rowData.SupplierID, rowData.RowType)).draw(false); //,filter,company,invoicetype)
+
+    }
+    //BindPaidAmountDetailTable();
+}
+function BindPaidAmountDetailTable() {
+  
+    DataTables.PaidAmountDetail.clear().rows.add(GetPaidAmountDetail(rowData.InvoiceID, rowData.SupplierID, rowData.RowType)).draw(false);//,filter,company,invoicetype
+
+}
+function GetPaidAmountDetail(InvoiceID, SupplierID, RowType) {
+    try {
+        debugger;
+        var InvoiceID = InvoiceID;
+        var SupplierID = SupplierID;
+        var RowType = RowType;
+
+        var filter = $("#BasicFilters").val();
+        var company = $("#Company").val();;
+        var invoicetype = $("#ddlInvoiceTypes").val();
+
+        var data = { "InvoiceID": InvoiceID, "SupplierID": SupplierID, "RowType": RowType,"Filter" :filter,"Company":company,"InvoiceType" :invoicetype };
+        var ds = {};
+        ds = GetDataFromServer("Report/GetSupplierPaidAmountDetail/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            notyAlert('error', ds.Message);
+            var emptyarr = [];
+            return emptyarr;
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
 }

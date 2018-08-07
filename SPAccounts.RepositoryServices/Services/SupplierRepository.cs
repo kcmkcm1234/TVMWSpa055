@@ -256,11 +256,11 @@ namespace SPAccounts.RepositoryServices.Services
         #endregion GetSupplierDetails
 
         #region InsertSupplier
-        public Supplier InsertSupplier(Supplier _supplierObj)
+        public object  InsertSupplier(Supplier _supplierObj)
         {
+            SqlParameter outputStatus, outputID = null;
             try
             {
-                SqlParameter outputStatus, outputID = null;
                 using (SqlConnection con = _databaseFactory.GetDBConnection())
                 {
                     using (SqlCommand cmd = new SqlCommand())
@@ -299,14 +299,21 @@ namespace SPAccounts.RepositoryServices.Services
 
                     }
                 }
-
+                AppConst Cobj = new AppConst();
                 switch (outputStatus.Value.ToString())
                 {
                     case "0":
-                        AppConst Cobj = new AppConst();
+                       
                         throw new Exception(Cobj.InsertFailure);
                     case "1":
-                        _supplierObj.ID = Guid.Parse(outputID.Value.ToString());
+                        return new
+                        {
+                            ID = outputID.Value.ToString(),
+                            Status = outputStatus.Value.ToString(),
+                            Message = Cobj.InsertSuccess
+                        };
+
+                        // _supplierObj.ID = Guid.Parse(outputID.Value.ToString());
                         break;
                     default:
                         break;
@@ -318,14 +325,20 @@ namespace SPAccounts.RepositoryServices.Services
 
                 throw ex;
             }
-            return _supplierObj;
+            return new
+            {
+                ID = outputID.Value.ToString(),
+                Status = outputStatus.Value.ToString(),
+                Message = Cobj.InsertSuccess
+            };
+            //  return _supplierObj;
         }
         #endregion InsertSupplier
 
         #region UpdateSupplier
         public object UpdateSupplier(Supplier _supplierObj)
         {
-            SqlParameter outputStatus = null;
+            SqlParameter outputStatus, outputID = null;
             try
             {
 
@@ -361,6 +374,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = _supplierObj.commonObj.UpdatedDate;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
+                        outputID = cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier);
+                        outputID.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();
 
 
@@ -385,6 +400,7 @@ namespace SPAccounts.RepositoryServices.Services
             }
             return new
             {
+                ID = outputID.Value.ToString(),
                 Status = outputStatus.Value.ToString(),
                 Message = Cobj.UpdateSuccess
             };

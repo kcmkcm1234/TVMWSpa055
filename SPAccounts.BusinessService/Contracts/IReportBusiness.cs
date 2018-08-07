@@ -40,9 +40,11 @@ namespace SPAccounts.BusinessService.Contracts
         List<CustomerExpeditingReport> GetCustomerExpeditingDetail(DateTime? ToDate,string Filter, string Company, string Customer,string InvoiceType);
         //List<CustomerInvoiceRegisterReport> GetCustomerInvoiceRegister( string Filter, string Company, string Customer, string InvoiceType, string Search);
         List<CustomerInvoiceRegisterReport> GetCustomerInvoiceRegister(CustomerInvoiceRegisterAdvanceSearch CustomerInvoiceRegisterAdvanceSearchSearchObject);
-         //List<SupplierExpeditingReport> GetSupplierExpeditingDetail(DateTime? ToDate, string Filter,string Company,string Supplier);
-         List<SupplierExpeditingReport> GetSupplierExpeditingDetail(ReportAdvanceSearch supplierPayementAdvanceSearchObj);
+        //List<SupplierExpeditingReport> GetSupplierExpeditingDetail(DateTime? ToDate, string Filter,string Company,string Supplier);
+        List<CustomerPaidAmountDetail> GetPaidAmountDetail(Guid InvoiceID, Guid CustomerID, string RowType, string Filter, string Company, string InvoiceType);
+        List<SupplierExpeditingReport> GetSupplierExpeditingDetail(ReportAdvanceSearch supplierPayementAdvanceSearchObj);
         List<SupplierInvoiceRegisterReport> GetSupplierInvoiceRegister(SupplierInvoiceRegisterAdvanceSearch supplierPayementAdvanceSearchObj);
+        List<SupplierPaidAmountDetail> GetSupplierPaidAmountDetail(Guid InvoiceID, Guid SupplierID, string RowType, string Filter, string Company, string InvoiceType);
         List<TrialBalance> GetTrialBalanceReport(DateTime? Date);
         List<FollowupReport> GetFollowupReportDetail(FollowupReportAdvanceSearch advanceSearchObject);
         List<AccountHeadGroupReport> GetOtherExpenseAccountHeadGroupSummaryReport(AccountHeadGroupAdvanceSearch accountHeadGroupSummaryAdvanceSearchObject);

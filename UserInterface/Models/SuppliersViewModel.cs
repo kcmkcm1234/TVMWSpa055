@@ -79,4 +79,27 @@ namespace UserInterface.Models
         public List<SelectListItem> SupplierList { get; set; }
         public List<SelectListItem> TitlesList { get; set; }
     }
+    public class SuppliersAPI
+    {
+        public string id { get; set; }
+        public string name { get; set; }
+        public string gst_number { get; set; }
+        public string address { get; set; }
+        public string phone { get; set; }
+        public string email { get; set; }
+        public string contact_person_name { get; set; }
+        public string contact_person_email { get; set; }
+        public string contact_person_number { get; set; }
+    }
+    public class ResponseAPI
+    {
+        public string status { get; set; }
+        public object message { get; set; }
+        public string result { get; set; }
+        public string time { get; set; }
+        public string error_code { get; set; }
+        public string error_msg { get; set; }
+
+    }
+
 }
