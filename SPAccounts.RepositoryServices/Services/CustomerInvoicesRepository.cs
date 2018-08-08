@@ -580,7 +580,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.CommandType = CommandType.StoredProcedure;
                         if (CustomerInvoiceObj != null)
                         {
-                            cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = CustomerInvoiceObj.ID;
+                            cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = CustomerInvoiceObj.customerObj.ID;
                             cmd.Parameters.Add("@includeinternal", SqlDbType.Bit).Value = CustomerInvoiceObj.customerObj.IsInternalComp;
                         }                      
                         using (SqlDataReader sdr = cmd.ExecuteReader())
