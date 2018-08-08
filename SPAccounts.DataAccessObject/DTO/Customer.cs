@@ -31,8 +31,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string ToDate { get; set; }
         public string FromDate { get; set; }
         public string PaymentTerm { get; set; }
-        public DateTime PaymentDueDate { get; set; }
-        public string PaymentDueDateFormatted { get; set; }
+        public decimal OverDue { get; set; }
     }
 }
 

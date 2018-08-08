@@ -126,8 +126,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         _customerObj.CompanyName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : _customerObj.CompanyName);
                                         _customerObj.BillingAddress = (sdr["BillingAddress"].ToString() != "" ? sdr["BillingAddress"].ToString() : _customerObj.BillingAddress);
                                         _customerObj.OutStanding = (sdr["OutStanding"].ToString() != "" ? decimal.Parse(sdr["OutStanding"].ToString()) : _customerObj.OutStanding);
-                                        _customerObj.PaymentDueDate = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()) : _customerObj.PaymentDueDate);
-                                        _customerObj.PaymentDueDateFormatted = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString(s.dateformat) : _customerObj.PaymentDueDateFormatted);
+                                        _customerObj.OverDue = (sdr["OverDue"].ToString() != "" ? decimal.Parse(sdr["OverDue"].ToString()) : _customerObj.OverDue);
                                     }
                                     customerList.Add(_customerObj);
                                 }

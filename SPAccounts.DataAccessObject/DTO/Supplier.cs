@@ -32,6 +32,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string ToDate { get; set; }
         public string FromDate { get; set; }
         public decimal MaxLimit { get; set; }
+        public decimal OverDue { get; set; }
 
     }
 }

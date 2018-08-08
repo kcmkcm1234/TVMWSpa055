@@ -70,6 +70,7 @@ namespace UserInterface.Models
         public decimal AdvanceAmount { get; set; }
         public decimal OutStanding { get; set; }
         public decimal PaidAmount { get; set; }
+        public decimal OverDue { get; set; }
 
         [Required(ErrorMessage = "Maximum Limit is missing")]
         [Display(Name = "Max Limit Per Month")]

@@ -121,6 +121,7 @@ namespace SPAccounts.RepositoryServices.Services
                                         _SupplierObj.Mobile = (sdr["Mobile"].ToString() != "" ? sdr["Mobile"].ToString() : _SupplierObj.Mobile);
                                         _SupplierObj.BillingAddress = (sdr["BillingAddress"].ToString() != "" ? sdr["BillingAddress"].ToString() : _SupplierObj.BillingAddress);
                                         _SupplierObj.OutStanding = (sdr["OutStanding"].ToString() != "" ? decimal.Parse(sdr["OutStanding"].ToString()) : _SupplierObj.OutStanding);
+                                        _SupplierObj.OverDue = (sdr["OverDue"].ToString() != "" ? decimal.Parse(sdr["OverDue"].ToString()) : _SupplierObj.OverDue);
                                     }
 
                                     suppliersList.Add(_SupplierObj);
