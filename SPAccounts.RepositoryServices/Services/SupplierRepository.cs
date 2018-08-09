@@ -175,7 +175,7 @@ namespace SPAccounts.RepositoryServices.Services
                                     _supplierObj.PaymentTermCode = (sdr["PaymentTermCode"].ToString() != "" ? sdr["PaymentTermCode"].ToString() : _supplierObj.PaymentTermCode);
                                     _supplierObj.PaymentTermsObj = new PaymentTerms();
                                     _supplierObj.PaymentTermsObj.NoOfDays = (sdr["PaymentTermNoofDays"].ToString() != "" ? int.Parse(sdr["PaymentTermNoofDays"].ToString()) : _supplierObj.PaymentTermsObj.NoOfDays);
-
+                                    _supplierObj.OverDue = (sdr["OverDue"].ToString() != "" ? decimal.Parse(sdr["OverDue"].ToString()) : _supplierObj.OverDue);
 
                                 }
                         }
