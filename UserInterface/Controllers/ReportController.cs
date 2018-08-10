@@ -2991,10 +2991,10 @@ namespace UserInterface.Controllers
             selectListItem.Add(new SelectListItem { Text = "Due in 7 Days", Value = "7days", Selected = false });
            // selectListItem.Add(new SelectListItem { Text = "Coming Week", Value = "ThisWeek", Selected = false });
             selectListItem.Add(new SelectListItem { Text = "Today", Value = "Today", Selected = false });
-            selectListItem.Add(new SelectListItem { Text = "1-30 Days", Value = "1To30", Selected = false });
-            selectListItem.Add(new SelectListItem { Text = "31-60 Days", Value = "31To60", Selected = false });
-            selectListItem.Add(new SelectListItem { Text = "61-90 Days", Value = "61To90", Selected = false });
-            selectListItem.Add(new SelectListItem { Text = "90 Above", Value = "90Above", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "OverDue 1-30 Days", Value = "1To30", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "OverDue 31-60 Days", Value = "31To60", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "OverDue 61-90 Days", Value = "61To90", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "OverDue 90 Above", Value = "90Above", Selected = false });
 
             if (id == null || id == "")
             {
@@ -3159,9 +3159,9 @@ namespace UserInterface.Controllers
             selectListItem.Add(new SelectListItem { Text = "Due in 7 Days", Value = "7days", Selected = false });
             //selectListItem.Add(new SelectListItem { Text = "Coming Week", Value = "ThisWeek", Selected = false });
             selectListItem.Add(new SelectListItem { Text = "Today", Value = "Today", Selected = false });
-            selectListItem.Add(new SelectListItem { Text = "1-30 Days", Value = "1To30", Selected = false });
-            selectListItem.Add(new SelectListItem { Text = "31-60 Days", Value = "31To60", Selected = false });
-            selectListItem.Add(new SelectListItem { Text = "61-90 Days", Value = "61To90", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "OverDue 1-30 Days", Value = "1To30", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "OverDue 31-60 Days", Value = "31To60", Selected = false });
+            selectListItem.Add(new SelectListItem { Text = "OverDue 61-90 Days", Value = "61To90", Selected = false });
             selectListItem.Add(new SelectListItem { Text = "90 Above", Value = "90Above", Selected = false });
 
             if (id == null || id == "")
