@@ -173,7 +173,8 @@ namespace UserInterface.Models
         public int Count61To90;
         public int Count91Above;
         public int ThisWeek;
-
-
+        public int days20;
+        public int days15;
+        public int days7;
     }
 }
