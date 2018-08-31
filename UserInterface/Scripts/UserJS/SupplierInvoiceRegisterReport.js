@@ -18,7 +18,7 @@ $(document).ready(function () {
                  extend: 'excel',
                  exportOptions:
                               {
-                                  columns: [0, 1, 2, 3, 4, 5, 6, 7, 9,10,11]
+                                  columns: [0, 1, 2, 3,  5, 6, 7, 9,10,11]
                               }
              }],
              order: [],
@@ -258,6 +258,9 @@ function Reset() {
     $("#Company").val('ALL').trigger('change')
     $("#Supplier").val('').trigger('change')
     $("#ddlInvoiceTypes").val('RB');
+    $("#search").val('');
+    $("#summary").prop('checked', true).trigger('change');
+    $("#CheckInternal").prop('checked', false);
     RefreshSupplierInvoiceRegisterable();
 }
 function InvoiceDetail(currentObj) {

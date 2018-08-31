@@ -269,6 +269,9 @@ function Reset() {
     $("#Company").val('ALL').trigger('change');
     $("#CustomerID").val('').trigger('change');
     $("#ddlInvoiceTypes").val('RB');
+    $("#search").val('');
+      $("#summary").prop('checked', true).trigger('change');
+      $("#CheckInternal").prop('checked', false);
     //RefreshCustomerInvoiceRegisterTable();
     AdvanceSearchContent();
 }
