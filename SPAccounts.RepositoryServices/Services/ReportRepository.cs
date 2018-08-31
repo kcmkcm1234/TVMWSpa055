@@ -1614,7 +1614,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@InvoiceType", SqlDbType.NVarChar, 500).Value = CustomerInvoiceRegisterAdvanceSearchSearchObject.InvoiceType;
                         cmd.Parameters.Add("@ReportType", SqlDbType.NVarChar, 50).Value = CustomerInvoiceRegisterAdvanceSearchSearchObject.ReportType;
                         cmd.Parameters.Add("@Search", SqlDbType.NVarChar, 500).Value = CustomerInvoiceRegisterAdvanceSearchSearchObject.Search != "" ? CustomerInvoiceRegisterAdvanceSearchSearchObject.Search : null;
-                        
+                        cmd.Parameters.Add("@IsInternal", SqlDbType.Bit).Value = CustomerInvoiceRegisterAdvanceSearchSearchObject.IncludeInternal;
                         cmd.CommandText = "[Accounts].[RPT_CustomerInvoiceRegister]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -1649,6 +1649,12 @@ namespace SPAccounts.RepositoryServices.Services
                                         CustomerInvoiceRegister.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : CustomerInvoiceRegister.Type);
                                         CustomerInvoiceRegister.InvoiceID = (sdr["InvoiceID"].ToString() != "" ? Guid.Parse(sdr["InvoiceID"].ToString()) : CustomerInvoiceRegister.InvoiceID);
                                         CustomerInvoiceRegister.CustomerID = (sdr["CustomerID"].ToString() != "" ? Guid.Parse(sdr["CustomerID"].ToString()) : CustomerInvoiceRegister.CustomerID);
+                                        if(CustomerInvoiceRegisterAdvanceSearchSearchObject.ReportType=="summary")
+                                        {
+                                            CustomerInvoiceRegister.AdvAmt = (sdr["AdvAmt"].ToString() != "" ? decimal.Parse(sdr["AdvAmt"].ToString()) : CustomerInvoiceRegister.AdvAmt);
+                                            CustomerInvoiceRegister.PaidAmt = (sdr["PaidAmt"].ToString() != "" ? decimal.Parse(sdr["PaidAmt"].ToString()) : CustomerInvoiceRegister.PaidAmt);
+                                        }
+                                        
                                     }
                                     CustomerInvoiceRegisterList.Add(CustomerInvoiceRegister);
                                 }
@@ -1824,7 +1830,7 @@ namespace SPAccounts.RepositoryServices.Services
 
                         cmd.Parameters.Add("@ReportType", SqlDbType.NVarChar, 50).Value = advanceSearchObject.ReportType;
                         cmd.Parameters.Add("@Search", SqlDbType.NVarChar, 500).Value = advanceSearchObject.Search != "" ? advanceSearchObject.Search : null;
-
+                        cmd.Parameters.Add("@IsInternal", SqlDbType.Bit).Value = advanceSearchObject.IncludeInternal;
                         cmd.CommandText = "[Accounts].[RPT_SupplierInvoiceRegister]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -1860,7 +1866,11 @@ namespace SPAccounts.RepositoryServices.Services
                                         supplierInvoiceRegDetail.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : supplierInvoiceRegDetail.Type);
                                         supplierInvoiceRegDetail.SupplierID = (sdr["SupplierID"].ToString() != "" ? Guid.Parse(sdr["SupplierID"].ToString()) : supplierInvoiceRegDetail.SupplierID);
                                         supplierInvoiceRegDetail.InvoiceID = (sdr["InvoiceID"].ToString() != "" ? Guid.Parse(sdr["InvoiceID"].ToString()) : supplierInvoiceRegDetail.InvoiceID);
-
+                                        if (advanceSearchObject.ReportType == "summary")
+                                        {
+                                            supplierInvoiceRegDetail.AdvAmt = (sdr["AdvAmt"].ToString() != "" ? decimal.Parse(sdr["AdvAmt"].ToString()) : supplierInvoiceRegDetail.AdvAmt);
+                                            supplierInvoiceRegDetail.PaidAmt = (sdr["PaidAmt"].ToString() != "" ? decimal.Parse(sdr["PaidAmt"].ToString()) : supplierInvoiceRegDetail.PaidAmt);
+                                        }
                                     }
                                     supplierInvRegList.Add(supplierInvoiceRegDetail);
                                 }

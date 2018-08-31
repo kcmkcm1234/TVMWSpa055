@@ -484,10 +484,13 @@ namespace SPAccounts.DataAccessObject.DTO
         public string Age { get; set; }
         public Decimal InvoiceAmount { get; set; }
         public Decimal PaidAmount { get; set; }
+        public Decimal AdvAmt { get; set; }
+        public Decimal PaidAmt { get; set; }
         // public string OverDue { get; set; }
         public string Search { get; set; }
         public string RowType { get; set; }
         public string Type { get; set; }
+        public Boolean IncludeInternal { get; set; }
         public CustomerInvoiceRegisterAdvanceSearch CustInvRegAdvSearch { get; set; }
     }
     public class CustomerInvoiceRegisterAdvanceSearch
@@ -499,6 +502,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string InvoiceType { get; set; }
         public string Search { get; set; }
         public string ReportType { get; set; }
+        public Boolean IncludeInternal { get; set; }
     }
     public class CustomerPaidAmountDetail
     {
@@ -565,8 +569,11 @@ namespace SPAccounts.DataAccessObject.DTO
         public string Search { get; set; }
         public string RowType { get; set; }
         public string Type { get; set; }
+        public Decimal AdvAmt { get; set; }
+        public Decimal PaidAmt { get; set; }
 
         public string PaymentDueDate { get; set; }
+        public Boolean IncludeInternal { get; set; }
     }
 
     public class SupplierInvoiceRegisterAdvanceSearch
@@ -578,6 +585,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string InvoiceType { get; set; }
         public string Search { get; set; }
         public string ReportType { get; set; }
+        public Boolean IncludeInternal { get; set; }
     }
     public class ReportAdvanceSearch
     {

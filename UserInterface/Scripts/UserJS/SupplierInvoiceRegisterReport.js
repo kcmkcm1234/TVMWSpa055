@@ -71,6 +71,8 @@ $(document).ready(function () {
         { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>", "width": "5%" },
              { "data": "Type", "defaultContent": "<i>-</i>", "width": "5%" },
               { "data": "SupplierID", "defaultContent": "<i>-</i>" },
+               { "data": "AdvAmt", "defaultContent": "<i>-</i>", "width": "5%" },
+             { "data": "PaidAmt", "defaultContent": "<i>-</i>", "width": "5%" },
             
              ],
              createdRow: function (row, data, index) {
@@ -88,6 +90,8 @@ $(document).ready(function () {
                 { "targets": [4], "visible": false },
                  { "targets": [12], "visible": false },
                   { "targets": [13], "visible": false },
+                   { "targets": [14], "visible": false },
+                    { "targets": [15], "visible": false },
                   { className: "text-left", "targets": [0, 1, 2] },
                   { "width": "12%", "targets": [2] },
              { className: "text-right", "targets": [9, 10, 11] },
@@ -164,6 +168,9 @@ function GetSupplierInvoiceRegister(supplierPayementAdvanceSearchObj) {
         if (ds.paidAmount != '') {
             $("#Paid").text(ds.paidAmount);
         }
+        if (ds.advanceAmount != '') {
+            $("#Adv").text(ds.advAmount);
+        }
         if (ds.balAmount != '') {
             $("#Bal").text(ds.balAmount);
         }
@@ -197,7 +204,15 @@ function RefreshSupplierInvoiceRegisterable() {
         else {
             var reporttype = $("#detail").val();
         }
+        var IncludeInternal;
+        //$('#IncludeInternal').attr('checked', false);
 
+        if ($('#IncludeInternal').prop("checked") == true) {
+            IncludeInternal = true;
+        }
+        else {
+            IncludeInternal = false;
+        }
 
        // supplierAdvanceSearch.ToDate = toDate[0].value !== "" ? toDate[0].value : null;
         supplierAdvanceSearch.Filter = filter[0].value !== "" ? filter[0].value : null;
@@ -209,6 +224,8 @@ function RefreshSupplierInvoiceRegisterable() {
         //if (DataTables.SupplierExpeditingDetailTableReportTable != undefined && IsVaildDateFormat(todate)) {
         //    DataTables.SupplierExpeditingDetailTableReportTable.clear().rows.add(GetSupplierExpeditingDetail()).draw(true);
         //}  
+        supplierAdvanceSearch.IncludeInternal = IncludeInternal !== "" ? IncludeInternal : null;
+
         if (DataTables.SupplierInvoiceRegisterReportTable != undefined) {
             DataTables.SupplierInvoiceRegisterReportTable.clear().rows.add(GetSupplierInvoiceRegister(supplierAdvanceSearch)).draw(false);
         }

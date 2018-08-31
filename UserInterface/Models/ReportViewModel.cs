@@ -711,8 +711,11 @@ namespace UserInterface.Models
         public string Age { get; set; }
         public Decimal InvoiceAmount { get; set; }
         public Decimal PaidAmount { get; set; }
+        public Decimal AdvAmt { get; set; }
+        public Decimal PaidAmt { get; set; }
         public string RowType { get; set; }
         public string Type { get; set; }
+        public Boolean IncludeInternal { get; set; }
     }
     public class CustomerInvoiceRegisterListViewModel
     {
@@ -734,7 +737,7 @@ namespace UserInterface.Models
         public string InvoiceType { get; set; }
        
         public Boolean InvoiceTypeAccess { get; set; }
-
+        public Boolean IncludeInternal { get; set; }
         public CustomerInvoiceRegisterAdvanceSearchViewModel CustInvRegAdvSearch { get; set; }
     }
     public class CustomerInvoiceRegisterAdvanceSearchViewModel
@@ -746,6 +749,7 @@ namespace UserInterface.Models
         public string InvoiceType { get; set; }
         public string Search { get; set; }
         public string ReportType { get; set; }
+        public Boolean IncludeInternal { get; set; }
     }
     public class CustomerPaidAmountDetailViewModel
     {
@@ -804,6 +808,7 @@ namespace UserInterface.Models
         public string InvoiceType { get; set; }
         public string Search { get; set; }
         public string ReportType { get; set; }
+        public Boolean IncludeInternal { get; set; }
     }
     public class SupplierInvoiceRegisterReportViewModel
     {
@@ -834,7 +839,8 @@ namespace UserInterface.Models
         public Decimal PaidAmount { get; set; }
         public string RowType { get; set; }
         public string Type { get; set; }
-
+        public Decimal AdvAmt { get; set; }
+        public Decimal PaidAmt { get; set; }
     }
 
     public class SupplierInvoiceRegisterListViewModel
@@ -851,6 +857,7 @@ namespace UserInterface.Models
         public string Supplier { get; set; }
         [Display(Name = "Invoice Type")]
         public string InvoiceType { get; set; }
+        public Boolean IncludeInternal { get; set; }
     }
     public class SupplierPaidAmountDetailViewModel
     {

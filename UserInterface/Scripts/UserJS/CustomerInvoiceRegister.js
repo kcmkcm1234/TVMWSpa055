@@ -74,6 +74,8 @@ $(document).ready(function () {
            
         { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>", "width": "5%" },
              { "data": "Type", "defaultContent": "<i>-</i>", "width": "5%" },
+             { "data": "AdvAmt", "defaultContent": "<i>-</i>", "width": "5%" },
+             { "data": "PaidAmt", "defaultContent": "<i>-</i>", "width": "5%" },
              ],
             
              createdRow: function (row, data, index) {
@@ -89,6 +91,8 @@ $(document).ready(function () {
              columnDefs: [{ "searchable": false },
                 { "targets": [4], "visible": false },
                  { "targets": [12], "visible": false },
+                  { "targets": [13], "visible": false },
+                   { "targets": [14], "visible": false },
                   { className: "text-left", "targets": [0, 1, 2] },
                   { "width": "12%", "targets": [2] },
              { className: "text-right", "targets": [9,10,11] },
@@ -193,6 +197,9 @@ function GetCustomerInvoiceRegister(CustomerInvoiceRegisterAdvanceSearch) {
         }
         if (ds.paidAmount != '') {
             $("#Paid").text(ds.paidAmount);
+        }
+        if (ds.advanceAmount != '') {
+            $("#Adv").text(ds.advAmount);
         }
         if (ds.balAmount != '') {
             $("#Bal").text(ds.balAmount);
@@ -301,7 +308,15 @@ function AdvanceSearchContent() {
     else {
         var reporttype = $("#detail").val();
     }
-
+    var IncludeInternal;
+    //$('#IncludeInternal').attr('checked', false);
+   
+    if ($('#IncludeInternal').prop("checked") == true) {
+        IncludeInternal = true;
+    }
+    else {
+        IncludeInternal = false;
+    }
 
     var CustomerInvoiceRegisterAdvanceSearch = new Object();
     CustomerInvoiceRegisterAdvanceSearch.Filter = filter[0].value !== "" ? filter[0].value : null;
@@ -310,6 +325,7 @@ function AdvanceSearchContent() {
     CustomerInvoiceRegisterAdvanceSearch.invoiceType = invoiceType[0].value !== "" ? invoiceType[0].value : null;
     CustomerInvoiceRegisterAdvanceSearch.Search = search !== "" ? search : null;
     CustomerInvoiceRegisterAdvanceSearch.ReportType = reporttype !== "" ? reporttype : null;
+    CustomerInvoiceRegisterAdvanceSearch.IncludeInternal = IncludeInternal !== "" ? IncludeInternal : null;
     DataTables.CustomerInvoiceRegisterReportTable.clear().rows.add(GetCustomerInvoiceRegister(CustomerInvoiceRegisterAdvanceSearch)).draw(false);
 }
 

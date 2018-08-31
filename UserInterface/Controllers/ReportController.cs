@@ -3100,20 +3100,26 @@ namespace UserInterface.Controllers
                 
                 
                     decimal invoiceAmount = result.CustomerInvoiceRegisterList.Where(SS => SS.RowType != "1000").Sum(SS => SS.InvoiceAmount);
-                    decimal paidAmount = result.CustomerInvoiceRegisterList.Where(SS => SS.RowType != "1000").Sum(SS => SS.PaidAmount);
+                decimal paidAmount;
+                decimal advanceAmount;
                 decimal balAmount;
                 if (customerInvoiceRegisterObj.ReportType == "detail")
                 {
                      balAmount = result.CustomerInvoiceRegisterList.Where(SS => SS.RowType == "1000").Sum(SS => SS.Amount);
+                    advanceAmount = result.CustomerInvoiceRegisterList.Where(SS => SS.RowType == "800").Sum(SS => SS.PaidAmount);
+                    paidAmount = result.CustomerInvoiceRegisterList.Where(SS => SS.RowType == "1" || SS.RowType == "2").Sum(SS => SS.PaidAmount);
                 }
                 else
                 {
                      balAmount = result.CustomerInvoiceRegisterList.Where(SS => SS.RowType != "1000").Sum(SS => SS.Amount);
+                    advanceAmount = result.CustomerInvoiceRegisterList.Where(SS => SS.Type == "2").Sum(SS => SS.AdvAmt);
+                    paidAmount = result.CustomerInvoiceRegisterList.Where(SS => SS.RowType != "1000").Sum(SS => SS.PaidAmt);
                 }
                     string invoiceAmountSumFormatted = _commonBusiness.ConvertCurrency(invoiceAmount, 2);
                     string paidAmountSumFormatted = _commonBusiness.ConvertCurrency(paidAmount, 2);
-                    string balAmountSumFormatted = _commonBusiness.ConvertCurrency(balAmount, 2);
-                    return JsonConvert.SerializeObject(new { Result = "OK", Records = result,InvAmt=invoiceAmountSumFormatted,paidAmount=paidAmountSumFormatted,balAmount=balAmountSumFormatted });
+                string advanceAmountSumFormatted = _commonBusiness.ConvertCurrency(advanceAmount, 2);
+                string balAmountSumFormatted = _commonBusiness.ConvertCurrency(balAmount, 2);
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = result,InvAmt=invoiceAmountSumFormatted,paidAmount=paidAmountSumFormatted,advAmount= advanceAmountSumFormatted, balAmount=balAmountSumFormatted });
 
 
                
@@ -3251,20 +3257,30 @@ namespace UserInterface.Controllers
                 
 
                 decimal invoiceAmount = result.SupplierInvoiceRegisterList.Where(SS => SS.RowType != "1000").Sum(SS => SS.InvoiceAmount);
-                decimal paidAmount = result.SupplierInvoiceRegisterList.Where(SS => SS.RowType != "1000").Sum(SS => SS.PaidAmount);
+                decimal paidAmount;
+                decimal advanceAmount;
+               
+                //  decimal paidAmount = result.SupplierInvoiceRegisterList.Where(SS => SS.RowType != "1000").Sum(SS => SS.PaidAmount);
                 decimal balAmount;
                 if (supplierAdvanceSearchObj.ReportType=="detail")
                 {
-                     balAmount = result.SupplierInvoiceRegisterList.Where(SS => SS.RowType == "1000").Sum(SS => SS.Amount);
+                   
+                    advanceAmount = result.SupplierInvoiceRegisterList.Where(SS => SS.RowType == "800").Sum(SS => SS.PaidAmount);
+                    paidAmount = result.SupplierInvoiceRegisterList.Where(SS => SS.Type == "1" || SS.Type == "2").Sum(SS => SS.PaidAmount);
+                    balAmount = result.SupplierInvoiceRegisterList.Where(SS => SS.RowType == "1000").Sum(SS => SS.Amount);
                 }
                else
                 {
-                     balAmount = result.SupplierInvoiceRegisterList.Where(SS => SS.RowType != "1000").Sum(SS => SS.Amount);
+                    advanceAmount = result.SupplierInvoiceRegisterList.Where(SS => SS.Type == "2").Sum(SS => SS.AdvAmt);
+                    paidAmount = result.SupplierInvoiceRegisterList.Where(SS => SS.RowType != "1000").Sum(SS => SS.PaidAmt);
+                    balAmount = result.SupplierInvoiceRegisterList.Where(SS => SS.RowType != "1000").Sum(SS => SS.Amount);
+
                 }
                 string invoiceAmountSumFormatted = _commonBusiness.ConvertCurrency(invoiceAmount, 2);
                 string paidAmountSumFormatted = _commonBusiness.ConvertCurrency(paidAmount, 2);
+                string advanceAmountSumFormatted = _commonBusiness.ConvertCurrency(advanceAmount, 2);
                 string balAmountSumFormatted = _commonBusiness.ConvertCurrency(balAmount, 2);
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = result, InvAmt = invoiceAmountSumFormatted, paidAmount = paidAmountSumFormatted, balAmount = balAmountSumFormatted });
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result, InvAmt = invoiceAmountSumFormatted, paidAmount = paidAmountSumFormatted, advAmount = advanceAmountSumFormatted, balAmount = balAmountSumFormatted });
             }
             catch (Exception ex)
             {
