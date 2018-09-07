@@ -16,6 +16,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public string CreatedDate { get; set; }
 
         public int RemovedDataCount { get; set; }
+        public decimal TotalAmount { get; set; }
         public List<ImportOtherExpenses> ImportExpenseList { get; set; }
     }
 }

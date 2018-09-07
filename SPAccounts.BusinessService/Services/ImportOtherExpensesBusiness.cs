@@ -35,25 +35,37 @@ namespace SPAccounts.BusinessService.Services
             UploadedFiles uploadFileObj = new UploadedFiles();
             List<ImportOtherExpenses> removedData = new List<ImportOtherExpenses>();
             string extension = Path.GetExtension(filePath);
+            decimal totalAmount = 0;
             try
             {
                 switch (extension)
                 {
                     case ".xls": //Excel 97-03
                         List<ImportOtherExpenses> ExcelDataXls = _importOtherExpensesRepository.GetExcelDataToList(uploadedFile, filePath, 1);
+                        
+                        foreach (ImportOtherExpenses ExcelData in ExcelDataXls)
+                            {
+                            totalAmount = totalAmount + ExcelData.Amount;
+                        }
                         removedData = _importOtherExpensesRepository.InsertValidateExpenseData(ExcelDataXls,true);
                         uploadedFile.FileStatus = "Successfully Imported";
                         uploadFileObj = _importOtherExpensesRepository.UpdateUplodedFileDetail(uploadedFile,ExcelDataXls.Count - removedData.Count);
                         uploadFileObj.RemovedDataCount = removedData.Count;
                         uploadFileObj.ImportExpenseList = (removedData.Count != 0) ? removedData : ExcelDataXls;
+                        uploadFileObj.TotalAmount = totalAmount;
                         break;
                     case ".xlsx": //Excel 07 to 12
                         List<ImportOtherExpenses> ExcelDataXlsx = _importOtherExpensesRepository.GetExcelDataToList(uploadedFile, filePath, 2);
+                        foreach (ImportOtherExpenses ExcelData in ExcelDataXlsx)
+                        {
+                            totalAmount = totalAmount + ExcelData.Amount;
+                        }
                         removedData = _importOtherExpensesRepository.InsertValidateExpenseData(ExcelDataXlsx,true);
                         uploadedFile.FileStatus = "Successfully Imported";
                         uploadFileObj = _importOtherExpensesRepository.UpdateUplodedFileDetail(uploadedFile,ExcelDataXlsx.Count);
                         uploadFileObj.RemovedDataCount = removedData.Count;
                         uploadFileObj.ImportExpenseList = (removedData.Count != 0) ? removedData : ExcelDataXlsx;
+                        uploadFileObj.TotalAmount = totalAmount;
                         break;
                 }
             }
