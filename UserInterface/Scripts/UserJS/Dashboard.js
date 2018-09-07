@@ -67,11 +67,26 @@ function ChangePartialView(Controller, Dom, Action) {
     if (Dom == "MonthlyRecap")
         MRinit();
     if (Dom == "ExpenseSummary")
-         ExpenseSummaryGraph();
+        ExpenseSummaryGraph();
+
+    if (Dom == "MonthlySalesPurchase")
+        SalesPurchaseChart();
    
 }
 
 
+function LoadSalesChart() {
+    if ($("#Invoice").prop('checked')) {
+        var summaryType = $("#Invoice").val();
+    }
+    else {
+        var summaryType = $("#Payment").val();
+    }
+    var MonthlySalesPurchaseViewModel = new Object();
+    MonthlySalesPurchaseViewModel.summarytype = summaryType;
+    //MonthlySalesPurchaseViewModel.CompanyName = "All";
+    ChangePartialView("Dashboard", "MonthlySalesPurchase", MonthlySalesPurchaseViewModel);
 
+}
 
  

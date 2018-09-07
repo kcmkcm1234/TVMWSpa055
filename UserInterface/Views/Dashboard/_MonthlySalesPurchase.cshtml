@@ -1,0 +1,51 @@
+﻿@model UserInterface.Models.MonthlySalesPurchaseViewModel
+@using UserInterface.App_Start
+<div class="col-md-12">
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Sales Purchase Summary - <span id="lbltxt" ></span></h3>
+
+            <div class="box-tools pull-right"></div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="invoice">
+                        <p class="text-center">
+                            <strong>@Model.Caption</strong>
+                            <i class="fa fa-circle" style="color:rgba(206, 153, 71, 1);padding-left:30px"> Sales</i> &nbsp;&nbsp;&nbsp;<i class="fa fa-circle" style="color:rgba(48, 204, 132, 1)"> Purchase</i>
+                            <span style="color:rgba(128, 128, 128,.4);padding-left:100px;font-size:11px">figures are in 1000s</span>
+                        </p>
+                    </div>
+                    <div id="payment" hidden>
+                        <p class="text-center">
+                            <strong>@Model.Caption</strong>
+                            <i class="fa fa-circle" style="color:rgba(228, 102, 42, 0.89);padding-left:30px"> Sales</i> &nbsp;&nbsp;&nbsp;<i class="fa fa-circle" style="color:rgba(82,166,216,1)"> Purchase</i>
+                            <span style="color:rgba(128, 128, 128,.4);padding-left:100px;font-size:11px">figures are in 1000s</span>
+                        </p>
+                    </div>
+                    <div class="charts">
+                        <!-- Sales Chart Canvas -->
+                        <canvas id="salesPurchaseChart" style="height: 180px; width: 703px;" width="703" height="180"></canvas>
+                    </div>
+                    <!-- /.chart-responsive -->
+                </div>
+
+                <!-- /.col -->
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </div>
+
+    </div>
+    <!-- /.box -->
+</div>
+
+<script>
+    var SPResult = @Html.Raw(Json.Encode(Model));
+    
+    //LoadSalesChart();
+</script>
+
+

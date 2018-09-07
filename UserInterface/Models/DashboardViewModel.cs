@@ -77,7 +77,24 @@ namespace UserInterface.Models
 
 
     }
+    public class MonthlySalesPurchaseViewModel
+    {
+    
+        public string Caption { get; set; }
+        public List<MonthlySalesPurchaseItemViewModel> MonthlyItemList { get; set; }
+        public decimal TotalIncome { get; set; }
+        public decimal TotalExpense { get; set; }
+        public decimal TotalProfit { get; set; }
+        public string summarytype { get; set; }
 
+    }
+    public class MonthlySalesPurchaseItemViewModel
+    {
+        public string Period { get; set; }
+        public decimal Sales { get; set; }
+        public decimal Purchase { get; set; }
+
+    }
     public class ExpenseSummaryViewModel
     {
         public string CompanyName { get; set; }

@@ -76,7 +76,57 @@ namespace SPAccounts.RepositoryServices.Services
             return monthlyRecap;
         }
 
+        public MonthlySalesPurchase GetSalesPurchase(MonthlySalesPurchase data)
+        {
+            MonthlySalesPurchase monthlySales = new MonthlySalesPurchase();
+            monthlySales.MonthlyItemList = new List<MonthlySalesPurchaseItem>();
+            MonthlySalesPurchaseItem MSP = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[MonthlySalesPurchase]";
+                        cmd.Parameters.Add("@SummaryType", SqlDbType.NVarChar, 10).Value = data.summarytype;
+                        //cmd.Parameters.Add("@IsInternal", SqlDbType.Bit).Value = data.IsInternal;
+                        cmd.CommandType = CommandType.StoredProcedure;
 
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                while (sdr.Read())
+                                {
+                                    MSP = new MonthlySalesPurchaseItem();
+                                    MSP.Period = (sdr["Period"].ToString() != "" ? (sdr["Period"].ToString()) : MSP.Period);
+                                    MSP.Sales = (sdr["Sales"].ToString() != "" ? decimal.Parse(sdr["Sales"].ToString()) : MSP.Sales);
+                                    MSP.Purchase = (sdr["Purchase"].ToString() != "" ? decimal.Parse(sdr["Purchase"].ToString()) : MSP.Purchase);
+
+                                    monthlySales.MonthlyItemList.Add(MSP);
+
+
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return monthlySales;
+        }
         public TopDocs GetTopDocs(string DocType,string Company, bool IsInternal) {
             Settings settings = new Settings();
             TopDocs Docs = new TopDocs();
