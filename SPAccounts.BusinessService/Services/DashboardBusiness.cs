@@ -57,6 +57,24 @@ namespace SPAccounts.BusinessService.Services
         }
 
 
+        public MonthlySalesPurchase GetSalesPurchase(MonthlySalesPurchase data)
+        {
+            MonthlySalesPurchase Result = _dashboardRepository.GetSalesPurchase(data);
+            if (Result != null)
+            {
+                foreach (MonthlySalesPurchaseItem m in Result.MonthlyItemList)
+                {
+                    Result.TotalIncome = Result.TotalIncome + m.Sales;
+                    Result.TotalExpense = Result.TotalExpense + m.Purchase;
+                }
+                Result.Caption = Result.MonthlyItemList[0].Period + "-" + Result.MonthlyItemList[11].Period;
+              
+            }
+                
+            return Result;
+
+        }
+
         public TopDocs GetTopDocs(string DocType, string Company, string BaseURL, bool IsInternal)
         {
             TopDocs Result = _dashboardRepository.GetTopDocs(DocType, Company,IsInternal);

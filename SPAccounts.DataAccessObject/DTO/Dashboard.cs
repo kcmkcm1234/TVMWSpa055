@@ -56,7 +56,22 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal ExAmount { get; set; }
 
     }
+    public class MonthlySalesPurchase
+    {
+        public string Caption { get; set; }
+        public List<MonthlySalesPurchaseItem> MonthlyItemList { get; set; }
+        public decimal TotalIncome { get; set; }
+        public decimal TotalExpense { get; set; }
+        public decimal TotalProfit { get; set; }
+        public string summarytype { get; set; }
+    }
+    public class MonthlySalesPurchaseItem
+    {
+        public string Period { get; set; }
+        public decimal Sales { get; set; }
+        public decimal Purchase { get; set; }
 
+    }
     public class ExpenseSummary
     {
         public string CompanyName { get; set; }

@@ -142,6 +142,8 @@ namespace UserInterface.App_Start
                 config.CreateMap<SupplierInvoiceRegisterReportViewModel, SupplierInvoiceRegisterReport>().ReverseMap();
                 config.CreateMap<SupplierInvoiceRegisterAdvanceSearchViewModel, SupplierInvoiceRegisterAdvanceSearch>().ReverseMap();
                 config.CreateMap<SupplierPaidAmountDetailViewModel, SupplierPaidAmountDetail>().ReverseMap();
+                config.CreateMap<MonthlySalesPurchaseViewModel, MonthlySalesPurchase>().ReverseMap();
+                config.CreateMap<MonthlySalesPurchaseItemViewModel, MonthlySalesPurchaseItem>().ReverseMap();
             });
         }
     }

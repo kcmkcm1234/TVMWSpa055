@@ -6,13 +6,13 @@
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
     ViewBag.path = "Home / " + ViewBag.Title;
 }
- 
+
 <div style="width:100%;">
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i>Dashboard</a></li>
         <li class="active">@ViewBag.Title</li>
     </ol>
-</div> 
+</div>
 <div class="col-md-12">
     &nbsp;
 </div>
@@ -26,78 +26,100 @@
             <div class="col-md-8" style="text-align:left">
                 @Html.LabelFor(model => model.IsInternal, htmlAttributes: new { @class = "control-label" })
             </div>
-           
+
         </div>
     </div>
 </div>
 
-    <div id="MonthlyRecap" class="col-md-12">
-        @{ 
-            //var data = new { Company = "All" };
-            MonthlyRecapViewModel MRV = new MonthlyRecapViewModel();
-            MRV.CompanyName = "All";
-            @Html.Action("MonthlyRecap", "Dashboard", MRV);
+<div id="MonthlyRecap" class="col-md-12">
+    @{
+        //var data = new { Company = "All" };
+        MonthlyRecapViewModel MRV = new MonthlyRecapViewModel();
+        MRV.CompanyName = "All";
+        @Html.Action("MonthlyRecap", "Dashboard", MRV);
+    }
+</div>
+
+<div class="col-md-12">
+    <div class="form-group " style="text-align:right;float:right!important;">
+        <label class="radio-btn-new"  style="padding-right:30px;">
+            Based on Invoice
+            <input type="radio" id="Invoice"  value="Invoice"  checked="checked" name="GroupSelect"  onclick="LoadSalesChart()">
+            <span class="checkmark"></span>
+        </label>
+        <label class="radio-btn-new" >
+            Based on Payment
+            <input type="radio" id="Payment" value="Payment"  name="GroupSelect" onclick="LoadSalesChart()">
+            <span class="checkmark"></span>
+        </label>
+    </div>
+</div>
+
+    <div id="MonthlySalesPurchase" class="col-md-12">
+        @{
+            MonthlySalesPurchaseViewModel MSP = new MonthlySalesPurchaseViewModel();
+            //  MSP.summarytype = "Invoice";
+            @Html.Action("MonthlySalesPurchase", "Dashboard", MSP);
         }
-    </div>  
-  
+    </div>
     <div class="col-lg-12">
-    <div id="ExpenseSummary" class="col-md-6">
-        @{
-            //var data1 = new { month = 0, year = 0, CompanyName = "All" };
-            ExpenseSummaryViewModel ESVM = new ExpenseSummaryViewModel();
-            ESVM.CompanyName = "All";
-            ESVM.month = 0;
-            ESVM.year = 0;
-            @Html.Action("ExpenseSummary", "Dashboard", ESVM);
-        }
-    </div>
-    <div id="OutstandingSummary" class="col-md-6">
-        @{
-            OutstandingSummaryViewModel OSVM = new OutstandingSummaryViewModel();
-            OSVM.CompanyName = "All";
-            @Html.Action("OutstandingSummary", "Dashboard", OSVM);
-        }
-    </div>
-
-</div>
-<div class="col-lg-12">
-
-    <div id="TopCustomers" class="col-md-6 ">
-        @{
-            TopCustomersViewModel TCVM = new TopCustomersViewModel();
-            TCVM.CompanyName = "All";
-            @Html.Action("TopCustomers", "Dashboard", TCVM);
-        }
-    </div>
-    <div id="TopSuppliers" class="col-md-6 ">
-        @{
-            TopSuppliersViewModel TSVM = new TopSuppliersViewModel();
-            TSVM.CompanyName = "All";
-            @Html.Action("TopSuppliers", "Dashboard", TSVM);
-        }
-    </div>
-    <div class="col-md-12 ">
-        @{
-
-            @Html.Action("InvAgeingSummary", "Dashboard");
-        }
+        <div id="ExpenseSummary" class="col-md-6">
+            @{
+                //var data1 = new { month = 0, year = 0, CompanyName = "All" };
+                ExpenseSummaryViewModel ESVM = new ExpenseSummaryViewModel();
+                ESVM.CompanyName = "All";
+                ESVM.month = 0;
+                ESVM.year = 0;
+                @Html.Action("ExpenseSummary", "Dashboard", ESVM);
+            }
+        </div>
+        <div id="OutstandingSummary" class="col-md-6">
+            @{
+                OutstandingSummaryViewModel OSVM = new OutstandingSummaryViewModel();
+                OSVM.CompanyName = "All";
+                @Html.Action("OutstandingSummary", "Dashboard", OSVM);
+            }
+        </div>
 
     </div>
+    <div class="col-lg-12">
 
-</div>
-   
+        <div id="TopCustomers" class="col-md-6 ">
+            @{
+                TopCustomersViewModel TCVM = new TopCustomersViewModel();
+                TCVM.CompanyName = "All";
+                @Html.Action("TopCustomers", "Dashboard", TCVM);
+            }
+        </div>
+        <div id="TopSuppliers" class="col-md-6 ">
+            @{
+                TopSuppliersViewModel TSVM = new TopSuppliersViewModel();
+                TSVM.CompanyName = "All";
+                @Html.Action("TopSuppliers", "Dashboard", TSVM);
+            }
+        </div>
+        <div class="col-md-12 ">
+            @{
+
+                @Html.Action("InvAgeingSummary", "Dashboard");
+            }
+
+        </div>
+
+    </div>
 
 
-        
 
-   
+
+
+
 
 
     @section Scripts {
         @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jquery")
         @*@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/AdminLTEDash")*@
         @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/AdminDash")
-       
+
     }
     <div>
 

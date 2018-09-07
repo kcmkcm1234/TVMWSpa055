@@ -87,7 +87,13 @@ namespace UserInterface.Controllers
             data = Mapper.Map<MonthlyRecap, MonthlyRecapViewModel>(_dashboardBusiness.GetMonthlyRecap(Mapper.Map<MonthlyRecapViewModel, MonthlyRecap>(data)));
             return PartialView("_MontlyRecap", data);
         }
-
+        [AuthSecurityFilter(ProjectObject = "AdminDashboard", Mode = "R")]
+        public ActionResult MonthlySalesPurchase(MonthlySalesPurchaseViewModel data)
+        {
+          //  MonthlySalesPurchaseViewModel data = new MonthlySalesPurchaseViewModel();
+            data = Mapper.Map<MonthlySalesPurchase, MonthlySalesPurchaseViewModel>(_dashboardBusiness.GetSalesPurchase(Mapper.Map<MonthlySalesPurchaseViewModel,MonthlySalesPurchase>(data)));
+            return PartialView("_MonthlySalesPurchase", data);
+        }
         [AuthSecurityFilter(ProjectObject = "AdminDashboard", Mode = "R")]
         public ActionResult ExpenseSummary(ExpenseSummaryViewModel data)
         {

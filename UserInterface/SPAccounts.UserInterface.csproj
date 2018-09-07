@@ -1574,6 +1574,7 @@
     <Content Include="Scripts\UserJS\CustomerOutStandingReport.js" />
     <Content Include="Scripts\UserJS\CustomerPaymentLedgerReport.js" />
     <Content Include="Scripts\UserJS\CustomerPayments.js" />
+    <Content Include="Scripts\UserJS\MonthlySalesPurchase.js" />
     <Content Include="Scripts\UserJS\MonthWiseIncomeExpenseSummary.js" />
     <Content Include="Scripts\UserJS\SpecialInvPayments.js" />
     <Content Include="Scripts\UserJS\Customers.js" />
@@ -1837,6 +1838,7 @@
     <Content Include="Views\Report\CustomerInvoiceRegister.cshtml" />
     <Content Include="Views\Dashboard\_InvoiceRegisterSummary.cshtml" />
     <Content Include="Views\Report\SupplierInvoiceRegister.cshtml" />
+    <Content Include="Views\Dashboard\_MonthlySalesPurchase.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
