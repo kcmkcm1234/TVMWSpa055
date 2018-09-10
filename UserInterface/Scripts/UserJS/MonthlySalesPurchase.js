@@ -1,8 +1,4 @@
 ﻿
-$(document).ready(function () {
-    debugger;
-    LoadSalesChart();
-});
 
 $(function () {
     debugger;
@@ -41,7 +37,8 @@ function createSalesPurchaseChart(SPlabelList, SalesList, PurchaseList) {
     // Get context with jQuery - using jQuery's .get() method.
   //  var salesPurchaseChartCanvas = $('#salesPurchaseChart').get(0).getContext('2d');
     // This will get the first returned node in the jQuery collection.
-  //  var salesPurchaseChart = new Chart(salesPurchaseChartCanvas);
+    //  var salesPurchaseChart = new Chart(salesPurchaseChartCanvas);
+
     if ($("#Invoice").prop('checked')) {
         var summaryType = $("#Invoice").val();
     }
@@ -49,7 +46,8 @@ function createSalesPurchaseChart(SPlabelList, SalesList, PurchaseList) {
         var summaryType = $("#Payment").val();
     }
 
-    var salesPurchaseChartOptions = {
+    var options = {
+      
         // Boolean - If we should show the scale at all
         showScale: true,
         // Boolean - Whether grid lines are shown across the chart
@@ -85,9 +83,109 @@ function createSalesPurchaseChart(SPlabelList, SalesList, PurchaseList) {
         // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
         maintainAspectRatio: true,
         // Boolean - whether to make the chart responsive to window resizing
-        responsive: true
+        responsive: true,
+
+        animation: true,
+        tooltipTemplate: function (V) {
+            debugger;
+            return V.label + ": ₹ " + roundoff(V.value * 1000)
+        },
+        //tooltipFillColor: "rgba(255,255,255,.89)",
+        //tooltipFontColor: "rgba(1,1,1,1)",
+        //tooltipCaretSize: 0,
+        //tooltipFontSize: 14,
+        //tooltipFontStyle: "thick",
+       
     };
 
+  
+    
+    //-----------------show only single data when hover the bar data, to put ₹ symbol------------//
+
+    Chart.types.Bar.extend({
+
+        name: "BarOneTip",
+        initialize: function (data) {
+            Chart.types.Bar.prototype.initialize.apply(this, arguments);
+        },
+        getBarsAtEvent: function (e) {
+            var barsArray = [],
+                eventPosition = Chart.helpers.getRelativePosition(e),
+                datasetIterator = function (dataset) {
+                    barsArray.push(dataset.bars[barIndex]);
+                },
+                barIndex;
+
+            for (var datasetIndex = 0; datasetIndex < this.datasets.length; datasetIndex++) {
+                for (barIndex = 0; barIndex < this.datasets[datasetIndex].bars.length; barIndex++) {
+                    if (this.datasets[datasetIndex].bars[barIndex].inRange(eventPosition.x, eventPosition.y)) {
+
+                        //change here to only return the intrested bar not the group
+                        barsArray.push(this.datasets[datasetIndex].bars[barIndex]);
+                        return barsArray;
+                    }
+                }
+            }
+
+            return barsArray;
+        },
+        showTooltip: function (ChartElements, forceRedraw) {
+            console.log(ChartElements);
+            // Only redraw the chart if we've actually changed what we're hovering on.
+            if (typeof this.activeElements === 'undefined') this.activeElements = [];
+
+            var isChanged = (function (Elements) {
+                var changed = false;
+
+                if (Elements.length !== this.activeElements.length) {
+                    changed = true;
+                    return changed;
+                }
+
+                Chart.helpers.each(Elements, function (element, index) {
+                    if (element !== this.activeElements[index]) {
+                        changed = true;
+                    }
+                }, this);
+                return changed;
+            }).call(this, ChartElements);
+
+            if (!isChanged && !forceRedraw) {
+                return;
+            }
+            else {
+                this.activeElements = ChartElements;
+            }
+            this.draw();
+            console.log(this)
+            if (ChartElements.length > 0) {
+
+                //removed the check for multiple bars at the index now just want one
+                Chart.helpers.each(ChartElements, function (Element) {
+                    var tooltipPosition = Element.tooltipPosition();
+                    new Chart.Tooltip({
+                        x: Math.round( tooltipPosition.x),
+                        y:  Math.round(tooltipPosition.y),
+                        xPadding: this.options.tooltipXPadding,
+                        yPadding: this.options.tooltipYPadding,
+                        fillColor: this.options.tooltipFillColor,
+                        textColor: this.options.tooltipFontColor,
+                        fontFamily: this.options.tooltipFontFamily,
+                        fontStyle: this.options.tooltipFontStyle,
+                        fontSize: this.options.tooltipFontSize,
+                        caretHeight: this.options.tooltipCaretSize,
+                        cornerRadius: this.options.tooltipCornerRadius,
+                        text: Chart.helpers.template(this.options.tooltipTemplate, Element),
+                        chart: this.chart
+                    }).draw();
+                }, this);
+
+            }
+            return this;
+        }
+
+    });
+//--------------------------------------------------------------------------//
     if (summaryType == "Invoice")
     {
 
@@ -129,7 +227,7 @@ function createSalesPurchaseChart(SPlabelList, SalesList, PurchaseList) {
     var ct = c.get(0).getContext('2d');
     var ctx = document.getElementById("salesPurchaseChart").getContext("2d");
     /*********************/
-    new Chart(ctx).Bar(salesPurchaseChartData, salesPurchaseChartOptions);
+    new Chart(ctx).BarOneTip(salesPurchaseChartData, options);
     }
     else if(summaryType == "Payment")
     {
@@ -171,34 +269,16 @@ function createSalesPurchaseChart(SPlabelList, SalesList, PurchaseList) {
         var ct = c.get(0).getContext('2d');
         var ctx = document.getElementById("salesPurchaseChart").getContext("2d");
         /*********************/
-        new Chart(ctx).Bar(salesPurchaseChartData, salesPurchaseChartOptions);
+        new Chart(ctx).BarOneTip(salesPurchaseChartData, options);
 
     }
-    //var options = {
-
-        //animation: true,
-        //tooltipTemplate: function (V) {
-        //    debugger;
-        //    return V.Sales + ":: ₹ " + V.Purchase * 1000
-        //},
-        //tooltipFillColor: "rgba(255,255,255,.89)",
-        //tooltipFontColor: "rgba(1,1,1,1)",
-        //tooltipCaretSize: 0,
-        //tooltipFontSize: 14,
-        //tooltipFontStyle: "thick",
-
-  //  };
+  
     //Get the context of the canvas element we want to select
     //var c = $('#salesPurchaseChart');
     //var ct = c.get(0).getContext('2d');
     //var ctx = document.getElementById("salesPurchaseChart").getContext("2d");
     ///*********************/
     //new Chart(ctx).Bar(salesPurchaseChartData, salesPurchaseChartOptions);
-
-
-   
-    //salesPurchaseChart.Line(salesPurchaseChartData, salesPurchaseChartOptions);
-
 
 
     // ---------------------------

@@ -94,7 +94,7 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Connection = con;
                         cmd.CommandText = "[Accounts].[MonthlySalesPurchase]";
                         cmd.Parameters.Add("@SummaryType", SqlDbType.NVarChar, 10).Value = data.summarytype;
-                        //cmd.Parameters.Add("@IsInternal", SqlDbType.Bit).Value = data.IsInternal;
+                        cmd.Parameters.Add("@IsInternal", SqlDbType.Bit).Value = data.IsInternal;
                         cmd.CommandType = CommandType.StoredProcedure;
 
                         using (SqlDataReader sdr = cmd.ExecuteReader())

@@ -29,6 +29,22 @@ function IsInternalChange() {
     MonthlyRecapViewModel.CompanyName = "All";
     ChangePartialView("Dashboard", "MonthlyRecap",MonthlyRecapViewModel);//ControllerName,id of the container div,Name of the action
    
+
+    if ($("#Invoice").prop('checked')) {
+        var summaryType = $("#Invoice").val();
+    }
+    else {
+        var summaryType = $("#Payment").val();
+    }
+
+    var MonthlySalesPurchaseViewModel = new Object();
+    MonthlySalesPurchaseViewModel.summarytype = summaryType;
+    MonthlySalesPurchaseViewModel.IsInternal = IsInternalCompany;
+    ChangePartialView("Dashboard", "MonthlySalesPurchase", MonthlySalesPurchaseViewModel);
+
+
+
+
     var ExpenseSummaryViewModel = new Object();
     ExpenseSummaryViewModel.IsInternal = IsInternalCompany;
     ExpenseSummaryViewModel.CompanyName = "All";
@@ -51,6 +67,7 @@ function IsInternalChange() {
     TopSuppliersViewModel.CompanyName = "All";
     ChangePartialView("Dashboard", "TopSuppliers", TopSuppliersViewModel);//ControllerName,id of the container div,Name of the action
 
+    LoadSalesChart();
 }
 
 function ChangePartialView(Controller, Dom, Action) {
@@ -75,18 +92,6 @@ function ChangePartialView(Controller, Dom, Action) {
 }
 
 
-function LoadSalesChart() {
-    if ($("#Invoice").prop('checked')) {
-        var summaryType = $("#Invoice").val();
-    }
-    else {
-        var summaryType = $("#Payment").val();
-    }
-    var MonthlySalesPurchaseViewModel = new Object();
-    MonthlySalesPurchaseViewModel.summarytype = summaryType;
-    //MonthlySalesPurchaseViewModel.CompanyName = "All";
-    ChangePartialView("Dashboard", "MonthlySalesPurchase", MonthlySalesPurchaseViewModel);
 
-}
 
  

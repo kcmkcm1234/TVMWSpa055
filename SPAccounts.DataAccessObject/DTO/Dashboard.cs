@@ -64,6 +64,7 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal TotalExpense { get; set; }
         public decimal TotalProfit { get; set; }
         public string summarytype { get; set; }
+        public bool IsInternal { get; set; }
     }
     public class MonthlySalesPurchaseItem
     {
