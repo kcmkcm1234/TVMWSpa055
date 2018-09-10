@@ -138,7 +138,7 @@ function UploadFile(FileObject) {
                                 $("#AHContainer").hide();
                                 $("#ErrorBar").hide();
                                 $("#noError").show();
-                                BindImportExpenseTable(JSON.parse(result.ImportExpenseList), result.TotalCount, result.TotalCount, result.RemovedCount, result.FileName);
+                                BindImportExpenseTable(JSON.parse(result.ImportExpenseList), result.TotalCount, result.TotalCount, result.RemovedCount, result.FileName, result.TotalAmount);
                             }
                             else {
                                 $("#ErrorData").show();
@@ -201,13 +201,15 @@ function BindTableOtherExpenses(ImportExpenseList) {
 }
 
 //----------Binding table for approved datas-----------//
-function BindImportExpenseTable(ImportExpenseList, Count, TotalCount, RemovedCount, files) {
+function BindImportExpenseTable(ImportExpenseList, Count, TotalCount, RemovedCount, files, TotalAmount) {
     $("#AHContainer").hide();
     $("#TableContainer").show();
     $('#fileName').text('');
     $('#fileName').append('<span><b> ' + files + '</b></span>');
     $('#TotalRows').text('');
     $('#TotalRows').append('<span><b> ' + TotalCount + '</b></span>');
+    $('#TotalAmount').text('');
+    $('#TotalAmount').append('<span><b> ' + roundoff(TotalAmount) + '</b></span>');
     $('#InsertedRowCount').text('');
     $('#InsertedRowCount').append('<span><b> ' + Count + '</b></span>');
     $('#RemovedRowCount').text('');

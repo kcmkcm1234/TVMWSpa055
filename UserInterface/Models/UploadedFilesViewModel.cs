@@ -18,6 +18,7 @@ namespace UserInterface.Models
         public string CreatedDate { get; set; }
 
         public int RemovedDataCount { get; set; }
+        public decimal TotalAmount { get; set; }
         public List<ImportOtherExpensesViewModel> ImportExpenseList { get; set; }
     }
 }

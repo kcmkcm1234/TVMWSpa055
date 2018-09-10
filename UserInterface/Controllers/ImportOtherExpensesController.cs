@@ -208,8 +208,9 @@ namespace UserInterface.Controllers
                                     ImportExpenseList = JsonConvert.SerializeObject(uploadedFilesObj.ImportExpenseList),
                                     TotalCount      = uploadedFilesObj.RecordCount,
                                     RemovedCount    = uploadedFilesObj.RemovedDataCount,
-                                    FileName        = Path.GetFileName(uploadedFilesObj.FilePath)
-                                });
+                                    FileName        = Path.GetFileName(uploadedFilesObj.FilePath),
+                                    TotalAmount     = uploadedFilesObj.TotalAmount
+                });
                 
             }
             catch (Exception ex)
