@@ -67,7 +67,8 @@ namespace UserInterface.Controllers
             CI.paymentTermsObj = new PaymentTermsViewModel();
             CI.companiesObj = new CompaniesViewModel();
             CI.TaxTypeObj = new TaxTypesViewModel();
-
+            Settings s = new Settings();
+            CI.InvoiceDateFormatted = DateTime.Today.ToString(s.dateformat);
             //-------------1.CustomerList-------------------//
             CI.customerObj.CustomerList= new List<SelectListItem>();            
             selectListItem = new List<SelectListItem>();

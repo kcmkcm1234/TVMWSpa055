@@ -101,6 +101,7 @@ namespace UserInterface.Models
         public List<SelectListItem> ApprovalStatusList { get; set; }
         
         public decimal UnderClearingAmount { get; set; }
+        public string Today { get; set; }
     }
 
 

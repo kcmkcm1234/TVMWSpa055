@@ -299,7 +299,7 @@ function ShowModal()
     $("#AddOtherIncomeModel").modal('show');
     ClearFields();
     $("#AddOrEditSpan").text("Add New");
-    var IncomeDate = $("#IncomeDate").val();
+    var IncomeDate = $("#Today").val();
     $("#IncomeDateModal").val(IncomeDate);
     $("#ChequeDate").prop('disabled', true);
     $("#ReferenceBank").prop('disabled', true);

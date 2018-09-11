@@ -67,6 +67,6 @@ namespace UserInterface.Models
         [Display(Name = "Subtype (Employee,Other,etc.)")]
         public string EmpTypeCode { get; set; }
         public List<SelectListItem> EmployeeTypeList { get; set; }
-
+        public string Today { get; set; }
     }
 }
