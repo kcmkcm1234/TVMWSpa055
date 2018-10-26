@@ -350,7 +350,7 @@ function GetSupplierPaymentsByID(PaymentID) {
         $("#CreditID").append($('<option></option>').val(thisitem.CreditID).html(thisitem.CreditNo + ' ( Credit Amt: ₹' + CreditAmount + ')'));
         $('#CreditID').val(thisitem.CreditID)
         $('#CreditID').prop('disabled', true);
-        $('#TotalPaidAmt').prop('disabled', true);
+        $('#TotalPaidAmt').prop('readonly', true);
         $('#hdfCreditID').val(thisitem.CreditID);
         $('#PaymentMode').prop('disabled', true);
         $("#ddlCreditDiv").css("visibility", "visible");
@@ -384,7 +384,7 @@ function GetSupplierPaymentsByID(PaymentID) {
     else  // false for manager
     {
         $('#ddlApprovalStatus').prop('disabled', true)
-        $('#TotalPaidAmt').prop('disabled', true);
+        $('#TotalPaidAmt').prop('readonly', true);
         if (thisitem.ApprovalStatus == 1) {
             $('#TotalPaidAmt').prop('disabled', false);
         }
@@ -469,7 +469,7 @@ function TypeOnChange() {
         $('#ChequeDate').prop('disabled', true);
         $('#ChequeClearDate').prop('disabled', true);
         $('#CreditID').prop('disabled', false);
-        $('#TotalPaidAmt').prop('disabled', true);
+        $('#TotalPaidAmt').prop('readonly', true);
         CaptionChangeCredit()
     }
     else {
@@ -503,7 +503,7 @@ function ddlCreditOnChange(event) {
     if (creditID != emptyGUID) {
         var ds = GetCreditNoteAmount(creditID, SupplierID);
         $('#TotalPaidAmt').val(ds.AvailableCredit);
-        $('#TotalPaidAmt').prop('disabled', true);
+        $('#TotalPaidAmt').prop('readonly', true);
         AmountChanged();
     } 
 }

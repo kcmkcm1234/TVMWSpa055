@@ -436,7 +436,19 @@ namespace SPAccounts.BusinessService.Services
             }
             return CustomerPaymentsDetailsList;
         }
-
+        public List<CustomerPaymentLedger> GetCustomerPaymentLedgerRealisedAmount(DateTime? fromDate, DateTime? toDate, string customerIDs, string company, string invoiceType, string search)
+        {
+            List<CustomerPaymentLedger> CustomerPaymentsDetailsList = null;
+            try
+            {
+                CustomerPaymentsDetailsList = _reportRepository.GetCustomerPaymentLedgerRealisedAmount(fromDate, toDate, customerIDs, company, invoiceType, search);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return CustomerPaymentsDetailsList;
+        }
         public List<SupplierPaymentLedger> GetSupplierPaymentLedger(DateTime? fromDate, DateTime? toDate, string supplierCode, string company,string invoiceType)
         {
             List<SupplierPaymentLedger> SupplierPaymentsDetailsList = null;
