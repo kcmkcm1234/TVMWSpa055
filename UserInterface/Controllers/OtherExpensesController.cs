@@ -44,6 +44,7 @@ namespace UserInterface.Controllers
             {
                 otherExpenseViewModelObj = new OtherExpenseViewModel();
                 otherExpenseViewModelObj.ExpenseDateFormatted = DateTime.Today.ToString(s.dateformat);
+                otherExpenseViewModelObj.Today = DateTime.Today.ToString(s.dateformat);
                 List<SelectListItem> selectListItem = new List<SelectListItem>();
                 List<ChartOfAccountsViewModel> chartOfAccountList = Mapper.Map<List<ChartOfAccounts>, List<ChartOfAccountsViewModel>>(_otherExpenseBusiness.GetAllAccountTypes("OE"));
                 foreach (ChartOfAccountsViewModel cav in chartOfAccountList)

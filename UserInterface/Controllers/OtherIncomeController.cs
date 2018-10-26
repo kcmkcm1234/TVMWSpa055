@@ -51,8 +51,8 @@ namespace UserInterface.Controllers
             {
                 otherIncomeViewModalObj = new OtherIncomeViewModel();
                 otherIncomeViewModalObj.accountCodeList = new List<SelectListItem>();
-
-
+                Settings s = new Settings();
+                otherIncomeViewModalObj.Today = DateTime.Today.ToString(s.dateformat);
                 List<SelectListItem> selectListItem = new List<SelectListItem>();
                 selectListItem = new List<SelectListItem>();
                 List<BankViewModel> PayTermList = Mapper.Map<List<Bank>, List<BankViewModel>>(_bankBusiness.GetAllBanks());

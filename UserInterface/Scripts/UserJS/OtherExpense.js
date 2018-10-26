@@ -467,7 +467,7 @@ function Validation()
 
 function ClearFields() {
     $("#ID").val(emptyGUID);
-    $("#expenseDateModal").val('');
+    $("#ExpenseDate").val($("#Today").val());
     $("#AccountCode").val('');
     $("#CompanyCode").val('');
     $("#paymentMode").val('');
@@ -594,7 +594,7 @@ function FillOtherExpenseDetails(ID) {
         if (thisItem)
         {
             $("#ID").val(thisItem.ID);
-            $("#expenseDateModal").val(thisItem.ExpenseDate);
+            $("#ExpenseDate").val(thisItem.ExpenseDate);
 
             $("#AccountCode").select2();
             $("#AccountCode").val(thisItem.AccountCode).trigger('change');
@@ -850,7 +850,7 @@ function AddOtherExpense() {
     try {
         ClearFields();
         $("#RefNo").val('--Auto Generated--');
-        $("#expenseDateModal").val($("#ExpDate").val());
+        //$("#expenseDateModal").val($("#ExpDate").val());
         $("#AddOtherexpenseModel").modal('show');
         $("#AddOrEditSpan").text("Add New");
         EnableModel();
@@ -1291,7 +1291,7 @@ function UpdateLimit() {
 
 //=============To disable elements in Add/Edit Model==============//
 function DisableModel() {
-    $("#expenseDateModal").prop('disabled', true);
+    $("#ExpenseDate").prop('disabled', true);
     $("#AccountCode").prop('disabled', true);
     $("#EmpTypeCode").prop('disabled', true);
     $("#EmpID").prop('disabled', true);
@@ -1313,7 +1313,7 @@ function DisableModel() {
 
 //=============To enable elements in Add/Edit Model==============//
 function EnableModel() {
-    $("#expenseDateModal").prop('disabled', false);
+    $("#ExpenseDate").prop('disabled', false);
     $("#AccountCode").prop('disabled', false);
     $("#IsReverse").prop('disabled', false);
     $("#ReversalRef").prop('disabled', false);
@@ -1384,7 +1384,7 @@ function SendNotificationConfirm() {
         debugger;
         var OtherExpenseViewModel = new Object();
         OtherExpenseViewModel.ID = $('#ID').val();
-        OtherExpenseViewModel.ExpenseDate = $("#expenseDateModal").val();
+        OtherExpenseViewModel.ExpenseDate = $("#ExpenseDate").val();
         OtherExpenseViewModel.PaidFromCompanyCode = $("#CompanyCode").val();
         OtherExpenseViewModel.EmpID = $("#EmpID").val();
         OtherExpenseViewModel.PaymentMode = $("#paymentMode").val();

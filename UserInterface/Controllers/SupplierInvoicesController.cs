@@ -41,12 +41,12 @@ namespace UserInterface.Controllers
             ViewBag.value = id;
             List<SelectListItem> selectListItem = new List<SelectListItem>();
             SupplierInvoicesViewModel SI = new SupplierInvoicesViewModel();
-            
             SI.suppliersObj = new SuppliersViewModel();
             SI.paymentTermsObj = new PaymentTermsViewModel();
             SI.companiesObj = new CompaniesViewModel();
             SI.TaxTypeObj = new TaxTypesViewModel();
-
+            Settings s = new Settings();
+            SI.InvoiceDateFormatted = DateTime.Today.ToString(s.dateformat);
             SI.suppliersObj.SupplierList = new List<SelectListItem>();
             selectListItem = new List<SelectListItem>();
             List<SuppliersViewModel> SuppList = Mapper.Map<List<Supplier>, List<SuppliersViewModel>>(_supplierBusiness.GetAllSuppliers());
