@@ -172,7 +172,7 @@
                             <div class="col-md-12">&nbsp;</div>
 
                             <div class="col-md-12">
-                                <div class="form-group col-md-4" id="UndepositedChequeDate1">
+                                <div class="form-group col-md-4" id="UndepositedChequeDate">
 
                                     <div class="col-md-12">
                                         @Html.LabelFor(model => model.ChequeClearDate, htmlAttributes: new { @class = "control-label" })
@@ -270,9 +270,9 @@
                                 <div class="col-md-1"></div>
                                 <div class="col-md-1"></div>
                             </div>
-                            <div class="col-md-12" id="UndepositedChequeDate">
+                            <div class="col-md-12" >
                                 @*<div class="form-group col-md-12" >*@
-                                    <div class="col-md-12 no-padding">
+                                    <div class="col-md-12 no-padding" id="UndepositedChequeClearDate">
                                         <div class="col-md-4 no-padding">
                                             @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })
                                             <div class="col-md-12 ">

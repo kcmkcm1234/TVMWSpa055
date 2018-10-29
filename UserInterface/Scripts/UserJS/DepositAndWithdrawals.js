@@ -415,7 +415,7 @@ function Add()
     $("#DepositwithdrawalList").hide();
     $("#DepositwithdrawalEntry").show();
     $(".modal-footer").show();
-    $("#divDepositEntry").show();
+   $("#divDepositEntry").show();
    // $("#tabDepositwithdrawalEntry").text("Deposit Entry");
     ClearFields();   
 } 
@@ -549,6 +549,7 @@ function ShowDepositModal() {
     $("#btnSave").removeAttr("disabled");
     $("#divClearCheque").hide();
     $("#tabDepositwithdrawalList").attr("onclick", "List()");
+    $("#UndepositedChequeClearDate").hide();
     $("#divDepositEntry").hide();
 }
 
@@ -733,6 +734,7 @@ function ShowChequeClear()
     $("#UndepositedChequeDate").show();
     $("#divClearCheque").show();
     $("#ChequeDate").val('');
+    $("#UndepositedChequeClearDate").show();
 }
 function SaveCheckedDeposit()
 {
