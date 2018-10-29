@@ -37,8 +37,7 @@ namespace UserInterface.Models
         [Required(ErrorMessage = "Please Select Credit Note Date")]
         public string CRNDateFormatted { get; set; }
 
-        [Display(Name = "Credit Amount")]
-        [Required(ErrorMessage = "Please Enter Credit Amount")]
+        
         public decimal Amount { get; set; }
         public decimal AvailableCredit { get; set; }
 
@@ -49,5 +48,10 @@ namespace UserInterface.Models
         public SuppliersViewModel supplier { get; set; }
         public CompaniesViewModel Company { get; set; }
         public CommonViewModel commonObj { get; set; }
+        [Display(Name = "Tax Amount")]
+        public decimal TaxAmount { get; set; }
+        [Display(Name = "Credit Amount")]
+        [Required(ErrorMessage = "Please Enter Credit Amount")]
+        public decimal CreditAmount { get; set; }
     }
 }

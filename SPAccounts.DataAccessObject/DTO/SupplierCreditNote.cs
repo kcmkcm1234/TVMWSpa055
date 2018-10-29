@@ -24,6 +24,8 @@ namespace SPAccounts.DataAccessObject.DTO
         public decimal adjustedAmount { get; set; }
         public string Type { get; set; }
         public string GeneralNotes { get; set; }
+        public decimal TaxAmount { get; set; }
+        public decimal CreditAmount { get; set; }
         public Common commonObj { get; set; }
     }
 }

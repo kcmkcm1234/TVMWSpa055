@@ -41,5 +41,8 @@ namespace UserInterface.Models
         public CommonViewModel commonObj { get; set; }
         public List<SelectListItem> CompaniesList { get; set; }
         public List<SelectListItem> CreditList { get; set; }
+        [Display(Name = "Tax Amount")]
+        public decimal TaxAmount { get; set; }
+        public decimal Amount { get; set; }
     }
 }

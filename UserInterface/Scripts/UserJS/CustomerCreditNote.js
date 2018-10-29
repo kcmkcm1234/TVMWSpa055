@@ -191,7 +191,9 @@ function ClearFields() {
     $("#BillingAddress").val("");
     $("#Customer").select2();
     $("#Customer").val('').trigger('change');
-    $("#CreditAmount").val("");
+    $("#CreditAmount").val("0.00");
+    $("#TaxAmount").val("0.00");
+    $("#Amount").val("0.00");
     $("#GeneralNotes").val("");
     $("#creditdAmt").text("₹ 0.00");
     $("#adjusteddAmt").text("₹ 0.00");
@@ -289,6 +291,8 @@ function FillCustomerCreditNoteDetails(ID) {
     $("#Company").val(thisItem.OriginComanyCode);
     $("#CreditNoteDate").val(thisItem.CreditNoteDateFormatted);
     $("#BillingAddress").val(thisItem.BillingAddress);
+    $("#Amount").val(roundoff(thisItem.Amount));
+    $("#TaxAmount").val(roundoff(thisItem.TaxAmount));
     $("#CreditAmount").val(roundoff(thisItem.CreditAmount));
     $("#creditdAmt").text(thisItem.creditAmountFormatted);
     $("#adjusteddAmt").text(thisItem.adjustedAmountFormatted);
@@ -305,5 +309,28 @@ function Edit(currentObj) {
     var rowData = DataTables.CustomerCreditNoteTable.row($(currentObj).parents('tr')).data();
     if ((rowData != null) && (rowData.ID != null)) {
         FillCustomerCreditNoteDetails(rowData.ID);
+    }
+}
+//-------------------------------------Calculate Total Credit Amount--------------------------------------------------//
+function CalculateCreditAmount()
+{
+    debugger;
+    if ($("#TaxAmount").val() != "" && $("#CreditAmount").val() != "") {
+        var TaxAmt = parseFloat($("#TaxAmount").val());
+        var CreditAmt = parseFloat($("#CreditAmount").val());
+        var Total = parseFloat(TaxAmt + CreditAmt);
+        $("#Amount").val(roundoff(Total));
+    }
+    else {
+        if ($("#TaxAmount").val() == "") {
+            $("#TaxAmount").val("0.00");
+            //$("TaxAmount").trigger("change");
+            CalculateCreditAmount();
+        }
+        if ($("#CreditAmount").val() == "") {
+            $("#CreditAmount").val("0.00");
+            //$("CreditAmount").trigger("change");
+            CalculateCreditAmount();
+        }
     }
 }

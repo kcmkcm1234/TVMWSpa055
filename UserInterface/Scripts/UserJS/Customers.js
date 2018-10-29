@@ -46,7 +46,7 @@ $(document).ready(function () {
                { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                  { className: "text-right", "targets": [6] },
+                  { className: "text-right", "targets": [6,7] },
                    { className: "text-left", "targets": [1,2] },
              { className: "text-center", "targets": [3,4,5] }
 

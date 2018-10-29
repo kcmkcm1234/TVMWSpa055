@@ -234,7 +234,7 @@ namespace UserInterface.Controllers
                 if (_supplierObj.TotalPaidAmt == 0 && _supplierObj.Type == "C" || _supplierObj.hdfType == "C")
                 {
                     _supplierObj.TotalPaidAmt = Decimal.Parse(_supplierObj.hdfCreditAmount);
-                    _supplierObj.AdvanceAmount = 0;
+                    //_supplierObj.AdvanceAmount = 0;
                     if (_supplierObj.TotalPaidAmt == 0)
                     { 
                         throw new Exception("Please Check Credit Notes");

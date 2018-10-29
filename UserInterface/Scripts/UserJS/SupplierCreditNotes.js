@@ -38,7 +38,7 @@ $(document).ready(function () {
                { "data": null, "orderable": false, "defaultContent": '<a href="#" title="Edit Credit Note" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false },                 
-                   { className: "text-right", "targets": [5,6] },
+                   { className: "text-right", "targets": [5,6,7] },
                    { className: "text-Left", "targets": [1, 2, 3] },
              { className: "text-center", "targets": [4] }
 
@@ -166,7 +166,9 @@ function ClearFields() {
     $("#SupplierAddress").val("");
     $("#supplier").select2();
     $("#supplier").val('').trigger('change');
-    $("#CreditAmount").val("");
+    $("#CreditAmount").val("0.00");
+    $("#TaxAmount").val("0.00");
+    $("#Amount").val("0.00");
     $("#GeneralNotes").val("");
     $("#creditdAmt").text("₹ 0.00");
     $("#adjusteddAmt").text("₹ 0.00");
@@ -265,7 +267,9 @@ function FillSupplierDetails(ID) {
     $("#Company").val(thisItem.CompanyCode);
     $("#CreditNoteDate").val(thisItem.CRNDate);
     $("#SupplierAddress").val(thisItem.SupplierAddress);
-    $("#CreditAmount").val(roundoff(thisItem.Amount));
+    $("#Amount").val(roundoff(thisItem.Amount));
+    $("#TaxAmount").val(roundoff(thisItem.TaxAmount));
+    $("#CreditAmount").val(roundoff(thisItem.CreditAmount));
     $("#creditdAmt").text(thisItem.creditAmountFormatted);
     $("#adjusteddAmt").text(thisItem.adjustedAmountFormatted);
     $("#GeneralNotes").val(thisItem.GeneralNotes);
@@ -311,5 +315,25 @@ function Edit(currentObj) {
     var rowData = DataTables.supplierCreditNoteTable.row($(currentObj).parents('tr')).data();
     if ((rowData != null) && (rowData.ID != null)) {
         FillSupplierDetails(rowData.ID);
+    }
+}
+//-------------------------------------Calculate Total Credit Amount--------------------------------------------------//
+function CalculateCreditAmount() {
+    debugger;
+    if ($("#TaxAmount").val() != "" && $("#CreditAmount").val() != "") {
+        var TaxAmt = parseFloat($("#TaxAmount").val());
+        var CreditAmt = parseFloat($("#CreditAmount").val());
+        var Total = parseFloat(TaxAmt + CreditAmt);
+        $("#Amount").val(roundoff(Total));
+    }
+    else {
+        if ($("#TaxAmount").val() == "") {
+            $("#TaxAmount").val("0.00");
+            CalculateCreditAmount();
+        }
+        if ($("#CreditAmount").val() == "") {
+            $("#CreditAmount").val("0.00");
+            CalculateCreditAmount();
+        }
     }
 }

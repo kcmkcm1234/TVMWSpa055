@@ -158,11 +158,10 @@ namespace UserInterface.Controllers
         {
             try
             {
-               
                 if (_customerObj.TotalRecdAmt == 0 && _customerObj.Type == "C" || _customerObj.hdfType == "C")
                 {
                     _customerObj.TotalRecdAmt = Decimal.Parse(_customerObj.hdfCreditAmount);
-                    _customerObj.AdvanceAmount = 0;
+                    //_customerObj.AdvanceAmount = 0;
 
                     if (_customerObj.TotalRecdAmt == 0)
                     {

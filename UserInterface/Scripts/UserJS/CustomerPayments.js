@@ -606,7 +606,8 @@ function SaveValidatedData()
         }
         $('#paymentDetailhdf').val(JSON.stringify(ar));
     }
-    $('#hdfCreditAmount').val($('#lblPaymentApplied').text());
+    //$('#hdfCreditAmount').val($('#lblPaymentApplied').text());
+    $('#hdfCreditAmount').val($('#lblTotalRecdAmt').text());
     $('#AdvanceAmount').val($('#lblCredit').text());
     setTimeout(function () {
         $('#btnSave').trigger('click');

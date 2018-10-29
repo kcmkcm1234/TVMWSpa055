@@ -104,7 +104,9 @@ namespace SPAccounts.RepositoryServices.Services
                                     _customerCreditNoteObj.OriginComanyCode = (sdr["OriginComanyCode"].ToString() != "" ? sdr["OriginComanyCode"].ToString() : _customerCreditNoteObj.OriginComanyCode);
                                     _customerCreditNoteObj.CreditNoteNo = (sdr["CRNRefNo"].ToString() != "" ? sdr["CRNRefNo"].ToString() : _customerCreditNoteObj.CreditNoteNo);
                                     _customerCreditNoteObj.CreditNoteDate = (sdr["CRNDate"].ToString() != "" ? DateTime.Parse(sdr["CRNDate"].ToString()) : _customerCreditNoteObj.CreditNoteDate);
-                                    _customerCreditNoteObj.CreditAmount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : _customerCreditNoteObj.CreditAmount);
+                                    _customerCreditNoteObj.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : _customerCreditNoteObj.Amount);
+                                    _customerCreditNoteObj.TaxAmount = (sdr["TaxAmount"].ToString() != "" ? decimal.Parse(sdr["TaxAmount"].ToString()) : _customerCreditNoteObj.TaxAmount);
+                                    _customerCreditNoteObj.CreditAmount = (sdr["CreditAmount"].ToString() != "" ? decimal.Parse(sdr["CreditAmount"].ToString()) : _customerCreditNoteObj.CreditAmount);
                                     _customerCreditNoteObj.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : _customerCreditNoteObj.Type);
                                     _customerCreditNoteObj.adjustedAmount = (sdr["AdjAmount"].ToString() != "" ? decimal.Parse(sdr["AdjAmount"].ToString()) : _customerCreditNoteObj.adjustedAmount);
                                     _customerCreditNoteObj.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : _customerCreditNoteObj.GeneralNotes);
@@ -153,7 +155,9 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@OriginComanyCode", SqlDbType.NVarChar, 10).Value = _customerCreditNotesObj.OriginComanyCode;
                         cmd.Parameters.Add("@CRNRefNo", SqlDbType.NVarChar, 20).Value = _customerCreditNotesObj.CreditNoteNo;
                         cmd.Parameters.Add("@CRNDate", SqlDbType.DateTime).Value = _customerCreditNotesObj.CreditNoteDateFormatted;
-                        cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = _customerCreditNotesObj.CreditAmount;
+                        cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = _customerCreditNotesObj.Amount;
+                        cmd.Parameters.Add("@CreditAmount", SqlDbType.Decimal).Value = _customerCreditNotesObj.CreditAmount;
+                        cmd.Parameters.Add("@TaxAmount", SqlDbType.Decimal).Value = _customerCreditNotesObj.TaxAmount;
                         cmd.Parameters.Add("@Type", SqlDbType.VarChar, 5).Value = _customerCreditNotesObj.Type;                       
                         cmd.Parameters.Add("@GeneralNotes", SqlDbType.NVarChar, -1).Value = _customerCreditNotesObj.GeneralNotes;
                         cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = _customerCreditNotesObj.CustomerID;
@@ -214,7 +218,9 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@OriginComanyCode", SqlDbType.NVarChar, 10).Value = _customerCreditNotesObj.OriginComanyCode;
                         cmd.Parameters.Add("@CRNRefNo", SqlDbType.NVarChar, 20).Value = _customerCreditNotesObj.CreditNoteNo;
                         cmd.Parameters.Add("@CRNDate", SqlDbType.DateTime).Value = _customerCreditNotesObj.CreditNoteDateFormatted;
-                        cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = _customerCreditNotesObj.CreditAmount;
+                        cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = _customerCreditNotesObj.Amount;
+                        cmd.Parameters.Add("@TaxAmount", SqlDbType.Decimal).Value = _customerCreditNotesObj.TaxAmount;
+                        cmd.Parameters.Add("@CreditAmount", SqlDbType.Decimal).Value = _customerCreditNotesObj.CreditAmount;
                         cmd.Parameters.Add("@Type", SqlDbType.VarChar, 5).Value = _customerCreditNotesObj.Type;
                         cmd.Parameters.Add("@GeneralNotes", SqlDbType.NVarChar, -1).Value = _customerCreditNotesObj.GeneralNotes;
                         cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = _customerCreditNotesObj.commonObj.UpdatedBy;

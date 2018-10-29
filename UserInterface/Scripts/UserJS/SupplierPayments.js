@@ -611,7 +611,8 @@ function SaveValidatedData()
     }
     if ($("#hdfCreditID").val() == undefined)
         $("#hdfCreditID").val(emptyGUID);
-    $('#hdfCreditAmount').val($('#lblPaymentApplied').text());
+    //$('#hdfCreditAmount').val($('#lblPaymentApplied').text());
+    $('#hdfCreditAmount').val($('#lblTotalPaidAmt').text());
     $('#AdvanceAmount').val($('#lblCredit').text());
     setTimeout(function () {
         $('#btnSave').trigger('click');

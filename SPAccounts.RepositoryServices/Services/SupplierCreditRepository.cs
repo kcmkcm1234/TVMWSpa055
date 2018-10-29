@@ -98,6 +98,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@CRNRefNo", SqlDbType.VarChar, 20).Value = _supplierCreditNoteObj.CRNRefNo;
                         cmd.Parameters.Add("@CRNDate", SqlDbType.DateTime).Value = _supplierCreditNoteObj.CRNDateFormatted;
                         cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = _supplierCreditNoteObj.Amount;
+                        cmd.Parameters.Add("@TaxAmount", SqlDbType.Decimal).Value = _supplierCreditNoteObj.TaxAmount;
+                        cmd.Parameters.Add("@CreditAmount", SqlDbType.Decimal).Value = _supplierCreditNoteObj.CreditAmount;
                         cmd.Parameters.Add("@Type", SqlDbType.VarChar, 5).Value = _supplierCreditNoteObj.Type;
                         cmd.Parameters.Add("@GeneralNotes", SqlDbType.NVarChar, -1).Value = _supplierCreditNoteObj.GeneralNotes;
                         cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = _supplierCreditNoteObj.SupplierID;
@@ -159,6 +161,8 @@ namespace SPAccounts.RepositoryServices.Services
                         cmd.Parameters.Add("@CRNRefNo", SqlDbType.VarChar, 20).Value = _supplierCreditNoteObj.CRNRefNo;
                         cmd.Parameters.Add("@CRNDate", SqlDbType.DateTime).Value = _supplierCreditNoteObj.CRNDateFormatted;
                         cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = _supplierCreditNoteObj.Amount;
+                        cmd.Parameters.Add("@TaxAmount", SqlDbType.Decimal).Value = _supplierCreditNoteObj.TaxAmount;
+                        cmd.Parameters.Add("@CreditAmount", SqlDbType.Decimal).Value = _supplierCreditNoteObj.CreditAmount;
                         cmd.Parameters.Add("@Type", SqlDbType.VarChar, 5).Value = _supplierCreditNoteObj.Type;
                         cmd.Parameters.Add("@GeneralNotes", SqlDbType.NVarChar, -1).Value = _supplierCreditNoteObj.GeneralNotes;
                         cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = _supplierCreditNoteObj.commonObj.UpdatedBy;
@@ -228,6 +232,8 @@ namespace SPAccounts.RepositoryServices.Services
                                     _supplierCreditNote.CRNRefNo = (sdr["CRNRefNo"].ToString() != "" ? sdr["CRNRefNo"].ToString() : _supplierCreditNote.CRNRefNo);
                                     _supplierCreditNote.CRNDate = (sdr["CRNDate"].ToString() != "" ? DateTime.Parse(sdr["CRNDate"].ToString()).ToString(settings.dateformat) : _supplierCreditNote.CRNDate);
                                     _supplierCreditNote.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : _supplierCreditNote.Amount);
+                                    _supplierCreditNote.TaxAmount = (sdr["TaxAmount"].ToString() != "" ? decimal.Parse(sdr["TaxAmount"].ToString()) : _supplierCreditNote.TaxAmount);
+                                    _supplierCreditNote.CreditAmount = (sdr["CreditAmount"].ToString() != "" ? decimal.Parse(sdr["CreditAmount"].ToString()) : _supplierCreditNote.CreditAmount);
                                     _supplierCreditNote.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : _supplierCreditNote.Type);
                                     _supplierCreditNote.adjustedAmount = (sdr["AdjAmount"].ToString() != "" ? decimal.Parse(sdr["AdjAmount"].ToString()) : _supplierCreditNote.adjustedAmount);
                                     _supplierCreditNote.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : _supplierCreditNote.GeneralNotes);
