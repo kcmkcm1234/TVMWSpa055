@@ -71,7 +71,7 @@ $(document).ready(function () {
 
              ],
                
-             columnDefs: [{ "targets": [0,8], "visible": false, "searchable": false },
+             columnDefs: [{ "targets": [0, 8], "visible": false, "searchable": false },
                   { className: "text-right", "targets": [10] },
                     { className: "text-left", "targets": [1,2,4,5,6,7,9] },
              { className: "text-center", "targets": [3] },
@@ -132,28 +132,28 @@ $(document).ready(function () {
            searching: true,
            paging: true,
            data: GetAllDepositAndWithdrawals(),
-           pageLength: 7,
+           pageLength: 10,
            language: {
                search: "_INPUT_",
                searchPlaceholder: "Search"
            },
            columns: [
-             { "data": "ID" },
-             { "data": "Checkbox", "defaultContent": "" },
-             { "data": "DateFormatted", "defaultContent": "<i>-</i>" },
-             { "data": "ChequeDate", "defaultContent": "<i>-</i>" },
-             { "data": "CustomerName", "defaultContent": "<i>-</i>" },
-             { "data": "ReferenceNo", "defaultContent": "<i>-</i>" },
-             { "data": "BankName", "defaultContent": "<i>-</i>" },
-             { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
-             { "data": null, "orderable": false, "defaultContent": '<a href="#" title="Edit Deposit" class="actionLink"  onclick="EditDeposit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' },
-                { "data": "CustomerID", "defaultContent": "<i>-</i>" }
+             { "data": "ID", "width": "5%" },
+             { "data": "Checkbox", "defaultContent": "", "width": "5%" },
+             { "data": "DateFormatted", "defaultContent": "<i>-</i>", "width": "10%" },
+             { "data": "ChequeDate", "defaultContent": "<i>-</i>", "width": "10%" },
+             { "data": "CustomerName", "defaultContent": "<i>-</i>", "width": "20%" },
+             { "data": "ReferenceNo", "defaultContent": "<i>-</i>", "width": "10%" },
+             { "data": "BankName", "defaultContent": "<i>-</i>", "width": "10%" },
+             { "data": "Amount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>", "width": "20%" },
+             { "data": null, "orderable": false, "defaultContent": '<a href="#" title="Edit Deposit" class="actionLink"  onclick="EditDeposit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>', "width": "5%" },
+                { "data": "CustomerID", "defaultContent": "<i>-</i>", "width": "5%" }
            ],
            columnDefs: [{ "targets": [0], "visible": false, "searchable": false }, { orderable: false, className: 'select-checkbox', targets: 1 },
                { orderable: false, "visible": false, targets: [8,9] },
-               { className: "text-right", "targets": [6] },
-               { className: "text-left", "targets": [] },
-               { className: "text-center", "targets": [1, 2, 3, 4,6,7] }
+               { className: "text-right", "targets": [7] },
+               { className: "text-left", "targets": [4, 6, 7] },
+               { className: "text-center", "targets": [1, 2, 3] }
            ],
            select: { style: 'multi', selector: 'td:first-child' }
        });
@@ -415,8 +415,9 @@ function Add()
     $("#DepositwithdrawalList").hide();
     $("#DepositwithdrawalEntry").show();
     $(".modal-footer").show();
+   $("#divDepositEntry").show();
    // $("#tabDepositwithdrawalEntry").text("Deposit Entry");
-    ClearFields();
+    ClearFields();   
 } 
 function List()
 {
@@ -447,8 +448,10 @@ function FillDates()
     var date = new Date(priorDate);
     var fromDate = (date.getDate()) + '-' + m_names[(date.getMonth())] + '-' + date.getFullYear();
     $("#txtDateFrom").val(fromDate);
+    $("#Chequefromdate").val(fromDate);
     var toDate = (today.getDate()) + '-' + m_names[(today.getMonth())] + '-' + today.getFullYear();
     $("#txtDateTo").val(toDate);
+    $("#Chequetodate").val(toDate);
 }
 
 
@@ -459,8 +462,19 @@ function GetAllDepositAndWithdrawals(DepositOrWithdrawal, chqclr) {
         if ($("#txtDateFrom").val() == "" && $("#txtDateTo").val() == "") {
             FillDates();
         }
-        var FromDate = $("#txtDateFrom").val();
-        var ToDate = $("#txtDateTo").val();
+        if ($("#Chequefromdate").val() == "" && $("#Chequetodate").val() == "") {
+            FillDates();
+        }
+        if (chqclr == "True")
+        {
+            var FromDate = $("#Chequefromdate").val();
+            var ToDate = $("#Chequetodate").val();
+        }
+        else
+        {
+            var FromDate = $("#txtDateFrom").val();
+            var ToDate = $("#txtDateTo").val();
+        }      
        
         var data = { "FromDate": FromDate, "ToDate": ToDate, "DepositOrWithdrawal": DepositOrWithdrawal, "chqclr": chqclr };
         var ds = {};
@@ -493,6 +507,7 @@ function BindDepositWithdrawals(DepositOrWithdrawal,chqclr)
 {
     try {
         debugger;
+        if (DataTables.tblDepositwithdrawalList!=undefined)
         DataTables.tblDepositwithdrawalList.clear().rows.add(GetAllDepositAndWithdrawals(DepositOrWithdrawal,chqclr)).draw(false);
     }
     catch (e) {
@@ -532,6 +547,10 @@ function ShowDepositModal() {
     $("#customerid").show();
     $("#ChequeStatus option[value='Bounced']").removeAttr("disabled");
     $("#btnSave").removeAttr("disabled");
+    $("#divClearCheque").hide();
+    $("#tabDepositwithdrawalList").attr("onclick", "List()");
+    $("#UndepositedChequeClearDate").hide();
+    $("#divDepositEntry").hide();
 }
 
 function ShowDepositEdit()
@@ -690,12 +709,14 @@ function ShowWithDrawal()
 }
 function ShowChequeClear()
 {
+
     $("#tabs").css('display', '');
     $("#AddDepositAndWithdrawalModel").modal('show');
     $("#tabDepositwithdrawalEntry").css('display', 'none');
     $("#DepositwithdrawalEntry").css('display', 'none');
     $("#DepositwithdrawalEntry").hide();
     $("#AddOrEditSpan").text("Clear Cheques");
+    FillDates();
     BindDepositWithdrawals('', "True");
     $('a[href="#DepositwithdrawalList"]').click();
     $("#btnCheque").css('display', '');
@@ -708,9 +729,12 @@ function ShowChequeClear()
     $("#BankCode").hide();
     $(".modal-footer").hide();
     $("#tabDepositwithdrawalList").text("Deposited Cheques");
+    $("#tabDepositwithdrawalList").attr("onclick",'');
     $("#lblBankDiv").css('display', 'none');
     $("#UndepositedChequeDate").show();
-    
+    $("#divClearCheque").show();
+    $("#ChequeDate").val('');
+    $("#UndepositedChequeClearDate").show();
 }
 function SaveCheckedDeposit()
 {
@@ -1044,4 +1068,14 @@ function ClearChequeOut() {
         notyAlert('error', Ex.message)
         return 0;
     }
+}
+
+function ChequeDateChange() {
+    debugger;
+
+    BindDepositWithdrawals("", "True");
+    //  DataTables.tblDepositwithdrawalList.clear().rows.add(GetAllDepositAndWithdrawals("", "True")).draw(false);
+     
+    
+
 }

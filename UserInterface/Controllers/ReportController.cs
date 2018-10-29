@@ -1760,6 +1760,44 @@ namespace UserInterface.Controllers
             //return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CustomerCode is required" });
         }
 
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "CustomerPaymentLedgerReport", Mode = "R")]
+        public string GetCustomerPaymentLedgerRealisedAmount(string fromDate, string toDate, string[] customerIDs, string company, string invoiceType, string search)
+        {
+            //if (!string.IsNullOrEmpty(CustomerCode))
+            //{
+            try
+            {
+
+                //DateTime? TDate = string.IsNullOrEmpty(ToDate) ? (DateTime?)null : DateTime.Parse(ToDate);
+                string paid ;
+                string realised ;
+                DateTime? fDate = string.IsNullOrEmpty(fromDate) ? (DateTime?)null : DateTime.Parse(fromDate);
+                DateTime? tDate = string.IsNullOrEmpty(toDate) ? (DateTime?)null : DateTime.Parse(toDate);
+                List<CustomerPaymentLedgerViewModel> customerPaymentLedgerList = Mapper.Map<List<CustomerPaymentLedger>, List<CustomerPaymentLedgerViewModel>>(_reportBusiness.GetCustomerPaymentLedgerRealisedAmount(fDate, tDate, customerIDs != null ? String.Join(",", customerIDs) : "ALL", company, invoiceType, search));
+                decimal PaidAmt = customerPaymentLedgerList[0].PaidAmount;
+                decimal RealisedAmt = customerPaymentLedgerList[0].RealisedAmount;
+                if (search == null || search == "")
+                {
+                     paid = _commonBusiness.ConvertCurrency(PaidAmt, 2);
+                     realised = _commonBusiness.ConvertCurrency(RealisedAmt, 2);
+                }
+                else
+                {
+                     paid = "- -";
+                     realised = "- -";
+                }
+                return JsonConvert.SerializeObject(new { Result = "OK", PaidAmount = paid, RealisedAmount = realised });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+            }
+
+            //}
+            //return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "CustomerCode is required" });
+        }
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "SupplierPaymentLedgerReport", Mode = "R")]
         public ActionResult SupplierPaymentLedger()

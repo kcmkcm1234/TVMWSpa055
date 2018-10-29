@@ -149,6 +149,7 @@ $(document).ready(function () {
         });
 
         debugger;
+        GetCustomerPaymentLedgerRealisedAmount(CustomerPaymentLeger);    
         $(".buttons-excel").hide();
         $("#btnSend").hide();
         startDate = $("#toDate").val();
@@ -220,7 +221,39 @@ function GetCustomerPaymentLedger(Obj)
     }
 }
 
+function GetCustomerPaymentLedgerRealisedAmount(Obj) {
+    debugger;
+    try {
 
+
+        var company = $("#companyCode").val();
+        var search = $("#Search").val();
+        var invoiceType = $("#ddlInvoiceTypes").val();
+        if (IsVaildDateFormat(Obj.FromDate) && IsVaildDateFormat(Obj.ToDate) && Obj.CustomerID) {
+            var data = { "FromDate": Obj.FromDate, "ToDate": Obj.ToDate, "CustomerIDs": Obj.CustomerID, "Company": company, "InvoiceType": invoiceType, "Search": search };
+            var ds = {};
+            ds = GetDataFromServerTraditional("Report/GetCustomerPaymentLedgerRealisedAmount/", data);
+            if (ds != '') {
+                ds = JSON.parse(ds);
+            }
+            if (ds.PaidAmount != '') {
+                $("#paid").text(ds.PaidAmount);
+            }
+            if (ds.RealisedAmount != '') {
+                $("#realised").text(ds.RealisedAmount);
+            }
+            if (ds.Result == "OK") {
+                return ds.Records;
+            }
+            if (ds.Result == "ERROR") {
+                notyAlert('error', ds.Message);
+            }
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
 //To refresh table based on filter
 function OnCallChange(){
     debugger;
@@ -251,7 +284,8 @@ function OnCallChange(){
          
         if (DataTables.customerPaymentLedgerTable != undefined && IsVaildDateFormat(fromDate) && IsVaildDateFormat(toDate) && customerIds) {
             DataTables.customerPaymentLedgerTable.clear().rows.add(GetCustomerPaymentLedger(CustomerPaymentLeger)).draw(true);
-            }
+        }
+        GetCustomerPaymentLedgerRealisedAmount(CustomerPaymentLeger);
         }
     catch (e)
     {
@@ -283,7 +317,8 @@ function RefreshCustomerPaymentLedgerTable()
     {
        DataTables.customerPaymentLedgerTable.clear().rows.add(GetCustomerPaymentLedger('ALL')).draw(true);
     }   
-   OnCallChange();
+    OnCallChange();
+    GetCustomerPaymentLedgerRealisedAmount('ALL');
 }
 
 //To reset CustomerPayementLedger report
@@ -312,6 +347,7 @@ function Reset()
         OnChangeCall();
     }
     DataTables.customerPaymentLedgerTable.clear().rows.add(GetCustomerPaymentLedger('ALL')).draw(true);
+    GetCustomerPaymentLedgerRealisedAmount('ALL');
 }
 
 function OnChangeCall() {
@@ -335,6 +371,7 @@ function OnChangeCall() {
 
     try {
         DataTables.customerPaymentLedgerTable.clear().rows.add(GetCustomerPaymentLedger(CustomerPaymentLeger)).draw(true);
+        GetCustomerPaymentLedgerRealisedAmount(CustomerPaymentLeger);
     }
     catch (e) {
         notyAlert('error', e.message);

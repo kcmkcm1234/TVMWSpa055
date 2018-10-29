@@ -18,6 +18,14 @@
     .dataTables_paginate {
         float: left !important;
     }
+  #tblDepositwithdrawalList_paginate .pagination {
+            padding-left: 570px !important;
+          
+
+    }
+    #tblDepositwithdrawalList_info{
+       padding-left: 572px !important;
+   }
 </style>
 <div style="width:100%;">
     <ol class="breadcrumb">
@@ -38,7 +46,7 @@
 <div class="form-horizontal">
 
     <div class="col-md-12">
-        <div class="col-md-4" >
+        <div class="col-md-4">
 
             <div class="form-group">
                 <!----------------6-------------------->
@@ -155,16 +163,16 @@
 
             <div class="modal-body" style="min-height:510px !important;">
                 <div class="container-fluid">
-                    
+
                     <div class="col-md-12">&nbsp;</div>
                     <div class="tab-pane fade in active" id="WithdrawalList">
 
                         <div class="col-md-12">
 
                             <div class="col-md-12">&nbsp;</div>
-                            
+
                             <div class="col-md-12">
-                                <div class="form-group col-md-4" id="UndepositedChequeDate1">
+                                <div class="form-group col-md-4" id="UndepositedChequeDate">
 
                                     <div class="col-md-12">
                                         @Html.LabelFor(model => model.ChequeClearDate, htmlAttributes: new { @class = "control-label" })
@@ -175,7 +183,7 @@
                                     </div>
 
                                 </div>
-                                
+
                                 <table id="tblWithdrawalList" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
                                     <thead>
                                         <tr class="text-center">
@@ -192,7 +200,7 @@
                                         </tr>
                                     </thead>
                                 </table>
-                                
+
                             </div>
                         </div>
                         <a class="btn btn-primary" style="position:relative;right:-700px;" onclick="ClearChequeOut()" id="btnChequeOut"> Clear Cheque</a>
@@ -204,76 +212,93 @@
     </div>
 </div>
 
-    <div class="modal fade" id="AddDepositAndWithdrawalModel" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document" style="min-width:900px !important;">
-            <div class="modal-content" style="margin-top:4%;">
-                <div class="modal-header" style="background-repeat: repeat;height: 36px;padding: 3px;border-bottom:2px solid rgb(149, 76, 132)!important;">
-                    <div class="container-fluid" style="padding-right: 0px;">
-                        <div class="col-md-4">
-                            <h3 class="modal-title SCHeader" id="modelContextLabel"></h3>
-                            <div class="col-md-12">
-                                <span style="font-weight: 600;font-size: 20px;" id="AddOrEditSpan">Deposit</span>
+<div class="modal fade" id="AddDepositAndWithdrawalModel" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="min-width:900px !important;">
+        <div class="modal-content" style="margin-top:4%;">
+            <div class="modal-header" style="background-repeat: repeat;height: 36px;padding: 3px;border-bottom:2px solid rgb(149, 76, 132)!important;">
+                <div class="container-fluid" style="padding-right: 0px;">
+                    <div class="col-md-4">
+                        <h3 class="modal-title SCHeader" id="modelContextLabel"></h3>
+                        <div class="col-md-12">
+                            <span style="font-weight: 600;font-size: 20px;" id="AddOrEditSpan">Deposit</span>
 
 
-                            </div>
                         </div>
-                        <div class="col-md-8" style="padding-right: 4px;">
-
-                            <a class="close" data-dismiss="modal" aria-label="Close"><i style="font-size: 33px;" class="fa fa-times-circle" aria-hidden="true"></i></a>
-                        </div>
-
                     </div>
+                    <div class="col-md-8" style="padding-right: 4px;">
+
+                        <a class="close" data-dismiss="modal" aria-label="Close"><i style="font-size: 33px;" class="fa fa-times-circle" aria-hidden="true"></i></a>
+                    </div>
+
                 </div>
+            </div>
 
 
-                <div class="modal-body" style="min-height:510px !important;">
-                    <div class="container-fluid">
-                        <ul class="nav nav-pills" id="tabs">
-                            <li class="active">
-                                <a id="tabDepositwithdrawalList" onclick="List()" href="#DepositwithdrawalList" data-toggle="tab"> <span class="fa fa-list">&nbsp;&nbsp;</span>Undeposited Cheques</a>
-                            </li>
-                            <li>
-                                <a id="tabDepositwithdrawalEntry" onclick="Add()" href="#DepositwithdrawalEntry" data-toggle="tab" style="width:240px"><span class="fa fa-file-o">&nbsp;&nbsp;</span>Deposit Entry</a>
-                            </li>
+            <div class="modal-body" style="min-height:510px !important;">
+                <div class="container-fluid">
+                    <ul class="nav nav-pills" id="tabs">
+                        <li class="active">
+                            <a id="tabDepositwithdrawalList" onclick="List()" href="#DepositwithdrawalList" data-toggle="tab"> <span class="fa fa-list">&nbsp;&nbsp;</span>Undeposited Cheques</a>
+                        </li>
+                        <li>
+                            <a id="tabDepositwithdrawalEntry" onclick="Add()" href="#DepositwithdrawalEntry" data-toggle="tab" style="width:240px"><span class="fa fa-file-o">&nbsp;&nbsp;</span>Deposit Entry</a>
+                        </li>
 
 
-                        </ul>
+                    </ul>
 
 
-                        <div class="tab-pane fade in active" id="DepositwithdrawalList">
+                    <div class="tab-pane fade in active" id="DepositwithdrawalList">
 
-                            <div class="col-md-12">
+                        <div class="col-md-12">
 
-                                @*<div class="col-md-12">&nbsp;</div>
-                                    <span class="chqHeader" style="font-size:14px;font-weight:500;">Undeposited Cheques<span class="chqHeader" style="font-size:12px;font-weight:400;">(From Other Income/ Payments)</span></span>*@
-                                <div class="col-md-12">&nbsp;</div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-8">
-                                        <div class="col-md-12" id="lblBankDiv">
-                                            @Html.LabelFor(model => model.BankCode, htmlAttributes: new { @class = "control-label" })
+                            @*<div class="col-md-12">&nbsp;</div>
+                                <span class="chqHeader" style="font-size:14px;font-weight:500;">Undeposited Cheques<span class="chqHeader" style="font-size:12px;font-weight:400;">(From Other Income/ Payments)</span></span>*@
+                            <div class="col-md-12">&nbsp;</div>
+                            <div class="form-group col-md-12">
+                                <div class="col-md-8">
+                                    <div class="col-md-12" id="lblBankDiv">
+                                        @Html.LabelFor(model => model.BankCode, htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="col-md-10">
+
+                                        @Html.DropDownListFor(model => model.BankCode, Model.bankList, "-- Select Bank --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "BankCode" })
+                                        @Html.ValidationMessageFor(model => model.BankCode, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-1"></div>
+                            </div>
+                            <div class="col-md-12" >
+                                @*<div class="form-group col-md-12" >*@
+                                    <div class="col-md-12 no-padding" id="UndepositedChequeClearDate">
+                                        <div class="col-md-4 no-padding">
+                                            @Html.Label("From Date", htmlAttributes: new { @class = "control-label" })
+                                            <div class="col-md-12 ">
+
+                                                @Html.EditorFor(model => model.FromDate, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter datepicker", @onChange = "ChequeDateChange()", @id = "Chequefromdate" } })
+
+                                            </div>
                                         </div>
-                                        <div class="col-md-10">
+                                        <div class="col-md-4 no-padding">
+                                            @Html.Label("To Date", htmlAttributes: new { @class = "control-label" })
+                                            <div class="col-md-12 ">
+                                                @Html.EditorFor(model => model.ToDate, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter datepicker", @onChange = "ChequeDateChange()", @id = "Chequetodate" } })
 
-                                            @Html.DropDownListFor(model => model.BankCode, Model.bankList, "-- Select Bank --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "BankCode" })
-                                            @Html.ValidationMessageFor(model => model.BankCode, "", new { @class = "text-danger" })
-
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-1"></div>
-                                    <div class="col-md-1"></div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group col-md-4" id="UndepositedChequeDate">
-
-                                        <div class="col-md-12">
+                                    @*<div class="col-md-12">
                                             @Html.LabelFor(model => model.ChequeClearDate, htmlAttributes: new { @class = "control-label" })
                                         </div>
                                         <div class="col-md-12">
                                             @Html.EditorFor(model => model.ChequeClearDate, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter datepicker", @id = "ChequeDate" } })
                                             @Html.ValidationMessageFor(model => model.ChequeClearDate, "", new { @class = "text-danger" })
-                                        </div>
+                                        </div>*@
 
-                                    </div>
+                                @*</div>*@
+                                <div class="col-md-12">
                                     <table id="tblDepositwithdrawalList" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
                                         <thead>
                                             <tr class="text-center">
@@ -290,303 +315,334 @@
                                             </tr>
                                         </thead>
                                     </table>
-
                                 </div>
                             </div>
-                            <a class="btn btn-primary" style="position:relative;right:-700px;" onclick="ClearCheque()" id="btnCheque"> Clear Cheque</a>
-                            <a class="btn btn-primary" style="position:relative;right:-750px;" onclick="SaveCheckedDeposit()" id="btnDepositSave"> Deposit</a>
                         </div>
-                        <div class="tab-pane fade " id="DepositwithdrawalEntry">
+                        @*<a class="btn btn-primary" style="position:relative;right:-700px;" onclick="ClearCheque()" id="btnCheque"> Clear Cheque</a>*@
+                        <a class="btn btn-primary" style="position:relative;right:-750px;" onclick="SaveCheckedDeposit()" id="btnDepositSave"> Deposit</a>
+                        <div class="col-md-12" id="divClearCheque" style="margin-top: 20px;">
+                            <div class="col-md-12" style="border-bottom:#954c84 solid 3px">
 
-                            <div class="col-md-12">
+                                    @Html.Label("Update Cheque", htmlAttributes: new { @class = "control-label Summary", @id = "", @style = "font-size: 18px;padding-left: 0px !important;" })
+                                                             
+                            </div>
+                            
+
+                            <div class="col-md-8" style="margin-top: 5px;">
+
+                                <div class="col-md-12 no-padding">
+
+                                    <div class="col-md-6 no-padding">
+                                        @Html.LabelFor(model => model.ChequeClearDate, htmlAttributes: new { @class = "control-label" })
+                                        <div class="col-md-12">
+                                            @Html.EditorFor(model => model.ChequeClearDate, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter datepicker", @id = "ChequeDate" } })
+                                            @Html.ValidationMessageFor(model => model.ChequeClearDate, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <br />
+                                        <a class="btn btn-primary" style="position:relative;" onclick="ClearCheque()" id="btnCheque"> Update</a>
+                                        @*<a class="btn btn-primary" style="position:relative;" onclick="SaveCheckedDeposit()" id="btnDepositSave"> Deposit</a>*@
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
 
-                                @using (Ajax.BeginForm("InsertUpdateDepositAndWithdrawals", "DepositAndWithdrawals", new AjaxOptions { HttpMethod = "POST", OnBegin = "Validation", OnSuccess = "SaveSuccess", OnFailure = "SaveFailure", AllowCache = false, LoadingElementId = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", id = "DepositAndWithdrawal", autocomplete = "off" }))
+                    </div>
+                    <div class="tab-pane fade " id="DepositwithdrawalEntry">
 
-                                {
-                                    @Html.AntiForgeryToken()
-                                    @Html.HiddenFor(model => model.hdnChequeStatus)
-                                    @Html.HiddenFor(model => model.hdnChequeDate)
-                                    @Html.Hidden("hdnPaymentMode")
-                                    @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "", Value = "0" })
-                                    @Html.HiddenFor(model => model.DepositRowValues, htmlAttributes: new { @class = "", Value = "0" })
+                        <div class="col-md-12">
 
-                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                                    <div class="form-group col-md-12" hidden="hidden">
-                                        <div class="col-md-8">
+                            @using (Ajax.BeginForm("InsertUpdateDepositAndWithdrawals", "DepositAndWithdrawals", new AjaxOptions { HttpMethod = "POST", OnBegin = "Validation", OnSuccess = "SaveSuccess", OnFailure = "SaveFailure", AllowCache = false, LoadingElementId = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", id = "DepositAndWithdrawal", autocomplete = "off" }))
+
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.HiddenFor(model => model.hdnChequeStatus)
+                                @Html.HiddenFor(model => model.hdnChequeDate)
+                                @Html.Hidden("hdnPaymentMode")
+                                @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "", Value = "0" })
+                                @Html.HiddenFor(model => model.DepositRowValues, htmlAttributes: new { @class = "", Value = "0" })
+
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                <div class="form-group col-md-12" hidden="hidden">
+                                    <div class="col-md-8">
+                                        <div class="col-md-12">
+                                            @Html.LabelFor(model => model.TransactionType, htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="col-md-10">
+
+                                            @Html.EditorFor(model => model.TransactionType, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.TransactionType, "", new { @class = "text-danger" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-1"></div>
+                                </div>
+
+                                <div class="col-md-12" id="divDepositEntry">
+                                    <div class="col-md-6">
+                                        <div class="form-group col-md-12">
+
                                             <div class="col-md-12">
-                                                @Html.LabelFor(model => model.TransactionType, htmlAttributes: new { @class = "control-label" })
+                                                @Html.LabelFor(model => model.ReferenceNo, htmlAttributes: new { @class = "control-label" })
                                             </div>
-                                            <div class="col-md-10">
+                                            <div class="col-md-12">
 
-                                                @Html.EditorFor(model => model.TransactionType, new { htmlAttributes = new { @class = "form-control" } })
-                                                @Html.ValidationMessageFor(model => model.TransactionType, "", new { @class = "text-danger" })
-
-                                            </div>
-                                        </div>
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-1"></div>
-                                    </div>
-
-                                    <div class="col-md-12">
-                                        <div class="col-md-6">
-                                            <div class="form-group col-md-12">
-
-                                                <div class="col-md-12">
-                                                    @Html.LabelFor(model => model.ReferenceNo, htmlAttributes: new { @class = "control-label" })
-                                                </div>
-                                                <div class="col-md-12">
-
-                                                    @Html.EditorFor(model => model.ReferenceNo, new { htmlAttributes = new { @class = "form-control" } })
-                                                    @Html.ValidationMessageFor(model => model.ReferenceNo, "", new { @class = "text-danger" })
-
-                                                </div>
-
+                                                @Html.EditorFor(model => model.ReferenceNo, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.ReferenceNo, "", new { @class = "text-danger" })
 
                                             </div>
 
-                                            <div class="form-group col-md-12">
-
-                                                <div class="col-md-12">
-                                                    @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label" })
-                                                </div>
-                                                <div class="col-md-12">
-                                                    @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter datepicker", @id = "Date" } })
-                                                    @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
-
-
-                                                </div>
-
-
-                                            </div>
-
-                                            <div class="form-group col-md-12">
-
-                                                <div class="col-md-12">
-                                                    @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label" })
-                                                </div>
-                                                <div class="col-md-12">
-
-                                                    @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter Amount", onkeypress = "return isNumber(event)", @onclick = "SelectAllValue(this);" } })
-                                                    @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
-
-                                                </div>
-
-
-                                            </div>
-
-                                            <div class="form-group col-md-12">
-
-                                                <div class="col-md-12">
-                                                    @Html.LabelFor(model => model.BankCode, htmlAttributes: new { @class = "control-label ", @id = "lblBankCode" })
-                                                </div>
-                                                <div class="col-md-12">
-
-                                                    @Html.DropDownListFor(model => model.BankCode, Model.bankList, "-- Select Bank --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "BankCodeModal" })
-                                                    @Html.ValidationMessageFor(model => model.BankCode, "", new { @class = "text-danger" })
-
-                                                </div>
-
-
-                                            </div>
-                                            <div class="form-group col-md-12" id="customerid">
-                                                <div class="col-md-12">
-                                                    @Html.LabelFor(model => model.CustomerID, htmlAttributes: new { @class = "control-label" })
-                                                </div>
-                                                <div class="col-md-12">
-                                                    @Html.DropDownListFor(model => model.CustomerID, Model.customerList, "-- Select Customer --", new { @class = "form-control BlockEnter", @id = "customerCode" })
-
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group col-md-12">
-
-                                                <div class="col-md-12">
-                                                    @Html.LabelFor(model => model.PaymentMode, htmlAttributes: new { @class = "control-label", @id = "lblPaymentMode" })
-                                                </div>
-                                                <div class="col-md-12">
-
-                                                    @Html.DropDownListFor(model => model.PaymentMode, Model.paymentModeList, "-- Select Payment Mode --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "PaymentMode", @onchange = "DepositModeOnchange();" })
-                                                    @Html.ValidationMessageFor(model => model.PaymentMode, "", new { @class = "text-danger" })
-
-                                                </div>
-
-
-                                            </div>
-
-                                            <div class="form-group col-md-12">
-
-                                                <div class="col-md-12">
-                                                    @Html.LabelFor(model => model.ChequeStatus, htmlAttributes: new { @class = "control-label" })
-                                                </div>
-                                                <div class="col-md-12">
-                                                    @{
-                                                        List<SelectListItem> listChequeStatus = new List<SelectListItem>();
-                                                        listChequeStatus.Add(new SelectListItem
-                                                        {
-                                                            Text = "Cleared",
-                                                            Value = "Cleared"
-                                                        });
-                                                        listChequeStatus.Add(new SelectListItem
-                                                        {
-                                                            Text = "Not Cleared",
-                                                            Value = "NotCleared"
-                                                        });
-                                                        listChequeStatus.Add(new SelectListItem
-                                                        {
-                                                            Text = "Bounced",
-                                                            Value = "Bounced",
-                                                            Disabled = true
-                                                        });
-                                                    }
-                                                    @Html.DropDownListFor(model => model.ChequeStatus, listChequeStatus, "-- Select Cheque Status --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "ChequeStatus", @onchange = "ChequeStatusModeOnchange();" })
-                                                    @Html.ValidationMessageFor(model => model.ChequeStatus, "", new { @class = "text-danger" })
-
-                                                </div>
-
-                                            </div>
-                                            <div class="form-group col-md-12">
-
-                                                <div class="col-md-12">
-                                                    @Html.LabelFor(model => model.ChequeClearDate, htmlAttributes: new { @class = "control-label" })
-                                                </div>
-                                                <div class="col-md-12">
-                                                    @Html.EditorFor(model => model.ChequeClearDate, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter datepicker", @id = "ChequeClearDate" } })
-                                                    @Html.ValidationMessageFor(model => model.ChequeClearDate, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group col-md-12">
-
-                                                <div class="col-md-12">
-                                                    @Html.LabelFor(model => model.GeneralNotes, htmlAttributes: new { @class = "control-label" })
-                                                </div>
-                                                <div class="col-md-12">
-
-                                                    @Html.TextAreaFor(model => model.GeneralNotes, 3, 60, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter" } })
-                                                    @Html.ValidationMessageFor(model => model.GeneralNotes, "", new { @class = "text-danger" })
-
-                                                </div>
-
-                                            </div>
 
                                         </div>
-                                    </div>
 
+                                        <div class="form-group col-md-12">
 
-
-
-
-                                    <div class="form-group" style="display:none;">
-                                        <div class="col-md-offset-2 col-md-10">
-                                            <input id="btnDepositWithdrawalSave" type="submit" value="Create" class="btn btn-default" />
-                                        </div>
-                                    </div>
-                                                        }
-
-
-                            </div>
-
-
-
-
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modal-footer" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 50px;padding: 7px;">
-                    <a class="btn btn-primary" onclick="SaveDeposit()" id="btnSave"><i class="glyphicon glyphicon-floppy-disk"></i> Save</a>
-                    <a class="btn btn-default" onclick="Reset()"><i class="glyphicon glyphicon-refresh"></i> Reset</a>
-                    @*<a class="btn btn-default" onclick="Delete()"><i class="glyphicon glyphicon-trash"></i> Delete</a>*@
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="AddCashWithdrawalModel" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm" role="document" style="min-width:900px !important;">
-            <div class="modal-content" style="margin-top:4%;">
-                <div class="modal-header" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 36px;padding: 3px;border-bottom:2px solid rgb(149, 76, 132)!important;">
-                    <div class="container-fluid" style="padding-right: 0px;">
-                        <div class="col-md-4">
-                            <h3 class="modal-title SCHeader" id="modelContextLabel"></h3>
-                            <div class="col-md-12">
-                                <span style="font-weight: 600;font-size: 20px;" id="AddOrEditSpan">Transfer</span>
-                            </div>
-                        </div>
-                        <div class="col-md-8" style="padding-right: 4px;">
-
-                            <a class="close" data-dismiss="modal" aria-label="Close"><i style="font-size: 33px;" class="fa fa-times-circle" aria-hidden="true"></i></a>
-                        </div>
-
-                    </div>
-                </div>
-
-
-                <div class="modal-body">
-                    <div class="container-fluid">
-
-
-                        <div class="tab-pane fade in active" id="DepositwithdrawalList">
-
-                            <div class="col-md-12">
-
-                                @using (Ajax.BeginForm("InsertUpdateTransferAmount", "DepositAndWithdrawals", new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccessTransfer", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", @id = "TransferAmountForm" }))
-                                {
-                                    @Html.AntiForgeryToken()
-                                    @Html.Hidden("BindValue", "", htmlAttributes: new { @class = "", Value = ViewBag.value });
-
-                                    @*@Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "", Value = "0" })*@
-                                    <div class="col-md-12">&nbsp;</div>
-                                    <div class="form-group col-md-12">
-
-
-                                        <div class="col-md-6">
                                             <div class="col-md-12">
                                                 @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label" })
                                             </div>
-                                            <div class="col-md-10">
-                                                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter datepicker", @id = "TransferDate" } })
+                                            <div class="col-md-12">
+                                                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter datepicker", @id = "Date" } })
                                                 @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+
+
+                                            </div>
+
+
+                                        </div>
+
+                                        <div class="form-group col-md-12">
+
+                                            <div class="col-md-12">
+                                                @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label" })
+                                            </div>
+                                            <div class="col-md-12">
+
+                                                @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter Amount", onkeypress = "return isNumber(event)", @onclick = "SelectAllValue(this);" } })
+                                                @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+
+                                            </div>
+
+
+                                        </div>
+
+                                        <div class="form-group col-md-12">
+
+                                            <div class="col-md-12">
+                                                @Html.LabelFor(model => model.BankCode, htmlAttributes: new { @class = "control-label ", @id = "lblBankCode" })
+                                            </div>
+                                            <div class="col-md-12">
+
+                                                @Html.DropDownListFor(model => model.BankCode, Model.bankList, "-- Select Bank --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "BankCodeModal" })
+                                                @Html.ValidationMessageFor(model => model.BankCode, "", new { @class = "text-danger" })
+
+                                            </div>
+
+
+                                        </div>
+                                        <div class="form-group col-md-12" id="customerid">
+                                            <div class="col-md-12">
+                                                @Html.LabelFor(model => model.CustomerID, htmlAttributes: new { @class = "control-label" })
+                                            </div>
+                                            <div class="col-md-12">
+                                                @Html.DropDownListFor(model => model.CustomerID, Model.customerList, "-- Select Customer --", new { @class = "form-control BlockEnter", @id = "customerCode" })
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group col-md-12">
+
+                                            <div class="col-md-12">
+                                                @Html.LabelFor(model => model.PaymentMode, htmlAttributes: new { @class = "control-label", @id = "lblPaymentMode" })
+                                            </div>
+                                            <div class="col-md-12">
+
+                                                @Html.DropDownListFor(model => model.PaymentMode, Model.paymentModeList, "-- Select Payment Mode --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "PaymentMode", @onchange = "DepositModeOnchange();" })
+                                                @Html.ValidationMessageFor(model => model.PaymentMode, "", new { @class = "text-danger" })
+
+                                            </div>
+
+
+                                        </div>
+
+                                        <div class="form-group col-md-12">
+
+                                            <div class="col-md-12">
+                                                @Html.LabelFor(model => model.ChequeStatus, htmlAttributes: new { @class = "control-label" })
+                                            </div>
+                                            <div class="col-md-12">
+                                                @{
+                                                    List<SelectListItem> listChequeStatus = new List<SelectListItem>();
+                                                    listChequeStatus.Add(new SelectListItem
+                                                    {
+                                                        Text = "Cleared",
+                                                        Value = "Cleared"
+                                                    });
+                                                    listChequeStatus.Add(new SelectListItem
+                                                    {
+                                                        Text = "Not Cleared",
+                                                        Value = "NotCleared"
+                                                    });
+                                                    listChequeStatus.Add(new SelectListItem
+                                                    {
+                                                        Text = "Bounced",
+                                                        Value = "Bounced",
+                                                        Disabled = true
+                                                    });
+                                                }
+                                                @Html.DropDownListFor(model => model.ChequeStatus, listChequeStatus, "-- Select Cheque Status --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "ChequeStatus", @onchange = "ChequeStatusModeOnchange();" })
+                                                @Html.ValidationMessageFor(model => model.ChequeStatus, "", new { @class = "text-danger" })
+
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group col-md-12">
+
+                                            <div class="col-md-12">
+                                                @Html.LabelFor(model => model.ChequeClearDate, htmlAttributes: new { @class = "control-label" })
+                                            </div>
+                                            <div class="col-md-12">
+                                                @Html.EditorFor(model => model.ChequeClearDate, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter datepicker", @id = "ChequeClearDate" } })
+                                                @Html.ValidationMessageFor(model => model.ChequeClearDate, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
 
+                                        <div class="form-group col-md-12">
 
+                                            <div class="col-md-12">
+                                                @Html.LabelFor(model => model.GeneralNotes, htmlAttributes: new { @class = "control-label" })
+                                            </div>
+                                            <div class="col-md-12">
+
+                                                @Html.TextAreaFor(model => model.GeneralNotes, 3, 60, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter" } })
+                                                @Html.ValidationMessageFor(model => model.GeneralNotes, "", new { @class = "text-danger" })
+
+                                            </div>
+
+                                        </div>
 
                                     </div>
-
-                                    <div class="form-group col-md-12">
-                                        <div class="col-md-6">
-                                            <div class="col-md-12" id="lblFromBank">
-                                                @Html.LabelFor(model => model.FromBank, htmlAttributes: new { @class = "control-label" })
-                                            </div>
-                                            <div class="col-md-10">
-
-                                                @Html.DropDownListFor(model => model.FromBank, Model.bankList, "-- Select Bank --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "FromBankCode" })
-                                                @Html.ValidationMessageFor(model => model.FromBank, "", new { @class = "text-danger" })
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="col-md-12" id="lblToBank">
-                                                @Html.LabelFor(model => model.ToBank, htmlAttributes: new { @class = "control-label" })
-                                            </div>
-                                            <div class="col-md-10">
-
-                                                @Html.DropDownListFor(model => model.ToBank, Model.bankList, "-- Select Bank --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "ToBankCode" })
-                                                @Html.ValidationMessageFor(model => model.ToBank, "", new { @class = "text-danger" })
-
-                                            </div>
-                                        </div>
+                                </div>
 
 
 
 
+
+                                <div class="form-group" style="display:none;">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input id="btnDepositWithdrawalSave" type="submit" value="Create" class="btn btn-default" />
                                     </div>
+                                </div>
+                                                    }
+
+
+                        </div>
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 50px;padding: 7px;">
+                <a class="btn btn-primary" onclick="SaveDeposit()" id="btnSave"><i class="glyphicon glyphicon-floppy-disk"></i> Save</a>
+                <a class="btn btn-default" onclick="Reset()"><i class="glyphicon glyphicon-refresh"></i> Reset</a>
+                @*<a class="btn btn-default" onclick="Delete()"><i class="glyphicon glyphicon-trash"></i> Delete</a>*@
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="AddCashWithdrawalModel" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document" style="min-width:900px !important;">
+        <div class="modal-content" style="margin-top:4%;">
+            <div class="modal-header" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 36px;padding: 3px;border-bottom:2px solid rgb(149, 76, 132)!important;">
+                <div class="container-fluid" style="padding-right: 0px;">
+                    <div class="col-md-4">
+                        <h3 class="modal-title SCHeader" id="modelContextLabel"></h3>
+                        <div class="col-md-12">
+                            <span style="font-weight: 600;font-size: 20px;" id="AddOrEditSpan">Transfer</span>
+                        </div>
+                    </div>
+                    <div class="col-md-8" style="padding-right: 4px;">
+
+                        <a class="close" data-dismiss="modal" aria-label="Close"><i style="font-size: 33px;" class="fa fa-times-circle" aria-hidden="true"></i></a>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="modal-body">
+                <div class="container-fluid">
+
+
+                    <div class="tab-pane fade in active" id="DepositwithdrawalList">
+
+                        <div class="col-md-12">
+
+                            @using (Ajax.BeginForm("InsertUpdateTransferAmount", "DepositAndWithdrawals", new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccessTransfer", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", @id = "TransferAmountForm" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.Hidden("BindValue", "", htmlAttributes: new { @class = "", Value = ViewBag.value });
+
+                                @*@Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "", Value = "0" })*@
+                                <div class="col-md-12">&nbsp;</div>
+                                <div class="form-group col-md-12">
+
+
+                                    <div class="col-md-6">
+                                        <div class="col-md-12">
+                                            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter datepicker", @id = "TransferDate" } })
+                                            @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-6">
+                                        <div class="col-md-12" id="lblFromBank">
+                                            @Html.LabelFor(model => model.FromBank, htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="col-md-10">
+
+                                            @Html.DropDownListFor(model => model.FromBank, Model.bankList, "-- Select Bank --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "FromBankCode" })
+                                            @Html.ValidationMessageFor(model => model.FromBank, "", new { @class = "text-danger" })
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="col-md-12" id="lblToBank">
+                                            @Html.LabelFor(model => model.ToBank, htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                        <div class="col-md-10">
+
+                                            @Html.DropDownListFor(model => model.ToBank, Model.bankList, "-- Select Bank --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "ToBankCode" })
+                                            @Html.ValidationMessageFor(model => model.ToBank, "", new { @class = "text-danger" })
+
+                                        </div>
+                                    </div>
+
+
+
+
+                                </div>
                                     <div class="form-group col-md-12">
 
                                         <div class="col-md-6">
@@ -623,33 +679,33 @@
                                             <input id="btnBankTransfer" type="submit" value="Create" class="btn btn-default" />
                                         </div>
                                     </div>
-                                }
-                            </div>
+                            }
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer" id="TransferAmt" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 50px;padding: 7px;">
-                    <a class="btn btn-primary" onclick="TransferCash()"><i class="glyphicon glyphicon-floppy-disk"></i> Transfer</a>
-                </div>
+            </div>
+            <div class="modal-footer" id="TransferAmt" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 50px;padding: 7px;">
+                <a class="btn btn-primary" onclick="TransferCash()"><i class="glyphicon glyphicon-floppy-disk"></i> Transfer</a>
             </div>
         </div>
     </div>
+</div>
 
 
 
-    <div class="preloader" id="prelaoder">
-        <div class="col-md-12">
-            <div class="col-md-12">Loading </div>
-            <div class="col-md-12" style="margin-left:5%;margin-top:-3%;"><img src="~/Content/images/loading.gif" class="preloaderImg" /></div>
-        </div>
-
+<div class="preloader" id="prelaoder">
+    <div class="col-md-12">
+        <div class="col-md-12">Loading </div>
+        <div class="col-md-12" style="margin-left:5%;margin-top:-3%;"><img src="~/Content/images/loading.gif" class="preloaderImg" /></div>
     </div>
 
+</div>
 
 
-    @section Scripts {
-        @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
-        @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableSelect")
-        @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
-        @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/DepositAndWithdrawals")
-    }
+
+@section Scripts {
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableSelect")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/DepositAndWithdrawals")
+}

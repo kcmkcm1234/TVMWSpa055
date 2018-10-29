@@ -1404,6 +1404,55 @@ namespace SPAccounts.RepositoryServices.Services
             return customerpaymentList;
         }
 
+        public List<CustomerPaymentLedger> GetCustomerPaymentLedgerRealisedAmount(DateTime? fromDate, DateTime? toDate, string customerIDs, string company, string invoiceType, string search)
+        {
+            List<CustomerPaymentLedger> customerpaymentAmtList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = fromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = toDate;
+                        cmd.Parameters.Add("@CustomerIDs", SqlDbType.NVarChar, -1).Value = customerIDs;
+                        cmd.Parameters.Add("@CompanyCode", SqlDbType.NVarChar, 50).Value = company == "ALL" ? null : company;
+                        cmd.Parameters.Add("@InvoiceType", SqlDbType.NVarChar, 50).Value = invoiceType == "ALL" ? null : invoiceType;
+                        cmd.Parameters.Add("@Search", SqlDbType.NVarChar, 250).Value = search != "" ? search : null;
+                        cmd.CommandText = "[Accounts].[RPT_GetCustomerPaymentLedger_RealisedAmount]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                customerpaymentAmtList = new List<CustomerPaymentLedger>();
+                                while (sdr.Read())
+                                {
+                                    CustomerPaymentLedger customerpaymentAmt = new CustomerPaymentLedger();
+                                    {
+                                       
+                                            customerpaymentAmt.PaidAmount = (sdr["TotalPaidAmount"].ToString() != "" ? decimal.Parse(sdr["TotalPaidAmount"].ToString()) : customerpaymentAmt.PaidAmount);
+                                            customerpaymentAmt.RealisedAmount = (sdr["RealisedAmount"].ToString() != "" ? decimal.Parse(sdr["RealisedAmount"].ToString()) : customerpaymentAmt.RealisedAmount);
+                                                                               
+                                    }
+                                    customerpaymentAmtList.Add(customerpaymentAmt);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return customerpaymentAmtList;
+        }
         public List<SupplierPaymentLedger> GetSupplierPaymentLedger(DateTime? fromDate, DateTime? toDate, string supplierCode, string company,string invoiceType)
         {
             List<SupplierPaymentLedger> supplierpaymentList = null;
