@@ -33,11 +33,17 @@ namespace UserInterface.Controllers
         // GET: CustomerCreditNote
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "CustomerCreditNote", Mode = "R")]
-        public ActionResult Index()
+        public ActionResult Index(string id)
         {
+
+
             CustomerCreditNoteViewModel ccn = null;
             try
             {
+
+                AppUA _appUA = Session["AppUA"] as AppUA;
+                ViewBag.Currentdate = _appUA.DateTime.ToString("dd-MMM-yyyy");
+                ViewBag.value = id;
                 ccn = new CustomerCreditNoteViewModel();
                 List<SelectListItem> selectListItem = new List<SelectListItem>();
                 List<CustomerViewModel> CustList = Mapper.Map<List<Customer>, List<CustomerViewModel>>(_customerBusiness.GetAllCustomers());

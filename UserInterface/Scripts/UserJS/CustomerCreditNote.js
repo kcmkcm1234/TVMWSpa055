@@ -24,7 +24,7 @@ $(document).ready(function () {
                { "data": "CreditAmount", render: function (data, type, row) { return roundoff(data, 1); }, "defaultContent": "<i>-</i>" },
                {
                    "data": "", render: function (data, type, row) {
-                       debugger;
+                 
                        var CreditUsed = row.CreditAmount - row.AvailableCredit
                        return roundoff(CreditUsed);
                     }, "defaultContent": "<i>-</i>"
@@ -58,9 +58,18 @@ $(document).ready(function () {
         notyAlert('error', x.message);
 
     }
+    debugger;
+    if ($('#BindValue').val() != '') {
+        dashboardBind($('#BindValue').val())
+    }
 
 });
-
+function dashboardBind(ID) {
+    debugger;
+    openNav();
+    ResetForm();
+    FillCustomerCreditNoteDetails(ID);
+}
 function BindBillingAddress(curObj) {
     debugger;
     if (curObj.value != "") {

@@ -90,6 +90,7 @@
                 @using (Ajax.BeginForm("InsertUpdateSupplierCreditNote", "SupplierCreditNote", new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccess", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", @id = "SupplierCreditNoteForm" }))
                 {
                     @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "", Value = "0" })
+                    @Html.Hidden("BindValue", "", htmlAttributes: new { @class = "", Value = ViewBag.value });
                     @Html.AntiForgeryToken()
 
                     <div class="col-md-12">
@@ -118,7 +119,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="col-md-10">
-                                        @Html.DropDownListFor(model => model.SupplierID, Model.SupplierList, "-- Select a Supplier --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "supplier" , @onchange = "BindSupplierAddress(this);" })
+                                        @Html.DropDownListFor(model => model.SupplierID, Model.SupplierList, "-- Select a Supplier --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", @id = "supplier", @onchange = "BindSupplierAddress(this);" })
                                         @Html.ValidationMessageFor(model => model.SupplierID, "", new { @class = "text-danger" })
                                     </div>
                                     <div class="col-md-1"></div>
@@ -183,29 +184,29 @@
 
                         </div>
                         @*<div class="col-md-4" id="CommonFigure" style="padding-top:2%;border-left:1px;white-space:nowrap;">*@
-                            <div class="col-md-4" style="padding-top:2%;border-left:1px solid #64e564;white-space:nowrap;">
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-12 text-right">
-                                        <div class="rightAmtCaption">Credit Amount</div>
-                                    </div>
-                                    <div class="col-md-12 text-right">
-                                        <div class="rightAmt" id="creditdAmt">₹ 0.00</div>
-                                    </div>
+                        <div class="col-md-4" style="padding-top:2%;border-left:1px solid #64e564;white-space:nowrap;">
+                            <div class="form-group col-md-12">
+                                <div class="col-md-12 text-right">
+                                    <div class="rightAmtCaption">Credit Amount</div>
                                 </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-12 text-right">
-                                        <div class="rightAmtCaption">Adjusted Amount</div>
-                                    </div>
-                                    <div class="col-md-12 text-right">
-                                        <div class="rightAmt" id="adjusteddAmt">₹ 0.00</div>
-                                    </div>
+                                <div class="col-md-12 text-right">
+                                    <div class="rightAmt" id="creditdAmt">₹ 0.00</div>
                                 </div>
-
                             </div>
+                            <div class="form-group col-md-12">
+                                <div class="col-md-12 text-right">
+                                    <div class="rightAmtCaption">Adjusted Amount</div>
+                                </div>
+                                <div class="col-md-12 text-right">
+                                    <div class="rightAmt" id="adjusteddAmt">₹ 0.00</div>
+                                </div>
+                            </div>
+
+                        </div>
                         @*</div>*@
 
                     </div>
-                        <div class="col-md-12  ">&nbsp;</div>
+                    <div class="col-md-12  ">&nbsp;</div>
                         <div class="col-md-12  ">&nbsp;</div>
                         <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Commercial Details</div>
 
@@ -347,6 +348,8 @@
 
     </div>
 </section>
+
+
 
 @section Scripts {
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")

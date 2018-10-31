@@ -28,11 +28,15 @@ namespace UserInterface.Controllers
         // GET: SupplierCredit
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "SupplierCreditNotes", Mode = "R")]
-        public ActionResult Index()
+        public ActionResult Index(string id)
         {
             SupplierCreditNoteViewModel scn = null;
             try
             {
+                AppUA _appUA = Session["AppUA"] as AppUA;
+                ViewBag.Currentdate = _appUA.DateTime.ToString("dd-MMM-yyyy");
+                ViewBag.value = id;
+
                 scn = new SupplierCreditNoteViewModel();
                 List<SelectListItem> selectListItem = new List<SelectListItem>();
                 List<SuppliersViewModel> suppList = Mapper.Map<List<Supplier>, List<SuppliersViewModel>>(_supplierBusiness.GetAllSuppliers());

@@ -60,10 +60,19 @@ $(document).ready(function () {
         notyAlert('error', x.message);
 
     }
+    debugger;
+    if ($('#BindValue').val() != '') {
+        dashboardBind($('#BindValue').val())
+    }
 
 });
 
-
+function dashboardBind(ID) {
+    debugger;
+    openNav();
+    ResetForm();
+    FillSupplierDetails(ID);
+}
 
 function GetAllSupplierCreditNotes() {
     try {
