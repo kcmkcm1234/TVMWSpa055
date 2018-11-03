@@ -68,7 +68,7 @@ $(document).ready(function () {
                 extend: 'excel',
                 exportOptions:
                              {
-                                 columns: [0, 1, 2, 4, 5, 6, 7, 8, 9,10]
+                                 columns: [0, 2,3,5, 6, 7, 8, 9,10]
                              }
             }],
             order: [],
@@ -404,7 +404,7 @@ function GetHtmlData()
     DrawTable({
         Action: "Report/GetCustomerPaymentLedger/",
         data: { "FromDate": $('#fromDate').val(), "ToDate": $('#toDate').val(), "CustomerIDs": customerIds, "Company": $('#companyCode').val(), "InvoiceType": $('#ddlInvoiceTypes').val() },
-        Exclude_column: ["CustomerID", "customerList", "CustomerCode", "pdfToolsObj", "CompanyCode", "CompanyList", "companiesList", "InvoiceType", "Remarks", "InvoiceTypeAccess", "Advance", "Search", "Type", "CustomerName"],
+        Exclude_column: ["CustomerID", "customerList", "CustomerCode", "pdfToolsObj", "CompanyCode", "CompanyList", "companiesList", "InvoiceType", "Remarks", "InvoiceTypeAccess", "Advance", "Search", "Type", "CustomerName", "PaidAmount", "RealisedAmount"],
         Header_column_style: {
             "Date": { "style": "width:10%;font-size:12px;text-align:left;border-bottom:2px solid;border-bottom-color: #000000; font-weight: 600;", "custom_name": "Date" },
             "PAYTYPE": { "style": "font-size:12px;text-align:left;border-bottom:2px solid ;border-bottom-color: #000000; width:15%;font-weight: 600;", "custom_name": "Type" },
