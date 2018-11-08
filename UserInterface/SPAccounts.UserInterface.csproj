@@ -1699,6 +1699,7 @@
     <Compile Include="Models\ApprovalStatusViewModel.cs" />
     <Compile Include="Models\ApproverViewModel.cs" />
     <Compile Include="Models\BankViewModel.cs" />
+    <Compile Include="Models\DocumentLogViewModel.cs" />
     <Compile Include="Models\SpecialInvPaymentsViewModel.cs" />
     <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\DepartmentViewModel.cs" />

@@ -304,6 +304,8 @@ function GetSupplierPaymentsByID(PaymentID) {
     $('#deleteId').val(PaymentID);
     $("#Supplier").select2();
     $("#Supplier").val(thisitem.supplierObj.ID).trigger('change');
+
+    $('#hdnDocNo').val(thisitem.EntryNo);
     //$('#Supplier').val(thisitem.supplierObj.ID);
     debugger;
     $('#ddlApprovalStatus').val(thisitem.ApprovalStatus);
@@ -478,6 +480,7 @@ function TypeOnChange() {
         $('#BankCode').prop('disabled', true); 
         $('#TotalPaidAmt').val(0);
         $('#TotalPaidAmt').prop('disabled', false);
+        $('#TotalPaidAmt').prop('readonly', false);
         $('#CreditID').val(emptyGUID);
         CaptionChangePayment()
         AmountChanged();
@@ -1150,5 +1153,52 @@ function PrintReport() {
     }
     catch (e) {
         notyAlert('error', e.message);
+    }
+}
+
+function openRevisePopup() {
+    $('#divRevisemodalPopUp').modal('show');
+    
+}
+function PopupSaveClick() {
+    debugger;
+    var Reason = "Old Amount of entry no: " +  $('#hdnDocNo').val() + " is " + $('#TotalPaidAmt').val()+ " Reason of revising document is ";
+    $('#hdnOldAmount').val(Reason);
+   // $('#hdnDocNo').val($('#lblheader').text());
+    $('#hdnDocType').val('Make Payment');
+  
+    $('#hdnDocumentID').val($('#ID').val());
+    $('#btnPoupSave').trigger('click');
+}
+function PopupCancelClick() {
+    //$('#divRevisemodalPopUp').modal('show');
+    //setTimeout(function () {
+    //    $('#btnSave').trigger('click');
+    //}, 1000);
+}
+function ReviseSuccess(data, status) {
+    debugger;
+    var JsonResult = JSON.parse(data)
+    switch (JsonResult.Result) {
+        case "OK":     
+            GetSupplierPaymentsByID(JsonResult.Records.DocumentID)
+            BindSupplierPaymentsHeader()
+            debugger;
+            if ($('#Type').val() == "C") {
+                $('#TotalPaidAmt').prop('readonly', true);
+            } else {
+                $('#TotalPaidAmt').prop('readonly', false);
+            }
+            notyAlert('success', "Document Revised Successfully");
+            $('#divRevisemodalPopUp').modal('hide');
+           
+            List();
+            break;
+        case "ERROR":
+            notyAlert('error', JsonResult.Message);
+            break;
+        default:
+            notyAlert('error', JsonResult.Message);
+            break;
     }
 }

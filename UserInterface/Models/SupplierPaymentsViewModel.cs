@@ -91,6 +91,9 @@ namespace UserInterface.Models
         public string IsNotificationSuccess { get; set; }
         public string Search { get; set; }
 
+        public DocumentLogViewModel DocumentLogObj { get; set; }
+
+
     }
     public class SupplierPaymentsDetailViewModel
     {

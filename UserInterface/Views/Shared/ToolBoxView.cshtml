@@ -22,6 +22,7 @@
         }
 
     }
+   
     @if (Model.backbtn.Visible)
     {
         if (Model.backbtn.Disable || Model.backbtn.HasAccess==false)
@@ -63,6 +64,7 @@
         }
 
     }
+
     @if (Model.savebtn.Visible)
     {
         if (Model.savebtn.Disable || Model.savebtn.HasAccess == false)
@@ -83,7 +85,26 @@
         }
 
     }
+    @if (Model.ReviseBtn.Visible)
+    {
+        if (Model.ReviseBtn.Disable || Model.ReviseBtn.HasAccess == false)
+        {
 
+            <a class="thr_disbtn" title="@Model.ReviseBtn.Title-@Model.ReviseBtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/redo1.png")">
+                <span class="btnText">@Model.ReviseBtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.ReviseBtn.Title" class="thr_btn" onclick=@Model.ReviseBtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/redo1.png")">
+                <span class="btnText">@Model.ReviseBtn.Text</span>
+            </a>
+        }
+
+    }
     @if (Model.deletebtn.Visible)
     {
         if (Model.deletebtn.Disable || Model.deletebtn.HasAccess == false)

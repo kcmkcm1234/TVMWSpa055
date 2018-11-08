@@ -24,6 +24,6 @@ namespace SPAccounts.BusinessService.Contracts
         SupplierPayments UpdateSupplierPaymentGeneralNotes(SupplierPayments supobj);
         object UpdateNotification(SupplierPayments _supplierpayObj);
         List<SupplierPayments> GetAllApprovedSupplierPayments(SupplierPayments supplierPayments);
-
+        DocumentLog InsertRevise(DocumentLog _documentLogObj);
     }
 }

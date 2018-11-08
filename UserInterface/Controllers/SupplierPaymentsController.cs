@@ -431,6 +431,30 @@ namespace UserInterface.Controllers
         }
         #endregion CheckReferenceNo
 
+
+        #region InsertRevise
+        public string InsertRevise(SupplierPaymentsViewModel SupplierPaymentVM)
+        {
+            try
+            {
+                AppUA appUA = Session["AppUA"] as AppUA;
+                SupplierPaymentVM.DocumentLogObj.CommonObj = new CommonViewModel();
+                SupplierPaymentVM.DocumentLogObj.CommonObj.CreatedBy = appUA.UserName;
+                SupplierPaymentVM.DocumentLogObj.CommonObj.CreatedDate = common.GetCurrentDateTime();
+                SupplierPaymentVM.DocumentLogObj.Date = common.GetCurrentDateTime();
+                var result =(_supplierPaymentsBusiness.InsertRevise(Mapper.Map<DocumentLogViewModel, DocumentLog>(SupplierPaymentVM.DocumentLogObj)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Message = c.InsertSuccess, Records = result });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+
+        #endregion InsertRevise
+
+
         #region ButtonStyling
         [HttpGet]
         public ActionResult ChangeButtonStyle(string ActionType)
@@ -571,6 +595,12 @@ namespace UserInterface.Controllers
                     ToolboxViewModelObj.savebtn.Text = "Save";
                     ToolboxViewModelObj.savebtn.Title = "Save";
                     ToolboxViewModelObj.savebtn.Event = "savePayments();";
+
+                    ToolboxViewModelObj.ReviseBtn.Visible = true;
+                    ToolboxViewModelObj.ReviseBtn.Text = "Revise";
+                    ToolboxViewModelObj.ReviseBtn.Title = "Revise Document";
+                    ToolboxViewModelObj.ReviseBtn.Event = "openRevisePopup();";
+
 
                     ToolboxViewModelObj.CloseBtn.Visible = true;
                     ToolboxViewModelObj.CloseBtn.Text = "Close";

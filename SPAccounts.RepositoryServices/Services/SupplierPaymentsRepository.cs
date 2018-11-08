@@ -473,6 +473,61 @@ namespace SPAccounts.RepositoryServices.Services
 
         }
 
+
+        public DocumentLog InsertRevise(DocumentLog _documentLogObj)
+        {
+            try
+            {
+                SqlParameter outputStatus = null;
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[Accounts].[ReviseDocument]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@DocumentID", SqlDbType.UniqueIdentifier).Value = _documentLogObj.DocumentID;
+                        cmd.Parameters.Add("@DocumentType", SqlDbType.VarChar,50).Value = _documentLogObj.DocType;
+                
+                        cmd.Parameters.Add("@Remarks", SqlDbType.VarChar).Value =_documentLogObj.OldValue + _documentLogObj.Reason;
+                        cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = _documentLogObj.Date;
+                        cmd.Parameters.Add("@CreatedBy", SqlDbType.VarChar, 250).Value = _documentLogObj.CommonObj.CreatedBy;
+                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = _documentLogObj.CommonObj.CreatedDate;
+
+                        outputStatus = cmd.Parameters.Add("@StatusOut", SqlDbType.Bit);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        AppConst Cobj = new AppConst();
+                        throw new Exception(Cobj.InsertFailure);
+                    case "1":
+
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return _documentLogObj;
+
+        }
+
+
+
         public object DeletePayments(Guid PaymentID, string UserName)
         {
             AppConst Cobj = new AppConst();

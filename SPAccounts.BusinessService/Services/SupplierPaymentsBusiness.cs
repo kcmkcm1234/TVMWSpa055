@@ -82,6 +82,11 @@ namespace SPAccounts.BusinessService.Services
             return _supplierPaymentsRepository.InsertPaymentAdjustment(_supplierPayObj);
         }
 
+        public DocumentLog InsertRevise(DocumentLog _documentLogObj)
+        {
+        //    PaymentDetailsXMl(_documentLogObj);
+             return _supplierPaymentsRepository.InsertRevise(_documentLogObj);
+        }
         public void PaymentDetailsXMl(SupplierPayments PaymentObj)
         {
             string result = "<Details>";

@@ -144,6 +144,8 @@ namespace UserInterface.App_Start
                 config.CreateMap<SupplierPaidAmountDetailViewModel, SupplierPaidAmountDetail>().ReverseMap();
                 config.CreateMap<MonthlySalesPurchaseViewModel, MonthlySalesPurchase>().ReverseMap();
                 config.CreateMap<MonthlySalesPurchaseItemViewModel, MonthlySalesPurchaseItem>().ReverseMap();
+                config.CreateMap<DocumentLogViewModel, DocumentLog>().ReverseMap();
+               
             });
         }
     }

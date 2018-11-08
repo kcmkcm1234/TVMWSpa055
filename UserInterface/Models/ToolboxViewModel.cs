@@ -29,7 +29,7 @@ namespace UserInterface.Models
         public ToolBoxStructure AssignBtn;
         public ToolBoxStructure HistoryBtn;
         public ToolBoxStructure ReceivePbBtn;
-
+        public ToolBoxStructure ReviseBtn;
 
         public ToolboxViewModel()
         {
@@ -55,6 +55,7 @@ namespace UserInterface.Models
 
             ClearOutBtn.SecurityObject = "ButtonClear";
             ReceivePbBtn.SecurityObject = "ReceivePB";
+            ReviseBtn.SecurityObject = "ButtonRevise";
 
 
             backbtn.HasAccess = true;
@@ -80,6 +81,7 @@ namespace UserInterface.Models
             HistoryBtn.HasAccess = true;
 
             ReceivePbBtn.HasAccess = true;
+            ReviseBtn.HasAccess = true;
         }
 
     }
